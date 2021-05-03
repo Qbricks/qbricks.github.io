@@ -10,7 +10,7 @@ Please read our [article](https://github.com/Qbricks/qbricks.github.io/files/641
 # News 
 
 - **Open positions**         _March 2021_  Open positions for postdoc and PhD. Please contact sebastien.bardin@cea.fr.
-- **Paper accepted**        _December 2021_ | Proud that our paper “An Automated Deductive Verification Framework for Circuit-building Quantum Programs” has been [accepted](https://github.com/Qbricks/qbricks.github.io/files/6414263/final--ESOP-2021.pdf) at ESOP’21.
+- **Paper accepted**        _December 2021_  Proud that our paper “An Automated Deductive Verification Framework for Circuit-building Quantum Programs” has been [accepted](https://github.com/Qbricks/qbricks.github.io/files/6414263/final--ESOP-2021.pdf) at ESOP’21.
 
 
 # People
