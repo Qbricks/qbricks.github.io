@@ -1,0 +1,84 @@
+(* this is the prelude for Alt-Ergo, version >= 0.95.2 *)
+(* this is a prelude for Alt-Ergo integer arithmetic *)
+type t
+
+logic tzero : t
+
+logic tone : t
+
+logic prefix_mndt : t -> t
+
+logic ac infix_asdt : t, t -> t
+
+logic infix_lseqdt : t, t -> prop
+
+logic infix_gteqdt : t, t -> prop
+
+logic infix_gtdt : t, t -> prop
+
+axiom sup_st :
+  (forall x:t. forall y:t. (infix_gtdt(x, y) -> infix_gteqdt(x, y)))
+
+axiom sup_st1 : (forall x:t. forall y:t. (infix_gtdt(x, y) -> (not (x = y))))
+
+axiom sup_st2 :
+  (forall x:t. forall y:t. ((infix_gteqdt(x, y) and (not (x = y))) ->
+  infix_gtdt(x, y)))
+
+logic prefix_mnas : real -> real
+
+logic inv : t -> t
+
+axiom Inverse :
+  (forall x:t. ((not (x = tzero)) -> (infix_asdt(x, inv(x)) = tone)))
+
+axiom zeroLessOne : infix_lseqdt(tzero, tone)
+
+type 'a set
+
+logic mem : 'a, 'a set -> prop
+
+logic infix_eqeq : 'a set, 'a set -> prop
+
+axiom infix_eqeq_spec :
+  (forall s1:'a set. forall s2:'a set. (infix_eqeq(s1, s2) ->
+  (forall x:'a. (mem(x, s1) -> mem(x, s2)))))
+
+axiom infix_eqeq_spec1 :
+  (forall s1:'a set. forall s2:'a set. (infix_eqeq(s1, s2) ->
+  (forall x:'a. (mem(x, s2) -> mem(x, s1)))))
+
+axiom infix_eqeq_spec2 :
+  (forall s1:'a set. forall s2:'a set.
+  ((forall x:'a. (mem(x, s1) <-> mem(x, s2))) -> infix_eqeq(s1, s2)))
+
+logic abs : int -> int
+
+axiom abs_def : (forall x:int. ((0 <= x) -> (abs(x) = x)))
+
+axiom abs_def1 : (forall x:int. ((not (0 <= x)) -> (abs(x) = (-x))))
+
+logic cpower : t, int -> t
+
+axiom zero_cpower_pos :
+  (forall n:int. ((0 <= n) -> (cpower(tzero, n) = tzero)))
+
+axiom init_exp : (forall k:t. (cpower(k, 0) = tone))
+
+axiom init_exp1 : (forall k:t. (cpower(k, 1) = k))
+
+axiom init_exp2 : (forall k:t. (cpower(k, 2) = infix_asdt(k, k)))
+
+axiom int_exp_pos :
+  (forall k:t. forall n:int. (infix_lseqdt(tone, k) -> ((0 <= n) ->
+  infix_gteqdt(cpower(k, n), tone))))
+
+axiom int_exp_pos1 :
+  (forall k:t. forall n:int. (infix_lseqdt(tone, k) -> ((0 <= n) ->
+  infix_gtdt(cpower(k, n), tzero))))
+
+axiom int_exp_pos2 :
+  (forall k:t. forall n:int. (infix_lseqdt(tone, k) -> ((0 <= n) ->
+  infix_lseqdt(cpower(k, n), cpower(k, (n + 1))))))
+
+goal VC_test1 : false

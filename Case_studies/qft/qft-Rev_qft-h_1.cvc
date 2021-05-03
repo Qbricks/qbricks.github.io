@@ -1,0 +1,496 @@
+%%% this is a prelude for CVC3 
+%%% this is a prelude for CVC3 real arithmetic
+div_by_zero: (REAL) -> REAL;
+%%% this is a prelude for CVC3 integer arithmetic
+uni : TYPE;
+
+ty : TYPE;
+
+sort: (ty, uni) -> BOOLEAN;
+
+witness: (ty) -> uni;
+
+% witness_sort
+  ASSERT (FORALL (a : ty): (sort(a, witness(a))));
+
+int: ty;
+
+infix_eqeq: (ty, uni, uni) -> BOOLEAN;
+
+complex : TYPE;
+
+complex1: ty;
+
+c_zero: complex;
+
+c_one: complex;
+
+infix_asdt: (complex, complex) -> complex;
+
+% NonTrivialRing
+  ASSERT (NOT (c_zero = c_one));
+
+set: (ty) -> ty;
+
+mem: (ty, uni, uni) -> BOOLEAN;
+
+infix_mngt: (ty, ty) -> ty;
+
+infix_at: (ty, ty, uni, uni) -> uni;
+
+% infix @_sort
+  ASSERT
+  (FORALL (a : ty, b : ty):
+  (FORALL (x18 : uni, x19 : uni): (sort(b, infix_at(b, a, x18, x19)))));
+
+power: (INT, INT) -> INT;
+
+angle : TYPE;
+
+angle1: ty;
+
+ang_zero: angle;
+
+int_to_ang: (INT, INT) -> angle;
+
+pow_inv_sqrt_2: (INT) -> complex;
+
+matrix: (ty) -> ty;
+
+elts: (ty, uni) -> uni;
+
+% elts_sort
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (x18 : uni): (sort(infix_mngt(int, infix_mngt(int, a)), elts(a,
+  x18)))));
+
+rows: (ty, uni) -> INT;
+
+columns: (ty, uni) -> INT;
+
+get: (ty, uni, INT, INT) -> uni;
+
+% get_sort
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (x18 : uni, x19 : INT, x20 : INT): (sort(a, get(a, x18, x19,
+  x20)))));
+
+t2tb13: (INT) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x18 : INT): (sort(int, t2tb13(x18))));
+
+tb2t13: (uni) -> INT;
+
+% BridgeL
+  ASSERT
+  (FORALL (i19 : INT):PATTERN (t2tb13(i19)):  (tb2t13(t2tb13(i19)) = i19));
+
+% BridgeR
+  ASSERT
+  (FORALL (j9 : uni):PATTERN (t2tb13(tb2t13(j9))):  (t2tb13(
+  tb2t13(j9)) = j9));
+
+% get_def
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (a1 : uni, r : INT, c : INT): (get(a, a1, r, c) = infix_at(a, int, 
+  infix_at(infix_mngt(int, a), int, elts(a, a1), t2tb13(r)), t2tb13(c)))));
+
+make_f: (ty, INT, INT, uni) -> uni;
+
+% make_f_sort
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (x18 : INT, x19 : INT, x20 : uni): (sort(matrix(a), make_f(a, x18,
+  x19, x20)))));
+
+matrix_complex: TYPE;
+
+infix_asdtdt: (complex, matrix_complex) -> matrix_complex;
+
+result20: (complex, matrix_complex) -> (ARRAY INT OF (ARRAY INT OF complex));
+
+t2tb71: ((ARRAY INT OF complex)) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x18 : (ARRAY INT OF complex)): (sort(infix_mngt(int, complex1), 
+  t2tb71(x18))));
+
+tb2t71: (uni) -> (ARRAY INT OF complex);
+
+% BridgeL
+  ASSERT
+  (FORALL (i19 : (ARRAY INT OF complex)):PATTERN (t2tb71(i19)):  (tb2t71(
+  t2tb71(i19)) = i19));
+
+% BridgeR
+  ASSERT
+  (FORALL (j9 : uni):PATTERN (t2tb71(tb2t71(j9))): 
+  ((sort(infix_mngt(int, complex1), j9)) => (t2tb71(tb2t71(j9)) = j9)));
+
+t2tb82: ((ARRAY INT OF (ARRAY INT OF complex))) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x18 : (ARRAY INT OF (ARRAY INT OF complex))): (sort(
+  infix_mngt(int, infix_mngt(int, complex1)), t2tb82(x18))));
+
+tb2t82: (uni) -> (ARRAY INT OF (ARRAY INT OF complex));
+
+% BridgeL
+  ASSERT
+  (FORALL (i19 : (ARRAY INT OF (ARRAY INT OF complex))):PATTERN (
+  t2tb82(i19)):  (tb2t82(t2tb82(i19)) = i19));
+
+% BridgeR
+  ASSERT
+  (FORALL (j9 : uni):PATTERN (t2tb82(tb2t82(j9))): 
+  ((sort(infix_mngt(int, infix_mngt(int, complex1)), j9)) => (t2tb82(
+  tb2t82(j9)) = j9)));
+
+t2tb: (complex) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x18 : complex): (sort(complex1, t2tb(x18))));
+
+tb2t: (uni) -> complex;
+
+% BridgeL
+  ASSERT
+  (FORALL (i19 : complex):PATTERN (t2tb(i19)):  (tb2t(t2tb(i19)) = i19));
+
+% BridgeR
+  ASSERT
+  (FORALL (j9 : uni):PATTERN (t2tb(tb2t(j9))): 
+  ((sort(complex1, j9)) => (t2tb(tb2t(j9)) = j9)));
+
+t2tb88: (matrix_complex) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x18 : matrix_complex): (sort(matrix(complex1), t2tb88(x18))));
+
+tb2t88: (uni) -> matrix_complex;
+
+% BridgeL
+  ASSERT
+  (FORALL (i19 : matrix_complex):PATTERN (t2tb88(i19)):  (tb2t88(
+  t2tb88(i19)) = i19));
+
+% BridgeR
+  ASSERT
+  (FORALL (j9 : uni):PATTERN (t2tb88(tb2t88(j9))): 
+  ((sort(matrix(complex1), j9)) => (t2tb88(tb2t88(j9)) = j9)));
+
+% result_def
+  ASSERT
+  (FORALL (s : complex, m : matrix_complex, i19 : INT, j9 : INT): (tb2t(
+  infix_at(complex1, int, infix_at(infix_mngt(int, complex1), int, t2tb82(
+  result20(s, m)), t2tb13(i19)), t2tb13(j9))) = infix_asdt(s, tb2t(
+  get(complex1, t2tb88(m), i19, j9)))));
+
+% infix *.._def
+  ASSERT
+  (FORALL (s : complex, m : matrix_complex): (infix_asdtdt(s, m) = tb2t88(
+  make_f(complex1, rows(complex1, t2tb88(m)), columns(complex1, t2tb88(m)), 
+  t2tb82(result20(s, m))))));
+
+is_a_ket: (matrix_complex) -> BOOLEAN;
+
+is_a_ket_l: (matrix_complex, INT) -> BOOLEAN;
+
+% is_a_ket_l_def
+  ASSERT
+  (FORALL (m : matrix_complex, l6 : INT):
+  ((is_a_ket_l(m, l6))
+  <=> ((0 <= l6)
+      AND ((columns(complex1, t2tb88(m)) = 1) AND (rows(complex1, 
+          t2tb88(m)) = power(2, l6))))));
+
+ket_length: (matrix_complex) -> INT;
+
+add_ket_l: (matrix_complex, matrix_complex, INT) -> matrix_complex;
+
+ket: (INT, INT) -> matrix_complex;
+
+set_lpmatrix_complexrp: TYPE;
+
+ket_basis: (INT) -> set_lpmatrix_complexrp;
+
+is_a_ket_basis_elt: (matrix_complex) -> BOOLEAN;
+
+t2tb99: (set_lpmatrix_complexrp) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x18 : set_lpmatrix_complexrp): (sort(set(matrix(complex1)), 
+  t2tb99(x18))));
+
+tb2t99: (uni) -> set_lpmatrix_complexrp;
+
+% BridgeL
+  ASSERT
+  (FORALL (i19 : set_lpmatrix_complexrp):PATTERN (t2tb99(i19)):  (tb2t99(
+  t2tb99(i19)) = i19));
+
+% BridgeR
+  ASSERT
+  (FORALL (j9 : uni):PATTERN (t2tb99(tb2t99(j9))): 
+  ((sort(set(matrix(complex1)), j9)) => (t2tb99(tb2t99(j9)) = j9)));
+
+% is_a_ket_basis_elt_def
+  ASSERT
+  (FORALL (m : matrix_complex):
+  ((is_a_ket_basis_elt(m))
+  <=> ((is_a_ket(m)) AND (mem(matrix(complex1), t2tb88(m), t2tb99(ket_basis(
+      ket_length(m))))))));
+
+pps : TYPE;
+
+pps1: ty;
+
+h_width: (pps) -> INT;
+
+h_range: (pps) -> INT;
+
+h_basis_ket: (pps) -> (ARRAY (ARRAY INT OF INT) OF (ARRAY (ARRAY INT OF INT) OF (ARRAY INT OF INT)));
+
+h_angle: (pps) -> (ARRAY (ARRAY INT OF INT) OF (ARRAY (ARRAY INT OF INT) OF angle));
+
+pps_apply: (pps, matrix_complex) -> matrix_complex;
+
+pps_id: pps;
+
+pps_hadamard: pps;
+
+t2tb8: ((ARRAY (ARRAY INT OF INT) OF (ARRAY INT OF INT))) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x18 : (ARRAY (ARRAY INT OF INT) OF (ARRAY INT OF INT))): (sort(
+  infix_mngt(infix_mngt(int, int), infix_mngt(int, int)), t2tb8(x18))));
+
+tb2t8: (uni) -> (ARRAY (ARRAY INT OF INT) OF (ARRAY INT OF INT));
+
+% BridgeL
+  ASSERT
+  (FORALL (i19 : (ARRAY (ARRAY INT OF INT) OF (ARRAY INT OF INT))):PATTERN (
+  t2tb8(i19)):  (tb2t8(t2tb8(i19)) = i19));
+
+% BridgeR
+  ASSERT
+  (FORALL (j9 : uni):PATTERN (t2tb8(tb2t8(j9))):  (t2tb8(tb2t8(j9)) = j9));
+
+t2tb3: ((ARRAY (ARRAY INT OF INT) OF (ARRAY (ARRAY INT OF INT) OF (ARRAY INT OF INT)))) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL
+  (x18 : (ARRAY (ARRAY INT OF INT) OF (ARRAY (ARRAY INT OF INT) OF (ARRAY INT OF INT)))):
+  (sort(infix_mngt(infix_mngt(int, int), infix_mngt(infix_mngt(int, int), 
+  infix_mngt(int, int))), t2tb3(x18))));
+
+tb2t3: (uni) -> (ARRAY (ARRAY INT OF INT) OF (ARRAY (ARRAY INT OF INT) OF (ARRAY INT OF INT)));
+
+% BridgeL
+  ASSERT
+  (FORALL
+  (i19 : (ARRAY (ARRAY INT OF INT) OF (ARRAY (ARRAY INT OF INT) OF (ARRAY INT OF INT)))):PATTERN (
+  t2tb3(i19)):  (tb2t3(t2tb3(i19)) = i19));
+
+% BridgeR
+  ASSERT
+  (FORALL (j9 : uni):PATTERN (t2tb3(tb2t3(j9))):  (t2tb3(tb2t3(j9)) = j9));
+
+t2tb10: (angle) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x18 : angle): (sort(angle1, t2tb10(x18))));
+
+tb2t10: (uni) -> angle;
+
+% BridgeL
+  ASSERT
+  (FORALL (i19 : angle):PATTERN (t2tb10(i19)):  (tb2t10(t2tb10(i19)) = i19));
+
+% BridgeR
+  ASSERT
+  (FORALL (j9 : uni):PATTERN (t2tb10(tb2t10(j9))): 
+  ((sort(angle1, j9)) => (t2tb10(tb2t10(j9)) = j9)));
+
+t2tb6: ((ARRAY (ARRAY INT OF INT) OF angle)) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x18 : (ARRAY (ARRAY INT OF INT) OF angle)): (sort(infix_mngt(
+  infix_mngt(int, int), angle1), t2tb6(x18))));
+
+tb2t6: (uni) -> (ARRAY (ARRAY INT OF INT) OF angle);
+
+% BridgeL
+  ASSERT
+  (FORALL (i19 : (ARRAY (ARRAY INT OF INT) OF angle)):PATTERN (t2tb6(i19)): 
+  (tb2t6(t2tb6(i19)) = i19));
+
+% BridgeR
+  ASSERT
+  (FORALL (j9 : uni):PATTERN (t2tb6(tb2t6(j9))): 
+  ((sort(infix_mngt(infix_mngt(int, int), angle1), j9)) => (t2tb6(
+  tb2t6(j9)) = j9)));
+
+t2tb5: ((ARRAY (ARRAY INT OF INT) OF (ARRAY (ARRAY INT OF INT) OF angle))) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL
+  (x18 : (ARRAY (ARRAY INT OF INT) OF (ARRAY (ARRAY INT OF INT) OF angle))):
+  (sort(infix_mngt(infix_mngt(int, int), infix_mngt(infix_mngt(int, int),
+  angle1)), t2tb5(x18))));
+
+tb2t5: (uni) -> (ARRAY (ARRAY INT OF INT) OF (ARRAY (ARRAY INT OF INT) OF angle));
+
+% BridgeL
+  ASSERT
+  (FORALL
+  (i19 : (ARRAY (ARRAY INT OF INT) OF (ARRAY (ARRAY INT OF INT) OF angle))):PATTERN (
+  t2tb5(i19)):  (tb2t5(t2tb5(i19)) = i19));
+
+% BridgeR
+  ASSERT
+  (FORALL (j9 : uni):PATTERN (t2tb5(tb2t5(j9))): 
+  ((sort(infix_mngt(infix_mngt(int, int), infix_mngt(infix_mngt(int, int),
+  angle1)), j9)) => (t2tb5(tb2t5(j9)) = j9)));
+
+t2tb12: ((ARRAY INT OF INT)) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x18 : (ARRAY INT OF INT)): (sort(infix_mngt(int, int), 
+  t2tb12(x18))));
+
+tb2t12: (uni) -> (ARRAY INT OF INT);
+
+% BridgeL
+  ASSERT
+  (FORALL (i19 : (ARRAY INT OF INT)):PATTERN (t2tb12(i19)):  (tb2t12(
+  t2tb12(i19)) = i19));
+
+% BridgeR
+  ASSERT
+  (FORALL (j9 : uni):PATTERN (t2tb12(tb2t12(j9))):  (t2tb12(
+  tb2t12(j9)) = j9));
+
+% pps_hadamard_def
+  ASSERT
+  ((h_width(pps_hadamard) = 1)
+  AND ((h_range(pps_hadamard) = 1)
+      AND ((FORALL (x18 : (ARRAY INT OF INT), y14 : (ARRAY INT OF INT)):
+           (FORALL (i19 : INT): (tb2t13(infix_at(int, int, infix_at(
+           infix_mngt(int, int), infix_mngt(int, int), infix_at(infix_mngt(
+           infix_mngt(int, int), infix_mngt(int, int)), infix_mngt(int, int), 
+           t2tb3(h_basis_ket(pps_hadamard)), t2tb12(x18)), t2tb12(y14)), 
+           t2tb13(i19))) = tb2t13(infix_at(int, int, t2tb12(y14), 
+           t2tb13(i19))))))
+          AND (FORALL (x18 : (ARRAY INT OF INT), y14 : (ARRAY INT OF INT)): (
+              tb2t10(infix_at(angle1, infix_mngt(int, int), infix_at(
+              infix_mngt(infix_mngt(int, int), angle1), infix_mngt(int, int), 
+              t2tb5(h_angle(pps_hadamard)), t2tb12(x18)), 
+              t2tb12(y14))) = (IF ((tb2t13(infix_at(int, int, t2tb12(x18), 
+                                  t2tb13(0))) = tb2t13(infix_at(int, int, 
+                                  t2tb12(y14), t2tb13(0)))) AND (tb2t13(
+                                  infix_at(int, int, t2tb12(y14), 
+                                  t2tb13(0))) = 1))
+                              THEN int_to_ang(1, 1) ELSE ang_zero ENDIF))))));
+
+circuit : TYPE;
+
+circuit1: ty;
+
+circ_to_pps: (circuit) -> pps;
+
+width: (circuit) -> INT;
+
+size: (circuit) -> INT;
+
+ancillas: (circuit) -> INT;
+
+range: (circuit) -> INT;
+
+basis_ket: (circuit, (ARRAY INT OF INT), (ARRAY INT OF INT), INT) -> INT;
+
+ang_ind: (circuit, (ARRAY INT OF INT), (ARRAY INT OF INT)) -> angle;
+
+path_sem_basis: (circuit, matrix_complex) -> matrix_complex;
+
+id: circuit;
+
+% id_def
+  ASSERT
+  ((circ_to_pps(id) = pps_id)
+  AND ((ancillas(id) = 0)
+      AND ((size(id) = 0)
+          AND ((range(id) = 0)
+              AND ((width(id) = 1)
+                  AND ((FORALL (x18 : (ARRAY INT OF INT),
+                       y14 : (ARRAY INT OF INT)):
+                       (FORALL (i19 : INT): (basis_ket(id, x18, y14, i19) = 
+                       tb2t13(infix_at(int, int, t2tb12(x18), t2tb13(i19))))))
+                      AND (FORALL (x18 : (ARRAY INT OF INT),
+                          y14 : (ARRAY INT OF INT)): (ang_ind(id, x18,
+                          y14) = ang_zero))))))));
+
+% path_sem_id_basis
+  ASSERT
+  (FORALL (x18 : matrix_complex):
+  ((is_a_ket_l(x18, 1))
+  => ((is_a_ket_basis_elt(x18)) => (path_sem_basis(id, x18) = x18))));
+
+tuple0 : TYPE;
+
+tuple01: ty;
+
+Tuple0: tuple0;
+
+% tuple0_inversion
+  ASSERT (FORALL (u : tuple0): (u = Tuple0));
+
+% qbit_zero_spec
+  ASSERT
+  ((tb2t(get(complex1, t2tb88(ket(1, 0)), 0, 0)) = c_one)
+  AND ((tb2t(get(complex1, t2tb88(ket(1, 0)), 1, 0)) = c_zero)
+      AND ((is_a_ket_l(ket(1, 0), 1))
+          AND ((rows(complex1, t2tb88(ket(1, 0))) = 2)
+              AND ((columns(complex1, t2tb88(ket(1, 0))) = 1)
+                  AND ((tb2t(get(complex1, t2tb88(ket(1, 0)), 0, 0)) = c_one)
+                      AND ((tb2t(get(complex1, t2tb88(ket(1, 0)), 1,
+                          0)) = c_zero) AND (is_a_ket_basis_elt(ket(1, 0))))))))));
+
+% qbit_plus_spec
+  ASSERT
+  ((pps_apply(pps_hadamard, ket(1, 0)) = infix_asdtdt(pow_inv_sqrt_2(1), 
+  add_ket_l(ket(1, 0), ket(1, 1), 1)))
+  AND ((is_a_ket_l(pps_apply(pps_hadamard, ket(1, 0)), 1))
+      AND ((rows(complex1, t2tb88(pps_apply(pps_hadamard, ket(1, 0)))) = 2)
+          AND ((columns(complex1, t2tb88(pps_apply(pps_hadamard, ket(1,
+              0)))) = 1)
+              AND ((tb2t(get(complex1, t2tb88(pps_apply(pps_hadamard, ket(1,
+                  0))), 0, 0)) = pow_inv_sqrt_2(1)) AND (tb2t(get(complex1, 
+                  t2tb88(pps_apply(pps_hadamard, ket(1, 0))), 1, 0)) = 
+                  pow_inv_sqrt_2(1)))))));
+
+% set_correct_pps
+  ASSERT
+  (FORALL (c : circuit, h1 : pps):
+  ((h_width(h1) = width(c))
+  => (FORALL (x18 : matrix_complex):
+     ((is_a_ket_l(x18, width(c)))
+     => ((is_a_ket_basis_elt(x18)) => (pps_apply(h1, x18) = path_sem_basis(c,
+        x18)))))));
+
+QUERY
+% h
+  FALSE;

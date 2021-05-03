@@ -1,0 +1,27 @@
+module Deutsch_oracle
+  use kets.Hadamard
+(* use phase.QFT *)
+use grover.Diffusion_operator
+use kets.Hadamard
+use export balanced_functions.Balanced
+
+val function deutsch_oracle (f: bitvec -> int)(n:int): circuit
+      requires{1<=n}
+      requires{(not (constant_bin f n)) -> balanced_bin f n}
+      ensures{width result = n+1}
+      ensures{forall x: bitvec. forall  y: matrix t.  is_a_ket_l y 1 ->
+      pat_sem result (kronecker (bv_to_ket x) y) = kronecker (bv_to_ket x)  (xor_qbits (ket 1 (f x)) y)}
+
+use base_type.Indic
+           
+val function mat_deutsch_oracle (f: bitvec -> int)(n:int): circuit
+      requires{1<=n}
+      requires{(not (constant_bin f n)) -> balanced_bin f n}
+      ensures{width result = n+1}
+      ensures{rows (mat_sem result) = (power_ 2 (n+1))}
+      ensures{columns (mat_sem result) = (power_ 2 (n+1))}
+      ensures{forall i j:int. 0<=i < power_ 2 (n+1) -> 0<=j < power_ 2 (n+1) -> get (mat_sem result) i j =  indic (div i 2)(div j 2) *. (tone -. indic (f (int_to_bv (div i 2) n)) (mod j 2))}
+      ensures{mat_sem result = make_f (power_ 2 (n+1)) (power_ 2 (n+1)) (fun i j ->
+                                  indic (div i 2)(div j 2) *. (tone -. indic (f (int_to_bv (div i 2) n)) (mod j 2))) }
+
+end

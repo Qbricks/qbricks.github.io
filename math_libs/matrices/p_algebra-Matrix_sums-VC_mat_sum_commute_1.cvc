@@ -1,0 +1,865 @@
+%%% this is a prelude for CVC3 
+%%% this is a prelude for CVC3 integer arithmetic
+uni : TYPE;
+
+ty : TYPE;
+
+sort: (ty, uni) -> BOOLEAN;
+
+witness: (ty) -> uni;
+
+% witness_sort
+  ASSERT (FORALL (a6 : ty): (sort(a6, witness(a6))));
+
+int: ty;
+
+real: ty;
+
+t : TYPE;
+
+t1: ty;
+
+tzero: t;
+
+prefix_mndt: (t) -> t;
+
+infix_asdt: (t, t) -> t;
+
+prefix_mnas1: (uni) -> uni;
+
+% prefix -*_sort
+  ASSERT (FORALL (x : uni): (sort(real, prefix_mnas1(x))));
+
+set: (ty) -> ty;
+
+b2 : TYPE;
+
+b3: ty;
+
+a2 : TYPE;
+
+a3: ty;
+
+mem: (ty, uni, uni) -> BOOLEAN;
+
+set_a1: TYPE;
+
+mem1: (a2, set_a1) -> BOOLEAN;
+
+set_b1: TYPE;
+
+mem2: (b2, set_b1) -> BOOLEAN;
+
+infix_eqeq: (ty, uni, uni) -> BOOLEAN;
+
+t2tb85: (set_b1) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x : set_b1): (sort(set(b3), t2tb85(x))));
+
+tb2t85: (uni) -> set_b1;
+
+% BridgeL
+  ASSERT
+  (FORALL (i1 : set_b1):PATTERN (t2tb85(i1)):  (tb2t85(t2tb85(i1)) = i1));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb85(tb2t85(j1))): 
+  ((sort(set(b3), j1)) => (t2tb85(tb2t85(j1)) = j1)));
+
+% infix ==_spec
+  ASSERT
+  (FORALL (s11 : set_b1, s2 : set_b1):
+  ((infix_eqeq(b3, t2tb85(s11), t2tb85(s2)))
+  <=> (FORALL (x : b2): ((mem2(x, s11)) <=> (mem2(x, s2))))));
+
+t2tb56: (set_a1) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x : set_a1): (sort(set(a3), t2tb56(x))));
+
+tb2t56: (uni) -> set_a1;
+
+% BridgeL
+  ASSERT
+  (FORALL (i1 : set_a1):PATTERN (t2tb56(i1)):  (tb2t56(t2tb56(i1)) = i1));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb56(tb2t56(j1))): 
+  ((sort(set(a3), j1)) => (t2tb56(tb2t56(j1)) = j1)));
+
+% infix ==_spec
+  ASSERT
+  (FORALL (s11 : set_a1, s2 : set_a1):
+  ((infix_eqeq(a3, t2tb56(s11), t2tb56(s2)))
+  <=> (FORALL (x : a2): ((mem1(x, s11)) <=> (mem1(x, s2))))));
+
+% infix ==_spec
+  ASSERT
+  (FORALL (a6 : ty):
+  (FORALL (s11 : uni, s2 : uni):
+  (((infix_eqeq(a6, s11, s2))
+   => (FORALL (x : uni): ((mem(a6, x, s11)) <=> (mem(a6, x, s2)))))
+  AND ((FORALL (x : uni):
+       ((sort(a6, x)) => ((mem(a6, x, s11)) <=> (mem(a6, x, s2)))))
+      => (infix_eqeq(a6, s11, s2))))));
+
+remove: (ty, uni, uni) -> uni;
+
+% remove_sort
+  ASSERT
+  (FORALL (a6 : ty):
+  (FORALL (x : uni, x1 : uni): (sort(set(a6), remove(a6, x, x1)))));
+
+choose: (ty, uni) -> uni;
+
+% choose_sort
+  ASSERT (FORALL (a6 : ty): (FORALL (x : uni): (sort(a6, choose(a6, x)))));
+
+cardinal: (ty, uni) -> INT;
+
+cardinal1: (set_a1) -> INT;
+
+cardinal2: (set_b1) -> INT;
+
+infix_mngt: (ty, ty) -> ty;
+
+infix_at: (ty, ty, uni, uni) -> uni;
+
+% infix @_sort
+  ASSERT
+  (FORALL (a6 : ty, b4 : ty):
+  (FORALL (x : uni, x1 : uni): (sort(b4, infix_at(b4, a6, x, x1)))));
+
+map: (ty, ty, uni, uni) -> uni;
+
+% map_sort
+  ASSERT
+  (FORALL (a6 : ty, b4 : ty):
+  (FORALL (x : uni, x1 : uni): (sort(set(b4), map(b4, a6, x, x1)))));
+
+op_neutral_left: (ty, uni, uni) -> BOOLEAN;
+
+% op_neutral_left_def
+  ASSERT
+  (FORALL (im1 : ty):
+  (FORALL (op1 : uni, neutral1 : uni):
+  ((op_neutral_left(im1, op1, neutral1))
+  <=> (FORALL (e : uni):
+      ((sort(im1, e)) => (infix_at(im1, im1, infix_at(infix_mngt(im1, im1),
+      im1, op1, neutral1), e) = e))))));
+
+op_neutral_right: (ty, uni, uni) -> BOOLEAN;
+
+% op_neutral_right_def
+  ASSERT
+  (FORALL (im1 : ty):
+  (FORALL (op1 : uni, neutral1 : uni):
+  ((op_neutral_right(im1, op1, neutral1))
+  <=> (FORALL (e : uni):
+      ((sort(im1, e)) => (infix_at(im1, im1, infix_at(infix_mngt(im1, im1),
+      im1, op1, e), neutral1) = e))))));
+
+op_assoc: (ty, uni) -> BOOLEAN;
+
+% op_assoc_def
+  ASSERT
+  (FORALL (im1 : ty):
+  (FORALL (op1 : uni):
+  (((op_assoc(im1, op1))
+   => (FORALL (a6 : uni, b4 : uni, c : uni): (infix_at(im1, im1, infix_at(
+      infix_mngt(im1, im1), im1, op1, infix_at(im1, im1, infix_at(
+      infix_mngt(im1, im1), im1, op1, a6), b4)), c) = infix_at(im1, im1, 
+      infix_at(infix_mngt(im1, im1), im1, op1, a6), infix_at(im1, im1, 
+      infix_at(infix_mngt(im1, im1), im1, op1, b4), c)))))
+  AND ((FORALL (a6 : uni, b4 : uni, c : uni):
+       ((sort(im1, a6))
+       => ((sort(im1, b4))
+          => ((sort(im1, c)) => (infix_at(im1, im1, infix_at(infix_mngt(im1,
+             im1), im1, op1, infix_at(im1, im1, infix_at(infix_mngt(im1,
+             im1), im1, op1, a6), b4)), c) = infix_at(im1, im1, infix_at(
+             infix_mngt(im1, im1), im1, op1, a6), infix_at(im1, im1, 
+             infix_at(infix_mngt(im1, im1), im1, op1, b4), c)))))))
+      => (op_assoc(im1, op1))))));
+
+neutral: (ty, uni, uni) -> BOOLEAN;
+
+% neutral_def
+  ASSERT
+  (FORALL (im1 : ty):
+  (FORALL (op1 : uni, neut : uni):
+  ((neutral(im1, op1, neut))
+  <=> ((op_neutral_left(im1, op1, neut))
+      AND ((op_neutral_right(im1, op1, neut)) AND (op_assoc(im1, op1)))))));
+
+element: (ty, uni) -> uni;
+
+% element_sort
+  ASSERT (FORALL (a6 : ty): (FORALL (x : uni): (sort(a6, element(a6, x)))));
+
+set1: (ty, ty, uni, uni, uni) -> uni;
+
+% set_sort
+  ASSERT
+  (FORALL (a6 : ty, b4 : ty):
+  (FORALL (x : uni, x1 : uni, x2 : uni): (sort(infix_mngt(a6, b4), set1(b4,
+  a6, x, x1, x2)))));
+
+rows: (ty, uni) -> INT;
+
+% rows_spec
+  ASSERT (FORALL (a6 : ty): (FORALL (m : uni): (0 < rows(a6, m))));
+
+columns: (ty, uni) -> INT;
+
+valid_index: (ty, uni, INT, INT) -> BOOLEAN;
+
+% valid_index_def
+  ASSERT
+  (FORALL (a6 : ty):
+  (FORALL (a7 : uni, r : INT, c : INT):
+  ((valid_index(a6, a7, r, c))
+  <=> (((0 <= r) AND (r < rows(a6, a7)))
+      AND ((0 <= c) AND (c < columns(a6, a7)))))));
+
+make: (ty, INT, INT, uni) -> uni;
+
+% make_sort
+  ASSERT
+  (FORALL (a6 : ty):
+  (FORALL (x : INT, x1 : INT, x2 : uni): (sort(infix_mngt(int, 
+  infix_mngt(int, a6)), make(a6, x, x1, x2)))));
+
+t2tb5: ((ARRAY INT OF (ARRAY INT OF t))) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x : (ARRAY INT OF (ARRAY INT OF t))): (sort(infix_mngt(int, 
+  infix_mngt(int, t1)), t2tb5(x))));
+
+tb2t5: (uni) -> (ARRAY INT OF (ARRAY INT OF t));
+
+% BridgeL
+  ASSERT
+  (FORALL (i1 : (ARRAY INT OF (ARRAY INT OF t))):PATTERN (t2tb5(i1)):  (
+  tb2t5(t2tb5(i1)) = i1));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb5(tb2t5(j1))): 
+  ((sort(infix_mngt(int, infix_mngt(int, t1)), j1)) => (t2tb5(
+  tb2t5(j1)) = j1)));
+
+t2tb39: ((ARRAY INT OF (ARRAY INT OF (ARRAY INT OF t)))) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x : (ARRAY INT OF (ARRAY INT OF (ARRAY INT OF t)))): (sort(
+  infix_mngt(int, infix_mngt(int, infix_mngt(int, t1))), t2tb39(x))));
+
+tb2t39: (uni) -> (ARRAY INT OF (ARRAY INT OF (ARRAY INT OF t)));
+
+% BridgeL
+  ASSERT
+  (FORALL (i1 : (ARRAY INT OF (ARRAY INT OF (ARRAY INT OF t)))):PATTERN (
+  t2tb39(i1)):  (tb2t39(t2tb39(i1)) = i1));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb39(tb2t39(j1))): 
+  ((sort(infix_mngt(int, infix_mngt(int, infix_mngt(int, t1))), j1)) => (
+  t2tb39(tb2t39(j1)) = j1)));
+
+t2tb11: ((ARRAY INT OF t)) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x : (ARRAY INT OF t)): (sort(infix_mngt(int, t1), t2tb11(x))));
+
+tb2t11: (uni) -> (ARRAY INT OF t);
+
+% BridgeL
+  ASSERT
+  (FORALL (i1 : (ARRAY INT OF t)):PATTERN (t2tb11(i1)):  (tb2t11(
+  t2tb11(i1)) = i1));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb11(tb2t11(j1))): 
+  ((sort(infix_mngt(int, t1), j1)) => (t2tb11(tb2t11(j1)) = j1)));
+
+t2tb12: (INT) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x : INT): (sort(int, t2tb12(x))));
+
+tb2t12: (uni) -> INT;
+
+% BridgeL
+  ASSERT
+  (FORALL (i1 : INT):PATTERN (t2tb12(i1)):  (tb2t12(t2tb12(i1)) = i1));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb12(tb2t12(j1))):  (t2tb12(
+  tb2t12(j1)) = j1));
+
+% make_spec
+  ASSERT
+  (FORALL (r : INT, c : INT, v : (ARRAY INT OF t)):
+  (((0 <= r) AND (0 <= c))
+  => ((rows(infix_mngt(int, t1), make(infix_mngt(int, t1), r, c, 
+     t2tb11(v))) = r)
+     AND ((columns(infix_mngt(int, t1), make(infix_mngt(int, t1), r, c, 
+         t2tb11(v))) = c)
+         AND (FORALL (i1 : INT, j1 : INT):
+             ((((0 <= i1) AND (i1 < r)) AND ((0 <= j1) AND (j1 < c))) => ((
+             tb2t5(infix_at(infix_mngt(int, infix_mngt(int, t1)), int, make(
+             infix_mngt(int, t1), r, c, t2tb11(v)), t2tb12(i1)))[j1]) = v)))))));
+
+t2tb13: (t) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x : t): (sort(t1, t2tb13(x))));
+
+tb2t13: (uni) -> t;
+
+% BridgeL
+  ASSERT (FORALL (i1 : t):PATTERN (t2tb13(i1)):  (tb2t13(t2tb13(i1)) = i1));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb13(tb2t13(j1))): 
+  ((sort(t1, j1)) => (t2tb13(tb2t13(j1)) = j1)));
+
+% make_spec
+  ASSERT
+  (FORALL (r : INT, c : INT, v : t):
+  (((0 <= r) AND (0 <= c))
+  => ((rows(t1, make(t1, r, c, t2tb13(v))) = r)
+     AND ((columns(t1, make(t1, r, c, t2tb13(v))) = c)
+         AND (FORALL (i1 : INT, j1 : INT):
+             ((((0 <= i1) AND (i1 < r)) AND ((0 <= j1) AND (j1 < c))) => (((
+             tb2t5(make(t1, r, c, t2tb13(v)))[i1])[j1]) = v)))))));
+
+% make_spec
+  ASSERT
+  (FORALL (a6 : ty):
+  (FORALL (r : INT, c : INT, v : uni):
+  ((sort(a6, v))
+  => (((0 <= r) AND (0 <= c))
+     => ((rows(a6, make(a6, r, c, v)) = r)
+        AND ((columns(a6, make(a6, r, c, v)) = c)
+            AND (FORALL (i1 : INT, j1 : INT):
+                ((((0 <= i1) AND (i1 < r)) AND ((0 <= j1) AND (j1 < c))) => (
+                infix_at(a6, int, infix_at(infix_mngt(int, a6), int, make(a6,
+                r, c, v), t2tb12(i1)), t2tb12(j1)) = v)))))))));
+
+infix_asdtdt: (t,
+  (ARRAY INT OF (ARRAY INT OF t))) -> (ARRAY INT OF (ARRAY INT OF t));
+
+% infix *.._spec
+  ASSERT
+  (FORALL (s2 : t, m : (ARRAY INT OF (ARRAY INT OF t))):
+  ((columns(t1, t2tb5(infix_asdtdt(s2, m))) = columns(t1, t2tb5(m)))
+  AND ((rows(t1, t2tb5(infix_asdtdt(s2, m))) = rows(t1, t2tb5(m)))
+      AND ((FORALL (i1 : INT, j1 : INT):
+           ((valid_index(t1, t2tb5(infix_asdtdt(s2, m)), i1, j1)) => (((
+           infix_asdtdt(s2, m)[i1])[j1]) = infix_asdt(s2, ((m[i1])[j1])))))
+          AND (FORALL (i1 : INT, j1 : INT):
+              ((valid_index(t1, t2tb5(infix_asdtdt(s2, m)), i1, j1))
+              <=> (valid_index(t1, t2tb5(m), i1, j1))))))));
+
+kronecker_neutral: (ARRAY INT OF (ARRAY INT OF t));
+
+add_mat: ((ARRAY INT OF (ARRAY INT OF t)),
+  (ARRAY INT OF (ARRAY INT OF t))) -> (ARRAY INT OF (ARRAY INT OF t));
+
+constant_size: (ty, uni, uni) -> BOOLEAN;
+
+constant_size2: (set_a1,
+  (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t)))) -> BOOLEAN;
+
+constant_size4: (set_b1,
+  (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t)))) -> BOOLEAN;
+
+t2tb86: (b2) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x : b2): (sort(b3, t2tb86(x))));
+
+tb2t86: (uni) -> b2;
+
+% BridgeL
+  ASSERT (FORALL (i1 : b2):PATTERN (t2tb86(i1)):  (tb2t86(t2tb86(i1)) = i1));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb86(tb2t86(j1))): 
+  ((sort(b3, j1)) => (t2tb86(tb2t86(j1)) = j1)));
+
+% constant_size_def
+  ASSERT
+  (FORALL (s2 : set_b1, f2 : (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t)))):
+  ((constant_size4(s2, f2))
+  <=> (FORALL (e : b2):
+      ((mem2(e, s2))
+      => ((rows(t1, t2tb5((f2[e]))) = rows(t1, t2tb5((f2[tb2t86(choose(b3, 
+         t2tb85(s2)))])))) AND (columns(t1, t2tb5((f2[e]))) = columns(t1, 
+         t2tb5((f2[tb2t86(choose(b3, t2tb85(s2)))])))))))));
+
+t2tb57: (a2) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x : a2): (sort(a3, t2tb57(x))));
+
+tb2t57: (uni) -> a2;
+
+% BridgeL
+  ASSERT (FORALL (i1 : a2):PATTERN (t2tb57(i1)):  (tb2t57(t2tb57(i1)) = i1));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb57(tb2t57(j1))): 
+  ((sort(a3, j1)) => (t2tb57(tb2t57(j1)) = j1)));
+
+% constant_size_def
+  ASSERT
+  (FORALL (s2 : set_a1, f2 : (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t)))):
+  ((constant_size2(s2, f2))
+  <=> (FORALL (e : a2):
+      ((mem1(e, s2))
+      => ((rows(t1, t2tb5((f2[e]))) = rows(t1, t2tb5((f2[tb2t57(choose(a3, 
+         t2tb56(s2)))])))) AND (columns(t1, t2tb5((f2[e]))) = columns(t1, 
+         t2tb5((f2[tb2t57(choose(a3, t2tb56(s2)))])))))))));
+
+% constant_size_def
+  ASSERT
+  (FORALL (a6 : ty):
+  (FORALL (s2 : uni, f2 : uni):
+  (((constant_size(a6, s2, f2))
+   => (FORALL (e : uni):
+      ((mem(a6, e, s2))
+      => ((rows(t1, infix_at(infix_mngt(int, infix_mngt(int, t1)), a6, f2,
+         e)) = rows(t1, infix_at(infix_mngt(int, infix_mngt(int, t1)), a6,
+         f2, choose(a6, s2)))) AND (columns(t1, infix_at(infix_mngt(int, 
+         infix_mngt(int, t1)), a6, f2, e)) = columns(t1, infix_at(
+         infix_mngt(int, infix_mngt(int, t1)), a6, f2, choose(a6, s2))))))))
+  AND ((FORALL (e : uni):
+       ((sort(a6, e))
+       => ((mem(a6, e, s2))
+          => ((rows(t1, infix_at(infix_mngt(int, infix_mngt(int, t1)), a6,
+             f2, e)) = rows(t1, infix_at(infix_mngt(int, infix_mngt(int,
+             t1)), a6, f2, choose(a6, s2)))) AND (columns(t1, infix_at(
+             infix_mngt(int, infix_mngt(int, t1)), a6, f2, e)) = columns(t1, 
+             infix_at(infix_mngt(int, infix_mngt(int, t1)), a6, f2, 
+             choose(a6, s2))))))))
+      => (constant_size(a6, s2, f2))))));
+
+mat_sum: (ty, uni, uni) -> (ARRAY INT OF (ARRAY INT OF t));
+
+mat_sum3: (set_a1,
+  (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t)))) -> (ARRAY INT OF (ARRAY INT OF t));
+
+mat_sum4: (set_b1,
+  (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t)))) -> (ARRAY INT OF (ARRAY INT OF t));
+
+% mat_sum_def
+  ASSERT
+  (FORALL (s2 : set_b1, f2 : (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t)))):
+  ((constant_size4(s2, f2))
+  => (IF (cardinal2(s2) = 0) THEN (mat_sum4(s2, f2) = tb2t5(make(t1, 0, 0, 
+     t2tb13(tzero))))
+     ELSE (IF (cardinal2(s2) = 1) THEN (mat_sum4(s2, f2) = (f2[tb2t86(
+          element(b3, t2tb85(s2)))])) ELSE (mat_sum4(s2, f2) = add_mat((f2[
+          tb2t86(choose(b3, t2tb85(s2)))]), mat_sum4(tb2t85(remove(b3, 
+          choose(b3, t2tb85(s2)), t2tb85(s2))), f2))) ENDIF) ENDIF)));
+
+% mat_sum_def
+  ASSERT
+  (FORALL (s2 : set_a1, f2 : (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t)))):
+  ((constant_size2(s2, f2))
+  => (IF (cardinal1(s2) = 0) THEN (mat_sum3(s2, f2) = tb2t5(make(t1, 0, 0, 
+     t2tb13(tzero))))
+     ELSE (IF (cardinal1(s2) = 1) THEN (mat_sum3(s2, f2) = (f2[tb2t57(
+          element(a3, t2tb56(s2)))])) ELSE (mat_sum3(s2, f2) = add_mat((f2[
+          tb2t57(choose(a3, t2tb56(s2)))]), mat_sum3(tb2t56(remove(a3, 
+          choose(a3, t2tb56(s2)), t2tb56(s2))), f2))) ENDIF) ENDIF)));
+
+% mat_sum_def
+  ASSERT
+  (FORALL (a6 : ty):
+  (FORALL (s2 : uni, f2 : uni):
+  ((constant_size(a6, s2, f2))
+  => (IF (cardinal(a6, s2) = 0) THEN (mat_sum(a6, s2, f2) = tb2t5(make(t1, 0,
+     0, t2tb13(tzero))))
+     ELSE (IF (cardinal(a6, s2) = 1) THEN (mat_sum(a6, s2, f2) = tb2t5(
+          infix_at(infix_mngt(int, infix_mngt(int, t1)), a6, f2, element(a6,
+          s2)))) ELSE (mat_sum(a6, s2, f2) = add_mat(tb2t5(infix_at(
+          infix_mngt(int, infix_mngt(int, t1)), a6, f2, choose(a6, s2))), 
+          mat_sum(a6, remove(a6, choose(a6, s2), s2), f2))) ENDIF) ENDIF))));
+
+fc565: (ty, ty, uni, uni) -> uni;
+
+% fc_sort
+  ASSERT
+  (FORALL (a6 : ty, b4 : ty):
+  (FORALL (x : uni, x1 : uni): (sort(infix_mngt(a6, infix_mngt(int, 
+  infix_mngt(int, t1))), fc565(b4, a6, x, x1)))));
+
+fc566: (set_b1,
+  (ARRAY a2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t))))) -> (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t)));
+
+fc567: (ty, ty, uni, uni) -> uni;
+
+% fc_sort
+  ASSERT
+  (FORALL (a6 : ty, b4 : ty):
+  (FORALL (x : uni, x1 : uni): (sort(infix_mngt(a6, infix_mngt(int, 
+  infix_mngt(int, t1))), fc567(b4, a6, x, x1)))));
+
+fc568: (ty, ty, uni, uni) -> uni;
+
+% fc_sort
+  ASSERT
+  (FORALL (a6 : ty, b4 : ty):
+  (FORALL (x : uni, x1 : uni): (sort(infix_mngt(b4, infix_mngt(int, 
+  infix_mngt(int, t1))), fc568(b4, a6, x, x1)))));
+
+fc569: (set_a1,
+  (ARRAY a2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t))))) -> (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t)));
+
+t2tb90: ((ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t)))) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x : (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t)))): (sort(
+  infix_mngt(b3, infix_mngt(int, infix_mngt(int, t1))), t2tb90(x))));
+
+tb2t90: (uni) -> (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t)));
+
+% BridgeL
+  ASSERT
+  (FORALL (i1 : (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t)))):PATTERN (
+  t2tb90(i1)):  (tb2t90(t2tb90(i1)) = i1));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb90(tb2t90(j1))): 
+  ((sort(infix_mngt(b3, infix_mngt(int, infix_mngt(int, t1))), j1)) => (
+  t2tb90(tb2t90(j1)) = j1)));
+
+% fc_def
+  ASSERT
+  (FORALL (a6 : ty):
+  (FORALL (sqt1 : set_b1, f2 : uni, e : uni): (tb2t5(infix_at(infix_mngt(int, 
+  infix_mngt(int, t1)), a6, fc565(b3, a6, t2tb85(sqt1), f2), e)) = 
+  mat_sum4(sqt1, tb2t90(infix_at(infix_mngt(b3, infix_mngt(int, 
+  infix_mngt(int, t1))), a6, f2, e))))));
+
+t2tb60: ((ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t)))) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x : (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t)))): (sort(
+  infix_mngt(a3, infix_mngt(int, infix_mngt(int, t1))), t2tb60(x))));
+
+tb2t60: (uni) -> (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t)));
+
+% BridgeL
+  ASSERT
+  (FORALL (i1 : (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t)))):PATTERN (
+  t2tb60(i1)):  (tb2t60(t2tb60(i1)) = i1));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb60(tb2t60(j1))): 
+  ((sort(infix_mngt(a3, infix_mngt(int, infix_mngt(int, t1))), j1)) => (
+  t2tb60(tb2t60(j1)) = j1)));
+
+% fc_def
+  ASSERT
+  (FORALL (a6 : ty):
+  (FORALL (sqt1 : set_a1, f2 : uni, e : uni): (tb2t5(infix_at(infix_mngt(int, 
+  infix_mngt(int, t1)), a6, fc565(a3, a6, t2tb56(sqt1), f2), e)) = 
+  mat_sum3(sqt1, tb2t60(infix_at(infix_mngt(a3, infix_mngt(int, 
+  infix_mngt(int, t1))), a6, f2, e))))));
+
+t2tb115: ((ARRAY b2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t))))) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x : (ARRAY b2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t))))):
+  (sort(infix_mngt(b3, infix_mngt(b3, infix_mngt(int, infix_mngt(int, t1)))), 
+  t2tb115(x))));
+
+tb2t115: (uni) -> (ARRAY b2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t))));
+
+% BridgeL
+  ASSERT
+  (FORALL
+  (i1 : (ARRAY b2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t))))):PATTERN (
+  t2tb115(i1)):  (tb2t115(t2tb115(i1)) = i1));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb115(tb2t115(j1))): 
+  ((sort(infix_mngt(b3, infix_mngt(b3, infix_mngt(int, infix_mngt(int,
+  t1)))), j1)) => (t2tb115(tb2t115(j1)) = j1)));
+
+% fc_def
+  ASSERT
+  (FORALL (sqt1 : set_b1,
+  f2 : (ARRAY b2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t)))), e : b2):
+  ((tb2t90(fc565(b3, b3, t2tb85(sqt1), t2tb115(f2)))[e]) = mat_sum4(sqt1, 
+  tb2t90(infix_at(infix_mngt(b3, infix_mngt(int, infix_mngt(int, t1))), b3, 
+  t2tb115(f2), t2tb86(e))))));
+
+t2tb116: ((ARRAY b2 OF (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t))))) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x : (ARRAY b2 OF (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t))))):
+  (sort(infix_mngt(b3, infix_mngt(a3, infix_mngt(int, infix_mngt(int, t1)))), 
+  t2tb116(x))));
+
+tb2t116: (uni) -> (ARRAY b2 OF (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t))));
+
+% BridgeL
+  ASSERT
+  (FORALL
+  (i1 : (ARRAY b2 OF (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t))))):PATTERN (
+  t2tb116(i1)):  (tb2t116(t2tb116(i1)) = i1));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb116(tb2t116(j1))): 
+  ((sort(infix_mngt(b3, infix_mngt(a3, infix_mngt(int, infix_mngt(int,
+  t1)))), j1)) => (t2tb116(tb2t116(j1)) = j1)));
+
+% fc_def
+  ASSERT
+  (FORALL (sqt1 : set_a1,
+  f2 : (ARRAY b2 OF (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t)))), e : b2):
+  ((tb2t90(fc565(a3, b3, t2tb56(sqt1), t2tb116(f2)))[e]) = mat_sum3(sqt1, 
+  tb2t60(infix_at(infix_mngt(a3, infix_mngt(int, infix_mngt(int, t1))), b3, 
+  t2tb116(f2), t2tb86(e))))));
+
+% fc_def
+  ASSERT
+  (FORALL (b4 : ty):
+  (FORALL (sqt1 : uni, f2 : uni, e : b2): ((tb2t90(fc565(b4, b3, sqt1,
+  f2))[e]) = mat_sum(b4, sqt1, infix_at(infix_mngt(b4, infix_mngt(int, 
+  infix_mngt(int, t1))), b3, f2, t2tb86(e))))));
+
+% fc_def
+  ASSERT
+  (FORALL (sqt1 : set_b1,
+  f2 : (ARRAY a2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t)))), e : a2):
+  ((fc566(sqt1, f2)[e]) = mat_sum4(sqt1, (f2[e]))));
+
+t2tb117: ((ARRAY a2 OF (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t))))) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x : (ARRAY a2 OF (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t))))):
+  (sort(infix_mngt(a3, infix_mngt(a3, infix_mngt(int, infix_mngt(int, t1)))), 
+  t2tb117(x))));
+
+tb2t117: (uni) -> (ARRAY a2 OF (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t))));
+
+% BridgeL
+  ASSERT
+  (FORALL
+  (i1 : (ARRAY a2 OF (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t))))):PATTERN (
+  t2tb117(i1)):  (tb2t117(t2tb117(i1)) = i1));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb117(tb2t117(j1))): 
+  ((sort(infix_mngt(a3, infix_mngt(a3, infix_mngt(int, infix_mngt(int,
+  t1)))), j1)) => (t2tb117(tb2t117(j1)) = j1)));
+
+% fc_def
+  ASSERT
+  (FORALL (sqt1 : set_a1,
+  f2 : (ARRAY a2 OF (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t)))), e : a2):
+  ((tb2t60(fc565(a3, a3, t2tb56(sqt1), t2tb117(f2)))[e]) = mat_sum3(sqt1, 
+  tb2t60(infix_at(infix_mngt(a3, infix_mngt(int, infix_mngt(int, t1))), a3, 
+  t2tb117(f2), t2tb57(e))))));
+
+% fc_def
+  ASSERT
+  (FORALL (b4 : ty):
+  (FORALL (sqt1 : uni, f2 : uni, e : a2): ((tb2t60(fc565(b4, a3, sqt1,
+  f2))[e]) = mat_sum(b4, sqt1, infix_at(infix_mngt(b4, infix_mngt(int, 
+  infix_mngt(int, t1))), a3, f2, t2tb57(e))))));
+
+% fc_def
+  ASSERT
+  (FORALL (a6 : ty, b4 : ty):
+  (FORALL (sqt1 : uni, f2 : uni, e : uni): (tb2t5(infix_at(infix_mngt(int, 
+  infix_mngt(int, t1)), a6, fc565(b4, a6, sqt1, f2), e)) = mat_sum(b4, sqt1, 
+  infix_at(infix_mngt(b4, infix_mngt(int, infix_mngt(int, t1))), a6, f2,
+  e)))));
+
+% fc_def
+  ASSERT
+  (FORALL (a6 : ty):
+  (FORALL (f2 : uni, eqt : b2, e : uni): (tb2t5(infix_at(infix_mngt(int, 
+  infix_mngt(int, t1)), a6, fc567(b3, a6, f2, t2tb86(eqt)), e)) = (tb2t90(
+  infix_at(infix_mngt(b3, infix_mngt(int, infix_mngt(int, t1))), a6, f2,
+  e))[eqt]))));
+
+% fc_def
+  ASSERT
+  (FORALL (a6 : ty):
+  (FORALL (f2 : uni, eqt : a2, e : uni): (tb2t5(infix_at(infix_mngt(int, 
+  infix_mngt(int, t1)), a6, fc567(a3, a6, f2, t2tb57(eqt)), e)) = (tb2t60(
+  infix_at(infix_mngt(a3, infix_mngt(int, infix_mngt(int, t1))), a6, f2,
+  e))[eqt]))));
+
+% fc_def
+  ASSERT
+  (FORALL (f2 : (ARRAY b2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t)))),
+  eqt : b2, e : b2): ((tb2t90(fc567(b3, b3, t2tb115(f2), 
+  t2tb86(eqt)))[e]) = (tb2t90(infix_at(infix_mngt(b3, infix_mngt(int, 
+  infix_mngt(int, t1))), b3, t2tb115(f2), t2tb86(e)))[eqt])));
+
+% fc_def
+  ASSERT
+  (FORALL (f2 : (ARRAY b2 OF (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t)))),
+  eqt : a2, e : b2): ((tb2t90(fc567(a3, b3, t2tb116(f2), 
+  t2tb57(eqt)))[e]) = (tb2t60(infix_at(infix_mngt(a3, infix_mngt(int, 
+  infix_mngt(int, t1))), b3, t2tb116(f2), t2tb86(e)))[eqt])));
+
+% fc_def
+  ASSERT
+  (FORALL (b4 : ty):
+  (FORALL (f2 : uni, eqt : uni, e : b2): ((tb2t90(fc567(b4, b3, f2,
+  eqt))[e]) = tb2t5(infix_at(infix_mngt(int, infix_mngt(int, t1)), b4, 
+  infix_at(infix_mngt(b4, infix_mngt(int, infix_mngt(int, t1))), b3, f2, 
+  t2tb86(e)), eqt)))));
+
+t2tb91: ((ARRAY a2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t))))) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x : (ARRAY a2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t))))):
+  (sort(infix_mngt(a3, infix_mngt(b3, infix_mngt(int, infix_mngt(int, t1)))), 
+  t2tb91(x))));
+
+tb2t91: (uni) -> (ARRAY a2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t))));
+
+% BridgeL
+  ASSERT
+  (FORALL
+  (i1 : (ARRAY a2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t))))):PATTERN (
+  t2tb91(i1)):  (tb2t91(t2tb91(i1)) = i1));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb91(tb2t91(j1))): 
+  ((sort(infix_mngt(a3, infix_mngt(b3, infix_mngt(int, infix_mngt(int,
+  t1)))), j1)) => (t2tb91(tb2t91(j1)) = j1)));
+
+% fc_def
+  ASSERT
+  (FORALL (f2 : (ARRAY a2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t)))),
+  eqt : b2, e : a2): ((tb2t60(fc567(b3, a3, t2tb91(f2), 
+  t2tb86(eqt)))[e]) = ((f2[e])[eqt])));
+
+% fc_def
+  ASSERT
+  (FORALL (f2 : (ARRAY a2 OF (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t)))),
+  eqt : a2, e : a2): ((tb2t60(fc567(a3, a3, t2tb117(f2), 
+  t2tb57(eqt)))[e]) = (tb2t60(infix_at(infix_mngt(a3, infix_mngt(int, 
+  infix_mngt(int, t1))), a3, t2tb117(f2), t2tb57(e)))[eqt])));
+
+% fc_def
+  ASSERT
+  (FORALL (b4 : ty):
+  (FORALL (f2 : uni, eqt : uni, e : a2): ((tb2t60(fc567(b4, a3, f2,
+  eqt))[e]) = tb2t5(infix_at(infix_mngt(int, infix_mngt(int, t1)), b4, 
+  infix_at(infix_mngt(b4, infix_mngt(int, infix_mngt(int, t1))), a3, f2, 
+  t2tb57(e)), eqt)))));
+
+% fc_def
+  ASSERT
+  (FORALL (a6 : ty, b4 : ty):
+  (FORALL (f2 : uni, eqt : uni, e : uni): (tb2t5(infix_at(infix_mngt(int, 
+  infix_mngt(int, t1)), a6, fc567(b4, a6, f2, eqt), e)) = tb2t5(infix_at(
+  infix_mngt(int, infix_mngt(int, t1)), b4, infix_at(infix_mngt(b4, 
+  infix_mngt(int, infix_mngt(int, t1))), a6, f2, e), eqt)))));
+
+% fc_def
+  ASSERT
+  (FORALL (a6 : ty):
+  (FORALL (s2 : uni, f2 : uni, eqt : b2): ((tb2t90(fc568(b3, a6, s2,
+  f2))[eqt]) = mat_sum(a6, s2, fc567(b3, a6, f2, t2tb86(eqt))))));
+
+% fc_def
+  ASSERT
+  (FORALL (a6 : ty):
+  (FORALL (s2 : uni, f2 : uni, eqt : a2): ((tb2t60(fc568(a3, a6, s2,
+  f2))[eqt]) = mat_sum(a6, s2, fc567(a3, a6, f2, t2tb57(eqt))))));
+
+% fc_def
+  ASSERT
+  (FORALL (s2 : set_b1,
+  f2 : (ARRAY b2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t)))),
+  eqt : b2): ((tb2t90(fc568(b3, b3, t2tb85(s2), t2tb115(f2)))[eqt]) = 
+  mat_sum4(s2, tb2t90(fc567(b3, b3, t2tb115(f2), t2tb86(eqt))))));
+
+% fc_def
+  ASSERT
+  (FORALL (s2 : set_b1,
+  f2 : (ARRAY b2 OF (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t)))),
+  eqt : a2): ((tb2t60(fc568(a3, b3, t2tb85(s2), t2tb116(f2)))[eqt]) = 
+  mat_sum4(s2, tb2t90(fc567(a3, b3, t2tb116(f2), t2tb57(eqt))))));
+
+% fc_def
+  ASSERT
+  (FORALL (b4 : ty):
+  (FORALL (s2 : set_b1, f2 : uni, eqt : uni): (tb2t5(infix_at(infix_mngt(int, 
+  infix_mngt(int, t1)), b4, fc568(b4, b3, t2tb85(s2), f2), eqt)) = 
+  mat_sum4(s2, tb2t90(fc567(b4, b3, f2, eqt))))));
+
+% fc_def
+  ASSERT
+  (FORALL (s2 : set_a1,
+  f2 : (ARRAY a2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t)))),
+  eqt : b2): ((fc569(s2, f2)[eqt]) = mat_sum3(s2, tb2t60(fc567(b3, a3, 
+  t2tb91(f2), t2tb86(eqt))))));
+
+% fc_def
+  ASSERT
+  (FORALL (s2 : set_a1,
+  f2 : (ARRAY a2 OF (ARRAY a2 OF (ARRAY INT OF (ARRAY INT OF t)))),
+  eqt : a2): ((tb2t60(fc568(a3, a3, t2tb56(s2), t2tb117(f2)))[eqt]) = 
+  mat_sum3(s2, tb2t60(fc567(a3, a3, t2tb117(f2), t2tb57(eqt))))));
+
+% fc_def
+  ASSERT
+  (FORALL (b4 : ty):
+  (FORALL (s2 : set_a1, f2 : uni, eqt : uni): (tb2t5(infix_at(infix_mngt(int, 
+  infix_mngt(int, t1)), b4, fc568(b4, a3, t2tb56(s2), f2), eqt)) = 
+  mat_sum3(s2, tb2t60(fc567(b4, a3, f2, eqt))))));
+
+% fc_def
+  ASSERT
+  (FORALL (a6 : ty, b4 : ty):
+  (FORALL (s2 : uni, f2 : uni, eqt : uni): (tb2t5(infix_at(infix_mngt(int, 
+  infix_mngt(int, t1)), b4, fc568(b4, a6, s2, f2), eqt)) = mat_sum(a6, s2, 
+  fc567(b4, a6, f2, eqt)))));
+
+QUERY
+% VC_mat_sum_commute
+ % File "p_algebra/../p_algebra.mlw", line 1153, characters 12-27
+  (FORALL (s2 : set_a1, sqt1 : set_b1,
+  f2 : (ARRAY a2 OF (ARRAY b2 OF (ARRAY INT OF (ARRAY INT OF t))))):
+  (((FORALL (e : a2): ((mem1(e, s2)) => (constant_size4(sqt1, (f2[e])))))
+   AND (0 < cardinal1(s2)))
+  => (mat_sum3(s2, fc566(sqt1, f2)) = mat_sum4(sqt1, fc569(s2, f2)))));

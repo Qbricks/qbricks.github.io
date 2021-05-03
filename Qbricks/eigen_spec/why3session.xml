@@ -1,0 +1,1126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="5">
+<prover id="0" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="3" name="CVC4" version="1.0" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="4" name="Alt-Ergo" version="2.2.0" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="5" name="Z3" version="4.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<file proved="true">
+<path name=".."/>
+<path name="eigen_spec.mlw"/>
+<theory name="Eigen_vectors" proved="true">
+ <goal name="VC eigen" expl="VC for eigen" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC eigen.0" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="4.28" steps="344"/></proof>
+  </goal>
+  <goal name="VC eigen.1" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="VC eigen.1.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="sem_def" arg2="in" arg3="H">
+    <goal name="VC eigen.1.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="5.53"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC eigen_ket_l" expl="VC for eigen_ket_l" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC eigen_ket_l.0" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.03" steps="338"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC set_eigen" expl="VC for set_eigen" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC set_eigen.0" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.10" steps="338"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC get_eigen" expl="VC for get_eigen" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC get_eigen.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="VC get_eigen.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="eigen_def">
+    <goal name="VC get_eigen.0.0.0" expl="VC for get_eigen" proved="true">
+    <transf name="rewrite" proved="true" arg1="sem_def">
+     <goal name="VC get_eigen.0.0.0.0" expl="VC for get_eigen" proved="true">
+     <transf name="split_vc" proved="true" >
+      <goal name="VC get_eigen.0.0.0.0.0" expl="VC for get_eigen" proved="true">
+      <proof prover="4"><result status="valid" time="0.70" steps="306"/></proof>
+      </goal>
+      <goal name="VC get_eigen.0.0.0.0.1" expl="VC for get_eigen" proved="true">
+      <proof prover="0"><result status="valid" time="4.32"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC is_a_ket_l_eigen" expl="VC for is_a_ket_l_eigen" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC is_a_ket_l_eigen.0" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.04" steps="340"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC eigen_scal" expl="VC for eigen_scal" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC eigen_scal.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.13" steps="346"/></proof>
+  </goal>
+  <goal name="VC eigen_scal.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.86" steps="348"/></proof>
+  </goal>
+  <goal name="VC eigen_scal.2" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="get_eigen">
+   <goal name="VC eigen_scal.2.0" expl="apply premises" proved="true">
+   <proof prover="4"><result status="valid" time="3.07" steps="348"/></proof>
+   </goal>
+   <goal name="VC eigen_scal.2.1" expl="apply premises" proved="true">
+   <proof prover="4"><result status="valid" time="3.11" steps="348"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC eigen_comp" expl="VC for eigen_comp" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC eigen_comp.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.51" steps="340"/></proof>
+  </goal>
+  <goal name="VC eigen_comp.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.20" steps="356"/></proof>
+  </goal>
+  <goal name="VC eigen_comp.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.38" steps="358"/></proof>
+  </goal>
+  <goal name="VC eigen_comp.3" expl="precondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="path_sem_scal">
+   <goal name="VC eigen_comp.3.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.32"/></proof>
+   </goal>
+   <goal name="VC eigen_comp.3.1" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="0.53" steps="358"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC eigen_comp.4" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.53" steps="360"/></proof>
+  </goal>
+  <goal name="VC eigen_comp.5" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.53" steps="356"/></proof>
+  </goal>
+  <goal name="VC eigen_comp.6" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.58" steps="366"/></proof>
+  </goal>
+  <goal name="VC eigen_comp.7" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.09"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC eigen_square" expl="VC for eigen_square" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC eigen_square.0" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+  </transf>
+  </goal>
+  <goal name="VC eigen_square.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC eigen_square.1.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.52" steps="336"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC eigen_square.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC eigen_square.2.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.60" steps="336"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC eigen_square.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.57" steps="340"/></proof>
+  </goal>
+  <goal name="VC eigen_square.4" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.49" steps="340"/></proof>
+  </goal>
+  <goal name="VC eigen_square.5" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.82" steps="342"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC pow_pow_2" expl="VC for pow_pow_2" proved="true">
+ <transf name="compute_specified" proved="true" >
+  <goal name="VC pow_pow_2.0" expl="VC for pow_pow_2" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC pow_pow_2.0.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.54" steps="340"/></proof>
+   </goal>
+   <goal name="VC pow_pow_2.0.1" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.62" steps="342"/></proof>
+   </goal>
+   <goal name="VC pow_pow_2.0.2" expl="variant decrease" proved="true">
+   <proof prover="4"><result status="valid" time="0.63" steps="342"/></proof>
+   </goal>
+   <goal name="VC pow_pow_2.0.3" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.76" steps="342"/></proof>
+   </goal>
+   <goal name="VC pow_pow_2.0.4" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.66" steps="343"/></proof>
+   </goal>
+   <goal name="VC pow_pow_2.0.5" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.94" steps="346"/></proof>
+   </goal>
+   <goal name="VC pow_pow_2.0.6" expl="postcondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.69" steps="340"/></proof>
+   </goal>
+   <goal name="VC pow_pow_2.0.7" expl="postcondition" proved="true">
+   <transf name="destruct" proved="true" arg1="H1">
+    <goal name="VC pow_pow_2.0.7.0" expl="postcondition" proved="true">
+    <proof prover="3"><result status="valid" time="1.57"/></proof>
+    </goal>
+    <goal name="VC pow_pow_2.0.7.1" expl="postcondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="VC pow_pow_2.0.7.1.0" expl="postcondition" proved="true">
+     <proof prover="0"><result status="valid" time="1.08"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC control_eigen" expl="VC for control_eigen" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC control_eigen.0" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen.0.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.51" steps="342"/></proof>
+   </goal>
+   <goal name="VC control_eigen.0.1" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.54" steps="342"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen.1.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.50" steps="342"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen.2.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="4.00" steps="344"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen.3" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen.3.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.51" steps="342"/></proof>
+   </goal>
+   <goal name="VC control_eigen.3.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.12"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen.4" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen.4.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.98" steps="344"/></proof>
+   </goal>
+   <goal name="VC control_eigen.4.1" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.99" steps="344"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen.5" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen.5.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.22" steps="346"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen.6" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.90" steps="350"/></proof>
+  </goal>
+  <goal name="VC control_eigen.7" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.80" steps="358"/></proof>
+  </goal>
+  <goal name="VC control_eigen.8" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.00"/></proof>
+  </goal>
+  <goal name="VC control_eigen.9" expl="postcondition" proved="true">
+  <transf name="case" proved="true" arg1="(getbv x @ c = 0)">
+   <goal name="VC control_eigen.9.0" expl="true case (postcondition)" proved="true">
+   <proof prover="0"><result status="valid" time="1.14"/></proof>
+   </goal>
+   <goal name="VC control_eigen.9.1" expl="false case (postcondition)" proved="true">
+   <proof prover="0"><result status="valid" time="1.40"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC control_eigen_scal" expl="VC for control_eigen_scal" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC control_eigen_scal.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.73" steps="350"/></proof>
+  </goal>
+  <goal name="VC control_eigen_scal.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.67" steps="350"/></proof>
+  </goal>
+  <goal name="VC control_eigen_scal.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.67" steps="352"/></proof>
+  </goal>
+  <goal name="VC control_eigen_scal.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.49" steps="352"/></proof>
+  </goal>
+  <goal name="VC control_eigen_scal.4" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="VC control_eigen_scal.4.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result_def">
+    <goal name="VC control_eigen_scal.4.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="control_eigen_def">
+     <goal name="VC control_eigen_scal.4.0.0.0" expl="postcondition" proved="true">
+     <proof prover="4"><result status="valid" time="0.98" steps="323"/></proof>
+     </goal>
+     <goal name="VC control_eigen_scal.4.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="0.73" steps="323"/></proof>
+     </goal>
+     <goal name="VC control_eigen_scal.4.0.0.2" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="0.76" steps="323"/></proof>
+     </goal>
+     <goal name="VC control_eigen_scal.4.0.0.3" expl="rewrite premises" proved="true">
+     <proof prover="3"><result status="valid" time="1.31"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_scal.5" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="kronecker_scalar_distr">
+   <goal name="VC control_eigen_scal.5.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="kronecker_scalar_distr_r" arg2="in" arg3="H3">
+    <goal name="VC control_eigen_scal.5.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="H3">
+     <goal name="VC control_eigen_scal.5.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="kronecker_scalar_distr_r">
+      <goal name="VC control_eigen_scal.5.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="kronecker_scalar_distr">
+       <goal name="VC control_eigen_scal.5.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="rewrite" proved="true" arg1="kronecker_scalar_distr_r">
+        <goal name="VC control_eigen_scal.5.0.0.0.0.0.0" expl="postcondition" proved="true">
+        <transf name="rewrite" proved="true" arg1="scalar_assoc">
+         <goal name="VC control_eigen_scal.5.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+         <transf name="apply" proved="true" arg1="scalar_eq_gen">
+          <goal name="VC control_eigen_scal.5.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <proof prover="4"><result status="valid" time="0.54" steps="357"/></proof>
+          </goal>
+          <goal name="VC control_eigen_scal.5.0.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+          <proof prover="4"><result status="valid" time="3.34" steps="359"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC control_eigen_scal.5.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="0.60" steps="357"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC control_eigen_seq_test" expl="VC for control_eigen_seq_test" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC control_eigen_seq_test.0" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_test.0.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="3.74" steps="348"/></proof>
+   </goal>
+   <goal name="VC control_eigen_seq_test.0.1" expl="precondition" proved="true">
+   <transf name="assert" proved="true" arg1="(s &gt;=0)">
+    <goal name="VC control_eigen_seq_test.0.1.0" expl="asserted formula" proved="true">
+    <proof prover="4"><result status="valid" time="0.58" steps="346"/></proof>
+    </goal>
+    <goal name="VC control_eigen_seq_test.0.1.1" expl="precondition" proved="true">
+    <proof prover="4"><result status="valid" time="3.69" steps="348"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_test.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_test.1.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.52" steps="350"/></proof>
+   </goal>
+   <goal name="VC control_eigen_seq_test.1.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.34"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_test.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_test.2.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="3.22" steps="357"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_test.3" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_test.3.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="2.95" steps="348"/></proof>
+   </goal>
+   <goal name="VC control_eigen_seq_test.3.1" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="3.07" steps="348"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_test.4" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_test.4.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.49" steps="350"/></proof>
+   </goal>
+   <goal name="VC control_eigen_seq_test.4.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.29"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_test.5" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_test.5.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="3.42" steps="357"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_test.6" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_test.6.0" expl="variant decrease" proved="true">
+   <proof prover="4"><result status="valid" time="0.53" steps="354"/></proof>
+   </goal>
+   <goal name="VC control_eigen_seq_test.6.1" expl="variant decrease" proved="true">
+   <proof prover="4"><result status="valid" time="0.60" steps="354"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_test.7" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.68" steps="359"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_test.8" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.68" steps="354"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_test.9" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.60" steps="356"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_test.10" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.49" steps="356"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_test.11" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.51" steps="356"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_test.12" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.96" steps="358"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_test.13" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.49" steps="356"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_test.14" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.56" steps="344"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC control_eigen_seq_pre" expl="VC for control_eigen_seq_pre" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC control_eigen_seq_pre.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.54" steps="350"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.1.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="3.35" steps="354"/></proof>
+   </goal>
+   <goal name="VC control_eigen_seq_pre.1.1" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="3.04" steps="354"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.2.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="3.30" steps="358"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.3" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.3.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="3.43" steps="360"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.4" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.4.0" expl="variant decrease" proved="true">
+   <proof prover="4"><result status="valid" time="0.70" steps="350"/></proof>
+   </goal>
+   <goal name="VC control_eigen_seq_pre.4.1" expl="variant decrease" proved="true">
+   <proof prover="4"><result status="valid" time="0.55" steps="350"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.5" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.5.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="3.06" steps="356"/></proof>
+   </goal>
+   <goal name="VC control_eigen_seq_pre.5.1" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="3.06" steps="356"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.6" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.6.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.53" steps="350"/></proof>
+   </goal>
+   <goal name="VC control_eigen_seq_pre.6.1" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.53" steps="350"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.7" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.55" steps="352"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.8" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.8.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.70" steps="352"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.9" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.9.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.56" steps="352"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.10" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.10.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="3.14" steps="358"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.11" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.00" steps="354"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.12" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.12.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.52" steps="352"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.13" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.13.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.52" steps="352"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.14" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.53" steps="356"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.15" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.15.0" expl="precondition" proved="true">
+   <proof prover="3"><result status="valid" time="3.36"/></proof>
+   </goal>
+   <goal name="VC control_eigen_seq_pre.15.1" expl="precondition" proved="true">
+   <proof prover="3"><result status="valid" time="3.31"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.16" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.16.0" expl="precondition" proved="true">
+   <proof prover="3"><result status="valid" time="4.45"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.17" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.17.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.52" steps="400"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.18" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.18.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.37"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.19" expl="precondition" proved="true">
+  <proof prover="3"><result status="valid" time="5.04"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.20" expl="precondition" proved="true">
+  <transf name="apply" proved="true" arg1="H43">
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.21" expl="precondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="H2">
+   <goal name="VC control_eigen_seq_pre.21.0" expl="precondition" proved="true">
+   <transf name="apply" proved="true" arg1="goal_comm">
+    <goal name="VC control_eigen_seq_pre.21.0.0" expl="apply premises" proved="true">
+    <transf name="rewrite" proved="true" arg1="ang_sum_right_extension">
+     <goal name="VC control_eigen_seq_pre.21.0.0.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="kronecker_eq">
+      <goal name="VC control_eigen_seq_pre.21.0.0.0.0" expl="apply premises" proved="true">
+      <transf name="assert" proved="true" arg1="(forall a b:angle. a = b -&gt; ang_exp a = ang_exp b)">
+       <goal name="VC control_eigen_seq_pre.21.0.0.0.0.0" expl="asserted formula" proved="true">
+       <proof prover="4"><result status="valid" time="0.52" steps="404"/></proof>
+       </goal>
+       <goal name="VC control_eigen_seq_pre.21.0.0.0.0.1" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="scalar_eq_gen">
+        <goal name="VC control_eigen_seq_pre.21.0.0.0.0.1.0" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.57" steps="402"/></proof>
+        </goal>
+        <goal name="VC control_eigen_seq_pre.21.0.0.0.0.1.1" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="h">
+         <goal name="VC control_eigen_seq_pre.21.0.0.0.0.1.1.0" expl="apply premises" proved="true">
+         <transf name="apply" proved="true" arg1="ang_add_eq">
+          <goal name="VC control_eigen_seq_pre.21.0.0.0.0.1.1.0.0" expl="apply premises" proved="true">
+          <transf name="compute_specified" proved="true" >
+          </transf>
+          </goal>
+          <goal name="VC control_eigen_seq_pre.21.0.0.0.0.1.1.0.1" expl="apply premises" proved="true">
+          <transf name="compute_specified" proved="true" >
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="VC control_eigen_seq_pre.21.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="4"><result status="valid" time="0.56" steps="402"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC control_eigen_seq_pre.21.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="0.57" steps="402"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC control_eigen_seq_pre.21.1" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="0.56" steps="402"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.22" expl="precondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="H5">
+   <goal name="VC control_eigen_seq_pre.22.0" expl="precondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="H46">
+    <goal name="VC control_eigen_seq_pre.22.0.0" expl="precondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="H50">
+     <goal name="VC control_eigen_seq_pre.22.0.0.0" expl="precondition" proved="true">
+     <proof prover="4"><result status="valid" time="0.56" steps="404"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.23" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.23.0" expl="precondition" proved="true">
+   <proof prover="3"><result status="valid" time="5.01"/></proof>
+   </goal>
+   <goal name="VC control_eigen_seq_pre.23.1" expl="precondition" proved="true">
+   <proof prover="3"><result status="valid" time="4.25"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.24" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.24.0" expl="precondition" proved="true">
+   <proof prover="3"><result status="valid" time="4.34"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.25" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.25.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.57" steps="406"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.26" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.26.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.44"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.27" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.27.0" expl="precondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="H47">
+    <goal name="VC control_eigen_seq_pre.27.0.0" expl="precondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="H2">
+     <goal name="VC control_eigen_seq_pre.27.0.0.0" expl="precondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="H51">
+      <goal name="VC control_eigen_seq_pre.27.0.0.0.0" expl="precondition" proved="true">
+      <proof prover="4"><result status="valid" time="0.80" steps="404"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.28" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.28.0" expl="postcondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.77" steps="356"/></proof>
+   </goal>
+   <goal name="VC control_eigen_seq_pre.28.1" expl="postcondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.60" steps="416"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.29" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.29.0" expl="postcondition" proved="true">
+   <transf name="eliminate_let" proved="true" >
+    <goal name="VC control_eigen_seq_pre.29.0.0" expl="postcondition" proved="true">
+    <transf name="split_all_full" proved="true" >
+     <goal name="VC control_eigen_seq_pre.29.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="H1">
+      <goal name="VC control_eigen_seq_pre.29.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="3"><result status="valid" time="1.80"/></proof>
+      </goal>
+      <goal name="VC control_eigen_seq_pre.29.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="0.55" steps="356"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC control_eigen_seq_pre.29.1" expl="postcondition" proved="true">
+   <transf name="eliminate_let" proved="true" >
+    <goal name="VC control_eigen_seq_pre.29.1.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="H8">
+     <goal name="VC control_eigen_seq_pre.29.1.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="H12">
+      <goal name="VC control_eigen_seq_pre.29.1.0.0.0" expl="postcondition" proved="true">
+      <transf name="apply" proved="true" arg1="kronecker_eq">
+       <goal name="VC control_eigen_seq_pre.29.1.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="assert" proved="true" arg1="(forall a b:angle. a = b -&gt; ang_exp a = ang_exp b)">
+        <goal name="VC control_eigen_seq_pre.29.1.0.0.0.0.0" expl="asserted formula" proved="true">
+        <proof prover="4"><result status="valid" time="0.64" steps="419"/></proof>
+        </goal>
+        <goal name="VC control_eigen_seq_pre.29.1.0.0.0.0.1" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="scalar_eq_gen">
+         <goal name="VC control_eigen_seq_pre.29.1.0.0.0.0.1.0" expl="apply premises" proved="true">
+         <proof prover="4"><result status="valid" time="0.63" steps="417"/></proof>
+         </goal>
+         <goal name="VC control_eigen_seq_pre.29.1.0.0.0.0.1.1" expl="apply premises" proved="true">
+         <transf name="apply" proved="true" arg1="h">
+          <goal name="VC control_eigen_seq_pre.29.1.0.0.0.0.1.1.0" expl="apply premises" proved="true">
+          <transf name="apply" proved="true" arg1="ang_sum_eq">
+           <goal name="VC control_eigen_seq_pre.29.1.0.0.0.0.1.1.0.0" expl="apply premises" proved="true">
+           <proof prover="4"><result status="valid" time="0.57" steps="417"/></proof>
+           </goal>
+           <goal name="VC control_eigen_seq_pre.29.1.0.0.0.0.1.1.0.1" expl="apply premises" proved="true">
+           <transf name="compute_specified" proved="true" >
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC control_eigen_seq_pre.29.1.0.0.0.1" expl="apply premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.57" steps="417"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_pre.30" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC control_eigen_seq_pre.30.0" expl="postcondition" proved="true">
+   <transf name="eliminate_let" proved="true" >
+    <goal name="VC control_eigen_seq_pre.30.0.0" expl="postcondition" proved="true">
+    <transf name="eliminate_definition" proved="true" >
+     <goal name="VC control_eigen_seq_pre.30.0.0.0" expl="postcondition" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="VC control_eigen_seq_pre.30.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="control_eigen_seq_test_def1">
+       <goal name="VC control_eigen_seq_pre.30.0.0.0.0.0" expl="postcondition" proved="true">
+       <proof prover="3"><result status="valid" time="1.82"/></proof>
+       </goal>
+       <goal name="VC control_eigen_seq_pre.30.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="0"><result status="valid" time="4.68"/></proof>
+       </goal>
+       <goal name="VC control_eigen_seq_pre.30.0.0.0.0.2" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.65" steps="326"/></proof>
+       </goal>
+       <goal name="VC control_eigen_seq_pre.30.0.0.0.0.3" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.69" steps="326"/></proof>
+       </goal>
+       <goal name="VC control_eigen_seq_pre.30.0.0.0.0.4" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.74" steps="326"/></proof>
+       </goal>
+       <goal name="VC control_eigen_seq_pre.30.0.0.0.0.5" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.73" steps="326"/></proof>
+       </goal>
+       <goal name="VC control_eigen_seq_pre.30.0.0.0.0.6" expl="rewrite premises" proved="true">
+       <proof prover="3"><result status="valid" time="1.66"/></proof>
+       </goal>
+       <goal name="VC control_eigen_seq_pre.30.0.0.0.0.7" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.67" steps="326"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC control_eigen_seq_pre.30.1" expl="postcondition" proved="true">
+   <transf name="eliminate_let" proved="true" >
+    <goal name="VC control_eigen_seq_pre.30.1.0" expl="postcondition" proved="true">
+    <transf name="eliminate_definition" proved="true" >
+     <goal name="VC control_eigen_seq_pre.30.1.0.0" expl="postcondition" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="VC control_eigen_seq_pre.30.1.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="control_eigen_seq_test_def">
+       <goal name="VC control_eigen_seq_pre.30.1.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="rewrite" proved="true" arg1="H9">
+        <goal name="VC control_eigen_seq_pre.30.1.0.0.0.0.0" expl="postcondition" proved="true">
+        <transf name="apply" proved="true" arg1="sequence_eq">
+         <goal name="VC control_eigen_seq_pre.30.1.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="rewrite" proved="true" arg1="H12">
+          <goal name="VC control_eigen_seq_pre.30.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <transf name="rewrite" proved="true" arg1="H63">
+           <goal name="VC control_eigen_seq_pre.30.1.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+           <proof prover="4"><result status="valid" time="0.77" steps="387"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="VC control_eigen_seq_pre.30.1.0.0.0.0.0.1" expl="apply premises" proved="true">
+         <proof prover="4"><result status="valid" time="0.78" steps="387"/></proof>
+         </goal>
+         <goal name="VC control_eigen_seq_pre.30.1.0.0.0.0.0.2" expl="apply premises" proved="true">
+         <transf name="apply" proved="true" arg1="control_eigen_scal_spec1">
+          <goal name="VC control_eigen_seq_pre.30.1.0.0.0.0.0.2.0" expl="apply premises" proved="true">
+          <transf name="split_vc" proved="true" >
+           <goal name="VC control_eigen_seq_pre.30.1.0.0.0.0.0.2.0.0" expl="apply premises" proved="true">
+           <proof prover="5"><result status="valid" time="4.88"/></proof>
+           </goal>
+           <goal name="VC control_eigen_seq_pre.30.1.0.0.0.0.0.2.0.1" expl="apply premises" proved="true">
+           <proof prover="5"><result status="valid" time="4.90"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="VC control_eigen_seq_pre.30.1.0.0.0.0.0.2.1" expl="apply premises" proved="true">
+          <transf name="rewrite" proved="true" arg1="H63">
+           <goal name="VC control_eigen_seq_pre.30.1.0.0.0.0.0.2.1.0" expl="apply premises" proved="true">
+           <proof prover="4"><result status="valid" time="0.77" steps="387"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="VC control_eigen_seq_pre.30.1.0.0.0.0.0.2.2" expl="apply premises" proved="true">
+          <proof prover="4"><result status="valid" time="0.82" steps="387"/></proof>
+          </goal>
+          <goal name="VC control_eigen_seq_pre.30.1.0.0.0.0.0.2.3" expl="apply premises" proved="true">
+          <proof prover="5"><result status="valid" time="3.07"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC control_eigen_seq_pre.30.1.0.0.0.1" expl="rewrite premises" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="VC control_eigen_seq_pre.30.1.0.0.0.1.0" expl="rewrite premises" proved="true">
+        <proof prover="5"><result status="valid" time="2.80"/></proof>
+        </goal>
+        <goal name="VC control_eigen_seq_pre.30.1.0.0.0.1.1" expl="rewrite premises" proved="true">
+        <proof prover="5"><result status="valid" time="2.84"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC control_eigen_seq_pre.30.1.0.0.0.2" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.80" steps="387"/></proof>
+       </goal>
+       <goal name="VC control_eigen_seq_pre.30.1.0.0.0.3" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.84" steps="387"/></proof>
+       </goal>
+       <goal name="VC control_eigen_seq_pre.30.1.0.0.0.4" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.79" steps="387"/></proof>
+       </goal>
+       <goal name="VC control_eigen_seq_pre.30.1.0.0.0.5" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.81" steps="387"/></proof>
+       </goal>
+       <goal name="VC control_eigen_seq_pre.30.1.0.0.0.6" expl="rewrite premises" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="VC control_eigen_seq_pre.30.1.0.0.0.6.0" expl="rewrite premises" proved="true">
+        <transf name="apply" proved="true" arg1="H63">
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC control_eigen_seq_pre.30.1.0.0.0.7" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.79" steps="387"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC control_eigen_seq" expl="VC for control_eigen_seq" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC control_eigen_seq.0" expl="assertion" proved="true">
+  <proof prover="0"><result status="valid" time="1.26"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.03" steps="351"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.60" steps="346"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq.3" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.67" steps="346"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq.4" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.78" steps="346"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq.5" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.71" steps="346"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq.6" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.14" steps="348"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq.7" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.12" steps="352"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq.8" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.49" steps="348"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq.9" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="VC control_eigen_seq.9.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result_def">
+    <goal name="VC control_eigen_seq.9.0.0" expl="postcondition" proved="true">
+    <transf name="split_all_full" proved="true" >
+     <goal name="VC control_eigen_seq.9.0.0.0" expl="postcondition" proved="true">
+     <transf name="instantiate" proved="true" arg1="H4" arg2="x">
+      <goal name="VC control_eigen_seq.9.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="Hinst">
+       <goal name="VC control_eigen_seq.9.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="apply" proved="true" arg1="control_eigen_seq_pre_spec1">
+        <goal name="VC control_eigen_seq.9.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="1.68"/></proof>
+        </goal>
+        <goal name="VC control_eigen_seq.9.0.0.0.0.0.1" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.66" steps="322"/></proof>
+        </goal>
+        <goal name="VC control_eigen_seq.9.0.0.0.0.0.2" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.71" steps="322"/></proof>
+        </goal>
+        <goal name="VC control_eigen_seq.9.0.0.0.0.0.3" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.74" steps="322"/></proof>
+        </goal>
+        <goal name="VC control_eigen_seq.9.0.0.0.0.0.4" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.74" steps="322"/></proof>
+        </goal>
+        <goal name="VC control_eigen_seq.9.0.0.0.0.0.5" expl="apply premises" proved="true">
+        <proof prover="0"><result status="valid" time="4.79"/></proof>
+        </goal>
+        <goal name="VC control_eigen_seq.9.0.0.0.0.0.6" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="1.63"/></proof>
+        </goal>
+        <goal name="VC control_eigen_seq.9.0.0.0.0.0.7" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.73" steps="322"/></proof>
+        </goal>
+        <goal name="VC control_eigen_seq.9.0.0.0.0.0.8" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.72" steps="322"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC control_eigen_seq.9.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.76" steps="322"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC control_eigen_seq_real" expl="VC for control_eigen_seq_real" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC control_eigen_seq_real.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.51" steps="348"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_real.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.62" steps="351"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_real.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.53" steps="346"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_real.3" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.52" steps="346"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_real.4" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.50" steps="346"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_real.5" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.80" steps="346"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_real.6" expl="precondition" proved="true">
+  <transf name="compute_specified" proved="true" >
+   <goal name="VC control_eigen_seq_real.6.0" expl="precondition" proved="true">
+   <transf name="eliminate_if" proved="true" >
+    <goal name="VC control_eigen_seq_real.6.0.0" expl="VC for control_eigen_seq_real" proved="true">
+    <proof prover="4"><result status="valid" time="3.15" steps="352"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC control_eigen_seq_real.7" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.95" steps="348"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_real.8" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.51" steps="346"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_real.9" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.52" steps="350"/></proof>
+  </goal>
+  <goal name="VC control_eigen_seq_real.10" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="H2">
+   <goal name="VC control_eigen_seq_real.10.0" expl="postcondition" proved="true">
+   <transf name="apply" proved="true" arg1="kronecker_eq">
+    <goal name="VC control_eigen_seq_real.10.0.0" expl="apply premises" proved="true">
+    <transf name="apply" proved="true" arg1="scalar_eq_gen">
+     <goal name="VC control_eigen_seq_real.10.0.0.0" expl="apply premises" proved="true">
+     <transf name="compute_specified" proved="true" >
+     </transf>
+     </goal>
+     <goal name="VC control_eigen_seq_real.10.0.0.1" expl="apply premises" proved="true">
+     <transf name="assert" proved="true" arg1="(forall a b:angle. a = b -&gt; ang_exp a = ang_exp b)">
+      <goal name="VC control_eigen_seq_real.10.0.0.1.0" expl="asserted formula" proved="true">
+      <proof prover="4"><result status="valid" time="0.49" steps="354"/></proof>
+      </goal>
+      <goal name="VC control_eigen_seq_real.10.0.0.1.1" expl="apply premises" proved="true">
+      <transf name="apply" proved="true" arg1="h">
+       <goal name="VC control_eigen_seq_real.10.0.0.1.1.0" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="ang_sum_eq">
+        <goal name="VC control_eigen_seq_real.10.0.0.1.1.0.0" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.49" steps="352"/></proof>
+        </goal>
+        <goal name="VC control_eigen_seq_real.10.0.0.1.1.0.1" expl="apply premises" proved="true">
+        <transf name="split_vc" proved="true" >
+         <goal name="VC control_eigen_seq_real.10.0.0.1.1.0.1.0" expl="apply premises" proved="true">
+         <transf name="compute_specified" proved="true" >
+          <goal name="VC control_eigen_seq_real.10.0.0.1.1.0.1.0.0" expl="apply premises" proved="true">
+          <proof prover="4"><result status="valid" time="3.01" steps="358"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="VC control_eigen_seq_real.10.0.1" expl="apply premises" proved="true">
+    <proof prover="4"><result status="valid" time="0.49" steps="352"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC control_eigen_seq_real.10.1" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="0.49" steps="352"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>

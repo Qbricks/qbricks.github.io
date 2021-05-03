@@ -1,0 +1,2797 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="5">
+<prover id="0" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="1" name="Z3" version="4.4.1" alternative="counterexamples" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="3" name="CVC4" version="1.0" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="4" name="Alt-Ergo" version="2.2.0" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="5" name="Z3" version="4.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<file proved="true">
+<path name=".."/>
+<path name="kets.mlw"/>
+<theory name="Superpositions" proved="true">
+ <goal name="VC qbit_zero" expl="VC for qbit_zero" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC qbit_zero.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.39" steps="210"/></proof>
+  </goal>
+  <goal name="VC qbit_zero.1" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.07" steps="222"/></proof>
+  </goal>
+  <goal name="VC qbit_zero.2" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.98" steps="223"/></proof>
+  </goal>
+  <goal name="VC qbit_zero.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.15" steps="225"/></proof>
+  </goal>
+  <goal name="VC qbit_zero.4" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.12" steps="227"/></proof>
+  </goal>
+  <goal name="VC qbit_zero.5" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.44" steps="226"/></proof>
+  </goal>
+  <goal name="VC qbit_zero.6" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.64" steps="226"/></proof>
+  </goal>
+  <goal name="VC qbit_zero.7" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.47" steps="226"/></proof>
+  </goal>
+  <goal name="VC qbit_zero.8" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.23" steps="230"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC qbit_one" expl="VC for qbit_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC qbit_one.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.58" steps="222"/></proof>
+  </goal>
+  <goal name="VC qbit_one.1" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.04" steps="233"/></proof>
+  </goal>
+  <goal name="VC qbit_one.2" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.80" steps="236"/></proof>
+  </goal>
+  <goal name="VC qbit_one.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="4.46" steps="237"/></proof>
+  </goal>
+  <goal name="VC qbit_one.4" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="4.43" steps="239"/></proof>
+  </goal>
+  <goal name="VC qbit_one.5" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.81" steps="238"/></proof>
+  </goal>
+  <goal name="VC qbit_one.6" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.70" steps="238"/></proof>
+  </goal>
+  <goal name="VC qbit_one.7" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.75" steps="238"/></proof>
+  </goal>
+  <goal name="VC qbit_one.8" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.65" steps="242"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC qbit_plus" expl="VC for qbit_plus" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC qbit_plus.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.67" steps="234"/></proof>
+  </goal>
+  <goal name="VC qbit_plus.1" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="VC qbit_plus.1.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result_def">
+    <goal name="VC qbit_plus.1.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="rewrite_pps_apply_basis">
+     <goal name="VC qbit_plus.1.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="pps_apply_basis_def">
+      <goal name="VC qbit_plus.1.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="replace" proved="true" arg1="(h_range pps_hadamard)" arg2="1">
+       <goal name="VC qbit_plus.1.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="rewrite" proved="true" arg1="ket_sum_bitvec_one">
+        <goal name="VC qbit_plus.1.0.0.0.0.0.0" expl="postcondition" proved="true">
+        <transf name="apply" proved="true" arg1="scalar_eq_gen">
+         <goal name="VC qbit_plus.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="replace" proved="true" arg1="(h_width pps_hadamard)" arg2="1">
+          <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <transf name="apply" proved="true" arg1="add_ket_l_eq">
+           <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+           <proof prover="4"><result status="valid" time="0.89" steps="246"/></proof>
+           </goal>
+           <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+           <transf name="compute_specified" proved="true" >
+            <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.1.0" expl="apply premises" proved="true">
+            <transf name="rewrite" proved="true" arg1="scalar_c_one_gen">
+             <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.1.0.0" expl="apply premises" proved="true">
+             <transf name="replace" proved="true" arg1="((h_basis_ket pps_hadamard @ getbv (ket_to_bv (qbit_zero ())))
+    @ getbv (int_to_bv 0 1))" arg2="(getbv (int_to_bv 0 1))">
+              <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+              <transf name="rewrite" proved="true" arg1="qbit_zero_def">
+               <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.1.0.0.0.0" expl="apply premises" proved="true">
+               <proof prover="1"><result status="valid" time="10.11"/></proof>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.1.0.0.1" expl="equality hypothesis" proved="true">
+              <proof prover="3"><result status="valid" time="2.47"/></proof>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.1.0.1" expl="rewrite premises" proved="true">
+             <transf name="split_all_full" proved="true" >
+              <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.1.0.1.0" expl="rewrite premises" proved="true">
+              <transf name="rewrite" proved="true" arg1="pps_hadamard_def">
+               <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.1.0.1.0.0" expl="rewrite premises" proved="true">
+               <proof prover="3"><result status="valid" time="2.49"/></proof>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.2" expl="apply premises" proved="true">
+           <transf name="compute_specified" proved="true" >
+            <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.2.0" expl="apply premises" proved="true">
+            <transf name="rewrite" proved="true" arg1="scalar_c_one_gen">
+             <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.2.0.0" expl="apply premises" proved="true">
+             <transf name="replace" proved="true" arg1="((h_basis_ket pps_hadamard @ getbv (ket_to_bv (qbit_zero ())))
+    @ getbv (int_to_bv 1 1))" arg2="(getbv (int_to_bv 1 1))">
+              <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.2.0.0.0" expl="apply premises" proved="true">
+              <transf name="rewrite" proved="true" arg1="qbit_one_def">
+               <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.2.0.0.0.0" expl="apply premises" proved="true">
+               <proof prover="1"><result status="valid" time="8.01"/></proof>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.2.0.0.1" expl="equality hypothesis" proved="true">
+              <proof prover="3"><result status="valid" time="1.95"/></proof>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.2.0.1" expl="rewrite premises" proved="true">
+             <transf name="split_all_full" proved="true" >
+              <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.2.0.1.0" expl="rewrite premises" proved="true">
+              <transf name="rewrite" proved="true" arg1="pps_hadamard_def">
+               <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.2.0.1.0.0" expl="rewrite premises" proved="true">
+               <transf name="eliminate_if" proved="true" >
+                <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.2.0.1.0.0.0" proved="true">
+                <transf name="split_vc" proved="true" >
+                 <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.2.0.1.0.0.0.0" expl="rewrite premises" proved="true">
+                 <transf name="replace" proved="true" arg1="(getbv (ket_to_bv (qbit_zero ())) @ 0)" arg2="0" arg3="in" arg4="H1">
+                  <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.2.0.1.0.0.0.0.0" expl="rewrite premises" proved="true">
+                  <proof prover="4"><result status="valid" time="0.77" steps="248"/></proof>
+                  </goal>
+                  <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.2.0.1.0.0.0.0.1" expl="equality hypothesis" proved="true">
+                  <proof prover="5"><result status="valid" time="1.75"/></proof>
+                  </goal>
+                 </transf>
+                 </goal>
+                 <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.0.2.0.1.0.0.0.1" expl="rewrite premises" proved="true">
+                 <proof prover="4"><result status="valid" time="0.44" steps="246"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="VC qbit_plus.1.0.0.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+          <proof prover="4"><result status="valid" time="0.43" steps="246"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="VC qbit_plus.1.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+         <proof prover="4"><result status="valid" time="0.42" steps="246"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="VC qbit_plus.1.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.43" steps="246"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC qbit_plus.1.0.0.0.0.1" expl="equality hypothesis" proved="true">
+       <proof prover="4"><result status="valid" time="0.43" steps="246"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="VC qbit_plus.1.0.0.0.1" expl="rewrite premises" proved="true">
+      <transf name="replace" proved="true" arg1="(h_width pps_hadamard)" arg2="1">
+       <goal name="VC qbit_plus.1.0.0.0.1.0" expl="rewrite premises" proved="true">
+       <transf name="apply" proved="true" arg1="ket_to_bv_length">
+        <goal name="VC qbit_plus.1.0.0.0.1.0.0" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.40" steps="246"/></proof>
+        </goal>
+        <goal name="VC qbit_plus.1.0.0.0.1.0.1" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="1.05"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC qbit_plus.1.0.0.0.1.1" expl="equality hypothesis" proved="true">
+       <proof prover="4"><result status="valid" time="0.41" steps="246"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC qbit_plus.1.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="0.41" steps="246"/></proof>
+     </goal>
+     <goal name="VC qbit_plus.1.0.0.2" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="0.43" steps="246"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC qbit_plus.2" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.33" steps="238"/></proof>
+  </goal>
+  <goal name="VC qbit_plus.3" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="1.07"/></proof>
+  </goal>
+  <goal name="VC qbit_plus.4" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.03" steps="243"/></proof>
+  </goal>
+  <goal name="VC qbit_plus.5" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="H3">
+   <goal name="VC qbit_plus.5.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+    <goal name="VC qbit_plus.5.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="mult_one_t">
+     <goal name="VC qbit_plus.5.0.0.0" expl="apply premises" proved="true">
+     <transf name="rewrite" proved="true" arg1="add_ket_l_value">
+      <goal name="VC qbit_plus.5.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="4"><result status="valid" time="2.03" steps="245"/></proof>
+      </goal>
+      <goal name="VC qbit_plus.5.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="2.27" steps="245"/></proof>
+      </goal>
+      <goal name="VC qbit_plus.5.0.0.0.2" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="0.37" steps="243"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC qbit_plus.6" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="H4">
+   <goal name="VC qbit_plus.6.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+    <goal name="VC qbit_plus.6.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="mult_one_t">
+     <goal name="VC qbit_plus.6.0.0.0" expl="apply premises" proved="true">
+     <transf name="rewrite" proved="true" arg1="add_ket_l_value">
+      <goal name="VC qbit_plus.6.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="4"><result status="valid" time="2.55" steps="247"/></proof>
+      </goal>
+      <goal name="VC qbit_plus.6.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="2.54" steps="247"/></proof>
+      </goal>
+      <goal name="VC qbit_plus.6.0.0.0.2" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="0.36" steps="245"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC qbit_minus" expl="VC for qbit_minus" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC qbit_minus.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.42" steps="246"/></proof>
+  </goal>
+  <goal name="VC qbit_minus.1" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="VC qbit_minus.1.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result_def">
+    <goal name="VC qbit_minus.1.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="rewrite_pps_apply_basis">
+     <goal name="VC qbit_minus.1.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="pps_apply_basis_def">
+      <goal name="VC qbit_minus.1.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="replace" proved="true" arg1="(h_range pps_hadamard)" arg2="1">
+       <goal name="VC qbit_minus.1.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="rewrite" proved="true" arg1="ket_sum_bitvec_one">
+        <goal name="VC qbit_minus.1.0.0.0.0.0.0" expl="postcondition" proved="true">
+        <transf name="apply" proved="true" arg1="scalar_eq_gen">
+         <goal name="VC qbit_minus.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="replace" proved="true" arg1="(h_width pps_hadamard)" arg2="1">
+          <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <transf name="compute_specified" proved="true" >
+           <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+           <transf name="apply" proved="true" arg1="add_ket_l_eq">
+            <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+            <proof prover="4"><result status="valid" time="0.40" steps="246"/></proof>
+            </goal>
+            <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+            <transf name="rewrite" proved="true" arg1="scalar_c_one_gen">
+             <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.1.0" expl="apply premises" proved="true">
+             <transf name="rewrite" proved="true" arg1="qbit_one_def">
+              <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.1.0.0" expl="apply premises" proved="true">
+              <transf name="replace" proved="true" arg1="((h_basis_ket pps_hadamard @ getbv (ket_to_bv (ket 1 1)))
+    @ getbv (int_to_bv 0 1))" arg2="(getbv (int_to_bv 0 1))">
+               <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+               <transf name="rewrite" proved="true" arg1="qbit_zero_def">
+                <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.1.0.0.0.0" expl="apply premises" proved="true">
+                <transf name="rewrite" proved="true" arg1="bv_to_ket_def">
+                 <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.1.0.0.0.0.0" expl="apply premises" proved="true">
+                 <transf name="apply" proved="true" arg1="ket_eq">
+                  <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.1.0.0.0.0.0.0" expl="apply premises" proved="true">
+                  <proof prover="0"><result status="valid" time="4.17"/></proof>
+                  </goal>
+                  <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.1.0.0.0.0.0.1" expl="apply premises" proved="true">
+                  <proof prover="0"><result status="valid" time="4.24"/></proof>
+                  </goal>
+                  <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.1.0.0.0.0.0.2" expl="apply premises" proved="true">
+                  <proof prover="0"><result status="valid" time="5.61"/></proof>
+                  </goal>
+                 </transf>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+               <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.1.0.0.1" expl="equality hypothesis" proved="true">
+               <proof prover="3"><result status="valid" time="2.25"/></proof>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.1.1" expl="rewrite premises" proved="true">
+             <transf name="split_all_full" proved="true" >
+              <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.1.1.0" expl="rewrite premises" proved="true">
+              <transf name="rewrite" proved="true" arg1="pps_hadamard_def">
+               <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.1.1.0.0" expl="rewrite premises" proved="true">
+               <proof prover="3"><result status="valid" time="1.99"/></proof>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.2" expl="apply premises" proved="true">
+            <transf name="apply" proved="true" arg1="scalar_eq_gen">
+             <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.2.0" expl="apply premises" proved="true">
+             <transf name="rewrite" proved="true" arg1="qbit_one_def">
+              <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.2.0.0" expl="apply premises" proved="true">
+              <transf name="replace" proved="true" arg1="((h_basis_ket pps_hadamard @ getbv (ket_to_bv (ket 1 1)))
+    @ getbv (int_to_bv 1 1))" arg2="(getbv (int_to_bv 1 1))">
+               <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.2.0.0.0" expl="apply premises" proved="true">
+               <proof prover="1"><result status="valid" time="5.99"/></proof>
+               </goal>
+               <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.2.0.0.1" expl="equality hypothesis" proved="true">
+               <proof prover="3"><result status="valid" time="1.52"/></proof>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.2.1" expl="apply premises" proved="true">
+             <transf name="split_all_full" proved="true" >
+              <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.2.1.0" expl="apply premises" proved="true">
+              <transf name="rewrite" proved="true" arg1="pps_hadamard_def">
+               <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.2.1.0.0" expl="apply premises" proved="true">
+               <transf name="eliminate_if" proved="true" >
+                <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.2.1.0.0.0" proved="true">
+                <transf name="split_vc" proved="true" >
+                 <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.2.1.0.0.0.0" expl="apply premises" proved="true">
+                 <proof prover="4"><result status="valid" time="0.58" steps="250"/></proof>
+                 </goal>
+                 <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.2.1.0.0.0.1" expl="apply premises" proved="true">
+                 <transf name="assert" proved="true" arg1="((getbv (ket_to_bv (qbit_one ())) @ 0) = (getbv (int_to_bv 1 1) @ 0) /\
+       (getbv (int_to_bv 1 1) @ 0) = 1)">
+                  <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.2.1.0.0.0.1.0" expl="asserted formula" proved="true">
+                  <transf name="split_vc" proved="true" >
+                   <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.2.1.0.0.0.1.0.0" expl="asserted formula" proved="true">
+                   <proof prover="5"><result status="valid" time="2.77"/></proof>
+                   </goal>
+                   <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.2.1.0.0.0.1.0.1" expl="asserted formula" proved="true">
+                   <proof prover="3"><result status="valid" time="1.45"/></proof>
+                   </goal>
+                  </transf>
+                  </goal>
+                  <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.0.0.2.1.0.0.0.1.1" expl="apply premises" proved="true">
+                  <proof prover="4"><result status="valid" time="0.52" steps="250"/></proof>
+                  </goal>
+                 </transf>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="VC qbit_minus.1.0.0.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+          <proof prover="4"><result status="valid" time="0.42" steps="246"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="VC qbit_minus.1.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+         <proof prover="4"><result status="valid" time="0.41" steps="246"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="VC qbit_minus.1.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.65" steps="246"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC qbit_minus.1.0.0.0.0.1" expl="equality hypothesis" proved="true">
+       <proof prover="4"><result status="valid" time="0.62" steps="246"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="VC qbit_minus.1.0.0.0.1" expl="rewrite premises" proved="true">
+      <transf name="replace" proved="true" arg1="(h_width pps_hadamard)" arg2="1">
+       <goal name="VC qbit_minus.1.0.0.0.1.0" expl="rewrite premises" proved="true">
+       <transf name="apply" proved="true" arg1="ket_to_bv_length">
+        <goal name="VC qbit_minus.1.0.0.0.1.0.0" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.59" steps="246"/></proof>
+        </goal>
+        <goal name="VC qbit_minus.1.0.0.0.1.0.1" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="1.23"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC qbit_minus.1.0.0.0.1.1" expl="equality hypothesis" proved="true">
+       <proof prover="4"><result status="valid" time="0.49" steps="246"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC qbit_minus.1.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="0.55" steps="246"/></proof>
+     </goal>
+     <goal name="VC qbit_minus.1.0.0.2" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="0.53" steps="246"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC qbit_minus.2" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.38" steps="250"/></proof>
+  </goal>
+  <goal name="VC qbit_minus.3" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="1.08"/></proof>
+  </goal>
+  <goal name="VC qbit_minus.4" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.10"/></proof>
+  </goal>
+  <goal name="VC qbit_minus.5" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="H3">
+   <goal name="VC qbit_minus.5.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+    <goal name="VC qbit_minus.5.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="mult_one_t">
+     <goal name="VC qbit_minus.5.0.0.0" expl="apply premises" proved="true">
+     <transf name="rewrite" proved="true" arg1="add_ket_l_value">
+      <goal name="VC qbit_minus.5.0.0.0.0" expl="apply premises" proved="true">
+      <transf name="rewrite" proved="true" arg1="add_zero_t">
+       <goal name="VC qbit_minus.5.0.0.0.0.0" expl="apply premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.39" steps="255"/></proof>
+       </goal>
+       <goal name="VC qbit_minus.5.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+        <goal name="VC qbit_minus.5.0.0.0.0.1.0" expl="rewrite premises" proved="true">
+        <transf name="rewrite" proved="true" arg1="mult_zero_t">
+         <goal name="VC qbit_minus.5.0.0.0.0.1.0.0" expl="rewrite premises" proved="true">
+         <proof prover="4"><result status="valid" time="0.35" steps="255"/></proof>
+         </goal>
+         <goal name="VC qbit_minus.5.0.0.0.0.1.0.1" expl="rewrite premises" proved="true">
+         <proof prover="4"><result status="valid" time="0.31" steps="255"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="VC qbit_minus.5.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="2.35" steps="257"/></proof>
+      </goal>
+      <goal name="VC qbit_minus.5.0.0.0.2" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="0.34" steps="255"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC qbit_minus.6" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="H4">
+   <goal name="VC qbit_minus.6.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+    <goal name="VC qbit_minus.6.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="add_ket_l_value">
+     <goal name="VC qbit_minus.6.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="zero_add_t">
+      <goal name="VC qbit_minus.6.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+       <goal name="VC qbit_minus.6.0.0.0.0.0" expl="postcondition" proved="true">
+       <proof prover="3"><result status="valid" time="1.11"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="VC qbit_minus.6.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="0.32" steps="257"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC qbit_minus.6.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="2.15" steps="259"/></proof>
+     </goal>
+     <goal name="VC qbit_minus.6.0.0.2" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="0.34" steps="257"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC add_plus_minus" expl="VC for add_plus_minus" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC add_plus_minus.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.34" steps="262"/></proof>
+  </goal>
+  <goal name="VC add_plus_minus.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.21" steps="270"/></proof>
+  </goal>
+  <goal name="VC add_plus_minus.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.27" steps="272"/></proof>
+  </goal>
+  <goal name="VC add_plus_minus.3" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.80"/></proof>
+  </goal>
+  <goal name="VC add_plus_minus.4" expl="precondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="add_ket_l_value">
+   <goal name="VC add_plus_minus.4.0" expl="precondition" proved="true">
+   <transf name="case" proved="true" arg1="(i = 0)">
+    <goal name="VC add_plus_minus.4.0.0" expl="true case (precondition)" proved="true">
+    <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+     <goal name="VC add_plus_minus.4.0.0.0" expl="true case (precondition)" proved="true">
+     <transf name="rewrite" proved="true" arg1="h">
+      <goal name="VC add_plus_minus.4.0.0.0.0" expl="true case (precondition)" proved="true">
+      <proof prover="4"><result status="valid" time="2.57" steps="282"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="VC add_plus_minus.4.0.1" expl="false case (precondition)" proved="true">
+    <transf name="replace" proved="true" arg1="i" arg2="1">
+     <goal name="VC add_plus_minus.4.0.1.0" expl="false case (precondition)" proved="true">
+     <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+      <goal name="VC add_plus_minus.4.0.1.0.0" expl="false case (precondition)" proved="true">
+      <proof prover="3"><result status="valid" time="1.08"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC add_plus_minus.4.0.1.1" expl="equality hypothesis" proved="true">
+     <proof prover="0"><result status="valid" time="0.92"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC add_plus_minus.4.1" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="0.48" steps="278"/></proof>
+   </goal>
+   <goal name="VC add_plus_minus.4.2" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="0.41" steps="278"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC add_plus_minus.5" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.49" steps="270"/></proof>
+  </goal>
+  <goal name="VC add_plus_minus.6" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="add_ket_l_scal">
+   <goal name="VC add_plus_minus.6.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="H">
+    <goal name="VC add_plus_minus.6.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="scalar_assoc">
+     <goal name="VC add_plus_minus.6.0.0.0" expl="postcondition" proved="true">
+     <transf name="apply" proved="true" arg1="scalar_c_one_gen">
+      <goal name="VC add_plus_minus.6.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="4"><result status="valid" time="0.40" steps="270"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC add_plus_minus.6.1" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="0.48" steps="270"/></proof>
+   </goal>
+   <goal name="VC add_plus_minus.6.2" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="0.37" steps="270"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC substr_plus_minus" expl="VC for substr_plus_minus" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC substr_plus_minus.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.36" steps="270"/></proof>
+  </goal>
+  <goal name="VC substr_plus_minus.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.59" steps="277"/></proof>
+  </goal>
+  <goal name="VC substr_plus_minus.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.61" steps="279"/></proof>
+  </goal>
+  <goal name="VC substr_plus_minus.3" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.80"/></proof>
+  </goal>
+  <goal name="VC substr_plus_minus.4" expl="precondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="add_ket_l_value">
+   <goal name="VC substr_plus_minus.4.0" expl="precondition" proved="true">
+   <transf name="case" proved="true" arg1="(i = 0)">
+    <goal name="VC substr_plus_minus.4.0.0" expl="true case (precondition)" proved="true">
+    <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+     <goal name="VC substr_plus_minus.4.0.0.0" expl="true case (precondition)" proved="true">
+     <transf name="rewrite" proved="true" arg1="h">
+      <goal name="VC substr_plus_minus.4.0.0.0.0" expl="true case (precondition)" proved="true">
+      <transf name="rewrite" proved="true" arg1="H10">
+       <goal name="VC substr_plus_minus.4.0.0.0.0.0" expl="true case (precondition)" proved="true">
+       <transf name="rewrite" proved="true" arg1="H20">
+        <goal name="VC substr_plus_minus.4.0.0.0.0.0.0" expl="true case (precondition)" proved="true">
+        <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+         <goal name="VC substr_plus_minus.4.0.0.0.0.0.0.0" expl="true case (precondition)" proved="true">
+         <transf name="apply" proved="true" arg1="goal_comm">
+          <goal name="VC substr_plus_minus.4.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <transf name="rewrite" proved="true" arg1="mult_zero_t">
+           <goal name="VC substr_plus_minus.4.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+           <proof prover="3"><result status="valid" time="1.08"/></proof>
+           </goal>
+           <goal name="VC substr_plus_minus.4.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+           <proof prover="4"><result status="valid" time="0.34" steps="286"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="VC substr_plus_minus.4.0.1" expl="false case (precondition)" proved="true">
+    <transf name="replace" proved="true" arg1="i" arg2="1">
+     <goal name="VC substr_plus_minus.4.0.1.0" expl="false case (precondition)" proved="true">
+     <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+      <goal name="VC substr_plus_minus.4.0.1.0.0" expl="false case (precondition)" proved="true">
+      <transf name="split_all_full" proved="true" >
+       <goal name="VC substr_plus_minus.4.0.1.0.0.0" expl="false case (precondition)" proved="true">
+       <transf name="rewrite" proved="true" arg1="H20">
+        <goal name="VC substr_plus_minus.4.0.1.0.0.0.0" expl="false case (precondition)" proved="true">
+        <transf name="rewrite" proved="true" arg1="H9">
+         <goal name="VC substr_plus_minus.4.0.1.0.0.0.0.0" expl="false case (precondition)" proved="true">
+         <transf name="replace" proved="true" arg1="((-. c_one) *. (-. pow_inv_sqrt_2 1))" arg2="(pow_inv_sqrt_2 1)">
+          <goal name="VC substr_plus_minus.4.0.1.0.0.0.0.0.0" expl="false case (precondition)" proved="true">
+          <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+           <goal name="VC substr_plus_minus.4.0.1.0.0.0.0.0.0.0" expl="false case (precondition)" proved="true">
+           <proof prover="4"><result status="valid" time="3.04" steps="289"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="VC substr_plus_minus.4.0.1.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+          <proof prover="3"><result status="valid" time="1.24"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC substr_plus_minus.4.0.1.1" expl="equality hypothesis" proved="true">
+     <proof prover="0"><result status="valid" time="0.91"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC substr_plus_minus.4.1" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="0.54" steps="284"/></proof>
+   </goal>
+   <goal name="VC substr_plus_minus.4.2" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="0.41" steps="284"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC substr_plus_minus.5" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.49" steps="276"/></proof>
+  </goal>
+  <goal name="VC substr_plus_minus.6" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="((-. pow_inv_sqrt_2 1) *.. qbit_minus ())" arg2="(( pow_inv_sqrt_2 1) *.. (-. c_one *.. qbit_minus ()))">
+   <goal name="VC substr_plus_minus.6.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="add_ket_l_scal">
+    <goal name="VC substr_plus_minus.6.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="H">
+     <goal name="VC substr_plus_minus.6.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="scalar_assoc">
+      <goal name="VC substr_plus_minus.6.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="apply" proved="true" arg1="scalar_c_one_gen">
+       <goal name="VC substr_plus_minus.6.0.0.0.0.0" expl="apply premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.36" steps="276"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="VC substr_plus_minus.6.0.1" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="0.41" steps="276"/></proof>
+    </goal>
+    <goal name="VC substr_plus_minus.6.0.2" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="3.00" steps="278"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC substr_plus_minus.6.1" expl="equality hypothesis" proved="true">
+   <transf name="rewrite" proved="true" arg1="scalar_assoc">
+    <goal name="VC substr_plus_minus.6.1.0" expl="equality hypothesis" proved="true">
+    <transf name="apply" proved="true" arg1="scalar_eq_gen">
+     <goal name="VC substr_plus_minus.6.1.0.0" expl="apply premises" proved="true">
+     <proof prover="4"><result status="valid" time="0.36" steps="276"/></proof>
+     </goal>
+     <goal name="VC substr_plus_minus.6.1.0.1" expl="apply premises" proved="true">
+     <proof prover="4"><result status="valid" time="3.09" steps="279"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC plus_to_zero" expl="VC for plus_to_zero" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC plus_to_zero.0" expl="postcondition" proved="true">
+  <transf name="split_all_full" proved="true" >
+   <goal name="VC plus_to_zero.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="qbit_plus_spec5">
+    <goal name="VC plus_to_zero.0.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="pps_apply_scal">
+     <goal name="VC plus_to_zero.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="pps_apply_add">
+      <goal name="VC plus_to_zero.0.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="4"><result status="valid" time="2.31" steps="268"/></proof>
+      </goal>
+      <goal name="VC plus_to_zero.0.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="0.34" steps="266"/></proof>
+      </goal>
+      <goal name="VC plus_to_zero.0.0.0.0.2" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="0.33" steps="266"/></proof>
+      </goal>
+      <goal name="VC plus_to_zero.0.0.0.0.3" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="0.34" steps="266"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC plus_to_zero.0.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="2.22" steps="268"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC plus_to_one" expl="VC for plus_to_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC plus_to_one.0" expl="postcondition" proved="true">
+  <transf name="split_all_full" proved="true" >
+   <goal name="VC plus_to_one.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="qbit_minus_spec5">
+    <goal name="VC plus_to_one.0.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="pps_apply_scal">
+     <goal name="VC plus_to_one.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="pps_apply_add">
+      <goal name="VC plus_to_one.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="replace" proved="true" arg1="(pps_apply pps_hadamard (qbit_zero ()))" arg2="(qbit_plus())">
+       <goal name="VC plus_to_one.0.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="replace" proved="true" arg1="(pps_apply pps_hadamard ((-. c_one) *.. qbit_one ()))" arg2="((-. c_one) *.. qbit_minus ())">
+        <goal name="VC plus_to_one.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+        <transf name="rewrite" proved="true" arg1="substr_plus_minus1">
+         <goal name="VC plus_to_one.0.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+         <transf name="rewrite" proved="true" arg1="scalar_assoc">
+          <goal name="VC plus_to_one.0.0.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+          <proof prover="4"><result status="valid" time="2.27" steps="270"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="VC plus_to_one.0.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+        <proof prover="4"><result status="valid" time="2.45" steps="270"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC plus_to_one.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+       <proof prover="4"><result status="valid" time="0.32" steps="268"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="VC plus_to_one.0.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="0.40" steps="268"/></proof>
+      </goal>
+      <goal name="VC plus_to_one.0.0.0.0.2" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="2.54" steps="270"/></proof>
+      </goal>
+      <goal name="VC plus_to_one.0.0.0.0.3" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="0.42" steps="268"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC plus_to_one.0.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="2.45" steps="270"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC hadamard_comp" expl="VC for hadamard_comp" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC hadamard_comp.0" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86"/></proof>
+  </goal>
+  <goal name="VC hadamard_comp.1" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.91"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC set_equal_qbit" expl="VC for set_equal_qbit" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC set_equal_qbit.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85"/></proof>
+  </goal>
+  <goal name="VC set_equal_qbit.1" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.81"/></proof>
+  </goal>
+  <goal name="VC set_equal_qbit.2" expl="precondition" proved="true">
+  <transf name="replace" proved="true" arg1="j" arg2="0">
+   <goal name="VC set_equal_qbit.2.0" expl="precondition" proved="true">
+   <proof prover="3"><result status="valid" time="1.15"/></proof>
+   </goal>
+   <goal name="VC set_equal_qbit.2.1" expl="equality hypothesis" proved="true">
+   <proof prover="0"><result status="valid" time="0.81"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC set_equal_qbit.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.37" steps="280"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC xor_qbits" expl="VC for xor_qbits" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC xor_qbits.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.42" steps="274"/></proof>
+  </goal>
+  <goal name="VC xor_qbits.1" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.33" steps="284"/></proof>
+  </goal>
+  <goal name="VC xor_qbits.2" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="set_equal_ket">
+   <goal name="VC xor_qbits.2.0" expl="apply premises" proved="true">
+   <proof prover="3"><result status="valid" time="1.08"/></proof>
+   </goal>
+   <goal name="VC xor_qbits.2.1" expl="apply premises" proved="true">
+   <proof prover="0"><result status="valid" time="0.85"/></proof>
+   </goal>
+   <goal name="VC xor_qbits.2.2" expl="apply premises" proved="true">
+   <proof prover="3"><result status="valid" time="1.03"/></proof>
+   </goal>
+   <goal name="VC xor_qbits.2.3" expl="apply premises" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="VC xor_qbits.2.3.0" expl="apply premises" proved="true">
+    <transf name="rewrite" proved="true" arg1="H6">
+     <goal name="VC xor_qbits.2.3.0.0" expl="apply premises" proved="true">
+     <transf name="compute_specified" proved="true" >
+      <goal name="VC xor_qbits.2.3.0.0.0" expl="apply premises" proved="true">
+      <transf name="eliminate_if" proved="true" >
+       <goal name="VC xor_qbits.2.3.0.0.0.0" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="VC xor_qbits.2.3.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="eliminate_definition" proved="true" >
+         <goal name="VC xor_qbits.2.3.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="split_all_full" proved="true" >
+          <goal name="VC xor_qbits.2.3.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <transf name="case" proved="true" arg1="(ket_to_int x = 0)">
+           <goal name="VC xor_qbits.2.3.0.0.0.0.0.0.0.0" expl="true case (apply premises)" proved="true">
+           <proof prover="3"><result status="valid" time="1.19"/></proof>
+           </goal>
+           <goal name="VC xor_qbits.2.3.0.0.0.0.0.0.0.1" expl="false case (apply premises)" proved="true">
+           <proof prover="3"><result status="valid" time="1.35"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="VC xor_qbits.2.3.0.0.0.0.1" expl="apply premises" proved="true">
+        <proof prover="0"><result status="valid" time="1.48"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC xor_qbits.2.3.0.1" expl="rewrite premises" proved="true">
+     <proof prover="0"><result status="valid" time="0.85"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC xor_qbits.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.19" steps="287"/></proof>
+  </goal>
+  <goal name="VC xor_qbits.4" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="H4">
+   <goal name="VC xor_qbits.4.0" expl="postcondition" proved="true">
+   <transf name="compute_specified" proved="true" >
+   </transf>
+   </goal>
+   <goal name="VC xor_qbits.4.1" expl="rewrite premises" proved="true">
+   <transf name="compute_specified" proved="true" >
+    <goal name="VC xor_qbits.4.1.0" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="3.24" steps="289"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC xor_int_to_ket" expl="VC for xor_int_to_ket" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC xor_int_to_ket.0" expl="postcondition" proved="true">
+  <transf name="split_all_full" proved="true" >
+   <goal name="VC xor_int_to_ket.0.0" expl="postcondition" proved="true">
+   <transf name="apply" proved="true" arg1="xor_qbits_spec3">
+    <goal name="VC xor_int_to_ket.0.0.0" expl="apply premises" proved="true">
+    <proof prover="4"><result status="valid" time="2.37" steps="274"/></proof>
+    </goal>
+    <goal name="VC xor_int_to_ket.0.0.1" expl="apply premises" proved="true">
+    <proof prover="4"><result status="valid" time="0.35" steps="272"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC xor_qbit_minus" expl="VC for xor_qbit_minus" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC xor_qbit_minus.0" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="set_equal_ket_l">
+   <goal name="VC xor_qbit_minus.0.0" expl="apply premises" proved="true">
+   <transf name="exists" proved="true" arg1="1">
+    <goal name="VC xor_qbit_minus.0.0.0" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="VC xor_qbit_minus.0.0.0.0" proved="true">
+     <proof prover="4"><result status="valid" time="2.30" steps="276"/></proof>
+     </goal>
+     <goal name="VC xor_qbit_minus.0.0.0.1" proved="true">
+     <proof prover="4"><result status="valid" time="2.25" steps="276"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC xor_qbit_minus.0.1" expl="apply premises" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="VC xor_qbit_minus.0.1.0" expl="apply premises" proved="true">
+    <transf name="split_all_full" proved="true" >
+     <goal name="VC xor_qbit_minus.0.1.0.0" expl="apply premises" proved="true">
+     <transf name="case" proved="true" arg1="(i=0)">
+      <goal name="VC xor_qbit_minus.0.1.0.0.0" expl="true case (apply premises)" proved="true">
+      <transf name="rewrite" proved="true" arg1="h">
+       <goal name="VC xor_qbit_minus.0.1.0.0.0.0" expl="true case (apply premises)" proved="true">
+       <transf name="rewrite" proved="true" arg1="xor_qbits_spec1">
+        <goal name="VC xor_qbit_minus.0.1.0.0.0.0.0" expl="true case (apply premises)" proved="true">
+        <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+         <goal name="VC xor_qbit_minus.0.1.0.0.0.0.0.0" expl="true case (apply premises)" proved="true">
+         <transf name="apply" proved="true" arg1="goal_comm">
+          <goal name="VC xor_qbit_minus.0.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <transf name="case" proved="true" arg1="(i1=0)">
+           <goal name="VC xor_qbit_minus.0.1.0.0.0.0.0.0.0.0" expl="true case (apply premises)" proved="true">
+           <proof prover="3"><result status="valid" time="1.12"/></proof>
+           </goal>
+           <goal name="VC xor_qbit_minus.0.1.0.0.0.0.0.0.0.1" expl="false case (apply premises)" proved="true">
+           <proof prover="3"><result status="valid" time="1.23"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="VC xor_qbit_minus.0.1.0.0.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.40" steps="282"/></proof>
+        </goal>
+        <goal name="VC xor_qbit_minus.0.1.0.0.0.0.2" expl="rewrite premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.41" steps="280"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="VC xor_qbit_minus.0.1.0.0.1" expl="false case (apply premises)" proved="true">
+      <transf name="replace" proved="true" arg1="i" arg2="1">
+       <goal name="VC xor_qbit_minus.0.1.0.0.1.0" expl="false case (apply premises)" proved="true">
+       <transf name="rewrite" proved="true" arg1="xor_qbits_spec">
+        <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0" expl="false case (apply premises)" proved="true">
+        <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+         <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0" expl="false case (apply premises)" proved="true">
+         <transf name="case" proved="true" arg1="(i1=0)">
+          <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.0" expl="false case (true case. apply premises)" proved="true">
+          <proof prover="3"><result status="valid" time="1.19"/></proof>
+          </goal>
+          <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1" expl="false case (apply premises)" proved="true">
+          <transf name="replace" proved="true" arg1="i" arg2="1">
+           <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.0" expl="false case (apply premises)" proved="true">
+           <transf name="replace" proved="true" arg1="i1" arg2="1">
+            <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.0.0" expl="false case (apply premises)" proved="true">
+            <transf name="apply" proved="true" arg1="goal_comm">
+             <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+             <transf name="replace" proved="true" arg1="(get_ket (ket 1 1) 0)" arg2="c_zero">
+              <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.0.0.0.0" expl="apply premises" proved="true">
+              <transf name="replace" proved="true" arg1="(get_ket (ket 1 1) 1)" arg2="c_one">
+               <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.0.0.0.0.0" expl="apply premises" proved="true">
+               <transf name="rewrite" proved="true" arg1="zero_add_t">
+                <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.0.0.0.0.0.0" expl="apply premises" proved="true">
+                <transf name="rewrite" proved="true" arg1="cpower_one">
+                 <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                 <proof prover="4"><result status="valid" time="2.78" steps="284"/></proof>
+                 </goal>
+                 <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                 <proof prover="4"><result status="valid" time="0.40" steps="282"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+                <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                <proof prover="4"><result status="valid" time="2.42" steps="284"/></proof>
+                </goal>
+               </transf>
+               </goal>
+               <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.0.0.0.0.1" expl="equality hypothesis" proved="true">
+               <proof prover="4"><result status="valid" time="0.34" steps="282"/></proof>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.0.0.0.1" expl="equality hypothesis" proved="true">
+              <proof prover="4"><result status="valid" time="0.40" steps="282"/></proof>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.0.1" expl="equality hypothesis" proved="true">
+            <proof prover="4"><result status="valid" time="0.43" steps="282"/></proof>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.1" expl="equality hypothesis" proved="true">
+           <transf name="replace" proved="true" arg1="(ket_length (xor_qbits (ket 1 i1) (qbit_minus ())))" arg2="1" arg3="in" arg4="H">
+            <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.1.0" expl="equality hypothesis" proved="true">
+            <proof prover="0"><result status="valid" time="0.95"/></proof>
+            </goal>
+            <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.1.1" expl="equality hypothesis" proved="true">
+            <transf name="assert" proved="true" arg1="(is_a_ket_l  (xor_qbits (ket 1 i1) (qbit_minus ()))  1)">
+             <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.1.1.0" expl="asserted formula" proved="true">
+             <proof prover="4"><result status="valid" time="2.29" steps="284"/></proof>
+             </goal>
+             <goal name="VC xor_qbit_minus.0.1.0.0.1.0.0.0.1.1.1.1" expl="equality hypothesis" proved="true">
+             <proof prover="4"><result status="valid" time="2.30" steps="286"/></proof>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="VC xor_qbit_minus.0.1.0.0.1.0.1" expl="rewrite premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.48" steps="282"/></proof>
+        </goal>
+        <goal name="VC xor_qbit_minus.0.1.0.0.1.0.2" expl="rewrite premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.39" steps="280"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC xor_qbit_minus.0.1.0.0.1.1" expl="equality hypothesis" proved="true">
+       <transf name="replace" proved="true" arg1="(ket_length (xor_qbits (ket 1 i1) (qbit_minus ())))" arg2="1" arg3="in" arg4="H">
+        <goal name="VC xor_qbit_minus.0.1.0.0.1.1.0" expl="equality hypothesis" proved="true">
+        <proof prover="0"><result status="valid" time="0.91"/></proof>
+        </goal>
+        <goal name="VC xor_qbit_minus.0.1.0.0.1.1.1" expl="equality hypothesis" proved="true">
+        <transf name="assert" proved="true" arg1="(is_a_ket_l  (xor_qbits (ket 1 i1) (qbit_minus ()))  1)">
+         <goal name="VC xor_qbit_minus.0.1.0.0.1.1.1.0" expl="asserted formula" proved="true">
+         <proof prover="4"><result status="valid" time="2.32" steps="282"/></proof>
+         </goal>
+         <goal name="VC xor_qbit_minus.0.1.0.0.1.1.1.1" expl="equality hypothesis" proved="true">
+         <proof prover="4"><result status="valid" time="2.33" steps="284"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC ket_sum_xor_qbit_minus" expl="VC for ket_sum_xor_qbit_minus" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC ket_sum_xor_qbit_minus.0" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="ket_sum_eq">
+   <goal name="VC ket_sum_xor_qbit_minus.0.0" expl="apply premises" proved="true">
+   <proof prover="4"><result status="valid" time="0.40" steps="270"/></proof>
+   </goal>
+   <goal name="VC ket_sum_xor_qbit_minus.0.1" expl="apply premises" proved="true">
+   <proof prover="4"><result status="valid" time="0.40" steps="270"/></proof>
+   </goal>
+   <goal name="VC ket_sum_xor_qbit_minus.0.2" expl="apply premises" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="VC ket_sum_xor_qbit_minus.0.2.0" expl="apply premises" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="VC ket_sum_xor_qbit_minus.0.2.0.0" expl="apply premises" proved="true">
+     <proof prover="4"><result status="valid" time="2.31" steps="274"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC superposition_xor_qbit_minus" expl="VC for superposition_xor_qbit_minus" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC superposition_xor_qbit_minus.0" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="kronecker_scalar_distr">
+   <goal name="VC superposition_xor_qbit_minus.0.0" expl="postcondition" proved="true">
+   <transf name="apply" proved="true" arg1="scalar_eq">
+    <goal name="VC superposition_xor_qbit_minus.0.0.0" expl="apply premises" proved="true">
+    <transf name="rewrite" proved="true" arg1="kronecker_ket_sum_distr_l_rew">
+     <goal name="VC superposition_xor_qbit_minus.0.0.0.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="ket_sum_eq_gen">
+      <goal name="VC superposition_xor_qbit_minus.0.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="4"><result status="valid" time="2.23" steps="274"/></proof>
+      </goal>
+      <goal name="VC superposition_xor_qbit_minus.0.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="4"><result status="valid" time="0.33" steps="272"/></proof>
+      </goal>
+      <goal name="VC superposition_xor_qbit_minus.0.0.0.0.2" expl="apply premises" proved="true">
+      <proof prover="4"><result status="valid" time="2.26" steps="274"/></proof>
+      </goal>
+      <goal name="VC superposition_xor_qbit_minus.0.0.0.0.3" expl="apply premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="VC superposition_xor_qbit_minus.0.0.0.0.3.0" expl="apply premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="VC superposition_xor_qbit_minus.0.0.0.0.3.0.0" expl="apply premises" proved="true">
+        <transf name="rewrite" proved="true" arg1="kronecker_scalar_distr">
+         <goal name="VC superposition_xor_qbit_minus.0.0.0.0.3.0.0.0" expl="apply premises" proved="true">
+         <transf name="rewrite" proved="true" arg1="xor_qbit_minus">
+          <goal name="VC superposition_xor_qbit_minus.0.0.0.0.3.0.0.0.0" expl="apply premises" proved="true">
+          <transf name="rewrite" proved="true" arg1="kronecker_scalar_distr_r">
+           <goal name="VC superposition_xor_qbit_minus.0.0.0.0.3.0.0.0.0.0" expl="apply premises" proved="true">
+           <proof prover="4"><result status="valid" time="0.34" steps="274"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="VC superposition_xor_qbit_minus.0.0.0.0.3.0.0.0.1" expl="rewrite premises" proved="true">
+          <proof prover="4"><result status="valid" time="2.23" steps="275"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC superposition_xor_qbit_minus.0.0.0.1" expl="rewrite premises" proved="true">
+     <transf name="split_vc" proved="true" >
+      <goal name="VC superposition_xor_qbit_minus.0.0.0.1.0" expl="rewrite premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="VC superposition_xor_qbit_minus.0.0.0.1.0.0" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="2.29" steps="276"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC superposition_xor_qbit_minus.0.0.0.2" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="2.22" steps="274"/></proof>
+     </goal>
+     <goal name="VC superposition_xor_qbit_minus.0.0.0.3" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="2.27" steps="274"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC sum_ket_zero" expl="VC for sum_ket_zero" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC sum_ket_zero.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.35" steps="272"/></proof>
+  </goal>
+  <goal name="VC sum_ket_zero.1" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="ang_sum_neutral">
+   <goal name="VC sum_ket_zero.1.0" expl="apply premises" proved="true">
+   <proof prover="4"><result status="valid" time="0.35" steps="278"/></proof>
+   </goal>
+   <goal name="VC sum_ket_zero.1.1" expl="apply premises" proved="true">
+   <transf name="compute_specified" proved="true" >
+    <goal name="VC sum_ket_zero.1.1.0" expl="apply premises" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="VC sum_ket_zero.1.1.0.0" expl="apply premises" proved="true">
+     <proof prover="4"><result status="valid" time="2.53" steps="284"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC repeat_pps_had" expl="VC for repeat_pps_had" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC repeat_pps_had.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.35" steps="272"/></proof>
+  </goal>
+  <goal name="VC repeat_pps_had.1" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC repeat_pps_had.1.0" expl="variant decrease" proved="true">
+   <proof prover="4"><result status="valid" time="0.35" steps="274"/></proof>
+   </goal>
+   <goal name="VC repeat_pps_had.1.1" expl="variant decrease" proved="true">
+   <proof prover="4"><result status="valid" time="0.35" steps="274"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC repeat_pps_had.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.34" steps="274"/></proof>
+  </goal>
+  <goal name="VC repeat_pps_had.3" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC repeat_pps_had.3.0" expl="postcondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.35" steps="276"/></proof>
+   </goal>
+   <goal name="VC repeat_pps_had.3.1" expl="postcondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.45" steps="284"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC repeat_pps_had.4" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC repeat_pps_had.4.0" expl="postcondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.36" steps="277"/></proof>
+   </goal>
+   <goal name="VC repeat_pps_had.4.1" expl="postcondition" proved="true">
+   <proof prover="4"><result status="valid" time="0.34" steps="285"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC repeat_pps_had.5" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC repeat_pps_had.5.0" expl="postcondition" proved="true">
+   <proof prover="4"><result status="valid" time="2.43" steps="284"/></proof>
+   </goal>
+   <goal name="VC repeat_pps_had.5.1" expl="postcondition" proved="true">
+   <transf name="eliminate_let" proved="true" >
+    <goal name="VC repeat_pps_had.5.1.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="H5">
+     <goal name="VC repeat_pps_had.5.1.0.0" expl="postcondition" proved="true">
+     <transf name="eliminate_if" proved="true" >
+      <goal name="VC repeat_pps_had.5.1.0.0.0" expl="VC for repeat_pps_had" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="VC repeat_pps_had.5.1.0.0.0.0" expl="postcondition" proved="true">
+       <proof prover="4"><result status="valid" time="2.44" steps="294"/></proof>
+       </goal>
+       <goal name="VC repeat_pps_had.5.1.0.0.0.1" expl="postcondition" proved="true">
+       <transf name="replace" proved="true" arg1="( h_width o)" arg2="(n-1)">
+        <goal name="VC repeat_pps_had.5.1.0.0.0.1.0" expl="postcondition" proved="true">
+        <transf name="replace" proved="true" arg1="( i)" arg2="(n-1)">
+         <goal name="VC repeat_pps_had.5.1.0.0.0.1.0.0" expl="postcondition" proved="true">
+         <transf name="split_all_full" proved="true" >
+          <goal name="VC repeat_pps_had.5.1.0.0.0.1.0.0.0" expl="postcondition" proved="true">
+          <transf name="rewrite" proved="true" arg1="pps_hadamard_def3">
+           <goal name="VC repeat_pps_had.5.1.0.0.0.1.0.0.0.0" expl="postcondition" proved="true">
+           <transf name="compute_specified" proved="true" >
+            <goal name="VC repeat_pps_had.5.1.0.0.0.1.0.0.0.0.0" expl="postcondition" proved="true">
+            <proof prover="4"><result status="valid" time="0.35" steps="292"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="VC repeat_pps_had.5.1.0.0.0.1.0.1" expl="equality hypothesis" proved="true">
+         <proof prover="4"><result status="valid" time="0.37" steps="292"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="VC repeat_pps_had.5.1.0.0.0.1.1" expl="equality hypothesis" proved="true">
+        <proof prover="4"><result status="valid" time="0.35" steps="292"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC repeat_pps_had.6" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC repeat_pps_had.6.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="ang_sum_cardone">
+    <goal name="VC repeat_pps_had.6.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="VC repeat_pps_had.6.0.0.0" expl="postcondition" proved="true">
+     <proof prover="0"><result status="valid" time="1.10"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="VC repeat_pps_had.6.0.1" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="0.35" steps="278"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC repeat_pps_had.6.1" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="ang_sum_right_extension">
+    <goal name="VC repeat_pps_had.6.1.0" expl="postcondition" proved="true">
+    <transf name="eliminate_let" proved="true" >
+     <goal name="VC repeat_pps_had.6.1.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="H3">
+      <goal name="VC repeat_pps_had.6.1.0.0.0" expl="postcondition" proved="true">
+      <transf name="apply" proved="true" arg1="ang_add_eq">
+       <goal name="VC repeat_pps_had.6.1.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="rewrite" proved="true" arg1="H8">
+        <goal name="VC repeat_pps_had.6.1.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="compute_specified" proved="true" >
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC repeat_pps_had.6.1.0.0.0.1" expl="apply premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="VC repeat_pps_had.6.1.0.0.0.1.0" expl="apply premises" proved="true">
+        <transf name="split_all_full" proved="true" >
+         <goal name="VC repeat_pps_had.6.1.0.0.0.1.0.0" expl="apply premises" proved="true">
+         <transf name="rewrite" proved="true" arg1="pps_hadamard_def">
+          <goal name="VC repeat_pps_had.6.1.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+          <transf name="compute_specified" proved="true" >
+           <goal name="VC repeat_pps_had.6.1.0.0.0.1.0.0.0.0" expl="apply premises" proved="true">
+           <proof prover="0"><result status="valid" time="1.13"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="VC repeat_pps_had.6.1.1" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="0.35" steps="286"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC kron_had_coeffs" expl="VC for kron_had_coeffs" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC kron_had_coeffs.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.35" steps="274"/></proof>
+  </goal>
+  <goal name="VC kron_had_coeffs.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.36" steps="280"/></proof>
+  </goal>
+  <goal name="VC kron_had_coeffs.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.37" steps="274"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC superposition_state" expl="VC for superposition_state" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC superposition_state.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.49" steps="274"/></proof>
+  </goal>
+  <goal name="VC superposition_state.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.36" steps="282"/></proof>
+  </goal>
+  <goal name="VC superposition_state.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.47" steps="289"/></proof>
+  </goal>
+  <goal name="VC superposition_state.3" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="VC superposition_state.3.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result_def">
+    <goal name="VC superposition_state.3.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="rewrite_pps_apply_basis">
+     <goal name="VC superposition_state.3.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="pps_apply_basis_def">
+      <goal name="VC superposition_state.3.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="apply" proved="true" arg1="scalar_eq_gen">
+       <goal name="VC superposition_state.3.0.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="ket_sum_eq_gen">
+        <goal name="VC superposition_state.3.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.43" steps="258"/></proof>
+        </goal>
+        <goal name="VC superposition_state.3.0.0.0.0.0.1" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.46" steps="258"/></proof>
+        </goal>
+        <goal name="VC superposition_state.3.0.0.0.0.0.2" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.45" steps="258"/></proof>
+        </goal>
+        <goal name="VC superposition_state.3.0.0.0.0.0.3" expl="apply premises" proved="true">
+        <transf name="compute_specified" proved="true" >
+         <goal name="VC superposition_state.3.0.0.0.0.0.3.0" expl="apply premises" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0" expl="apply premises" proved="true">
+          <transf name="rewrite" proved="true" arg1="scalar_c_one_gen">
+           <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0" expl="apply premises" proved="true">
+           <transf name="apply" proved="true" arg1="bv_to_ket_eq">
+            <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.0" expl="apply premises" proved="true">
+            <transf name="rewrite" proved="true" arg1="make_bv_length">
+             <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.0.0" expl="apply premises" proved="true">
+             <proof prover="3"><result status="valid" time="1.13"/></proof>
+             </goal>
+             <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.0.1" expl="rewrite premises" proved="true">
+             <transf name="split_vc" proved="true" >
+              <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.0.1.0" expl="rewrite premises" proved="true">
+              <transf name="split_all_full" proved="true" >
+               <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.0.1.0.0" expl="rewrite premises" proved="true">
+               <transf name="apply" proved="true" arg1="pps&#39;invariant3">
+                <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+                <proof prover="3"><result status="valid" time="1.33"/></proof>
+                </goal>
+                <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.0.1.0.0.1" expl="apply premises" proved="true">
+                <proof prover="3"><result status="valid" time="1.33"/></proof>
+                </goal>
+                <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.0.1.0.0.2" expl="apply premises" proved="true">
+                <proof prover="4"><result status="valid" time="0.44" steps="264"/></proof>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.0.1.1" expl="rewrite premises" proved="true">
+              <transf name="split_all_full" proved="true" >
+               <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.0.1.1.0" expl="rewrite premises" proved="true">
+               <transf name="apply" proved="true" arg1="pps&#39;invariant2">
+                <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.0.1.1.0.0" expl="apply premises" proved="true">
+                <proof prover="3"><result status="valid" time="1.33"/></proof>
+                </goal>
+                <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.0.1.1.0.1" expl="apply premises" proved="true">
+                <proof prover="3"><result status="valid" time="1.37"/></proof>
+                </goal>
+                <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.0.1.1.0.2" expl="apply premises" proved="true">
+                <proof prover="4"><result status="valid" time="0.45" steps="264"/></proof>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.0.2" expl="rewrite premises" proved="true">
+             <proof prover="4"><result status="valid" time="0.44" steps="260"/></proof>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1" expl="apply premises" proved="true">
+            <transf name="split_vc" proved="true" >
+             <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0" expl="apply premises" proved="true">
+             <transf name="rewrite" proved="true" arg1="assert_make_bv_b">
+              <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.0" expl="apply premises" proved="true">
+              <proof prover="3"><result status="valid" time="1.27"/></proof>
+              </goal>
+              <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.1" expl="rewrite premises" proved="true">
+              <transf name="split_vc" proved="true" >
+               <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.1.0" expl="rewrite premises" proved="true">
+               <transf name="split_all_full" proved="true" >
+                <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.1.0.0" expl="rewrite premises" proved="true">
+                <transf name="apply" proved="true" arg1="pps&#39;invariant3">
+                 <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.1.0.0.0" expl="apply premises" proved="true">
+                 <proof prover="3"><result status="valid" time="1.32"/></proof>
+                 </goal>
+                 <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.1.0.0.1" expl="apply premises" proved="true">
+                 <proof prover="3"><result status="valid" time="1.35"/></proof>
+                 </goal>
+                 <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.1.0.0.2" expl="apply premises" proved="true">
+                 <proof prover="4"><result status="valid" time="0.44" steps="268"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+               <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.1.1" expl="rewrite premises" proved="true">
+               <transf name="split_all_full" proved="true" >
+                <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.1.1.0" expl="rewrite premises" proved="true">
+                <transf name="apply" proved="true" arg1="pps&#39;invariant2">
+                 <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.1.1.0.0" expl="apply premises" proved="true">
+                 <proof prover="3"><result status="valid" time="1.33"/></proof>
+                 </goal>
+                 <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.1.1.0.1" expl="apply premises" proved="true">
+                 <proof prover="3"><result status="valid" time="1.35"/></proof>
+                 </goal>
+                 <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.1.1.0.2" expl="apply premises" proved="true">
+                 <proof prover="4"><result status="valid" time="0.46" steps="268"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.2" expl="rewrite premises" proved="true">
+              <transf name="split_vc" proved="true" >
+               <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.2.0" expl="rewrite premises" proved="true">
+               <proof prover="4"><result status="valid" time="0.45" steps="264"/></proof>
+               </goal>
+               <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.2.1" expl="rewrite premises" proved="true">
+               <transf name="rewrite" proved="true" arg1="make_bv_length" arg2="in" arg3="H">
+                <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.2.1.0" expl="rewrite premises" proved="true">
+                <proof prover="4"><result status="valid" time="0.44" steps="264"/></proof>
+                </goal>
+                <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.2.1.1" expl="rewrite premises" proved="true">
+                <transf name="split_vc" proved="true" >
+                 <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.2.1.1.0" expl="rewrite premises" proved="true">
+                 <transf name="split_all_full" proved="true" >
+                  <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.2.1.1.0.0" expl="rewrite premises" proved="true">
+                  <transf name="apply" proved="true" arg1="pps&#39;invariant3">
+                   <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.2.1.1.0.0.0" expl="apply premises" proved="true">
+                   <proof prover="3"><result status="valid" time="1.36"/></proof>
+                   </goal>
+                   <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.2.1.1.0.0.1" expl="apply premises" proved="true">
+                   <proof prover="3"><result status="valid" time="1.38"/></proof>
+                   </goal>
+                   <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.2.1.1.0.0.2" expl="apply premises" proved="true">
+                   <proof prover="4"><result status="valid" time="0.44" steps="268"/></proof>
+                   </goal>
+                  </transf>
+                  </goal>
+                 </transf>
+                 </goal>
+                 <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.2.1.1.1" expl="rewrite premises" proved="true">
+                 <transf name="split_all_full" proved="true" >
+                  <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.2.1.1.1.0" expl="rewrite premises" proved="true">
+                  <transf name="apply" proved="true" arg1="pps&#39;invariant2">
+                   <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.2.1.1.1.0.0" expl="apply premises" proved="true">
+                   <proof prover="3"><result status="valid" time="1.33"/></proof>
+                   </goal>
+                   <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.2.1.1.1.0.1" expl="apply premises" proved="true">
+                   <proof prover="3"><result status="valid" time="1.32"/></proof>
+                   </goal>
+                   <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.2.1.1.1.0.2" expl="apply premises" proved="true">
+                   <proof prover="4"><result status="valid" time="0.57" steps="268"/></proof>
+                   </goal>
+                  </transf>
+                  </goal>
+                 </transf>
+                 </goal>
+                </transf>
+                </goal>
+                <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.0.1.0.2.1.2" expl="rewrite premises" proved="true">
+                <proof prover="4"><result status="valid" time="0.45" steps="264"/></proof>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.1" expl="rewrite premises" proved="true">
+           <transf name="split_all_full" proved="true" >
+            <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.1.0" expl="rewrite premises" proved="true">
+            <transf name="rewrite" proved="true" arg1="H2">
+             <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.1.0.0" expl="rewrite premises" proved="true">
+             <transf name="rewrite" proved="true" arg1="ang_sum_neutral">
+              <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.1.0.0.0" expl="rewrite premises" proved="true">
+              <proof prover="4"><result status="valid" time="0.44" steps="260"/></proof>
+              </goal>
+              <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.1.0.0.1" expl="rewrite premises" proved="true">
+              <proof prover="4"><result status="valid" time="0.45" steps="260"/></proof>
+              </goal>
+              <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.1.0.0.2" expl="rewrite premises" proved="true">
+              <transf name="split_vc" proved="true" >
+               <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.1.0.0.2.0" expl="rewrite premises" proved="true">
+               <transf name="compute_specified" proved="true" >
+                <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.1.0.0.2.0.0" expl="rewrite premises" proved="true">
+                <transf name="replace" proved="true" arg1="(getbv (ket_to_bv (ket n 0)) @ k)" arg2="0">
+                 <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.1.0.0.2.0.0.0" expl="rewrite premises" proved="true">
+                 <proof prover="3"><result status="valid" time="1.29"/></proof>
+                 </goal>
+                 <goal name="VC superposition_state.3.0.0.0.0.0.3.0.0.1.0.0.2.0.0.1" expl="equality hypothesis" proved="true">
+                 <proof prover="0"><result status="valid" time="4.83"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC superposition_state.3.0.0.0.0.1" expl="apply premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.58" steps="258"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="VC superposition_state.3.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="0"><result status="valid" time="3.80"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC superposition_state.3.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="0"><result status="valid" time="3.75"/></proof>
+     </goal>
+     <goal name="VC superposition_state.3.0.0.2" expl="rewrite premises" proved="true">
+     <proof prover="0"><result status="valid" time="3.85"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC superposition_state.4" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="H">
+   <goal name="VC superposition_state.4.0" expl="postcondition" proved="true">
+   <transf name="apply" proved="true" arg1="scalar_eq">
+    <goal name="VC superposition_state.4.0.0" expl="apply premises" proved="true">
+    <transf name="rewrite" proved="true" arg1="ket_sum_l_to_fset">
+     <goal name="VC superposition_state.4.0.0.0" expl="apply premises" proved="true">
+     <transf name="compute_specified" proved="true" >
+      <goal name="VC superposition_state.4.0.0.0.0" expl="apply premises" proved="true">
+      <transf name="apply" proved="true" arg1="ket_sum_eq_gen">
+       <goal name="VC superposition_state.4.0.0.0.0.0" expl="apply premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.36" steps="290"/></proof>
+       </goal>
+       <goal name="VC superposition_state.4.0.0.0.0.1" expl="apply premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.37" steps="290"/></proof>
+       </goal>
+       <goal name="VC superposition_state.4.0.0.0.0.2" expl="apply premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.36" steps="290"/></proof>
+       </goal>
+       <goal name="VC superposition_state.4.0.0.0.0.3" expl="apply premises" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="VC superposition_state.4.0.0.0.0.3.0" expl="apply premises" proved="true">
+        <transf name="compute_specified" proved="true" >
+         <goal name="VC superposition_state.4.0.0.0.0.3.0.0" expl="apply premises" proved="true">
+         <proof prover="0"><result status="valid" time="0.93"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC superposition_state.4.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="0.35" steps="290"/></proof>
+     </goal>
+     <goal name="VC superposition_state.4.0.0.2" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="0.37" steps="290"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC superposition_state.5" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.46" steps="292"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC get_ket_superposition" expl="VC for get_ket_superposition" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC get_ket_superposition.0" expl="postcondition" proved="true">
+  <transf name="split_all_full" proved="true" >
+   <goal name="VC get_ket_superposition.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="superposition_state_spec1">
+    <goal name="VC get_ket_superposition.0.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+     <goal name="VC get_ket_superposition.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="mult_one_t">
+      <goal name="VC get_ket_superposition.0.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="3"><result status="valid" time="1.31"/></proof>
+      </goal>
+      <goal name="VC get_ket_superposition.0.0.0.0.1" expl="rewrite premises" proved="true">
+      <transf name="rewrite" proved="true" arg1="get_ket_sum_l_value">
+       <goal name="VC get_ket_superposition.0.0.0.0.1.0" expl="rewrite premises" proved="true">
+       <transf name="instantiate" proved="true" arg1="sum_null_but_maybe_one_elt" arg2="(fun (e1:int) -&gt;
+    get_ket (((fun (y0:int) (y1:int) -&gt; ket y0 y1) @ n) @ e1) i),(to_fset 0 (power_ 2 n)),i">
+        <goal name="VC get_ket_superposition.0.0.0.0.1.0.0" expl="rewrite premises" proved="true">
+        <transf name="rewrite" proved="true" arg1="Hinst">
+         <goal name="VC get_ket_superposition.0.0.0.0.1.0.0.0" expl="rewrite premises" proved="true">
+         <transf name="compute_specified" proved="true" >
+          <goal name="VC get_ket_superposition.0.0.0.0.1.0.0.0.0" expl="rewrite premises" proved="true">
+          <proof prover="0"><result status="valid" time="0.94"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="VC get_ket_superposition.0.0.0.0.1.0.0.1" expl="rewrite premises" proved="true">
+         <proof prover="0"><result status="valid" time="1.13"/></proof>
+         </goal>
+         <goal name="VC get_ket_superposition.0.0.0.0.1.0.0.2" expl="rewrite premises" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="VC get_ket_superposition.0.0.0.0.1.0.0.2.0" expl="rewrite premises" proved="true">
+          <transf name="compute_specified" proved="true" >
+           <goal name="VC get_ket_superposition.0.0.0.0.1.0.0.2.0.0" expl="rewrite premises" proved="true">
+           <proof prover="0"><result status="valid" time="1.02"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC get_ket_superposition.0.0.0.0.1.1" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.35" steps="278"/></proof>
+       </goal>
+       <goal name="VC get_ket_superposition.0.0.0.0.1.2" expl="rewrite premises" proved="true">
+       <proof prover="0"><result status="valid" time="0.98"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="VC get_ket_superposition.0.0.1" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="0.33" steps="278"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC repeat_had_twice_bv" expl="VC for repeat_had_twice_bv" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC repeat_had_twice_bv.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.37" steps="278"/></proof>
+  </goal>
+  <goal name="VC repeat_had_twice_bv.1" expl="variant decrease" proved="true">
+  <proof prover="4"><result status="valid" time="0.36" steps="281"/></proof>
+  </goal>
+  <goal name="VC repeat_had_twice_bv.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.43" steps="281"/></proof>
+  </goal>
+  <goal name="VC repeat_had_twice_bv.3" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.36" steps="282"/></proof>
+  </goal>
+  <goal name="VC repeat_had_twice_bv.4" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.36" steps="283"/></proof>
+  </goal>
+  <goal name="VC repeat_had_twice_bv.5" expl="variant decrease" proved="true">
+  <proof prover="4"><result status="valid" time="0.38" steps="286"/></proof>
+  </goal>
+  <goal name="VC repeat_had_twice_bv.6" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.38" steps="286"/></proof>
+  </goal>
+  <goal name="VC repeat_had_twice_bv.7" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.35" steps="286"/></proof>
+  </goal>
+  <goal name="VC repeat_had_twice_bv.8" expl="assertion" proved="true">
+  <proof prover="0"><result status="valid" time="0.89"/></proof>
+  </goal>
+  <goal name="VC repeat_had_twice_bv.9" expl="postcondition" proved="true">
+  <transf name="case" proved="true" arg1="(n=1)">
+   <goal name="VC repeat_had_twice_bv.9.0" expl="true case (postcondition)" proved="true">
+   <proof prover="4"><result status="valid" time="2.23" steps="280"/></proof>
+   </goal>
+   <goal name="VC repeat_had_twice_bv.9.1" expl="false case (postcondition)" proved="true">
+   <transf name="destruct" proved="true" arg1="H">
+    <goal name="VC repeat_had_twice_bv.9.1.0" expl="false case (postcondition)" proved="true">
+    <proof prover="4"><result status="valid" time="0.34" steps="278"/></proof>
+    </goal>
+    <goal name="VC repeat_had_twice_bv.9.1.1" expl="false case (postcondition)" proved="true">
+    <transf name="eliminate_let" proved="true" >
+     <goal name="VC repeat_had_twice_bv.9.1.1.0" expl="false case (postcondition)" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="VC repeat_had_twice_bv.9.1.1.0.0" expl="false case (postcondition)" proved="true">
+      <transf name="replace" proved="true" arg1="(repeat_pps_had n)" arg2="(pps_par (repeat_pps_had (n-1)) (repeat_pps_had 1))">
+       <goal name="VC repeat_had_twice_bv.9.1.1.0.0.0" expl="false case (postcondition)" proved="true">
+       <transf name="replace" proved="true" arg1="(bv_to_ket x)" arg2="(kronecker (bv_to_ket (hpart x (n-1))) (bv_to_ket (tpart x (n-1))))">
+        <goal name="VC repeat_had_twice_bv.9.1.1.0.0.0.0" expl="false case (postcondition)" proved="true">
+        <transf name="rewrite" proved="true" arg1="pps_apply_par">
+         <goal name="VC repeat_had_twice_bv.9.1.1.0.0.0.0.0" expl="false case (postcondition)" proved="true">
+         <transf name="rewrite" proved="true" arg1="pps_apply_par">
+          <goal name="VC repeat_had_twice_bv.9.1.1.0.0.0.0.0.0" expl="false case (postcondition)" proved="true">
+          <transf name="apply" proved="true" arg1="kronecker_eq">
+           <goal name="VC repeat_had_twice_bv.9.1.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+           <proof prover="4"><result status="valid" time="0.35" steps="290"/></proof>
+           </goal>
+           <goal name="VC repeat_had_twice_bv.9.1.1.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+           <proof prover="4"><result status="valid" time="0.35" steps="290"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="VC repeat_had_twice_bv.9.1.1.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+          <proof prover="0"><result status="valid" time="1.03"/></proof>
+          </goal>
+          <goal name="VC repeat_had_twice_bv.9.1.1.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+          <proof prover="3"><result status="valid" time="1.20"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="VC repeat_had_twice_bv.9.1.1.0.0.0.0.1" expl="rewrite premises" proved="true">
+         <proof prover="0"><result status="valid" time="0.97"/></proof>
+         </goal>
+         <goal name="VC repeat_had_twice_bv.9.1.1.0.0.0.0.2" expl="rewrite premises" proved="true">
+         <proof prover="4"><result status="valid" time="2.37" steps="292"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="VC repeat_had_twice_bv.9.1.1.0.0.0.1" expl="equality hypothesis" proved="true">
+        <proof prover="4"><result status="valid" time="2.42" steps="292"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC repeat_had_twice_bv.9.1.1.0.0.1" expl="equality hypothesis" proved="true">
+       <proof prover="4"><result status="valid" time="2.37" steps="292"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC repeat_had_twice_bv_gen" expl="VC for repeat_had_twice_bv_gen" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC repeat_had_twice_bv_gen.0" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC repeat_had_twice_ket" expl="VC for repeat_had_twice_ket" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC repeat_had_twice_ket.0" expl="postcondition" proved="true">
+  <transf name="instantiate" proved="true" arg1="ket_decomp_" arg2="x,n">
+   <goal name="VC repeat_had_twice_ket.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="Hinst">
+    <goal name="VC repeat_had_twice_ket.0.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="pps_apply_sum">
+     <goal name="VC repeat_had_twice_ket.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="pps_apply_sum">
+      <goal name="VC repeat_had_twice_ket.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="apply" proved="true" arg1="ket_sum_eq">
+       <goal name="VC repeat_had_twice_ket.0.0.0.0.0.0" expl="apply premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.36" steps="276"/></proof>
+       </goal>
+       <goal name="VC repeat_had_twice_ket.0.0.0.0.0.1" expl="apply premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.36" steps="276"/></proof>
+       </goal>
+       <goal name="VC repeat_had_twice_ket.0.0.0.0.0.2" expl="apply premises" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="VC repeat_had_twice_ket.0.0.0.0.0.2.0" expl="apply premises" proved="true">
+        <transf name="compute_specified" proved="true" >
+         <goal name="VC repeat_had_twice_ket.0.0.0.0.0.2.0.0" expl="apply premises" proved="true">
+         <transf name="rewrite" proved="true" arg1="pps_apply_scal">
+          <goal name="VC repeat_had_twice_ket.0.0.0.0.0.2.0.0.0" expl="apply premises" proved="true">
+          <transf name="rewrite" proved="true" arg1="pps_apply_scal">
+           <goal name="VC repeat_had_twice_ket.0.0.0.0.0.2.0.0.0.0" expl="apply premises" proved="true">
+           <proof prover="4"><result status="valid" time="2.40" steps="281"/></proof>
+           </goal>
+           <goal name="VC repeat_had_twice_ket.0.0.0.0.0.2.0.0.0.1" expl="rewrite premises" proved="true">
+           <proof prover="1"><result status="valid" time="0.36"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="VC repeat_had_twice_ket.0.0.0.0.0.2.0.0.1" expl="rewrite premises" proved="true">
+          <proof prover="1"><result status="valid" time="0.33"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="VC repeat_had_twice_ket.0.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="1"><result status="valid" time="0.35"/></proof>
+      </goal>
+      <goal name="VC repeat_had_twice_ket.0.0.0.0.2" expl="rewrite premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="VC repeat_had_twice_ket.0.0.0.0.2.0" expl="rewrite premises" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="VC repeat_had_twice_ket.0.0.0.0.2.0.0" expl="rewrite premises" proved="true">
+        <transf name="rewrite" proved="true" arg1="pps_apply_scal">
+         <goal name="VC repeat_had_twice_ket.0.0.0.0.2.0.0.0" expl="rewrite premises" proved="true">
+         <transf name="apply" proved="true" arg1="scalar_ket_l">
+          <goal name="VC repeat_had_twice_ket.0.0.0.0.2.0.0.0.0" expl="apply premises" proved="true">
+          <proof prover="1"><result status="valid" time="0.33"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="VC repeat_had_twice_ket.0.0.0.0.2.0.0.1" expl="rewrite premises" proved="true">
+         <proof prover="1"><result status="valid" time="0.33"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="VC repeat_had_twice_ket.0.0.0.0.3" expl="rewrite premises" proved="true">
+      <proof prover="0"><result status="valid" time="0.83"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC repeat_had_twice_ket.0.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="1"><result status="valid" time="0.32"/></proof>
+     </goal>
+     <goal name="VC repeat_had_twice_ket.0.0.0.2" expl="rewrite premises" proved="true">
+     <transf name="compute_specified" proved="true" >
+      <goal name="VC repeat_had_twice_ket.0.0.0.2.0" expl="rewrite premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="VC repeat_had_twice_ket.0.0.0.2.0.0" expl="rewrite premises" proved="true">
+       <proof prover="1"><result status="valid" time="0.40"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC repeat_had_twice_ket.0.0.0.3" expl="rewrite premises" proved="true">
+     <proof prover="0"><result status="valid" time="0.85"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="VC repeat_had_twice_ket.0.0.1" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="0.33" steps="276"/></proof>
+    </goal>
+    <goal name="VC repeat_had_twice_ket.0.0.2" expl="rewrite premises" proved="true">
+    <proof prover="0"><result status="valid" time="0.86"/></proof>
+    </goal>
+    <goal name="VC repeat_had_twice_ket.0.0.3" expl="rewrite premises" proved="true">
+    <proof prover="0"><result status="valid" time="0.86"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC repeat_had_superposition" expl="VC for repeat_had_superposition" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC repeat_had_superposition.0" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="(superposition_state n)" arg2="(pps_apply (repeat_pps_had n ) (ket n 0))">
+   <goal name="VC repeat_had_superposition.0.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.87"/></proof>
+   </goal>
+   <goal name="VC repeat_had_superposition.0.1" expl="equality hypothesis" proved="true">
+   <proof prover="0"><result status="valid" time="0.87"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC pat_sem_repeat_at_zero_bv" expl="VC for pat_sem_repeat_at_zero_bv" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC pat_sem_repeat_at_zero_bv.0" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="rewrite_pps_apply_basis">
+   <goal name="VC pat_sem_repeat_at_zero_bv.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="pps_apply_basis_def">
+    <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="mult_one_t">
+      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="0"><result status="valid" time="0.92"/></proof>
+      </goal>
+      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1" expl="rewrite premises" proved="true">
+      <transf name="rewrite" proved="true" arg1="get_ket_sum_l_value">
+       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0" expl="rewrite premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0" expl="rewrite premises" proved="true">
+        <transf name="rewrite" proved="true" arg1="bv_to_ket_to_bv">
+         <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0" expl="rewrite premises" proved="true">
+         <transf name="replace" proved="true" arg1="(h_range (repeat_pps_had n))" arg2="n">
+          <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0" expl="rewrite premises" proved="true">
+          <transf name="instantiate" proved="true" arg1="sum_null_but_maybe_one_elt" arg2="(fun (e1:bitvec) -&gt;
+    get_ket
+    (ang_exp ((h_angle (repeat_pps_had n) @ getbv x) @ getbv e1)
+     *.. bv_to_ket
+         (make_bv ((h_basis_ket (repeat_pps_had n) @ getbv x) @ getbv e1)
+          (h_width (repeat_pps_had n))))
+    0),(n_bvs n),(int_to_bv 0 n)">
+           <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0" expl="rewrite premises" proved="true">
+           <transf name="rewrite" proved="true" arg1="Hinst">
+            <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0" expl="rewrite premises" proved="true">
+            <transf name="compute_specified" proved="true" >
+             <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0" expl="rewrite premises" proved="true">
+             <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+              <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0" expl="rewrite premises" proved="true">
+              <transf name="rewrite" proved="true" arg1="mult_one_t">
+               <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.0" expl="rewrite premises" proved="true">
+               <transf name="split_all_full" proved="true" >
+                <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0" expl="rewrite premises" proved="true">
+                <transf name="rewrite" proved="true" arg1="repeat_pps_had_spec">
+                 <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0" expl="rewrite premises" proved="true">
+                 <transf name="rewrite" proved="true" arg1="ang_sum_neutral">
+                  <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0" expl="rewrite premises" proved="true">
+                  <proof prover="4"><result status="valid" time="0.35" steps="276"/></proof>
+                  </goal>
+                  <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                  <proof prover="4"><result status="valid" time="0.36" steps="276"/></proof>
+                  </goal>
+                  <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                  <transf name="compute_specified" proved="true" >
+                   <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.2.0" expl="rewrite premises" proved="true">
+                   <transf name="split_vc" proved="true" >
+                    <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.2.0.0" expl="rewrite premises" proved="true">
+                    <proof prover="0"><result status="valid" time="1.03"/></proof>
+                    </goal>
+                   </transf>
+                   </goal>
+                  </transf>
+                  </goal>
+                 </transf>
+                 </goal>
+                 <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                 <proof prover="4"><result status="valid" time="0.34" steps="276"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+               <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+               <transf name="replace" proved="true" arg1="(make_bv
+    ((h_basis_ket (repeat_pps_had n) @ getbv x) @ getbv (int_to_bv 0 n))
+    (h_width (repeat_pps_had n)))" arg2="(int_to_bv 0 n)">
+                <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.0" expl="rewrite premises" proved="true">
+                <proof prover="0"><result status="valid" time="1.08"/></proof>
+                </goal>
+                <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1" expl="equality hypothesis" proved="true">
+                <transf name="apply" proved="true" arg1="set_equal_bv">
+                 <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.0" expl="apply premises" proved="true">
+                 <transf name="rewrite" proved="true" arg1="make_bv_length">
+                  <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.0.0" expl="apply premises" proved="true">
+                  <proof prover="1"><result status="valid" time="8.18"/></proof>
+                  </goal>
+                  <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.0.1" expl="rewrite premises" proved="true">
+                  <transf name="split_vc" proved="true" >
+                   <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.0.1.0" expl="rewrite premises" proved="true">
+                   <transf name="split_all_full" proved="true" >
+                    <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.0.1.0.0" expl="rewrite premises" proved="true">
+                    <transf name="apply" proved="true" arg1="pps&#39;invariant3">
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.0.1.0.0.0" expl="apply premises" proved="true">
+                     <proof prover="0"><result status="valid" time="1.01"/></proof>
+                     </goal>
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.0.1.0.0.1" expl="apply premises" proved="true">
+                     <proof prover="0"><result status="valid" time="1.00"/></proof>
+                     </goal>
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.0.1.0.0.2" expl="apply premises" proved="true">
+                     <proof prover="4"><result status="valid" time="0.35" steps="280"/></proof>
+                     </goal>
+                    </transf>
+                    </goal>
+                   </transf>
+                   </goal>
+                   <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.0.1.1" expl="rewrite premises" proved="true">
+                   <transf name="split_all_full" proved="true" >
+                    <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.0.1.1.0" expl="rewrite premises" proved="true">
+                    <transf name="apply" proved="true" arg1="pps&#39;invariant2">
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.0.1.1.0.0" expl="apply premises" proved="true">
+                     <proof prover="0"><result status="valid" time="1.00"/></proof>
+                     </goal>
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.0.1.1.0.1" expl="apply premises" proved="true">
+                     <proof prover="0"><result status="valid" time="1.03"/></proof>
+                     </goal>
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.0.1.1.0.2" expl="apply premises" proved="true">
+                     <proof prover="4"><result status="valid" time="0.35" steps="280"/></proof>
+                     </goal>
+                    </transf>
+                    </goal>
+                   </transf>
+                   </goal>
+                  </transf>
+                  </goal>
+                  <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.0.2" expl="rewrite premises" proved="true">
+                  <proof prover="3"><result status="valid" time="1.16"/></proof>
+                  </goal>
+                 </transf>
+                 </goal>
+                 <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1" expl="apply premises" proved="true">
+                 <transf name="split_vc" proved="true" >
+                  <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0" expl="apply premises" proved="true">
+                  <transf name="rewrite" proved="true" arg1="assert_make_bv_b">
+                   <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.0" expl="apply premises" proved="true">
+                   <transf name="split_all_full" proved="true" >
+                    <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.0.0" expl="apply premises" proved="true">
+                    <transf name="rewrite" proved="true" arg1="repeat_pps_had_spec1">
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.0.0.0" expl="apply premises" proved="true">
+                     <proof prover="4"><result status="valid" time="0.35" steps="280"/></proof>
+                     </goal>
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.0.0.1" expl="rewrite premises" proved="true">
+                     <proof prover="4"><result status="valid" time="0.36" steps="280"/></proof>
+                     </goal>
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.0.0.2" expl="rewrite premises" proved="true">
+                     <transf name="rewrite" proved="true" arg1="make_bv_length" arg2="in" arg3="H">
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.0.0.2.0" expl="rewrite premises" proved="true">
+                      <proof prover="3"><result status="valid" time="1.25"/></proof>
+                      </goal>
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.0.0.2.1" expl="rewrite premises" proved="true">
+                      <transf name="split_vc" proved="true" >
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.0.0.2.1.0" expl="rewrite premises" proved="true">
+                       <transf name="apply" proved="true" arg1="pps&#39;invariant3">
+                        <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.0.0.2.1.0.0" expl="apply premises" proved="true">
+                        <proof prover="0"><result status="valid" time="0.96"/></proof>
+                        </goal>
+                        <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.0.0.2.1.0.1" expl="apply premises" proved="true">
+                        <proof prover="0"><result status="valid" time="1.03"/></proof>
+                        </goal>
+                        <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.0.0.2.1.0.2" expl="apply premises" proved="true">
+                        <proof prover="4"><result status="valid" time="0.36" steps="284"/></proof>
+                        </goal>
+                       </transf>
+                       </goal>
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.0.0.2.1.1" expl="rewrite premises" proved="true">
+                       <transf name="apply" proved="true" arg1="pps&#39;invariant2">
+                        <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.0.0.2.1.1.0" expl="apply premises" proved="true">
+                        <proof prover="0"><result status="valid" time="1.06"/></proof>
+                        </goal>
+                        <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.0.0.2.1.1.1" expl="apply premises" proved="true">
+                        <proof prover="0"><result status="valid" time="1.09"/></proof>
+                        </goal>
+                        <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.0.0.2.1.1.2" expl="apply premises" proved="true">
+                        <proof prover="4"><result status="valid" time="0.35" steps="284"/></proof>
+                        </goal>
+                       </transf>
+                       </goal>
+                      </transf>
+                      </goal>
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.0.0.2.2" expl="rewrite premises" proved="true">
+                      <proof prover="3"><result status="valid" time="1.32"/></proof>
+                      </goal>
+                     </transf>
+                     </goal>
+                    </transf>
+                    </goal>
+                   </transf>
+                   </goal>
+                   <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.1" expl="rewrite premises" proved="true">
+                   <transf name="split_vc" proved="true" >
+                    <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.1.0" expl="rewrite premises" proved="true">
+                    <transf name="split_all_full" proved="true" >
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.1.0.0" expl="rewrite premises" proved="true">
+                     <transf name="apply" proved="true" arg1="pps&#39;invariant3">
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.1.0.0.0" expl="apply premises" proved="true">
+                      <proof prover="0"><result status="valid" time="1.04"/></proof>
+                      </goal>
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.1.0.0.1" expl="apply premises" proved="true">
+                      <proof prover="0"><result status="valid" time="1.02"/></proof>
+                      </goal>
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.1.0.0.2" expl="apply premises" proved="true">
+                      <proof prover="4"><result status="valid" time="0.35" steps="284"/></proof>
+                      </goal>
+                     </transf>
+                     </goal>
+                    </transf>
+                    </goal>
+                    <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.1.1" expl="rewrite premises" proved="true">
+                    <transf name="split_all_full" proved="true" >
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.1.1.0" expl="rewrite premises" proved="true">
+                     <transf name="apply" proved="true" arg1="pps&#39;invariant2">
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.1.1.0.0" expl="apply premises" proved="true">
+                      <proof prover="0"><result status="valid" time="1.02"/></proof>
+                      </goal>
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.1.1.0.1" expl="apply premises" proved="true">
+                      <proof prover="0"><result status="valid" time="1.07"/></proof>
+                      </goal>
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.1.1.0.2" expl="apply premises" proved="true">
+                      <proof prover="4"><result status="valid" time="0.36" steps="284"/></proof>
+                      </goal>
+                     </transf>
+                     </goal>
+                    </transf>
+                    </goal>
+                   </transf>
+                   </goal>
+                   <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.2" expl="rewrite premises" proved="true">
+                   <transf name="rewrite" proved="true" arg1="make_bv_length" arg2="in" arg3="H">
+                    <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.2.0" expl="rewrite premises" proved="true">
+                    <proof prover="4"><result status="valid" time="0.37" steps="280"/></proof>
+                    </goal>
+                    <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.2.1" expl="rewrite premises" proved="true">
+                    <transf name="split_vc" proved="true" >
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.2.1.0" expl="rewrite premises" proved="true">
+                     <transf name="split_all_full" proved="true" >
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.2.1.0.0" expl="rewrite premises" proved="true">
+                      <transf name="apply" proved="true" arg1="pps&#39;invariant3">
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.2.1.0.0.0" expl="apply premises" proved="true">
+                       <proof prover="0"><result status="valid" time="1.06"/></proof>
+                       </goal>
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.2.1.0.0.1" expl="apply premises" proved="true">
+                       <proof prover="0"><result status="valid" time="1.07"/></proof>
+                       </goal>
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.2.1.0.0.2" expl="apply premises" proved="true">
+                       <proof prover="4"><result status="valid" time="0.36" steps="284"/></proof>
+                       </goal>
+                      </transf>
+                      </goal>
+                     </transf>
+                     </goal>
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.2.1.1" expl="rewrite premises" proved="true">
+                     <transf name="split_all_full" proved="true" >
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.2.1.1.0" expl="rewrite premises" proved="true">
+                      <transf name="apply" proved="true" arg1="pps&#39;invariant2">
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.2.1.1.0.0" expl="apply premises" proved="true">
+                       <proof prover="0"><result status="valid" time="1.02"/></proof>
+                       </goal>
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.2.1.1.0.1" expl="apply premises" proved="true">
+                       <proof prover="0"><result status="valid" time="1.04"/></proof>
+                       </goal>
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.2.1.1.0.2" expl="apply premises" proved="true">
+                       <proof prover="4"><result status="valid" time="0.37" steps="284"/></proof>
+                       </goal>
+                      </transf>
+                      </goal>
+                     </transf>
+                     </goal>
+                    </transf>
+                    </goal>
+                    <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.0.0.0.1.1.1.0.2.2" expl="rewrite premises" proved="true">
+                    <proof prover="3"><result status="valid" time="1.17"/></proof>
+                    </goal>
+                   </transf>
+                   </goal>
+                  </transf>
+                  </goal>
+                 </transf>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+            <proof prover="0"><result status="valid" time="0.98"/></proof>
+            </goal>
+            <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+            <transf name="split_vc" proved="true" >
+             <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0" expl="rewrite premises" proved="true">
+             <transf name="compute_specified" proved="true" >
+              <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0" expl="rewrite premises" proved="true">
+              <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+               <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0" expl="rewrite premises" proved="true">
+               <transf name="rewrite" proved="true" arg1="mult_zero_t">
+                <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.0" expl="rewrite premises" proved="true">
+                <proof prover="4"><result status="valid" time="0.33" steps="280"/></proof>
+                </goal>
+                <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1" expl="rewrite premises" proved="true">
+                <transf name="replace" proved="true" arg1="(make_bv ((h_basis_ket (repeat_pps_had n) @ getbv x) @ getbv k)
+    (h_width (repeat_pps_had n)))" arg2="k">
+                 <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.0" expl="rewrite premises" proved="true">
+                 <transf name="replace" proved="true" arg1="k" arg2="(int_to_bv (bv_to_int k) n)">
+                  <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.0.0" expl="rewrite premises" proved="true">
+                  <proof prover="3"><result status="valid" time="1.19"/></proof>
+                  </goal>
+                  <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.0.1" expl="equality hypothesis" proved="true">
+                  <proof prover="3"><result status="valid" time="1.16"/></proof>
+                  </goal>
+                 </transf>
+                 </goal>
+                 <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1" expl="equality hypothesis" proved="true">
+                 <transf name="apply" proved="true" arg1="set_equal_bv">
+                  <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.0" expl="apply premises" proved="true">
+                  <transf name="rewrite" proved="true" arg1="make_bv_length">
+                   <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.0.0" expl="apply premises" proved="true">
+                   <proof prover="1"><result status="valid" time="8.22"/></proof>
+                   </goal>
+                   <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.0.1" expl="rewrite premises" proved="true">
+                   <transf name="split_vc" proved="true" >
+                    <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.0.1.0" expl="rewrite premises" proved="true">
+                    <transf name="split_all_full" proved="true" >
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.0.1.0.0" expl="rewrite premises" proved="true">
+                     <transf name="apply" proved="true" arg1="pps&#39;invariant3">
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.0.1.0.0.0" expl="apply premises" proved="true">
+                      <proof prover="0"><result status="valid" time="1.00"/></proof>
+                      </goal>
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.0.1.0.0.1" expl="apply premises" proved="true">
+                      <proof prover="0"><result status="valid" time="0.99"/></proof>
+                      </goal>
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.0.1.0.0.2" expl="apply premises" proved="true">
+                      <proof prover="4"><result status="valid" time="0.35" steps="284"/></proof>
+                      </goal>
+                     </transf>
+                     </goal>
+                    </transf>
+                    </goal>
+                    <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.0.1.1" expl="rewrite premises" proved="true">
+                    <transf name="split_all_full" proved="true" >
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.0.1.1.0" expl="rewrite premises" proved="true">
+                     <transf name="apply" proved="true" arg1="pps&#39;invariant2">
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.0.1.1.0.0" expl="apply premises" proved="true">
+                      <proof prover="0"><result status="valid" time="0.95"/></proof>
+                      </goal>
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.0.1.1.0.1" expl="apply premises" proved="true">
+                      <proof prover="0"><result status="valid" time="1.02"/></proof>
+                      </goal>
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.0.1.1.0.2" expl="apply premises" proved="true">
+                      <proof prover="4"><result status="valid" time="0.34" steps="284"/></proof>
+                      </goal>
+                     </transf>
+                     </goal>
+                    </transf>
+                    </goal>
+                   </transf>
+                   </goal>
+                   <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.0.2" expl="rewrite premises" proved="true">
+                   <proof prover="3"><result status="valid" time="1.16"/></proof>
+                   </goal>
+                  </transf>
+                  </goal>
+                  <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1" expl="apply premises" proved="true">
+                  <transf name="split_vc" proved="true" >
+                   <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0" expl="apply premises" proved="true">
+                   <transf name="rewrite" proved="true" arg1="assert_make_bv_b">
+                    <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.0" expl="apply premises" proved="true">
+                    <transf name="split_all_full" proved="true" >
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.0.0" expl="apply premises" proved="true">
+                     <transf name="rewrite" proved="true" arg1="repeat_pps_had_spec1">
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.0.0.0" expl="apply premises" proved="true">
+                      <proof prover="4"><result status="valid" time="0.35" steps="284"/></proof>
+                      </goal>
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.0.0.1" expl="rewrite premises" proved="true">
+                      <proof prover="4"><result status="valid" time="0.33" steps="284"/></proof>
+                      </goal>
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.0.0.2" expl="rewrite premises" proved="true">
+                      <transf name="rewrite" proved="true" arg1="make_bv_length" arg2="in" arg3="H">
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.0.0.2.0" expl="rewrite premises" proved="true">
+                       <proof prover="3"><result status="valid" time="1.21"/></proof>
+                       </goal>
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.0.0.2.1" expl="rewrite premises" proved="true">
+                       <transf name="split_vc" proved="true" >
+                        <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.0.0.2.1.0" expl="rewrite premises" proved="true">
+                        <transf name="apply" proved="true" arg1="pps&#39;invariant3">
+                         <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.0.0.2.1.0.0" expl="apply premises" proved="true">
+                         <proof prover="0"><result status="valid" time="0.95"/></proof>
+                         </goal>
+                         <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.0.0.2.1.0.1" expl="apply premises" proved="true">
+                         <proof prover="0"><result status="valid" time="1.02"/></proof>
+                         </goal>
+                         <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.0.0.2.1.0.2" expl="apply premises" proved="true">
+                         <proof prover="4"><result status="valid" time="0.36" steps="288"/></proof>
+                         </goal>
+                        </transf>
+                        </goal>
+                        <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.0.0.2.1.1" expl="rewrite premises" proved="true">
+                        <transf name="apply" proved="true" arg1="pps&#39;invariant2">
+                         <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.0.0.2.1.1.0" expl="apply premises" proved="true">
+                         <proof prover="0"><result status="valid" time="1.05"/></proof>
+                         </goal>
+                         <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.0.0.2.1.1.1" expl="apply premises" proved="true">
+                         <proof prover="0"><result status="valid" time="1.07"/></proof>
+                         </goal>
+                         <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.0.0.2.1.1.2" expl="apply premises" proved="true">
+                         <proof prover="4"><result status="valid" time="0.35" steps="288"/></proof>
+                         </goal>
+                        </transf>
+                        </goal>
+                       </transf>
+                       </goal>
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.0.0.2.2" expl="rewrite premises" proved="true">
+                       <proof prover="3"><result status="valid" time="1.31"/></proof>
+                       </goal>
+                      </transf>
+                      </goal>
+                     </transf>
+                     </goal>
+                    </transf>
+                    </goal>
+                    <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.1" expl="rewrite premises" proved="true">
+                    <transf name="split_vc" proved="true" >
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.1.0" expl="rewrite premises" proved="true">
+                     <transf name="split_all_full" proved="true" >
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.1.0.0" expl="rewrite premises" proved="true">
+                      <transf name="apply" proved="true" arg1="pps&#39;invariant3">
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.1.0.0.0" expl="apply premises" proved="true">
+                       <proof prover="0"><result status="valid" time="1.04"/></proof>
+                       </goal>
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.1.0.0.1" expl="apply premises" proved="true">
+                       <proof prover="0"><result status="valid" time="1.03"/></proof>
+                       </goal>
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.1.0.0.2" expl="apply premises" proved="true">
+                       <proof prover="4"><result status="valid" time="0.35" steps="288"/></proof>
+                       </goal>
+                      </transf>
+                      </goal>
+                     </transf>
+                     </goal>
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.1.1" expl="rewrite premises" proved="true">
+                     <transf name="split_all_full" proved="true" >
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.1.1.0" expl="rewrite premises" proved="true">
+                      <transf name="apply" proved="true" arg1="pps&#39;invariant2">
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.1.1.0.0" expl="apply premises" proved="true">
+                       <proof prover="0"><result status="valid" time="1.03"/></proof>
+                       </goal>
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.1.1.0.1" expl="apply premises" proved="true">
+                       <proof prover="0"><result status="valid" time="1.07"/></proof>
+                       </goal>
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.1.1.0.2" expl="apply premises" proved="true">
+                       <proof prover="4"><result status="valid" time="0.35" steps="288"/></proof>
+                       </goal>
+                      </transf>
+                      </goal>
+                     </transf>
+                     </goal>
+                    </transf>
+                    </goal>
+                    <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.2" expl="rewrite premises" proved="true">
+                    <transf name="rewrite" proved="true" arg1="make_bv_length" arg2="in" arg3="H">
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.2.0" expl="rewrite premises" proved="true">
+                     <proof prover="4"><result status="valid" time="0.36" steps="284"/></proof>
+                     </goal>
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.2.1" expl="rewrite premises" proved="true">
+                     <transf name="split_vc" proved="true" >
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.2.1.0" expl="rewrite premises" proved="true">
+                      <transf name="split_all_full" proved="true" >
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.2.1.0.0" expl="rewrite premises" proved="true">
+                       <transf name="apply" proved="true" arg1="pps&#39;invariant3">
+                        <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.2.1.0.0.0" expl="apply premises" proved="true">
+                        <proof prover="0"><result status="valid" time="1.06"/></proof>
+                        </goal>
+                        <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.2.1.0.0.1" expl="apply premises" proved="true">
+                        <proof prover="0"><result status="valid" time="1.11"/></proof>
+                        </goal>
+                        <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.2.1.0.0.2" expl="apply premises" proved="true">
+                        <proof prover="4"><result status="valid" time="0.34" steps="288"/></proof>
+                        </goal>
+                       </transf>
+                       </goal>
+                      </transf>
+                      </goal>
+                      <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.2.1.1" expl="rewrite premises" proved="true">
+                      <transf name="split_all_full" proved="true" >
+                       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.2.1.1.0" expl="rewrite premises" proved="true">
+                       <transf name="apply" proved="true" arg1="pps&#39;invariant2">
+                        <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.2.1.1.0.0" expl="apply premises" proved="true">
+                        <proof prover="0"><result status="valid" time="1.00"/></proof>
+                        </goal>
+                        <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.2.1.1.0.1" expl="apply premises" proved="true">
+                        <proof prover="0"><result status="valid" time="0.99"/></proof>
+                        </goal>
+                        <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.2.1.1.0.2" expl="apply premises" proved="true">
+                        <proof prover="4"><result status="valid" time="0.34" steps="288"/></proof>
+                        </goal>
+                       </transf>
+                       </goal>
+                      </transf>
+                      </goal>
+                     </transf>
+                     </goal>
+                     <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.0.0.2.0.0.0.1.1.1.0.2.2" expl="rewrite premises" proved="true">
+                     <proof prover="3"><result status="valid" time="1.11"/></proof>
+                     </goal>
+                    </transf>
+                    </goal>
+                   </transf>
+                   </goal>
+                  </transf>
+                  </goal>
+                 </transf>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.0.0.0.1" expl="equality hypothesis" proved="true">
+          <proof prover="0"><result status="valid" time="0.84"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.1" expl="rewrite premises" proved="true">
+       <proof prover="0"><result status="valid" time="0.88"/></proof>
+       </goal>
+       <goal name="VC pat_sem_repeat_at_zero_bv.0.0.0.0.1.2" expl="rewrite premises" proved="true">
+       <proof prover="3"><result status="valid" time="1.12"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="VC pat_sem_repeat_at_zero_bv.0.0.1" expl="rewrite premises" proved="true">
+    <proof prover="0"><result status="valid" time="0.87"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC pat_sem_repeat_at_zero_bv.0.1" expl="rewrite premises" proved="true">
+   <proof prover="0"><result status="valid" time="0.83"/></proof>
+   </goal>
+   <goal name="VC pat_sem_repeat_at_zero_bv.0.2" expl="rewrite premises" proved="true">
+   <proof prover="0"><result status="valid" time="0.84"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC pat_sem_repeat_at_zero" expl="VC for pat_sem_repeat_at_zero" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC pat_sem_repeat_at_zero.0" expl="postcondition" proved="true">
+  <transf name="compute_specified" proved="true" >
+   <goal name="VC pat_sem_repeat_at_zero.0.0" expl="postcondition" proved="true">
+   <transf name="instantiate" proved="true" arg1="ket_decomp_" arg2="x,n">
+    <goal name="VC pat_sem_repeat_at_zero.0.0.0" expl="postcondition" proved="true">
+    <transf name="replace" proved="true" arg1="(pps_apply (repeat_pps_had n) x)" arg2="(pps_apply (repeat_pps_had n) (ket_sum_l (n_bvs n)
+    (fun (bvx:bitvec) -&gt; get_ket x (bv_to_int bvx) *.. bv_to_ket bvx) n))">
+     <goal name="VC pat_sem_repeat_at_zero.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="pps_apply_sum">
+      <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="ket_sum_l_to_fset">
+       <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="rewrite" proved="true" arg1="get_ket_sum_l_value">
+        <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+        <transf name="compute_specified" proved="true" >
+         <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+         <transf name="rewrite" proved="true" arg1="ind_sum_scal_rev">
+          <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+          <transf name="rewrite" proved="true" arg1="ind_sum_to_sum">
+           <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+           <transf name="compute_specified" proved="true" >
+            <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+            <transf name="apply" proved="true" arg1="sum_eq">
+             <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+             <transf name="compute_specified" proved="true" >
+              <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+              <transf name="split_vc" proved="true" >
+               <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+               <transf name="rewrite" proved="true" arg1="pps_apply_scal">
+                <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+                 <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                 <transf name="apply" proved="true" arg1="mult_eq_t_rev">
+                  <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                  <proof prover="0"><result status="valid" time="0.88"/></proof>
+                  </goal>
+                  <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+                  <proof prover="0"><result status="valid" time="0.91"/></proof>
+                  </goal>
+                 </transf>
+                 </goal>
+                </transf>
+                </goal>
+                <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                <proof prover="1"><result status="valid" time="0.36"/></proof>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.34" steps="276"/></proof>
+        </goal>
+        <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+        <proof prover="3"><result status="valid" time="1.15"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.33" steps="276"/></proof>
+       </goal>
+       <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="0.34" steps="276"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="1"><result status="valid" time="0.36"/></proof>
+      </goal>
+      <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.2" expl="rewrite premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.2.0" expl="rewrite premises" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.2.0.0" expl="rewrite premises" proved="true">
+        <proof prover="1"><result status="valid" time="0.42"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="VC pat_sem_repeat_at_zero.0.0.0.0.3" expl="rewrite premises" proved="true">
+      <proof prover="1"><result status="valid" time="0.35"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC pat_sem_repeat_at_zero.0.0.0.1" expl="equality hypothesis" proved="true">
+     <transf name="replace" proved="true" arg1="(ket_sum_l (n_bvs n)
+     (fun (bvx:bitvec) -&gt; get_ket x (bv_to_int bvx) *.. bv_to_ket bvx) n)" arg2="x">
+      <goal name="VC pat_sem_repeat_at_zero.0.0.0.1.0" expl="equality hypothesis" proved="true">
+      <proof prover="4"><result status="valid" time="0.37" steps="276"/></proof>
+      </goal>
+      <goal name="VC pat_sem_repeat_at_zero.0.0.0.1.1" expl="equality hypothesis" proved="true">
+      <transf name="apply" proved="true" arg1="goal_comm">
+       <goal name="VC pat_sem_repeat_at_zero.0.0.0.1.1.0" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="Hinst">
+        <goal name="VC pat_sem_repeat_at_zero.0.0.0.1.1.0.0" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="0.35" steps="276"/></proof>
+        </goal>
+        <goal name="VC pat_sem_repeat_at_zero.0.0.0.1.1.0.1" expl="apply premises" proved="true">
+        <proof prover="0"><result status="valid" time="0.81"/></proof>
+        </goal>
+        <goal name="VC pat_sem_repeat_at_zero.0.0.0.1.1.0.2" expl="apply premises" proved="true">
+        <proof prover="0"><result status="valid" time="0.83"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>

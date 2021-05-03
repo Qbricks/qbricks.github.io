@@ -1,0 +1,278 @@
+(* this is the prelude for Alt-Ergo, version >= 0.95.2 *)
+(* this is a prelude for Alt-Ergo real arithmetic *)
+(* this is a prelude for Alt-Ergo integer arithmetic *)
+type t
+
+logic tone : t
+
+logic ac infix_pldt : t, t -> t
+
+logic ac infix_asdt : t, t -> t
+
+logic infix_sldt : t, t -> t
+
+logic from_int : int -> real
+
+logic im : t
+
+logic r_to_t : real -> t
+
+logic pi : t
+
+function i_to_t(i: int) : t = r_to_t(from_int(i))
+
+logic power : int, int -> int
+
+logic exp : t -> t
+
+logic p_omega : int, int -> t
+
+type d_frac
+
+logic arg : d_frac -> t
+
+function value(d: d_frac) : t = exp(infix_asdt(infix_asdt(infix_asdt(im, pi),
+  infix_pldt(tone, tone)), arg(d)))
+
+logic div_two : d_frac -> d_frac
+
+logic dyadic : int, int -> d_frac
+
+logic phase_inv_ : int, d_frac -> d_frac
+
+function shift(f: (int,'a) farray, i: int, k: int) : 'a = (f[(k + i)])
+
+predicate binary(t1: (int,int) farray) =
+  (forall k:int. ((0 <= (t1[k])) and ((t1[k]) <  2)))
+
+type quantum_circuit_pre
+
+logic Phase : d_frac -> quantum_circuit_pre
+
+logic Rx : d_frac -> quantum_circuit_pre
+
+logic Ry : d_frac -> quantum_circuit_pre
+
+logic Rz : d_frac -> quantum_circuit_pre
+
+logic Cnot : quantum_circuit_pre
+
+logic Sequence : quantum_circuit_pre,
+  quantum_circuit_pre -> quantum_circuit_pre
+
+logic Parallel : quantum_circuit_pre,
+  quantum_circuit_pre -> quantum_circuit_pre
+
+logic match_quantum_circuit_pre : quantum_circuit_pre, 'a, 'a, 'a, 'a, 'a,
+  'a, 'a -> 'a
+
+axiom match_quantum_circuit_pre_Phase :
+  (forall z:'a. forall z1:'a. forall z2:'a. forall z3:'a. forall z4:'a.
+  forall z5:'a. forall z6:'a. forall u:d_frac.
+  (match_quantum_circuit_pre(Phase(u), z, z1, z2, z3, z4, z5, z6) = z))
+
+axiom match_quantum_circuit_pre_Rx :
+  (forall z:'a. forall z1:'a. forall z2:'a. forall z3:'a. forall z4:'a.
+  forall z5:'a. forall z6:'a. forall u:d_frac.
+  (match_quantum_circuit_pre(Rx(u), z, z1, z2, z3, z4, z5, z6) = z1))
+
+axiom match_quantum_circuit_pre_Ry :
+  (forall z:'a. forall z1:'a. forall z2:'a. forall z3:'a. forall z4:'a.
+  forall z5:'a. forall z6:'a. forall u:d_frac.
+  (match_quantum_circuit_pre(Ry(u), z, z1, z2, z3, z4, z5, z6) = z2))
+
+axiom match_quantum_circuit_pre_Rz :
+  (forall z:'a. forall z1:'a. forall z2:'a. forall z3:'a. forall z4:'a.
+  forall z5:'a. forall z6:'a. forall u:d_frac.
+  (match_quantum_circuit_pre(Rz(u), z, z1, z2, z3, z4, z5, z6) = z3))
+
+axiom match_quantum_circuit_pre_Cnot :
+  (forall z:'a. forall z1:'a. forall z2:'a. forall z3:'a. forall z4:'a.
+  forall z5:'a. forall z6:'a. (match_quantum_circuit_pre(Cnot, z, z1, z2, z3,
+  z4, z5, z6) = z4))
+
+axiom match_quantum_circuit_pre_Sequence :
+  (forall z:'a. forall z1:'a. forall z2:'a. forall z3:'a. forall z4:'a.
+  forall z5:'a. forall z6:'a. forall u:quantum_circuit_pre.
+  forall u1:quantum_circuit_pre. (match_quantum_circuit_pre(Sequence(u, u1),
+  z, z1, z2, z3, z4, z5, z6) = z5))
+
+axiom match_quantum_circuit_pre_Parallel :
+  (forall z:'a. forall z1:'a. forall z2:'a. forall z3:'a. forall z4:'a.
+  forall z5:'a. forall z6:'a. forall u:quantum_circuit_pre.
+  forall u1:quantum_circuit_pre. (match_quantum_circuit_pre(Parallel(u, u1),
+  z, z1, z2, z3, z4, z5, z6) = z6))
+
+logic index_quantum_circuit_pre : quantum_circuit_pre -> int
+
+axiom index_quantum_circuit_pre_Phase :
+  (forall u:d_frac [Phase(u)]. (index_quantum_circuit_pre(Phase(u)) = 0))
+
+axiom index_quantum_circuit_pre_Rx :
+  (forall u:d_frac [Rx(u)]. (index_quantum_circuit_pre(Rx(u)) = 1))
+
+axiom index_quantum_circuit_pre_Ry :
+  (forall u:d_frac [Ry(u)]. (index_quantum_circuit_pre(Ry(u)) = 2))
+
+axiom index_quantum_circuit_pre_Rz :
+  (forall u:d_frac [Rz(u)]. (index_quantum_circuit_pre(Rz(u)) = 3))
+
+axiom index_quantum_circuit_pre_Cnot : (index_quantum_circuit_pre(Cnot) = 4)
+
+axiom index_quantum_circuit_pre_Sequence :
+  (forall u:quantum_circuit_pre. forall u1:quantum_circuit_pre [Sequence(u,
+  u1)]. (index_quantum_circuit_pre(Sequence(u, u1)) = 5))
+
+axiom index_quantum_circuit_pre_Parallel :
+  (forall u:quantum_circuit_pre. forall u1:quantum_circuit_pre [Parallel(u,
+  u1)]. (index_quantum_circuit_pre(Parallel(u, u1)) = 6))
+
+logic Phase_proj_1 : quantum_circuit_pre -> d_frac
+
+axiom Phase_proj_1_def : (forall u:d_frac. (Phase_proj_1(Phase(u)) = u))
+
+logic Rx_proj_1 : quantum_circuit_pre -> d_frac
+
+axiom Rx_proj_1_def : (forall u:d_frac. (Rx_proj_1(Rx(u)) = u))
+
+logic Ry_proj_1 : quantum_circuit_pre -> d_frac
+
+axiom Ry_proj_1_def : (forall u:d_frac. (Ry_proj_1(Ry(u)) = u))
+
+logic Rz_proj_1 : quantum_circuit_pre -> d_frac
+
+axiom Rz_proj_1_def : (forall u:d_frac. (Rz_proj_1(Rz(u)) = u))
+
+logic Sequence_proj_1 : quantum_circuit_pre -> quantum_circuit_pre
+
+axiom Sequence_proj_1_def :
+  (forall u:quantum_circuit_pre. forall u1:quantum_circuit_pre.
+  (Sequence_proj_1(Sequence(u, u1)) = u))
+
+logic Sequence_proj_2 : quantum_circuit_pre -> quantum_circuit_pre
+
+axiom Sequence_proj_2_def :
+  (forall u:quantum_circuit_pre. forall u1:quantum_circuit_pre.
+  (Sequence_proj_2(Sequence(u, u1)) = u1))
+
+logic Parallel_proj_1 : quantum_circuit_pre -> quantum_circuit_pre
+
+axiom Parallel_proj_1_def :
+  (forall u:quantum_circuit_pre. forall u1:quantum_circuit_pre.
+  (Parallel_proj_1(Parallel(u, u1)) = u))
+
+logic Parallel_proj_2 : quantum_circuit_pre -> quantum_circuit_pre
+
+axiom Parallel_proj_2_def :
+  (forall u:quantum_circuit_pre. forall u1:quantum_circuit_pre.
+  (Parallel_proj_2(Parallel(u, u1)) = u1))
+
+axiom quantum_circuit_pre_inversion :
+  (forall u:quantum_circuit_pre. (((((((u = Phase(Phase_proj_1(u))) or
+  (u = Rx(Rx_proj_1(u)))) or (u = Ry(Ry_proj_1(u)))) or
+  (u = Rz(Rz_proj_1(u)))) or (u = Cnot)) or (u = Sequence(Sequence_proj_1(u),
+  Sequence_proj_2(u)))) or (u = Parallel(Parallel_proj_1(u),
+  Parallel_proj_2(u)))))
+
+logic depth_pre : quantum_circuit_pre -> int
+
+axiom depth_pre_def : (forall w:d_frac. (depth_pre(Phase(w)) = 1))
+
+axiom depth_pre_def1 : (forall w:d_frac. (depth_pre(Rx(w)) = 1))
+
+axiom depth_pre_def2 : (forall w:d_frac. (depth_pre(Ry(w)) = 1))
+
+axiom depth_pre_def3 : (forall w:d_frac. (depth_pre(Rz(w)) = 1))
+
+axiom depth_pre_def4 : (depth_pre(Cnot) = 2)
+
+axiom depth_pre_def5 :
+  (forall x:quantum_circuit_pre. forall x1:quantum_circuit_pre.
+  (depth_pre(Sequence(x, x1)) = depth_pre(x)))
+
+axiom depth_pre_def6 :
+  (forall x:quantum_circuit_pre. forall x1:quantum_circuit_pre.
+  (depth_pre(Parallel(x, x1)) = (depth_pre(x) + depth_pre(x1))))
+
+type quantum_circuit
+
+logic to_pre : quantum_circuit -> quantum_circuit_pre
+
+function depth(c: quantum_circuit) : int = depth_pre(to_pre(c))
+
+logic sum_range : quantum_circuit -> int
+
+logic ket_part : quantum_circuit, (int,int) farray, (int,int) farray,
+  int -> int
+
+logic phase_part : quantum_circuit, (int,int) farray, (int,int) farray -> t
+
+logic phase : d_frac -> quantum_circuit
+
+logic rz : d_frac -> quantum_circuit
+
+logic sequence : quantum_circuit, quantum_circuit -> quantum_circuit
+
+axiom h : false
+
+logic ket_part_closure : (quantum_circuit,((int,int) farray,((int,int) farray,(int,int) farray) farray) farray) farray
+
+logic shift_closure : ((int,'a) farray,(int,(int,'a) farray) farray) farray
+
+axiom ket_part_closure_def :
+  (forall y:quantum_circuit. forall y1:(int,int) farray.
+  forall y2:(int,int) farray. forall y3:int.
+  (((((ket_part_closure[y])[y1])[y2])[y3]) = ket_part(y, y1, y2, y3)))
+
+axiom shift_closure_def :
+  (forall y:(int,'a) farray. forall y1:int. forall y2:int.
+  (((((shift_closure : ((int,'a) farray,(int,(int,'a) farray) farray) farray)[y])[y1])[y2]) = shift(y,
+  y1, y2)))
+
+goal VC_rzp :
+  (forall n:int. ((0 <= n) -> ((0 <= n) and (((value(dyadic(1,
+  n)) = p_omega(n, 1)) and (arg(dyadic(1, n)) = infix_sldt(i_to_t(1),
+  i_to_t(power(2, n))))) -> (((sum_range(rz(dyadic(1, n))) = 0) and
+  ((depth(rz(dyadic(1, n))) = 1) and
+  ((forall bvx:(int,int) farray. forall bvy:(int,int) farray. (binary(bvx) ->
+   (binary(bvy) -> (ket_part(rz(dyadic(1, n)), bvx, bvy, 0) = (bvx[0]))))) and
+  (forall bvx:(int,int) farray. forall bvy:(int,int) farray. (binary(bvx) ->
+  (binary(bvy) -> (phase_part(rz(dyadic(1, n)), bvx,
+  bvy) = value(phase_inv_((1 - (bvx[0])), div_two(dyadic(1, n))))))))))) ->
+  ((0 <= (n + 1)) and (((value(dyadic(1, (n + 1))) = p_omega((n + 1), 1)) and
+  (arg(dyadic(1, (n + 1))) = infix_sldt(i_to_t(1), i_to_t(power(2,
+  (n + 1)))))) -> (((sum_range(phase(dyadic(1, (n + 1)))) = 0) and
+  ((depth(phase(dyadic(1, (n + 1)))) = 1) and
+  ((forall bvx:(int,int) farray. forall bvy:(int,int) farray. (binary(bvx) ->
+   (binary(bvy) -> (ket_part(phase(dyadic(1, (n + 1))), bvx, bvy,
+   0) = (bvx[0]))))) and
+  (forall bvx:(int,int) farray. forall bvy:(int,int) farray. (binary(bvx) ->
+  (binary(bvy) -> (phase_part(phase(dyadic(1, (n + 1))), bvx,
+  bvy) = value(dyadic(1, (n + 1)))))))))) -> ((depth(phase(dyadic(1,
+  (n + 1)))) = depth(rz(dyadic(1, n)))) and
+  (((sum_range(sequence(phase(dyadic(1, (n + 1))), rz(dyadic(1,
+  n)))) = (sum_range(phase(dyadic(1, (n + 1)))) + sum_range(rz(dyadic(1,
+  n))))) and ((depth(sequence(phase(dyadic(1, (n + 1))), rz(dyadic(1,
+  n)))) = depth(phase(dyadic(1, (n + 1))))) and
+  ((forall bvx:(int,int) farray. forall bvy:(int,int) farray.
+   (forall i:int. (binary(bvx) -> (binary(bvy) ->
+   (ket_part(sequence(phase(dyadic(1, (n + 1))), rz(dyadic(1, n))), bvx, bvy,
+   i) = ket_part(rz(dyadic(1, n)), (((ket_part_closure[phase(dyadic(1,
+   (n + 1)))])[bvx])[bvy]),
+   (((shift_closure : ((int,int) farray,(int,(int,int) farray) farray) farray)[bvy])[sum_range(phase(dyadic(1,
+   (n + 1))))]), i)))))) and
+  (forall bvx:(int,int) farray. forall bvy:(int,int) farray. (binary(bvx) ->
+  (binary(bvy) -> (phase_part(sequence(phase(dyadic(1, (n + 1))),
+  rz(dyadic(1, n))), bvx, bvy) = infix_asdt(phase_part(phase(dyadic(1,
+  (n + 1))), bvx, bvy), phase_part(rz(dyadic(1, n)),
+  (((ket_part_closure[phase(dyadic(1, (n + 1)))])[bvx])[bvy]),
+  (((shift_closure : ((int,int) farray,(int,(int,int) farray) farray) farray)[bvy])[sum_range(phase(dyadic(1,
+  (n + 1))))])))))))))) -> ((depth(sequence(phase(dyadic(1, (n + 1))),
+  rz(dyadic(1, n)))) = 1) and ((sum_range(sequence(phase(dyadic(1, (n + 1))),
+  rz(dyadic(1, n)))) = 0) and
+  ((forall bvx:(int,int) farray. forall bvy:(int,int) farray. (binary(bvx) ->
+   (binary(bvy) -> (ket_part(sequence(phase(dyadic(1, (n + 1))), rz(dyadic(1,
+   n))), bvx, bvy, 0) = (bvx[0]))))) and
+  (forall bvx:(int,int) farray. forall bvy:(int,int) farray. (binary(bvx) ->
+  (binary(bvy) -> (phase_part(sequence(phase(dyadic(1, (n + 1))),
+  rz(dyadic(1, n))), bvx, bvy) = value(dyadic((bvx[0]), n)))))))))))))))))))

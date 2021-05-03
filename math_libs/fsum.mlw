@@ -1,0 +1,867 @@
+
+module Iterations
+         use  set.Fset
+         use  int.Int
+
+function op 'im 'im: 'im 
+function po 'im 'im: 'im 
+function inver 'im : 'im 
+                                                                              
+use  p_set.Fset_comp
+
+predicate op_neutral_left (op : 'im -> 'im -> 'im) (neutral: 'im)= forall e: 'im . op  neutral  e = e
+predicate op_neutral_right  (op : 'im -> 'im -> 'im)  (neutral: 'im)= forall e: 'im . op e  neutral = e
+predicate op_assoc  (op : 'im -> 'im -> 'im)= forall a b c: 'im. op (op a  b)  c =  op a (op b  c)
+predicate op_neutral_left_comm  (op : 'im -> 'im -> 'im)  (neutral: 'im)= forall a : 'im . (forall b: 'im.  op a  b  = b) ->  a = neutral
+predicate commut  (op : 'im -> 'im -> 'im) = forall a b : 'im.  (op a b)  =  (op b  a)
+predicate assoc  (op : 'im -> 'im -> 'im) = forall a b  c: 'im.  op (op a b) c = op a (op b  c)
+predicate opposite_n (op po : 'im -> 'im -> 'im) (neutral: 'im) = forall a: 'im. po a  a = neutral 
+predicate inverse   (op po : 'im -> 'im -> 'im)(inver :  'im -> 'im) = forall a b : 'im. po a  b = op a  (inver b)                                                  
+predicate opposite (op po : 'im -> 'im -> 'im)= forall a b: 'im. op (po a  b) b = a
+predicate opposite_com (op po : 'im -> 'im -> 'im)= forall a b: 'im. po (op a  b) b = a
+
+let lemma refl (op : 'im -> 'im -> 'im) (a b: 'im)
+      requires{commut op}
+      ensures{op a b = op b a}
+  =()
+
+predicate neutral     (op   : 'im -> 'im -> 'im)  (neut: 'im) =
+op_neutral_left op neut /\ op_neutral_right op neut /\op_assoc op
+
+let lemma set_neutral (op   : 'im -> 'im -> 'im)  (neut: 'im)
+      requires{ op_neutral_left op neut}
+      requires{ op_neutral_right op neut}
+      requires{ op_assoc op}
+      ensures{neutral op neut}
+  =()
+
+predicate has_neutral     (op   : 'im -> 'im -> 'im)   =
+     exists e: 'im. neutral op e
+                      
+predicate iterates (op   : 'im -> 'im -> 'im)  (neutral: 'im) =
+                 op_neutral_left op neutral /\ 
+op_neutral_right op neutral /\ op_assoc op
+                               
+predicate iterable (op   : 'im -> 'im -> 'im) = 
+                 exists e: 'im. iterates op e
+
+let lemma iterates_ (op   : 'im -> 'im -> 'im)  (neutral: 'im)
+      requires{op_neutral_left op neutral}
+      requires{op_neutral_right op neutral}
+      requires{op_assoc op }
+      ensures{iterates op neutral}
+      ensures{iterable op }
+  =()
+  
+val function neutral_elt (op   : 'im -> 'im -> 'im): 'im
+                                                       ensures{forall e: 'im. neutral op e <->  result = e}            
+                                                       
+predicate inverse_tuple (op po  : 'im -> 'im -> 'im)(neutral: 'im)
+  = opposite_n op po neutral /\ opposite op po /\ opposite_com op po 
+  
+val function iterate (op  : 'im -> 'im -> 'im) (s: set 'a) (t : 'a -> 'im) : 'im
+                                                                               requires{commut op}
+                                                                               requires{is_empty s -> iterable op}
+
+axiom Iterate_def_empty :
+               forall op: 'im -> 'im -> 'im.forall s: set 'a. forall f : 'a -> 'im.  commut op -> iterable op -> is_empty s -> iterate op  (empty: set 'a) f = (neutral_elt op)
+
+axiom Iterate_one: forall op: 'im -> 'im -> 'im.  forall s: set 'a. forall f: 'a -> 'im. forall  x: 'a. is_empty  s  ->  
+                                                                                                    commut op ->  iterate op (add x s) f =  f x
+                                                                                                                                                             
+axiom Iterate_add: forall op: 'im -> 'im -> 'im.  forall s: set 'a. forall f: 'a -> 'im. forall  x: 'a.  
+                                                                                                    cardinal s > 0 -> commut op -> not (mem x s) -> iterate op (add x s) f = op  ( f x)(iterate op s f)
+                                                                                                                                                             
+let lemma minus_zero (op po : 'im -> 'im -> 'im) (a : 'im)
+      requires{iterable op  }
+      requires{inverse_tuple  op po (neutral_elt op)}
+      ensures{po a (neutral_elt op) = a}
+  =()
+  
+let lemma unic (op po : 'im -> 'im -> 'im) (a b c : 'im)
+      requires{iterable op  }
+      requires{commut op  }
+      requires{ op a  b = op a c }
+      requires{inverse_tuple  op po (neutral_elt op)}
+      ensures{b = c}
+  = assert{not (b = c) -> not (po b  c = (neutral_elt op))};
+    assert{not (b = c) -> po a  b = op (op a  c )  (po b  c)};
+    assert{not (b = c) -> not (op a  b = op a  c)}
+
+let lemma substract_comm (op po : 'im -> 'im -> 'im) (a b c: 'im)
+      requires{iterable op  }
+      requires{commut op  }
+      requires{inverse_tuple  op po (neutral_elt op)}
+      ensures{po (op a b)  a = b}
+      ensures{ po (op b  a)  a = b}
+      ensures{ po a (po b  c)   = op (po a b) c}
+      ensures{ po (op a b) c = op a (po b  c)}
+  = assert{op a  ( po(op a  b)  a) = op a  b};
+    assert{ po (op a ( po (op a   b)  a))  a  =  po (op a  b) a}
+
+let rec  function int_iterate (op  : 'im -> 'im -> 'im)(f :int -> 'im) (i:int) (j:int)
+                        : 'im
+                            requires{j<= i -> iterable op}
+                            ensures{j<= i -> result = (neutral_elt op)}
+                            ensures{j = i +1 -> result = op (f i) (neutral_elt op)}
+                            variant{j-i}
+  = if (j<= i) then (neutral_elt op)
+    else if j = i+1 then f i
+    else
+      op (f i) (int_iterate op f (i+1) j)
+  
+let  rec ghost function    int_int_iterate (op  : 'im -> 'im -> 'im)(f: int -> int -> 'im) (i j k l :int)
+                           : 'im
+                               requires{iterable op}
+                               variant{j-i}
+  = if (j <= i) then (neutral_elt op)
+    else op (int_iterate op (fun n -> f   i n) k l) (int_int_iterate op f  (i+1) j k l)
+end
+
+module Set_iter
+         use  Iterations
+         use  set.FsetComprehension
+         use  functions.MapInjection
+         use  p_set.Fset_comp
+         use  p_set.IndexestoSet
+         use  complex.Pairs
+         use  complex.Constant
+         use  p_set.Card_one_set
+     
+let lemma iterate_empty (op  : 'im -> 'im -> 'im)  (s:set 'a) (t : 'a -> 'im)
+      requires{is_empty s}
+      requires{commut op}
+      requires{iterable op}
+      ensures{iterate op s t = (neutral_elt op)}
+  = assert{is_empty s};
+    assert{s == empty};
+    assert{s = empty}
+
+let lemma iterate_one (op  : 'im -> 'im -> 'im)  (s:set 'a) (t : 'a -> 'im)
+      requires{cardinal  s = 1}
+      requires{commut op}
+      ensures{iterate op s t = t (choose s)}
+  = ()
+  
+let lemma iterate_add (op  : 'im -> 'im -> 'im) (s: set 'a)(f: 'a -> 'im)(x: 'a)
+      requires{commut op}
+      requires{ iterable op}
+      requires{not (mem x s) }
+      ensures{iterate op (add x s) f =  op  ( f x)  (iterate op s f)}
+  =
+  ()
+  
+let lemma iterate_add_ (op  : 'im -> 'im -> 'im) (s: set 'a)(f: 'a -> 'im)(x: 'a)
+      requires{commut op}
+      requires{not (mem x s) }
+      requires{not (is_empty s) }
+      ensures{iterate op (add x s) f =  op  ( f x)  (iterate op s f)}
+  =
+  ()  
+  
+let  lemma iterate_remove (op  : 'im -> 'im -> 'im)  (s:set 'a) (f : 'a -> 'im) (x: 'a)
+       requires{commut op  }
+       requires{iterable op  }
+       requires{ inverse_tuple op po (neutral_elt op)}
+       requires{mem x s}
+       ensures{iterate op (remove x s) f =  po (iterate op s f )  ( f x)}
+  = assert{iterate op s f = op (iterate op (remove x s) f)  (f x) }
+
+let  lemma iterate_def_choose (op  : 'im -> 'im -> 'im) (s:set 'a) (f : 'a -> 'im)
+       requires{cardinal s = 1 -> iterable op  }
+       requires{commut op  }
+       requires{not (is_empty s)}
+       ensures{iterate op s f =  op (f (choose s) )  (iterate op (remove (choose s) s) f)}
+  =()  
+
+let  lemma choose_any (op  : 'im -> 'im -> 'im)  (s:set 'a) (f : 'a -> 'im)(t:'a)
+       requires{iterable op  }
+       requires{commut op  }
+       requires{mem t s}
+       ensures{iterate op s f = op (f t )  (iterate op (remove t s) f)}
+  =()
+  
+let rec lemma iterate_comp_iterate (op  : 'im -> 'im -> 'im)  (s1: set 'a)(f g: 'a -> 'im) 
+          requires{iterable op  }
+          requires{commut op  }
+          requires{assoc op  }
+          ensures{    iterate op s1  (fun k -> op (f k)  (g k)) = op (iterate op s1 (fun k -> f k))  (iterate op s1 (fun k -> g k))}
+          variant{cardinal s1}
+  =  
+  if (is_empty s1)  then () else
+    begin
+      iterate_add op (remove (choose s1) s1)  f (choose s1);
+      iterate_add op (remove (choose s1) s1)  g (choose s1);
+      iterate_add op (remove (choose s1) s1)  (fun k -> op (f k)  (g k)) (choose s1);
+      iterate_comp_iterate op (remove (choose s1) s1) f g ;
+    end
+
+let  lemma iterate_comp_iterate_com (op  : 'im -> 'im -> 'im)  (s1: set 'a)(f g: 'a -> 'im) 
+       requires{iterable op  }
+       requires{commut op  }
+       ensures{op  (iterate op s1 (fun k -> f k))  (iterate op s1 (fun k -> g k)) =   iterate op s1 (fun k -> op (f k )( g k)) }
+  = iterate_comp_iterate op s1 f g
+
+let rec lemma iterate_transitivity (op  po : 'im -> 'im -> 'im)  (s1 s2 : set 'a) (f: 'a -> 'im) 
+          requires{iterable op  }
+          requires{commut op  }
+          requires{inverse_tuple op po (neutral_elt op) }
+          ensures{    iterate op (union s1 s2) f = po ( op(iterate op s1 f )  ( iterate op s2 f))  (  iterate op (inter s1 s2) f)}
+          variant{cardinal s2}
+  =if cardinal s2 = 0 then begin
+       assert{ s2 = empty};
+       assert{inter s1 s2 = empty};
+       assert{union s1 s2 = s1};
+     end   
+   else begin
+       iterate_transitivity op po  s1 (remove (choose s2) s2) f;
+       if mem (choose s2) s1 then
+         begin
+           assert{(union s1 s2) = (union s1  (remove (choose s2) s2))};
+           assert{(inter s1 s2) = add (choose s2) (inter s1  (remove (choose s2) s2))};
+           assert{iterate op (union s1 s2) f =   iterate op (union s1  (remove (choose s2) s2)) f =
+                    po (op (iterate op s1 f) (iterate op (remove (choose s2) s2) f))  (  iterate op (inter s1 (remove (choose s2) s2))f) };           
+           assert{iterate op (union s1 s2) f =  
+                    po (op (iterate op s1 f) (iterate op (remove (choose s2) s2) f))  (  iterate op (remove (choose s2) (inter s1 s2)) f) };           
+           assert{iterate op (union s1 s2) f =  
+                    po (op (iterate op s1 f) ( po (iterate op s2 f) (f (choose (s2)))))  (po ( iterate op  (inter s1 s2) f)  (f(choose s2) ))};
+           assert{iterate op (union s1 s2) f =  
+                    po(po (op  (iterate op s1 f)  (iterate op s2 f)) (f (choose (s2))))  (po ( iterate op  (inter s1 s2) f)  (f(choose s2) ))};
+           assert{iterate op (union s1 s2) f =  
+                    op (po( po (op  (iterate op s1 f)  (iterate op s2 f)) (f (choose (s2))))   ( iterate op  (inter s1 s2) f))  (f(choose s2) )};           
+         end
+       else
+         begin
+           assert{(union s1 s2) = add (choose s2) (union s1  (remove (choose s2) s2))};
+           assert{(inter s1 s2) =  (inter s1  (remove (choose s2) s2))};
+         end;
+       assert{ iterate op (union s1 s2) f = po ( op(iterate op s1 f)  (iterate op  s2 f))
+                                              (iterate op (inter s1   s2) f)};
+     end
+
+let rec  lemma iterate_disjoint_transitivity(op  : 'im -> 'im -> 'im)  (s1 s2: set 'a)(t: 'a -> 'im)
+           requires{iterable op  }
+           requires{commut op  }
+           requires{inter s1 s2 = empty}
+           ensures{iterate op (union s1 s2) t = op  (iterate op s1 t)  (  iterate op s2 t)}
+           variant{cardinal s2}
+  = if is_empty s2 then ()
+    else
+      begin
+        assert{ (union s1 s2) == (add (choose s2) (remove (choose s2) (union s1 s2)))
+                == (add (choose s2)  (union s1 (remove (choose s2)s2)))};    
+        assert{iterate op (union s1 s2) t  =  op (t (choose s2)) (iterate op  (union s1 (remove (choose s2) s2)) t) };
+        iterate_disjoint_transitivity op s1 (remove (choose s2) s2) t;
+        assert{iterate op (union s1 s2) t  =  op (iterate op s1 t)  (op (t (choose s2))   (iterate op  (remove (choose s2) s2) t)) };
+        assert{iterate op (union s1 s2) t  =  op (iterate op s1 t)  (iterate op (add (choose s2) (remove (choose s2) s2)) t) }
+      end  
+  
+let rec lemma iterate_eq (op  : 'im -> 'im -> 'im) (s:set 'a)(f g : 'a -> 'im) 
+          requires{forall x. mem x s -> f x = g x}
+          requires{commut op  }
+          requires{is_empty s -> iterable op  }
+          ensures{ iterate op s f = iterate op s g}
+          variant {cardinal s}=
+  if cardinal s = 0 then
+    begin
+      assert{s == empty};
+      iterate_empty op s f;
+      iterate_empty op s g;
+    end
+  else if cardinal s = 1
+  then begin
+      iterate_one op s f;
+      iterate_one op s g;
+    end
+  else
+    begin
+      iterate_eq op  (remove (choose s) s) f g;
+      iterate_def_choose op s f;
+      iterate_def_choose op s g;
+    end
+  
+let rec  lemma iterate_map (op  : 'im -> 'im -> 'im) (s: set 'b)(f: 'b -> 'a)(t: 'a -> 'im)
+           requires{is_empty s ->iterable op  }
+           requires{commut op  }
+           requires{p_injective f s }
+           ensures{iterate op (map  f s) t  = iterate op s (fun b -> t (f b))}
+           variant{cardinal s}
+  = if (is_empty s) then ()
+    else if (cardinal s = 1) then ()
+    else begin
+        assert{iterate op (map  f s) t = op (t ( f (choose s)))( iterate op   (remove (f(choose s)) (map  f s)) t)};
+        assert{ iterate op s (fun b -> t (f b)) = op( t (f (choose s)))  (iterate op (remove (choose s) s) (fun b -> t (f b)))};
+        map_remove_choose s f;
+        iterate_map op  (remove (choose s )s) f t
+      end
+
+let lemma iterate_cardone(op  : 'im -> 'im -> 'im)  (s: set 'a) (t:  'a -> 'im)
+      requires{iterable op  }
+      requires{commut op  }
+      requires{cardinal s = 1}
+      ensures{iterate op s t = t (element s)}
+  = assert{remove (element s ) s =empty};
+    assert{iterate op s t = op( t (element s) )( iterate op (remove (element s ) s) t)}
+
+let lemma iterate_cardzero (op  : 'im -> 'im -> 'im) (s: set 'a) (t:  'a -> 'im)
+      requires{commut op  }
+      requires{iterable op  }
+      requires{cardinal s = 0}
+      ensures{iterate op s t = (neutral_elt op)}
+  = assert{ s =empty}
+  
+let rec lemma injec_iterate (op  : 'im -> 'im -> 'im) (a: 'a)(s: set 'b)(f : 'a -> 'b -> 'im)
+          requires{iterable op  }
+          requires{commut op  }
+          ensures{iterate op s (f a)  = iterate op (cartesian_product (to_set a) s) (fun o -> f (fir o) (sec o))}
+          variant{cardinal s}
+  = if (is_empty s) then ()
+    else
+      begin
+        iterate_add op (remove (choose s) s) (f a) (choose s);
+        iterate_add op (remove (a,(choose s)) (cartesian_product (to_set a) s)) (fun o -> f (fir o) (sec o)) (a,(choose s));
+        injec_iterate op a  (remove (choose s) s)f;
+        assert{iterate op s (f a)  = iterate op (cartesian_product (to_set a) s) (fun o -> f (fir o) (sec o))};
+      end  
+  
+let rec lemma iterate_cartesian_product (op  : 'im -> 'im -> 'im) (s1: set 'a)(s2: set 'b)(f : 'a -> 'b -> 'im) 
+          requires{iterable op  }
+          requires{commut op}
+          ensures{iterate op s1 (fun a -> iterate op s2 (f a) ) = iterate op (cartesian_product s1 s2) (fun o -> f (fir o) (sec o))}
+          variant{cardinal s1}
+  =
+  if (is_empty s1) then ()
+  else
+    if (cardinal s1 = 1) then
+      begin
+        iterate_cardone op s1 (fun a -> iterate op s2 (f a) ); 
+        injec_iterate op (element s1) s2 f ;
+        assert{iterate op s1 (fun a -> iterate op s2 (f a) ) = iterate op (cartesian_product s1 s2) (fun o -> f (fir o) (sec o))};
+      end
+    else
+      begin
+        injec_iterate op (choose s1) s2 f ;
+        iterate_cartesian_product op (remove (choose s1) s1) s2 f;
+        iterate_cartesian_product op (to_set (choose s1)) s2 f;
+        iterate_disjoint_transitivity op  (cartesian_product (to_set (choose s1)) s2)
+          (cartesian_product (remove (choose s1) s1) s2)  (fun o -> f (fir o) (sec o));
+        cartesian_union_product (to_set (choose s1))  (remove (choose s1) s1) s2;
+        iterate_add op (remove (choose s1) s1) (fun a -> iterate op s2 (f a) ) (choose s1) ;
+        assert{iterate op s1 (fun a -> iterate op s2 (f a) ) = iterate op (cartesian_product s1 s2) (fun o -> f (fir o) (sec o))};
+      end
+  
+let lemma iterate_eq_func (op  : 'im -> 'im -> 'im) (s: set 'a)(f1: 'a -> 'im)(f2: 'a -> 'im)
+      requires{commut op  }
+      requires{iterable op  }
+      requires{p_injective f1 s}
+      requires{p_injective f2 s}
+      requires{map f1 s = map f2 s}
+      ensures{iterate op s f1 = iterate op s f2}
+  = iterate_map op s f1 p_id;
+    iterate_map op s f2 p_id;
+
+end
+
+module Int_iter
+         use  Iterations
+         use  set.Fset
+         use  p_set.Fset_comp
+         use  set.FsetComprehension
+         use  int.Int
+         use  p_set.IndexestoSet
+         use  Set_iter
+         use  functions.MapInjection
+
+let lemma int_iterate_def_empty (op  : 'im -> 'im -> 'im)(f :int -> 'im) (i:int) (j:int) 
+      requires{j <= i}
+      requires{iterable op}
+      ensures{ int_iterate op f i j = (neutral_elt op)}
+  =()
+  
+let lemma int_iterate_def_plus_one (op  : 'im -> 'im -> 'im)(f :int -> 'im) (i:int) (j:int) 
+      requires{i < j }
+      requires{i+1 = j ->iterable op}
+      ensures{ int_iterate op f i j = op (f i)( int_iterate op f (i+1) j)}
+  =()
+
+let lemma int_iterate_cardone (op  : 'im -> 'im -> 'im)(f :int -> 'im) (i:int) (j:int) 
+      requires{j = i+1}
+      ensures{ int_iterate op f i j =  f i}
+  =()
+
+let lemma int_iterate_def_plus_one_com (op  : 'im -> 'im -> 'im)(f :int -> 'im) (i:int) (j:int) 
+      requires{i < j}
+      requires{j = i+1 ->iterable op}
+      ensures{  op (f i)( int_iterate op f (i+1) j) = int_iterate op f i j }
+  =()
+  
+let rec lemma int_iterate_to_iterate(op  : 'im -> 'im -> 'im)  (f: int -> 'im ) (i:int) (j:int) 
+          ensures{int_iterate op f i j = iterate op (to_fset i j) f}
+          requires{j<= i -> iterable op}
+          requires{commut op}
+          variant{j-i}
+  = if j<= i then
+      begin
+        int_iterate_def_empty op f i j;
+        iterate_empty op (to_fset i j) f;
+      end
+    else if j = i+1 then
+      begin
+        int_iterate_cardone op  f i j;
+        iterate_one op (to_fset i j) f;
+      end
+        else
+      begin
+        int_iterate_def_plus_one op f i j;
+        int_iterate_to_iterate op f (i+1) j;
+        iterate_add_ op (to_fset (i+1) j) f i;
+      end
+  
+let rec lemma int_iterate_right_extension (op  : 'im -> 'im -> 'im) (f : int -> 'im ) (i j : int)
+          requires{ iterable op  }
+          ensures  { i < j -> int_iterate op f i j = op (int_iterate op f i (j-1))  (f (j-1)) }
+          variant  { j - i } =
+  if j  <= i then () else int_iterate_right_extension op f (i+1) j
+
+let rec lemma int_iterate_right_extension_ (op  : 'im -> 'im -> 'im) (f : int -> 'im ) (i j : int)
+          requires{assoc op}
+          requires{i +1 < j}
+          ensures  { int_iterate op f i j = op (int_iterate op f i (j-1))  (f (j-1)) }
+          variant  { j - i } =
+  if j  = i +2 then ()
+  else int_iterate_right_extension_ op f (i+1) j
+
+let rec lemma int_iterate_transitivity (op  : 'im -> 'im -> 'im) (f : int -> 'im ) (i k j : int)
+          requires{iterable op  }
+          requires{iterable op  }
+          requires{op_neutral_left op (neutral_elt op)}
+          requires {i <= k <= j}
+          ensures  { int_iterate op f i j =  op (int_iterate op f i k)  (int_iterate op f k j) }
+          variant { k - i } =
+  if k <= i
+  then
+    int_iterate_def_empty op f i k
+  else
+    begin
+      int_iterate_transitivity op f (i+1) k j;
+      int_iterate_def_plus_one op f i j;
+      int_iterate_def_plus_one op f i k;
+    end
+  
+let rec lemma int_iterate_transitivity_ (op  : 'im -> 'im -> 'im) (f : int -> 'im ) (i k j : int)
+          requires{op_neutral_left op (neutral_elt op)}
+          requires {i < k < j}
+          ensures  { int_iterate op f i j =  op (int_iterate op f i k)  (int_iterate op f k j) }
+          variant { k - i } =
+  if k = i +1
+  then
+    int_iterate_cardone op f i k
+  else
+    begin
+      int_iterate_transitivity_ op f (i+1) k j;
+      int_iterate_def_plus_one op f i j;
+      int_iterate_def_plus_one op f i k;
+    end
+  
+let rec lemma int_iterate_comp_iterate (op  : 'im -> 'im -> 'im) (f g: int -> 'im)  (i j :int)
+          requires{iterable op}
+          requires{op_neutral_right op  (neutral_elt op)}
+          requires{commut op}
+          ensures{    int_iterate op   (fun k -> op (f k)  (g k)) i j = op (int_iterate op  f i j)  (int_iterate op  g i j)}
+          variant{j - i}
+  =   if j <= i  then () else
+        begin
+          int_iterate_def_plus_one op f i j;
+          int_iterate_def_plus_one op g i j;
+          int_iterate_def_plus_one op (fun k -> op (f k)  (g k)) i j;
+          int_iterate_comp_iterate op  f g (i+1) j;
+          assert{(fun k -> op (f k)  (g k)) i = op (f i) ( g i)};
+        end
+    
+let rec lemma int_iterate_attr_no_f  (op1  : 'im1 -> 'im1 -> 'im1) (op2  : 'im2 -> 'im2 -> 'im2)  (t1: int -> 'im1)(t2: int -> 'im2) (f: 'im1 -> 'im2)(i j :int)
+          requires{forall x : int. forall y: 'im1. op2 (t2 x) (f y)  = f (op1 (t1 x) y)}
+          requires{f (neutral_elt op1) = neutral_elt op2}
+          requires{iterable op1}
+          requires{iterable op2}
+          requires{forall i : int.  f (t1 i) = t2 i}
+          ensures{int_iterate op2 t2 i j  = f (int_iterate op1   t1  i j)}
+          variant{j - i}
+  = if (j <= i) then ()
+    else begin
+        int_iterate_def_plus_one op2 t2 i j;
+        assert{int_iterate op2 t2  i j = op2 (t2 i) (int_iterate op2 t2 (i+1) j ) };
+        int_iterate_def_plus_one op1 t1 i j;
+        assert{int_iterate op1 t1  i j = op1 (t1 i) (int_iterate op1 t1 (i+1) j) };
+        int_iterate_attr_no_f op1 op2 t1 t2  f  (i+1) j
+      end
+
+let rec lemma int_iterate_attr  (op1  : 'im1 -> 'im1 -> 'im1) (op2  : 'im2 -> 'im2 -> 'im2)  (t: int -> 'im1)(f: 'im1 -> 'im2)(i j :int)
+          requires{forall x : int. forall y: 'im1. op2 (f (t x)) (f y)  = f (op1 (t x) y)}
+          requires{f (neutral_elt op1) = neutral_elt op2}
+          requires{iterable op1}
+          requires{iterable op2}
+          ensures{int_iterate op2 (fun e -> f (t e)) i j  = f (int_iterate op1   t  i j)}
+          variant{j - i}
+  = if (j <= i) then ()
+    else begin
+        int_iterate_def_plus_one op2 (fun e -> f (t e))  i j;
+        assert{int_iterate op2 (fun e -> f (t e))  i j = op2 (f (t i)) (int_iterate op2 (fun e -> f (t e)) (i+1) j ) };
+        int_iterate_def_plus_one op1 t  i j;
+        assert{int_iterate op1 t  i j = op1 (t i) (int_iterate op1 t (i+1) j) };
+        int_iterate_attr op1 op2 t  f  (i+1) j
+      end
+
+let lemma int_iterate_attr_comm  (op1  : 'im1 -> 'im1 -> 'im1) (op2  : 'im2 -> 'im2 -> 'im2)  (t: int -> 'im1)(f: 'im1 -> 'im2)(i j :int)
+      requires{forall x : int. forall y: 'im1. op2 (f (t x)) (f y)  = f (op1 (t x) y)}
+      requires{f (neutral_elt op1) = neutral_elt op2}
+      requires{iterable op1}
+      requires{iterable op2}
+      ensures{   f (int_iterate op1   t  i j) = int_iterate op2 (fun e -> f (t e)) i j}
+  = int_iterate_attr op1 op2 t f i j
+  
+let rec lemma int_iterate_eq (op  : 'im -> 'im -> 'im) (f g : int -> 'im) i j
+          requires{forall k : int. i <= k < j -> f k = g k}
+          requires{j<= i -> iterable op}
+          ensures{ int_iterate op  f i j = int_iterate op  g i j}
+          variant{j-i}
+  = if (j<= i) then ()
+    else if (j = i+1) then ()
+    else
+      begin int_iterate_eq op f g (i+1) j;
+            int_iterate_def_plus_one op f i j;
+            int_iterate_def_plus_one op g i j;
+      end
+
+let rec lemma int_iterate_left_right (op  : 'im -> 'im -> 'im) (f : int -> 'im) (l  k h : int)
+          requires{iterable op}
+          requires{commut op}
+          requires{l <= k<= h}
+          ensures{int_iterate op f l k  = int_iterate op (fun a -> f (h-(a+1)+ l)) (h- k + l) h }
+          variant {k - l}=
+  if k = l then ()
+  else
+    let t_km = (k-1) in
+    let t_kv = (h-k+l) in
+    let t_kvp =  (h-k+l+1) in
+    let fun_c = (fun a -> f (h-(a+1)+ l)) in
+    
+    begin
+      int_iterate_right_extension op f l k;
+      int_iterate_to_iterate op fun_c t_kvp h ;
+      int_iterate_def_plus_one op fun_c t_kv h ;
+      int_iterate_left_right op  f l t_km  h ;
+      assert{int_iterate op f l k  = int_iterate op (fun a -> f (h-(a+1)+ l)) t_kv h }
+    end
+
+let rec lemma int_iterate_eq_func (op  : 'im -> 'im -> 'im) (i j :int)(f: int -> 'im)(g: int -> 'im)
+          requires{iterable op  }
+          requires{commut op  }
+          requires{p_injective f (to_fset i j)}
+          requires{p_injective g (to_fset i j)}
+          requires{map f (to_fset i j)  = map g (to_fset i j) }
+          ensures{int_iterate op  f i j = int_iterate op  g i j}
+          variant{j-i}
+  =
+  if j <= i then ()
+  else
+    begin
+      iterate_eq_func op   (to_fset i j) f g;
+      int_iterate_to_iterate op f i j;
+      int_iterate_to_iterate op g i j;
+    end
+  
+let  lemma int_iterate_map (op  : 'im -> 'im -> 'im) (i j k l:int)(f: int -> int)(t: int -> 'im)
+       requires{j<= i -> iterable op  }
+       requires{commut op}
+       requires{p_bijective f (to_fset i j)  (to_fset k l) }
+       ensures{int_iterate op t k l    = int_iterate op (fun b -> t (f b))  i j}
+  =
+  set_equal (map f (to_fset i j)) (to_fset k l);
+  iterate_map op (to_fset i j) f t
+  
+let rec lemma int_iterate_transl (op  : 'im -> 'im -> 'im)(f: int -> 'im)(i j k:int)
+          requires{iterable op }
+          ensures{int_iterate op f i j  = int_iterate op (fun b ->  f (b + k))  (i-k) (j-k)}
+          variant{j-i}
+  =
+  if (j <= i) then
+    begin
+      int_iterate_def_empty op f i j;
+      int_iterate_def_empty op (fun b ->  f (b + k) )  (i-k) (j-k);
+    end
+  else
+    begin
+      int_iterate_def_plus_one op f i j;
+      int_iterate_def_plus_one op (fun b ->  f (b + k))  (i-k) (j-k);
+      int_iterate_transl op f (i+1) j k;
+    end
+  
+let  lemma int_iterate_map_auto (op  : 'im -> 'im -> 'im) (i j :int)(f: int -> int)(t: int -> 'im)
+       requires{j<= i -> iterable op  }
+       requires{commut op}
+       requires{p_bijective f (to_fset i j)  (to_fset i j) }
+       ensures{int_iterate op t i j   = int_iterate op (fun b -> t (f b))  i j}
+  = int_iterate_map op i j i j f t 
+  
+end
+
+module Int_int_iter
+         use  Iterations
+         use  set.Fset
+         use  p_set.Fset_comp
+         use  set.FsetComprehension
+         use  int.Int
+         use  p_set.IndexestoSet
+         use  Set_iter
+         use  complex.Pairs
+         use  Int_iter
+         use  functions.MapInjection
+
+let lemma int_int_iterate_def_empty (op  : 'im -> 'im -> 'im)(f :int ->int -> 'im) (i j k l :int) 
+      requires{j <= i}
+      requires{iterable op  }
+      ensures{ int_int_iterate op f i j k l = (neutral_elt op)}
+  =()
+
+let lemma int_int_iterate_def_plus_one (op  : 'im -> 'im -> 'im)(f :int ->int -> 'im) (i j k l :int) 
+      requires{i <j}
+      requires{iterable op  }
+      ensures{ int_int_iterate op f i j k l = op (int_iterate op (fun n -> f   i n) k l) (int_int_iterate op f  (i+1) j k l)}
+  =()
+  
+let rec lemma int_int_iterate_to_int_iterate (op  : 'im -> 'im -> 'im)(f :int ->int -> 'im) (i j k l :int) 
+          requires{i <=j}
+          requires{iterable op  }
+          variant{j-i}
+          ensures{ int_int_iterate op f i j k l =
+                     int_iterate op  (fun a -> int_iterate op (f a) k l ) i j}
+  =
+  if ( i = j) then ()
+  else
+    begin
+      int_int_iterate_to_int_iterate op f (i+1) j k l;
+      int_int_iterate_def_plus_one op f i j k l;
+      int_iterate_def_plus_one op (fun a -> int_iterate op (f a) k l ) i j 
+    end
+  
+let  lemma int_iterate_to_int_int_iterate (op  : 'im -> 'im -> 'im)(f :int ->int -> 'im) (i j k l :int) 
+       requires{i <=j}
+       requires{iterable op  }
+       ensures{int_iterate op  (fun a -> int_iterate op (f a) k l ) i j =
+                 int_int_iterate op f i j k l}
+  = ()
+  
+let  lemma int_int_iterate_to_iterate (op  : 'im -> 'im -> 'im)(f :int ->int -> 'im) (i j k l :int) 
+       requires{i <=j}
+       requires{iterable op  }
+       requires{commut op  }
+       ensures{ int_int_iterate op f i j k l = iterate op (cartesian_product (to_fset i j) (to_fset k l)) (fun o -> f (fir o) (sec o))}
+  =
+  iterate_cartesian_product op (to_fset i j) (to_fset k l) f;
+  int_int_iterate_to_int_iterate op f i j k l;
+  int_iterate_to_iterate op  (fun a -> int_iterate op (f a) k l) i j
+  
+let  lemma iterate_commute (op  : 'im -> 'im -> 'im)  (s1 : set 'a) (s2 : set 'b) (f : 'a -> 'b -> 'im)
+       requires{iterable op  }
+       requires{commut op  }
+       ensures{iterate op (cartesian_product s1 s2) (fun o ->  f (fir o) (sec o)) =
+                 iterate op (cartesian_product  s2 s1) (fun o ->  f   (sec o) (fir o))}
+  =
+  assert{p_injective    commute  (cartesian_product  s2 s1)} ;
+  iterate_map op (cartesian_product  s2 s1) commute (fun o -> f (fir o) (sec o));
+  ()
+  
+let  lemma iterate_commute_ (op  : 'im -> 'im -> 'im)  (s1 : set 'a) (s2 : set 'b) (f : 'a -> 'b -> 'im)
+       requires{iterable op  }
+       requires{commut op  }
+       ensures{iterate op s1 (fun a1 -> iterate op s2 (fun a2 -> f a1 a2)) =
+                 iterate op s2 (fun a2 -> iterate op s1 (fun a1 -> f a1 a2))}
+  = iterate_cartesian_product op s1 s2 f; 
+    iterate_cartesian_product op s2 s1 (fun b a -> f a b) 
+  
+let lemma int_int_iterate_commute (op  : 'im -> 'im -> 'im) (f:int -> int -> 'im)(i j k l:int)
+      requires{iterable op  }
+      requires{commut op}
+      requires{i <=j}
+      requires{k <=l}
+      ensures{  int_int_iterate op f i j k l = int_int_iterate op (fun a b ->  (f b a ))  k l i j}
+  = 
+  int_int_iterate_to_iterate op f i j k l;
+  int_int_iterate_to_iterate op (fun a b ->  (f b a ))  k l i j;
+  iterate_commute op (to_fset i j ) (to_fset k l ) f;
+  ()
+
+let lemma int_iterate_commute (op  : 'im -> 'im -> 'im) (f:int -> int -> 'im)(i j k l:int)
+      requires{iterable op  }
+      requires{commut op}
+      requires{i <=j}
+      requires{k <=l}
+      ensures{  int_iterate op  (fun a -> int_iterate op (f a) k l ) i j
+                = int_iterate op  (fun a -> int_iterate op (fun b -> f b a) i j ) k l}
+  = 
+  int_iterate_to_int_int_iterate op f i j k l;
+  int_iterate_to_int_int_iterate op (fun a b ->  (f b a ))  k l i j;
+  int_int_iterate_commute op  f i j k l;
+  ()
+
+end
+
+module Fset_iter_Pos
+         use  Iterations
+         use  set.FsetComprehension
+         use  Set_iter
+         use export p_set.Card_one_set
+
+let ghost function nonn_part (op  : 'im -> 'im -> 'im)  (s: set 'a) (t:  'a -> 'im) 
+                     ensures{forall e: 'a. mem e result <-> mem e s /\ not (neutral op (t e))}
+  = filter (fun e -> not (neutral op (t e))) s
+
+let ghost function n_part (op  : 'im -> 'im -> 'im) (s: set 'a) (t:  'a -> 'im)
+                     ensures{forall e: 'a. mem e result <-> mem e s /\ neutral op (t e )}
+  = filter (fun e -> neutral op (t e )) s
+
+let lemma nullity_partition (op  : 'im -> 'im -> 'im) (s: set 'a) (t:  'a -> 'im)(n:'im)
+      requires{commut op}
+      ensures{ s = union (nonn_part op s t) (n_part op s t)}
+      ensures{ inter (nonn_part op s t) (n_part op s t) = empty}
+  =
+  assert{forall b: 'a. mem b  (union (nonn_part op s t ) (n_part op s t )) -> not t b = n -> t b <> n};
+  assert{forall b: 'a. mem b  (union (nonn_part op s t ) (n_part op s t )) -> not (mem b (nonn_part op s t )) -> mem b (n_part op s t )};
+  assert{forall b: 'a. mem b  (inter (nonn_part op s t ) (n_part op s t )) -> (t b  = n /\ t b <> n) };
+  assert{ subset s  ( union (nonn_part op s t ) (n_part op s t ))};
+  assert{ subset (union (nonn_part op s t ) (n_part op s t )) s};
+  assert{ inter (nonn_part op s t ) (n_part op s t ) == empty}  
+  
+let rec lemma iterate_neutral (op  : 'im -> 'im -> 'im) (s:set 'a)(t: 'a -> 'im)
+          requires{iterable op  }
+          requires{commut op}
+          requires{forall a: 'a. mem a s -> t a = (neutral_elt op)}
+          ensures{iterate op s t = (neutral_elt op)}
+          variant{cardinal s}
+  = if (cardinal s = 0) then ()
+    else begin
+        assert {iterate op  s t  = op (t (choose s))  (iterate op (remove (choose s) s) t)};
+        iterate_neutral op (remove (choose s) s) t
+      end
+  
+let lemma iterate_nullity_partition (op  : 'im -> 'im -> 'im) (s: set 'a) (t:  'a -> 'im)
+      requires{iterable op  }
+      requires{commut op}
+      ensures{iterate op s t = iterate op (nonn_part op s t) t}
+  =
+  assert{iterate op s t = op (iterate op (nonn_part op s t) t)  (iterate op (n_part op s t) t)};
+  iterate_neutral op (n_part op s t) t;
+  assert{iterate op (n_part op s t) t = (neutral_elt op)}
+
+end
+
+module Comp_func         
+         use  complex.Constant
+         use  Iterations
+         use  set.Fset
+         use  Int_iter
+         use  int.Int
+         use  p_set.IndexestoSet
+         use  functions.MapInjection
+     
+let function comp_func (f g: 'a -> 'a): ('a -> 'a)
+  = fun a -> f (g a)
+           
+let lemma comp_func_apply (f g: 'a -> 'a)
+      ensures{comp_func f g = fun a -> f (g a)}
+  =()  
+  
+let lemma comp_func_eq (f1 f2  g1 g2: 'a -> 'a)
+      requires{f1 = f2}
+      requires{g1 = g2}
+      ensures{comp_func f1 g1 = comp_func f2 g2}
+  =()
+
+let lemma comp_func_apply_eq (f1 f2  g1 g2: 'a -> 'a) (i j : 'a)
+      requires{f1 = f2}
+      requires{g1 = g2}
+      requires{i = j}
+      ensures{ f1 (g1 i) =  f2 (g2 j)}
+  =()
+  
+let lemma neutral_id 'a ()
+      ensures{neutral (comp_func: ('a -> 'a) ->  ('a -> 'a)->  ('a -> 'a)) p_id}
+      ensures{iterable (comp_func: ('a -> 'a) ->  ('a -> 'a)->  ('a -> 'a))}
+  = set_neutral  comp_func p_id
+
+let ghost function iter_comp (t: int -> ('a-> 'a)) (i j:int): ('a-> 'a)
+  = int_iterate comp_func  t i j
+
+let lemma comp_func_neutral_left (f : 'a -> 'a)
+      ensures{comp_func p_id f = f}
+  =()
+
+let lemma comp_func_neutral_right (f : 'a -> 'a)
+      ensures{comp_func f p_id  = f}
+  =()
+  
+let lemma iter_comp_empty (f :int -> ('a ->'a)) (i:int) (j:int) 
+      requires{j <= i}
+      ensures{ iter_comp f i j = p_id}
+  = int_iterate_def_empty comp_func f i j
+  
+let lemma iter_comp_plus_one (f :int -> ('a ->'a)) (i:int) (j:int) 
+      requires{i < j}
+      ensures{ iter_comp f i j = comp_func (f i) ( iter_comp f (i+1) j)}
+  = int_iterate_def_plus_one comp_func f i j
+
+let lemma iter_comp_plus_one_value (f :int -> ('a ->'a)) (i:int) (j:int) (e: 'a)
+      requires{i < j}
+      ensures{ (iter_comp f i j) e =  (f i) (( iter_comp f (i+1) j) e)}
+  = iter_comp_plus_one f  i j
+
+let lemma iter_comp_cardone (f :int -> ('a ->'a)) (i:int) (j:int) 
+      requires{j = i+1}
+      ensures{ iter_comp f i j =  f i}
+  = int_iterate_cardone comp_func   f i j
+
+let lemma iter_comp_def_plus_one_com (f :int -> ('a ->'a)) (i:int) (j:int) 
+      requires{i < j}
+      ensures{  comp_func (f i)( iter_comp f (i+1) j) = iter_comp f i j }
+  = int_iterate_def_plus_one_com comp_func f i j
+  
+let  lemma iter_comp_right_extension (f : int -> ('a ->'a)) (i j : int)
+       requires{i<j}
+       ensures  { iter_comp f i j = comp_func (iter_comp f i (j-1))  (f (j-1)) }
+  = int_iterate_right_extension comp_func f  i j  
+  
+let  lemma iter_comp_right_extension_value (f : int -> ('a ->'a)) (i j : int) (e:'a)
+       requires{i<j}
+       ensures  {(iter_comp f i j) e =  (iter_comp f i (j-1)) ( (f (j-1))e) }
+  = iter_comp_right_extension  f  i j
+  
+let rec lemma iter_comp_transitivity (f : int -> ('a ->'a)) (i k j : int)
+          requires {i <= k <= j}
+          ensures  { iter_comp f i j =  comp_func (iter_comp f i k)  (iter_comp f k j) }
+          variant { k - i }
+  =
+  int_iterate_transitivity comp_func f i k j
+  
+let rec lemma iter_comp_eq (f g : int -> ('a ->'a)) i j
+          requires{forall k : int. i <= k < j -> f k = g k}
+          ensures{ iter_comp   f i j = iter_comp  g i j}
+          variant {j - i}
+  =
+  int_iterate_eq comp_func   f g (i +1) j
+
+let  lemma iter_comp_eq_gen (f g : int -> ('a ->'a)) (i i1 j j1:int)
+       requires{forall k : int. i <= k < j -> f k = g k}
+       requires{i = i1}
+       requires{j = j1}
+       ensures{ iter_comp  f i j = iter_comp   g i1 j1}
+  =
+  iter_comp_eq  f g i j 
+
+let lemma iter_comp_transl (f: int -> ('a -> 'a))(i j k:int)
+      ensures{iter_comp f i j  = iter_comp (fun b ->  f (b + k))  (i-k) (j-k)}
+  = int_iterate_transl comp_func f i j k
+
+let lemma iter_comp_transl_plus_one (f: int -> ('a -> 'a))(i j :int)
+      ensures{iter_comp f i j  = iter_comp (fun b ->  f (b - 1))  (i+1) (j+1)}
+  =  iter_comp_transl f i j (-1)
+end                            

@@ -1,0 +1,618 @@
+module Rev_qft
+         use  export binary.Bit_vector
+         use qbricks.Circuit
+         use qbricks.Diag_circuit
+         use export p_int.Int_comp
+
+let rec function cascade_cont_rz_neg (first_k first_c t l  n:int): circuit
+        requires{0<=l<n}
+        requires{0<= first_c<n}
+        requires{0<= t < n}
+        requires{first_c + l  <n}
+        requires{0<= first_k}
+        requires{first_k+l<=n}
+        requires{t<= first_c + l  -> t < first_c}
+        ensures{width result = n}
+        ensures{ancillas result = 0}
+        ensures{size result <= cont_size * (l+1)}
+        ensures{diagonal result (fun x ->  int_to_ang (- ind_isum (fun k ->    getbv x (first_c + k) * getbv x t * power_ 2 (n- (k  + first_k))) 0 (l+1))n )}
+        variant{l}
+  = if l = 0 then crzn_up  first_c  t (-first_k) n n
+    else  diag_sequence
+            (cascade_cont_rz_neg first_k first_c t (l-1) n)
+            (crzn_up   (first_c + l)   t  (-(first_k + l)) n n)
+            (fun x ->  int_to_ang (- ind_isum (fun k ->    getbv x (first_c + k) * getbv x t *power_ 2 (n- (k  + first_k))) 0 l) n)
+                         (fun x -> int_to_ang (-  getbv x (first_c + l) * getbv x t * power_ 2 (n - (l + first_k))) n)
+                         (fun x ->  int_to_ang (- ind_isum (fun k ->    getbv x (first_c + k) * getbv x t * power_ 2 (n- (k  + first_k))) 0 (l+1)) n)                          
+  
+let function cascade_cont_qft (t   n:int): circuit
+        requires{0<= t < n-1}
+        ensures{width result = n}
+        ensures{size result <= cont_size *  (n-t-1)}
+        ensures{ancillas result =  0}
+        ensures{diagonal result (fun x ->  int_to_ang (- ind_isum (fun k ->    getbv x ((t+1) + k) * getbv x t * power_ 2 (n- (k  + 2))) 0 ((n-(t+2))+1))n )}
+        ensures{diagonal result (fun x ->  int_to_ang (- ind_isum (fun k ->  getbv x t *  getbv x k * power_ 2 (n- k -1 + t)) (t+1) n) n) }
+  = cascade_cont_rz_neg 2 (t+1) t (n- (t+2)) n
+  
+let function qft_rev_line (t  n:int): circuit
+        requires{0<= t <n}
+        ensures{size result <= cont_size  * n}
+        ensures{ancillas result =  0}
+        ensures{width result = n}
+        ensures{correct_path_sum_bv result   1 (fun x y -> make_bv (fun i -> if i = t then getbv y 0 else getbv x i) n)
+                                           (fun x y -> int_to_ang (- ind_isum (fun j ->  getbv x j *  getbv y 0 * power_ 2 (n-j - 1+t)) t n) n)}
+  = if (t = n-1)
+    then place_hadamard_bv t n 
+    else sequence_gen_diag  (cascade_cont_qft t n) (place_hadamard_bv t n) 
+           (fun x -> int_to_ang (- ind_isum (fun k ->  getbv x t *  getbv x k * power_ 2 (n- k -1 + t)) (t+1) n)n)
+           (fun x y -> int_to_ang (- ind_isum (fun k ->  getbv x k *  getbv y 0 * power_ 2 (n-k - 1+t)) t n) n) 
+           (fun x y -> make_bv (fun i -> if i = t then getbv y 0 else getbv x i) n) 1
+  
+let function qft_rev_be (n:int):circuit
+                           requires{0<n}
+        ensures{size result <= polysquare n  cont_size  0 0}
+        ensures{ancillas result =  0}
+        ensures{width result = n}
+        ensures{correct_path_sum_bv result   n (fun _ y  ->  y )
+                                           (fun x y -> int_to_ang (ind_isum(fun l -> (-ind_isum (fun k ->  getbv x k *  getbv y l * power_ 2 (n-k - 1+l)) l n))0  n) n)}
+  = let rec qft_rev_lines (k :int)
+              requires{0<=k<n}
+        ensures{size result <=  cont_size * n * (k+1)}
+        ensures{ancillas result =  0}
+        ensures{width result = n}
+        ensures{correct_path_sum_bv result    (k+1) (fun x y  -> make_bv (fun i -> if 0<= i < (k+1) then getbv y i else getbv x i) n)
+                                           (fun x y -> int_to_ang (ind_isum(fun l -> (-ind_isum (fun k ->  getbv x k *  getbv y l * power_ 2 (n-k - 1+l)) l n))0  (k+1)) n) }
+              variant{k}
+      =
+      if k = 0
+        then qft_rev_line 0  n
+      else  seq_pps_bv (qft_rev_lines (k-1)) (qft_rev_line k n)
+            k 1 (k+1)
+            (fun x y  -> make_bv (fun i -> if 0<= i < k then getbv y i else getbv x i) n)
+            (fun x y  -> make_bv (fun i -> if i =  k then getbv y 0 else getbv x i) n)
+            (fun x y  -> make_bv (fun i -> if 0<= i < k + 1 then getbv y i else getbv x i) n)
+               (fun x y -> int_to_ang (ind_isum(fun l -> (-ind_isum (fun k ->  getbv x k *  getbv y l * power_ 2 (n-k - 1+l)) l n))0  k) n)
+               (fun x y -> int_to_ang (- ind_isum (fun j ->  getbv x j *  getbv y 0 * power_ 2 (n-j - 1+k)) k n) n)
+               (fun x y -> int_to_ang (ind_isum(fun l -> (-ind_isum (fun k ->  getbv x k *  getbv y l * power_ 2 (n-k - 1+l)) l n))0  (k+1)) n)
+    in qft_rev_lines (n-1)
+
+use export binary.Bit_vector_inversions
+use export complex_operations.FromInt
+use export arit.Div_Mod
+use export qdata.Sqrt_two
+use export unit_circle.Ang_sum
+use export qdata.Qreg
+     
+let  function  qft_rev_coeff  (x y :bitvec) (n:int) 
+                 requires{0<n}
+                 ensures{length x = n -> length y = n -> result =
+                                                           ang_exp ((int_to_ang (ind_isum(fun l -> (-ind_isum (fun k ->  getbv x k *  getbv y l * power_ 2 (n-k - 1+l)) l n))0  n) n))}
+  = int_to_ang_by_sum_mult_break_neg n;
+    ang_exp (real_to_ang ( i_to_c (- bv_to_int  x) *. i_to_c (bv_to_int (bv_inversion y))*. pow_inv_2 n))
+
+let lemma path_sem_rev_qft_unit_be (n:int)
+      requires{0<n}
+      ensures{forall x: matrix complex. is_a_ket_l x n -> is_a_ket_basis_elt x ->
+                        path_sem (qft_rev_be n) x = (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> qft_rev_coeff  (ket_to_bv x) y n  *.. bv_to_ket y)n))}
+  = ()
+
+let  function  int_qft_rev_coeff (i j :int) (n:int)
+                 requires{0<n}
+                 ensures{result =  ang_exp (real_to_ang ( i_to_c (-mod i (power_ 2 n)) *. i_to_c (int_bit_inversion (mod j (power_ 2 n)) n)
+                         *. pow_inv_2 n))}
+                 ensures{result = qft_rev_coeff (int_to_bv (mod i (power_ 2 n)) n) (int_to_bv (mod j (power_ 2 n)) n) n}
+  =
+  if mod i (power_ 2 n) = 0 then () else
+    if i<0 then
+      begin
+      unicity_div_mod (-  i) (power_ 2 n)  (- (div i (power_ 2 n)+1)) (power_ 2 n -  mod i (power_ 2 n));
+      real_To_Ang_cyclic_pos ( i_to_c (- mod i (power_ 2 n)) *. i_to_c (int_bit_inversion (mod j (power_ 2 n)) n)
+                           *. pow_inv_2 n) (int_bit_inversion (mod j (power_ 2 n)) n);
+        end
+        else
+        begin
+      unicity_div_mod (-  i) (power_ 2 n)  (- (div i (power_ 2 n)+1)) (power_ 2 n -  mod i (power_ 2 n)) ;
+      real_To_Ang_cyclic_pos ( i_to_c (- mod i (power_ 2 n)) *. i_to_c (int_bit_inversion (mod j (power_ 2 n)) n)
+                           *. pow_inv_2 n) (int_bit_inversion (mod j (power_ 2 n)) n);
+      end;
+      ang_exp (real_to_ang ( i_to_c (mod (-i) (power_ 2 n)) *. i_to_c (int_bit_inversion (mod j (power_ 2 n)) n)
+                         *. pow_inv_2 n))
+
+let lemma  qft_rev_coeff_int_to_ang (x y :bitvec) (n:int)
+                 requires{0<n}
+                 requires{length x = n}
+                 requires{length y = n}
+                 ensures{qft_rev_coeff x y n =  ang_exp (int_to_ang ( - bv_to_int x *  (bv_to_int (bv_inversion y))) n) }
+  = ()
+
+  use qdata.Kronecker_Qbit
+
+  
+let lemma path_sem_rev_qft_ket_be (i n:int)
+      requires{0<n}
+      requires{0<= i < power_ 2 n}
+      ensures{path_sem (qft_rev_be n) (ket n i) = (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> qft_rev_coeff (int_to_bv i n) y n *.. bv_to_ket y)n))}
+  =()
+
+let lemma get_path_sem_rev_qft_ket_be (i j n:int)
+      requires{0<n}
+      requires{0<= i < power_ 2 n}
+      requires{0<= j < power_ 2 n}
+      ensures{get_ket (path_sem (qft_rev_be n) (ket n i)) j  = pow_inv_sqrt_2 n *. qft_rev_coeff (int_to_bv i n) (int_to_bv j n)  n }
+  =()
+
+let lemma path_sem_rev_qft_ket_ind_be (i n:int)
+      requires{0<n}
+      requires{0<= i < power_ 2 n}
+      ensures{    path_sem (qft_rev_be n) (ket n i) = (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> int_qft_rev_coeff i (bv_to_int y) n *.. bv_to_ket y)n))}
+  =()
+
+let lemma path_sem_rev_qft_bv_be (n:int)
+      requires{0<n}
+      ensures{forall x: bitvec. length x = n ->
+                        path_sem (qft_rev_be n) (bv_to_ket x) = (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> qft_rev_coeff x y n *.. bv_to_ket y)n))}
+  =()
+
+     use export unit_circle.Angle
+     use export exponentiation.Complex_Exponentiation
+    
+let  lemma  int_qft_rev_coeff_expo (i j :int) (n:int)
+      requires{0<n}
+      ensures{ int_qft_rev_coeff i j n = cpower (ang_exp (real_to_ang (i_to_c (- mod i (power_ 2 n)) *. pow_inv_2 n))) (int_bit_inversion (mod j (power_ 2 n)) n)}
+  = ()
+
+      use  set.FsetComprehension
+      use p_set.Fset_comp
+  
+let function qft_rev_pre (n:int) (ghost x:bitvec):circuit
+                                                       requires{0<n}
+                                                       requires{length x = n}
+                                                       ensures{size result <= polysquare n  cont_size  0 0}
+                                                       ensures{ancillas result =  0}
+                                                       ensures{width result = n}
+                                                       ensures{path_sem result (bv_to_ket x) = (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> qft_rev_coeff x (bv_inversion y) n *.. bv_to_ket y)n))}
+  =
+  set_equal (map (fun (y0:bitvec) -> bv_inversion y0) (n_bvs n)) (n_bvs n);
+  sem_comp (qft_rev_be n) (permutation_circuit n (fun i -> n-1-i))  (bv_to_ket x)
+    (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> qft_rev_coeff x y n *.. bv_to_ket y)n))
+    (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> qft_rev_coeff x y n *.. bv_to_ket (bv_inversion y))n));                                                                                              map_ket_sum_l (fun y -> if length y = n then  qft_rev_coeff x y n *.. bv_to_ket (bv_inversion y) else bv_to_ket x) (n_bvs n) bv_inversion n;
+  sequence (qft_rev_be n) (permutation_circuit n (fun i -> n-1-i))
+
+let function qft_rev (n:int) 
+               requires{0<n}
+               ensures{size result <= polysquare n  cont_size  0 0}
+               ensures{ancillas result =  0}
+               ensures{width result = n}
+               ensures{forall x: bitvec. length x = n -> path_sem result (bv_to_ket x) = (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> qft_rev_coeff x (bv_inversion y) n *.. bv_to_ket y)n))}
+               ensures{forall x: bitvec. forall i :int. length x = n -> 0<= i < power_ 2 n -> get_ket
+                                                                                                (path_sem result (bv_to_ket x)) i = pow_inv_sqrt_2 n *. qft_rev_coeff x (bv_inversion (int_to_bv i n)) n }
+  =
+  sequence (qft_rev_be n) (permutation_circuit n (fun i -> n-1-i))
+
+end
+
+     
+module Qft
+      
+         use  export Rev_qft
+         use qbricks.Circuit
+         use qbricks.Diag_circuit
+         use binary.Bit_vector_inversions
+         use complex_operations.FromInt
+  
+let function qft (n:int):circuit
+     requires{0<n}
+     ensures{size result <= polysquare n cont_size  0 0}
+     ensures{ancillas result =  0}
+     ensures{width result = n}
+     ensures{forall x : bitvec. length x = n ->  path_sem result 
+                                                   (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> qft_rev_coeff x (bv_inversion y) n *.. bv_to_ket y)n))
+                                                 = (bv_to_ket x)}
+  = reverse (qft_rev n)
+
+use p_int.Int_comp
+use binary.Bit_vector_inversions
+
+let  function  int_qft_coeff (i j :int) (n:int)
+      requires{0<n}
+      ensures{modulus result = c_one}
+             ensures{result = int_qft_rev_coeff (-i) (int_bit_inversion (mod j (power_ 2 n)) n) n}
+  = ang_exp (int_to_ang (i * j) n)
+
+let  lemma  int_qft_coeff_rev (i j :int) (n:int)
+      requires{0<n}
+       ensures{int_qft_coeff i j n = int_qft_coeff j i n}
+=()
+      
+let  lemma  int_qft_coeff_minus_to_right (i j :int) (n:int)
+      requires{0<n}
+       ensures{int_qft_coeff (-i) j n = int_qft_coeff  i (-j) n}
+=()
+      
+let  lemma  int_qft_coeff_minus_to_left (i j :int) (n:int)
+      requires{0<n}
+       ensures{int_qft_coeff i (-j) n = int_qft_coeff  (-i) j n}
+=()
+      
+  use qdata.Kronecker_Qbit
+
+let  lemma  int_qft_coeff_as_real (i j :int) (n:int)
+      requires{0<n}
+      ensures{ int_qft_coeff  i j n = ang_exp(real_to_ang (i_to_c (i*j) *. pow_inv_2 n) )}
+             =()
+
+  
+let  lemma  int_qft_coeff_expo (i j :int) (n:int)
+      requires{0<n}
+      ensures{ int_qft_coeff  i j n = cpower (ang_exp (int_to_ang  i n)) j }
+             =()
+
+let  lemma  int_qft_coeff_expo_ (i j :int) (n:int)
+      requires{0<n}
+      ensures{ int_qft_coeff  i j n = cpower (ang_exp (int_to_ang  j n))  i }
+             =()
+             
+let lemma int_qft_coeff_as_mod (i j n:int)
+               requires{0<n}
+           ensures{int_qft_coeff i j n = int_qft_coeff  (mod i (power_ 2 n)) (mod j (power_ 2 n))  n}
+           =  ()
+
+let lemma  int_qft_rev_coeff_to_qft_coeff (i j :int) (n:int)
+      requires{0<n}
+      requires{0<= i < power_ 2 n}
+      requires{0<= j < power_ 2 n}
+      ensures{int_qft_rev_coeff i j n = int_qft_coeff (int_bit_inversion j n) (-i) n }
+  = ()
+
+
+let function qft_rev_ (n:int) 
+               requires{0<n}
+               ensures{size result <= polysquare n  cont_size  0 0}
+               ensures{ancillas result =  0}
+               ensures{width result = n}
+               ensures{forall x: bitvec. length x = n ->
+                                 path_sem result (bv_to_ket x) = (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> int_qft_coeff (-(bv_to_int y)) (bv_to_int x) n *.. bv_to_ket y)n))}
+               ensures{forall x: bitvec. forall i :int. length x = n -> 0<= i < power_ 2 n -> get_ket
+                                 (path_sem result (bv_to_ket x)) i = pow_inv_sqrt_2 n *. int_qft_coeff (-i) (bv_to_int x) n }
+               ensures{forall x: bitvec. forall i :int. length x = n -> 0<= i < power_ 2 n -> get_ket
+                                 (path_sem result (bv_to_ket x)) i = pow_inv_sqrt_2 n *. int_qft_coeff i (- bv_to_int x) n }
+  = qft_rev n
+
+
+let lemma path_sem_rev_qft_unit (n:int)
+      requires{0<n}
+      ensures{forall x: matrix complex. is_a_ket_l x n -> is_a_ket_basis_elt x ->
+                        path_sem (qft_rev n) x = (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> int_qft_coeff  (- ket_to_int x) (bv_to_int y) n  *.. bv_to_ket y)n))}
+  = ()
+  
+let lemma path_sem_rev_qft_unit_int (n:int)
+      requires{0<n}
+      ensures{forall i: int. 0<= i < power_ 2 n -> 
+                        path_sem (qft_rev n) (ket n i) = (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> int_qft_coeff  (- i) (bv_to_int y) n  *.. bv_to_ket y)n))}
+  = ()
+  
+let lemma sem_rev_qft_unit (n:int)
+      requires{0<n}
+      ensures{forall x: matrix complex. is_a_ket_l x n -> is_a_ket_basis_elt x ->
+                        sem (qft_rev n) x  (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> int_qft_coeff  (- ket_to_int x) (bv_to_int y) n  *.. bv_to_ket y)n))}
+  = ()
+  
+let lemma sem_rev_qft_unit_int (n:int)
+      requires{0<n}
+      ensures{forall i: int. 0<= i < power_ 2 n -> 
+                        sem (qft_rev n) (ket n i) (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> int_qft_coeff  (- i) (bv_to_int y) n  *.. bv_to_ket y)n))}
+  = ()
+  
+(* let lemma path_sem_rev_qft_ket_be (i n:int)
+ *       requires{0<n}
+ *       requires{0<= i < power_ 2 n}
+ *       ensures{path_sem (qft_rev_be n) (ket n i) = (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> qft_rev_coeff (int_to_bv i n) y n *.. bv_to_ket y)n))}
+ *   =()
+ * 
+ * let lemma get_path_sem_rev_qft_ket_be (i j n:int)
+ *       requires{0<n}
+ *       requires{0<= i < power_ 2 n}
+ *       requires{0<= j < power_ 2 n}
+ *       ensures{get_ket (path_sem (qft_rev_be n) (ket n i)) j  = pow_inv_sqrt_2 n *. qft_rev_coeff (int_to_bv i n) (int_to_bv j n)  n }
+ *   =()
+ * 
+ * let lemma path_sem_rev_qft_ket_ind_be (i n:int)
+ *       requires{0<n}
+ *       requires{0<= i < power_ 2 n}
+ *       ensures{    path_sem (qft_rev_be n) (ket n i) = (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> int_qft_rev_coeff i (bv_to_int y) n *.. bv_to_ket y)n))}
+ *   =()
+ * 
+ * let lemma path_sem_rev_qft_bv_be (n:int)
+ *       requires{0<n}
+ *       ensures{forall x: bitvec. length x = n ->
+ *                         path_sem (qft_rev_be n) (bv_to_ket x) = (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> qft_rev_coeff x y n *.. bv_to_ket y)n))}
+ *   =() *)
+
+  
+let lemma int_qft_coeff_eq (i i' j j' n n':int)
+               requires{n = n'}
+               requires{0<n}
+               requires{mod i (power_ 2 n) = mod i' (power_ 2 n) }
+               requires{mod j (power_ 2 n) = mod j' (power_ 2 n) }
+           ensures{int_qft_coeff i j n = int_qft_coeff  i' j' n}
+           =  ()
+
+use complex_operations.Base_type
+use unit_circle.Trigo_form            
+
+let lemma rev_qft_apply_qft(i n :int)
+      requires{0<n}
+      ensures{path_sem (qft_rev n) (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> int_qft_coeff i (bv_to_int y)  n *.. bv_to_ket y) n)) = ket n (mod i (power_ 2 n))}
+  =
+  assert{forall j. 0<= j < power_ 2 n ->  get_ket (path_sem (qft_rev n) (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n)
+                                              (fun y -> int_qft_coeff i (bv_to_int y)  n *.. bv_to_ket y)n)))  j =
+                                                     pow_inv_sqrt_2 n *. sum (n_bvs n) (fun y -> pow_inv_sqrt_2 n *. int_qft_coeff i (bv_to_int y)  n *. int_qft_coeff (bv_to_int y) (-j)   n)};
+  assert{forall j. 0<= j < power_ 2 n ->  get_ket (path_sem (qft_rev n) (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n)
+                                              (fun y -> int_qft_coeff i (bv_to_int y)  n *.. bv_to_ket y)n)))  j =
+                                            pow_inv_sqrt_2 n *. sum (n_bvs n) (fun y -> pow_inv_sqrt_2 n *. ang_exp(ang_mult_int(int_to_ang ( i  - j ) n)
+                                                                  (bv_to_int y)))};
+  assert{forall j. 0<= j < power_ 2 n ->  get_ket (path_sem (qft_rev n) (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n)
+                                              (fun y -> int_qft_coeff i (bv_to_int y)  n *.. bv_to_ket y)n)))  j =
+                                            pow_inv_2 n  *. sum (to_fset 0 (power_ 2 n)) (fun y -> cpower (ang_exp(int_to_ang ( i  - j ) n))y)};
+  assert{forall j. 0<= j < power_ 2 n -> mod i (power_ 2 n) <>  j   ->
+         get_ket (path_sem (qft_rev n) (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n)
+                                                                   (fun y -> int_qft_coeff i (bv_to_int y)  n *.. bv_to_ket y)n)))  j = c_zero};
+  assert{forall j. 0<= j < power_ 2 n -> mod i (power_ 2 n) =  j   ->
+         get_ket (path_sem (qft_rev n) (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n)
+                                                                   (fun y -> int_qft_coeff i (bv_to_int y)  n *.. bv_to_ket y)n)))  j = c_one}
+
+let function apply_qft (n i:int)
+               requires{0<n}
+               ensures{is_a_ket_l result n}
+               ensures{result = path_sem (qft n) (ket n (mod i (power_ 2 n)))}
+           =  pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> int_qft_coeff i (bv_to_int y)  n *.. bv_to_ket y) n)
+
+let lemma qft_correct_bv (n:int)
+      requires{0<n}
+      ensures{correct_path_sum_bv (qft n)   n (fun _ y  ->  y )
+                (fun x y -> int_to_ang (bv_to_int x * bv_to_int y  ) n)}
+=()
+
+let lemma path_sem_qft_pre (n:int)(x:bitvec)
+     requires{0<n}
+     requires{ length x = n}
+     ensures{path_sem (qft n) (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> int_qft_coeff   (-bv_to_int x) (bv_to_int y)  n *.. bv_to_ket y)n))
+                                                 = (bv_to_ket x)}
+  = ()
+
+let lemma path_sem_qft (n:int)
+     requires{0<n}
+     ensures{forall x : bitvec. length x = n ->  path_sem (qft n) 
+                                                   (pow_inv_sqrt_2 n *.. (ket_sum_l (n_bvs n) (fun y -> int_qft_coeff (- bv_to_int x) (bv_to_int y) n *.. bv_to_ket y)n))
+                                                 = (bv_to_ket x)}
+  =  ()
+
+let lemma get_ket_apply_qft (n i j:int)
+      requires{0<n}
+      requires{0<= j < power_ 2 n}
+      ensures{get_ket (apply_qft n i) j = pow_inv_sqrt_2 n  *. int_qft_coeff i j  n}
+           =  ()
+
+let lemma apply_qft_equiv (n i j:int)
+               requires{0<n}
+               requires{mod i (power_ 2 n) = mod j (power_ 2 n)}
+               ensures{apply_qft n i = apply_qft n j}
+           =  ()
+
+let lemma qft_rev_qft_int (n i:int)
+      requires{0<n}
+  ensures{path_sem (qft_rev n) (apply_qft n i) = ket n (mod i (power_ 2 n))}
+  =()
+
+
+  
+let lemma from_qft_basis (n i:int)
+      requires{0<n}
+      requires{0<= i < power_ 2 n}
+  ensures{path_sem (qft_rev n) (apply_qft n i) = ket n i}
+  =()
+  
+let lemma qft_apply_basis (n i:int)
+      requires{0<n}
+  ensures{path_sem (qft n) (ket n (mod i (power_ 2 n))) = apply_qft n i}
+  =()
+  
+let lemma sem_qft_rev_qft_int (n i:int)
+      requires{0<n}
+  ensures{sem (qft_rev n) (apply_qft n i) (ket n (mod i (power_ 2 n)))}
+  =()
+
+let lemma sem_from_qft_basis (n i:int)
+      requires{0<n}
+      requires{0<= i < power_ 2 n}
+  ensures{sem (qft_rev n) (apply_qft n i) (ket n i)}
+  =()
+  
+let lemma sem_qft_apply_basis (n i:int)
+      requires{0<n}
+  ensures{sem (qft n) (ket n (mod i (power_ 2 n))) (apply_qft n i)}
+  =()
+  
+let lemma apply_qft_eq (n n' i i':int)
+               requires{0<n}
+               requires{n =n'}
+               requires{mod i (power_ 2 n) = mod i' (power_ 2 n)}
+           ensures{apply_qft n i = apply_qft n' i'}
+           =  ()
+
+let function apply_qft_as_mod (n i:int)
+               requires{0<n}
+           ensures{apply_qft n i = apply_qft n (mod i (power_ 2 n))}
+           =  ()
+                    
+let lemma int_qft_coeff_add (i i' j :int) (n:int)
+      requires{0<n}
+      ensures{int_qft_coeff   (i+i') j n = int_qft_coeff i j n *. int_qft_coeff i' j n}
+  =
+  int_qft_coeff_as_mod i j n;
+  int_qft_coeff_as_mod i' j n ;
+  int_qft_coeff_as_mod   (i+i') j n;
+  int_qft_coeff_eq  (i+i') (mod i (power_ 2 n) + mod i' (power_ 2 n )) j j n n 
+      
+let lemma path_sem_qft_unit (n:int)
+      requires{0<n}
+      ensures{forall x: matrix complex. is_a_ket_l x n -> is_a_ket_basis_elt x ->
+                        path_sem (qft n) x = apply_qft n  (ket_to_int x)}
+  =()
+
+let lemma path_sem_qft_bv (n:int)
+      requires{0<n}
+      ensures{forall x: bitvec. length x = n ->
+                        path_sem (qft n) (bv_to_ket x) = apply_qft n  (bv_to_int x)}
+  =()
+
+let lemma to_qft_basis (n i:int)
+      requires{0<n}
+      requires{0<= i <power_ 2 n}
+      ensures{forall x: bitvec. length x = n ->
+                        path_sem (qft n) (ket n i) = apply_qft n  i}
+  =()
+
+let function place_qft_zero (n k:int): circuit
+    requires{0< n }
+    requires{0< k }
+    ensures{width result = n+k}
+    ensures{size result <=   polysquare n   cont_size   0 0}
+    ensures{ancillas result = 0}
+    ensures{forall g: int. forall y: matrix complex. 0<= g < power_ 2 n ->
+                                     is_a_ket_l y k -> sem result (kronecker (ket n   g) y)  (kronecker (apply_qft n g) y)}
+    ensures{width result = n+k}
+  =  place_kron_left_path (qft n) (n+k);
+     place (qft n) 0 (n+k)
+
+let function place_rev_qft_zero (n k:int): circuit
+    requires{0< n }
+    requires{0< k }
+    ensures{width result = n+k}
+    ensures{size result <=   polysquare n   cont_size   0 0}
+    ensures{ancillas result = 0}
+    ensures{forall g: int. forall y: matrix complex. 0<= g < power_ 2 n ->
+                                     is_a_ket_l y k -> sem result  (kronecker (apply_qft n g) y)  (kronecker (ket n   g) y)}
+  =  reverse (place_qft_zero n k)
+
+let function place_qft (n k size_reg:int): circuit
+    requires{0< n }
+    requires{0< k }
+    requires{k + n < size_reg}
+    ensures{width result = size_reg}
+    ensures{size result <=   polysquare n   cont_size   0 0}
+    ensures{ancillas result = 0}
+    ensures{forall g: int. forall y z: matrix complex. 0<= g < power_ 2 n ->
+                                       is_a_ket_l y k -> is_a_ket_l z (size_reg - k -n) ->
+                                       sem result (kronecker y (kronecker  (ket n   g) z)) (kronecker y (kronecker  (apply_qft n   g) z))}
+    ensures{width result = size_reg}
+  =  place (qft n) k size_reg
+
+let function place_rev_qft (n k size_reg:int): circuit
+    requires{0< n }
+    requires{0< k }
+    requires{k + n < size_reg}
+    ensures{width result = size_reg}
+    ensures{size result <=   polysquare n   cont_size   0 0}
+    ensures{ancillas result = 0}
+    ensures{forall g: int. forall y z: matrix complex. 0<= g < power_ 2 n ->
+                                       is_a_ket_l y k -> is_a_ket_l z (size_reg - k -n) ->
+                                       sem result (kronecker y (kronecker  (apply_qft n   g) z)) (kronecker y (kronecker  (ket n   g) z))}
+    ensures{width result = size_reg}
+  =  reverse (place_qft n k size_reg)
+
+
+let function apply_function_in_qft_basis (c:circuit)(n k size_reg:int)(ghost f:int->int):circuit
+               requires{0<n}
+               requires{0<k}
+               requires{k + n < size_reg}
+               requires{width c = size_reg}
+               requires{forall i. 0<=i<power_ 2 n -> 0<= f i < power_ 2 n }
+               ensures{size result <= polysquare n   (cont_size*2)   0 0 + size c}
+               ensures{ancillas result = ancillas c}
+               ensures{width result = size_reg}
+               ensures{forall y  z :matrix complex. forall i:int. 0<=i < power_ 2 n ->
+                      is_a_ket_l y k  -> is_a_ket_l z (size_reg-n-k)  ->
+                          sem c (kronecker y (kronecker (apply_qft n i) z)) (kronecker y (kronecker (apply_qft n (f i)) z))
+                        ->  sem result (kronecker y (kronecker (ket n i) z)) (kronecker y (kronecker (ket n (f i)) z))}
+           ensures{result = sequence (sequence (place_qft n k size_reg) c) (place_rev_qft n k size_reg)}
+  = let rev_qft_and_apply()
+          ensures{size result <= polysquare n  (cont_size)   0 0 + size c}
+          ensures{ancillas result = ancillas c}
+          ensures{width result = size_reg}
+           ensures{result = sequence (place_qft n k size_reg) c}
+          ensures{forall y z:matrix complex. forall i:int. 0<=i < power_ 2 n -> is_a_ket_l y k -> is_a_ket_l z (size_reg-n-k)  ->
+                 sem c (kronecker y (kronecker (apply_qft n i) z)) (kronecker y (kronecker (apply_qft n (f i)) z))
+                      -> sem result (kronecker y (kronecker (ket n i) z)) (kronecker y (kronecker (apply_qft n (f i)) z))}
+      = sequence (place_qft n k size_reg) c
+    in  sequence (rev_qft_and_apply()) (place_rev_qft n k size_reg)
+
+let function apply_function_in_qft_basis_zero (c:circuit)(n  size_reg:int)(ghost f:int->int):circuit
+               requires{0<n}
+               requires{n < size_reg}
+               requires{width c = size_reg}
+               requires{forall i. 0<=i<power_ 2 n -> 0<= f i < power_ 2 n }
+               ensures{size result <= polysquare n   (cont_size*2)   0 0 + size c}
+               ensures{ancillas result = ancillas c}
+               ensures{width result = size_reg}
+               ensures{forall   z :matrix complex. forall i:int. 0<=i < power_ 2 n ->
+                       is_a_ket_l z (size_reg-n)  ->
+                          sem c  (kronecker (apply_qft n i) z)  (kronecker (apply_qft n (f i)) z)
+                        ->  sem result  (kronecker (ket n i) z)  (kronecker (ket n (f i)) z)}
+           ensures{result = sequence (sequence (place_qft_zero n (size_reg-n)) c) (place_rev_qft_zero n (size_reg-n))}
+  = let rev_qft_and_apply()
+          ensures{size result <= polysquare n  (cont_size)   0 0 + size c}
+          ensures{ancillas result = ancillas c}
+          ensures{width result = size_reg}
+           ensures{result = sequence (place_qft_zero n  (size_reg-n)) c}
+          ensures{forall  z:matrix complex. forall i:int. 0<=i < power_ 2 n  -> is_a_ket_l z (size_reg-n)  ->
+                 sem c  (kronecker (apply_qft n i) z)  (kronecker (apply_qft n (f i)) z)
+                      -> sem result  (kronecker (ket n i) z)  (kronecker (apply_qft n (f i)) z)}
+      = sequence (place_qft_zero n (size_reg-n)) c
+    in  sequence (rev_qft_and_apply()) (place_rev_qft_zero n  (size_reg-n))
+
+let function apply_from_qft_zero (n k:int)(c:circuit):circuit
+               requires{0<n}
+               requires{0<k}
+               requires{width c = n+k}
+               ensures{size result <= polysquare n   (cont_size*2)   0 0 + size c}
+               ensures{ancillas result = ancillas c}
+                 ensures{width result = n+k}
+                 ensures{forall y z:matrix complex. forall i:int. 0<=i < power_ 2 n -> is_a_ket_l y k ->is_a_ket_l z k ->
+                                                             sem c (kronecker (ket n i) y) (kronecker (ket n i) z)
+                                                                                 -> sem result (kronecker (apply_qft n i) y) (kronecker (apply_qft n i) z)}
+  = let rev_qft_and_apply()
+          ensures{size result <= polysquare n  (cont_size)   0 0 + size c}
+          ensures{ancillas result = ancillas c}
+          ensures{width result = n+k}
+          ensures{forall y z:matrix complex. forall i:int. 0<=i < power_ 2 n -> is_a_ket_l y k ->
+                                                      sem c (kronecker (ket n i) y) (kronecker (ket n i) z)
+                                                                                 -> sem result (kronecker (apply_qft n i) y) (kronecker (ket n i) z)}
+      =
+          sequence (place_rev_qft_zero n k) c
+    in  sequence (rev_qft_and_apply()) (place_qft_zero n k)
+
+let function apply_in_qft_zero (n k:int)(c:circuit):circuit
+               requires{0<n}
+               requires{0<k}
+               requires{width c = n+k}
+               ensures{size result <= polysquare n   (cont_size*2)   0 0 + size c}
+               ensures{ancillas result = ancillas c}
+                 ensures{width result = n+k}
+                 ensures{forall y z:matrix complex. forall i:int. 0<=i < power_ 2 n ->  is_a_ket_l y k ->is_a_ket_l z k ->
+                                                             sem c (kronecker (apply_qft n i) y) (kronecker (apply_qft n i) z)
+                                                             -> sem result (kronecker (ket n i) y) (kronecker (ket n i) z)}
+  = let qft_and_apply()
+          ensures{size result <= polysquare n  (cont_size)   0 0 + size c}
+          ensures{ancillas result = ancillas c}
+          ensures{width result = n+k}
+                 ensures{forall y z:matrix complex. forall i:int. 0<=i < power_ 2 n -> is_a_ket_l y k ->sem c (kronecker (apply_qft n i) y) (kronecker (apply_qft n i) z)
+                                                                                 -> sem result (kronecker (ket n i) y) (kronecker (apply_qft n i) z)}
+      =
+          sequence (place_qft_zero n k) c
+    in  sequence (qft_and_apply()) (place_rev_qft_zero n k)
+      
+end
+
+  
+     

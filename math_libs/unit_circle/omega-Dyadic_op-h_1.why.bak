@@ -1,0 +1,90 @@
+(* this is the prelude for Alt-Ergo, version >= 0.95.2 *)
+(* this is a prelude for Alt-Ergo real arithmetic *)
+(* this is a prelude for Alt-Ergo integer arithmetic *)
+type t
+
+logic infix_lseqdt : t, t -> prop
+
+logic infix_lsdt : t, t -> prop
+
+logic infix_gteqdt : t, t -> prop
+
+logic infix_gtdt : t, t -> prop
+
+type 'a set
+
+logic opposite_n : ('im,('im,'im) farray) farray,
+  ('im,('im,'im) farray) farray, 'im -> prop
+
+logic opposite : ('im,('im,'im) farray) farray,
+  ('im,('im,'im) farray) farray -> prop
+
+logic opposite_com : ('im,('im,'im) farray) farray,
+  ('im,('im,'im) farray) farray -> prop
+
+logic inverse_tuple : ('im,('im,'im) farray) farray,
+  ('im,('im,'im) farray) farray, 'im -> prop
+
+logic infix_pl_closure : (int,(int,int) farray) farray
+
+logic infix_mn_closure : (int,(int,int) farray) farray
+
+axiom infix_pl_closure_def :
+  (forall y:int. forall y1:int. (((infix_pl_closure[y])[y1]) = (y + y1)))
+
+axiom infix_mn_closure_def :
+  (forall y:int. forall y1:int. (((infix_mn_closure[y])[y1]) = (y - y1)))
+
+axiom isum_iter_ : opposite_n(infix_pl_closure, infix_mn_closure, 0)
+
+axiom isum_iter_1 : opposite(infix_pl_closure, infix_mn_closure)
+
+axiom isum_iter_2 : opposite_com(infix_pl_closure, infix_mn_closure)
+
+axiom isum_iter_3 : inverse_tuple(infix_pl_closure, infix_mn_closure, 0)
+
+logic ind_isum : (int,int) farray, int, int -> int
+
+logic power : int, int -> int
+
+logic fc : (int,int) farray
+
+axiom fc_def : (forall k:int. ((fc[k]) = power(2, (k + 1))))
+
+axiom power_decomp :
+  (forall i:int. ((i >= 1) -> (ind_isum(fc, 0, i) <  power(2, (i + 1)))))
+
+axiom init_exp : (forall k:int. (power(k, 0) = 1))
+
+axiom init_exp1 : (forall k:int. (power(k, 1) = k))
+
+axiom init_exp2 : (forall k:int. (power(k, 2) = (k * k)))
+
+logic cpower : t, int -> t
+
+logic nonn_part : ('im,('im,'im) farray) farray, 'a set,
+  ('a,'im) farray -> 'a set
+
+logic n_part : ('im,('im,'im) farray) farray, 'a set,
+  ('a,'im) farray -> 'a set
+
+type d_frac
+
+logic den : d_frac -> int
+
+logic dyadic : int, int -> d_frac
+
+axiom d_den :
+  (forall k:int. forall n:int. ((0 <= n) -> (((not (0 = k)) ->
+  ((k % 2) = 1)) -> (((0 <= k) and (k <  power(2, n))) -> (den(dyadic(k,
+  n)) = n)))))
+
+axiom d_up :
+  (forall k:int. forall n:int. ((n >= 0) -> (dyadic(k, n) = dyadic((2 * k),
+  (n + 1)))))
+
+logic neutral_dyadic : d_frac
+
+axiom neutral_dyadic_def : (neutral_dyadic = dyadic(0, 1))
+
+goal h : false

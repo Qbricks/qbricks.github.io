@@ -1,0 +1,1731 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="5">
+<prover id="0" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="3" name="Z3" version="4.4.1" alternative="counterexamples" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="4" name="CVC4" version="1.0" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="6" name="Alt-Ergo" version="2.2.0" timelimit="5" steplimit="0" memlimit="1000"/>
+<file proved="true">
+<path name=".."/>
+<path name="qpe.mlw"/>
+<theory name="Phase_estim" proved="true">
+ <goal name="VC black_box_coeff" expl="VC for black_box_coeff" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC black_box_coeff.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="3.13" steps="358"/></proof>
+  </goal>
+  <goal name="VC black_box_coeff.1" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="VC black_box_coeff.1.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result_def">
+    <goal name="VC black_box_coeff.1.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="ang_mult_int_exp_rev">
+     <goal name="VC black_box_coeff.1.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="int_qft_coeff_as_real">
+      <goal name="VC black_box_coeff.1.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="ang_exp_mult">
+       <goal name="VC black_box_coeff.1.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="apply" proved="true" arg1="set_ang_exp_eq">
+        <goal name="VC black_box_coeff.1.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="rewrite" proved="true" arg1="Real_To_Ang_add">
+         <goal name="VC black_box_coeff.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="rewrite" proved="true" arg1="real_ang_mult_pos">
+          <goal name="VC black_box_coeff.1.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <transf name="apply" proved="true" arg1="real_to_ang_eq">
+           <goal name="VC black_box_coeff.1.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+           <proof prover="0"><result status="valid" time="9.29"/></proof>
+           </goal>
+           <goal name="VC black_box_coeff.1.0.0.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+           <transf name="assert" proved="true" arg1="(forall a b d e. (a*.b) +. ((b *.(-.d))*.e) = (a-. (d*. e)) *.b)">
+            <goal name="VC black_box_coeff.1.0.0.0.0.0.0.0.0.1.0" expl="asserted formula" proved="true">
+            <proof prover="0"><result status="valid" time="8.78"/></proof>
+            </goal>
+            <goal name="VC black_box_coeff.1.0.0.0.0.0.0.0.0.1.1" expl="apply premises" proved="true">
+            <transf name="rewrite" proved="true" arg1="i_to_c_mult_rev">
+             <goal name="VC black_box_coeff.1.0.0.0.0.0.0.0.0.1.1.0" expl="apply premises" proved="true">
+             <transf name="rewrite" proved="true" arg1="i_to_c_opp">
+              <goal name="VC black_box_coeff.1.0.0.0.0.0.0.0.0.1.1.0.0" expl="apply premises" proved="true">
+              <transf name="apply" proved="true" arg1="h">
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="VC black_box_coeff.1.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+          <proof prover="0"><result status="valid" time="9.12"/></proof>
+          </goal>
+          <goal name="VC black_box_coeff.1.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+          <proof prover="4"><result status="valid" time="0.71"/></proof>
+          <proof prover="6"><result status="valid" time="0.79" steps="324"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="VC black_box_coeff.1.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+         <proof prover="4"><result status="valid" time="1.33"/></proof>
+         </goal>
+         <goal name="VC black_box_coeff.1.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+         <transf name="apply" proved="true" arg1="real_mult">
+          <goal name="VC black_box_coeff.1.0.0.0.0.0.0.2.0" expl="apply premises" proved="true">
+          <proof prover="4"><result status="valid" time="1.36"/></proof>
+          </goal>
+          <goal name="VC black_box_coeff.1.0.0.0.0.0.0.2.1" expl="apply premises" proved="true">
+          <proof prover="3"><result status="valid" time="0.35"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="VC black_box_coeff.1.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="0.93"/></proof>
+      <proof prover="6"><result status="valid" time="0.77" steps="324"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC cascade_cont_pow" expl="VC for cascade_cont_pow" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC cascade_cont_pow.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.73" steps="356"/></proof>
+  </goal>
+  <goal name="VC cascade_cont_pow.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="1.05" steps="360"/></proof>
+  </goal>
+  <goal name="VC cascade_cont_pow.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC cascade_cont_pow.2.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.90" steps="362"/></proof>
+   </goal>
+   <goal name="VC cascade_cont_pow.2.1" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.58" steps="362"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC cascade_cont_pow.3" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC cascade_cont_pow.3.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.58" steps="362"/></proof>
+   </goal>
+   <goal name="VC cascade_cont_pow.3.1" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.62" steps="362"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC cascade_cont_pow.4" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC cascade_cont_pow.4.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.41"/></proof>
+   </goal>
+   <goal name="VC cascade_cont_pow.4.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.34"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC cascade_cont_pow.5" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC cascade_cont_pow.5.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.58" steps="360"/></proof>
+   </goal>
+   <goal name="VC cascade_cont_pow.5.1" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.60" steps="360"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC cascade_cont_pow.6" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC cascade_cont_pow.6.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.76" steps="362"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC cascade_cont_pow.7" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC cascade_cont_pow.7.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.58" steps="363"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC cascade_cont_pow.8" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC cascade_cont_pow.8.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.62" steps="363"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC cascade_cont_pow.9" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC cascade_cont_pow.9.0" expl="precondition" proved="true">
+   <transf name="compute_specified" proved="true" >
+    <goal name="VC cascade_cont_pow.9.0.0" expl="precondition" proved="true">
+    <proof prover="6"><result status="valid" time="3.32" steps="370"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC cascade_cont_pow.10" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC cascade_cont_pow.10.0" expl="precondition" proved="true">
+   <transf name="compute_specified" proved="true" >
+    <goal name="VC cascade_cont_pow.10.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.29"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC cascade_cont_pow.11" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC cascade_cont_pow.11.0" expl="precondition" proved="true">
+   <transf name="compute_specified" proved="true" >
+    <goal name="VC cascade_cont_pow.11.0.0" expl="precondition" proved="true">
+    <proof prover="6"><result status="valid" time="3.16" steps="366"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC cascade_cont_pow.12" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC cascade_cont_pow.12.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.74" steps="364"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC cascade_cont_pow.13" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.53" steps="364"/></proof>
+  </goal>
+  <goal name="VC cascade_cont_pow.14" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="H2">
+   <goal name="VC cascade_cont_pow.14.0" expl="postcondition" proved="true">
+   <transf name="compute_specified" proved="true" >
+    <goal name="VC cascade_cont_pow.14.0.0" expl="postcondition" proved="true">
+    <transf name="replace" proved="true" arg1="(ang_sum
+    (fun (i:int) -&gt;
+      real_to_ang
+      ((theta *. i_to_c (power_ 2 ((ft - i) - 1))) *. i_to_c (getbv x @ i)))
+    0 ft)" arg2="( real_to_ang (theta *. i_to_c (bv_to_int x)))">
+     <goal name="VC cascade_cont_pow.14.0.0.0" expl="postcondition" proved="true">
+     <proof prover="0"><result status="valid" time="1.38"/></proof>
+     </goal>
+     <goal name="VC cascade_cont_pow.14.0.0.1" expl="equality hypothesis" proved="true">
+     <transf name="rewrite" proved="true" arg1="H8">
+      <goal name="VC cascade_cont_pow.14.0.0.1.0" expl="equality hypothesis" proved="true">
+      <transf name="compute_specified" proved="true" >
+      </transf>
+      </goal>
+      <goal name="VC cascade_cont_pow.14.0.0.1.1" expl="rewrite premises" proved="true">
+      <proof prover="6"><result status="valid" time="0.53" steps="366"/></proof>
+      </goal>
+      <goal name="VC cascade_cont_pow.14.0.0.1.2" expl="rewrite premises" proved="true">
+      <proof prover="6"><result status="valid" time="0.56" steps="366"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC cascade_cont_pow.14.1" expl="rewrite premises" proved="true">
+   <proof prover="6"><result status="valid" time="0.55" steps="366"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC cascade_cont_pow.15" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="kronecker_scalar_distr">
+   <goal name="VC cascade_cont_pow.15.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="path_sem_scal">
+    <goal name="VC cascade_cont_pow.15.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="kronecker_scalar_distr">
+     <goal name="VC cascade_cont_pow.15.0.0.0" expl="postcondition" proved="true">
+     <transf name="apply" proved="true" arg1="scalar_eq_gen">
+      <goal name="VC cascade_cont_pow.15.0.0.0.0" expl="apply premises" proved="true">
+      <transf name="rewrite" proved="true" arg1="kronecker_ket_sum_distr_l_rew">
+       <goal name="VC cascade_cont_pow.15.0.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="rewrite" proved="true" arg1="kronecker_ket_sum_distr_l_rew">
+        <goal name="VC cascade_cont_pow.15.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="rewrite" proved="true" arg1="path_sem_sum_">
+         <goal name="VC cascade_cont_pow.15.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="apply" proved="true" arg1="ket_sum_eq_gen">
+          <goal name="VC cascade_cont_pow.15.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <proof prover="6"><result status="valid" time="3.20" steps="366"/></proof>
+          </goal>
+          <goal name="VC cascade_cont_pow.15.0.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+          <proof prover="6"><result status="valid" time="0.55" steps="364"/></proof>
+          </goal>
+          <goal name="VC cascade_cont_pow.15.0.0.0.0.0.0.0.2" expl="apply premises" proved="true">
+          <proof prover="6"><result status="valid" time="0.52" steps="364"/></proof>
+          </goal>
+          <goal name="VC cascade_cont_pow.15.0.0.0.0.0.0.0.3" expl="apply premises" proved="true">
+          <transf name="compute_specified" proved="true" >
+           <goal name="VC cascade_cont_pow.15.0.0.0.0.0.0.0.3.0" expl="apply premises" proved="true">
+           <proof prover="6"><result status="valid" time="3.53" steps="368"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="VC cascade_cont_pow.15.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+         <proof prover="6"><result status="valid" time="3.17" steps="366"/></proof>
+         </goal>
+         <goal name="VC cascade_cont_pow.15.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+         <proof prover="6"><result status="valid" time="3.38" steps="366"/></proof>
+         </goal>
+         <goal name="VC cascade_cont_pow.15.0.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="VC cascade_cont_pow.15.0.0.0.0.0.0.3.0" expl="rewrite premises" proved="true">
+          <transf name="compute_specified" proved="true" >
+           <goal name="VC cascade_cont_pow.15.0.0.0.0.0.0.3.0.0" expl="rewrite premises" proved="true">
+           <proof prover="6"><result status="valid" time="3.06" steps="368"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="VC cascade_cont_pow.15.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+        <transf name="compute_specified" proved="true" >
+         <goal name="VC cascade_cont_pow.15.0.0.0.0.0.1.0" expl="rewrite premises" proved="true">
+         <proof prover="6"><result status="valid" time="3.12" steps="368"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="VC cascade_cont_pow.15.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+        <proof prover="6"><result status="valid" time="3.49" steps="366"/></proof>
+        </goal>
+        <goal name="VC cascade_cont_pow.15.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+        <proof prover="6"><result status="valid" time="3.03" steps="366"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC cascade_cont_pow.15.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="0"><result status="valid" time="1.47"/></proof>
+       </goal>
+       <goal name="VC cascade_cont_pow.15.0.0.0.0.2" expl="rewrite premises" proved="true">
+       <proof prover="6"><result status="valid" time="3.03" steps="366"/></proof>
+       </goal>
+       <goal name="VC cascade_cont_pow.15.0.0.0.0.3" expl="rewrite premises" proved="true">
+       <proof prover="6"><result status="valid" time="3.03" steps="366"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="VC cascade_cont_pow.15.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="6"><result status="valid" time="0.54" steps="364"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="VC cascade_cont_pow.15.0.1" expl="rewrite premises" proved="true">
+    <proof prover="6"><result status="valid" time="3.59" steps="366"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC apply_black_box" expl="VC for apply_black_box" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC apply_black_box.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.55" steps="360"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.56" steps="360"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.57" steps="364"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.3" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.69" steps="372"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.4" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.65" steps="380"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.5" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.69" steps="388"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.6" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.71" steps="398"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.7" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC apply_black_box.7.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="3.69" steps="403"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC apply_black_box.8" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC apply_black_box.8.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.66" steps="401"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC apply_black_box.9" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.45"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.10" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.57" steps="412"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.11" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC apply_black_box.11.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.62" steps="400"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC apply_black_box.12" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.55" steps="402"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.13" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.58" steps="410"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.14" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.60" steps="418"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.15" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.62" steps="420"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.16" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.61" steps="422"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.17" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.70" steps="426"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.18" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.70" steps="430"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.19" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.67" steps="430"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.20" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.67" steps="430"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.21" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.82" steps="430"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.22" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.63" steps="434"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.23" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.72" steps="434"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.24" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.62" steps="434"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.25" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="2.58"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.26" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.70" steps="444"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.27" expl="precondition" proved="true">
+  <transf name="apply" proved="true" arg1="H16">
+  </transf>
+  </goal>
+  <goal name="VC apply_black_box.28" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.67" steps="446"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.29" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.78" steps="444"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.30" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.63" steps="444"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.31" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.78" steps="444"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.32" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.80" steps="444"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.33" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.67" steps="446"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.34" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.66" steps="446"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.35" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.65" steps="446"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.36" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.68" steps="446"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.37" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.67" steps="456"/></proof>
+  </goal>
+  <goal name="VC apply_black_box.38" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="result" arg2="( sequence (place (repeat_had k) 0 n) (cascade_cont_pow circ k y theta))">
+   <goal name="VC apply_black_box.38.0" expl="postcondition" proved="true">
+   <transf name="apply" proved="true" arg1="H25">
+   </transf>
+   </goal>
+   <goal name="VC apply_black_box.38.1" expl="equality hypothesis" proved="true">
+   <proof prover="6"><result status="valid" time="0.68" steps="457"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC phase_estimation" expl="VC for phase_estimation" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC phase_estimation.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.57" steps="380"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.58" steps="384"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.57" steps="360"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.3" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.59" steps="364"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.4" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.58" steps="360"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.5" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.80" steps="364"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.6" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.63" steps="372"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.7" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="1.08" steps="396"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.8" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="1.46" steps="384"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.9" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.66" steps="386"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.10" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.67" steps="394"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.11" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.61" steps="402"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.12" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.90" steps="408"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.13" expl="precondition" proved="true">
+  <transf name="apply" proved="true" arg1="ket_l_ket_sum_scalar">
+   <goal name="VC phase_estimation.13.0" expl="apply premises" proved="true">
+   <proof prover="6"><result status="valid" time="1.13" steps="409"/></proof>
+   </goal>
+   <goal name="VC phase_estimation.13.1" expl="apply premises" proved="true">
+   <proof prover="6"><result status="valid" time="1.36" steps="409"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC phase_estimation.14" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="1.05" steps="411"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.15" expl="precondition" proved="true">
+  <transf name="replace" proved="true" arg1="(pow_inv_2 k)" arg2="(pow_inv_sqrt_2 k *. pow_inv_sqrt_2 k)">
+   <goal name="VC phase_estimation.15.0" expl="precondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="scalar_assoc_rev">
+    <goal name="VC phase_estimation.15.0.0" expl="precondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="path_sem_scal">
+     <goal name="VC phase_estimation.15.0.0.0" expl="precondition" proved="true">
+     <transf name="apply" proved="true" arg1="scalar_eq">
+      <goal name="VC phase_estimation.15.0.0.0.0" expl="apply premises" proved="true">
+      <transf name="rewrite" proved="true" arg1="path_sem_sum_">
+       <goal name="VC phase_estimation.15.0.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="rewrite" proved="true" arg1="ket_sum_scalar_rev_l">
+        <goal name="VC phase_estimation.15.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="ket_sum_eq">
+         <goal name="VC phase_estimation.15.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <proof prover="6"><result status="valid" time="1.14" steps="412"/></proof>
+         </goal>
+         <goal name="VC phase_estimation.15.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+         <proof prover="6"><result status="valid" time="1.04" steps="412"/></proof>
+         </goal>
+         <goal name="VC phase_estimation.15.0.0.0.0.0.0.2" expl="apply premises" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0" expl="apply premises" proved="true">
+          <transf name="compute_specified" proved="true" >
+           <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0" expl="apply premises" proved="true">
+           <transf name="rewrite" proved="true" arg1="ket_sum_scalar_rev_l">
+            <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0" expl="apply premises" proved="true">
+            <transf name="rewrite" proved="true" arg1="path_sem_scal">
+             <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0" expl="apply premises" proved="true">
+             <transf name="split_all_full" proved="true" >
+              <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0.0" expl="apply premises" proved="true">
+              <transf name="rewrite" proved="true" arg1="qft_rev__spec2">
+               <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0.0.0" expl="apply premises" proved="true">
+               <transf name="rewrite" proved="true" arg1="ket_sum_scalar_rev_l">
+                <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                <transf name="rewrite" proved="true" arg1="ket_sum_scalar_rev_l">
+                 <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                 <transf name="apply" proved="true" arg1="ket_sum_eq">
+                  <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                  <proof prover="6"><result status="valid" time="1.07" steps="414"/></proof>
+                  </goal>
+                  <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+                  <proof prover="6"><result status="valid" time="0.85" steps="414"/></proof>
+                  </goal>
+                  <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0.0.0.0.0.2" expl="apply premises" proved="true">
+                  <transf name="split_vc" proved="true" >
+                   <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0.0.0.0.0.2.0" expl="apply premises" proved="true">
+                   <transf name="compute_specified" proved="true" >
+                    <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0.0.0.0.0.2.0.0" expl="apply premises" proved="true">
+                    <transf name="rewrite" proved="true" arg1="scalar_assoc">
+                     <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0.0.0.0.0.2.0.0.0" expl="apply premises" proved="true">
+                     <transf name="rewrite" proved="true" arg1="scalar_assoc">
+                      <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0.0.0.0.0.2.0.0.0.0" expl="apply premises" proved="true">
+                      <transf name="rewrite" proved="true" arg1="scalar_assoc">
+                       <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0.0.0.0.0.2.0.0.0.0.0" expl="apply premises" proved="true">
+                       <proof prover="4"><result status="valid" time="2.68"/></proof>
+                       </goal>
+                      </transf>
+                      </goal>
+                     </transf>
+                     </goal>
+                    </transf>
+                    </goal>
+                   </transf>
+                   </goal>
+                  </transf>
+                  </goal>
+                 </transf>
+                 </goal>
+                 <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                 <proof prover="4"><result status="valid" time="1.54"/></proof>
+                 <proof prover="6"><result status="valid" time="0.89" steps="414"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+                <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                <proof prover="4"><result status="valid" time="1.60"/></proof>
+                <proof prover="6"><result status="valid" time="0.67" steps="414"/></proof>
+                </goal>
+               </transf>
+               </goal>
+               <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+               <proof prover="4"><result status="valid" time="1.07"/></proof>
+               <proof prover="6"><result status="valid" time="0.72" steps="414"/></proof>
+               </goal>
+               <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+               <proof prover="0"><result status="valid" time="1.73"/></proof>
+               <proof prover="4"><result status="valid" time="2.18"/></proof>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.0.1" expl="rewrite premises" proved="true">
+             <proof prover="0"><result status="valid" time="1.53"/></proof>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="VC phase_estimation.15.0.0.0.0.0.0.2.0.0.1" expl="rewrite premises" proved="true">
+            <proof prover="6"><result status="valid" time="0.65" steps="414"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="VC phase_estimation.15.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="6"><result status="valid" time="0.63" steps="412"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC phase_estimation.15.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="6"><result status="valid" time="0.85" steps="412"/></proof>
+       </goal>
+       <goal name="VC phase_estimation.15.0.0.0.0.2" expl="rewrite premises" proved="true">
+       <proof prover="6"><result status="valid" time="0.84" steps="412"/></proof>
+       </goal>
+       <goal name="VC phase_estimation.15.0.0.0.0.3" expl="rewrite premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="VC phase_estimation.15.0.0.0.0.3.0" expl="rewrite premises" proved="true">
+        <proof prover="3"><result status="valid" time="0.64"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC phase_estimation.15.0.0.1" expl="rewrite premises" proved="true">
+     <transf name="apply" proved="true" arg1="ket_sum_ket_l_">
+      <goal name="VC phase_estimation.15.0.0.1.0" expl="apply premises" proved="true">
+      <proof prover="6"><result status="valid" time="0.65" steps="412"/></proof>
+      </goal>
+      <goal name="VC phase_estimation.15.0.0.1.1" expl="apply premises" proved="true">
+      <proof prover="6"><result status="valid" time="0.83" steps="412"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC phase_estimation.15.1" expl="equality hypothesis" proved="true">
+   <proof prover="6"><result status="valid" time="0.81" steps="412"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC phase_estimation.16" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.67" steps="430"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.17" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.67" steps="434"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.18" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.74" steps="410"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.19" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.60" steps="412"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.20" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.62" steps="410"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.21" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.63" steps="412"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.22" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.65" steps="420"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.23" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.66" steps="440"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.24" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.65" steps="428"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.25" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.64" steps="430"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.26" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.65" steps="438"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.27" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.64" steps="446"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.28" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.65" steps="458"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.29" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.65" steps="458"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.30" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.64" steps="458"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.31" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.67" steps="466"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.32" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.74" steps="466"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.33" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC phase_estimation.33.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="1.03" steps="466"/></proof>
+   </goal>
+   <goal name="VC phase_estimation.33.1" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="1.12" steps="466"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC phase_estimation.34" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="1.01" steps="466"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.35" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC phase_estimation.35.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.94" steps="466"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC phase_estimation.36" expl="precondition" proved="true">
+  <transf name="replace" proved="true" arg1="(width (apply_black_box circ k n y theta))" arg2="(k+ (n-k))">
+   <goal name="VC phase_estimation.36.0" expl="precondition" proved="true">
+   <transf name="apply" proved="true" arg1="kronecker_ket_l">
+    <goal name="VC phase_estimation.36.0.0" expl="apply premises" proved="true">
+    <proof prover="6"><result status="valid" time="1.43" steps="470"/></proof>
+    </goal>
+    <goal name="VC phase_estimation.36.0.1" expl="apply premises" proved="true">
+    <proof prover="6"><result status="valid" time="1.25" steps="470"/></proof>
+    </goal>
+    <goal name="VC phase_estimation.36.0.2" expl="apply premises" proved="true">
+    <proof prover="0"><result status="valid" time="3.78"/></proof>
+    </goal>
+    <goal name="VC phase_estimation.36.0.3" expl="apply premises" proved="true">
+    <proof prover="6"><result status="valid" time="1.16" steps="470"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC phase_estimation.36.1" expl="equality hypothesis" proved="true">
+   <proof prover="6"><result status="valid" time="1.16" steps="470"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC phase_estimation.37" expl="precondition" proved="true">
+  <transf name="apply" proved="true" arg1="H1">
+  </transf>
+  </goal>
+  <goal name="VC phase_estimation.38" expl="precondition" proved="true">
+  <transf name="apply" proved="true" arg1="H67">
+  </transf>
+  </goal>
+  <goal name="VC phase_estimation.39" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="1.02" steps="476"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.40" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.99" steps="472"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.41" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.88" steps="472"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.42" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.79" steps="472"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.43" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.72" steps="472"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.44" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.66" steps="472"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.45" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.73" steps="472"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.46" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.62" steps="472"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.47" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC phase_estimation.47.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.73" steps="472"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC phase_estimation.48" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.73" steps="474"/></proof>
+  </goal>
+  <goal name="VC phase_estimation.49" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="result" arg2="(sequence (apply_black_box circ k n y theta) (place (qft_rev_ k) 0 n))
+">
+   <goal name="VC phase_estimation.49.0" expl="postcondition" proved="true">
+   <transf name="apply" proved="true" arg1="H22">
+   </transf>
+   </goal>
+   <goal name="VC phase_estimation.49.1" expl="equality hypothesis" proved="true">
+   <proof prover="4"><result status="valid" time="0.82"/></proof>
+   <proof prover="6"><result status="valid" time="0.67" steps="484"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC phase_estimation.50" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.80" steps="486"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC pe_measure" expl="VC for pe_measure" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC pe_measure.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.57" steps="384"/></proof>
+  </goal>
+  <goal name="VC pe_measure.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.72" steps="388"/></proof>
+  </goal>
+  <goal name="VC pe_measure.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.57" steps="364"/></proof>
+  </goal>
+  <goal name="VC pe_measure.3" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.56" steps="368"/></proof>
+  </goal>
+  <goal name="VC pe_measure.4" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.58" steps="364"/></proof>
+  </goal>
+  <goal name="VC pe_measure.5" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.64" steps="368"/></proof>
+  </goal>
+  <goal name="VC pe_measure.6" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.58" steps="376"/></proof>
+  </goal>
+  <goal name="VC pe_measure.7" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.57" steps="388"/></proof>
+  </goal>
+  <goal name="VC pe_measure.8" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.57" steps="396"/></proof>
+  </goal>
+  <goal name="VC pe_measure.9" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.60" steps="404"/></proof>
+  </goal>
+  <goal name="VC pe_measure.10" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.61" steps="408"/></proof>
+  </goal>
+  <goal name="VC pe_measure.11" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.58" steps="396"/></proof>
+  </goal>
+  <goal name="VC pe_measure.12" expl="precondition" proved="true">
+  <transf name="compute_specified" proved="true" >
+   <goal name="VC pe_measure.12.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.76" steps="408"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC pe_measure.13" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.63" steps="408"/></proof>
+  </goal>
+  <goal name="VC pe_measure.14" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.62" steps="408"/></proof>
+  </goal>
+  <goal name="VC pe_measure.15" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.81" steps="409"/></proof>
+  </goal>
+  <goal name="VC pe_measure.16" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.81" steps="409"/></proof>
+  </goal>
+  <goal name="VC pe_measure.17" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="6.12" steps="416"/></proof>
+  </goal>
+  <goal name="VC pe_measure.18" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="6.46" steps="420"/></proof>
+  </goal>
+  <goal name="VC pe_measure.19" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="5.16" steps="422"/></proof>
+  </goal>
+  <goal name="VC pe_measure.20" expl="precondition" proved="true">
+  <transf name="apply" proved="true" arg1="H5">
+  </transf>
+  </goal>
+  <goal name="VC pe_measure.21" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.58" steps="422"/></proof>
+  </goal>
+  <goal name="VC pe_measure.22" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.58" steps="422"/></proof>
+  </goal>
+  <goal name="VC pe_measure.23" expl="precondition" proved="true">
+  <transf name="split_all_full" proved="true" >
+   <goal name="VC pe_measure.23.0" expl="precondition" proved="true">
+   <transf name="apply" proved="true" arg1="scalar_eq_gen">
+    <goal name="VC pe_measure.23.0.0" expl="apply premises" proved="true">
+    <transf name="apply" proved="true" arg1="ket_sum_eq_gen">
+     <goal name="VC pe_measure.23.0.0.0" expl="apply premises" proved="true">
+     <proof prover="6"><result status="valid" time="0.57" steps="422"/></proof>
+     </goal>
+     <goal name="VC pe_measure.23.0.0.1" expl="apply premises" proved="true">
+     <proof prover="6"><result status="valid" time="0.56" steps="422"/></proof>
+     </goal>
+     <goal name="VC pe_measure.23.0.0.2" expl="apply premises" proved="true">
+     <proof prover="6"><result status="valid" time="0.57" steps="422"/></proof>
+     </goal>
+     <goal name="VC pe_measure.23.0.0.3" expl="apply premises" proved="true">
+     <transf name="compute_specified" proved="true" >
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="VC pe_measure.23.0.1" expl="apply premises" proved="true">
+    <proof prover="6"><result status="valid" time="0.57" steps="422"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC pe_measure.24" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="6.38" steps="428"/></proof>
+  </goal>
+  <goal name="VC pe_measure.25" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="H">
+   <goal name="VC pe_measure.25.0" expl="postcondition" proved="true">
+   <transf name="replace" proved="true" arg1="(ind_sum
+        (fun (k1:int) -&gt;
+          ((fun (y1:bitvec) (x:bitvec) -&gt;
+             black_box_coeff theta y1
+             *. int_qft_coeff (bv_to_int y1) (- bv_to_int x) k)
+           @ int_to_bv k1 k)
+          @ int_to_bv i k)
+        0 (power_ 2 k))" arg2="(ind_sum
+          (fun (y1:int) -&gt;
+            cpower
+            (ang_exp (real_to_ang (theta -. (i_to_c i *. pow_inv_2 k)))) y1)
+          0 (power_ 2 k))">
+    <goal name="VC pe_measure.25.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+    </transf>
+    </goal>
+    <goal name="VC pe_measure.25.0.1" expl="equality hypothesis" proved="true">
+    <transf name="apply" proved="true" arg1="ind_sum_eq">
+     <goal name="VC pe_measure.25.0.1.0" expl="apply premises" proved="true">
+     <transf name="split_vc" proved="true" >
+      <goal name="VC pe_measure.25.0.1.0.0" expl="apply premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="VC pe_measure.25.0.1.0.0.0" expl="apply premises" proved="true">
+       <transf name="rewrite" proved="true" arg1="black_box_coeff_spec">
+        <goal name="VC pe_measure.25.0.1.0.0.0.0" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="1.89"/></proof>
+        </goal>
+        <goal name="VC pe_measure.25.0.1.0.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="6"><result status="valid" time="0.59" steps="426"/></proof>
+        </goal>
+        <goal name="VC pe_measure.25.0.1.0.0.0.2" expl="rewrite premises" proved="true">
+        <proof prover="6"><result status="valid" time="0.56" steps="426"/></proof>
+        </goal>
+        <goal name="VC pe_measure.25.0.1.0.0.0.3" expl="rewrite premises" proved="true">
+        <proof prover="3"><result status="valid" time="0.51"/></proof>
+        </goal>
+        <goal name="VC pe_measure.25.0.1.0.0.0.4" expl="rewrite premises" proved="true">
+        <proof prover="0"><result status="valid" time="1.26"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC pe_measure.26" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="(ket_length y + k)" arg2="n" arg3="in" arg4="H2">
+   <goal name="VC pe_measure.26.0" expl="postcondition" proved="true">
+   <transf name="apply" proved="true" arg1="H2">
+   </transf>
+   </goal>
+   <goal name="VC pe_measure.26.1" expl="equality hypothesis" proved="true">
+   <proof prover="4"><result status="valid" time="1.85"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC best_appr" expl="VC for best_appr" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC best_appr.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="3.48" steps="358"/></proof>
+  </goal>
+  <goal name="VC best_appr.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.53" steps="358"/></proof>
+  </goal>
+  <goal name="VC best_appr.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.51" steps="358"/></proof>
+  </goal>
+  <goal name="VC best_appr.3" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC best_appr.3.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.55" steps="360"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC best_appr.4" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC best_appr.4.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.55" steps="368"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC best_appr.5" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC best_appr.5.0" expl="precondition" proved="true">
+   <transf name="compute_specified" proved="true" >
+    <goal name="VC best_appr.5.0.0" expl="precondition" proved="true">
+    <transf name="exists" proved="true" arg1="k">
+     <goal name="VC best_appr.5.0.0.0" proved="true">
+     <transf name="split_vc" proved="true" >
+      <goal name="VC best_appr.5.0.0.0.0" proved="true">
+      <proof prover="6"><result status="valid" time="0.55" steps="360"/></proof>
+      </goal>
+      <goal name="VC best_appr.5.0.0.0.1" proved="true">
+      <transf name="replace" proved="true" arg1="(i_to_c k *. pow_inv_2 k1)" arg2="(i_to_c k /. i_to_c (power_ 2 k1))">
+       <goal name="VC best_appr.5.0.0.0.1.0" proved="true">
+       <transf name="replace" proved="true" arg1="( pow_inv_2 (k1 + 1))" arg2="(c_one /. i_to_c (power_ 2 k1 * 2))">
+        <goal name="VC best_appr.5.0.0.0.1.0.0" proved="true">
+        <proof prover="6"><result status="valid" time="0.54" steps="360"/></proof>
+        </goal>
+        <goal name="VC best_appr.5.0.0.0.1.0.1" expl="equality hypothesis" proved="true">
+        <proof prover="0"><result status="valid" time="1.27"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC best_appr.5.0.0.0.1.1" expl="equality hypothesis" proved="true">
+       <proof prover="3"><result status="valid" time="0.59"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC best_appr.6" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC best_appr.6.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.36"/></proof>
+   <proof prover="6"><result status="valid" time="3.23" steps="370"/></proof>
+   </goal>
+   <goal name="VC best_appr.6.1" expl="postcondition" proved="true">
+   <proof prover="6"><result status="valid" time="3.32" steps="370"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC best_appr.7" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC best_appr.7.0" expl="postcondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.54" steps="370"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC best_appr.8" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC best_appr.8.0" expl="postcondition" proved="true">
+   <proof prover="6"><result status="valid" time="4.10" steps="375"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC delta" expl="VC for delta" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC delta.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.54" steps="356"/></proof>
+  </goal>
+  <goal name="VC delta.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.54" steps="364"/></proof>
+  </goal>
+  <goal name="VC delta.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.56" steps="365"/></proof>
+  </goal>
+  <goal name="VC delta.3" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="3.22" steps="367"/></proof>
+  </goal>
+  <goal name="VC delta.4" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.52" steps="374"/></proof>
+  </goal>
+  <goal name="VC delta.5" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.26"/></proof>
+  <proof prover="6"><result status="valid" time="4.10" steps="376"/></proof>
+  </goal>
+  <goal name="VC delta.6" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.51" steps="376"/></proof>
+  </goal>
+  <goal name="VC delta.7" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC delta.7.0" expl="postcondition" proved="true">
+   <transf name="instantiate" proved="true" arg1="transitive_infeq_inf" arg2="result,(pow_inv_2 (k + 1)),c_one">
+    <goal name="VC delta.7.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.30"/></proof>
+    <proof prover="4"><result status="valid" time="1.62"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC geom_sum_rewrite" expl="VC for geom_sum_rewrite" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC geom_sum_rewrite.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.49" steps="356"/></proof>
+  </goal>
+  <goal name="VC geom_sum_rewrite.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.51" steps="358"/></proof>
+  </goal>
+  <goal name="VC geom_sum_rewrite.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="3.21" steps="360"/></proof>
+  </goal>
+  <goal name="VC geom_sum_rewrite.3" expl="assertion" proved="true">
+  <proof prover="6"><result status="valid" time="0.68" steps="360"/></proof>
+  </goal>
+  <goal name="VC geom_sum_rewrite.4" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.51" steps="361"/></proof>
+  </goal>
+  <goal name="VC geom_sum_rewrite.5" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.55" steps="361"/></proof>
+  </goal>
+  <goal name="VC geom_sum_rewrite.6" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.49"/></proof>
+  </goal>
+  <goal name="VC geom_sum_rewrite.7" expl="assertion" proved="true">
+  <proof prover="6"><result status="valid" time="0.53" steps="363"/></proof>
+  </goal>
+  <goal name="VC geom_sum_rewrite.8" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.72" steps="364"/></proof>
+  </goal>
+  <goal name="VC geom_sum_rewrite.9" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="3.76" steps="370"/></proof>
+  </goal>
+  <goal name="VC geom_sum_rewrite.10" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.75"/></proof>
+  </goal>
+  <goal name="VC geom_sum_rewrite.11" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="5.69" steps="376"/></proof>
+  </goal>
+  <goal name="VC geom_sum_rewrite.12" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.51"/></proof>
+  </goal>
+  <goal name="VC geom_sum_rewrite.13" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.20"/></proof>
+  </goal>
+  <goal name="VC geom_sum_rewrite.14" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.31"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC geom_sum_bound" expl="VC for geom_sum_bound" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC geom_sum_bound.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.68" steps="360"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.53" steps="360"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.2" expl="precondition" proved="true">
+  <transf name="compute_specified" proved="true" >
+   <goal name="VC geom_sum_bound.2.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="3.72" steps="367"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC geom_sum_bound.3" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.55" steps="362"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.4" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.58" steps="362"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.5" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.24"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.6" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.61" steps="364"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.7" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.63" steps="364"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.8" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC geom_sum_bound.8.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="3.44" steps="366"/></proof>
+   </goal>
+   <goal name="VC geom_sum_bound.8.1" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.64" steps="364"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC geom_sum_bound.9" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.54"/></proof>
+  <proof prover="6"><result status="valid" time="3.57" steps="368"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.10" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.78"/></proof>
+  <proof prover="6"><result status="valid" time="3.72" steps="372"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.11" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="3.68" steps="376"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.12" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="3.75" steps="378"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.13" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="3.81" steps="378"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.14" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="3.84" steps="382"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.15" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="4.21" steps="384"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.16" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.58" steps="384"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.17" expl="assertion" proved="true">
+  <proof prover="6"><result status="valid" time="0.53" steps="382"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.18" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="4.10" steps="385"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.19" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC geom_sum_bound.19.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="4.14" steps="387"/></proof>
+   </goal>
+   <goal name="VC geom_sum_bound.19.1" expl="precondition" proved="true">
+   <transf name="assert" proved="true" arg1="(modulus (psi *. i_to_c b)*.(c_one /. (i_to_c b)) &lt;=. (c_one /. ttwo)*.(c_one /. (i_to_c b)))">
+    <goal name="VC geom_sum_bound.19.1.0" expl="asserted formula" proved="true">
+    <transf name="replace" proved="true" arg1="(modulus (psi *. i_to_c b) *. (c_one /. i_to_c b))" arg2="(modulus psi)">
+     <goal name="VC geom_sum_bound.19.1.0.0" expl="asserted formula" proved="true">
+     <transf name="replace" proved="true" arg1="((c_one /. ttwo) *. (c_one /. i_to_c b))
+" arg2="((c_one /. (ttwo *.  i_to_c b))
+)">
+      <goal name="VC geom_sum_bound.19.1.0.0.0" expl="asserted formula" proved="true">
+      <proof prover="6"><result status="valid" time="0.63" steps="385"/></proof>
+      </goal>
+      <goal name="VC geom_sum_bound.19.1.0.0.1" expl="equality hypothesis" proved="true">
+      <proof prover="0"><result status="valid" time="1.41"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="VC geom_sum_bound.19.1.0.1" expl="equality hypothesis" proved="true">
+     <transf name="rewrite" proved="true" arg1="mult_modulus">
+      <goal name="VC geom_sum_bound.19.1.0.1.0" expl="equality hypothesis" proved="true">
+      <transf name="assert" proved="true" arg1="(forall a b c. b *. c = c_one -&gt; a*.b*.c = a )">
+       <goal name="VC geom_sum_bound.19.1.0.1.0.0" expl="asserted formula" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="VC geom_sum_bound.19.1.0.1.0.0.0" expl="asserted formula" proved="true">
+        <proof prover="0"><result status="valid" time="1.40"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC geom_sum_bound.19.1.0.1.0.1" expl="equality hypothesis" proved="true">
+       <transf name="apply" proved="true" arg1="h">
+        <goal name="VC geom_sum_bound.19.1.0.1.0.1.0" expl="apply premises" proved="true">
+        <transf name="rewrite" proved="true" arg1="modulus_real_pos">
+         <goal name="VC geom_sum_bound.19.1.0.1.0.1.0.0" expl="apply premises" proved="true">
+         <proof prover="0"><result status="valid" time="1.45"/></proof>
+         </goal>
+         <goal name="VC geom_sum_bound.19.1.0.1.0.1.0.1" expl="rewrite premises" proved="true">
+         <proof prover="6"><result status="valid" time="0.53" steps="385"/></proof>
+         </goal>
+         <goal name="VC geom_sum_bound.19.1.0.1.0.1.0.2" expl="rewrite premises" proved="true">
+         <proof prover="6"><result status="valid" time="4.02" steps="387"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="VC geom_sum_bound.19.1.1" expl="precondition" proved="true">
+    <transf name="instantiate" proved="true" arg1="compat_order_mult" arg2="(modulus (psi *. i_to_c b) *. (c_one /. i_to_c b)),((c_one /. ttwo) *. (c_one /. i_to_c b)),( i_to_c b)">
+     <goal name="VC geom_sum_bound.19.1.1.0" expl="precondition" proved="true">
+     <transf name="replace" proved="true" arg1="((modulus (psi *. i_to_c b) *. (c_one /. i_to_c b)) *. i_to_c b)" arg2="(modulus (psi *. i_to_c b))" arg3="in" arg4="Hinst">
+      <goal name="VC geom_sum_bound.19.1.1.0.0" expl="precondition" proved="true">
+      <transf name="replace" proved="true" arg1="((((c_one /. ttwo) *. (c_one /. i_to_c b)) *. i_to_c b))" arg2="(c_one/.ttwo)" arg3="in" arg4="Hinst">
+       <goal name="VC geom_sum_bound.19.1.1.0.0.0" expl="precondition" proved="true">
+       <proof prover="0"><result status="valid" time="1.28"/></proof>
+       </goal>
+       <goal name="VC geom_sum_bound.19.1.1.0.0.1" expl="equality hypothesis" proved="true">
+       <proof prover="0"><result status="valid" time="1.32"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="VC geom_sum_bound.19.1.1.0.1" expl="equality hypothesis" proved="true">
+      <transf name="rewrite" proved="true" arg1="mult_modulus">
+       <goal name="VC geom_sum_bound.19.1.1.0.1.0" expl="equality hypothesis" proved="true">
+       <transf name="assert" proved="true" arg1="(forall a b c. b *. c = c_one -&gt; a*.b*.c = a )">
+        <goal name="VC geom_sum_bound.19.1.1.0.1.0.0" expl="asserted formula" proved="true">
+        <transf name="split_vc" proved="true" >
+         <goal name="VC geom_sum_bound.19.1.1.0.1.0.0.0" expl="asserted formula" proved="true">
+         <proof prover="0"><result status="valid" time="1.28"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="VC geom_sum_bound.19.1.1.0.1.0.1" expl="equality hypothesis" proved="true">
+        <proof prover="4"><result status="valid" time="1.74"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC geom_sum_bound.20" expl="precondition" proved="true">
+  <transf name="apply" proved="true" arg1="real_mult">
+   <goal name="VC geom_sum_bound.20.0" expl="apply premises" proved="true">
+   <proof prover="6"><result status="valid" time="0.72" steps="385"/></proof>
+   </goal>
+   <goal name="VC geom_sum_bound.20.1" expl="apply premises" proved="true">
+   <proof prover="6"><result status="valid" time="4.23" steps="387"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC geom_sum_bound.21" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.68"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.22" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="4.66" steps="391"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.23" expl="precondition" proved="true">
+  <transf name="assert" proved="true" arg1="(  (modulus (psi *. (ttwo *. i_to_c b))) 
+  &lt;=.  (modulus (sin (pi *. (psi *. i_to_c b)))) )">
+   <goal name="VC geom_sum_bound.23.0" expl="asserted formula" proved="true">
+   <transf name="replace" proved="true" arg1="(psi *. (ttwo *. i_to_c b))" arg2="(ttwo *. (psi *. i_to_c b))">
+    <goal name="VC geom_sum_bound.23.0.0" expl="asserted formula" proved="true">
+    <transf name="apply" proved="true" arg1="H8">
+    </transf>
+    </goal>
+    <goal name="VC geom_sum_bound.23.0.1" expl="equality hypothesis" proved="true">
+    <proof prover="6"><result status="valid" time="0.65" steps="391"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC geom_sum_bound.23.1" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="4.58" steps="394"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC geom_sum_bound.24" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.70" steps="389"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.25" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="4.61" steps="393"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.26" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.76"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.27" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.41"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.28" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.60" steps="395"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.29" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.54" steps="395"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.30" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.43"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.31" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.67" steps="399"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.32" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.61" steps="399"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.33" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.31"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.34" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.56" steps="401"/></proof>
+  </goal>
+  <goal name="VC geom_sum_bound.35" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="(cpower (i_to_c b) 2 *. (i_to_c 4 /. cpower pi 2))" arg2="(cpower (ttwo *. i_to_c b) 2 /. cpower pi 2)">
+   <goal name="VC geom_sum_bound.35.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="VC geom_sum_bound.35.0.0" expl="postcondition" proved="true">
+    <transf name="compute_hyp_specified" proved="true" arg1="in" arg2="H">
+     <goal name="VC geom_sum_bound.35.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="H">
+      <goal name="VC geom_sum_bound.35.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="replace" proved="true" arg1="(cpower (ttwo *. i_to_c b) 2 /. cpower pi 2)" arg2="(cpower (ttwo *. i_to_c b  /.  pi) 2)">
+       <goal name="VC geom_sum_bound.35.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="rewrite" proved="true" arg1="modulus_pos">
+        <goal name="VC geom_sum_bound.35.0.0.0.0.0.0" expl="postcondition" proved="true">
+        <transf name="apply" proved="true" arg1="growing_exp_arg">
+         <goal name="VC geom_sum_bound.35.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="VC geom_sum_bound.35.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <proof prover="0"><result status="valid" time="1.16"/></proof>
+          </goal>
+          <goal name="VC geom_sum_bound.35.0.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+          <transf name="replace" proved="true" arg1="((ttwo *. i_to_c b) /. pi)" arg2="((ttwo/.pi) *. i_to_c b)">
+           <goal name="VC geom_sum_bound.35.0.0.0.0.0.0.0.1.0" expl="apply premises" proved="true">
+           <transf name="apply" proved="true" arg1="compat_order_mult">
+            <goal name="VC geom_sum_bound.35.0.0.0.0.0.0.0.1.0.0" expl="apply premises" proved="true">
+            <proof prover="0"><result status="valid" time="1.13"/></proof>
+            </goal>
+            <goal name="VC geom_sum_bound.35.0.0.0.0.0.0.0.1.0.1" expl="apply premises" proved="true">
+            <proof prover="4"><result status="valid" time="1.45"/></proof>
+            </goal>
+            <goal name="VC geom_sum_bound.35.0.0.0.0.0.0.0.1.0.2" expl="apply premises" proved="true">
+            <proof prover="4"><result status="valid" time="1.44"/></proof>
+            </goal>
+            <goal name="VC geom_sum_bound.35.0.0.0.0.0.0.0.1.0.3" expl="apply premises" proved="true">
+            <proof prover="4"><result status="valid" time="1.77"/></proof>
+            </goal>
+            <goal name="VC geom_sum_bound.35.0.0.0.0.0.0.0.1.0.4" expl="apply premises" proved="true">
+            <proof prover="4"><result status="valid" time="1.75"/></proof>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="VC geom_sum_bound.35.0.0.0.0.0.0.0.1.1" expl="equality hypothesis" proved="true">
+           <proof prover="4"><result status="valid" time="1.74"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="VC geom_sum_bound.35.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+         <proof prover="4"><result status="valid" time="0.69"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="VC geom_sum_bound.35.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="4"><result status="valid" time="1.44"/></proof>
+        </goal>
+        <goal name="VC geom_sum_bound.35.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+        <proof prover="0"><result status="valid" time="1.39"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC geom_sum_bound.35.0.0.0.0.1" expl="equality hypothesis" proved="true">
+       <proof prover="0"><result status="valid" time="1.14"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="VC geom_sum_bound.35.0.1" expl="postcondition" proved="true">
+    <proof prover="6"><result status="valid" time="0.56" steps="399"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC geom_sum_bound.35.1" expl="equality hypothesis" proved="true">
+   <transf name="rewrite" proved="true" arg1="cpower_mult_split">
+    <goal name="VC geom_sum_bound.35.1.0" expl="equality hypothesis" proved="true">
+    <proof prover="4"><result status="valid" time="2.04"/></proof>
+    </goal>
+    <goal name="VC geom_sum_bound.35.1.1" expl="rewrite premises" proved="true">
+    <proof prover="6"><result status="valid" time="0.55" steps="356"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC geom_sum_bound.36" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="simpl_leq_mult_div">
+   <goal name="VC geom_sum_bound.36.0" expl="apply premises" proved="true">
+   <proof prover="6"><result status="valid" time="3.60" steps="363"/></proof>
+   </goal>
+   <goal name="VC geom_sum_bound.36.1" expl="apply premises" proved="true">
+   <proof prover="6"><result status="valid" time="3.58" steps="363"/></proof>
+   </goal>
+   <goal name="VC geom_sum_bound.36.2" expl="apply premises" proved="true">
+   <proof prover="6"><result status="valid" time="0.65" steps="358"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC qpe_meas" expl="VC for qpe_meas" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC qpe_meas.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.52" steps="364"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.52" steps="365"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC qpe_meas.2.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.53" steps="365"/></proof>
+   </goal>
+   <goal name="VC qpe_meas.2.1" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="3.18" steps="367"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC qpe_meas.3" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.57" steps="376"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.4" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.57" steps="377"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.5" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="3.35" steps="379"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.6" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.54" steps="376"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.7" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="3.48" steps="378"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.8" expl="precondition" proved="true">
+  <transf name="compute_specified" proved="true" >
+   <goal name="VC qpe_meas.8.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="3.60" steps="384"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC qpe_meas.9" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.54" steps="376"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.10" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.56" steps="377"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.11" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC qpe_meas.11.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.55" steps="377"/></proof>
+   </goal>
+   <goal name="VC qpe_meas.11.1" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="3.52" steps="379"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC qpe_meas.12" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="3.23" steps="378"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.13" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.55" steps="378"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.14" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC qpe_meas.14.0" expl="precondition" proved="true">
+   <proof prover="6"><result status="valid" time="4.56" steps="380"/></proof>
+   </goal>
+   <goal name="VC qpe_meas.14.1" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.51"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC qpe_meas.15" expl="assertion" proved="true">
+  <proof prover="6"><result status="valid" time="0.55" steps="372"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.16" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.54" steps="372"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.17" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.92" steps="373"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.18" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="4.70" steps="377"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.19" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="4.56" steps="385"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.20" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.53" steps="380"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.21" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.56" steps="380"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.22" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.76" steps="380"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.23" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.55" steps="380"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.24" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.57" steps="380"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.25" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="3.60" steps="384"/></proof>
+  </goal>
+  <goal name="VC qpe_meas.26" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC qpe_meas.26.0" expl="postcondition" proved="true">
+   <transf name="replace" proved="true" arg1="(ind_sum
+          (fun (y1:int) -&gt;
+            cpower
+            (ang_exp
+             (real_to_ang
+              (theta
+               -. (i_to_c
+                   ( (mod (best_appr theta k) (power_ 2 k))
+                    )
+                   *. pow_inv_2 k))))
+            y1)
+          0 (power_ 2 k))" arg2="(ind_sum
+  ((fun (y0:complex) (y1:int) -&gt; cpower y0 y1)
+   @ ang_exp (real_to_ang (delta theta k)))
+  0 (power_ 2 k))" arg3="in" arg4="H2">
+    <goal name="VC qpe_meas.26.0.0" expl="postcondition" proved="true">
+    <transf name="eliminate_let" proved="true" >
+     <goal name="VC qpe_meas.26.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="H8" arg2="in" arg3="H2">
+      <goal name="VC qpe_meas.26.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="H2">
+       <goal name="VC qpe_meas.26.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="rewrite" proved="true" arg1="mult_modulus">
+        <goal name="VC qpe_meas.26.0.0.0.0.0.0" expl="postcondition" proved="true">
+        <proof prover="4"><result status="valid" time="1.67"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="VC qpe_meas.26.0.1" expl="equality hypothesis" proved="true">
+    <proof prover="4"><result status="valid" time="2.12"/></proof>
+    <transf name="apply" proved="true" arg1="ind_sum_eq">
+     <goal name="VC qpe_meas.26.0.1.0" expl="apply premises" proved="true">
+     <transf name="compute_specified" proved="true" >
+      <goal name="VC qpe_meas.26.0.1.0.0" expl="apply premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="VC qpe_meas.26.0.1.0.0.0" expl="apply premises" proved="true">
+       <proof prover="0"><result status="valid" time="1.67"/></proof>
+       <proof prover="4"><result status="valid" time="2.09"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC qpe_meas.26.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.27"/></proof>
+   <proof prover="6"><result status="valid" time="0.50" steps="392"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC qpe_meas.27" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC qpe_meas.27.0" expl="postcondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.08"/></proof>
+   </goal>
+   <goal name="VC qpe_meas.27.1" expl="postcondition" proved="true">
+   <transf name="eliminate_let" proved="true" >
+    <goal name="VC qpe_meas.27.1.0" expl="postcondition" proved="true">
+    <transf name="replace" proved="true" arg1="result" arg2="((c_one /. cpower (i_to_c (power_ 2 k)) 2)
+       *. cpower
+          (modulus
+           (ind_sum
+            (fun (y1:int) -&gt;
+              cpower (ang_exp (real_to_ang (delta theta k))) y1)
+            0 (power_ 2 k)))
+          2)
+">
+     <goal name="VC qpe_meas.27.1.0.0" expl="postcondition" proved="true">
+     <proof prover="0"><result status="valid" time="1.40"/></proof>
+     <proof prover="6"><result status="valid" time="0.56" steps="394"/></proof>
+     </goal>
+     <goal name="VC qpe_meas.27.1.0.1" expl="equality hypothesis" proved="true">
+     <proof prover="4"><result status="valid" time="1.83"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>

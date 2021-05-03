@@ -1,0 +1,119 @@
+%%% this is a prelude for CVC3 
+%%% this is a prelude for CVC3 real arithmetic
+div_by_zero: (REAL) -> REAL;
+%%% this is a prelude for CVC3 integer arithmetic
+uni : TYPE;
+
+ty : TYPE;
+
+sort: (ty, uni) -> BOOLEAN;
+
+witness: (ty) -> uni;
+
+% witness_sort
+  ASSERT (FORALL (a : ty): (sort(a, witness(a))));
+
+int: ty;
+
+infix_mngt: (ty, ty) -> ty;
+
+d_frac : TYPE;
+
+d_frac1: ty;
+
+tuple2: (ty, ty) -> ty;
+
+Tuple2: (ty, ty, uni, uni) -> uni;
+
+% Tuple2_sort
+  ASSERT
+  (FORALL (a : ty, a1 : ty):
+  (FORALL (x : uni, x1 : uni): (sort(tuple2(a1, a), Tuple2(a1, a, x, x1)))));
+
+Tuple2_proj_1112: (ty, ty, uni) -> uni;
+
+% Tuple2_proj_1_sort
+  ASSERT
+  (FORALL (a : ty, a1 : ty):
+  (FORALL (x : uni): (sort(a1, Tuple2_proj_1112(a1, a, x)))));
+
+% Tuple2_proj_1_def
+  ASSERT
+  (FORALL (a : ty, a1 : ty):
+  (FORALL (u : uni, u1 : uni):
+  ((sort(a1, u)) => (Tuple2_proj_1112(a1, a, Tuple2(a1, a, u, u1)) = u))));
+
+Tuple2_proj_2112: (ty, ty, uni) -> uni;
+
+% Tuple2_proj_2_sort
+  ASSERT
+  (FORALL (a : ty, a1 : ty):
+  (FORALL (x : uni): (sort(a, Tuple2_proj_2112(a1, a, x)))));
+
+% Tuple2_proj_2_def
+  ASSERT
+  (FORALL (a : ty, a1 : ty):
+  (FORALL (u : uni, u1 : uni):
+  ((sort(a, u1)) => (Tuple2_proj_2112(a1, a, Tuple2(a1, a, u, u1)) = u1))));
+
+% tuple2_inversion
+  ASSERT
+  (FORALL (a : ty, a1 : ty):
+  (FORALL (u : uni):
+  ((sort(tuple2(a1, a), u)) => (u = Tuple2(a1, a, Tuple2_proj_1112(a1, a, u), 
+  Tuple2_proj_2112(a1, a, u))))));
+
+lpintcm_intrp: TYPE;
+
+to_values: (d_frac) -> lpintcm_intrp;
+
+num: (d_frac) -> INT;
+
+den: (d_frac) -> INT;
+
+dyadic: (INT, INT) -> d_frac;
+
+t2tb10: (lpintcm_intrp) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x : lpintcm_intrp): (sort(tuple2(int, int), t2tb10(x))));
+
+tb2t10: (uni) -> lpintcm_intrp;
+
+% BridgeL
+  ASSERT
+  (FORALL (i : lpintcm_intrp):PATTERN (t2tb10(i)):  (tb2t10(t2tb10(i)) = i));
+
+% BridgeR
+  ASSERT
+  (FORALL (j : uni):PATTERN (t2tb10(tb2t10(j))):  (t2tb10(tb2t10(j)) = j));
+
+t2tb2: (INT) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x : INT): (sort(int, t2tb2(x))));
+
+tb2t2: (uni) -> INT;
+
+% BridgeL
+  ASSERT (FORALL (i : INT):PATTERN (t2tb2(i)):  (tb2t2(t2tb2(i)) = i));
+
+% BridgeR
+  ASSERT
+  (FORALL (j : uni):PATTERN (t2tb2(tb2t2(j))):  (t2tb2(tb2t2(j)) = j));
+
+% dyadic_spec
+  ASSERT
+  (FORALL (k : INT, n : INT):
+  ((num(dyadic(k, n)) = k)
+  AND ((den(dyadic(k, n)) = n) AND (to_values(dyadic(k, n)) = tb2t10(
+      Tuple2(int, int, t2tb2(k), t2tb2(n)))))));
+
+% d_up
+  ASSERT
+  (FORALL (k : INT, n : INT):
+  ((0 <= n) => (dyadic(k, n) = dyadic((2 * k), (n + 1)))));
+
+QUERY
+% h
+  FALSE;

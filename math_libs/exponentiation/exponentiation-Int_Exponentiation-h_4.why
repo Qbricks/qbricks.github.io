@@ -1,0 +1,23 @@
+(* this is the prelude for Alt-Ergo, version >= 0.95.2 *)
+(* this is a prelude for Alt-Ergo integer arithmetic *)
+type 'a set
+
+logic mem : 'a, 'a set -> prop
+
+logic infix_eqeq : 'a set, 'a set -> prop
+
+axiom infix_eqeq_spec :
+  (forall s1:'a set. forall s2:'a set. (infix_eqeq(s1, s2) ->
+  (forall x:'a. (mem(x, s1) -> mem(x, s2)))))
+
+axiom infix_eqeq_spec1 :
+  (forall s1:'a set. forall s2:'a set. (infix_eqeq(s1, s2) ->
+  (forall x:'a. (mem(x, s2) -> mem(x, s1)))))
+
+axiom infix_eqeq_spec2 :
+  (forall s1:'a set. forall s2:'a set.
+  ((forall x:'a. (mem(x, s1) <-> mem(x, s2))) -> infix_eqeq(s1, s2)))
+
+axiom h : false
+
+goal h1 : false

@@ -1,0 +1,204 @@
+module Diffusion_operator 
+         use export ref.Ref
+         use qdata.Qreg
+         use qbricks.Diag_circuit
+         use kets.Superpositions
+         use  qbricks.Circuit
+         use  qbricks.Flat_circuit
+         use binary.Bit_vector
+         use export p_set.IndexestoSet
+         use export binary.Bv_to_int_ext
+         use qdata.Kronecker_Qbit
+         use export measure.Measure
+         use   set.Fset
+         use export p_set.Choose_filter
+         use export complex_operations.FromInt
+         use export unit_circle.Rotations
+         use export unit_circle.Ang_sum
+         use exponentiation.Power_
+         use qbricks.Circuit_macros
+         use unit_circle.Real_to_complex_trig
+         use exponentiation.Complex_Exponentiation
+     
+type grover_ = {s:int; cardi : int; functi:int->bool}
+     invariant{2 <= s /\ 0< cardi < power_ 2 s /\ cardinal (my_filter  (to_fset 0 (power_ 2 s)) functi) = cardi}
+by{s=2;cardi =1; functi = (fun i -> i =  1)}
+
+
+val  constant g() : ref grover_
+let constant n= !(g()).s   
+let constant  k  = !(g()).cardi 
+let constant  f  = !(g()).functi
+
+val  function grover_oracle (f: int -> bool) : circuit
+               ensures{width result = n}
+               ensures{forall x:bitvec. length x = n -> f (bv_to_int x) -> path_sem result (bv_to_ket x) =  (-. c_one *.. (bv_to_ket x))}
+               ensures{forall x:bitvec. length x = n -> not f (bv_to_int x) -> path_sem result (bv_to_ket x) =  (bv_to_ket x)}
+    
+let rec function cc_rz ( n:int): circuit
+       requires{n>=2}
+       ensures{width result = n}
+       ensures{diagonal result bv_check_zero}
+       variant{n}
+  =  bv_to_int_all_one_gen_rev n;
+     if n = 2 then c_rzp_one  0 1 n    else  diag_cont  (cc_rz  (n-1))  0 1 n bv_check_zero bv_check_zero
+                      
+let constant ang_indic_zero = (fun x -> if bv_to_int x = 0  then ang_minus_one else ang_zero)     
+                            
+let constant  x_cc_rz  : circuit
+  =   bv_to_int_all_one_gen n;
+      bv_to_int_zero_gen n;
+      flat_sequence   (x_kron n) (diag_to_flat  (cc_rz n) bv_check_zero ) (fun x -> int_to_bv (power_ 2 n - 1 - (bv_to_int x)) n) (fun x -> x)
+        (fun x -> int_to_bv (power_ 2 n - 1 - (bv_to_int x)) n)
+        (fun _ -> ang_zero) bv_check_zero ang_indic_zero 
+        ensures{width result = n}
+        ensures{flat result (fun x -> int_to_bv (power_ 2 n - 1 - (bv_to_int x)) n) ang_indic_zero}
+      
+let constant diff_pre  : circuit
+  = let   diff_pre_no_phase (): circuit
+             ensures{width result = n}
+             ensures{diagonal result ang_indic_zero }
+      =        bv_to_int_zero_gen n;
+               bv_to_int_zero_gen_rev n;
+               let x_cc_kron = flat_sequence   (x_cc_rz) (x_kron n) (fun x -> int_to_bv (power_ 2 n - 1 - (bv_to_int x)) n)
+                                  (fun x -> int_to_bv (power_ 2 n - 1 - (bv_to_int x)) n) (fun x -> x)
+                                  ang_indic_zero (fun _ -> ang_zero)   ang_indic_zero   
+                                in flat_to_diag x_cc_kron  ang_indic_zero                               
+                                in  diag_sequence (gen_phase 1 n) (diff_pre_no_phase()) (fun x -> ang_minus_one) ang_indic_zero
+                                      (fun x ->  if bv_to_int x = 0 then ang_zero else ang_minus_one)
+                                      ensures{width result = n}
+                                      ensures{diagonal result  (fun x -> if bv_to_int x = 0 then ang_zero else ang_minus_one)}
+                                      ensures{forall x: bitvec. length x = n ->
+                                                        path_sem result (bv_to_ket x) = if bv_to_int x = 0 then    bv_to_ket x else -. c_one *.. bv_to_ket x }
+
+let constant diff : circuit
+  =   let  diff_pre_had   () : circuit
+                                 ensures{result = sequence  (repeat_had n) (diff_pre)}
+    =    sequence  (repeat_had n) (diff_pre )
+      in sequence  (diff_pre_had ()) (repeat_had n) 
+                      ensures{width result =  n}
+                      ensures{result = sequence (sequence (repeat_had n) (diff_pre)) (repeat_had n)}
+       
+let lemma path_sem_diff (x:matrix complex)
+      requires{is_a_ket_l x n}
+      ensures{x = superposition_state n -> path_sem (diff) x =  x }
+      ensures{get_ket (path_sem (repeat_had n) x) 0 = c_zero -> path_sem  (diff) x =   -. c_one *.. x }
+  = if x ==  superposition_state n then
+      begin
+        path_sem_comp  (repeat_had n) (diff_pre ) x (bv_to_ket (int_to_bv 0 n))   (bv_to_ket (int_to_bv 0 n))     ;
+        path_sem_comp  (sequence (repeat_had n) (diff_pre )) (repeat_had n)  x  (bv_to_ket (int_to_bv 0 n)) x
+      end
+    else ();
+    if get_ket (path_sem (repeat_had n) x) 0 == c_zero then
+      begin
+        path_sem_decomp (diff_pre ) (path_sem (repeat_had n) x);
+        ket_decomp_ (path_sem (repeat_had n) x) n;
+        path_sem_comp  (repeat_had n) (diff_pre ) x (path_sem (repeat_had n) x)  (-. c_one *.. (path_sem (repeat_had n) x) );
+        path_sem_comp  (sequence (repeat_had n) (diff_pre )) (repeat_had n) x (-. c_one *.. (path_sem (repeat_had n) x) )(-. c_one *..  x) ;
+      end
+    else ()
+
+let ghost function unif_pos() : matrix complex
+      ensures{is_a_ket_l result n}
+      ensures{forall i. 0<= i < power_ 2 n -> get_ket result i = if f i then (c_one /. square_rt (i_to_c k)) else c_zero}
+      ensures{path_sem (grover_oracle f) result = -. c_one *.. result}
+  =  path_sem_sum_diag (grover_oracle f)  (n_bvs n)  (fun x -> (if f (bv_to_int x) then c_one /. square_rt (i_to_c k) else c_zero))  n;
+    ket_sum_l_diag  (fun x -> (if f (bv_to_int x) then c_one /. square_rt (i_to_c k) else c_zero)) n
+
+let ghost constant unif_neg (): matrix complex
+      ensures{is_a_ket_l result n}
+      ensures{forall i. 0<= i < power_ 2 n -> get_ket result i = if f i then c_zero  else c_one /. square_rt ( i_to_c (power_ 2 n - k))}
+      ensures{path_sem (grover_oracle f) result =  result}
+  =       path_sem_sum_diag (grover_oracle f)  (n_bvs n)  (fun x -> if f (bv_to_int x) then c_zero else c_one /. square_rt ( i_to_c (power_ 2 n- k))) n;
+          ket_sum_l_diag  (fun x -> if f (bv_to_int x) then c_zero else c_one /. square_rt (i_to_c (power_ 2 n- k))) n
+          
+let ghost function theta(): complex
+     ensures{real_ result}
+      ensures{sin result = square_rt (i_to_c k) *. (c_one /. square_rt (i_to_c (power_ 2 n)))}
+      ensures{cos result = (square_rt (i_to_c (power_ 2 n - k)) *. (c_one /. square_rt (i_to_c (power_ 2 n))))}
+  =  modulus_one_over_pow_n k n;
+  let res = arg ((square_rt (i_to_c (power_ 2 n - k))/. square_rt (i_to_c (power_ 2 n))) +. im *. (square_rt (i_to_c k)/. square_rt (i_to_c (power_ 2 n))))
+          ensures{real_ result}
+  in get_cos res     (square_rt (i_to_c (power_ 2 n - k))/. square_rt (i_to_c (power_ 2 n)))  (square_rt (i_to_c k)/. square_rt (i_to_c (power_ 2 n)));
+     get_sin res    (square_rt (i_to_c (power_ 2 n - k))/. square_rt (i_to_c (power_ 2 n))) (square_rt (i_to_c k)/. square_rt (i_to_c (power_ 2 n)));
+     res
+  
+  let lemma superposition_in_f_basis ()
+  ensures{superposition_state n = add_ket_l (cos (theta()) *.. (unif_neg())) (sin (theta()) *.. (unif_pos())) n}
+      =   scalar_ket_l_values (cos  (theta())) (unif_neg()) n;
+          scalar_ket_l_values (sin  (theta())) (unif_pos()) n;
+          set_equal_ket_l (superposition_state n) (add_ket_l (cos (theta()) *.. (unif_neg())) (sin (theta()) *.. (unif_pos()))n)
+
+let ghost function  ortho_super(): matrix complex
+    ensures{forall i. 0<= i < power_ 2 n -> get_ket result i =
+                                                 if f i then (cos  (theta())) *. (c_one /. square_rt (i_to_c k))
+                                               else (-. sin  (theta()) *. (c_one /. square_rt (i_to_c (power_ 2 n - k))))}
+      ensures{get_ket (path_sem (repeat_had n) result) 0 = c_zero }
+      ensures{path_sem diff result =  (-. c_one) *.. result}
+      ensures{is_a_ket_l result n}
+  =  path_sem_repeat_at_zero n (add_ket_l (-. sin  (theta())  *.. (unif_neg())) (cos  (theta())  *.. (unif_pos())) n);
+  scalar_ket_l_values (-. sin  (theta())) (unif_neg()) n;
+  scalar_ket_l_values (cos  (theta())) (unif_pos()) n;
+  assert{forall i. 0<= i < power_ 2 n -> get_ket (add_ket_l (-. sin  (theta())  *.. (unif_neg())) (cos  (theta())  *.. (unif_pos())) n)
+                                           i = if f i then (cos  (theta())) *. (c_one /. square_rt (i_to_c k))
+                                               else (-. sin  (theta()) *. (c_one /. square_rt (i_to_c (power_ 2 n - k))))};
+  i_to_c_strict_pos (power_ 2 n - k);
+  ind_sum_constant_case (power_ 2 n) (get_ket (add_ket_l (-. sin  (theta())  *.. (unif_neg())) (cos  (theta())  *.. (unif_pos())) n))
+  f  ( cos  (theta()) *. (c_one /. square_rt (i_to_c k))) (-. sin  (theta()) *. (c_one /. square_rt (i_to_c (power_ 2 n - k)))) k;
+  path_sem_repeat_at_zero n (add_ket_l (-. sin  (theta())  *.. (unif_neg())) (cos  (theta())  *.. (unif_pos())) n);
+  add_ket_l (-. sin  (theta())  *.. (unif_neg())) (cos  (theta())  *.. (unif_pos())) n
+
+let ghost function psi_i ( i:int): matrix complex
+      ensures{is_a_ket_l result n}
+      ensures{result = add_ket_l  (cos ( (theta()) *. i_to_c i) *.. (unif_neg()))  (sin ( (theta()) *. i_to_c i) *.. (unif_pos()))n}
+      ensures{i = 1 -> result = superposition_state n}
+  =  scal_add_scal_ket_l (cos ( (theta()) *. i_to_c (i-1))) (cos (theta()) ) (unif_neg()) (sin (theta()) ) (unif_pos()) n;
+     scal_add_scal_ket_l (sin ( (theta()) *. i_to_c (i-1))) (-. sin (theta()) ) (unif_neg()) (cos (theta()) ) (unif_pos()) n;
+     cos_ang_mult_plus_one (theta()) i; 
+     sin_ang_mult_plus_one (theta()) i;
+     superposition_in_f_basis();
+     superposition_in_f_basis();
+     add_ket_l (cos ((theta()) *. i_to_c (i-1)) *.. superposition_state n) (sin ( (theta()) *. i_to_c (i-1)) *.. (ortho_super())) n
+  
+let lemma diff_psi_i ( i:int)
+      ensures{path_sem diff (psi_i  i) = psi_i  (-(i-1)+1)}
+  =  cos_ang_mult_inv (theta()) (i-1);
+     sin_ang_mult_inv (theta()) (i-1);
+     path_sem_scal_add_ket_l diff (superposition_state n) ((ortho_super())) (cos ( (theta()) *. i_to_c (i-1))) (sin ((theta()) *. i_to_c (i-1))) n
+
+let function compute_step ( i:int):circuit
+           ensures{path_sem result (psi_i  i) = psi_i  (i+2)}
+           ensures{width result = n}
+  =   cos_ang_mult_inv (theta()) i;
+  sin_ang_mult_inv (theta()) i;
+  path_sem_scal_add_ket_l (grover_oracle f) (unif_neg())  (unif_pos()) (cos ((theta()) *. i_to_c i)) (sin ((theta()) *. i_to_c i)) n;
+  diff_psi_i  (-i);
+  path_sem_comp (grover_oracle f) diff (psi_i  i) (psi_i  (-i)) (psi_i  (i+2));
+  sequence (grover_oracle f)  diff
+
+let function grover_run ( i:int):circuit
+      requires{1<=i}
+      ensures{path_sem result (ket n 0) = psi_i  (1 + 2*i)}
+       ensures{proba_measure_cond (path_sem result (ket n 0))  n f  =  cpower (sin  ((theta()) *. i_to_c (2*i+1))) 2}
+      ensures{width result = n}
+           = let rec steps (s:int)
+                       requires{1<=s}
+                       ensures{path_sem result (psi_i  1) = psi_i  (1 + 2*s)}
+                       ensures{width result = n}
+                       variant{s}
+               = if s = 1 then compute_step  1
+                 else let o =  (steps (s-1)) in begin path_sem_comp o (compute_step  (1 + 2*(s-1))) (psi_i 1)  (psi_i (1 + 2*(s-1))) (psi_i (1 + 2*s));
+                            sequence o (compute_step (1 + 2*(s-1)))  end
+             in   let o =  (steps i) in begin path_sem_comp (repeat_had n) o (ket n 0) (psi_i 1)  (psi_i (1 + 2*i));
+    scalar_ket_l_values (sin  ((theta()) *. i_to_c (2*i+1))) (unif_pos()) n;
+    scalar_ket_l_values (cos  ((theta()) *. i_to_c (2*i+1))) (unif_neg()) n;
+    assert{forall j. 0<= j < power_ 2 n -> f j -> get_ket (path_sem (sequence (repeat_had n) o) (ket n 0)) j
+                                              =  sin  ((theta()) *. i_to_c (2*i+1)) /. square_rt (i_to_c k)};
+    proba_measure_cond_const (path_sem (sequence (repeat_had n) o) (ket n 0)) n f (cpower (sin  ((theta()) *. i_to_c (2*i+1)) /. square_rt (i_to_c k)) 2)
+       (cpower (sin  ((theta()) *. i_to_c (2*i+1))) 2) ;
+    sequence (repeat_had n) o
+    end
+
+
+                                      
+end

@@ -1,0 +1,311 @@
+(* this is the prelude for Alt-Ergo, version >= 0.95.2 *)
+(* this is a prelude for Alt-Ergo integer arithmetic *)
+logic match_bool : bool, 'a, 'a -> 'a
+
+axiom match_bool_True :
+  (forall z:'a. forall z1:'a. (match_bool(true, z, z1) = z))
+
+axiom match_bool_False :
+  (forall z:'a. forall z1:'a. (match_bool(false, z, z1) = z1))
+
+predicate antisym(rel: ('a,('a,bool) farray) farray) =
+  (forall a1:'a. forall b:'a. ((((rel[a1])[b]) = true) ->
+  ((((rel[b])[a1]) = true) -> (a1 = b))))
+
+predicate transitive(rel: ('a,('a,bool) farray) farray) =
+  (forall a1:'a. forall b:'a. forall c:'a. ((((rel[a1])[b]) = true) ->
+  ((((rel[b])[c]) = true) -> (((rel[a1])[c]) = true))))
+
+predicate reflexive(rel: ('a,('a,bool) farray) farray) =
+  (forall a1:'a. (((rel[a1])[a1]) = true))
+
+axiom set_reflexive :
+  (forall rel:('a,('a,bool) farray) farray.
+  ((forall a1:'a. (((rel[a1])[a1]) = true)) -> reflexive(rel)))
+
+type 'a set
+
+logic mem : 'a, 'a set -> prop
+
+logic infix_eqeq : 'a set, 'a set -> prop
+
+axiom infix_eqeq_spec :
+  (forall s1:'a set. forall s2:'a set. (infix_eqeq(s1, s2) ->
+  (forall x:'a. (mem(x, s1) -> mem(x, s2)))))
+
+axiom infix_eqeq_spec1 :
+  (forall s1:'a set. forall s2:'a set. (infix_eqeq(s1, s2) ->
+  (forall x:'a. (mem(x, s2) -> mem(x, s1)))))
+
+axiom infix_eqeq_spec2 :
+  (forall s1:'a set. forall s2:'a set.
+  ((forall x:'a. (mem(x, s1) <-> mem(x, s2))) -> infix_eqeq(s1, s2)))
+
+axiom extensionality :
+  (forall s1:'a set. forall s2:'a set. (infix_eqeq(s1, s2) -> (s1 = s2)))
+
+logic is_empty : 'a set -> prop
+
+logic empty : 'a set
+
+axiom empty_def : is_empty((empty : 'a set))
+
+logic add : 'a, 'a set -> 'a set
+
+logic remove : 'a, 'a set -> 'a set
+
+axiom add_remove :
+  (forall x:'a. forall s:'a set. (mem(x, s) -> (add(x, remove(x, s)) = s)))
+
+logic union : 'a set, 'a set -> 'a set
+
+logic inter : 'a set, 'a set -> 'a set
+
+logic diff : 'a set, 'a set -> 'a set
+
+logic cardinal : 'a set -> int
+
+logic filter : ('a,bool) farray, 'a set -> 'a set
+
+logic map : ('a,'b) farray, 'a set -> 'b set
+
+type ('a, 'a1) tuple2 = { Tuple2_proj_1 : 'a; Tuple2_proj_2 : 'a1
+}
+
+logic right_injections : 'a2, 'b set -> ('a2, 'b) tuple2 set
+
+logic Tuple2_closure : ('a,('a1,('a, 'a1) tuple2) farray) farray
+
+axiom Tuple2_closure_def :
+  (forall y:'a. forall y1:'a1. ((((Tuple2_closure : ('a,('a1,('a,
+  'a1) tuple2) farray) farray)[y])[y1]) = { Tuple2_proj_1 = y;
+  Tuple2_proj_2 = y1 }))
+
+axiom right_injections_spec :
+  (forall a:'a1. forall s:'b set. (cardinal(right_injections(a,
+  s)) = cardinal(s)))
+
+axiom right_injections_spec1 :
+  (forall a:'a1. forall s:'b set.
+  (forall aqt:'a1.
+  (forall b1:'b. (mem({ Tuple2_proj_1 = aqt; Tuple2_proj_2 = b1 },
+  right_injections(a, s)) -> (aqt = a)))))
+
+axiom right_injections_spec2 :
+  (forall a:'a1. forall s:'b set.
+  (forall aqt:'a1.
+  (forall b1:'b. (mem({ Tuple2_proj_1 = aqt; Tuple2_proj_2 = b1 },
+  right_injections(a, s)) -> mem(b1, s)))))
+
+axiom right_injections_spec3 :
+  (forall a:'a1. forall s:'b set.
+  (forall aqt:'a1.
+  (forall b1:'b. (((aqt = a) and mem(b1, s)) -> mem({ Tuple2_proj_1 = aqt;
+  Tuple2_proj_2 = b1 }, right_injections(a, s))))))
+
+axiom right_injections_spec4 :
+  (forall a:'a1. forall s:'b set. (right_injections(a,
+  s) = map(((Tuple2_closure : ('a1,('b,('a1, 'b) tuple2) farray) farray)[a]),
+  s)))
+
+axiom cardinal_sum_empty_inter :
+  (forall s:'a set. forall sqt:'a set. ((inter(s, sqt) = (empty : 'a set)) ->
+  (cardinal(union(s, sqt)) = (cardinal(s) + cardinal(sqt)))))
+
+logic cartesian_product : 'a set, 'b set -> ('a, 'b) tuple2 set
+
+axiom disjoint_cartesian_product_l :
+  (forall s1:'a set. forall s2:'a set. forall s3:'b set. ((inter(s1,
+  s2) = (empty : 'a set)) -> (inter(cartesian_product(s1, s3),
+  cartesian_product(s2, s3)) = (empty : ('a, 'b) tuple2 set))))
+
+predicate op_neutral_left(op: ('im,('im,'im) farray) farray, neutral: 'im) =
+  (forall e:'im. (((op[neutral])[e]) = e))
+
+predicate op_neutral_right(op: ('im,('im,'im) farray) farray, neutral: 'im) =
+  (forall e:'im. (((op[e])[neutral]) = e))
+
+predicate op_assoc(op: ('im,('im,'im) farray) farray) =
+  (forall a:'im. forall b:'im. forall c:'im.
+  (((op[((op[a])[b])])[c]) = ((op[a])[((op[b])[c])])))
+
+predicate op_neutral_left_comm(op: ('im,('im,'im) farray) farray,
+  neutral: 'im) =
+  (forall a:'im. ((forall b:'im. (((op[a])[b]) = b)) -> (a = neutral)))
+
+predicate commut(op: ('im,('im,'im) farray) farray) =
+  (forall a:'im. forall b:'im. (((op[a])[b]) = ((op[b])[a])))
+
+predicate assoc(op: ('im,('im,'im) farray) farray) =
+  (forall a:'im. forall b:'im. forall c:'im.
+  (((op[((op[a])[b])])[c]) = ((op[a])[((op[b])[c])])))
+
+predicate opposite_n(op: ('im,('im,'im) farray) farray,
+  po: ('im,('im,'im) farray) farray, neutral: 'im) =
+  (forall a:'im. (((po[a])[a]) = neutral))
+
+predicate inverse(op: ('im,('im,'im) farray) farray,
+  po: ('im,('im,'im) farray) farray, inver: ('im,'im) farray) =
+  (forall a:'im. forall b:'im. (((po[a])[b]) = ((op[a])[(inver[b])])))
+
+predicate opposite(op: ('im,('im,'im) farray) farray,
+  po: ('im,('im,'im) farray) farray) =
+  (forall a:'im. forall b:'im. (((op[((po[a])[b])])[b]) = a))
+
+predicate opposite_com(op: ('im,('im,'im) farray) farray,
+  po: ('im,('im,'im) farray) farray) =
+  (forall a:'im. forall b:'im. (((po[((op[a])[b])])[b]) = a))
+
+axiom refl :
+  (forall op:('im,('im,'im) farray) farray. forall a:'im. forall b:'im.
+  (commut(op) -> (((op[a])[b]) = ((op[b])[a]))))
+
+predicate iterates(op: ('im,('im,'im) farray) farray, neutral: 'im) =
+  (op_neutral_left(op, neutral) and (op_neutral_right(op, neutral) and
+  op_assoc(op)))
+
+predicate iterable(op: ('im,('im,'im) farray) farray) =
+  (exists e:'im. iterates(op, e))
+
+logic neutral_elt : ('im,('im,'im) farray) farray -> 'im
+
+predicate inverse_tuple(op: ('im,('im,'im) farray) farray,
+  po: ('im,('im,'im) farray) farray, neutral: 'im) = (opposite_n(op, po,
+  neutral) and (opposite(op, po) and opposite_com(op, po)))
+
+logic iterate : ('im,('im,'im) farray) farray, 'a set, ('a,'im) farray -> 'im
+
+axiom unic :
+  (forall op:('im,('im,'im) farray) farray.
+  forall po:('im,('im,'im) farray) farray. forall a:'im. forall b:'im.
+  forall c:'im. (iterable(op) -> (commut(op) ->
+  ((((op[a])[b]) = ((op[a])[c])) -> (inverse_tuple(op, po,
+  neutral_elt(op)) -> (b = c))))))
+
+axiom substract_comm :
+  (forall op:('im,('im,'im) farray) farray.
+  forall po:('im,('im,'im) farray) farray. forall a:'im. forall b:'im.
+  (iterable(op) -> (commut(op) -> (inverse_tuple(op, po, neutral_elt(op)) ->
+  (((po[((op[a])[b])])[a]) = b)))))
+
+axiom substract_comm1 :
+  (forall op:('im,('im,'im) farray) farray.
+  forall po:('im,('im,'im) farray) farray. forall a:'im. forall b:'im.
+  (iterable(op) -> (commut(op) -> (inverse_tuple(op, po, neutral_elt(op)) ->
+  (((po[((op[b])[a])])[a]) = b)))))
+
+axiom substract_comm2 :
+  (forall op:('im,('im,'im) farray) farray.
+  forall po:('im,('im,'im) farray) farray. forall a:'im. forall b:'im.
+  forall c:'im. (iterable(op) -> (commut(op) -> (inverse_tuple(op, po,
+  neutral_elt(op)) -> (((po[a])[((po[b])[c])]) = ((op[((po[a])[b])])[c]))))))
+
+axiom substract_comm3 :
+  (forall op:('im,('im,'im) farray) farray.
+  forall po:('im,('im,'im) farray) farray. forall a:'im. forall b:'im.
+  forall c:'im. (iterable(op) -> (commut(op) -> (inverse_tuple(op, po,
+  neutral_elt(op)) -> (((po[((op[a])[b])])[c]) = ((op[a])[((po[b])[c])]))))))
+
+logic int_iterate : ('im,('im,'im) farray) farray, (int,'im) farray, int,
+  int -> 'im
+
+axiom int_iterate_def :
+  (forall op:('im,('im,'im) farray) farray. forall f:(int,'im) farray.
+  forall i:int. forall j:int. ((j <= i) -> (int_iterate(op, f, i,
+  j) = neutral_elt(op))))
+
+axiom int_iterate_def1 :
+  (forall op:('im,('im,'im) farray) farray. forall f:(int,'im) farray.
+  forall i:int. forall j:int. ((not (j <= i)) -> (int_iterate(op, f, i,
+  j) = ((op[(f[i])])[int_iterate(op, f, (i + 1), j)]))))
+
+axiom to_set_spec : (forall e:'a. (cardinal(add(e, (empty : 'a set))) = 1))
+
+axiom to_set_spec1 :
+  (forall e:'a. (forall b:'a. (mem(b, add(e, (empty : 'a set))) -> (b = e))))
+
+logic c_iter : ('a,('a,'a) farray) farray, 'a, int -> 'a
+
+axiom C_iter_one :
+  (forall op:('a,('a,'a) farray) farray.
+  (forall i:'a. (c_iter(op, i, 1) = i)))
+
+logic infix_pl_closure : (int,(int,int) farray) farray
+
+logic infix_as_closure : (int,(int,int) farray) farray
+
+axiom infix_pl_closure_def :
+  (forall y:int. forall y1:int. (((infix_pl_closure[y])[y1]) = (y + y1)))
+
+axiom infix_as_closure_def :
+  (forall y:int. forall y1:int. (((infix_as_closure[y])[y1]) = (y * y1)))
+
+axiom neutrals : (0 = neutral_elt(infix_pl_closure))
+
+axiom neutrals1 : (1 = neutral_elt(infix_as_closure))
+
+function isum(s: 'a set, t: ('a,int) farray) : int =
+  iterate(infix_pl_closure, s, t)
+
+axiom isum_iter : iterates(infix_pl_closure, 0)
+
+logic infix_mn_closure : (int,(int,int) farray) farray
+
+axiom infix_mn_closure_def :
+  (forall y:int. forall y1:int. (((infix_mn_closure[y])[y1]) = (y - y1)))
+
+axiom isum_iter_ : opposite_n(infix_pl_closure, infix_mn_closure, 0)
+
+axiom isum_iter_1 : opposite(infix_pl_closure, infix_mn_closure)
+
+axiom isum_iter_2 : opposite_com(infix_pl_closure, infix_mn_closure)
+
+axiom isum_iter_3 : inverse_tuple(infix_pl_closure, infix_mn_closure, 0)
+
+function ind_isum(f: (int,int) farray, i: int, j: int) : int =
+  int_iterate(infix_pl_closure, f, i, j)
+
+axiom ind_isum_plus_one :
+  (forall f:(int,int) farray. forall i:int. forall j:int. ((i <  j) ->
+  (ind_isum(f, i, j) = ((f[i]) + ind_isum(f, (i + 1), j)))))
+
+logic fc : (int,(int,int) farray) farray
+
+axiom fc_def : (forall y0:int. forall y1:int. (((fc[y0])[y1]) = y0))
+
+axiom ind_isum_const :
+  (forall k:int. forall i:int. forall j:int. ((i <  j) -> (ind_isum((fc[k]),
+  i, j) = (k * (j - i)))))
+
+function power(e: int, i: int) : int = c_iter(infix_as_closure, e, i)
+
+axiom power_plus_one :
+  (forall e:int. forall i:int. (power(e, (i + 1)) = (e * power(e, i))))
+
+axiom power_sum :
+  (forall x:int. forall n:int. forall m:int. (power(x, (n + m)) = (power(x,
+  n) * power(x, m))))
+
+logic fc1 : (int,int) farray
+
+axiom fc_def1 : (forall k:int. ((fc1[k]) = power(2, (k + 1))))
+
+axiom power_decomp :
+  (forall i:int. ((1 <= i) -> (ind_isum(fc1, 0, i) <  power(2, (i + 1)))))
+
+logic i : int
+
+axiom H : (1 <= i)
+
+logic o : (int,int) farray
+
+axiom o_def :
+  (forall k:int. (((1 <= k) and (k <  (i + 1))) -> ((o[k]) = power(2,
+  (k - 1)))))
+
+axiom o_def1 :
+  (forall k:int. ((not ((1 <= k) and (k <  (i + 1)))) -> ((o[k]) = 0)))
+
+axiom H1 : (ind_isum(o, 1, i) = ((o[1]) + ind_isum(o, (1 + 1), i)))
+
+goal h : false

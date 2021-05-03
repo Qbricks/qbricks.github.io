@@ -1,0 +1,2446 @@
+
+module Qreg
+         use  complex.Complex
+         use  int.Int
+         use  complex_operations.Base_type
+         use  matrices.Kronecker_product
+         use  matrices.Matrix_equality
+         use  matrices.Matrice
+         use  exponentiation.Int_Exponentiation
+         use  ref.Ref
+         use  arit.Base_arit
+         use  binary.Binary_Op           
+     use matrices.Matrix_scalar
+     use matrices.Matrix_addition
+use  set.FsetComprehension
+         use matrices.Matrix_sums
+use binary.Bit_vector
+ predicate is_a_ket (m : matrix complex) 
+
+      axiom Is_a_ket: forall m: matrix complex. is_a_ket m <-> (columns m=1 /\ exists s:int.s >= 0  /\ rows m = power 2 s)
+
+let function xor_i (i i':int)
+           requires{0<= i <2}
+           requires{0<= i' <2}
+           ensures{i = 0 -> i' = 0 -> result = 0}
+           ensures{i = 0 -> i' = 1 -> result = 1}
+           ensures{i = 1 -> i' = 0 -> result = 1}
+           ensures{i = 1 -> i' = 1 -> result = 0}
+  = if i = 0 then i' else (1-i')
+  
+let predicate is_a_ket_l (m : matrix complex) (l:int) = l >= 0 && columns m=1 &&  rows m = power 2 l
+
+let lemma ket_l_rows  (m : matrix complex) (l:int)
+      requires{is_a_ket_l m l}
+      ensures{rows m = power 2 l}
+  =()
+
+let lemma ket_l_columns  (m : matrix complex) 
+      requires{exists l. is_a_ket_l m l}
+      ensures{columns m = 1}
+  =()
+
+let predicate ket_valid_index (m : matrix complex) (i:int) = valid_index m i 0
+      
+let  function ket_length (m: matrix complex)
+                     requires{is_a_ket m}
+                     ensures{0<= result}
+                     ensures{rows m = (power 2 result )}
+  =
+    assert{0< columns m};
+  assert{exists s:int. 0 <= s /\ rows m = power 2 s} ;
+  assert{forall s:int. 0<= s -> rows m = power 2 s->  binary_length (rows m)  = s+1 };
+  assert {rows m = power 2 ((binary_length (rows m) )-1)};
+(binary_length (rows m) ) -1
+
+let function get_ket (m :matrix complex) (i:int): complex
+= get m i 0
+
+let lemma get_ket_rev (m :matrix complex) (i:int)
+      ensures{ get m i 0 = get_ket m i}
+  =()
+
+let function get_ket_bv (x :matrix complex) (bv :bitvec): complex
+           requires{is_a_ket_l x (length bv)}
+  = get_ket x (bv_to_int bv) 
+
+  use int.EuclideanDivision
+use arit.Div_Mod
+use exponentiation.Power_
+
+let lemma get_ket_add (x y: matrix complex) ( i : int)
+           requires{is_a_ket x }
+           requires{is_a_ket y }
+           requires{ket_length x = ket_length y}
+      requires{0<= i < power_ 2 (ket_length y)}
+           ensures{get_ket (add_mat x y) i = get_ket x i +. get_ket y i}
+  =()
+
+let lemma get_ket_substr (x y: matrix complex) ( i : int)
+           requires{is_a_ket x }
+           requires{is_a_ket y }
+           requires{ket_length x = ket_length y}
+      requires{0<= i < power_ 2 (ket_length y)}
+           ensures{get_ket (mat_substr x y) i = get_ket x i -. get_ket y i}
+  =()
+  
+let lemma mat_mult_ket_l (m k:matrix complex) (n:int)
+      requires{is_a_ket_l k n}
+  requires{rows m = power 2 n}
+  requires{columns m = power 2 n}
+  ensures{is_a_ket_l (mat_mult m k) n}
+  =()
+  
+  let lemma ket_kronecker_values (m n : matrix complex) (i j:int)
+      requires{is_a_ket m}
+      requires{is_a_ket n}
+      requires{0<= i < rows m * rows n}
+      ensures{get_ket (kronecker m n) i  =   ( get_ket m (div i n.rows))
+                                          *. (get_ket  n (mod i n.rows))}
+  = kronecker_values m n i 0
+
+let lemma ket_l_to_ket (m: matrix complex) (l:int)
+      requires{is_a_ket_l m l}
+      ensures{is_a_ket m}
+      ensures{ket_length m = l}
+  =()
+
+let lemma ket_l_to_ket_gen (m: matrix complex) 
+      requires{exists l. is_a_ket_l m l}
+      ensures{is_a_ket m}
+  =()
+
+let lemma ket_to_ket_l (m: matrix complex) 
+      requires{is_a_ket m }
+      ensures{is_a_ket_l m (ket_length m)}
+  =()
+
+let lemma set_ket_valid_index (m : matrix complex) (i:int)
+      requires{is_a_ket m}
+      requires{0 <= i < power 2 (ket_length m)}
+      ensures{ket_valid_index m i}
+  =()
+  
+let lemma ket_to_ket_l_l (m: matrix complex) (i: int) 
+      requires{is_a_ket m }
+      requires{ket_length m = i}
+      ensures{is_a_ket_l m i}
+  =()
+
+let lemma set_constant_size_ket (s: set 'a) (f : 'a -> matrix complex)
+      requires{forall e : 'a. mem e s  ->  is_a_ket (f e)}
+      requires{forall e e': 'a. mem e s -> mem e' s ->  ket_length (f e) = ket_length (f e')}
+      ensures{constant_size s f}
+  =()
+
+use p_set.IndexestoSet
+  
+let function ket_norm_l (x:matrix complex) (n:int)
+           requires{is_a_ket_l x n}
+  = square_rt (sum (to_fset 0 (power 2 n)) (fun k -> modulus (get x k  0) *.modulus (get  x k 0) )) 
+use binary.Bit_vector_decomp
+
+let lemma ind_sum_ket_norm_l (x:matrix complex) (n:int)
+      requires{is_a_ket_l x n}
+           ensures{ket_norm_l x n =  square_rt (ind_sum  (fun k -> modulus (get x k  0) *.modulus (get  x k 0) ) 0 (power 2 n)) }
+=()
+  
+let lemma ket_norm_one (x:matrix complex) (n:int)
+      requires{n=1}
+      requires{is_a_ket_l x n}
+      ensures{ket_norm_l x n =  square_rt ( modulus (get x 0  0) *.modulus (get  x 0 0) +. modulus (get x 1  0) *.modulus (get  x 1 0) ) }
+=()
+  
+let lemma ket_norm_one_c_one (x:matrix complex)  (n:int)
+      requires{n=1}
+      requires{is_a_ket_l x n}
+           requires{( modulus (get x 0  0) *.modulus (get  x 0 0) +. modulus (get x 1  0) *.modulus (get  x 1 0) ) = c_one }
+  ensures{ket_norm_l x n =  c_one}
+  =()
+  
+let lemma  scalar_ket_norm_l (x:matrix complex) (a: complex)(n:int)
+      requires{c_zero<=. a}
+      requires{is_a_ket_l x n}
+  ensures{ket_norm_l (a*..x) n  = a*. ket_norm_l x n}
+  = ()
+      
+let lemma  zero_ket_norm_l (x:matrix complex) (a: complex)(n:int)
+           requires{is_a_ket_l x n}
+           requires{ket_norm_l x n = c_zero}
+           ensures{forall i j. 0 <= i <power 2 n -> j = 0 -> get x i j = c_zero}
+  = ()
+      
+use binary.Bit_vector_decomp
+
+let function normalized_l (x: matrix complex) (n:int): matrix complex
+           requires{is_a_ket_l x n}
+           requires{exists  i . 0 <= i <power 2 n /\ get x i 0 <> c_zero}
+           ensures{is_a_ket_l result n}
+  =
+  (c_one/. ket_norm_l x n) *.. x
+  
+let function make_ket  (n:int) (f: int -> complex)
+               requires{n>=0}
+           ensures{is_a_ket_l result n}
+           ensures{forall i. 0<= i < power 2 n -> get_ket result i = f i}
+           ensures{forall i j. valid_index result i j ->  get result i j = f i}
+           = make_f (power 2 n) 1 (fun x _ -> f x)
+
+let lemma assert_make_ket (r c: int) (f: int -> complex)(i : int)
+      requires{c = 1}
+      requires{0<= i < power_ 2 r}
+  ensures{ get_ket  (make_ket r  f) i   = f i }
+  =()
+
+let lemma assert_make_ket_l (l : int) (f: int -> complex)(i : int)
+      requires{0<=l}
+      ensures{ get_ket  (make_ket l  f) i   = f i }
+  =()
+
+let lemma make_ket_length (l : int) (f: int -> complex)(i : int)
+      requires{0<=l}
+      ensures{ ket_length  (make_ket l  f)    = l }
+  =()
+
+let lemma make_ket_rows (l : int) (f: int -> complex)(i : int)
+      requires{0<=l}
+      ensures{rows  (make_ket l  f)    = power_ 2 l }
+  =()
+
+let lemma make_ket_columns (l : int) (f: int -> complex)(i : int)
+      requires{0<=l}
+      ensures{ columns  (make_ket l  f)    = 1 }
+  =()
+           
+let function make_ket_constant  (n:int) (c: complex)
+               requires{n>=0}
+           ensures{is_a_ket_l result n}
+           ensures{forall i. 0<= i < power 2 n -> get_ket result i = c}
+           ensures{forall i j. valid_index result i j ->  get result i j = c}
+           = make_ket n (fun i -> c)
+
+let lemma set_equal_ket (m n: matrix complex)  
+requires{is_a_ket m }
+requires{is_a_ket n }
+requires{ket_length m = ket_length n}
+requires{forall i :int. 0 <= i < power 2 (ket_length m)  -> get_ket m i  = get_ket n i }
+ensures{m = n}
+  = set_equal_mat m n
+
+let lemma set_equal_ket_ (m n: matrix complex)  
+      requires{exists l. is_a_ket_l m l /\ is_a_ket_l n l /\ forall i :int. 0 <= i < power 2 l  -> get_ket m i  = get_ket n i }
+ensures{m = n}
+  = set_equal_mat m n
+
+let function add_ket (m n : matrix complex)
+requires{is_a_ket m}
+requires{is_a_ket n}
+           requires{ket_length m = ket_length n}
+           ensures{is_a_ket result}
+           ensures{ket_length result = ket_length m}
+           ensures{forall i: int. ket_valid_index result i -> get_ket result i = get_ket m i +. get_ket n i}
+  = add_mat m n
+  
+let function add_ket_l (m n : matrix complex) (l:int)
+               requires{0<=l}
+               ensures{is_a_ket_l result l}
+               ensures{ket_length result  = l}
+               ensures{forall i: int.   get_ket result i = get_ket m i +. get_ket n i}
+           ensures{is_a_ket_l m l -> is_a_ket_l n l -> result = add_mat m n}
+  =  make_ket l (fun i -> get_ket m i  +. get_ket n i )
+
+let lemma add_ket_l_to_add_mat (m n : matrix complex) (l:int)
+               requires{0<=l}
+               requires{is_a_ket_l m l}
+               requires{is_a_ket_l n l}
+               ensures{add_ket_l m n l = add_mat m n}
+  = ()
+  
+let lemma null_add_ket_l (m n :matrix complex) (l:int)
+      requires{is_a_ket_l m l}
+      requires{is_a_ket_l n l}
+      requires{null_mat m}
+      ensures{add_ket_l m n l = n}
+  =()
+  
+let lemma add_ket_l_null (m n :matrix complex) (l:int)
+      requires{is_a_ket_l m l}
+      requires{is_a_ket_l n l}
+      requires{null_mat n}
+      ensures{add_ket_l m n l = m}
+  =()
+  
+  let function add_ket_l_eq (m  m' n n' : matrix complex) (l:int)
+requires{is_a_ket_l m l}
+requires{is_a_ket_l n l}
+requires{m = m'}
+requires{n = n'}
+           ensures{add_ket_l m n = add_ket_l m' n'}
+  = ()
+
+let lemma add_ket_l_value (m n : matrix complex) (l i:int)
+               requires{ 0 <= i < power 2 l}
+               requires{0<=l}
+               ensures{ get_ket (add_ket_l m n l) i = get_ket m i +. get_ket n i}
+  =()
+
+let lemma add_ket_l_length (m n : matrix complex) (l :int)
+               requires{0<=l}
+               ensures{ ket_length (add_ket_l m n l)  = l}
+  =()
+
+let lemma add_ket_l_rows (m n : matrix complex) (l :int)
+               requires{0<=l}
+               ensures{ rows (add_ket_l m n l)  = power_ 2 l}
+  =()
+
+let lemma add_ket_l_columns (m n : matrix complex) (l :int)
+               requires{0<=l}
+               ensures{ columns (add_ket_l m n l)  = 1}
+  =()
+
+let lemma add_ket_l_values (m n : matrix complex) (l :int)
+               requires{0<=l}
+               ensures{forall i. 0<= i < power_ 2 l -> get_ket (add_ket_l m n l) i = get_ket m i +. get_ket n i}
+  =()
+
+let lemma set_equal_ket_l (m n: matrix complex)   
+requires{exists l:int. is_a_ket_l m l /\is_a_ket_l n l}
+requires{forall i :int.  0 <= i < power 2 (ket_length m)   -> get_ket m i  = get_ket n i }
+ensures{m = n}
+  = set_equal_ket m n           
+  
+let lemma set_equal_ket_l_ (m n: matrix complex)   (l:int)
+requires{is_a_ket_l m l}
+requires{is_a_ket_l n l}
+requires{forall i :int.  0 <= i < power_ 2 l   -> get_ket m i  = get_ket n i }
+ensures{m = n}
+  = set_equal_ket m n           
+  
+let lemma get_ket_length (m: matrix complex) (n:int)
+      requires{0<= n}
+      requires{columns m = 1}
+      requires{rows m = (power 2 n )}
+      ensures{ket_length m = n}
+  = ()
+  
+let lemma set_ket_length (m: matrix complex) (n:int)
+      requires{0<= n}
+      requires{is_a_ket m}
+      requires{ket_length m = n}
+      ensures{rows m = (power 2 n )}
+  = ()
+
+let lemma scalar_ket (x: matrix complex) (a: complex)
+      requires{is_a_ket x}
+      ensures{is_a_ket (a *.. x)}
+  =()
+  
+let lemma scalar_ket_length (m: matrix complex) (a: complex)
+      requires{is_a_ket m}
+      ensures{ket_length (a*..m) = ket_length m}
+  =()
+
+let lemma scalar_ket_valid_index (m: matrix complex) (a: complex) (i:int)
+      requires{ket_valid_index m i}
+      requires{is_a_ket m}
+      ensures{ket_valid_index (a*..m) i}
+  =()
+
+  let lemma scalar_ket_l (x: matrix complex) (l:int)(a: complex)
+      requires{is_a_ket_l x l}
+      ensures{is_a_ket_l (a *.. x) l}
+  =scalar_ket_length x a
+
+  let lemma scalar_ket_l_values (a: complex)(x: matrix complex) (l:int)
+      requires{is_a_ket_l x l}
+      ensures{forall i:int. 0 <= i < power_ 2 l -> get_ket (a*.. x) i = a*. get_ket x i}
+  =()
+
+  let lemma scalar_ket_l_value (a: complex)(x: matrix complex) (i l:int)
+        requires{0<= i < power_ 2 l}
+        requires{is_a_ket_l x l}
+      ensures{ get_ket (a*.. x) i = a*. get_ket x i}
+  =()
+
+ let lemma scalar_ket_value (x: matrix complex) (i:int)(a: complex)
+      ensures{get_ket  (a *.. x) i = a *. (get_ket x i)}
+  = ()
+
+ let lemma scalar_ket_value_rev (x: matrix complex) (i:int)(a: complex)
+      ensures{ a *. (get_ket x i) = get_ket  (a *.. x) i}
+  = ()
+
+let lemma add_ket_is_a_ket (x y: matrix complex) (a: complex)
+      requires{is_a_ket x}
+      requires{is_a_ket y}
+      requires{ket_length x = ket_length y}
+      ensures{is_a_ket (add_mat x y)}
+  =()
+  
+let lemma set_ket_length_gen (m: matrix complex) (n:int)
+      requires{0<= n}
+      requires{is_a_ket m}
+      requires{power  2 (ket_length m) = n}
+      ensures{rows m = n}
+  = ()
+  
+let lemma set_is_a_ket (m : matrix complex)
+      requires{columns m = 1}
+      requires{exists s:int.s >= 0  /\ rows m = power 2 s}
+      ensures{is_a_ket m}
+  =()
+  
+let lemma set_is_a_ket_l (m : matrix complex) (l:int)
+      requires{l>=0}
+      requires{columns m = 1}
+      requires{rows m = power 2 l}
+      ensures{is_a_ket_l m l}
+  =()
+  
+let lemma set_is_a_ket_p (m : matrix complex) (l:int)
+      requires{l>=0}
+      requires{columns m = 1}
+      requires{rows m = power 2 l}
+      ensures{is_a_ket m }
+  =()
+  
+let lemma get_is_a_ket (m : matrix complex)
+      requires{is_a_ket m}
+      ensures{columns m = 1}
+      ensures{ rows m = power 2 (ket_length m)}
+  =()
+  
+let lemma get_ket_columns (m : matrix complex)
+      requires{is_a_ket m}
+      ensures{columns m = 1}
+  =()
+  
+let lemma get_ket_rows (m : matrix complex)
+      requires{is_a_ket m}
+      ensures{ rows m = power 2 (ket_length m)}
+  =()
+  
+let lemma get_ket_rows_gen (m : matrix complex) (i:int)
+      requires{is_a_ket m}
+      requires{i = power 2 (ket_length m)}
+      ensures{ rows m = i}
+  =()
+  
+let lemma get_ket_rows_length (m : matrix complex) (l:int)
+      requires{is_a_ket m}
+      requires{ket_length m = l}
+      ensures{ rows m = power 2 l}
+  =()     
+
+let lemma ket_kronecker (m:matrix complex) (n:matrix complex)
+      requires{is_a_ket m}
+      requires{is_a_ket n}
+      ensures{is_a_ket (kronecker m n)}
+      ensures{ket_length (kronecker m n) = ket_length m + ket_length n }
+  =
+  assert{columns (kronecker m n) = 1};
+  assert{rows (kronecker m n) = power  2 (ket_length m + ket_length n)}
+
+let lemma ket_kronecker_l (m:matrix complex) (n:matrix complex) (l l':int)
+      requires{is_a_ket_l m l}
+      requires{is_a_ket_l n l'}
+      ensures{is_a_ket_l (kronecker m n) (l+l')}
+  =  ()
+
+let lemma set_ket_kron_l (m:matrix complex) (n:matrix complex) (l l' l'':int)
+      requires{is_a_ket_l m l}
+      requires{is_a_ket_l n l'}
+      requires{l'' = l + l'}
+      ensures{is_a_ket_l (kronecker m n) l''}
+  =  ()
+
+end
+     
+module Kronecker_Qbit
+         use  complex.Complex
+         use  int.Int
+         use  complex_operations.Base_type
+         use  Qreg
+         use  complex.Assert_equal
+         use  p_int.Int_comp
+         use  matrices.Matrice
+         use  int.EuclideanDivision
+         use  exponentiation.Int_Exponentiation
+         use  matrices.Matrix_equality
+         use  arit.Base_arit
+         use  arit.Div_Mod
+         use  complex_operations.Indic
+         use  matrices.Kronecker_product           
+         use  binary.Binary_Op           
+         use  complex.Constant
+         (* use  matrices.Constant_size_kiter *)
+         use  set.FsetComprehension
+         use  p_set.IndexestoSet
+         use  matrices.Matrix_sums
+         use  binary.Bit_vector
+     
+let  function ket (n i :int):matrix complex
+                                    requires{0<=n}
+                                    ensures{is_a_ket result}
+                                    (* ensures{is_a_ket_l result n}
+                                     * ensures{is_a_ket_basis_elt result} *)
+                                    ensures{(* 0<= i <power 2 n -> *) ket_length result = n}
+                                    ensures{columns result = 1}
+                                    ensures{rows result = power 2 n}
+                                    ensures{0<= i <power 2 n -> forall j : int. valid_index result  j 0 ->
+                                                        get result j 0 = indic j i } 
+                                    ensures{ forall j : int. valid_index result  j 0 ->
+                                                        i <> j   -> get result j 0 = c_zero } 
+                                    ensures{0<= i <power 2 n -> get result i 0 = c_one} 
+  = if 0<= i <power 2 n then
+      set (make (power 2 n) 1  c_zero)  i 0 c_one
+    else
+      make (power 2 n) 1 c_zero
+
+let constant scal_ket_zero  
+  = ket 0 0
+
+let constant scal_ket_one  
+  = ket 0 1
+
+let  lemma ket_l (n m i :int)
+       requires{0<=n}
+       requires{n = m}
+       ensures{is_a_ket_l (ket n i) m}
+  = ()
+  
+let  lemma ket_ket_length (n m i :int)
+       requires{0<=n}
+       requires{n = m}
+       ensures{ket_length (ket n i) = m}
+  = ()
+  
+let  lemma ket_length_explicit (n  i :int)
+       requires{0<=n}
+       ensures{ket_length (ket n i) = n}
+  = ()
+  
+let lemma ket_eq (n1 n2 i1 i2:int)  
+      requires{0<=n1}
+      requires{n1 = n2}
+      requires{i1 = i2}
+  ensures{ket n1 i1 = ket n2 i2}
+  =()
+  
+let lemma ket_rows (n i :int)
+      requires{0<=n}
+      requires{0<= i <power 2 n}
+      ensures{rows (ket n i) = power 2 n}
+  =()
+
+let lemma ket_columns (n i :int)
+      requires{0<=n}
+      ensures{columns (ket n i) = 1}
+    =()
+
+      let lemma ket_value (n i j:int)
+      requires{0<=n}
+      requires{0<= i <power 2 n}
+      requires{0<= j <power 2 n}
+      ensures{get (ket n i) j 0 = if i = j then c_one else c_zero}
+  =()
+
+      let lemma g_ket_value (n i j:int)
+      requires{0<=n}
+      requires{0<= i <power 2 n}
+      requires{0<= j <power 2 n}
+      ensures{get_ket (ket n i) j  = if i = j then c_one else c_zero}
+  =()
+
+use complex_operations.Conjugate
+  
+      let lemma norm_ket_basis (n i :int)
+            requires{n>=0}
+            requires{0<=i < power 2 n}
+            ensures{ket_norm_l (ket n i) n = c_one}
+        =()
+  
+let lemma get_ket_ (m : matrix complex) (i   n:int)
+      requires{m = ket n i}
+      requires{0<=n}
+      requires{0<= i <power 2 n}
+      ensures{is_a_ket m}
+      ensures{ket_length m = n}
+      ensures{columns m = 1}
+      ensures{rows m = power 2 n}
+      ensures{ forall j : int. valid_index m  j 0 ->  get m j 0 = indic j i } 
+      ensures{ forall j : int. valid_index m  j 0 ->
+                          i <> j   -> get m j 0 = c_zero } 
+      ensures{get m i 0 = c_one} 
+  =()      
+  
+let lemma get_ket_value (i   n j:int)
+      requires{0<=n}
+      requires{0<= i <power 2 n}
+      requires{0<= j <power 2 n}
+      ensures{ get (ket n i) j 0 = indic j i } 
+  =()      
+
+let lemma get_ket_values (i   n :int)
+      requires{0<=n}
+      requires{0<= i <power 2 n}
+      ensures{forall j. 0<= j <power 2 n -> get (ket n i) j 0 = indic j i } 
+  =()      
+
+let lemma get_ket_value_z (i   n j z:int)
+      requires{z = zero}
+      requires{0<=n}
+      requires{0<= i <power 2 n}
+      requires{0<= j <power 2 n}
+      ensures{ get (ket n i) j z = indic j i } 
+  =()      
+
+let lemma get__ket_value (i j  n :int)
+      requires{0<=n}
+      requires{0<= i <power 2 n}
+      requires{0<= j <power 2 n}
+      ensures{ get_ket (ket n i) j  = indic j i } 
+  =()      
+  
+let lemma set_ket (m : matrix complex) (i   n:int)
+s      requires{0<=n}
+      requires{0<= i <power 2 n}
+      requires{columns m = 1}
+      requires{rows m = power 2 n}
+      requires{ forall j : int. valid_index m  j 0 ->  get m j 0 = indic j i } 
+      ensures{m = ket n i}
+  = set_equal_mat m (ket n i)            
+
+      use binary.Bit_vector_decomp
+
+let  lemma kronecker_kets  (i1 i2 n1 n2:int)
+       requires{0<= n1}
+       requires{0<= n2}
+       requires{0<= i1 < power 2 n1}
+       requires{0<= i2 < power 2 n2}
+       ensures{kronecker (ket n1 i1) (ket n2 i2)  = ket  (n1+n2) (i1*(power 2 n2) +i2) }
+  =    ()
+
+         use exponentiation.Power_
+     
+let  lemma kronecker_kets_  (i1 i2 n1 n2:int)
+       requires{0<= n1}
+       requires{0<= n2}
+       requires{0<= i1 < power_ 2 n1}
+       requires{0<= i2 < power_ 2 n2}
+       ensures{kronecker (ket n1 i1) (ket n2 i2)  = ket  (n1+n2) (i1*(power_ 2 n2) +i2) }
+  =    ()
+
+let  lemma kronecker_ket_l  (x y: matrix complex) (n1 n2:int)
+       requires{0<= n1}
+       requires{0<= n2}
+       requires{is_a_ket_l x n1}
+       requires{is_a_ket_l y n2}
+       ensures{is_a_ket_l (kronecker x y) (n1+n2)}
+  = ()
+
+let  lemma kronecker_ket_l_sum  (x y: matrix complex) (n1 n2 n3:int)
+       requires{0<= n1}
+       requires{0<= n2}
+       requires{is_a_ket_l x n1}
+       requires{is_a_ket_l y n2}
+       requires{n3 = n1 +n2}
+       ensures{is_a_ket_l (kronecker x y) n3}
+  =    ()
+
+let  lemma kronecker_kets_bin_to_int  (f1 f2: int -> int) (n1 n2:int)
+       requires{binary f1}
+       requires{binary f2}
+       requires{0<= n1}
+       requires{0<= n2}
+       ensures{kronecker (ket n1 (bin_to_int f1 n1)) (ket n2 (bin_to_int f2 n2))  = ket  (n1+n2) ( (bin_to_int f1 n1) *(power 2 n2) + (bin_to_int f2 n2)) }
+  =    ()
+end
+     
+module Ket_basis
+         use  complex.Complex
+         use  int.Int
+         use  Qreg
+         use  matrices.Matrice
+         use  matrices.Matrix_equality
+         use  Kronecker_Qbit
+         use  complex_operations.Base_type
+         use  exponentiation.Int_Exponentiation
+         use  matrices.Matrix_scalar
+         use  p_set.IndexestoSet
+         use  p_set.Fset_comp
+         use  set.FsetComprehension
+         use  complex.Constant
+         use  complex.Assert_equal
+         use  fsum.Set_iter
+         use  matrices.Matrix_sums
+         use  matrices.Matrix_decomp
+         use  functions.MapInjection
+         use  complex_operations.Inv_func
+         use  complex.Pairs
+         use  p_set.Card_one_set
+         use  complex_operations.Indic
+         use binary.Bit_vector_decomp
+         use  binary.Binary_Op                
+    
+let ghost function ket_basis (n:int): set (matrix complex)
+                                        requires{0 <= n}
+                                        ensures{result = map    (fun o ->  ind_basis_mat (fir o) (sec o)  (power 2 n) 1)
+                                                           (cartesian_product  (to_fset 0 (power 2 n)) (to_fset 0 1))}                 
+                                        ensures{result = basis_mat (power 2 n) 1}
+                                        ensures{forall mat. mem mat result -> rows mat = power 2 n}
+                                        ensures{forall mat. mem mat result -> columns mat = 1}
+                                        ensures{forall mat. mem mat result -> rows mat = power 2 n && columns mat = 1 &&
+                                                                                exists i:int. (valid_index mat i 0 && basis_mat_indexes mat = (i,0))}
+  =   basis_mat  (power 2 n) 1 
+
+let lemma unary_ket_basis (n:int)
+      requires{0 <= n}
+      ensures{ket_basis n = map (fun i ->  ind_basis_mat i 0  (power 2 n) 1)
+                              (to_fset 0 (power 2 n)) }  
+  = 
+  set_equal (ket_basis n) (map    (fun i ->  if 0<= i < power 2 n then ind_basis_mat i 0  (power 2 n) 1 else make 1 1 c_one)
+                             (to_fset 0 (power 2 n)));
+  assert{(map    (fun i ->  if 0<= i < power 2 n then ind_basis_mat i 0  (power 2 n) 1 else make 1 1 c_one)
+            (to_fset 0 (power 2 n))) = (map    (fun i ->   ind_basis_mat i 0  (power 2 n) 1)
+                                          (to_fset 0 (power 2 n)))}
+
+let lemma to_ket_basis (i n:int)
+      requires{0 <= n}
+      requires{0 <= i < power 2 n}
+      ensures{mem (ind_basis_mat i 0 (power 2 n) 1) (ket_basis n)}
+  = unary_ket_basis n
+
+let ghost function ket_basis_index (m:matrix complex) (n:int): (int)
+                                                           requires{0 <= n}
+                                                           requires{mem m (ket_basis n)}
+                                                           ensures{mem (ind_basis_mat result 0 (power 2 n) 1) (ket_basis n)}
+                                                           ensures{m = make_f (rows m) 1 (fun i _ -> indic result i )}
+                                                           ensures{forall i. valid_index m i 0 -> i <> result -> get m i 0 = c_zero}
+                                                           ensures{ valid_index m result 0 }
+  = fir (basis_mat_indexes m)
+
+let lemma set_ket_basis  (m:matrix complex) (n i:int)
+      requires{0 <= n}
+      requires{0<= i < power 2 n}
+      requires{mem m (ket_basis n)}
+      requires{get m i 0 = c_one}
+      ensures{ket_basis_index m n = i}
+      ensures{forall i1. valid_index m i1 0 -> i1 <> i -> get m i1 0 = c_zero}
+      ensures{mem m  (ket_basis n)}
+      ensures{m = make_f (rows m) (columns m) (fun i1 _ -> indic  i i1 )}
+  = set_basis_mat_indexes m i 0;
+    set_equal_mat_make (rows m) (columns m) (fun i1 j1 -> indic_2  i i1 0 j1 ) (fun i1 _ -> indic  i i1 )
+
+    let lemma from_ket_basis (n:int) (m: matrix complex)
+      requires{0 <= n}
+      requires{mem m (ket_basis n)}
+      ensures{exists i:int. 0<= i <  power 2 n && m = ind_basis_mat i 0 (power 2 n) 1}
+  = unary_ket_basis n
+  
+let lemma int_to_ket_basis (n i:int)
+      requires{n>0}
+      requires{0<= i < power 2n}
+      ensures{mem  (ket n i) (ket_basis n)}
+  = to_ket_basis i n
+
+let ghost predicate is_a_ket_basis_elt (m:matrix complex) =
+  is_a_ket m && mem m (ket_basis (ket_length m))
+
+let lemma ket_basis_elt_are_kets ()
+      ensures{forall m: matrix complex. is_a_ket_basis_elt m -> is_a_ket m}
+  =()  
+  
+let lemma get_is_a_ket_basis_elt (m:matrix complex)
+      requires{is_a_ket_basis_elt m}
+      ensures{is_a_ket m}
+      ensures{mem m (ket_basis (ket_length m))}
+      ensures{exists i. 0<= i < power 2 (ket_length m) /\ m = ket  (ket_length m) i}
+      ensures{exists i. 0<= i < power 2 (ket_length m) /\ get m i 0 = c_one /\ forall j:int. (0<= j < power 2 (ket_length m) /\ get m j 0 <> c_zero)-> i = j}
+      ensures{forall i. 0<= i < power 2 (ket_length m) /\ get m i 0 = c_one -> forall j:int. (0<= j < power 2 (ket_length m) /\ get m j 0 <> c_zero)-> i = j}
+  =()
+
+let lemma get_is_a_ket_basis_elt_indic (m:matrix complex)
+      requires{is_a_ket_basis_elt m}
+        ensures{exists i. 0<= i < power 2 (ket_length m) /\ forall j:int. (0<= j < power 2 (ket_length m)) -> get m j 0  = indic i  j}
+=  get_is_a_ket_basis_elt m
+
+let lemma set_is_a_ket_basis_elt (m:matrix complex)
+      requires{is_a_ket m}
+      requires{exists i:int. 0<= i <  power 2 (ket_length m) && m = ket  (ket_length m) i}
+      ensures{is_a_ket_basis_elt m}
+  =()
+  
+let lemma set_is_a_ket_basis_elt_exists (m:matrix complex)
+      requires{is_a_ket m}
+      requires{exists j. 0<= j < power 2 ( ket_length m) && m = make_f (power 2 (ket_length m)) 1 (fun i _ -> indic i j)}
+      ensures{is_a_ket_basis_elt m}
+  =()
+
+let lemma ket_func_sets_ket_basis_elts (n i:int)
+      requires{0<= n}
+      requires{0<= i < power 2 n}
+      ensures{is_a_ket_basis_elt (ket n i)}
+      ensures{ket_length (ket n i) = n}
+  =  set_is_a_ket_basis_elt_exists (ket n i)    
+    
+    use  matrices.Kronecker_product
+  
+let lemma kronecker_is_a_ket_basis_elt (x y:matrix complex)
+      requires{is_a_ket_basis_elt x}
+      requires{is_a_ket_basis_elt y}
+      ensures{is_a_ket_basis_elt (kronecker x y)}
+  = get_is_a_ket_basis_elt x;
+    get_is_a_ket_basis_elt y;
+    set_is_a_ket_basis_elt (kronecker x y)    
+
+    let lemma ket_is_a_ket_basis_elt (n i: int)
+      requires{0<=n}
+      requires{0<= i <power 2 n}
+      ensures{is_a_ket_basis_elt (ket n i)}
+  =()
+
+let lemma ket_basis_non_null_val (m:matrix complex) (n i:int)
+      requires{0<=n}
+      requires{0<= i <power 2 n}
+      requires{is_a_ket_basis_elt m}
+      requires{ket_length m = n}
+      requires{get m i 0 <> c_zero}
+      ensures{m = ket n i}
+  =()
+
+use ref.Ref     
+  use int.EuclideanDivision
+ 
+let function ket_to_int (m:matrix complex):int
+                                       requires{is_a_ket_basis_elt m}
+                                       ensures{0<= result < (power 2 (ket_length m))}
+                                       ensures{get m result 0 = c_one}
+                                       ensures{m  = ket   (ket_length m) result}
+                                       ensures{forall i:int. 0<= i < power 2 (ket_length m) -> m = ket   (ket_length m) i-> i = result}
+  =
+  get_is_a_ket_basis_elt m;
+  let  count = ref 0 in
+  let  switch = ref 0 in
+  while (!count < rows m && !switch = 0) do
+    invariant{0<= !count< rows m}
+    invariant{!switch = 0 -> exists s:int.power 2 (ket_length m) > s >= !count && get m s 0 = c_one}
+    invariant{!switch = 0 -> forall s:int. 0<= s < !count -> get m s 0 = c_zero}
+    invariant{!switch = 1 ->  get m !count 0 = c_one}
+    invariant{not (!switch = 1) -> !switch = 0}
+    (* invariant{!switch = 1 -> forall s:int. power 2 (ket_length m) > s >= !count -> get m s 0 = c_zero} *)
+      variant{power 2 (ket_length m) - !count - !switch}
+      if  (teq (get m !count 0)  c_zero)
+      then        
+        count:= !count +1
+      else
+        begin
+          assert{get m !count 0 = c_one};
+          switch := 1;
+        end;
+  done;
+  !count
+  
+let lemma ket_to_int_ket (n i: int)
+      requires{0<= n}
+      requires{0<= i < power 2 n}
+      ensures{ket_to_int (ket n i) = i}
+  = get_ket_ (ket n i) i n 
+
+let lemma equal_ket_by_int (m n :matrix complex)(l: int)
+      requires{is_a_ket_l m l}
+      requires{is_a_ket_l n l}
+      requires{is_a_ket_basis_elt n }
+      requires{is_a_ket_basis_elt m }
+      requires{ket_to_int m = ket_to_int n}
+      ensures{m = n}
+  = ()
+
+let function bin_to_ket (n:int) (bvx: int->int): matrix complex
+                                                   requires{n>=0}
+                                                   requires{binary bvx}
+           ensures{is_a_ket_basis_elt result}
+           ensures{ket_length result = n}
+           ensures{ket_to_int  result = (bin_to_int  bvx n )}
+           ensures{rows result = power 2 n}
+           ensures{columns result = 1}
+           ensures{is_a_ket result}
+           ensures{is_a_ket_l result n}
+           = ket n (bin_to_int  bvx n )
+
+let lemma bin_to_ket_l (n n':int) (bvx: int->int)
+      requires{n>=0}
+      requires{n=n'}
+      requires{binary bvx}
+           ensures{is_a_ket_l (bin_to_ket n bvx)  n'}
+=()
+           
+let lemma bin_to_ket_eq (n1 n2:int) (bvx1 bvx2: int->int)
+               requires{n1>=0}
+               requires{binary bvx1}
+               requires{binary bvx2}
+               requires{n2=n1}
+               requires{forall i:int. 0<= i < n1 -> bvx1 i = bvx2 i}
+           ensures{bin_to_ket n1 bvx1  = bin_to_ket n2 bvx2}
+           = ()
+               
+               use functions.Shift
+               use  binary.Bv_concat
+
+let  lemma kronecker_kets_bin_to_ket  (f1 f2: int -> int) (n1 n2:int)
+       requires{binary f1}
+       requires{binary f2}
+       requires{0<= n1}
+       requires{0<= n2}
+       ensures{kronecker (bin_to_ket n1 f1) (bin_to_ket n2 f2)  = bin_to_ket  (n1+n2) ( concat_fun f1 f2 n1) }
+  = kronecker_kets_bin_to_int f1 f2 n1 n2;
+    bin_to_int_concat f1 f2 n1 n2
+           
+let lemma kronecker_ket_to_int (x y: matrix complex)
+      requires{is_a_ket_basis_elt x}
+      requires{is_a_ket_basis_elt y}
+      ensures{is_a_ket_basis_elt (kronecker x y)}
+      ensures{ket_length (kronecker x y) = ket_length x + ket_length y}
+      ensures{kronecker x y = ket (ket_length x + ket_length y) ((ket_to_int x) * (power 2 (ket_length y)) + ket_to_int y)}
+      ensures{ket_to_int (kronecker x y) = (ket_to_int x) * (power 2 (ket_length y)) + ket_to_int y}
+  = ()
+
+let lemma ket_ket_to_int (x: matrix complex)
+      requires{is_a_ket_basis_elt x}
+      ensures{ket (ket_length x) (ket_to_int x) = x}
+  = set_equal_mat (ket (ket_length x) (ket_to_int x))  x
+  
+let lemma ket_ket_to_int_values (x: matrix complex)
+      requires{is_a_ket_basis_elt x}
+      ensures{forall i j: int. valid_index x i j ->
+                          get x i j = indic i (ket_to_int x)}
+  = ket_ket_to_int x
+  
+let ghost function ket_basis_projection (m:matrix complex)(j:int)
+                     requires{is_a_ket m}
+                     requires{0 <= j < power 2 (ket_length m)}
+                     ensures{result = basis_projection m j 0}
+  =  set_equal_mat (ket (ket_length m) j)( ind_basis_mat  j 0 (rows m) (columns m));
+     get m j 0 *.. ket (ket_length m) j
+     
+let lemma ket_basis_projection_columns (m:matrix complex)(j:int)
+      requires{is_a_ket m}
+      requires{0 <= j < power 2 (ket_length m)}
+      ensures{columns (ket_basis_projection m j) = 1}
+  =  ()
+   
+let lemma ket_basis_projection_rows (m:matrix complex)(j:int)
+      requires{is_a_ket m}
+      requires{0 <= j < power 2 (ket_length m)}
+      ensures{rows (ket_basis_projection m j) = rows m}
+  =  ()
+   
+let ghost function ket_basis_projections (m:matrix complex)
+                     requires{is_a_ket m}
+                     ensures{result = basis_projections m }
+  =   assert{map (fun j -> if mem j(to_fset 0 (power 2 (ket_length m)))then
+                             ket_basis_projection m j
+                           else m ) (to_fset 0 (power 2 (ket_length m))) =
+               map (ket_basis_projection m)  (to_fset 0 (power 2 (ket_length m)))};
+      rewrite_basis_projections m;
+      set_equal (basis_projections m) (  map (fun j -> if mem j(to_fset 0 (power 2 (ket_length m)))then
+                                                         ket_basis_projection m j
+                                                       else m ) (to_fset 0 (power 2 (ket_length m))));
+      map (fun j -> if mem j (to_fset 0 (power 2 (ket_length m))) then
+                      ket_basis_projection m j
+                    else m ) (to_fset 0 (power 2 (ket_length m)))
+      
+let ghost function ket_basis_projections_antec (m :matrix complex)
+                     requires{is_a_ket m}
+                     ensures{forall e: matrix complex. mem e (ket_basis_projections m) <->
+                                         (exists j:int. 0<= j < power 2 (ket_length m)
+                                                                /\ e = ket_basis_projection m j)}
+                     ensures{forall e: matrix complex. mem e (ket_basis_projections m) <->
+                                         (exists   j i :int. valid_index m j i
+                                                        /\ e = basis_projection m j i )}
+  =   map_antec_gen (fun j -> if mem j(to_fset 0 (power 2 (ket_length m)))then
+                                ket_basis_projection m j
+                              else m ) (to_fset 0 (power 2 (ket_length m)))
+
+let function ket_sum  (s: set 'a) (f : 'a -> matrix complex)
+               requires{cardinal s > 0}
+               requires{forall e: 'a. mem e s -> is_a_ket (f e)}
+           requires{exists l:int. forall e: 'a. mem e s -> ket_length (f e) = l}
+           ensures{forall  i: int. ket_valid_index result i  -> get_ket result i  = sum s (fun e -> get_ket (f e) i)}
+           ensures{is_a_ket result}
+           ensures{forall e:'a. mem e s -> ket_length result = ket_length (f e)}
+           = mat_sum s f
+           
+let rec function ket_sum_l (s: set 'a)  (f : 'a -> matrix complex)  (l:int): matrix complex
+                                                                         requires{0<=l}
+                                                                         (* requires{0<= cardinal s } *)
+           ensures{0< cardinal s ->result = mat_sum  s (fun i -> make_ket l (fun j -> get (f i) j 0)) }
+           ensures{is_a_ket result }
+           ensures{forall i : int. ket_valid_index result i  -> get_ket result i = sum s (fun e -> get_ket (f e) i )}
+           ensures{is_a_ket_l result l}
+           ensures{0< cardinal s -> (forall e: 'a. mem e s -> is_a_ket_l (f e) l) -> result = mat_sum s f}
+           ensures{ket_length result  = l}
+           variant{cardinal s}
+  = if cardinal s = 0 then make_ket l  (fun _ -> c_zero) 
+    else  if cardinal s = 1 then make_ket l  (get_ket (f (choose s)))
+    else
+      add_ket
+        ((ket_sum_l) (remove (choose s) s) f l) (make_ket l (get_ket (f (choose s))) )
+    
+           
+let lemma ket_sum_l_to_mat_sum (s: set 'a)  (f : 'a -> matrix complex)  (l:int)
+      requires{0<=l}
+      requires{cardinal s > 0}
+      ensures{ket_sum_l s f l = mat_sum s (fun i -> make_ket l (fun j -> get (f i) j 0))}
+  = ()    
+           
+let lemma ket_sum_l_rows   (s: set 'a)  (f : 'a -> matrix complex)  (l:int)
+      requires{0<=l}
+      requires{cardinal s > 0}
+      ensures{rows (ket_sum_l s f l) = power 2 l}
+  =()
+           
+let lemma ket_sum_l_value   (s: set 'a)  (f : 'a -> matrix complex)  (l i j:int)
+      requires{0<=l}
+    requires{0 <= i < power 2 l}
+      requires{j = 0}
+      ensures{get (ket_sum_l s f l) i j  = sum s (fun e -> get (f e) i 0)}
+  =()
+           
+let lemma get_ket_sum_l_value   (s: set 'a)  (f : 'a -> matrix complex)  (l i j:int)
+      requires{0<=l}
+      requires{0 <= i < power 2 l}
+      ensures{get_ket (ket_sum_l s f l)  i  = sum s (fun e -> get_ket (f e) i )}
+  =()
+           
+let lemma ket_sum_l_columns   (s: set 'a)  (f : 'a -> matrix complex)  (l:int)
+      requires{0<=l}
+      ensures{columns (ket_sum_l s f l) = 1}
+  =()
+           
+let lemma ket_sum_null_but_maybe_one_elt (f: 'a -> matrix complex) (s: set 'a) (e: 'a)
+      requires{cardinal s > 1}
+           requires{forall e: 'a. mem e s -> is_a_ket (f e)}
+           requires{constant_size s f}
+           requires{mem e s}
+      requires{forall e':'a.mem e' s -> e <> e' -> null_mat (f e')}
+      ensures{ket_sum s f = f e}
+  = mat_sum_null_but_maybe_one_elt f s e
+
+use exponentiation.Power_
+  
+let lemma ket_sum_null  (s: set 'a) (f: 'a -> matrix complex) (l:int)
+      requires{cardinal s > 1}
+      requires{l>=0}
+      (* requires{forall e: 'a. mem e s -> is_a_ket_l (f e) l} *)
+      requires{forall e:'a.mem e s   -> forall i:int. 0 <= i < power_ 2 l -> get_ket (f e) i = c_zero}
+      ensures{forall j:int. 0 <= j < power 2 l -> get_ket (ket_sum_l s f l) j = c_zero}
+  = mat_sum_null_b (fun i -> make_ket l (fun j -> get_ket (f i) j )) s (power 2 l) 1
+
+let lemma ket_sum_l_null_but_maybe_one_elt (f: 'a -> matrix complex) (s: set 'a) (e: 'a)(l:int)
+      requires{0<=l}
+      requires{cardinal s > 1}
+           (* requires{forall e: 'a. mem e s -> is_a_ket_l (f e) l} *)
+      (* requires{is_a_ket_l (f e) l} *)
+      requires{mem e s}
+      requires{forall e':'a.mem e' s   -> e'<> e -> forall i:int. 0 <= i < power_ 2 l -> get_ket (f e') i = c_zero}
+      ensures{ket_sum_l s f l = make_ket l (get_ket (f e))}
+  = mat_sum_null_but_maybe_one_elt (fun i -> make_ket l ( get_ket (f i) )) s e
+           
+let lemma ket_sum_ket_l (s: set 'a)  (f : 'a -> matrix complex)  (l:int)
+      requires{0<=l}
+           (* requires{forall e: 'a. mem e s -> is_a_ket_l (f e) l} *)
+           ensures{is_a_ket_l (ket_sum_l s f l) l}
+           = ()
+
+let lemma ket_sum_ket_l_ (s: set 'a)  (f : 'a -> matrix complex)  (l l':int)
+      requires{0<=l}
+      requires{l = l'}
+           (* requires{forall e: 'a. mem e s -> is_a_ket_l (f e) l} *)
+           ensures{is_a_ket_l (ket_sum_l s f l) l'}
+           = ()
+
+let lemma add_ket_l_eq (m o m' o':matrix complex) (l:int)
+      requires{0<=l}
+      requires{m = m'}
+  requires{o = o'}
+  ensures{add_ket_l m o l = add_ket_l m' o' l }
+  =()
+  
+let lemma add_ket_l_eq_scal (m o m' o':matrix complex) (a b a' b' : complex)(l:int)
+      requires{0<=l}
+      requires{m = m'}
+      requires{o = o'}
+      requires{a=a'}
+      requires{b=b'}
+      ensures{add_ket_l (a*..m) (b*..o) l = add_ket_l (a'*..m') (b'*..o') l }
+  =()
+
+let lemma add_ket_l_scal (x y: matrix complex) (a:complex) (l:int)
+      requires{is_a_ket_l x l}
+      requires{is_a_ket_l y l}
+  ensures{add_ket_l (a*..x)(a*..y) l = a*.. add_ket_l x y l}
+=()
+  
+let lemma add_ket_l_scal_rev (x y: matrix complex) (a:complex) (l:int)
+      requires{is_a_ket_l x l}
+      requires{is_a_ket_l y l}
+  ensures{a*.. add_ket_l x y l = add_ket_l (a*..x)(a*..y) l }
+=()
+  
+let lemma get_ket_scalar (x: matrix complex) (a: complex)  (i:int)
+        ensures{get_ket (a*.. x) i = a*. get_ket x i}
+    = ()
+  
+let lemma scal_add_scal_ket_l (g a: complex) (x:matrix complex) (a': complex) (x':matrix complex) (n:int)
+      requires{0<= n}
+      ensures{g*.. (add_ket_l (a*..x) (a'*..x') n) = add_ket_l (g*.a *.. x) (g*.a' *.. x') n}
+=()  
+           
+let lemma add_ket_l_switch ( a b c d:matrix complex)(n:int)
+      requires{0<= n}
+      ensures{(add_ket_l (add_ket_l a b n) (add_ket_l c d n)  n) = (add_ket_l (add_ket_l a c n) (add_ket_l b d n)  n)}
+=()  
+           
+let lemma add_ket_scal_fact ( a  :matrix complex)(n:int) (s s': complex)
+      requires{is_a_ket_l a n}
+      requires{0<= n}
+      ensures{add_ket_l (s*..a) (s' *..a) n = (s+.s') *.. a}
+=()  
+
+let lemma ket_sum_comp_l (s: set 'b)(f g: 'b -> matrix complex) (l:int)
+      requires{0<=l}
+           (* requires{forall e: 'b. mem e s -> is_a_ket_l (f e) l}
+            * requires{forall e: 'b. mem e s -> is_a_ket_l (g e) l} *)
+      ensures{ket_sum_l s (fun k -> add_ket_l (f k) ( g k) l) l = add_ket_l (ket_sum_l s f l) ( ket_sum_l  s g l) l}
+  =
+  if cardinal s = 0 then ()
+  else mat_sum_comp s (fun i -> make_ket l (fun j -> get_ket (f i) j )) (fun i -> make_ket l (fun j -> get_ket (g i) j )) 
+           
+let lemma ket_sum_comp_l_rev (s: set 'b)(f g: 'b -> matrix complex) (l:int)
+      requires{0<=l}
+           (* requires{forall e: 'b. mem e s -> is_a_ket_l (f e) l}
+            * requires{forall e: 'b. mem e s -> is_a_ket_l (g e) l} *)
+      ensures{add_ket_l (ket_sum_l s f l) ( ket_sum_l  s g l) l = ket_sum_l s (fun k -> add_ket_l (f k) ( g k) l) l}
+  = ket_sum_comp_l s f g l           
+
+let  lemma  ket_sum_scalar_l  (s: set 'a)  (f:'a -> matrix complex) (a: complex)(l:int) 
+      requires{0<=l}
+          ensures{ket_sum_l s (fun k -> a*.. (f k)) l = a*.. (ket_sum_l s f l)}      
+  = ()
+
+let  lemma  ket_l_ket_sum_scalar  (s: set 'a)  (f:'a -> matrix complex) (a: complex)(l n:int) 
+      requires{0<=l}
+          (* requires{forall e: 'a. mem e s -> is_a_ket_l (f e) l} *)
+          requires{l = n}
+          ensures{is_a_ket_l (a*.. ket_sum_l s f l) n}      
+  = ()
+  
+let  lemma  scal_ket_sum_scalar_l  (s: set 'a)  (f:'a -> matrix complex) ( b : complex)(l l':int) 
+      requires{0<=l}
+          (* requires{forall e: 'a. mem e s -> exists a: complex. exists k: matrix complex. f e = a*.. k /\ is_a_ket_l k l} *)
+          requires{l = l'}
+          ensures{is_a_ket_l (b *.. ket_sum_l s f l) l'}      
+  = ()
+  
+let  lemma  ket_sum_scalar_rev_l  (s: set 'a)  (f:'a -> matrix complex) (a: complex)(l:int) 
+      requires{0<=l}
+          ensures{ a*.. (ket_sum_l s f l) = ket_sum_l s (fun k -> a*.. (f k)) l}      
+  = ()
+
+let lemma  ket_sum_eq  (s s': set 'a)  (f g:'a -> matrix complex) (l:int)
+      requires{0<=l}
+      requires{s=s'}
+      requires{forall a: 'a. mem a s -> f a = g a}
+      ensures{ket_sum_l s f l  = ket_sum_l s' g l}
+  = ()
+
+let lemma  ket_sum_eq_gen  (s s': set 'a)  (f g:'a -> matrix complex) (l1 l2:int)
+      requires{0<=l1}
+      requires{s=s'}
+      requires{l1 =l2}
+      requires{forall a: 'a. mem a s -> f a = g a}
+      ensures{ket_sum_l s f l1  = ket_sum_l s' g l2}
+  = ket_sum_eq s s' f g l1
+
+use exponentiation.Power_
+  
+let lemma  ket_sum_eq_by_sum  (s s': set 'a)  (f g:'a -> matrix complex) (l1 l2:int)
+      requires{0<=l1}
+      requires{s=s'}
+      requires{l1 =l2}
+      requires{forall i. 0<= i < power_ 2 l1 -> sum s (fun e -> get_ket (f e) i) = sum s (fun e -> get_ket (g e) i)}
+      ensures{ket_sum_l s f l1  = ket_sum_l s' g l2}
+  = ()
+
+  use binary.Bit_vector
+
+let lemma ket_sum_bvs_eq  (n1 n2: int)  (f g:bitvec -> matrix complex) (l1 l2:int)
+      requires{0<=l1}
+      requires{l1 =l2}
+      requires{n1 = n2}
+      requires{n1>=0}
+      (* requires{forall e: bitvec. mem e (n_bvs n1) -> is_a_ket_l (f e) l1} *)
+      requires{forall e: bitvec. mem e (n_bvs n1) -> f e = g e}
+      ensures{ket_sum_l (n_bvs n1) f l1  = ket_sum_l (n_bvs n2) g l2}
+  = ket_sum_eq (n_bvs n1) (n_bvs n2) f g l1
+
+let lemma ket_sum_scal_bvs_eq  (n1 n2: int)  (f g:bitvec -> matrix complex) (l1 l2:int) (s1 s2: complex)
+      requires{0<=l1}
+      requires{l1 =l2}
+      requires{n1 = n2}
+      requires{s1 = s2}
+      requires{n1>=0}
+      requires{forall e: bitvec. mem e (n_bvs n1) -> f e = g e}
+      ensures{s1 *.. ket_sum_l (n_bvs n1) f l1  = s2 *.. ket_sum_l (n_bvs n2) g l2}
+  = ()
+  
+let lemma ket_sum_sum_bvs_eq  (n1 n2 n1' n2': int)  (f g:bitvec -> bitvec -> matrix complex) (l1 l2 l1' l2':int)
+      requires{0<=l1}
+      requires{l1 =l2 = l1' = l2'}
+      requires{n1 = n1'}
+      requires{n1>=0}
+      requires{n2 = n2'}
+      requires{n2>=0}
+      (* requires{forall e e': bitvec. mem e (n_bvs n1) -> mem e' (n_bvs n2) -> is_a_ket_l (f e e') l1} *)
+      requires{forall e e': bitvec. mem e (n_bvs n1) -> mem e' (n_bvs n2) ->  f e e' = g e e'}
+      ensures{ket_sum_l (n_bvs n1) (fun k -> ket_sum_l (n_bvs n2) (f k) l1) l2  = ket_sum_l (n_bvs n1') (fun k -> ket_sum_l (n_bvs n2') (g k) l1') l2'}
+  = ()
+  
+let lemma ket_sum_sum_scal_bvs_eq  (n1 n2 n1' n2': int)  (f g:bitvec -> bitvec -> matrix complex) (l1 l2 l1' l2':int) (s1 s2: complex)
+      requires{0<=l1}
+      requires{l1 =l2 = l1' = l2'}
+      requires{n1 = n1'}
+      requires{n1>=0}
+      requires{n2 = n2'}
+      requires{s1 = s2}
+      requires{n2>=0}
+      (* requires{forall e e': bitvec. mem e (n_bvs n1) -> mem e' (n_bvs n2) -> is_a_ket_l (f e e') l1} *)
+      requires{forall e e': bitvec. mem e (n_bvs n1) -> mem e' (n_bvs n2) ->  f e e' = g e e'}
+      ensures{s1 *.. ket_sum_l (n_bvs n1) (fun k -> ket_sum_l (n_bvs n2) (f k) l1) l2  = s1 *.. ket_sum_l (n_bvs n1') (fun k -> ket_sum_l (n_bvs n2') (g k) l1') l2'}
+  = ()
+
+let lemma ket_sum_sum_scal_mult_bvs_eq  (n1 n2 n1' n2': int)  (f g:bitvec -> bitvec -> matrix complex) (l1 l2 l1' l2':int) (s1 s2 s3: complex)
+      requires{0<=l1}
+      requires{l1 =l2 = l1' = l2'}
+      requires{n1 = n1'}
+      requires{n1>=0}
+      requires{s3 = s1 *. s2}
+      requires{n2 = n2'}
+      requires{n2>=0}
+      (* requires{forall e e': bitvec. mem e (n_bvs n1) -> mem e' (n_bvs n2) -> is_a_ket_l (f e e') l1} *)
+      requires{forall e e': bitvec. mem e (n_bvs n1) -> mem e' (n_bvs n2) ->  f e e' = g e e'}
+      ensures{s1 *.. ket_sum_l (n_bvs n1') (fun k -> s2 *.. ket_sum_l (n_bvs n2') (f k) l1') l2' = s3 *.. ket_sum_l (n_bvs n1) (fun k -> ket_sum_l (n_bvs n2) (g k) l1) l2 }
+  = ()
+  
+let lemma ket_sum_l_cardone (s: set 'a)  (f : 'a -> matrix complex)  (l:int)
+      requires{0<=l}
+      requires{cardinal s = 1}
+      requires{is_a_ket_l (f (choose s)) l}
+      ensures{ket_sum_l s f l = f (choose s)}
+  =()
+
+let lemma ket_sum_l_empty (s: set 'a)  (f : 'a -> matrix complex)  (l:int)
+      requires{0<=l}
+      requires{cardinal s = 0}
+      ensures{ket_sum_l s f l = make_ket l (fun _ -> c_zero) }
+  =()
+
+let lemma ket_sum_l_cardone_ (s: set 'a)  (f : 'a -> matrix complex)  (l:int)
+      requires{0<=l}
+      requires{cardinal s = 1}
+      (* requires{is_a_ket_l (f (choose s)) l} *)
+      ensures{ket_sum_l s f l = make_ket l (get_ket (f (choose s)))}
+  =()
+
+  let lemma ket_sum_l_plus_one (s: set 'a) (e:'a)  (f : 'a -> matrix complex)  (l:int)
+      requires{0<=l}
+        requires{cardinal s > 0}
+        requires{not (mem e s)}
+      (* requires{is_a_ket_l (f e) l} *)
+      ensures{ket_sum_l (add e s) f l = add_ket_l (ket_sum_l s f l) (f e) l}
+  =()
+
+  let lemma ket_sum_bitvec_one (f:bitvec-> matrix complex) (l:int)
+      requires{0<=l}
+    (* requires{forall x. length x = 1 -> is_a_ket_l (f x) l} *)
+    ensures{ket_sum_l (n_bvs 1) f l = add_ket_l (f (int_to_bv 0 1)) (f (int_to_bv 1 1)) l}
+    = ket_sum_l_plus_one (to_set (int_to_bv 0 1))  (int_to_bv 1 1) (fun e -> make_ket l (get_ket (f e)) ) l
+    
+  let lemma ket_sum_bitvec_zero (f:bitvec-> matrix complex) (l m:int)
+      requires{0<=l}
+      requires{m = 0}
+      (* requires{forall x. length x = 1 -> is_a_ket_l (f x) l} *)
+      requires{is_a_ket_l (f (int_to_bv 0 0)) l}
+      ensures{ket_sum_l (n_bvs m) f l =  f (int_to_bv 0 0)}
+    = ket_sum_l_cardone_  (n_bvs m) f l
+    
+  let lemma ket_sum_l_valid_index (s: set 'a)  (f : 'a -> matrix complex)  (l i:int)
+      requires{0<=l}
+      requires{0 < cardinal s}
+      (* requires{forall e: 'a. mem e s -> is_a_ket_l (f e) l} *)
+      requires{0 <= i < power_ 1 l}
+      ensures{ket_valid_index (ket_sum_l s f l) i}
+  =()
+     use complex_operations.FromInt
+  
+let  lemma ket_sum_const (s:set 'a) (x:matrix complex) (l:int)
+      requires{0<=l}
+          requires{is_a_ket_l x l}
+          ensures{ket_sum_l s (fun _ -> x) l = (i_to_c (cardinal s)) *.. x }
+  =  if cardinal s = 0 then ()
+     else  mat_sum_const s x
+  
+let lemma ket_sum_const_w (s:set 'a) (x:matrix complex) (l:int)
+      requires{0<=l}
+          requires{0<cardinal s}
+          requires{is_a_ket_l x l}
+          ensures{(c_one /. (i_to_c (cardinal s))) *.. ket_sum_l s (fun _ -> x) l =  x }
+  = ket_sum_const s x l
+  
+let rec lemma map_ket_sum_l (f: 'b -> matrix complex) (s: set 'a) (t:'a-> 'b) (n:int)
+      requires{0<=n}
+          requires{p_injective t s}
+          ensures{ket_sum_l (map  t s) f n = ket_sum_l s (fun a -> f( t a)) n}
+      variant{cardinal s}
+  = if cardinal s = 0 then ()
+    else
+      map_ket_sum_l f (remove (choose s) s)  t n
+  
+use binary.Bv_int_op
+
+let rec lemma ket_sum_l_to_n_bvs (f: int -> matrix complex) (l:int)(n:int)
+      requires{0<=n}
+      requires{0<=l}
+          ensures{ket_sum_l (to_fset 0 (power_ 2 l)) f n = ket_sum_l (n_bvs l) (fun a -> f(bv_to_int a)) n}
+  =
+  injective_bv_to_int l;
+  map_ket_sum_l f (n_bvs l)  bv_to_int n
+
+let rec lemma ket_sum_l_to_fset (f: bitvec -> matrix complex) (l:int)  (n:int)
+      requires{0<=n}
+      requires{0<=l}
+          ensures{ket_sum_l (n_bvs l) f n = ket_sum_l (to_fset 0 (power_ 2 l)) (fun i -> f (int_to_bv i l)) n}
+  =  injective_int_to_bv l;
+  map_ket_sum_l f (to_fset 0 (power_ 2 l)) (fun i -> int_to_bv i l) n
+
+let lemma ket_sum_partition (s s1 s2: set 'a) (f: 'a -> matrix complex) (n:int)
+      requires{0<=n}
+      requires{s = union s1 s2}
+      requires{inter s1 s2 = empty}
+  ensures{ket_sum_l s f n = add_ket_l (ket_sum_l s1 f n) (ket_sum_l s2 f n) n}
+  =()
+
+
+  
+let lemma ket_decomp (m: matrix complex) ( n:int)
+      requires{0<=n}
+      requires{is_a_ket m}
+      requires{ket_length m = n}
+      ensures{m = mat_sum (to_fset 0 (power 2 n)) (fun j -> get m j 0 *.. ket n j)}
+  =
+  rewrite_indexes_decomp m;
+  let m_p =  indexes_decomp m in    
+  let proj_set = (to_fset 0 (power 2 n)) in
+  let couple_set = to_indexes m in                   
+  begin
+    assert_equal m (indexes_decomp m);
+    set_constant_size couple_set (fun o -> (fun j -> get m j 0 *.. ket n j) (fir o));
+    set_equal proj_set (map  fir couple_set);
+    set_injective fir couple_set;
+    map_mat_sum (fun j -> get m j 0 *.. ket n j) couple_set fir;
+    assert_equal m_p (mat_sum proj_set (fun j -> get m j 0 *.. ket n j));
+  end
+
+  use binary.Bit_vector
+
+let lemma ket_decomp_bv(m: matrix complex) ( n:int)
+      requires{0<=n}
+      requires{is_a_ket m}
+      requires{ket_length m = n}
+      ensures{m = ket_sum_l (n_bvs n) (fun bvx -> get m (bv_to_int bvx) 0 *.. (ket n (bv_to_int bvx))) n}
+  =set_equal (to_fset 0 (power 2 n)) (map bv_to_int (n_bvs n))
+  
+let lemma ket_recomp (f: int -> complex)(n:int)
+      requires{0<= n}
+      ensures{(mat_sum (to_fset 0 (power 2 n)) (fun j -> f j *.. ket n j)) = make_f (power 2 n) 1 (fun x _ -> f x)}
+  = ket_decomp (make_f (power 2 n) 1 (fun x _ -> f x)) n
+  
+let lemma ket_decomp_quant ()
+      ensures{forall m : matrix complex. is_a_ket m ->
+                         m = mat_sum (to_fset 0 (power 2 (ket_length m))) (fun j -> get m j 0 *.. ket (ket_length m) j)}
+  = ()
+  
+let lemma mat_mult_ket_basis (m: matrix complex) (x:matrix complex)
+      requires{is_a_ket_basis_elt x}
+      requires{columns m = rows m = rows x}
+  ensures{mat_mult m x = mat_sum (to_fset 0 (rows x)) (fun k -> get m k (ket_to_int x) *.. (ket (ket_length x) k))}
+  =()
+
+let lemma ket_mult_diag  (m: matrix complex) (x:matrix complex)
+      requires{ket_length x >= 1}
+      requires{is_a_ket_basis_elt x}
+      requires{rows m = power 2 (ket_length x)}
+      requires{columns m = power 2 (ket_length x)}
+      requires{forall i j: int. 0<= i < power  2 (ket_length x)
+      -> 0<= j < power  2 (ket_length x) -> i<> j -> get m i j = c_zero}
+      ensures{mat_mult m x = get m (ket_to_int x) (ket_to_int x) *.. (ket (ket_length x) (ket_to_int x))}
+  = ()
+                         
+let lemma mat_mult_ket_basis_bv (m: matrix complex) (x:matrix complex)(n:int)
+      requires{ket_length x = n}
+      requires{is_a_ket_basis_elt x}
+      requires{columns m = rows m = rows x}
+      ensures{mat_mult m x = ket_sum_l (n_bvs n) (fun bvx -> get m (bv_to_int bvx) (ket_to_int x) *.. (ket n (bv_to_int bvx))) n}
+  =()
+  
+let lemma mat_mult_ket_basis_bv_gen (m: matrix complex) (x:matrix complex)
+      requires{is_a_ket_basis_elt x}
+      requires{columns m = rows m = rows x}
+      ensures{mat_mult m x = ket_sum_l (n_bvs (ket_length x)) (fun bvx -> get m (bv_to_int bvx) (ket_to_int x) *.. (ket (ket_length x) (bv_to_int bvx))) (ket_length x)}
+                         = mat_mult_ket_basis_bv m x (ket_length x)
+        
+        
+
+                         
+let lemma mat_mult_ket_bv (m: matrix complex) (x:matrix complex) (n:int)
+      requires{is_a_ket_l x n}
+      requires{columns m = rows m = rows x = power 2 n}
+      ensures{mat_mult m x = ket_sum_l (n_bvs n) (fun bvx -> get_ket x (bv_to_int bvx) *.. mat_mult m (ket n (bv_to_int bvx))) n}
+  = ket_decomp_bv x n
+                                                       
+let lemma mat_mult_ket_bv_gen (m: matrix complex) (x:matrix complex)
+      requires{is_a_ket x }
+      requires{columns m = rows m = rows x }
+      ensures{mat_mult m x = ket_sum_l (n_bvs (ket_length x)) (fun bvx -> get_ket x (bv_to_int bvx) *.. mat_mult m (ket (ket_length x) (bv_to_int bvx))) (ket_length x)}
+  = mat_mult_ket_bv m x (ket_length x)
+                                                       
+let lemma mat_mult_ket_sum_l (m: matrix complex) (s: set 'a)(f: 'a->matrix complex) (l:int)
+      requires{0< cardinal s}
+      requires{forall e. mem e s -> is_a_ket_l (f e)l}
+      requires{columns m = rows m = power_ 2 l }
+      ensures{mat_mult m (ket_sum_l s f l) = ket_sum_l s (fun x -> mat_mult m (f x)) l}
+  = product_mat_sum_r m s f
+                                                       
+let rec lemma fun_inversion_pre (f:int -> int) ( s s': set int)(a: int -> complex)(n:int)
+          requires{0<=n}
+          requires{cardinal s > 0}
+          requires{p_bijective f s s'}
+          requires{subset s (to_fset 0 n)}
+          requires{subset s' (to_fset 0 n)}
+          ensures{ mat_sum  s (fun j ->   a j  *.. set (make n 1  c_zero)  (f j) 0 c_one)
+                   =  mat_sum s' (fun j -> a  (inv_func f s s' j)  *..   set (make n 1  c_zero)  j 0 c_one)}
+          variant{cardinal s}
+  =  if (cardinal s = 1) then ()
+     else
+      begin
+        let func_set_one  = (fun j ->  if (mem j s) then  a j  *.. set (make n 1  c_zero) (f j) 0 c_one
+                                       else make n 1 c_zero)  in
+        let func_set_two =  (fun j ->  if (mem j s') then  a  (inv_func f s s' j)  *..
+                                                             set (make n 1  c_zero)  j 0 c_one else make n 1 c_zero) in
+        begin
+          assert{forall e . mem e (to_fset 0 n) -> rows ((fun j ->  if (mem j s) then  a j  *.. set (make n 1  c_zero) (f j) 0 c_one
+                                                                    else make n 1 c_zero) e) = n};
+          assert{forall e . mem e (to_fset 0 n) -> columns ((fun j ->  if (mem j s) then  a j  *.. set (make n 1  c_zero) (f j) 0 c_one
+                                                                       else make n 1 c_zero) e) = 1};
+          assert{forall e . mem e (to_fset 0 n) -> rows ((fun j ->  if (mem j s') then  a  (inv_func f s s' j)  *..
+                                                                                          set (make n 1  c_zero)  j 0 c_one else make n 1 c_zero) e) = n};
+          assert{forall e . mem e (to_fset 0 n) -> columns ((fun j ->  if (mem j s') then  a  (inv_func f s s' j)  *..
+                                                                                             set (make n 1  c_zero)  j 0 c_one else make n 1 c_zero) e) = 1};
+          set_constant_size (to_fset 0 n)  func_set_one ;
+          set_constant_size (to_fset 0 n)  func_set_two ;
+          set_s_rows (to_fset 0 n)  func_set_one  n;
+          set_s_columns (to_fset 0 n)  func_set_one  1;
+          set_s_rows (to_fset 0 n)  func_set_two  n;
+          set_s_columns (to_fset 0 n)  func_set_two  1;
+          subset_constant_size (to_fset 0 n)  s func_set_one ;
+          subset_constant_size (to_fset 0 n)  s' func_set_two ;
+          subset_constant_size (to_fset 0 n)  (remove (choose s)s) func_set_one ;
+          subset_constant_size (to_fset 0 n)   (remove (f(choose s))s') func_set_two ;
+          mat_sum_add (remove  (choose s)s)  func_set_one (choose s);
+          mat_sum_add (remove (f (choose s)) s')  func_set_two (f (choose s));
+          assert_equal (func_set_one (choose s)) (func_set_two  (f (choose s)));
+          set_bijective f  (remove (choose s)s) (remove ( f  (choose s)) s');
+          fun_inversion_pre  f (remove (choose s)s) (remove ( f  (choose s)) s') a n;
+          add_mat_eq
+            (func_set_one (choose s))
+            (func_set_two (f(choose s)))
+            (mat_sum  (remove  (choose s)s) func_set_one) 
+            (mat_sum  (remove  (f(choose s))s') func_set_two);
+          assert_equal (mat_sum s func_set_one) (mat_sum s' func_set_two);
+        end
+      end
+   
+let lemma ket_fun_inversion  (f:int -> int) (a: int -> complex)(m:matrix complex)(pow_2_n:int)
+      requires{pow_2_n = (power 2 (ket_length m))}
+      requires{is_a_ket m}
+      requires{pow_2_n > 0}
+      requires{p_bijective f (to_fset 0 pow_2_n) (to_fset 0 pow_2_n)}
+      requires{m = mat_sum  (to_fset 0 pow_2_n) (fun j ->   a j  *.. ket (ket_length m) (f j)) }
+      ensures{m =   mat_sum (to_fset 0 pow_2_n) (fun j ->  a  (inv_ f (to_fset 0 pow_2_n) (to_fset 0 pow_2_n)  j)
+                                                           *..   ket (ket_length m) j )}
+  = fun_inversion_pre f (to_fset 0 pow_2_n) (to_fset 0 pow_2_n) a pow_2_n 
+
+use p_set.Choose_filter
+  
+let lemma ket_sum_partition_filter (s : set 'a) (f: 'a -> matrix complex) (p1 p2 : 'a -> bool) (n:int)
+      requires{0<=n}
+      requires{forall e. mem e s -> p1 e <-> not p2 e}
+  ensures{ket_sum_l s f n = add_ket_l (ket_sum_l (my_filter s p1) f n) (ket_sum_l (my_filter s p2) f n) n}
+  =ket_sum_partition s (my_filter s p1) (my_filter s p2) f n
+
+     (* 1
+ * ket_sum_partition_filter (n_bvs (h_range h-1)) *)
+  
+end
+
+
+module Ket_basis_concat
+         use  Qreg
+         use  matrices.Matrice
+         use  matrices.Matrix_equality
+         use  Kronecker_Qbit
+         use  complex_operations.Base_type
+         use  exponentiation.Int_Exponentiation
+         use  matrices.Matrix_scalar
+         use  p_set.IndexestoSet
+         use  p_set.Fset_comp
+         use  set.FsetComprehension
+         use  complex.Constant
+         use  complex.Assert_equal
+         use  fsum.Set_iter
+         use  matrices.Matrix_sums
+         use  matrices.Matrix_decomp
+         use  functions.MapInjection
+         use  complex_operations.Inv_func
+         use  complex.Pairs
+         use  complex.Complex
+         use  int.Int
+         use  p_set.Card_one_set
+         use  complex_operations.Indic
+         use  Ket_basis
+         use  arit.Div_Mod
+         use  matrices.Kronecker_product
+     use int.EuclideanDivision
+
+let ghost function hpart_ket (m:matrix complex) (i:int)
+                     requires{is_a_ket_basis_elt m}
+                     requires{0<= i <= ket_length m}
+                     ensures{is_a_ket_basis_elt result}
+                     ensures{ket_length result = i}
+                     ensures{ket_to_int result = div (ket_to_int m) (power 2 (ket_length m - i))}
+  =
+  bound_div (ket_to_int m) (power 2 (ket_length m - i)) (power 2 i);
+  ket_func_sets_ket_basis_elts i (div (ket_to_int m) (power 2 (ket_length m - i)));
+  ket_to_int_ket  i (div (ket_to_int m) (power 2 (ket_length m - i)));
+  ket  i (div (ket_to_int m) (power 2 (ket_length m - i)))  
+
+let lemma hpart_ket_rows (m:matrix complex) (i:int)
+                     requires{is_a_ket_basis_elt m}
+                     requires{0<= i <= ket_length m}
+                     ensures{rows (hpart_ket m i) = power 2 i}
+  =()
+                     
+let lemma hpart_ket_l (m:matrix complex) (i j:int)
+                     requires{is_a_ket_basis_elt m}
+                     requires{0<= i <= ket_length m}
+                     requires{i = j}
+                     ensures{is_a_ket_l (hpart_ket m i) j}
+  =()                     
+  
+let ghost function tpart_ket (m:matrix complex) (i:int)
+                     requires{is_a_ket_basis_elt m}
+                     requires{0<= i <= ket_length m}
+                     ensures{is_a_ket_basis_elt result}
+                     ensures{ket_length result = (ket_length m - i)}
+                     ensures{ket_to_int result = mod (ket_to_int m) (power 2 (ket_length m - i))}
+  =
+  bound_mod (ket_to_int m) (power 2 (ket_length m - i)) ;
+  ket_func_sets_ket_basis_elts (ket_length m - i) (mod (ket_to_int m) (power 2 (ket_length m - i)));
+  ket_to_int_ket (ket_length m - i)  (mod (ket_to_int m) (power 2 (ket_length m - i)));
+  ket  (ket_length m - i)  (mod (ket_to_int m) (power 2 (ket_length m - i)))
+
+let lemma tpart_ket_l (m:matrix complex) (i j:int)
+                     requires{is_a_ket_basis_elt m}
+                     requires{0<= i <= ket_length m}
+                     requires{j =  ket_length m - i}
+                     ensures{is_a_ket_l (tpart_ket m i) j}
+  =()
+
+let lemma tpart_ket_rows (m:matrix complex) (i:int)
+                     requires{is_a_ket_basis_elt m}
+                     requires{0<= i <= ket_length m}
+                     ensures{rows (tpart_ket m i) = power 2 (ket_length m - i)}
+  =()
+
+let lemma concat_ket (x y:matrix complex)
+      requires{is_a_ket_basis_elt x}
+      requires{is_a_ket_basis_elt y}
+      ensures{is_a_ket_basis_elt (kronecker x y)}
+      ensures{ket_length (kronecker x y) = ket_length x+ ket_length y}
+      ensures{ket_to_int (kronecker x y) = ket_to_int x * power 2 (ket_length y) + ket_to_int y}
+  =
+  ket_to_int_ket (ket_length x+ ket_length y) (ket_to_int x * power 2 (ket_length y) + ket_to_int y);
+  kronecker_is_a_ket_basis_elt x y
+
+let lemma concat_ht_part_ket (m:matrix complex) (i:int)
+      requires{is_a_ket_basis_elt m}
+      requires{0<= i <= ket_length m}
+      ensures{kronecker (hpart_ket m i) (tpart_ket m i)  = m}
+  = concat_ket (hpart_ket m i) (tpart_ket m i)
+
+let lemma ket_ht_decomp (n i j:int)
+      requires{0<= i <= n}
+      requires{0<= j < power 2 n}
+      ensures{ket n j = kronecker (hpart_ket (ket n j) i) (tpart_ket (ket n j) i)}
+  = concat_ht_part_ket (ket n j) i
+
+let lemma ket_ht_decomp_quant (n i:int)
+      requires{0<= i <= n}
+      ensures{forall j:int. 0<= j < power 2 n ->
+                       ket n j = kronecker (hpart_ket (ket n j) i) (tpart_ket (ket n j) i)}
+  = ()
+
+let lemma ht_decomp (m:matrix complex) (i:int)
+      requires{is_a_ket m}
+      requires{0<= i <= ket_length m}
+      ensures{m = mat_sum (to_fset 0 (power 2 (ket_length m))) (fun j -> get m j 0 *..
+                                                                           kronecker (hpart_ket (ket (ket_length m) j) i)
+                                                                             (tpart_ket (ket (ket_length m) j) i))}
+  = ket_decomp m (ket_length m)
+
+end     
+     
+module Sqrt_two
+         use  complex.Complex
+         use  complex_operations.Base_type
+         use  exponentiation.Complex_Exponentiation
+         use  int.Int
+         use  arit.Evenness
+         use  int.EuclideanDivision                                                                        
+
+let rec lemma not_null_powers_squarert_two(i:int)
+          requires{0<=i}
+          ensures{cpower squarert_two i <>  c_zero}
+          variant{i}
+  = ()
+
+let constant pos_coeff: complex
+  =
+  c_one /. squarert_two
+                                      
+let lemma real_pos_coeff()
+      ensures{real_ pos_coeff}
+  = real_div c_one squarert_two
+  
+            constant neg_coeff: complex = -. c_one /. squarert_two
+            lemma coeffs: neg_coeff = -.pos_coeff
+
+let ghost function  mop (i:int) : complex 
+                                    requires{0<= i}
+  = cpower (-. c_one) i
+  
+let rec lemma minus_one_power_values (i:int)
+          requires{0<= i}
+          ensures{even i -> mop i = c_one}
+          ensures{odd i -> mop i = -.c_one}
+          variant{i}  =
+  if i = 0 then assert{mop i = c_one} else
+    begin
+      if even i then assert{odd (i-1)}
+      else assert{even (i-1)};
+      minus_one_power_values (i-1)
+    end
+
+let lemma factors_mop (i j :int)
+      requires{0<= i}
+      requires{0<= j}
+      ensures{mop (i+j) = mop i*. mop j}
+  = assert {even j -> mop j = c_one};
+    assert {odd j -> mop j = (-.c_one)};
+    assert {even j -> mop (i+j) = mop i};
+    assert {odd j -> mop (i+j) = (-.c_one)*.mop i}
+
+let lemma factors_mop_rev (i j :int)
+      requires{0<= i}
+      requires{0<= j}
+      ensures{ mop i*. mop j =mop (i+j) }
+  = ()
+
+  use exponentiation.Int_Exponentiation
+  use complex_operations.FromInt
+
+let function pow_inv_sqrt_2 (i:int): complex
+                                            requires{0<=i}
+           ensures{real_ result}
+           ensures{result = c_one /. square_rt (i_to_c (power 2 i))}
+  = real_cpower_pos pos_coeff i;
+  cpower pos_coeff i
+
+  let lemma pow_inv_sqrt_2_add (i j:int)
+                                            requires{0<=i}
+                                            requires{0<=j}
+                                            ensures{pow_inv_sqrt_2 (i+ j) = pow_inv_sqrt_2 i *. pow_inv_sqrt_2 j}
+           = cpower_sum pos_coeff i j
+
+use exponentiation.Int_Exponentiation
+use complex_operations.FromInt
+           
+let function pow_inv_2 (i:int): complex
+                                requires{0<=i}
+                                ensures{real_ result}
+           ensures{result >. c_zero}
+           ensures{result = pow_inv_sqrt_2 (2 * i)}
+           ensures{result = pow_inv_sqrt_2 i *. pow_inv_sqrt_2 i}
+  = c_one /. (i_to_c (power 2 i))
+
+let lemma pow_inv_2_leq_c_one (i  :int)
+      requires{0<=i}
+      ensures{pow_inv_2 i <=.c_one}
+=()
+
+let lemma pow_inv_2_inf_c_one (i  :int)
+      requires{1<=i}
+      ensures{pow_inv_2 i <.c_one}
+=()
+
+let lemma cpower_pow_inv_2 (i k :int)
+      requires{1<=i}
+      requires{1<=k}
+      ensures{cpower (pow_inv_2 i) k = pow_inv_2 (i * k)  }
+=()
+
+let lemma cpower_pow_inv_sqrt_2 (i k :int)
+      requires{1<=i}
+      requires{1<=k}
+      ensures{cpower (pow_inv_sqrt_2 i) k = pow_inv_sqrt_2 (i * k)  }
+=()
+
+let lemma cpower_2_pow_inv_sqrt_2 (i :int)
+      requires{1<=i}
+      ensures{cpower (pow_inv_sqrt_2 i) 2 = pow_inv_2 i  }
+=()
+
+let lemma pow_inv_2_subst (i j :int)
+      requires{0<=i<=j}
+      ensures{pow_inv_2 i *. cpower ttwo j = cpower ttwo (j-i)}
+=()
+
+  use exponentiation.Power_
+
+let lemma pow_inv_2_ (i  :int)
+      requires{0<=i}
+      ensures{pow_inv_2 i = c_one /. (i_to_c (power_ 2 i))}
+=()
+              
+let lemma pow_inv_sqrt_2_2_add ()
+      ensures{pow_inv_sqrt_2 1 +. pow_inv_sqrt_2 1 = squarert_two}
+=()
+              
+let lemma pow_inv_2_cpower (i  :int)
+      requires{0<=i}
+      ensures{pow_inv_2 i = c_one /. (cpower ttwo i)}
+=()
+              
+use matrices.Matrice
+use matrices.Matrix_scalar
+  
+let lemma pow_inv_2_scal (i: int) (x: matrix complex)
+      requires{0<=i}
+      ensures{pow_inv_2 i *.. x = pow_inv_sqrt_2 i *.. (pow_inv_sqrt_2 i *.. x)}
+  =()
+
+let lemma pow_inv_2_from_int (n:int)
+      requires{0<=n}
+  ensures{pow_inv_2 n = c_one /. (i_to_c (power 2 n))}
+  =()
+
+let lemma pow_inv_2_sq_rt (n:int)
+      requires{0<=n}
+  ensures{square_rt (pow_inv_2 n) = pow_inv_sqrt_2 n}
+  =()
+
+let lemma pow_inv_sqrt_2_double (n:int)
+      requires{0<=n}
+  ensures{pow_inv_sqrt_2 (2*n) = pow_inv_2 n}
+  =()
+
+let lemma pos_pow_inv_2 (i:int)
+                                requires{0<=i}
+                                ensures{c_zero <=. pow_inv_2 i}
+  =()
+  
+let lemma pos_pow_inv_sqrt_2 (i:int)
+                                requires{0<=i}
+                                ensures{c_zero <=. pow_inv_sqrt_2 i}
+  =()
+  
+let lemma strict_pos_pow_inv_2 (i:int)
+                                requires{0<=i}
+                                ensures{c_zero <. pow_inv_2 i}
+  =()
+  
+let lemma pow_inv_2_add (i j:int)
+      requires{0<=i}
+      requires{0<=j}
+      ensures{pow_inv_2 (i+ j) = pow_inv_2 i *. pow_inv_2 j}
+           = ()
+
+let lemma pow_inv_2_plus_one (i :int)
+      requires{0<=i}
+      ensures{pow_inv_2 (i+ 1) = (c_one /. ttwo) *. pow_inv_2 i}
+  = ()
+
+let lemma pow_inv_2_plus_one_rev (i :int)
+      requires{0<=i}
+      ensures{ (c_one /. ttwo) *. pow_inv_2 i = pow_inv_2 (i+ 1)}
+  = ()
+
+use exponentiation.Power_
+           
+let lemma pow_inv_2_with_ (i:int)
+      requires{0<=i}
+      ensures{pow_inv_2 i = c_one /. (i_to_c (power_ 2 i))}
+  =()
+
+let lemma pow_inv_2_to_one (i:int)
+      requires{0<=i}
+      ensures{i_to_c (power_ 2 i) *. pow_inv_2 i = c_one }
+  =()
+
+let lemma pow_inv_2_one (i:int)
+      requires{i =1}
+      ensures{i_to_c (power_ 2 i) =  ttwo }
+  =()
+
+let lemma pow_inv_2_to_one_gen (i:int) (x: complex)
+      requires{0<=i}
+      requires{x = i_to_c (power_ 2 i) }
+      ensures{ pow_inv_2 i *. x = c_one}
+  =()
+
+let lemma  pow_inv_to_pow_2 (k l:int)
+      requires{0<= l}
+      requires{k >= l}
+ensures{pow_inv_2 k *. i_to_c (power_ 2 l) = pow_inv_2 (k-l)}
+  =()
+  
+let ghost function neg_pow_inv_sqrt_2 (i:int): complex
+                                                requires{0<=i}
+  = cpower neg_coeff i
+
+let lemma inv_pow_inv_sqrt_2()
+      ensures{pow_inv_sqrt_2 1 *. squarert_two = c_one}
+  =()
+  
+let rec lemma pow_inv_sqrt_2_values (i:int)
+          requires{0<=i}
+          ensures{pow_inv_sqrt_2 i = (c_one /. cpower squarert_two i)}
+          variant{i}
+  =
+  if i = 0 then assert{pow_inv_sqrt_2 i = c_one} else
+    begin
+      assert{pow_inv_sqrt_2 i =pow_inv_sqrt_2 (i-1) *. pos_coeff };
+      pow_inv_sqrt_2_values (i-1);
+      assert{pow_inv_sqrt_2 i = (c_one /.  ( cpower squarert_two (i-1)))*. (c_one /.   (cpower squarert_two 1)) };
+      assert{pow_inv_sqrt_2 i = (c_one /.  (  (cpower squarert_two (i-1)) *.    ( cpower squarert_two 1))) };
+    end
+
+let rec lemma neg_pow_inv_sqrt_2_values (i:int)
+          requires{0<=i}
+          ensures{neg_pow_inv_sqrt_2 i = (mop i) *.  (c_one /. cpower squarert_two i)}
+          variant{i}
+  =
+  if i = 0 then assert{neg_pow_inv_sqrt_2 i = c_one} else
+    begin
+      assert{neg_pow_inv_sqrt_2 i = neg_pow_inv_sqrt_2 (i-1) *. neg_coeff };
+      neg_pow_inv_sqrt_2_values (i-1)
+    end
+
+let lemma ppos_neg_coeff_values (i:int)
+      requires{0<=i}
+      ensures {even i -> pow_inv_sqrt_2 i= neg_pow_inv_sqrt_2 i}
+      ensures {odd i -> pow_inv_sqrt_2 i = (-. (neg_pow_inv_sqrt_2 i))}
+      ensures { neg_pow_inv_sqrt_2 i = (mop i) *. (pow_inv_sqrt_2 i)}
+  =()
+  
+let ghost function pow_inv_sqrt_2_neg (i:int): complex
+                                                requires{0<= i}
+  = -. pow_inv_sqrt_2 i
+  
+end
+
+module Oper_mat
+         use  matrices.Matrice
+         use  complex.Complex
+         use  exponentiation.Int_Exponentiation
+         use  int.Int
+         use  Qreg
+         predicate isa_square (m: matrix complex) = rows m = columns m
+predicate pow2dim (m: matrix complex) = exists i j:int. rows m = power 2 i /\ columns m = power 2 j
+predicate pow2dim_square (m: matrix complex) = exists i. rows m = power 2 i /\ columns m = power 2 i
+
+let lemma pow_2dim_kets ()
+      ensures{forall m: matrix complex. is_a_ket m -> pow2dim m}
+  =()
+  
+val function lnr (m:matrix complex): int                                                     
+                                 requires{pow2dim m}
+                                 ensures{rows m = power 2 result}
+                                 ensures{result >= 0}
+
+val function lnc (m:matrix complex)  : int                                                   
+                                   requires{pow2dim m}
+                                   ensures{columns m = power 2 result}
+                                   ensures{result >= 0}
+
+let lemma get_pow2dim (m:matrix complex)
+      requires{pow2dim m}
+      ensures{exists i j:int. rows m = power 2 i /\ columns m = power 2 j}
+  = ()
+
+let lemma set_pow2dim (m:matrix complex)
+      requires{exists i j:int. rows m = power 2 i /\ columns m = power 2 j}
+      ensures{pow2dim m}
+  = ()
+
+let lemma get_pow2dim_elt (m:matrix complex) (i j:int)
+      requires{pow2dim m}
+      requires{lnr m = i}
+      requires{lnc m = j}
+      ensures{rows m = power 2 i}
+      ensures{columns m = power 2 j}
+  = ()
+  
+let lemma set_pow2dim_elt (m:matrix complex)(i j:int)
+      requires{0<=i}
+      requires{0<=j}
+      requires{rows m = power 2 i}
+      requires{columns m = power 2 j}
+      ensures{pow2dim m}
+      ensures{lnr m = i}
+      ensures{lnc m = j}
+  = unicity_exp 2 (lnr m) i;
+    unicity_exp 2 (lnc m) j
+
+let function mat_size (m: matrix complex): int
+                                       requires{isa_square m}
+                                       ensures{result = rows m}
+                                       ensures{result = columns m}
+  = rows m
+  
+let lemma get_square(m:matrix complex)
+      requires{isa_square m }
+      ensures{rows m = columns m}
+  =()
+  
+let lemma set_square(m:matrix complex)
+      requires{rows m = columns m}
+      ensures{isa_square m }
+  =()
+
+let lemma set_square_elt (m:matrix complex) (i: int)
+      requires{rows m =   i}
+      requires{columns m = i}
+      ensures{isa_square m }
+      ensures{mat_size m = i}
+  =()
+
+let lemma get_square_elt (m:matrix complex) (i: int)
+      requires{isa_square m }
+      requires{mat_size m = i}
+      ensures{rows m =   i}
+      ensures{columns m = i}
+  =()
+
+let lemma pow2dim_square_dec (m:matrix complex)
+      requires{isa_square m}
+      requires{pow2dim m}
+      ensures{pow2dim_square m}
+  =()
+  
+let lemma dec_pow2dim_square (m:matrix complex)
+      requires{pow2dim_square m}
+      ensures{isa_square m}
+      ensures{pow2dim m}
+  =()
+  
+let function ln_size (m:matrix complex)
+               requires{pow2dim_square m}
+               ensures{result = lnc m}
+               ensures{rows m = power 2 result}
+               ensures{columns m = power 2 result}
+  = lnr m
+  
+let lemma set_ln_size_lnc (m:matrix complex)(i:int)
+      requires{pow2dim_square m}
+      requires{lnc m = i}
+      ensures{ln_size m = i}
+  = ()
+  
+let lemma set_ln_size_lnr (m:matrix complex)(i:int)
+      requires{pow2dim_square m}
+      requires{lnr m = i}
+      ensures{ln_size m = i}
+  = ()
+  
+let lemma set_ln_size_columns (m:matrix complex)(i:int)
+      requires{0<=i}
+      requires{pow2dim_square m}
+      requires{columns m = power 2 i}
+      ensures{ln_size m = i}
+  = unicity_exp 2 (lnc m) i
+  
+let lemma set_ln_size_rows (m:matrix complex)(i:int)
+      requires{0<=i}
+      requires{pow2dim_square m}
+      requires{rows m = power 2 i}
+      ensures{ln_size m = i}
+  = unicity_exp 2 (lnr m) i
+  
+let lemma set_pow2dim_square(m:matrix complex)
+      requires{exists i. rows m = columns m = power 2 i}
+      ensures{pow2dim_square m }
+  =()
+
+let lemma set_pow2dim_square_elt (m:matrix complex) (i:int)
+      requires{0<=i}
+      requires{ rows m = columns m = power 2 i}
+      ensures{pow2dim_square m }
+      ensures{ln_size m = i}
+  =()
+
+let lemma get_pow2dim_square_elt (m:matrix complex) (i: int)
+      requires{pow2dim_square m }
+      requires{ln_size m = i}
+      ensures{rows m =  power 2 i}
+      ensures{columns m = power 2 i}
+  =()
+
+end
+     
+module Bv_mat_sum
+use  complex.Complex 
+                  use  int.Int
+         use  binary.Bit_vector
+         use  binary.Bit_vector_decomp
+         use  binary.Binary_Op     
+         use  exponentiation.Int_Exponentiation
+         use  matrices.Mat_sums_comp
+         use  matrices.Matrix_sums
+         use  matrices.Matrice
+         use  binary.Bv_concat
+         use  p_set.Fset_comp          
+         use  complex.Pairs
+         use  Qreg
+         use  set.FsetComprehension
+         use Ket_basis
+         use matrices.Matrix_scalar
+     
+let lemma mat_sum_comp (f: (bitvec)->  (bitvec) ->  matrix complex) (l x y:int)
+      requires{0<= x}
+      requires{0<= y}
+      requires{0<= l}
+      requires{forall bvx bvy. mem bvx (n_bvs x) -> mem bvy (n_bvs y) -> is_a_ket (f bvy bvx)}
+      requires{forall bvx bvy.  mem bvx (n_bvs x) -> mem bvy (n_bvs y) -> ket_length  (f bvy bvx) = l}
+      ensures{mat_sum (n_bvs y) (fun bvy -> mat_sum (n_bvs x) (fun bvx -> f  bvy bvx)) = mat_sum (n_bvs (x+y)) (fun bv -> f (hpart bv y) (tpart bv y))}
+  =
+  assert{forall bvx bvy. mem bvx (n_bvs x) -> mem bvy (n_bvs y) -> rows (f bvy bvx) = power 2 l};
+  assert{forall bvx bvy. mem bvx (n_bvs x) -> mem bvy (n_bvs y) -> columns (f bvy bvx) = 1};
+  assert{map (fun o -> concat  (fir o) (sec o) ) (cartesian_product  (n_bvs y)  (n_bvs x)) = (n_bvs (x+y)) };
+  mat_sum_sum_cartesian_product_pre  (n_bvs y) (n_bvs x)  f (power 2 l) 1
+
+let lemma mat_sum_comp_rev (f: (bitvec)->  (bitvec) ->  matrix complex) (l x y:int)
+      requires{0<= x}
+      requires{0<= y}
+      requires{0<= l}
+      requires{forall bvx bvy. mem bvx (n_bvs x) -> mem bvy (n_bvs y) -> is_a_ket (f bvy bvx)}
+      requires{forall bvx bvy.  mem bvx (n_bvs x) -> mem bvy (n_bvs y) -> ket_length  (f bvy bvx) = l}
+      ensures{mat_sum (n_bvs (x+y)) (fun bv -> f  (hpart bv y) (tpart bv y)) = mat_sum (n_bvs y) (fun bvy -> mat_sum (n_bvs x) (fun bvx -> f  bvy bvx))}
+  = mat_sum_comp f l x y
+
+let lemma ket_sum_bin_comp_l (f: (bitvec)->  (bitvec) ->  matrix complex) (scal : bitvec -> complex) (l x y:int)
+      requires{0<= x}
+      requires{0<= y}
+      requires{0<= l}
+      ensures{ket_sum_l (n_bvs y) (fun bvy -> scal bvy *.. ket_sum_l (n_bvs x) (fun bvx -> f  bvy bvx) l) l = ket_sum_l (n_bvs (x+y)) (fun bv -> (scal (hpart bv y)) *.. f (hpart bv y) (tpart bv y)) l}
+  = mat_sum_comp (fun bvy bvx  -> scal bvy *..  make_ket l (fun j -> get (f  bvy bvx) j 0)) l x y
+  
+let lemma ket_sum_bin_comp (f: (bitvec)->  (bitvec) ->  matrix complex) (l x y:int)
+      requires{0<= x}
+      requires{0<= y}
+      requires{0<= l}
+      ensures{ket_sum_l (n_bvs y) (fun bvy ->   ket_sum_l (n_bvs x) (fun bvx -> f  bvy bvx) l) l = ket_sum_l (n_bvs (x+y)) (fun bv -> f (hpart bv y) (tpart bv y)) l}
+  = ket_sum_bin_comp_l f (fun bv -> c_one )l x y
+
+
+(* let lemma ket_sum_bin_comp_gen (f: (bitvec)->  (bitvec) ->  matrix complex) (g: (bitvec)->   matrix complex) (l1 l2 l3 x y:int)
+ *       requires{0<= x}
+ *       requires{0<= y}
+ *       requires{0<= l1}
+ *       requires{l1=l2=l3}
+ *       requires{forall bv. length bv = x+y -> g bv = f (hpart bv y) (tpart bv y)}
+ *       ensures{ket_sum_l (n_bvs y) (fun bvy ->   ket_sum_l (n_bvs x) ( f  bvy ) l1) l2 = ket_sum_l (n_bvs (x+y)) g l3}
+ *   = () *)
+
+  
+let lemma ket_sum_bin_comp_rev (f: (bitvec)->  (bitvec) ->  matrix complex) (l x y:int)
+      requires{0<= x}
+      requires{0<= y}
+      requires{0<= l}
+      ensures{ket_sum_l (n_bvs (x+y)) (fun bv ->  f (hpart bv y) (tpart bv y)) l =
+                ket_sum_l (n_bvs y) (fun bvy ->   ket_sum_l (n_bvs x) (fun bvx -> f  bvy bvx) l) l}
+  = ket_sum_bin_comp_l f (fun bv -> c_one )l x y
+
+
+
+(* (fun (x1:bitvec) ->
+ *     path_sem e
+ *     (ang_exp (ang_ind d (getbv (ket_to_bv x)) (getbv x1))
+ *      *.. bv_to_ket
+ *          (make_bv
+ *           (fun (y3:int) -> basis_ket d (getbv (ket_to_bv x)) (getbv x1) y3)
+ *           (width d))))
+ * 
+ * (fun (x1:bitvec) ->
+ *    (ang_exp (ang_ind d (getbv (ket_to_bv x)) (getbv x1))) *.. path_sem e
+ *     ( bv_to_ket
+ *          (make_bv
+ *           (fun (y3:int) -> basis_ket d (getbv (ket_to_bv x)) (getbv x1) y3)
+ *           (width d))))
+ * 
+ * (fun (x1:bitvec) ->
+ *   (ang_exp (ang_ind d (getbv (ket_to_bv x)) (getbv x1))) *..
+ *     ket_sum_l (n_bvs (range e)) (fun y -> ang_ind e )
+ * 
+ * 
+ *     path_sem e
+ *     ( bv_to_ket
+ *          (make_bv
+ *           (fun (y3:int) -> basis_ket d (getbv (ket_to_bv x)) (getbv x1) y3)
+ *           (width d)))) *)
+
+  
+  
+  let lemma ket_sum_bin_comp_rev_ (f: (bitvec)->  (bitvec) ->  matrix complex) (l x y:int)
+      requires{0<= x}
+      requires{0<= y}
+      requires{0<= l}
+      ensures{ket_sum_l (n_bvs (x+y)) (fun bv ->  f (hpart bv x) (tpart bv x)) l =
+                ket_sum_l (n_bvs x) (fun bvx ->   ket_sum_l (n_bvs y) (fun bvy -> f   bvx bvy) l) l}
+    = ket_sum_bin_comp_rev  f l y x
+
+use p_set.IndexestoSet
+
+  let lemma ket_sum_bv_to_ints (n:int) (f: bitvec -> matrix complex) (g: int -> matrix complex)
+        requires{n>=0}
+        requires{forall x. length x = n -> f x = g (bv_to_int x)}
+        ensures{ket_sum_l (n_bvs n) f n = ket_sum_l (to_fset 0 (power 2 n)) g n }
+    =()
+
+let lemma ket_sum_sum_rev (f: bitvec -> bitvec -> matrix complex) (sx sy : set bitvec)(l l1 l2:int)
+      requires{0<= l}
+      requires{0<= l1 = l2}
+      (* requires{0<= l2} *)
+      ensures{ket_sum_l (n_bvs l1) (fun x -> ket_sum_l  (n_bvs l2) (f x ) l) l =
+      ket_sum_l (n_bvs l2) (fun y -> ket_sum_l  (n_bvs l1) (f y) l) l}
+=ket_sum_bin_comp f l l2 l1;
+ ket_sum_bin_comp f l l1 l2
+        
+end         
+
+module Bin_ket_proj
+         use complex.Complex
+         use int.Int
+         use matrices.Matrice
+         use Qreg
+         use binary.Bit_vector_decomp
+         use Kronecker_Qbit
+         use matrices.Matrix_scalar
+         use exponentiation.Int_Exponentiation
+         use p_set.IndexestoSet
+     use matrices.Matrix_sums
+     use matrices.Matrix_equality
+     use Ket_basis
+     
+let function bin_proj (x:matrix complex) (k i:int)
+      requires{is_a_ket x}
+      requires{0<= k < power 2 (ket_length x) }
+      requires{0<= i <2}
+      ensures{rows result = power 2 (ket_length x)}
+      ensures{columns result = 1}
+      ensures{result = mat_sum (to_fset 0 (power 2 (ket_length x)))
+                         (fun j -> (if int_to_bin j (ket_length x) k = i then get x j 0 else c_zero) *.. ket (ket_length x) j)}
+      ensures{forall a b:int. valid_index result a b -> get result a b = (if int_to_bin a (ket_length x) k = i then get x a 0 else c_zero)}
+           ensures{is_a_ket result}
+           ensures{ket_length result = ket_length x}
+  = 
+  ket_recomp (fun j -> (if 0<= j < power 2 (ket_length x) && int_to_bin j (ket_length x) k = i then get x j 0 else c_zero)) (ket_length x);
+                       mat_sum (to_fset 0 (power 2 (ket_length x)))
+                         (fun j -> (if 0<= j < power 2 (ket_length x) && int_to_bin j (ket_length x) k = i then get x j 0 else c_zero) *.. ket (ket_length x) j)
+                                                         
+let lemma proj_decomp  (x:matrix complex) (k i:int)
+      requires{is_a_ket x}
+      requires{0<= k < power 2 (ket_length x) }
+      ensures{x = add_mat (bin_proj x k 0)(bin_proj x k 1)}
+  = set_equal_mat x (add_mat (bin_proj x k 0)(bin_proj x k 1))
+  
+         end
+
+module Bv_to_ket
+         use  complex.Complex
+         use  matrices.Matrice
+         use  exponentiation.Int_Exponentiation
+         use  int.Int
+         use binary.Bit_vector_decomp
+         use  set.FsetComprehension
+         use binary.Bit_vector
+         use Qreg
+         use Kronecker_Qbit
+         use  binary.Bv_concat
+         use matrices.Matrix_equality
+         use Ket_basis
+     
+let  function ket_to_bv (x:matrix complex): bitvec
+                                              requires{is_a_ket_basis_elt x}
+                                              ensures{bv_to_int result = ket_to_int x}
+                                              ensures{length result = ket_length x}
+                                              ensures{mem result (n_bvs (ket_length x))}
+  =
+  int_to_bv_n_bvs (ket_to_int x) (ket_length x);
+  int_to_bv (ket_to_int x) (ket_length x)
+  
+let  lemma ket_to_bv_length (x:matrix complex) (n:int)
+                                              requires{is_a_ket_basis_elt x}
+                                              requires{ket_length x = n}
+                                              ensures{length (ket_to_bv x) = n}
+  = ()
+  
+let function bv_to_ket (bv: bitvec): matrix complex
+                                             ensures{is_a_ket_basis_elt result}
+                                             ensures{ket_to_int result = bv_to_int bv}
+                                             ensures{is_a_ket_l result (length bv)}
+                                             ensures{rows result = power 2 (length bv)}
+                                             ensures{columns result = 1}
+                                             ensures{result = bin_to_ket (length bv)(getbv bv)}
+  =
+  if length bv > 0 then
+    ket_is_a_ket_basis_elt   (length bv)  (bv_to_int bv)
+  else ();
+  get_ket_  ( ket (length bv) (bv_to_int bv))  (bv_to_int bv)  (length bv); 
+  ket (length bv) (bv_to_int bv)   
+
+use binary.Binary_Op              
+
+let lemma ket_to_bv_ket_length (i n:int)
+      requires{n>=0}
+      requires{0<= i < power 2 n}
+      ensures{length (ket_to_bv (ket n i)) = n}
+  =()
+  
+let lemma is_a_ket_l_bv_to_ket (bv: bitvec) (l:int)
+      requires{length bv = l}
+      ensures{is_a_ket_l (bv_to_ket bv) l}
+  =()
+  
+(* let lemma bv_to_ket_length (bv: bitvec) (l:int)
+ *       requires{length bv = l}
+ *       ensures{ket_length (bv_to_ket bv) =  l}
+ *   =() *)
+  
+let lemma bin_to_ket_to_bv_to_ket (f: int-> int) (n:int)
+      requires{0<= n}
+      requires{binary f}
+      ensures{bin_to_ket n f = bv_to_ket (make_bv f n)}
+  =()
+  
+let lemma bin_to_ket_to_bv_to_ket_abs (f: int-> int) (n:int) (a: bitvec)
+      requires{0<= n}
+      requires{a = (make_bv f n)}
+      requires{binary f}
+      ensures{bin_to_ket n f = bv_to_ket a}
+  =()
+  
+let lemma ket_to_int_to_bv_to_ket (f: int-> int) (n:int) (e:bitvec)
+      requires{0<= n}
+      requires{mem e (n_bvs n)}
+      ensures{ket n (bv_to_int e) = bv_to_ket e}
+  =()
+
+use exponentiation.Power_
+  
+let lemma ket_to_bv_ket (n i:int)
+      requires{0<= n}
+      requires{0<= i < power_ 2 n}
+      ensures{ket_to_bv (ket n i) = int_to_bv i n}
+  =()
+  
+let lemma bv_to_ket_length (bv:bitvec)
+      ensures{ket_length (bv_to_ket bv) = length bv}
+  =()
+    
+let lemma get_ket_bv_to_ket_length (bv:bitvec) (k:int)
+      requires{0<= k < power 2 (length bv)}
+      ensures{get_ket (bv_to_ket bv) k = if k = bv_to_int bv then c_one else c_zero}
+  =()
+    
+    
+    use matrices.Kronecker_product
+
+let lemma is_a_ket_l_bvs (e:bitvec) (n:int)
+      requires{0<= n}
+      requires{mem e (n_bvs n)}
+      ensures{is_a_ket_l (bv_to_ket e) n}
+  =()
+
+     use matrices.Matrix_scalar
+  
+let lemma is_a_ket_l_scal_bvs (e:bitvec) (n:int)(a: complex)
+      requires{0<= n}
+      requires{mem e (n_bvs n)}
+      ensures{is_a_ket_l (a*.. bv_to_ket e) n}
+  =()
+  
+let lemma ket_to_bv_concat (x y:bitvec)
+      ensures{(bv_to_ket (concat x y)) = (kronecker (bv_to_ket x) (bv_to_ket y))}
+  =
+  set_equal_mat  (bv_to_ket (concat x y))   (kronecker (bv_to_ket x) (bv_to_ket y))
+
+let lemma bv_to_ket_concat_rev (x y:bitvec)
+      ensures{(kronecker (bv_to_ket x) (bv_to_ket y)) = (bv_to_ket (concat x y))}
+  =()
+
+let lemma bv_to_ket_to_bv (bv: bitvec) 
+      ensures{ket_to_bv(bv_to_ket bv) =  bv}  
+  =()
+
+let lemma ket_to_bv_to_ket (bv: bitvec) (x: matrix complex)
+      requires{is_a_ket_basis_elt x}
+      ensures{(bv_to_ket (ket_to_bv x)) =  x}  
+  =()
+
+let lemma bv_to_ket_eq (bv1 bv2: bitvec)
+      requires{length bv1 = length bv2}
+      requires{forall i: int. 0<= i < length bv1 -> getbv bv1 i = getbv bv2 i}
+      ensures{bv_to_ket bv1 = bv_to_ket bv2}  
+  =()
+
+  let lemma ket_decomp_ (m: matrix complex) ( n:int)
+      requires{0<=n}
+      requires{is_a_ket m}
+      requires{ket_length m = n}
+      ensures{m = ket_sum_l (n_bvs n) (fun bvx -> get_ket m (bv_to_int bvx)  *.. (bv_to_ket bvx)) n}
+  = ket_decomp_bv m n
+
+let lemma ket_to_bv_kronecker (x y: matrix complex)
+      requires{is_a_ket_basis_elt x}
+      requires{is_a_ket_basis_elt y}
+      ensures{ket_to_bv (kronecker x y) = concat (ket_to_bv x) (ket_to_bv y)}
+  = ()
+
+  let lemma ket_decomp_bv_ket (m: matrix complex) ( n:int)
+      requires{0<=n}
+      requires{is_a_ket m}
+      requires{ket_length m = n}
+      ensures{m = ket_sum_l (n_bvs n) (fun bvx -> get_ket m (bv_to_int bvx)  *.. (ket n (bv_to_int bvx))) n}
+  = ket_decomp_bv m n
+
+let lemma ket_zero (n:int)
+      requires{n>=0}
+  ensures{is_a_ket_l (ket n 0) n}
+  ensures{is_a_ket_basis_elt (ket n 0)}
+  ensures{ket_to_bv (ket n 0) = make_bv (fun _ -> 0) n}
+  ensures{forall i. 0<= i < n -> getbv (ket_to_bv (ket n 0)) i =0 }
+=()
+
+use Sqrt_two
+
+let lemma uniform_ket_norm_l (x:matrix complex)(f: bitvec -> complex) ( n:int)
+      requires{is_a_ket_l x n}
+      requires{forall e.mem e (n_bvs n) -> modulus (f e )  = c_one}
+      requires{x = pow_inv_sqrt_2 n *.. ket_sum_l (n_bvs n) (fun x -> f x *.. bv_to_ket x) n}  
+      ensures{ket_norm_l x n = c_one}
+  =()
+
+  use exponentiation.Power_
+
+  
+  let  function ket_sum_l_diag  (f : bitvec  -> complex)  (l:int): matrix complex
+                                                                               requires{0<=l}
+           ensures{is_a_ket_l  result l}
+           ensures{forall i : int. 0<= i < power_ 2 l -> get_ket result i = f (int_to_bv i l)}
+  = ket_sum_l (n_bvs l) (fun x -> f x *.. bv_to_ket x)  l
+  
+  let lemma ket_sum_of_scalars (f:bitvec -> complex) (n:int)
+        requires{n>=0}
+        ensures{is_a_ket_l (ket_sum_l (n_bvs n) (fun x -> f x *.. (bv_to_ket x)) n) n}
+        ensures{forall i:int. 0<= i <power_ 2 n -> get (ket_sum_l (n_bvs n) (fun x -> f x *.. (bv_to_ket x)) n) i 0 = f (int_to_bv i n)}
+    =()
+
+       use Bv_mat_sum
+       use complex_operations.Base_type
+
+  let lemma get_ket_sum (f:bitvec -> complex) (n:int) (i:int)
+        requires{0<=i<power 2 n}
+        requires{n>=0}
+        ensures{get_ket (ket_sum_l (n_bvs n) (fun y -> f y *.. bv_to_ket y) n) i = f (int_to_bv i n)}
+    = ket_sum_of_scalars f n    
+    
+  let lemma get_ket_scalar_zero (x: matrix complex) (a: complex) 
+        ensures{get_ket (a*.. x) 0 = a*. get_ket x 0}
+    = get_ket_scalar x a 0
+    
+let rec lemma ket_sum_sum_complex (f: bitvec -> bitvec -> complex) (sx sy : set bitvec)(l:int)
+      requires{0<= l}
+      requires{forall x. mem x sx -> length x = l}
+      requires{forall y. mem y sy -> length y = l}
+      ensures{ket_sum_l sx (fun x -> ket_sum_l sy (fun y -> f x y *.. bv_to_ket y) l) l =
+      ket_sum_l sy (fun y -> sum sx (fun x -> f x y) *.. bv_to_ket y) l}
+      variant{cardinal sx}
+  = if cardinal sx = 0 then ()
+    else if cardinal sx = 1 then ()
+    else
+      begin
+        assert{1 < cardinal sx};
+        ket_sum_sum_complex f (remove (choose sx) sx) sy l;
+          ket_sum_l_plus_one (remove (choose sx) sx) (choose sx) (fun x -> ket_sum_l sy (fun y -> f x y *.. bv_to_ket y) l) l
+      end
+  (* let lemma ket_sum_l_plus_one (s: set 'a) (e:'a)  (f : 'a -> matrix complex)  (l:int)
+   *     requires{0<=l}
+   *       requires{cardinal s > 0}
+   *       requires{not (mem e s)}
+   *     requires{is_a_ket_l (f e) l}
+   *     ensures{ket_sum_l (add e s) f l = add_ket_l (ket_sum_l s f l) (f e) l}
+   * =() *)
+
+                             (* ket_sum_sum_rev (fun x y -> f x y *.. bv_to_ket y) sx sy l l *)
+        use matrices.Matrix_product
+  
+let lemma mat_mult_ket_basis_bv_value (m: matrix complex) (x:bitvec) (i l:int)
+      requires{length  x = l}
+      requires{0<= i < power_ 2 l}
+      requires{columns m = rows m = power_ 2 l}
+      ensures{get_ket (mat_mult m (bv_to_ket x)) i = get m i  (bv_to_int x)}
+                         = mat_mult_ket_basis_bv_gen m (bv_to_ket x)
+
+let lemma mat_mult_ket_basis_bv_value_gen (m: matrix complex)  (l:int)
+      requires{columns m = rows m = power_ 2 l}
+      ensures{forall x:bitvec. forall i:int. length x = l -> 0<= i < power_ 2 l -> get_ket (mat_mult m (bv_to_ket x)) i = get m i  (bv_to_int x)}
+                         = ()
+
+  let lemma mat_mult_ket_injec_eq_left (m n : matrix complex) (l:int)
+requires{rows m = power_ 2 l}
+requires{columns m = power_ 2 l}
+requires{rows n = power_ 2 l}
+requires{columns n = power_ 2 l}
+requires{forall x: bitvec. length x = l -> mat_mult m (bv_to_ket x) = mat_mult n (bv_to_ket x) }
+      ensures{m = n}
+    =
+    mat_mult_ket_basis_bv_value_gen m l;
+    mat_mult_ket_basis_bv_value_gen n l;
+    assert{forall i j. valid_index m i j -> get m j i <> get n j i -> mat_mult m (ket l i) <> mat_mult n (ket l i) };
+    set_equal_mat m n
+  
+end
+

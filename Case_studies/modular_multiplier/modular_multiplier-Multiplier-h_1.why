@@ -1,0 +1,465 @@
+(* this is the prelude for Alt-Ergo, version >= 0.95.2 *)
+(* this is a prelude for Alt-Ergo real arithmetic *)
+(* this is a prelude for Alt-Ergo integer arithmetic *)
+logic infix_eqeq : 'a, 'a -> prop
+
+type t
+
+logic ac infix_asdt : t, t -> t
+
+type 'a set
+
+logic mem : 'a, 'a set -> prop
+
+logic int_iterate : ('im,('im,'im) farray) farray, (int,'im) farray, int,
+  int -> 'im
+
+logic infix_pl_closure : (int,(int,int) farray) farray
+
+axiom infix_pl_closure_def :
+  (forall y:int. forall y1:int. (((infix_pl_closure[y])[y1]) = (y + y1)))
+
+function ind_isum(f: (int,int) farray, i: int, j: int) : int =
+  int_iterate(infix_pl_closure, f, i, j)
+
+logic power : int, int -> int
+
+logic power_ : int, int -> int
+
+axiom power__def :
+  (forall e:int. forall i:int. ((0 <= i) -> (power_(e, i) = power(e, i))))
+
+axiom power__def1 :
+  (forall e:int. forall i:int. ((not (0 <= i)) -> (power_(e, i) = 0)))
+
+logic polysquare : int, int, int, int -> int
+
+type angle
+
+logic ac ang_add : angle, angle -> angle
+
+logic ang_zero : angle
+
+type 'a matrix
+
+logic elts : 'a matrix -> (int,(int,'a) farray) farray
+
+logic rows : 'a matrix -> int
+
+logic columns : 'a matrix -> int
+
+predicate valid_index(a: 'a1 matrix, r: int, c: int) = (((0 <= r) and
+  (r <  rows(a))) and ((0 <= c) and (c <  columns(a))))
+
+function get(a: 'a1 matrix, r: int, c: int) : 'a1 = ((elts(a)[r])[c])
+
+logic make_f : int, int, (int,(int,'a) farray) farray -> 'a matrix
+
+logic result : t matrix, t matrix -> (int,(int,t) farray) farray
+
+axiom result_def :
+  (forall m:t matrix. forall n:t matrix. forall i:int. forall j:int.
+  (((result(m, n)[i])[j]) = infix_asdt(get(m, (i / rows(n)),
+  (j / columns(n))), get(n, (i % rows(n)), (j % columns(n))))))
+
+function kronecker(m: t matrix, n: t matrix) : t matrix =
+  make_f((rows(m) * rows(n)), (columns(m) * columns(n)), result(m, n))
+
+logic max : int, int -> int
+
+axiom max_def : (forall x:int. forall y:int. ((x <= y) -> (max(x, y) = y)))
+
+axiom max_def1 :
+  (forall x:int. forall y:int. ((not (x <= y)) -> (max(x, y) = x)))
+
+logic ang_sum : (int,angle) farray, int, int -> angle
+
+logic ang_add_closure : (angle,(angle,angle) farray) farray
+
+axiom ang_add_closure_def :
+  (forall y:angle. forall y1:angle. (((ang_add_closure[y])[y1]) = ang_add(y,
+  y1)))
+
+axiom ang_sum_def :
+  (forall f:(int,angle) farray. forall i:int. forall j:int. ((j <= i) ->
+  (ang_sum(f, i, j) = ang_zero)))
+
+axiom ang_sum_def1 :
+  (forall f:(int,angle) farray. forall i:int. forall j:int.
+  ((not (j <= i)) -> (ang_sum(f, i, j) = int_iterate(ang_add_closure, f, i,
+  j))))
+
+type bitvec
+
+logic value : bitvec -> (int,int) farray
+
+logic length : bitvec -> int
+
+predicate in_range(bv: bitvec, r: int) = ((0 <= r) and (r <  length(bv)))
+
+logic result1 : bitvec -> (int,int) farray
+
+axiom result_def1 :
+  (forall bv:bitvec. forall k:int. (in_range(bv, k) ->
+  ((result1(bv)[k]) = ((value(bv)[k]) * power(2, ((length(bv) - 1) - k))))))
+
+axiom result_def2 :
+  (forall bv:bitvec. forall k:int. ((not in_range(bv, k)) ->
+  ((result1(bv)[k]) = 1)))
+
+function bv_to_int(bv: bitvec) : int = ind_isum(result1(bv), 0, length(bv))
+
+logic hpart : bitvec, int -> bitvec
+
+logic tpart : bitvec, int -> bitvec
+
+logic ket : int, int -> t matrix
+
+logic bin_to_ket : int, (int,int) farray -> t matrix
+
+function bv_to_ket(bv: bitvec) : t matrix = ket(length(bv), bv_to_int(bv))
+
+type circuit
+
+logic width : circuit -> int
+
+logic size : circuit -> int
+
+logic ancillas : circuit -> int
+
+logic range : circuit -> int
+
+logic basis_ket : circuit, bitvec, bitvec -> bitvec
+
+function basis_ket_i(c: circuit, x: bitvec, y: bitvec, i: int) : int =
+  (value(basis_ket(c, x, y))[i])
+
+logic ang_ind_i : circuit, bitvec, bitvec, int -> angle
+
+logic ang_ind_bound : circuit -> int
+
+logic ang_ind_i_closure : (circuit,(bitvec,(bitvec,(int,angle) farray) farray) farray) farray
+
+axiom ang_ind_i_closure_def :
+  (forall y:circuit. forall y1:bitvec. forall y2:bitvec. forall y3:int.
+  (((((ang_ind_i_closure[y])[y1])[y2])[y3]) = ang_ind_i(y, y1, y2, y3)))
+
+function ang_ind(c: circuit, x: bitvec, y: bitvec) : angle =
+  ang_sum((((ang_ind_i_closure[c])[x])[y]), 0, ang_ind_bound(c))
+
+logic sequence_iter_anc : (int,circuit) farray, int, int, int, int,
+  int -> circuit
+
+logic cont_size : int
+
+logic cont : circuit, int, int, int -> circuit
+
+logic apply_qft : int, int -> t matrix
+
+logic modular_adder : int, int, int -> circuit
+
+logic adder_gate_bound : int -> int
+
+logic pick : int
+
+logic bound : int
+
+logic b : int
+
+logic n : int
+
+logic x : bitvec
+
+logic i : int
+
+logic result2 : circuit
+
+axiom H : (columns(bv_to_ket(x)) = 1)
+
+axiom H1 : (bv_to_ket(x) = bin_to_ket(length(x), value(x)))
+
+axiom H2 : (rows(kronecker(bv_to_ket(x), apply_qft((n + 1),
+  b))) = (rows(bv_to_ket(x)) * rows(apply_qft((n + 1), b))))
+
+axiom H3 : (columns(kronecker(bv_to_ket(x), apply_qft((n + 1),
+  b))) = (columns(bv_to_ket(x)) * columns(apply_qft((n + 1), b))))
+
+axiom H4 :
+  (forall i1:int. forall j:int. (valid_index(kronecker(bv_to_ket(x),
+  apply_qft((n + 1), b)), i1, j) -> (get(kronecker(bv_to_ket(x),
+  apply_qft((n + 1), b)), i1, j) = infix_asdt(get(bv_to_ket(x),
+  (i1 / rows(apply_qft((n + 1), b))), (j / columns(apply_qft((n + 1), b)))),
+  get(apply_qft((n + 1), b), (i1 % rows(apply_qft((n + 1), b))),
+  (j % columns(apply_qft((n + 1), b))))))))
+
+axiom H5 : (size(modular_adder((pick * power_(2, ((n - i) - 1))), bound,
+  n)) <= polysquare((n + 1), ((14 * cont_size) + 12), 0,
+  ((cont_size * 8) + 8)))
+
+axiom H6 : (ancillas(modular_adder((pick * power_(2, ((n - i) - 1))), bound,
+  n)) = 1)
+
+axiom H7 : (ancillas(cont(modular_adder((pick * power_(2, ((n - i) - 1))),
+  bound, n), i, n, ((2 * n) + 1))) = 0)
+
+axiom H8 : (ancillas(cont(modular_adder((pick * power_(2, ((n - i) - 1))),
+  bound, n), i, n, ((2 * n) + 1))) = ancillas(modular_adder((pick * power_(2,
+  ((n - i) - 1))), bound, n)))
+
+logic fc : (int,circuit) farray
+
+axiom fc_def :
+  (forall k:int. ((fc[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom H9 : (ancillas(result2) = max(ancillas(sequence_iter_anc(fc,
+  ((2 * n) + 1), 0, ((i - 1) + 1), 1, (cont_size * adder_gate_bound(n)))),
+  ancillas(cont(modular_adder((pick * power_(2, ((n - i) - 1))), bound, n),
+  i, n, ((2 * n) + 1)))))
+
+logic fc1 : (int,circuit) farray
+
+axiom fc_def1 :
+  (forall k:int. ((fc1[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom H10 : (size(result2) = (size(sequence_iter_anc(fc1, ((2 * n) + 1), 0,
+  ((i - 1) + 1), 1,
+  (cont_size * adder_gate_bound(n)))) + size(cont(modular_adder((pick * power_(2,
+  ((n - i) - 1))), bound, n), i, n, ((2 * n) + 1)))))
+
+logic fc2 : (int,circuit) farray
+
+axiom fc_def2 :
+  (forall k:int. ((fc2[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom H11 : (range(result2) = (range(sequence_iter_anc(fc2, ((2 * n) + 1), 0,
+  ((i - 1) + 1), 1,
+  (cont_size * adder_gate_bound(n)))) + range(cont(modular_adder((pick * power_(2,
+  ((n - i) - 1))), bound, n), i, n, ((2 * n) + 1)))))
+
+logic fc3 : (int,circuit) farray
+
+axiom fc_def3 :
+  (forall k:int. ((fc3[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom H12 : (width(result2) = width(sequence_iter_anc(fc3, ((2 * n) + 1), 0,
+  ((i - 1) + 1), 1, (cont_size * adder_gate_bound(n)))))
+
+logic fc4 : (int,circuit) farray
+
+logic fc5 : (int,circuit) farray
+
+logic fc6 : (int,circuit) farray
+
+axiom fc_def4 :
+  (forall k:int. ((fc4[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom fc_def5 :
+  (forall k:int. ((fc5[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom fc_def6 :
+  (forall k:int. ((fc6[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom H13 :
+  (forall x1:bitvec. forall y:bitvec. ((length(x1) = width(result2)) ->
+  ((length(y) = range(result2)) -> (basis_ket(result2, x1,
+  y) = basis_ket(cont(modular_adder((pick * power_(2, ((n - i) - 1))), bound,
+  n), i, n, ((2 * n) + 1)), basis_ket(sequence_iter_anc(fc4, ((2 * n) + 1),
+  0, ((i - 1) + 1), 1, (cont_size * adder_gate_bound(n))), x1, hpart(y,
+  range(sequence_iter_anc(fc5, ((2 * n) + 1), 0, ((i - 1) + 1), 1,
+  (cont_size * adder_gate_bound(n)))))), tpart(y,
+  range(sequence_iter_anc(fc6, ((2 * n) + 1), 0, ((i - 1) + 1), 1,
+  (cont_size * adder_gate_bound(n))))))))))
+
+logic fc7 : (int,circuit) farray
+
+logic fc8 : (int,circuit) farray
+
+logic fc9 : (int,circuit) farray
+
+logic fc10 : (int,circuit) farray
+
+axiom fc_def7 :
+  (forall k:int. ((fc7[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom fc_def8 :
+  (forall k:int. ((fc8[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom fc_def9 :
+  (forall k:int. ((fc9[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom fc_def10 :
+  (forall k:int. ((fc10[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom H14 :
+  (forall x1:bitvec. forall y:bitvec.
+  (forall i1:int. ((length(x1) = width(result2)) ->
+  ((length(y) = range(result2)) -> (((0 <= i1) and
+  (i1 <  width(sequence_iter_anc(fc7, ((2 * n) + 1), 0, ((i - 1) + 1), 1,
+  (cont_size * adder_gate_bound(n)))))) -> (basis_ket_i(result2, x1, y,
+  i1) = basis_ket_i(cont(modular_adder((pick * power_(2, ((n - i) - 1))),
+  bound, n), i, n, ((2 * n) + 1)), basis_ket(sequence_iter_anc(fc8,
+  ((2 * n) + 1), 0, ((i - 1) + 1), 1, (cont_size * adder_gate_bound(n))), x1,
+  hpart(y, range(sequence_iter_anc(fc9, ((2 * n) + 1), 0, ((i - 1) + 1), 1,
+  (cont_size * adder_gate_bound(n)))))), tpart(y,
+  range(sequence_iter_anc(fc10, ((2 * n) + 1), 0, ((i - 1) + 1), 1,
+  (cont_size * adder_gate_bound(n))))), i1)))))))
+
+logic fc11 : (int,circuit) farray
+
+axiom fc_def11 :
+  (forall k:int. ((fc11[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom H15 : (ang_ind_bound(result2) = (ang_ind_bound(sequence_iter_anc(fc11,
+  ((2 * n) + 1), 0, ((i - 1) + 1), 1,
+  (cont_size * adder_gate_bound(n)))) + ang_ind_bound(cont(modular_adder((pick * power_(2,
+  ((n - i) - 1))), bound, n), i, n, ((2 * n) + 1)))))
+
+logic fc12 : (int,circuit) farray
+
+logic fc13 : (int,circuit) farray
+
+logic fc14 : (int,circuit) farray
+
+logic fc15 : (int,circuit) farray
+
+logic fc16 : (int,circuit) farray
+
+logic fc17 : (int,circuit) farray
+
+logic fc18 : (int,circuit) farray
+
+logic fc19 : (int,circuit) farray
+
+axiom fc_def12 :
+  (forall k:int. ((fc12[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom fc_def13 :
+  (forall k:int. ((fc13[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom fc_def14 :
+  (forall k:int. ((fc14[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom fc_def15 :
+  (forall k:int. ((fc15[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom fc_def16 :
+  (forall k:int. ((fc16[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom fc_def17 :
+  (forall k:int. ((fc17[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom fc_def18 :
+  (forall k:int. ((fc18[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom fc_def19 :
+  (forall k:int. ((fc19[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom H16 :
+  (forall x1:bitvec. forall y:bitvec.
+  (forall i1:int. ((length(x1) = width(result2)) ->
+  ((length(y) = range(result2)) -> (((0 <= i1) and
+  (i1 <  ang_ind_bound(result2))) ->
+  ((i1 <  ang_ind_bound(sequence_iter_anc(fc12, ((2 * n) + 1), 0,
+  ((i - 1) + 1), 1, (cont_size * adder_gate_bound(n))))) ->
+  (ang_ind_i(result2, x1, y, i1) = ang_ind_i(sequence_iter_anc(fc13,
+  ((2 * n) + 1), 0, ((i - 1) + 1), 1, (cont_size * adder_gate_bound(n))), x1,
+  hpart(y, range(sequence_iter_anc(fc14, ((2 * n) + 1), 0, ((i - 1) + 1), 1,
+  (cont_size * adder_gate_bound(n))))), i1))))))))
+
+axiom H17 :
+  (forall x1:bitvec. forall y:bitvec.
+  (forall i1:int. ((length(x1) = width(result2)) ->
+  ((length(y) = range(result2)) -> (((0 <= i1) and
+  (i1 <  ang_ind_bound(result2))) ->
+  ((not (i1 <  ang_ind_bound(sequence_iter_anc(fc15, ((2 * n) + 1), 0,
+  ((i - 1) + 1), 1, (cont_size * adder_gate_bound(n)))))) ->
+  (ang_ind_i(result2, x1, y,
+  i1) = ang_ind_i(cont(modular_adder((pick * power_(2, ((n - i) - 1))),
+  bound, n), i, n, ((2 * n) + 1)), basis_ket(sequence_iter_anc(fc16,
+  ((2 * n) + 1), 0, ((i - 1) + 1), 1, (cont_size * adder_gate_bound(n))), x1,
+  hpart(y, range(sequence_iter_anc(fc17, ((2 * n) + 1), 0, ((i - 1) + 1), 1,
+  (cont_size * adder_gate_bound(n)))))), tpart(y,
+  range(sequence_iter_anc(fc18, ((2 * n) + 1), 0, ((i - 1) + 1), 1,
+  (cont_size * adder_gate_bound(n))))), (i1 - range(sequence_iter_anc(fc19,
+  ((2 * n) + 1), 0, ((i - 1) + 1), 1,
+  (cont_size * adder_gate_bound(n)))))))))))))
+
+logic fc20 : (int,circuit) farray
+
+logic fc21 : (int,circuit) farray
+
+logic fc22 : (int,circuit) farray
+
+logic fc23 : (int,circuit) farray
+
+logic fc24 : (int,circuit) farray
+
+axiom fc_def20 :
+  (forall k:int. ((fc20[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom fc_def21 :
+  (forall k:int. ((fc21[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom fc_def22 :
+  (forall k:int. ((fc22[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom fc_def23 :
+  (forall k:int. ((fc23[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom fc_def24 :
+  (forall k:int. ((fc24[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom H18 :
+  (forall x1:bitvec. forall y:bitvec. ((length(x1) = width(result2)) ->
+  ((length(y) = range(result2)) -> (ang_ind(result2, x1,
+  y) = ang_add(ang_ind(sequence_iter_anc(fc20, ((2 * n) + 1), 0,
+  ((i - 1) + 1), 1, (cont_size * adder_gate_bound(n))), x1, hpart(y,
+  range(sequence_iter_anc(fc21, ((2 * n) + 1), 0, ((i - 1) + 1), 1,
+  (cont_size * adder_gate_bound(n)))))),
+  ang_ind(cont(modular_adder((pick * power_(2, ((n - i) - 1))), bound, n), i,
+  n, ((2 * n) + 1)), basis_ket(sequence_iter_anc(fc22, ((2 * n) + 1), 0,
+  ((i - 1) + 1), 1, (cont_size * adder_gate_bound(n))), x1, hpart(y,
+  range(sequence_iter_anc(fc23, ((2 * n) + 1), 0, ((i - 1) + 1), 1,
+  (cont_size * adder_gate_bound(n)))))), tpart(y,
+  range(sequence_iter_anc(fc24, ((2 * n) + 1), 0, ((i - 1) + 1), 1,
+  (cont_size * adder_gate_bound(n)))))))))))
+
+logic fc25 : (int,circuit) farray
+
+axiom fc_def25 :
+  (forall k:int. ((fc25[k]) = cont(modular_adder((pick * power_(2,
+  ((n - k) - 1))), bound, n), k, n, ((2 * n) + 1))))
+
+axiom H19 : (result2 = sequence_iter_anc(fc25, ((2 * n) + 1), 0, (i + 1), 1,
+  (cont_size * adder_gate_bound(n))))
+
+axiom H20 : (ancillas(result2) = 1)
+
+axiom H21 : (width(result2) = ((2 * n) + 1))
+
+goal h : false

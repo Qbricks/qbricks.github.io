@@ -1,0 +1,63 @@
+(* this is the prelude for Alt-Ergo, version >= 0.95.2 *)
+(* this is a prelude for Alt-Ergo integer arithmetic *)
+type 'a set
+
+logic mem : 'a, 'a set -> prop
+
+logic infix_eqeq : 'a set, 'a set -> prop
+
+axiom infix_eqeq_spec :
+  (forall s1:'a set. forall s2:'a set. (infix_eqeq(s1, s2) ->
+  (forall x:'a. (mem(x, s1) -> mem(x, s2)))))
+
+axiom infix_eqeq_spec1 :
+  (forall s1:'a set. forall s2:'a set. (infix_eqeq(s1, s2) ->
+  (forall x:'a. (mem(x, s2) -> mem(x, s1)))))
+
+axiom infix_eqeq_spec2 :
+  (forall s1:'a set. forall s2:'a set.
+  ((forall x:'a. (mem(x, s1) <-> mem(x, s2))) -> infix_eqeq(s1, s2)))
+
+logic int_iterate : ('im,('im,'im) farray) farray, (int,'im) farray, int,
+  int -> 'im
+
+logic c_iter : ('a,('a,'a) farray) farray, 'a, int -> 'a
+
+axiom C_iter_one :
+  (forall op:('a,('a,'a) farray) farray.
+  (forall i:'a. (c_iter(op, i, 1) = i)))
+
+logic infix_pl_closure : (int,(int,int) farray) farray
+
+axiom infix_pl_closure_def :
+  (forall y:int. forall y1:int. (((infix_pl_closure[y])[y1]) = (y + y1)))
+
+function ind_isum(f: (int,int) farray, i: int, j: int) : int =
+  int_iterate(infix_pl_closure, f, i, j)
+
+logic infix_as_closure : (int,(int,int) farray) farray
+
+axiom infix_as_closure_def :
+  (forall y:int. forall y1:int. (((infix_as_closure[y])[y1]) = (y * y1)))
+
+function power(e: int, i: int) : int = c_iter(infix_as_closure, e, i)
+
+axiom power_plus_one :
+  (forall e:int. forall i:int. (power(e, (i + 1)) = (e * power(e, i))))
+
+logic i : int
+
+axiom H : (1 <= i)
+
+logic o : (int,int) farray
+
+axiom o_def :
+  (forall k:int. (((1 <= k) and (k <  (i + 1))) -> ((o[k]) = power(2,
+  (k - 1)))))
+
+axiom o_def1 :
+  (forall k:int. ((not ((1 <= k) and (k <  (i + 1)))) -> ((o[k]) = 0)))
+
+axiom H1 : (ind_isum(o, 1, i) = ((o[1]) + ind_isum(o, (1 + 1), i)))
+
+goal h : false

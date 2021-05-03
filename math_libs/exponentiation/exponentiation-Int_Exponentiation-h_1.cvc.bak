@@ -1,0 +1,791 @@
+%%% this is a prelude for CVC3 
+%%% this is a prelude for CVC3 integer arithmetic
+uni : TYPE;
+
+ty : TYPE;
+
+sort: (ty, uni) -> BOOLEAN;
+
+witness: (ty) -> uni;
+
+% witness_sort
+  ASSERT (FORALL (a : ty): (sort(a, witness(a))));
+
+int: ty;
+
+bool: ty;
+
+match_bool: (ty, BITVECTOR(1), uni, uni) -> uni;
+
+% match_bool_sort
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (x : BITVECTOR(1), x1 : uni, x2 : uni): (sort(a, match_bool(a, x,
+  x1, x2)))));
+
+% match_bool_True
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (z : uni, z1 : uni):
+  ((sort(a, z)) => (match_bool(a, 0bin1, z, z1) = z))));
+
+% match_bool_False
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (z : uni, z1 : uni):
+  ((sort(a, z1)) => (match_bool(a, 0bin0, z, z1) = z1))));
+
+index_bool: (BITVECTOR(1)) -> INT;
+
+% index_bool_True
+  ASSERT (index_bool(0bin1) = 0);
+
+% index_bool_False
+  ASSERT (index_bool(0bin0) = 1);
+
+% bool_inversion
+  ASSERT (FORALL (u : BITVECTOR(1)): ((u = 0bin1) OR (u = 0bin0)));
+
+infix_mngt: (ty, ty) -> ty;
+
+infix_at: (ty, ty, uni, uni) -> uni;
+
+% infix @_sort
+  ASSERT
+  (FORALL (a : ty, b : ty):
+  (FORALL (x : uni, x1 : uni): (sort(b, infix_at(b, a, x, x1)))));
+
+antisym: (ty, uni) -> BOOLEAN;
+
+t2tb: (BITVECTOR(1)) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x : BITVECTOR(1)): (sort(bool, t2tb(x))));
+
+tb2t: (uni) -> BITVECTOR(1);
+
+% BridgeL
+  ASSERT (FORALL (i : BITVECTOR(1)):PATTERN (t2tb(i)):  (tb2t(t2tb(i)) = i));
+
+% BridgeR
+  ASSERT
+  (FORALL (j : uni):PATTERN (t2tb(tb2t(j))): 
+  ((sort(bool, j)) => (t2tb(tb2t(j)) = j)));
+
+% antisym_def
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (rel : uni):
+  ((antisym(a, rel))
+  <=> (FORALL (a1 : uni, b : uni):
+      ((sort(a, a1))
+      => ((sort(a, b))
+         => ((tb2t(infix_at(bool, a, infix_at(infix_mngt(a, bool), a, rel,
+            a1), b)) = 0bin1)
+            => ((tb2t(infix_at(bool, a, infix_at(infix_mngt(a, bool), a, rel,
+               b), a1)) = 0bin1) => (a1 = b)))))))));
+
+transitive: (ty, uni) -> BOOLEAN;
+
+% transitive_def
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (rel : uni):
+  (((transitive(a, rel))
+   => (FORALL (a1 : uni, b : uni, c : uni):
+      ((tb2t(infix_at(bool, a, infix_at(infix_mngt(a, bool), a, rel, a1),
+      b)) = 0bin1)
+      => ((tb2t(infix_at(bool, a, infix_at(infix_mngt(a, bool), a, rel, b),
+         c)) = 0bin1) => (tb2t(infix_at(bool, a, infix_at(infix_mngt(a,
+         bool), a, rel, a1), c)) = 0bin1)))))
+  AND ((FORALL (a1 : uni, b : uni, c : uni):
+       ((sort(a, a1))
+       => ((sort(a, b))
+          => ((sort(a, c))
+             => ((tb2t(infix_at(bool, a, infix_at(infix_mngt(a, bool), a,
+                rel, a1), b)) = 0bin1)
+                => ((tb2t(infix_at(bool, a, infix_at(infix_mngt(a, bool), a,
+                   rel, b), c)) = 0bin1) => (tb2t(infix_at(bool, a, infix_at(
+                   infix_mngt(a, bool), a, rel, a1), c)) = 0bin1)))))))
+      => (transitive(a, rel))))));
+
+reflexive: (ty, uni) -> BOOLEAN;
+
+% reflexive_def
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (rel : uni):
+  (((reflexive(a, rel))
+   => (FORALL (a1 : uni): (tb2t(infix_at(bool, a, infix_at(infix_mngt(a,
+      bool), a, rel, a1), a1)) = 0bin1)))
+  AND ((FORALL (a1 : uni):
+       ((sort(a, a1)) => (tb2t(infix_at(bool, a, infix_at(infix_mngt(a,
+       bool), a, rel, a1), a1)) = 0bin1)))
+      => (reflexive(a, rel))))));
+
+% set_reflexive
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (rel : uni):
+  ((FORALL (a1 : uni):
+   ((sort(a, a1)) => (tb2t(infix_at(bool, a, infix_at(infix_mngt(a, bool), a,
+   rel, a1), a1)) = 0bin1)))
+  => (reflexive(a, rel)))));
+
+set: (ty) -> ty;
+
+mem: (ty, uni, uni) -> BOOLEAN;
+
+infix_eqeq: (ty, uni, uni) -> BOOLEAN;
+
+% infix ==_spec
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (s1 : uni, s2 : uni):
+  (((infix_eqeq(a, s1, s2))
+   => (FORALL (x : uni): ((mem(a, x, s1)) <=> (mem(a, x, s2)))))
+  AND ((FORALL (x : uni):
+       ((sort(a, x)) => ((mem(a, x, s1)) <=> (mem(a, x, s2)))))
+      => (infix_eqeq(a, s1, s2))))));
+
+% extensionality
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (s1 : uni, s2 : uni):
+  ((sort(set(a), s1))
+  => ((sort(set(a), s2)) => ((infix_eqeq(a, s1, s2)) => (s1 = s2))))));
+
+is_empty: (ty, uni) -> BOOLEAN;
+
+empty: (ty) -> uni;
+
+% empty_sort
+  ASSERT (FORALL (a : ty): (sort(set(a), empty(a))));
+
+% empty_def
+  ASSERT (FORALL (a : ty): (is_empty(a, empty(a))));
+
+add: (ty, uni, uni) -> uni;
+
+% add_sort
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (x : uni, x1 : uni): (sort(set(a), add(a, x, x1)))));
+
+remove: (ty, uni, uni) -> uni;
+
+% remove_sort
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (x : uni, x1 : uni): (sort(set(a), remove(a, x, x1)))));
+
+% add_remove
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (x : uni, s : uni):
+  ((sort(set(a), s)) => ((mem(a, x, s)) => (add(a, x, remove(a, x, s)) = s)))));
+
+union: (ty, uni, uni) -> uni;
+
+% union_sort
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (x : uni, x1 : uni): (sort(set(a), union(a, x, x1)))));
+
+inter: (ty, uni, uni) -> uni;
+
+% inter_sort
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (x : uni, x1 : uni): (sort(set(a), inter(a, x, x1)))));
+
+diff: (ty, uni, uni) -> uni;
+
+% diff_sort
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (x : uni, x1 : uni): (sort(set(a), diff(a, x, x1)))));
+
+cardinal: (ty, uni) -> INT;
+
+filter: (ty, uni, uni) -> uni;
+
+% filter_sort
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (x : uni, x1 : uni): (sort(set(a), filter(a, x, x1)))));
+
+map: (ty, ty, uni, uni) -> uni;
+
+% map_sort
+  ASSERT
+  (FORALL (a : ty, b : ty):
+  (FORALL (x : uni, x1 : uni): (sort(set(b), map(b, a, x, x1)))));
+
+tuple2: (ty, ty) -> ty;
+
+Tuple2: (ty, ty, uni, uni) -> uni;
+
+% Tuple2_sort
+  ASSERT
+  (FORALL (a : ty, a1 : ty):
+  (FORALL (x : uni, x1 : uni): (sort(tuple2(a1, a), Tuple2(a1, a, x, x1)))));
+
+Tuple2_proj_1: (ty, ty, uni) -> uni;
+
+% Tuple2_proj_1_sort
+  ASSERT
+  (FORALL (a : ty, a1 : ty):
+  (FORALL (x : uni): (sort(a1, Tuple2_proj_1(a1, a, x)))));
+
+% Tuple2_proj_1_def
+  ASSERT
+  (FORALL (a : ty, a1 : ty):
+  (FORALL (u : uni, u1 : uni):
+  ((sort(a1, u)) => (Tuple2_proj_1(a1, a, Tuple2(a1, a, u, u1)) = u))));
+
+Tuple2_proj_2: (ty, ty, uni) -> uni;
+
+% Tuple2_proj_2_sort
+  ASSERT
+  (FORALL (a : ty, a1 : ty):
+  (FORALL (x : uni): (sort(a, Tuple2_proj_2(a1, a, x)))));
+
+% Tuple2_proj_2_def
+  ASSERT
+  (FORALL (a : ty, a1 : ty):
+  (FORALL (u : uni, u1 : uni):
+  ((sort(a, u1)) => (Tuple2_proj_2(a1, a, Tuple2(a1, a, u, u1)) = u1))));
+
+% tuple2_inversion
+  ASSERT
+  (FORALL (a : ty, a1 : ty):
+  (FORALL (u : uni):
+  ((sort(tuple2(a1, a), u)) => (u = Tuple2(a1, a, Tuple2_proj_1(a1, a, u), 
+  Tuple2_proj_2(a1, a, u))))));
+
+right_injections: (ty, ty, uni, uni) -> uni;
+
+% right_injections_sort
+  ASSERT
+  (FORALL (a : ty, b : ty):
+  (FORALL (x : uni, x1 : uni): (sort(set(tuple2(a, b)), right_injections(b,
+  a, x, x1)))));
+
+Tuple2_closure: (ty, ty) -> uni;
+
+% Tuple2_closure_sort
+  ASSERT
+  (FORALL (a : ty, a1 : ty): (sort(infix_mngt(a1, infix_mngt(a, tuple2(a1,
+  a))), Tuple2_closure(a1, a))));
+
+% Tuple2_closure_def
+  ASSERT
+  (FORALL (a : ty, a1 : ty):
+  (FORALL (y : uni, y1 : uni): (infix_at(tuple2(a1, a), a, infix_at(
+  infix_mngt(a, tuple2(a1, a)), a1, Tuple2_closure(a1, a), y), y1) = 
+  Tuple2(a1, a, y, y1))));
+
+% right_injections_spec
+  ASSERT
+  (FORALL (a : ty, b : ty):
+  (FORALL (a1 : uni, s : uni):
+  ((sort(a, a1))
+  => ((cardinal(tuple2(a, b), right_injections(b, a, a1, s)) = cardinal(b,
+     s))
+     AND ((FORALL (aqt : uni):
+          ((sort(a, aqt))
+          => (FORALL (b1 : uni):
+             ((mem(tuple2(a, b), Tuple2(a, b, aqt, b1), right_injections(b,
+             a, a1, s))) <=> ((aqt = a1) AND (mem(b, b1, s)))))))
+         AND (right_injections(b, a, a1, s) = map(tuple2(a, b), b, infix_at(
+         infix_mngt(b, tuple2(a, b)), a, Tuple2_closure(a, b), a1), s)))))));
+
+% cardinal_sum_empty_inter
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (s : uni, sqt : uni):
+  ((inter(a, s, sqt) = empty(a)) => (cardinal(a, union(a, s, sqt)) = (
+  cardinal(a, s) + cardinal(a, sqt))))));
+
+cartesian_product: (ty, ty, uni, uni) -> uni;
+
+% cartesian_product_sort
+  ASSERT
+  (FORALL (a : ty, b : ty):
+  (FORALL (x : uni, x1 : uni): (sort(set(tuple2(a, b)), cartesian_product(b,
+  a, x, x1)))));
+
+% disjoint_cartesian_product_l
+  ASSERT
+  (FORALL (a : ty, b : ty):
+  (FORALL (s1 : uni, s2 : uni, s3 : uni):
+  ((inter(a, s1, s2) = empty(a)) => (inter(tuple2(a, b), cartesian_product(b,
+  a, s1, s3), cartesian_product(b, a, s2, s3)) = empty(tuple2(a, b))))));
+
+op_neutral_left: (ty, uni, uni) -> BOOLEAN;
+
+% op_neutral_left_def
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni, neutral : uni):
+  ((op_neutral_left(im, op, neutral))
+  <=> (FORALL (e : uni):
+      ((sort(im, e)) => (infix_at(im, im, infix_at(infix_mngt(im, im), im,
+      op, neutral), e) = e))))));
+
+op_neutral_right: (ty, uni, uni) -> BOOLEAN;
+
+% op_neutral_right_def
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni, neutral : uni):
+  ((op_neutral_right(im, op, neutral))
+  <=> (FORALL (e : uni):
+      ((sort(im, e)) => (infix_at(im, im, infix_at(infix_mngt(im, im), im,
+      op, e), neutral) = e))))));
+
+op_assoc: (ty, uni) -> BOOLEAN;
+
+% op_assoc_def
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni):
+  (((op_assoc(im, op))
+   => (FORALL (a : uni, b : uni, c : uni): (infix_at(im, im, infix_at(
+      infix_mngt(im, im), im, op, infix_at(im, im, infix_at(infix_mngt(im,
+      im), im, op, a), b)), c) = infix_at(im, im, infix_at(infix_mngt(im,
+      im), im, op, a), infix_at(im, im, infix_at(infix_mngt(im, im), im, op,
+      b), c)))))
+  AND ((FORALL (a : uni, b : uni, c : uni):
+       ((sort(im, a))
+       => ((sort(im, b))
+          => ((sort(im, c)) => (infix_at(im, im, infix_at(infix_mngt(im, im),
+             im, op, infix_at(im, im, infix_at(infix_mngt(im, im), im, op,
+             a), b)), c) = infix_at(im, im, infix_at(infix_mngt(im, im), im,
+             op, a), infix_at(im, im, infix_at(infix_mngt(im, im), im, op,
+             b), c)))))))
+      => (op_assoc(im, op))))));
+
+op_neutral_left_comm: (ty, uni, uni) -> BOOLEAN;
+
+% op_neutral_left_comm_def
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni, neutral : uni):
+  ((sort(im, neutral))
+  => ((op_neutral_left_comm(im, op, neutral))
+     <=> (FORALL (a : uni):
+         ((sort(im, a))
+         => ((FORALL (b : uni):
+             ((sort(im, b)) => (infix_at(im, im, infix_at(infix_mngt(im, im),
+             im, op, a), b) = b)))
+            => (a = neutral))))))));
+
+commut: (ty, uni) -> BOOLEAN;
+
+% commut_def
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni):
+  (((commut(im, op))
+   => (FORALL (a : uni, b : uni): (infix_at(im, im, infix_at(infix_mngt(im,
+      im), im, op, a), b) = infix_at(im, im, infix_at(infix_mngt(im, im), im,
+      op, b), a))))
+  AND ((FORALL (a : uni, b : uni):
+       ((sort(im, a))
+       => ((sort(im, b)) => (infix_at(im, im, infix_at(infix_mngt(im, im),
+          im, op, a), b) = infix_at(im, im, infix_at(infix_mngt(im, im), im,
+          op, b), a)))))
+      => (commut(im, op))))));
+
+assoc: (ty, uni) -> BOOLEAN;
+
+% assoc_def
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni):
+  (((assoc(im, op))
+   => (FORALL (a : uni, b : uni, c : uni): (infix_at(im, im, infix_at(
+      infix_mngt(im, im), im, op, infix_at(im, im, infix_at(infix_mngt(im,
+      im), im, op, a), b)), c) = infix_at(im, im, infix_at(infix_mngt(im,
+      im), im, op, a), infix_at(im, im, infix_at(infix_mngt(im, im), im, op,
+      b), c)))))
+  AND ((FORALL (a : uni, b : uni, c : uni):
+       ((sort(im, a))
+       => ((sort(im, b))
+          => ((sort(im, c)) => (infix_at(im, im, infix_at(infix_mngt(im, im),
+             im, op, infix_at(im, im, infix_at(infix_mngt(im, im), im, op,
+             a), b)), c) = infix_at(im, im, infix_at(infix_mngt(im, im), im,
+             op, a), infix_at(im, im, infix_at(infix_mngt(im, im), im, op,
+             b), c)))))))
+      => (assoc(im, op))))));
+
+opposite_n: (ty, uni, uni, uni) -> BOOLEAN;
+
+% opposite_n_def
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni, po : uni, neutral : uni):
+  ((sort(im, neutral))
+  => (((opposite_n(im, op, po, neutral))
+      => (FORALL (a : uni): (infix_at(im, im, infix_at(infix_mngt(im, im),
+         im, po, a), a) = neutral)))
+     AND ((FORALL (a : uni):
+          ((sort(im, a)) => (infix_at(im, im, infix_at(infix_mngt(im, im),
+          im, po, a), a) = neutral)))
+         => (opposite_n(im, op, po, neutral)))))));
+
+inverse: (ty, uni, uni, uni) -> BOOLEAN;
+
+% inverse_def
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni, po : uni, inver : uni):
+  (((inverse(im, op, po, inver))
+   => (FORALL (a : uni, b : uni): (infix_at(im, im, infix_at(infix_mngt(im,
+      im), im, po, a), b) = infix_at(im, im, infix_at(infix_mngt(im, im), im,
+      op, a), infix_at(im, im, inver, b)))))
+  AND ((FORALL (a : uni, b : uni):
+       ((sort(im, a))
+       => ((sort(im, b)) => (infix_at(im, im, infix_at(infix_mngt(im, im),
+          im, po, a), b) = infix_at(im, im, infix_at(infix_mngt(im, im), im,
+          op, a), infix_at(im, im, inver, b))))))
+      => (inverse(im, op, po, inver))))));
+
+opposite: (ty, uni, uni) -> BOOLEAN;
+
+% opposite_def
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni, po : uni):
+  (((opposite(im, op, po))
+   => (FORALL (a : uni, b : uni):
+      ((sort(im, a)) => (infix_at(im, im, infix_at(infix_mngt(im, im), im,
+      op, infix_at(im, im, infix_at(infix_mngt(im, im), im, po, a), b)),
+      b) = a))))
+  AND ((FORALL (a : uni, b : uni):
+       ((sort(im, a))
+       => ((sort(im, b)) => (infix_at(im, im, infix_at(infix_mngt(im, im),
+          im, op, infix_at(im, im, infix_at(infix_mngt(im, im), im, po, a),
+          b)), b) = a))))
+      => (opposite(im, op, po))))));
+
+opposite_com: (ty, uni, uni) -> BOOLEAN;
+
+% opposite_com_def
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni, po : uni):
+  (((opposite_com(im, op, po))
+   => (FORALL (a : uni, b : uni):
+      ((sort(im, a)) => (infix_at(im, im, infix_at(infix_mngt(im, im), im,
+      po, infix_at(im, im, infix_at(infix_mngt(im, im), im, op, a), b)),
+      b) = a))))
+  AND ((FORALL (a : uni, b : uni):
+       ((sort(im, a))
+       => ((sort(im, b)) => (infix_at(im, im, infix_at(infix_mngt(im, im),
+          im, po, infix_at(im, im, infix_at(infix_mngt(im, im), im, op, a),
+          b)), b) = a))))
+      => (opposite_com(im, op, po))))));
+
+% refl
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni, a : uni, b : uni):
+  ((commut(im, op)) => (infix_at(im, im, infix_at(infix_mngt(im, im), im, op,
+  a), b) = infix_at(im, im, infix_at(infix_mngt(im, im), im, op, b), a)))));
+
+iterates: (ty, uni, uni) -> BOOLEAN;
+
+% iterates_def
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni, neutral : uni):
+  ((iterates(im, op, neutral))
+  <=> ((op_neutral_left(im, op, neutral))
+      AND ((op_neutral_right(im, op, neutral)) AND (op_assoc(im, op)))))));
+
+iterable: (ty, uni) -> BOOLEAN;
+
+% iterable_def
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni):
+  (((iterable(im, op))
+   => (EXISTS (e : uni): ((sort(im, e)) AND (iterates(im, op, e)))))
+  AND ((EXISTS (e : uni): (iterates(im, op, e))) => (iterable(im, op))))));
+
+neutral_elt: (ty, uni) -> uni;
+
+% neutral_elt_sort
+  ASSERT
+  (FORALL (im : ty): (FORALL (x : uni): (sort(im, neutral_elt(im, x)))));
+
+inverse_tuple: (ty, uni, uni, uni) -> BOOLEAN;
+
+% inverse_tuple_def
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni, po : uni, neutral : uni):
+  ((inverse_tuple(im, op, po, neutral))
+  <=> ((opposite_n(im, op, po, neutral))
+      AND ((opposite(im, op, po)) AND (opposite_com(im, op, po)))))));
+
+iterate: (ty, ty, uni, uni, uni) -> uni;
+
+% iterate_sort
+  ASSERT
+  (FORALL (a : ty, im : ty):
+  (FORALL (x : uni, x1 : uni, x2 : uni): (sort(im, iterate(im, a, x, x1,
+  x2)))));
+
+% unic
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni, po : uni, a : uni, b : uni, c : uni):
+  ((sort(im, b))
+  => ((sort(im, c))
+     => ((iterable(im, op))
+        => ((commut(im, op))
+           => ((infix_at(im, im, infix_at(infix_mngt(im, im), im, op, a),
+              b) = infix_at(im, im, infix_at(infix_mngt(im, im), im, op, a),
+              c))
+              => ((inverse_tuple(im, op, po, neutral_elt(im, op)))
+                 => (b = c)))))))));
+
+% substract_comm
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni, po : uni, a : uni, b : uni, c : uni):
+  ((sort(im, b))
+  => ((iterable(im, op))
+     => ((commut(im, op))
+        => ((inverse_tuple(im, op, po, neutral_elt(im, op)))
+           => ((infix_at(im, im, infix_at(infix_mngt(im, im), im, po, 
+              infix_at(im, im, infix_at(infix_mngt(im, im), im, op, a), b)),
+              a) = b)
+              AND ((infix_at(im, im, infix_at(infix_mngt(im, im), im, po, 
+                  infix_at(im, im, infix_at(infix_mngt(im, im), im, op, b),
+                  a)), a) = b)
+                  AND ((infix_at(im, im, infix_at(infix_mngt(im, im), im, po,
+                      a), infix_at(im, im, infix_at(infix_mngt(im, im), im,
+                      po, b), c)) = infix_at(im, im, infix_at(infix_mngt(im,
+                      im), im, op, infix_at(im, im, infix_at(infix_mngt(im,
+                      im), im, po, a), b)), c)) AND (infix_at(im, im, 
+                      infix_at(infix_mngt(im, im), im, po, infix_at(im, im, 
+                      infix_at(infix_mngt(im, im), im, op, a), b)), c) = 
+                      infix_at(im, im, infix_at(infix_mngt(im, im), im, op,
+                      a), infix_at(im, im, infix_at(infix_mngt(im, im), im,
+                      po, b), c))))))))))));
+
+int_iterate: (ty, uni, uni, INT, INT) -> uni;
+
+% int_iterate_sort
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (x : uni, x1 : uni, x2 : INT, x3 : INT): (sort(im, int_iterate(im,
+  x, x1, x2, x3)))));
+
+t2tb1: (INT) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x : INT): (sort(int, t2tb1(x))));
+
+tb2t1: (uni) -> INT;
+
+% BridgeL
+  ASSERT (FORALL (i : INT):PATTERN (t2tb1(i)):  (tb2t1(t2tb1(i)) = i));
+
+% BridgeR
+  ASSERT
+  (FORALL (j : uni):PATTERN (t2tb1(tb2t1(j))):  (t2tb1(tb2t1(j)) = j));
+
+% int_iterate_def
+  ASSERT
+  (FORALL (im : ty):
+  (FORALL (op : uni, f : uni, i : INT, j : INT):
+  (IF (j <= i) THEN (int_iterate(im, op, f, i, j) = neutral_elt(im, op))
+  ELSE (int_iterate(im, op, f, i, j) = infix_at(im, im, infix_at(
+  infix_mngt(im, im), im, op, infix_at(im, int, f, t2tb1(i))), 
+  int_iterate(im, op, f, (i + 1), j))) ENDIF)));
+
+% to_set_spec
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (e : uni):
+  ((sort(a, e))
+  => ((cardinal(a, add(a, e, empty(a))) = 1)
+     AND (FORALL (b : uni):
+         ((sort(a, b)) => ((mem(a, b, add(a, e, empty(a)))) => (b = e))))))));
+
+c_iter: (ty, uni, uni, INT) -> uni;
+
+% c_iter_sort
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (x : uni, x1 : uni, x2 : INT): (sort(a, c_iter(a, x, x1, x2)))));
+
+% C_iter_one
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (op : uni):
+  (FORALL (i : uni): ((sort(a, i)) => (c_iter(a, op, i, 1) = i)))));
+
+infix_pl_closure: (ARRAY INT OF (ARRAY INT OF INT));
+
+infix_as_closure: (ARRAY INT OF (ARRAY INT OF INT));
+
+t2tb2: ((ARRAY INT OF (ARRAY INT OF INT))) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x : (ARRAY INT OF (ARRAY INT OF INT))): (sort(infix_mngt(int, 
+  infix_mngt(int, int)), t2tb2(x))));
+
+tb2t2: (uni) -> (ARRAY INT OF (ARRAY INT OF INT));
+
+% BridgeL
+  ASSERT
+  (FORALL (i : (ARRAY INT OF (ARRAY INT OF INT))):PATTERN (t2tb2(i)):  (
+  tb2t2(t2tb2(i)) = i));
+
+% BridgeR
+  ASSERT
+  (FORALL (j : uni):PATTERN (t2tb2(tb2t2(j))):  (t2tb2(tb2t2(j)) = j));
+
+t2tb3: ((ARRAY INT OF INT)) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x : (ARRAY INT OF INT)): (sort(infix_mngt(int, int), t2tb3(x))));
+
+tb2t3: (uni) -> (ARRAY INT OF INT);
+
+% BridgeL
+  ASSERT
+  (FORALL (i : (ARRAY INT OF INT)):PATTERN (t2tb3(i)):  (tb2t3(
+  t2tb3(i)) = i));
+
+% BridgeR
+  ASSERT
+  (FORALL (j : uni):PATTERN (t2tb3(tb2t3(j))):  (t2tb3(tb2t3(j)) = j));
+
+% infix +_closure_def
+  ASSERT
+  (FORALL (y : INT, y1 : INT): (tb2t1(infix_at(int, int, infix_at(
+  infix_mngt(int, int), int, t2tb2(infix_pl_closure), t2tb1(y)), 
+  t2tb1(y1))) = (y + y1)));
+
+% infix *_closure_def
+  ASSERT
+  (FORALL (y : INT, y1 : INT): (tb2t1(infix_at(int, int, infix_at(
+  infix_mngt(int, int), int, t2tb2(infix_as_closure), t2tb1(y)), 
+  t2tb1(y1))) = (y * y1)));
+
+% neutrals
+  ASSERT
+  ((0 = tb2t1(neutral_elt(int, t2tb2(infix_pl_closure)))) AND (1 = tb2t1(
+  neutral_elt(int, t2tb2(infix_as_closure)))));
+
+isum: (ty, uni, uni) -> INT;
+
+% isum_def
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (s : uni, t : uni): (isum(a, s, t) = tb2t1(iterate(int, a, 
+  t2tb2(infix_pl_closure), s, t)))));
+
+% isum_iter
+  ASSERT (iterates(int, t2tb2(infix_pl_closure), t2tb1(0)));
+
+infix_mn_closure: (ARRAY INT OF (ARRAY INT OF INT));
+
+% infix -_closure_def
+  ASSERT
+  (FORALL (y : INT, y1 : INT): (tb2t1(infix_at(int, int, infix_at(
+  infix_mngt(int, int), int, t2tb2(infix_mn_closure), t2tb1(y)), 
+  t2tb1(y1))) = (y - y1)));
+
+% isum_iter_
+  ASSERT
+  ((opposite_n(int, t2tb2(infix_pl_closure), t2tb2(infix_mn_closure), 
+  t2tb1(0)))
+  AND ((opposite(int, t2tb2(infix_pl_closure), t2tb2(infix_mn_closure)))
+      AND ((opposite_com(int, t2tb2(infix_pl_closure), 
+          t2tb2(infix_mn_closure))) AND (inverse_tuple(int, 
+          t2tb2(infix_pl_closure), t2tb2(infix_mn_closure), t2tb1(0))))));
+
+ind_isum: ((ARRAY INT OF INT), INT, INT) -> INT;
+
+% ind_isum_def
+  ASSERT
+  (FORALL (f : (ARRAY INT OF INT), i : INT, j : INT): (ind_isum(f, i, j) = 
+  tb2t1(int_iterate(int, t2tb2(infix_pl_closure), t2tb3(f), i, j))));
+
+% ind_isum_plus_one
+  ASSERT
+  (FORALL (f : (ARRAY INT OF INT), i : INT, j : INT):
+  ((i < j) => (ind_isum(f, i, j) = (tb2t1(infix_at(int, int, t2tb3(f), 
+  t2tb1(i))) + ind_isum(f, (i + 1), j)))));
+
+fc: (ARRAY INT OF (ARRAY INT OF INT));
+
+% fc_def
+  ASSERT
+  (FORALL (y0 : INT, y1 : INT): (tb2t1(infix_at(int, int, infix_at(
+  infix_mngt(int, int), int, t2tb2(fc), t2tb1(y0)), t2tb1(y1))) = y0));
+
+% ind_isum_const
+  ASSERT
+  (FORALL (k : INT, i : INT, j : INT):
+  ((i < j) => (ind_isum(tb2t3(infix_at(infix_mngt(int, int), int, t2tb2(fc), 
+  t2tb1(k))), i, j) = (k * (j - i)))));
+
+power: (INT, INT) -> INT;
+
+% power_def
+  ASSERT
+  (FORALL (e : INT, i : INT): (power(e, i) = tb2t1(c_iter(int, 
+  t2tb2(infix_as_closure), t2tb1(e), i))));
+
+% power_plus_one
+  ASSERT
+  (FORALL (e : INT, i : INT): (power(e, (i + 1)) = (e * power(e, i))));
+
+% power_sum
+  ASSERT
+  (FORALL (x : INT, n : INT, m : INT): (power(x, (n + m)) = (power(x, n) * 
+  power(x, m))));
+
+fc1: (ARRAY INT OF INT);
+
+% fc_def
+  ASSERT
+  (FORALL (k : INT): (tb2t1(infix_at(int, int, t2tb3(fc1), t2tb1(k))) = 
+  power(2, (k + 1))));
+
+% power_decomp
+  ASSERT
+  (FORALL (i : INT): ((1 <= i) => (ind_isum(fc1, 0, i) < power(2, (i + 1)))));
+
+i: INT;
+
+% H
+  ASSERT (1 <= i);
+
+o: (ARRAY INT OF INT);
+
+% o_def
+  ASSERT
+  (FORALL (k : INT): (tb2t1(infix_at(int, int, t2tb3(o), 
+  t2tb1(k))) = (IF ((1 <= k) AND (k < (i + 1))) THEN power(2, (k - 1))
+               ELSE 0 ENDIF)));
+
+% H
+  ASSERT (ind_isum(o, 1, i) = (tb2t1(infix_at(int, int, t2tb3(o), 
+  t2tb1(1))) + ind_isum(o, (1 + 1), i)));
+
+QUERY
+% h
+  FALSE;

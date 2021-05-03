@@ -1,0 +1,104 @@
+module Shor_spec
+         use shor_circuit.Shor
+         use export modular_multiplier.Multiplier
+         use int.Int
+         use qbricks.Semantics
+         use arit.Inverse
+         use qpe.Phase_estim
+         use qft.Qft
+use p_int.P_minmax
+(* use qbricks.Semantics *)
+use arit.Inverse
+use  exponentiation.Complex_Exponentiation
+use  complex_operations.Base_type
+use qbricks.Circuit_macros
+
+let lemma shor_meas_j_i    (a bound n i j k:int)
+               requires{0<n}
+               requires{0<= a < power_ 2 n}
+               requires{power_ 2 (n-1)< bound < power_ 2 n}
+               requires{a < bound}
+               requires{co_prime a bound}
+               requires{0<= k <(* = div (power_ 2 (2*n)) *) (multi_order a bound)}
+               requires{0<= i < multi_order a bound}
+               requires{0<= j < power_ 2 (2 * n)}
+               requires{j = best_appr_  k a bound n}
+               ensures{i < mod (power_ 2 (2*n)) (multi_order a bound)  ->
+                     ( cpower (i_to_c (div (power_ 2 (2*n)) (multi_order a bound))) 2) *.  (cpower (pow_inv_2 (2*n)) 2*.  (  i_to_c 4/. cpower pi 2)) <=.
+                         proba_measure (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1))) ((int_bit_inversion j (2 * n))* (power_ 2 n) +  mod (power_ a i ) bound) (3*n)}
+               ensures{mod (power_ 2 (2*n)) (multi_order a bound) <= i ->
+                     ( cpower (i_to_c (div (power_ 2 (2*n)) (multi_order a bound) +1)) 2) *.  (cpower (pow_inv_2 (2*n)) 2*.  (  i_to_c 4/. cpower pi 2)) <=.
+                         proba_measure (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1))) ((int_bit_inversion j (2 * n))* (power_ 2 n) + mod (power_ a i ) bound) (3*n)}
+  =transitive_inf_int   bound  (power_ 2 n) (power_ 2 (2*n));
+transitive_inf_int  (multi_order a bound) bound (power_ 2 (2*n));
+transitive_inf_leq_int i (multi_order a bound) (power_ 2 (2*n));
+kronecker_ket_l_sum (ket (2*n) 0) (ket n 1) (2*n) n (width (shor_circ a bound n));
+  div_mod_sim_bound (int_bit_inversion j (2 * n)) (mod (power_ a i) bound)  (power_ 2 n) (power_ 2 (2*n));
+ assert{0 <= ((int_bit_inversion j (2 * n) * power_ 2 n) + mod (power_ a i) bound)   < power_ 2 (3 * n)};
+ assert{forall y. int_qft_rev_coeff  ((y * multi_order a bound) + i) (int_bit_inversion j (2 * n)) (2 * n) =
+          ang_exp (real_to_ang (pow_inv_2 (2*n) *. i_to_c (- j * i))) *. ang_exp (real_to_ang (pow_inv_2 (2*n) *. i_to_c  (- j * multi_order a bound *y)))};
+ if i < mod (power_ 2 (2*n)) (multi_order a bound)  then
+    begin
+      best_appr_bound  k a bound n (div (power_ 2 (2*n)) (multi_order a bound));
+      ind_sum_eq
+        (fun y ->  int_qft_rev_coeff  ((y * multi_order a bound) + i) (int_bit_inversion j (2 * n)) (2 * n))
+        (fun y -> ang_exp (real_to_ang (pow_inv_2 (2*n) *. i_to_c (- j * i))) *. ang_exp (real_to_ang (pow_inv_2 (2*n) *. i_to_c  (- j * multi_order a bound *y))))
+        0 (div (power_ 2 (2*n)) (multi_order a bound));
+      ind_sum_scal (fun y -> ang_exp (real_to_ang (pow_inv_2 (2*n) *. i_to_c  (- j * multi_order a bound *y)))) 
+        0 (div (power_ 2 (2*n)) (multi_order a bound)) (ang_exp (real_to_ang (pow_inv_2 (2*n) *. i_to_c (- j * i))));
+      transitive_infeq (cpower (pow_inv_2 (2*n)) 2 *.( cpower (i_to_c (div (power_ 2 (2*n)) (multi_order a bound))) 2 *.  (  i_to_c 4/. cpower pi 2)))
+        (proba_measure_from_scal_sum_sum_fun (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1)))
+           i (int_bit_inversion j (2 * n)) (div (power_ 2 (2*n)) (multi_order a bound)) (3*n)  n (2*n) (2*n) (fun i1 j1 -> int_qft_rev_coeff  i1 j1 (2*n)) (fun i1 -> i1 * (multi_order a bound) +i)
+           (fun l -> mod (power_ a l) bound)  (pow_inv_2 (2*n)))
+        (proba_measure (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1))) ( (int_bit_inversion j (2 * n)) * (power_ 2 n) + mod (power_ a i ) bound) (3*n))
+     end  else begin
+      best_appr_bound  k a bound n (div (power_ 2 (2*n)) (multi_order a bound) +1);
+      ind_sum_eq
+        (fun y ->  int_qft_rev_coeff  ((y * multi_order a bound) + i) (int_bit_inversion j (2 * n)) (2 * n))
+        (fun y -> ang_exp (real_to_ang (pow_inv_2 (2*n) *. i_to_c (- j * i))) *. ang_exp (real_to_ang (pow_inv_2 (2*n) *. i_to_c  (- j * multi_order a bound *y))))
+        0 (div (power_ 2 (2*n)) (multi_order a bound) +1);
+      ind_sum_scal (fun y -> ang_exp (real_to_ang (pow_inv_2 (2*n) *. i_to_c  (- j * multi_order a bound *y)))) 
+        0 (div (power_ 2 (2*n)) (multi_order a bound) +1 ) (ang_exp (real_to_ang (pow_inv_2 (2*n) *. i_to_c (- j * i))));
+      transitive_infeq (cpower (pow_inv_2 (2*n)) 2 *.( cpower (i_to_c (div (power_ 2 (2*n)) (multi_order a bound) +1)) 2 *.  (  i_to_c 4/. cpower pi 2)))
+        (proba_measure_from_scal_sum_sum_fun (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1)))
+           i (int_bit_inversion j (2 * n)) (div (power_ 2 (2*n)) (multi_order a bound) +1) (3*n)  n (2*n) (2*n) (fun i1 j1 -> int_qft_rev_coeff  i1 j1 (2*n)) (fun i1 -> i1 * (multi_order a bound) +i)
+           (fun l -> mod (power_ a l) bound)  (pow_inv_2 (2*n)))
+        (proba_measure (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1))) ( (int_bit_inversion j (2 * n)) * (power_ 2 n) + mod (power_ a i ) bound) (3*n))
+end
+
+let lemma  shor_meas_i    (a bound n k :int)
+               requires{0<n}
+               requires{0<= a < power_ 2 n}
+               requires{power_ 2 (n-1)< bound < power_ 2 n}
+               requires{a < bound}
+               requires{co_prime a bound}
+               requires{0<= k < multi_order a bound}
+               ensures{sum (to_fset 0   (multi_order a bound))  (fun i ->
+                           if i < mod (power_ 2 (2*n)) (multi_order a bound)  then
+                             ( cpower (i_to_c (div (power_ 2 (2*n)) (multi_order a bound))) 2) *.  (cpower (pow_inv_2 (2*n)) 2*.  (  i_to_c 4/. cpower pi 2))
+                         else ( cpower (i_to_c (div (power_ 2 (2*n)) (multi_order a bound) +1)) 2) *.  (cpower (pow_inv_2 (2*n)) 2*.  (  i_to_c 4/. cpower pi 2)))
+                       <=.   proba_measure_cond (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1)))  (3*n)
+                               (fun y1 ->  div y1 (power_ 2 n) =  int_bit_inversion ( best_appr_ k a bound n) (2 * n))}
+  =   div_mod_sim_bound_gen_r (int_bit_inversion (best_appr_ k a bound n) (2 * n)) (power_ 2 n) (power_ 2 (2*n)) ;
+  proba_measure_set_of_ind  (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1)))
+    (to_fset 0   (multi_order a bound)) (3*n)
+                            (fun y1 ->  div y1 (power_ 2 n) =  int_bit_inversion ( best_appr_ k a bound n) (2 * n)) 
+(fun i -> if  i < mod (power_ 2 (2*n)) (multi_order a bound)  then
+  (cpower (i_to_c (div (power_ 2 (2*n)) (multi_order a bound))) 2) *.  (cpower (pow_inv_2 (2*n)) 2*.  (  i_to_c 4/. cpower pi 2))
+else   (cpower (i_to_c (div (power_ 2 (2*n)) (multi_order a bound)+1)) 2) *.  (cpower (pow_inv_2 (2*n)) 2*.  (  i_to_c 4/. cpower pi 2)))
+                                                                               (fun i ->  (int_bit_inversion (best_appr_ k a bound n) (2 * n)) * (power_ 2 n) + mod (power_ a i ) bound)
+  
+let lemma  shor_meas_spec    (a bound n  :int)
+               requires{0<n}
+               requires{0<= a < power_ 2 n}
+               requires{power_ 2 (n-1)< bound < power_ 2 n}
+               requires{a < bound}
+               requires{co_prime a bound}
+               ensures{  i_to_c 4/. cpower pi 2
+                       <=.   proba_measure_cond (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1)))  (3*n)
+                               (fun y1 -> exists k. 0<= k < multi_order a bound && div y1 (power_ 2 n) =  int_bit_inversion ( best_appr_ k a bound n) (2 * n))}
+               ensures{ (i_to_c (euler_phi (multi_order a bound ))/. i_to_c (multi_order a bound) ) *.  (i_to_c 4/. cpower pi 2)
+                       <=.   proba_measure_cond (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1)))  (3*n)
+                               (fun y1 -> exists k. 0<= k < multi_order a bound && co_prime k (multi_order a bound) && div y1 (power_ 2 n) =  int_bit_inversion ( best_appr_ k a bound n) (2 * n))}
+  = ()
+end

@@ -1,0 +1,54 @@
+module Shor_asymptot
+
+         use shor.Shor_spec
+         use shor_circuit.Shor
+         use export modular_multiplier.Multiplier
+         use int.Int
+         use qbricks.Semantics
+         use arit.Inverse
+         use qpe.Phase_estim
+         use qft.Qft
+         use p_int.P_minmax
+         use arit.Inverse
+         use  exponentiation.Complex_Exponentiation
+         use  complex_operations.Base_type
+         use qbricks.Circuit_macros
+         use arit.Inverse
+use p_set.Fset_comp
+     
+
+                                  
+let predicate asymptotic_bound (f: int->int-> int -> ) (limit : complex)
+  requires{real_ limit}
+  =
+  forall epsilon : complex. c_zero <. epsilon ->
+  exists n'.
+  forall a bound n. n'< n ->
+    0<= a < power_ 2 n ->
+    power_ 2 (n-1)< bound < power_ 2 n ->
+    a < bound ->
+    co_prime a bound ->
+  limit +. epsilon <=.   f a bound n'
+
+(* We have, as a direct application, that multiplication by a real scalar preserves the property: *)
+
+let lemma scalar_asymptotic_bound (f: int->int-> int -> complex) (n: int) (limit scal: complex)
+  requires{real_ limit}
+  requires{asymptotic_bound f  limit}
+  requires{asymptotic_bound (fun i j k -> f i j k *. scal) (limit*.scal)}
+  =()
+
+(* let us take as granted that min_mod_sum has limit (i_to_t 4/. (cpower pi 2) ) *)
+
+val lemma min_mod_sum_limit
+  ensures{asymptotic_bound min_mod_sum}
+  
+  then 
+                 (* ensures{  min_mod_sum a bound n
+                *         <=.   proba_measure_cond (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1)))  (3*n)
+                *                 (fun y1 -> exists k. 0<= k < multi_order a bound && div y1 (power_ 2 n) =   (best_appr_  k a bound n) )}
+                * ensures{ (i_to_c (euler_phi (multi_order a bound ))/. i_to_c (multi_order a bound) ) *.  (min_mod_sum a bound n)
+                *         <=.   proba_measure_cond (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1)))  (3*n)
+                *                 (fun y1 -> exists k. 0<= k < multi_order a bound && co_prime k (multi_order a bound) && div y1 (power_ 2 n) =   (best_appr_  k a bound n) )} *)
+
+end

@@ -1,0 +1,272 @@
+OOB%%% this is a prelude for CVC3 
+%%% this is a prelude for CVC3 real arithmetic
+div_by_zero: (REAL) -> REAL;
+%%% this is a prelude for CVC3 integer arithmetic
+uni : TYPE;
+
+ty : TYPE;
+
+sort: (ty, uni) -> BOOLEAN;
+
+witness: (ty) -> uni;
+
+% witness_sort
+  ASSERT (FORALL (a : ty): (sort(a, witness(a))));
+
+int: ty;
+
+real: ty;
+
+infix_eqeq: (ty, uni, uni) -> BOOLEAN;
+
+% infix ==_spec
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (a1 : uni, b : uni):
+  ((sort(a, a1)) => ((sort(a, b)) => ((infix_eqeq(a, a1, b)) <=> (a1 = b))))));
+
+t : TYPE;
+
+t1: ty;
+
+tzero: t;
+
+tone: t;
+
+prefix_mndt: (t) -> t;
+
+infix_pldt: (t, t) -> t;
+
+infix_asdt: (t, t) -> t;
+
+% NonTrivialRing
+  ASSERT (NOT (tzero = tone));
+
+% add_opposite
+  ASSERT (FORALL (a : t): (infix_pldt(a, prefix_mndt(a)) = tzero));
+
+im: t;
+
+% im_Def
+  ASSERT (infix_asdt(im, im) = prefix_mndt(tone));
+
+r_to_t: (REAL) -> t;
+
+% r_to_t_zero
+  ASSERT (r_to_t(0) = tzero);
+
+% r_to_t_opp
+  ASSERT (FORALL (i : REAL): (r_to_t((- i)) = prefix_mndt(r_to_t(i))));
+
+real_part: (t) -> REAL;
+
+im_part: (t) -> REAL;
+
+% Real_part_add
+  ASSERT
+  (FORALL (i : t, j : t): (real_part(infix_pldt(i, j)) = (real_part(i) + 
+  real_part(j))));
+
+% decomp_mult_im_part
+  ASSERT
+  (FORALL (a : t, b : t): (im_part(infix_asdt(a, b)) = ((real_part(a) * 
+  im_part(b)) + (real_part(b) * im_part(a)))));
+
+% minus_tone
+  ASSERT
+  (FORALL (a : t): (prefix_mndt(a) = infix_asdt(prefix_mndt(tone), a)));
+
+% mult_neg_l
+  ASSERT
+  (FORALL (a : t, b : t): (infix_asdt(prefix_mndt(a), b) = prefix_mndt(
+  infix_asdt(a, b))));
+
+real_: (t) -> BOOLEAN;
+
+t2tb: (REAL) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x : REAL): (sort(real, t2tb(x))));
+
+tb2t: (uni) -> REAL;
+
+% BridgeL
+  ASSERT (FORALL (i : REAL):PATTERN (t2tb(i)):  (tb2t(t2tb(i)) = i));
+
+% BridgeR
+  ASSERT (FORALL (j : uni):PATTERN (t2tb(tb2t(j))):  (t2tb(tb2t(j)) = j));
+
+% real__def
+  ASSERT
+  (FORALL (x : t):
+  ((real_(x)) <=> (infix_eqeq(real, t2tb(im_part(x)), t2tb(0)))));
+
+infix_lseqdt: (t, t) -> BOOLEAN;
+
+t2tb6: (t) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x : t): (sort(t1, t2tb6(x))));
+
+tb2t6: (uni) -> t;
+
+% BridgeL
+  ASSERT (FORALL (i : t):PATTERN (t2tb6(i)):  (tb2t6(t2tb6(i)) = i));
+
+% BridgeR
+  ASSERT
+  (FORALL (j : uni):PATTERN (t2tb6(tb2t6(j))): 
+  ((sort(t1, j)) => (t2tb6(tb2t6(j)) = j)));
+
+% infix <=._def
+  ASSERT
+  (FORALL (x : t, y : t):
+  ((infix_lseqdt(x, y))
+  <=> (((real_(x)) AND ((real_(y)) AND (real_part(x) <= real_part(y))))
+      OR (infix_eqeq(t1, t2tb6(x), t2tb6(y))))));
+
+t_real_part: (t) -> t;
+
+% t_real_part_def
+  ASSERT (FORALL (x : t): (t_real_part(x) = r_to_t(real_part(x))));
+
+t_im_part: (t) -> t;
+
+% t_im_part_def
+  ASSERT (FORALL (x : t): (t_im_part(x) = r_to_t(im_part(x))));
+
+% mult_pos
+  ASSERT
+  (FORALL (x : t, y : t):
+  ((infix_lseqdt(tzero, x))
+  => ((infix_lseqdt(tzero, y)) => (infix_lseqdt(tzero, infix_asdt(x, y))))));
+
+set: (ty) -> ty;
+
+square_rt: (t) -> t;
+
+modulus: (t) -> t;
+
+% modulus_def
+  ASSERT
+  (FORALL (x : t): (modulus(x) = square_rt(infix_pldt(infix_asdt(
+  t_real_part(x), t_real_part(x)), infix_asdt(t_im_part(x), t_im_part(x))))));
+
+infix_mngt: (ty, ty) -> ty;
+
+infix_at: (ty, ty, uni, uni) -> uni;
+
+% infix @_sort
+  ASSERT
+  (FORALL (a : ty, b : ty):
+  (FORALL (x : uni, x1 : uni): (sort(b, infix_at(b, a, x, x1)))));
+
+power: (INT, INT) -> INT;
+
+% real_modulus_pos
+  ASSERT
+  (FORALL (x : t):
+  ((real_(x)) => ((infix_lseqdt(tzero, x)) => (modulus(x) = x))));
+
+matrix: (ty) -> ty;
+
+elts: (ty, uni) -> uni;
+
+% elts_sort
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (x : uni): (sort(infix_mngt(int, infix_mngt(int, a)), elts(a, x)))));
+
+rows: (ty, uni) -> INT;
+
+columns: (ty, uni) -> INT;
+
+get: (ty, uni, INT, INT) -> uni;
+
+% get_sort
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (x : uni, x1 : INT, x2 : INT): (sort(a, get(a, x, x1, x2)))));
+
+t2tb2: (INT) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x : INT): (sort(int, t2tb2(x))));
+
+tb2t2: (uni) -> INT;
+
+% BridgeL
+  ASSERT (FORALL (i : INT):PATTERN (t2tb2(i)):  (tb2t2(t2tb2(i)) = i));
+
+% BridgeR
+  ASSERT
+  (FORALL (j : uni):PATTERN (t2tb2(tb2t2(j))):  (t2tb2(tb2t2(j)) = j));
+
+% get_def
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (a1 : uni, r : INT, c : INT): (get(a, a1, r, c) = infix_at(a, int, 
+  infix_at(infix_mngt(int, a), int, elts(a, a1), t2tb2(r)), t2tb2(c)))));
+
+matrix_t: TYPE;
+
+is_a_ket_l: (matrix_t, INT) -> BOOLEAN;
+
+t2tb18: (matrix_t) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x : matrix_t): (sort(matrix(t1), t2tb18(x))));
+
+tb2t18: (uni) -> matrix_t;
+
+% BridgeL
+  ASSERT
+  (FORALL (i : matrix_t):PATTERN (t2tb18(i)):  (tb2t18(t2tb18(i)) = i));
+
+% BridgeR
+  ASSERT
+  (FORALL (j : uni):PATTERN (t2tb18(tb2t18(j))): 
+  ((sort(matrix(t1), j)) => (t2tb18(tb2t18(j)) = j)));
+
+% is_a_ket_l_def
+  ASSERT
+  (FORALL (m : matrix_t, l : INT):
+  ((is_a_ket_l(m, l))
+  <=> ((0 <= l)
+      AND ((columns(t1, t2tb18(m)) = 1) AND (rows(t1, t2tb18(m)) = power(2,
+          l))))));
+
+ket_norm_l: (matrix_t, INT) -> t;
+
+% ket_norm_one_tone
+  ASSERT
+  (FORALL (x : matrix_t, n : INT):
+  ((n = 1)
+  => ((is_a_ket_l(x, n))
+     => ((infix_pldt(infix_asdt(modulus(tb2t6(get(t1, t2tb18(x), 0, 0))), 
+        modulus(tb2t6(get(t1, t2tb18(x), 0, 0)))), infix_asdt(modulus(tb2t6(
+        get(t1, t2tb18(x), 0, 0))), modulus(tb2t6(get(t1, t2tb18(x), 0,
+        0))))) = tone) AND (ket_norm_l(x, n) = tone)))));
+
+ket: (INT, INT) -> matrix_t;
+
+tuple0 : TYPE;
+
+tuple01: ty;
+
+Tuple0: tuple0;
+
+% tuple0_inversion
+  ASSERT (FORALL (u : tuple0): (u = Tuple0));
+
+% qbit_zero_spec
+  ASSERT
+  ((is_a_ket_l(ket(1, 0), 1))
+  AND ((rows(t1, t2tb18(ket(1, 0))) = 2)
+      AND ((columns(t1, t2tb18(ket(1, 0))) = 1)
+          AND ((tb2t6(get(t1, t2tb18(ket(1, 0)), 0, 0)) = tone) AND (tb2t6(
+              get(t1, t2tb18(ket(1, 0)), 1, 0)) = tzero)))));
+
+QUERY
+% h
+  FALSE;

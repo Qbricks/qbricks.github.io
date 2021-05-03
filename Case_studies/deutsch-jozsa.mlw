@@ -1,0 +1,71 @@
+module Deutsch_jozsa
+         use p_int.Int_comp
+         use complex_operations.Simpl_op               
+         use kets.Superpositions
+         use qbricks.Circuit     
+         use qbricks.Circuit_macros     
+         use qdata.Qreg     
+         use balanced_functions.Balanced
+         use measure.Measure
+     
+val function deutsch_oracle (f: bitvec -> int)(n:int): circuit
+      requires{1<=n}
+      requires{(not (constant_bin f n)) -> balanced_bin f n}
+      ensures{width result = n+1}
+      ensures{forall x: bitvec. forall  y: matrix complex.  is_a_ket_l y 1 ->
+      path_sem result (kronecker (bv_to_ket x) y) = kronecker (bv_to_ket x)  (xor_qbits (ket 1 (f x)) y)}
+
+let function dj_pre (f: bitvec-> int)(n:int): circuit
+      requires{1<=n}
+      requires{(not (constant_bin f n)) -> balanced_bin f n}
+      ensures{size result = (n+1) + size (deutsch_oracle f n)}
+      ensures{ancillas result = ancillas (deutsch_oracle f n)}
+      ensures{width result = n+1}
+      ensures{path_sem result (kronecker (ket n 0) (qbit_one()))
+                = kronecker (pow_inv_sqrt_2 n *.. ket_sum_l (n_bvs n) (fun x ->  (cpower (-. c_one) (f x) *.. bv_to_ket x)) n) ( qbit_minus())}
+  =  path_sem_kron (repeat_had n) hadamard  (superposition_state n)  (ket n 0) (qbit_one()) (qbit_minus()
+       );
+     superposition_xor_qbit_minus f n;
+     path_sem_comp (repeat_had (n+1)) (deutsch_oracle f n)
+       (kronecker (ket n 0) (qbit_one()))
+       (kronecker (superposition_state n) (qbit_minus()))
+       (pow_inv_sqrt_2 n *.. ket_sum_l (n_bvs n)  (fun e -> kronecker (bv_to_ket e ) (xor_qbits (ket 1 (f e)) (qbit_minus()))) (n+1));
+     sequence (repeat_had (n+1)) (deutsch_oracle f n)
+
+let ghost function dj_output (f: bitvec-> int)(n:int): matrix complex
+      requires{1<=n}
+      requires{(not (constant_bin f n)) -> balanced_bin f n}
+      ensures{is_a_ket_l result n}
+        ensures{result = ket_sum_l (n_bvs n) (fun y ->
+                             (sum (n_bvs n) (fun x ->
+                                  (cpower (-. c_one) ((ind_isum (fun i -> getbv x i * getbv y i ) 0 n) + f x)))) *.. bv_to_ket  y ) n}
+        ensures{get_ket result 0 =  sum (n_bvs n) (fun x -> cpower (-. c_one) ( f x))}
+        ensures{constant_bin f n -> proba_measure (pow_inv_2 n *.. result) 0 n = c_one}
+        ensures{balanced_bin f n -> proba_measure (pow_inv_2 n *.. result) 0 n = c_zero}
+  = ket_sum_power_minus_one f (fun x y -> (ind_isum (fun i -> getbv x i * getbv y i ) 0 n)) n;
+    get_ket_sum (fun y -> sum (n_bvs n) (fun x -> (cpower (-. c_one) ((ind_isum (fun i -> getbv x i * getbv y i ) 0 n) + f x)))) n 0;
+    bc_sum f n ;
+    ket_sum_l (n_bvs n) (fun x -> (cpower (-. c_one) (f x)) *.. 
+                                  ket_sum_l (n_bvs n) (fun y ->
+                                      (cpower (-. c_one) (ind_isum (fun i -> getbv x i * getbv y i ) 0 n)) *.. bv_to_ket  y ) n) n
+  
+let function dj (f: bitvec-> int)(n:int): circuit
+      requires{1<=n}
+      requires{(not (constant_bin f n)) -> balanced_bin f n}
+      ensures{size result = 2* n+1 + size (deutsch_oracle f n)}
+      ensures{ancillas result = ancillas (deutsch_oracle f n)}
+      ensures{path_sem result (kronecker (ket n 0) (qbit_one()))
+               = (kronecker (pow_inv_2 n *..  dj_output f n) (qbit_minus()))}
+      ensures{proba_measure (discard (pow_inv_2 n *..  dj_output f n) (qbit_minus()) (path_sem result (kronecker (ket n 0) (qbit_one()))) n (n+1)) 0 n
+              = if balanced_bin f n then c_zero else c_one}
+  = path_sem_repeat_had_superposition  n;
+ place_kron_left (repeat_had n) (n+1) (pow_inv_sqrt_2 n *.. ket_sum_l (n_bvs n) (fun x -> (cpower (-. c_one) (f x)) *.. bv_to_ket x ) n)
+(pow_inv_2 n *.. dj_output f n)  ( qbit_minus());
+   path_sem_comp  (dj_pre f n) (place (repeat_had n) 0 (n+1))
+    (kronecker (ket n 0) (qbit_one()))
+    (kronecker (pow_inv_sqrt_2 n *.. ket_sum_l (n_bvs n) (fun x -> (cpower (-. c_one) (f x)) *.. bv_to_ket x ) n) ( qbit_minus()))
+    (kronecker (pow_inv_2 n *.. dj_output f n) (qbit_minus()));
+  sequence (dj_pre f n) (place (repeat_had n) 0 (n+1)) 
+  
+end
+     

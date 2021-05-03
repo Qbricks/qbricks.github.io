@@ -1,0 +1,2040 @@
+module Div_Mod                                                                                                                
+         use  complex_operations.Base_type
+         use  complex_operations.Indic
+         use  int.Int
+         use  int.EuclideanDivision
+         use  ref.Ref
+         use  int.Abs
+     
+let  lemma div_plus_one (i j:int)
+       requires{0<=i }
+       requires{0< j}
+       ensures{(div i j)*j<= i <  ((div i j)+1)*j}
+  =()
+
+  let lemma mod_is_inf (i j:int)
+       requires{0< j}
+       ensures{mod i j < j}
+    =()
+    
+let lemma zero_add (a1 a2:int)
+  requires{a1 = 0}
+  ensures{a1 + a2 = a2}
+  =()
+    
+let lemma add_zero (a1 a2:int)
+  requires{a2 = 0}
+  ensures{a1 + a2 = a1}
+  =()
+    
+let lemma one_mult (a1 a2:int)
+  requires{a1 = 1}
+  ensures{a1 * a2 = a2}
+  =()
+    
+let lemma mult_one (a1 a2:int)
+  requires{a2 = 1}
+  ensures{a1 * a2 = a1}
+  =()
+  
+let lemma add_eq (a1 a2 b1 b2:int)
+  requires{a1 = a2}
+  requires{b1 = b2}
+  ensures{a1 +b1 = a2 +b2}
+  =()
+  
+let lemma mult_eq (a1 a2 b1 b2:int)
+  requires{a1 = a2}
+  requires{b1 = b2}
+  ensures{a1 *b1 = a2 *b2}
+  =()
+  
+let lemma add_eq_inv (a1 a2 b1 b2:int)
+  requires{a1 = a2}
+  requires{b1 = b2}
+  ensures{a1 +b1 = b2 + a2}
+  =()
+  
+let lemma mult_eq_inv (a1 a2 b1 b2:int)  requires{a1 = a2}
+  requires{b1 = b2}
+  ensures{a1 * b1 = b2 * a2}
+  =()
+  
+let lemma bound_eq (i j:int)
+      requires{0<=i < j}
+      ensures{ i = mod i j }
+  =()
+  
+let lemma bound_eq_rev (i j:int)
+      requires{0<=i < j}
+      ensures{mod i j = i}
+  =()
+  
+let lemma unicity_div_mod (i j q r:int)
+      requires{0<j}
+      requires{i = q*j + r}
+      requires{0 <= r < j }
+      ensures{q = div i j}
+      ensures{r = mod i j}
+  = assert{q * j <=  i < (q+1) * j }
+
+let lemma get_div (j q r:int)
+      requires{0<j}
+      requires{0 <= r < j }
+      ensures{div ((q* j) + r) j = q}
+  = ()
+
+let lemma get_mod (j q r:int)
+      requires{0<j}
+      requires{0 <= r < j }
+      ensures{mod ((q* j) + r) j = r}
+  = ()
+
+let lemma positive_div (i j :int)
+      requires{0<j <i}
+      ensures{0 < div i j}
+  =()
+  
+let lemma div_mod_sim_bound (d m  q r:int)
+      requires{0<= d < r}
+      requires{0<= m < q}
+      ensures{0<= d * q + m < r* q}
+  =()
+
+let lemma div_mod_sim_bound_gen_r (d  q r:int)
+      requires{0<= d < r}
+      ensures{forall m. 0 <= m < q -> 0<= d * q + m < r* q}
+  =()
+
+let lemma unicity_div_gen (j q :int)
+      requires{0<=q}
+      requires{0<j}
+      ensures{forall i: int. 0<= i -> 0<= i - q*j < j -> q = div i j}
+      ensures{forall i: int. 0<= i -> 0<= i - q*j < j -> i - (j * q) = mod i j}
+  = ()
+  
+let lemma bound_mod (i j:int)
+      (* requires{0<=i } *)
+      requires{0< j}
+      ensures{0<= mod i j <j}
+  =()
+
+let lemma mod_eq (a b d:int)
+      requires{a = b}
+      ensures{ mod a d = mod b d}
+  =()
+
+let lemma e_div_eq (a b d:int)
+      requires{a = b}
+      ensures{ div a d = div b d}
+  =()
+
+let lemma decomp (i j : int)
+      requires{0<>j}
+      ensures{i = j*(div i j) + mod i j}
+  =()
+
+let lemma div_mod_eq (i j q:int)
+      requires{0<= i}
+      requires{0<= j}
+      requires{0< q}
+      requires{div i q = div j q}
+      requires{mod i q = mod j q}
+      ensures{i = j}
+  = decomp i q;
+    decomp j q
+
+let lemma mod_zero (i j : int)
+      requires{0<=i}
+      requires{0<j}
+      requires{mod i j = 0}
+      ensures{i = j*(div i j)}
+  =()
+  
+let lemma div_plus_quotient (i j : int)
+      requires{0<=i}
+      requires{0<j}
+      ensures{div  (i+j) j = (div i j)+1}
+  =()
+  
+let lemma div_plus_fact_gen_div (i j k: int)
+      requires{0 < j}
+      (* requires{0 < k} *)
+      ensures{div  (i+(k *j)) j = (div i j) + k}
+  =()
+  
+let lemma mod_plus_fact_gen_mod (i j k : int)
+      requires{0< j}
+      ensures{mod  ((k *j)+i) j = mod i j}
+  =
+  assert{0<= mod  ((k *j)+i) j < abs j};
+  assert{0<= mod  i j < abs j}
+
+let lemma mod_plus_fact_gen_mod_left (i j k : int)
+      requires{0< j}
+      ensures{mod  ((j *k)+i) j = mod i j}
+  = mod_plus_fact_gen_mod i j k
+  
+let  lemma bound_div (i q f:int)
+       requires{0<= i}
+       requires{0 <= q}
+       requires{0 <= f}
+       requires{i < f*q}
+       ensures{0 <= div i q}
+       ensures{0 <= (div i q)*q <= i < q*((div i q)+1)}
+       ensures{div i q < f}
+  =()
+  
+let lemma mod_upper_bound (i q:int)
+       requires{0< i}
+       requires{i= q}
+       ensures{mod i q = 0}
+  =()
+
+let  lemma bound_div_gen ( q f:int)
+       requires{0 < q}
+       requires{0 <= f}
+       ensures{forall i:int. 0<= i < q*f -> div i q < f}
+  =()
+  
+let lemma mod_invariant (i q f:int)
+      requires{0<= i}
+      requires{0 < q}
+      requires{0 < f}
+      ensures{mod (q*(f* (div i (q*f)))+ (mod i (q*f)) )  q  = mod(mod i (q*f))q}
+  =()
+  
+let lemma mod_inf (i q :int)
+      requires{0<= i < q}
+      ensures{mod i  q  = i}
+  =()
+
+    
+let lemma add_mod (a b c:int)
+      requires{c > 0}
+      ensures{mod  (mod a c + mod b c) c = mod (a + b) c}
+  = decomp a c;
+    decomp b c;
+    assert{a+b = (c * (div a c + div b c)) + mod a c + mod b c};
+    mod_plus_fact_gen_mod (mod a c + mod b c) c (div a c + div b c)
+
+let lemma add_mod_eq (a b c d n:int)
+      requires{ 0<n}
+      requires{mod a n = mod c n}
+      requires{mod b n = mod d n}
+      ensures{mod (a+ b) n  = mod (c + d) n}    
+=()
+
+let lemma add_mod_left (a b c:int)
+      requires{c > 0}
+      ensures{mod  (mod a c + b ) c = mod (a + b) c}
+  = add_mod a b c;
+    add_mod (mod a c) b c
+  
+let lemma simpl_add_mod_left (a b c:int)
+      requires{c > 0}
+      requires{mod a c =0}
+      ensures{ mod (a + b) c = mod b c}
+  = add_mod_left  a b c
+  
+let lemma add_mod_right (a b c:int)
+      requires{c > 0}
+      ensures{mod  ( a  + mod  b c) c = mod (a + b) c}
+  = ()
+
+  
+let lemma mod_mod_left (i j f:int)
+      requires{0< j}
+      requires{0< f}
+      ensures{mod (mod i (f*j) ) j = mod i j }
+  =  assert {mod i j  = mod ((f*j)* (div i (f*j))+ (mod i (f*j)) )  j  };
+     assert{mod (j*(f* (div i (f*j)))+ (mod i (f*j)) )  j  = mod(mod i (f*j))j}
+
+let lemma mult_mod (a b c:int)
+      requires{c > 0}
+      ensures{mod  (mod a c * mod b c) c = mod (a * b) c}
+  = decomp a c;
+    decomp b c;
+    decomp (a*b) c;
+    decomp (mod a c * mod b c) c;
+    assert{a*b = (div a c * c) * (div b c * c + mod b c) + (mod a  c) * (div b c * c + mod b c )
+      = c * (div a c * (div b c * c + mod b c) +  mod a c * div b c) + mod a c * mod b c}
+
+let lemma mod_mod_mult (a b c : int)
+      requires{0<b}
+      ensures{mod (mod a b * mod c b) b = mod (a*c) b}
+  =()
+
+let lemma mod_mod_mult_rev (a b c : int)
+      requires{0<b}
+      ensures{ mod (a*c) b = mod (mod a b * mod c b) b }
+  =()
+  
+let lemma mod_mod_i (i j f:int)
+      requires{0< j}
+      ensures{mod (mod i j ) j = mod i j }
+  = ()
+  
+let lemma binary_prod (i j f:int)
+      requires{0<= i}
+      requires{0< j}
+      ensures{mod (mod i 2 *  mod j 2) 2 = mod (i* j) 2 }
+  = ()
+
+let lemma mod_minus (a b c : int)
+      requires{0<b}
+      requires{mod a b = c}
+      ensures{mod (-a) b = mod (-c) b}
+  =()
+    
+let lemma mult_mod_left (a b c:int)
+      requires{c > 0}
+      ensures{mod ( (mod a c) * b ) c = mod (a * b) c}
+  = assert{(mod a c) * b = (c* mod a c * div b c) + mod a c * mod b c};
+    assert{mod ( (mod a c) * b ) c = mod (mod a c * mod b c) c};
+    mult_mod a b c 
+    
+let lemma mult_mod_right (a b c:int)
+      requires{c > 0}
+      ensures{mod  ( a  * mod  b c) c = mod (a * b) c}
+  = ()
+  
+let lemma mod_mod_right (i j f:int)
+      requires{0<= i}
+      requires{0< j}
+      requires{0< f}
+      ensures{mod (mod i (j*f) ) j = mod i j }
+  =
+  assert {mod i j  = mod ((j*f)* (div i (j*f))+ (mod i (j*f)) )  j  };
+  assert{mod (j*(f* (div i (j*f)))+ (mod i (j*f)) )  j  = mod(mod i (j*f))j}
+  
+let lemma mod_mod_rev (i j f:int)
+      requires{0<= i}
+      requires{0< j}
+      requires{0< f}
+      ensures{ mod i j  = mod (mod i (j*f) ) j}
+      ensures{ mod i j  = mod (mod i (f*j) ) j}
+  = assert {mod i j  = mod ((j*f)* (div i (j*f))+ (mod i (j*f)) )  j  };
+    assert{mod (j*(f* (div i (j*f)))+ (mod i (j*f)) )  j  = mod(mod i (j*f))j}
+
+let lemma mod_mod_plus (i j: int)                                                           
+      requires{0<= i}
+      requires{0 < j} 
+      ensures{mod  i j = mod (mod i (j+j)) j}
+  = assert{j+j = 2*j}
+
+let lemma mod_mod_add_left (a b c : int)
+      requires{0< c}
+  ensures{mod (mod a c + b) c = mod (a+b) c}
+  =()
+  
+let lemma mod_mod_add_right (a b c : int)
+      requires{0< c}
+  ensures{mod ( a  + mod b c) c = mod (a+b) c}
+  =()
+  
+let lemma mod_mod_add_left_rev (a b c : int)
+      requires{0< c}
+  ensures{mod (a+b) c = mod (mod a c + b) c }
+  =()
+  
+let lemma mod_mod_add_right_rev (a b c : int)
+      requires{0< c}
+  ensures{mod (a+b) c = mod ( a  + mod b c) c}
+  =()
+  
+let lemma mult_assoc (i q f : int)
+      requires{0<= i}
+      requires{0 < q}
+      requires{0 < f}
+      ensures{q*(f* (div i (q*f))) = (q*f)* (div i (q*f))}
+  =()
+  
+let lemma div_div  (i j k :int)
+      requires{ 0<= i}
+      requires{ 0 < j }
+      requires{ 0 < k }
+      ensures{div (div i k ) j = div i (k*j)}
+      ensures{div (div i k ) j = div i (j*k)}
+  =
+  assert {i = (div i k)*k+mod i k};                                                                      
+  assert{mod i k <= (k-1)};
+  assert{(div i k) = (div (div i k ) j)* j + mod  (div i k ) j};
+  assert{mod  (div i k ) j <= (j-1)};
+  assert{(mod  (div i k ) j)* k <= (j-1)*k};
+  assert{i = ((div (div i k ) j)* j + (mod  (div i k ) j))* k + mod i k};
+  assert{i = ((div (div i k ) j)* j)*k + ((mod  (div i k ) j))* k + mod i k};
+  assert{i = (div (div i k ) j)* (j*k) + ((mod  (div i k ) j))* k + mod i k};
+  assert{ (mod  (div i k ) j)* k + mod i k <= k * (j-1) + (k-1)};
+  unicity_div_mod i (j*k) (div (div i k ) j) ((mod  (div i k ) j)* k + mod i k) 
+
+let lemma compat_order_div (i i' j:int)
+      requires{ 0<= i <= i'}
+      requires{ 0 < j }
+      ensures{div i j <= div i' j}
+  =()
+  
+let lemma mod_div  (i j k:int)
+      requires{0<= i}
+      requires{0< j}
+      requires{0< k}
+      ensures{div (mod i (j*k)) j = mod (div i j ) k}
+  =
+  assert { div i j  = (div (div i j) k) * k + mod (div i j) k};
+  assert { div i j  = (div i  (j*k)) * k + mod (div i j) k};
+  assert { i  = ((div i  (j*k)) * k + mod (div i j) k) * j + mod i j};
+  assert { i  = (div i  (j*k)) * (k*j) + (mod (div i j) k) * j + mod i j};
+  assert{mod i (j*k) =  (div (mod i (j*k)) j)*j + mod (mod i (j*k)) j };     
+  assert{mod i (j*k) =  (div (mod i (j*k)) j)*j + mod i j };     
+  assert{i = (div i (j*k))*(j*k) +(div (mod i (j*k)) j)*j + mod i j };
+  ()
+  
+let lemma inf_mul( ia ib a b:int)
+      requires{0<=ia < a}
+      requires{0<=ib < b}
+      ensures{a * ib + ia < a * b}
+      ensures{ib * a + ia< b * a}
+  =
+  assert{ib <= b-1};
+  assert{a* ib <= a* (b-1)};
+  assert{a* ib + ia <= a* (b-1) +ia};
+  assert{a* (b-1) +ia < a* b}
+
+let lemma inf_mul_gen (n v p:int)
+      requires{0<= p < v}
+      ensures{forall k:int. 0<= k < n -> k*v +p < n*v}
+  =()
+
+let lemma inf_mul_gen_b (n v p:int)
+      requires{0<= p< n}
+      ensures{forall k:int. 0<= k < v -> p*v +k < n*v}
+  =()
+  
+let lemma inf_mul_comm(i  bi quot rest :int)
+      requires{0<= i < bi}
+      requires{0 < rest}
+      requires{0 < quot}
+      requires{bi = quot * rest}
+      ensures{mod  i rest < rest}
+  = () 
+
+let lemma indic_div_mod (i j q:int)
+      requires{0<= i}
+      requires{0<= j}
+      requires{0< q}
+      ensures{indic i j = indic (mod i q) (mod j q) *.indic (div i q) (div j q) }
+  =assert{i = j <-> div i q = div j q /\ mod i q = mod j q}
+
+let lemma indic_div_mod_gen ( q:int)
+      requires{0< q}
+      ensures{forall i j. 0<= i /\ 0<= j -> indic i j = indic (mod i q) (mod j q) *.indic (div i q) (div j q) }
+  =()
+
+let lemma set_inf (i j:int)
+      requires{i < j}
+      ensures{i < j}
+  =()
+  
+let lemma set_infeq (i j:int)
+      requires{i <= j}
+      ensures{i <= j}
+  =()
+
+let rec lemma bounded_cycle (a b c d:int)
+      requires{0<= a}
+      requires{0< b}
+      requires{0<= d < b}
+      requires{0< c}
+      ensures{div ((a*b) + d) (b * c) = div a c}
+      variant{div a c}
+  = if a < c then ()
+                    else
+                      begin
+                        assert{(a* b + d) = (a- c) * b + b* c+  d};
+                        bounded_cycle (a- c) b c d;
+                        assert{div ((a*b) + d) (b * c) = div (((a-c)*b) + d) (b * c) +1}
+                        end
+
+let lemma div_mod_minus (a b:int)
+      requires{0< b}
+      requires{0 < a}
+      ensures{mod (-a) b = b - mod a b}
+  =()
+
+use set.Fset
+use p_int.Int_comp
+
+let rec lemma mod_mod_iproduct (s: set 'a) (f: 'a-> int) (b:int)
+      requires{0<b}
+      ensures{mod (iproduct s (fun i -> mod (f i) b))b = mod (iproduct s f)b }
+      variant{cardinal s}
+  = if cardinal s = 0 then ()
+    else
+      begin
+        mod_mod_iproduct (remove (choose s)s) f b;
+      iproduct_from_choose s f;
+      iproduct_from_choose s (fun i -> mod (f i) b);
+      end
+
+use p_int.Int_comp
+
+let rec lemma ind_isum_mod_eq (f g : int -> int) (i j n:int)
+          requires{0<n}
+          requires{forall k. i <= k < j -> mod (f k) n = mod (g k) n }
+          ensures{mod (ind_isum f i j) n = mod (ind_isum g i j) n}
+      variant{j-i}
+  = if j<= i then ()
+    else begin
+        assert{i < j};
+        ind_isum_mod_eq f g (i+1) j n;
+        ind_isum_plus_one f i j;
+        ind_isum_plus_one g i j;
+      end
+
+  
+
+end
+
+module Base_arit
+         use  Div_Mod
+         use  int.Int
+         use  p_int.Int_comp
+         use  exponentiation.Int_Exponentiation
+         use  int.EuclideanDivision
+         use  p_set.IndexestoSet
+         use  functions.MapInjection
+         use  ref.Ref
+         use  fsum.Iterations
+         use  fsum.Int_iter
+
+let rec lemma power_minus_one (i:int)
+          requires{i>=0}          
+          ensures{mod i 2 = 0 -> power (-1) i = 1}  
+          ensures{mod i 2 = 1 -> power (-1) i = -1}  
+          variant{i}
+  = if i = 0 then ()
+else
+  begin
+    power_plus_one (-1) (i-1);
+    power_minus_one (i-1);
+  end
+
+let ghost function kth_right (i  k h  : int)(f: int -> int) : int
+                                                                requires {0<= i}
+                                                                requires {1 <= k}
+                                                                requires {forall l. h-k <= l < h -> 0 < f l}
+                                                                ensures {0<= result < f (h-k)}                                      
+  =   mod (div i (ind_iproduct f (h-k+1) h)) (f (h-k))
+
+let lemma kth_right_eq (i  k h  : int)(f g: int -> int)
+      requires {0<= i}
+      requires {1 <= k}
+      requires {forall l. h-k <= l <= h -> 0 < f l}
+      requires {forall l. h-k <= l <= h ->  f l = g l}
+      ensures{kth_right i k h f = kth_right i k h g}
+  =  ()
+
+let lemma kth_right_trans (i  k h t : int)(f: int -> int)
+      requires {0<= i}
+      requires {1 <= k}
+      requires {forall l. 0 < f l}
+      requires{0<=h}
+      requires{0<= t}
+      ensures{  kth_right (div i (ind_iproduct f h (h+t))) k h f =  kth_right i (k+t) (h+t) f}
+  = ind_iproduct_trans f (h-k+1) h (h+t);
+    div_div i (ind_iproduct f (h-k+1) h) (ind_iproduct f h (h+t))
+    
+let ghost function kth_left (i k l  h  : int)(f: int -> int) : int
+                                                                 requires {0<= i}
+                                                                 requires {0<= l}
+                                                                 requires {1 <= k<= h-l}
+                                                                 requires {forall ind. l <= ind<h ->  0 < f ind}
+                                                                 ensures{result =  mod (div i (ind_iproduct f (l+k) h)) (f (l+k-1))}
+                                                                 ensures {0<= result < f (l+k-1)}                                      
+  =      assert{kth_right i (h-l-k+1) h (fun ind -> if  l<= ind<h then f ind else 1) = kth_right i (h-l-k+1) h f};
+         kth_right i (h-l-k+1) h f
+         
+let lemma kth_left_eq (i k l  h  : int)(f g: int -> int)
+      requires {0<= i}
+      requires {1 <= k<= h-l}
+      requires {0<= l}
+      requires {forall ind. l<= ind<h -> f ind = g ind > 0}
+      ensures{kth_left i k l h f= kth_left i k l h g}
+  =   assert{kth_left i k l h f= mod (div i (ind_iproduct f (l+k) h)) (f (l+k-1))};
+      assert{kth_left i k l h g= mod (div i (ind_iproduct g (l+k) h)) (g (l+k-1))};
+      assert{(ind_iproduct f (l+k) h) = (ind_iproduct g (l+k) h)}
+      
+let lemma kth_left_to_mod_div (i k l h:int) (f: int -> int) 
+      requires {0<= i}
+      requires {0<= l}
+      requires {1 <= k<= h-l}
+      requires {forall ind. l<= ind<=h -> f ind  > 0}
+      ensures{kth_left i k l h f = mod (div i (ind_iproduct f (l+k) h)) (f (l+k-1))}
+  =()
+
+let lemma kth_left_trans (i k l h:int)(f:int-> int)
+      requires {0<= i}
+      requires {0<= l}
+      requires {1 <= k< h-l}
+      requires {forall ind. l<= ind<=h -> f ind  > 0}
+      ensures{kth_left i k l h f = kth_left (div i (f (h-1))) k l (h-1) f}
+  = kth_left_to_mod_div i k l h f;
+    if (k = h-l) then ()
+    else
+      begin
+        kth_left_to_mod_div (div i (f (h-1))) k l (h-1) f;
+        ind_iproduct_right_extension f (l+k) (h-1);
+        div_div i (f (h-1)) (ind_iproduct f (l+k) (h-1));
+      end
+    
+let lemma div_isum_exponents (i k n m:int)
+      requires{0<= i}
+      requires{0< k}
+      requires{0<= n}
+      requires{0<= m}
+      ensures {(power k (n + m)) = (power k n) * (power k m)}
+      ensures {(power k (n+ 1)) = (power k n) * k}
+      ensures {power  k 1=k}
+      ensures{div  (div i (power k n)) (power k m) = div i (power k ( n+m))}
+      ensures{div  (div i (power k n)) k = div i (power k (n+1))}
+  = ()
+  
+let ghost function divp (i j :int) :int
+                                      requires {0<= i}
+                                      requires {0< j}
+                                      ensures{i = result + mod i j}
+                                      ensures{result <= i < (result+1)* j}
+                                      ensures{i > j-> result >0 }
+  = div i j*j
+
+let lemma kth_right_div_mod  (i k h :int) (f: int -> int)
+      requires {0<= i}
+      requires {1<=k}
+      requires {forall k. 0 < f k}
+      ensures { kth_right i k h f = div (mod i (ind_iproduct f  (h-k) h)   ) (ind_iproduct f (h-k+1) h)}                                      
+  =
+  if (k=1) then ()
+  else
+    begin
+      ind_iproduct_plus_one f (h-k+1) h;
+      mod_div i (ind_iproduct f (h-k+1) h) (f (h-k));
+    end
+
+let lemma kth_head  (i  h :int) (f: int -> int)
+      requires {0<= i}
+      requires {1<=h}
+      requires {forall k. 0 < f k}
+      ensures { kth_right i 1 h f =  mod i (f (h-1))}                                      
+  =
+  assert{ ind_iproduct f  (h-1) h = f(h-1)};
+  assert{ ind_iproduct f  h h = 1}
+
+let ghost function weighted_kth_right  (i k h:int) (f: int -> int)
+                     requires{0<=i}
+                     requires {forall k. 0 < f k}
+                     requires {1<=k}
+  =      kth_right i k h f * ind_iproduct f (h-k+1) h
+       
+let lemma weighted_kth_right_  (i k h:int) (f: int -> int)
+      requires {1 <= k}
+      requires{0<=i}
+      requires {forall k. 0 < f k}
+      ensures{ (mod i (ind_iproduct f (h-k) h)) = (weighted_kth_right i k h f) + mod i  (ind_iproduct f (h-k+1) h) }
+  = if (k=1) then ()
+    else begin
+        kth_right_div_mod i k h f;
+        decomp (mod i (ind_iproduct f (h-k) h))  (ind_iproduct f (h-k+1) h);
+        mod_mod_right i (ind_iproduct f (h-k+1) h) (f (h-k));
+        ind_iproduct_plus_one   f  (h-k) h
+      end
+  
+let rec lemma kth_right_decomposition  (i k h:int) (f: int -> int)
+          requires {0<= i}
+          requires {1<= k}
+          requires {forall k. 0 < f k}
+          ensures{ (mod i (ind_iproduct f (h-k) h)) =  ind_isum (fun a -> weighted_kth_right i a h f) 1 (k+1)}
+          variant{k}
+  = if (k = 1) then ()
+    else 
+      begin
+        weighted_kth_right_ i k h f;
+        kth_right_decomposition i (k-1) h f;
+        ind_isum_right_extension   (fun a -> if 1<= a then  weighted_kth_right i a h f else 0)  1 k;
+        assert{ (mod i (ind_iproduct f (h-k) h)) =  ind_isum (fun a -> weighted_kth_right i a h f) 1 (k+1)};
+      end
+  
+let lemma kth_left_div_mod  (i k l h  :int) (f: int -> int)
+      requires {0<= i}
+      requires {0<=l <= h}
+      requires{1<=k<= h-l}
+      requires {forall k. 0 < f k}
+      ensures { kth_left i k l h f = div (mod i (ind_iproduct f (l+k-1) h)) (ind_iproduct f (l+k) h)}                                      
+  =
+  kth_right_div_mod i k (h-l-k+1) f
+
+let ghost function weighted_kth_left  (i k l h:int) (f: int -> int)
+                     requires{0<=i}
+                     requires {l <= h}
+                     requires{1<= k <= h-l}
+                     requires {forall k. 0 < f k}
+  = weighted_kth_right i (h-l-k+1) h f
+  
+let lemma weighted_kth_left_  (i k l h:int) (f: int -> int)
+      requires{0<=i}
+      requires {l <= h}
+      requires{1<= k <= h-l}
+      requires {forall k. 0 < f k}
+      ensures{(mod i (ind_iproduct f (l+k-1) h)) = (weighted_kth_left i k l h f) + mod i  (ind_iproduct f (l+k) h) }
+  = weighted_kth_right_ i (h-l-k+1) h f
+
+let  lemma bounded_kth_left_decomposition  (i k l h:int) (f: int -> int)
+       requires{0<=i}
+       requires {l <= h}
+       requires{1<= k <= h-l}
+       requires {forall k. 0 < f k}
+       ensures{(mod i (ind_iproduct f (l+k-1) h)) = ind_isum (fun a -> weighted_kth_left i a l h f)  k  (h-l+1)}
+  = kth_right_decomposition i (h-l-k+1) h f;
+    set_bijective (fun k -> h-l-k+1) (to_fset k  (h-l+1)) (to_fset 1  (h-l-k+2));
+    ind_isum_map  k  (h-l+1) 1 (h-l-k+2)  (fun k -> h-l-k+1) (fun a -> if 1<= a then weighted_kth_right i a  h f else 0);
+    assert{(mod i (ind_iproduct f (l+k-1) h)) = ind_isum (fun a ->
+                                                    if 1<= a then weighted_kth_left i a l h f   else 0)   k  (h-l+1)}
+
+let  lemma kth_left_decomposition  (i  l h:int) (f: int -> int)
+       requires{0<=i< ind_iproduct f l h}
+       requires {l < h}
+       requires {forall k. 0 < f k}
+       ensures{i = ind_isum (fun a -> weighted_kth_left i a l h f)  1  (h-l+1)}
+  =  bounded_kth_left_decomposition i 1 l h f
+
+end
+
+module Evenness
+         use  Div_Mod
+         use  int.Int
+         use  int.EuclideanDivision
+
+let   function odd(n:int): bool
+                             ensures{result = true ->  n= 2*(div n 2)+ 1}
+                             ensures{result = false ->  n= 2*(div n 2)}
+  = if mod n 2 = 1 then True else False
+  
+let function even(n:int): bool
+                            ensures{result = not (odd n)}
+  = if mod n 2 = 0 then True else False
+
+let lemma even_to_mod (n:int)
+      requires{even n}
+      ensures{mod n 2 = 0}
+      =()
+                                    
+let lemma even_minus_one (n:int)
+      requires{0<n}
+      requires{even n}
+      ensures{odd (n-1)}
+      =()
+                                    
+let lemma odd_minus_one (n:int)
+      requires{0<n}
+      requires{odd n}
+      ensures{even (n-1)}
+      =()
+
+let lemma even_opp (n:int)
+      requires{even n}
+      ensures{even (-n)}
+  =()
+      
+let lemma odd_opp (n:int)
+      requires{odd n}
+      ensures{odd (-n)}
+  =()
+      
+let lemma odd_to_mod (n:int)
+      requires{odd n}
+      ensures{mod n 2 = 1}
+      =()
+                                                                        
+lemma even_or_odd: forall n:int.  even n \/ odd n      
+use complex.Complex
+use exponentiation.Complex_Exponentiation
+    
+let rec lemma cpower_minus_c_one (n:int)
+          requires{0<= n}
+      ensures{even n -> cpower (-.c_one) n = c_one}
+      ensures{odd n -> cpower (-.c_one) n = -.c_one}
+      variant{n}
+  =
+  if n = 0 then ()
+  else
+    begin
+      assert{cpower (-. c_one) n = -.c_one *. cpower (-. c_one) (n-1)};
+      cpower_minus_c_one (n-1);
+      if even n then assert{odd (n-1)}
+      else assert{even (n-1)}
+    end
+
+  let lemma cpower_minus_c_one_even(n:int)
+          requires{0<= n}
+          requires{even n}
+          ensures{cpower (-.c_one) n = c_one}
+= cpower_minus_c_one n
+      
+  let lemma cpower_minus_c_one_odd(n:int)
+          requires{0<= n}
+          requires{odd n}
+          ensures{cpower (-.c_one) n = -. c_one}
+= cpower_minus_c_one n
+
+
+         use  set.Fset
+         use p_int.Int_comp
+         use exponentiation.Power_
+
+  let rec lemma iproduct_extract_const (s: set int)(f:int->int)(a:int)
+      ensures{iproduct s (fun i -> a* f i) = power_ a (cardinal s) * iproduct s f }
+          variant{cardinal s}
+  = if cardinal s = 0 then ()
+    else
+      begin
+        assert{0< cardinal s};
+        iproduct_from_choose s f;
+        iproduct_from_choose s (fun i -> a* f i);            
+        iproduct_extract_const (remove (choose s) s) f a;
+      end     
+
+
+
+end
+
+module Divisors
+         use  Div_Mod
+         use int.Int
+         use int.EuclideanDivision
+         use exponentiation.Power_
+         use  Evenness              
+         use p_set.IndexestoSet
+         use p_int.P_minmax
+         use p_set.Choose_filter
+         use  set.FsetComprehension
+     
+let ghost function divisors  (i:int): set int
+                                        requires{0<i}
+                                        ensures{forall j. mem j result -> 0< j <= i}
+                                        ensures{forall j. mem j result -> mod i j = 0}
+                                        ensures{forall j. mem j result -> exists k. 1<= k <= i /\ i  = k*j}
+                                        ensures{forall j. 1<= j <= i ->  mod i j = 0 -> mem j result}
+                                        ensures{forall j. 1<= j <= i ->  (exists k. 1<= k <= i /\ i  = k*j) -> mem j result}
+  = my_filter (to_fset 1 (i+1)) (fun j -> 1<= j <= i && mod i j = 0)
+
+let lemma set_mem_divisors (j i:int)
+      requires{0<i}
+      requires{ 1<= j <= i}
+      requires{mod i j = 0}
+    ensures{ mem j (divisors i)}
+  =()
+
+let lemma get_mem_divisors_mod (j i:int)
+      requires{0<i}
+      requires{ mem j (divisors i)}
+      ensures{mod i j = 0}
+  =()
+
+let lemma get_mem_divisors_bounds (j i:int)
+      requires{0<i}
+      requires{ mem j (divisors i)}
+      ensures{ 1<= j <= i}
+  =()
+
+let lemma get_mem_divisors_inf (j i:int)
+      requires{0<i}
+      requires{ mem j (divisors i)}
+      ensures{ j <= i}
+  =()
+
+let lemma get_mem_divisors (j i:int)
+      requires{0<i}
+      requires{ mem j (divisors i)}
+      ensures{mod i j = 0}
+      ensures{ 1<= j <= i}
+  =()
+
+let lemma in_divisors_mult (i j k:int)
+      requires{1<=k}
+      requires{0<j}
+      requires{mem i (divisors j)}
+  ensures{mem i (divisors (j*k))}
+  = get_mem_divisors i j;
+  set_mem_divisors i (j*k)
+  
+let lemma in_divisors_powers (a b b' i:int)
+      requires{1<=a}
+      requires{1<=i}
+      requires{0<=b<=b'}
+      requires{mem i (divisors (power_ a b))}
+      ensures{mem i (divisors (power_ a b'))}
+  = in_divisors_mult i (power_ a b) (power_ a (b'-b))
+  
+let lemma powers_in_divisors (a b b' i:int)
+      requires{1<=a}
+      requires{1<=i}
+      requires{0<=b<=b'}
+      requires{mem  (power_ a b') (divisors  i)}
+      ensures{mem   (power_ a b) (divisors i)}
+  = unicity_div_mod i (power_ a b') (div i (power_ a b')) 0;
+    assert{power_ a b' = power_ a b * power_ a (b'- b)};
+  unicity_div_mod i  (power_ a b) (power_ a (b'-b) * div i (power_ a b')) 0
+
+let lemma not_powers_in_divisors (a b b' i:int)
+      requires{1<=a}
+      requires{1<=i}
+      requires{0<=b<=b'}
+      requires{not (mem   (power_ a b) (divisors i))}
+      ensures{not (mem   (power_ a b') (divisors i))}
+  = ()
+  
+let lemma itself_divisors(i:int)
+      requires{0<i}
+      ensures{mem i (divisors i)}
+  =()
+  
+  let lemma unicity_div_rev (i j q:int)
+      requires{0<i}
+      requires{mem  j (divisors i)}
+      requires{q= div i j}
+      ensures{i = q*j}
+    =()
+     
+     
+let lemma mem_own_divisors (i :int)
+      requires{0<i}
+    ensures{ mem i (divisors i)}
+  =()
+     
+let lemma mem_one_divisors (i :int)
+      requires{0<i}
+    ensures{ mem 1 (divisors i)}
+  =()
+     
+let lemma trivial_divisors_left (i j:int)
+      requires{0<i}
+      requires{0<j}
+    ensures{ mem i (divisors (i*j))}
+  =
+  unicity_div_mod (i*j) i j 0
+     
+let lemma trivial_divisors_right (i j:int)
+      requires{0<i}
+      requires{0<j}
+    ensures{ mem i (divisors (j*i))}
+  = trivial_divisors_left i j
+     
+predicate prime (a :int) = 0<a /\ divisors a = add a (to_set 1)
+
+let lemma get_not_prime (a:int)
+      requires{0< a}
+      requires{not (prime a)}
+      ensures{exists b. 1<b <a /\ mem b (divisors a)}
+  =()
+  
+let lemma set_not_prime (a:int)
+      requires{0< a}
+      requires{exists b. 1<b <a /\ mem b (divisors a)}
+      ensures{not (prime a)}
+  =()
+  
+let lemma card_prime_divisors (a:int)
+      requires{1<a}
+      requires{prime a}
+  ensures{ cardinal (divisors a)  = 2}
+  =()
+
+     predicate co_prime (a b:int) = 0<a /\ 0<b /\ (inter (divisors a) (divisors b) = to_set 1)
+
+let lemma symetric_co_prime (a b :int)
+  requires{0<a}
+  requires{0<b}
+  requires{co_prime a b }
+  ensures{co_prime  b a}
+  =()
+  
+let lemma prime_is_co_prime_right (a b :int)
+  requires{0<a}
+  requires{prime b}
+  requires{not (mem b (divisors a))}
+  ensures{co_prime a b }
+  =()
+  
+let lemma prime_is_co_prime (a b :int)
+  requires{0<a}
+  requires{prime b}
+  requires{not (mem b (divisors a))}
+  ensures{co_prime b a }
+  =()
+    
+let lemma prime_are_co_primes (a b :int)
+      requires{a<>b}
+      requires{prime b}
+  requires{prime a}
+  ensures{co_prime a b}
+  =()
+  
+let lemma one_is_co_prime (a  :int)
+  requires{0<a}
+  ensures{co_prime a 1 }
+  =()
+  
+let lemma mem_divisors_trans (a b c:int)
+      requires{0<c}
+      requires{mem b (divisors c)}
+      requires{mem a (divisors b)}
+      ensures{mem a (divisors c)}
+  =()     
+
+let lemma subset_divisors (a b :int)
+      requires{0<b}
+      requires{mem a (divisors b)}
+      ensures{subset (divisors a) (divisors b)}
+  =()
+
+let lemma not_prime_divisors (a:int)
+      requires{1<a}
+      requires{not (prime a)}
+  ensures{2< cardinal (divisors a) }
+  ensures{exists i. mem i (divisors a) /\ i<>1 /\ i <>a}
+  =()
+
+let lemma strict_subset_divisors (a b :int)
+      requires{0<b}
+      requires{a<>b}
+      requires{mem a (divisors b)}
+      ensures{subset (divisors a) (divisors b)}
+      ensures{ (divisors a) <> (divisors b)}
+  ensures{cardinal (divisors a) < cardinal (divisors b) }
+  =()     
+
+let rec lemma divisors_contains_prime (i :int)
+      requires{1<i}
+    ensures{exists j. prime j && 1<j /\  mem j (divisors i)}
+      variant{cardinal (divisors i)}
+  =
+  if cardinal (divisors i) = 2 then ()
+  else
+    begin
+      not_prime_divisors i;
+      strict_subset_divisors  (choose (remove 1 (remove i (divisors i)))) i;
+    divisors_contains_prime (choose (remove 1 (remove i (divisors i))))
+end
+  
+let lemma set_not_co_prime (a b k :int)
+      requires{0<a}      
+      requires{0<b}
+      requires{a<>b}
+      requires{1 < k <=a}
+      requires{1 < k <=b}
+      requires{mod a k = 0}
+      requires{mod b k = 0}
+  ensures{not (co_prime a b)}
+  = assert{mem k (inter (divisors a) (divisors b))}
+
+let lemma set_not_co_prime_ (a b k :int)
+      requires{0<a}
+      requires{0<b}
+      requires{a<>b}
+      requires{exists k. 1 < k <=a /\ 1 < k <=b /\ mod a k = 0 /\ mod b k = 0}
+      ensures{not (co_prime a b)}
+  = ()
+
+let lemma set_co_prime (a b  :int)
+      requires{0<a}
+      requires{0<b}
+      requires{a<>b}
+      requires{forall c . mem c (divisors a)  -> c<> 1 -> not (mem c (divisors b ))}
+      ensures{co_prime a b}
+  = ()
+
+let lemma co_prime_to_mod (a b:int)
+      requires{0<a}
+      requires{1<b}
+      requires{a<>b}
+      requires{co_prime a b}
+      ensures{0 <mod a b }
+  =()
+  
+let lemma co_prime_to_mod_right (a b:int)
+      requires{1<a}
+      requires{0<b}
+      requires{a<>b}
+      requires{co_prime a b}
+      ensures{0 <mod b a}
+  =()
+  
+let lemma inter_div_mod (a b:int)
+      requires{0<a}
+      requires{1<b}
+      requires{co_prime a b}
+ ensures{subset (inter (divisors (mod a b)) (divisors b)) (inter (divisors a) (divisors b))}
+  =
+  assert{forall c. mem c (inter (divisors (mod a b)) (divisors b)) -> mod a b =  div (mod a b) c *c};
+  assert{forall c. mem c (inter (divisors (mod a b)) (divisors b)) -> a = div a b * (div b c * c) + div (mod a b) c *c = c * ((div a b * div b c) + div (mod a b) c)}
+                                                                       
+let lemma co_prime_mod (a b:int)
+      requires{0<a}
+      requires{1<b}
+      requires{co_prime a b}
+      ensures{co_prime (mod a b) b}
+  =
+  assert{0< mod a b};
+  inter_div_mod a b
+
+let lemma co_prime_by_primes (a b:int)
+      requires{0<a}
+      requires{1<b}
+      requires{a<>b}
+      requires{forall c. prime c ->  c <> 1 -> mem c (divisors a ) -> not (mem c (divisors b))}
+      ensures{co_prime a b}
+  = set_co_prime a b
+  
+let lemma euclid_lemma_pre (a b c:int)
+      requires{0<a}
+      requires{0<b}
+      requires{0<c}
+      requires{prime c}
+      requires{mod (a*b) c = 0}
+      requires{not (mod b c = 0)}
+      requires{not (mod a c = 0)}
+  ensures{false}
+  =     let b' = min_filter (to_fset 1 c) (fun d -> 1<= d <= c && not (mod d c = 0) && mod (a*d) c = 0)
+                   ensures{0< result < c}
+                   ensures{0< mod result  c}
+        in
+          let r =  mod c b' ensures{ 0 < result < b'}
+          in
+          begin
+            assert{c = (div c b') * b' +r};
+            assert{a*r  = a* c - a* (div c b') * b'} ;
+            assert{a* (div c b') * b' = c * div (a*b') c * div c b'};
+            assert{a*r  =  c * (a - (div (a* b') c * div c b'))};
+            unicity_div_mod (a*r) c (a - (div (a* b') c * div c b')) 0;
+            assert{mod (a*r) c =0};
+            assert{mem r (my_filter (to_fset 1 c) (fun d -> 1<= d <= c && not (mod d c = 0) && mod (a*d) c = 0)) /\ r<b'}
+      end
+  
+let lemma euclid_lemma (a b c:int)
+      requires{0<a}
+      requires{0<b}
+      requires{0<c}
+      requires{prime c}
+      requires{mod (a*b) c = 0}
+      requires{not (mod b c = 0)}
+      ensures{ mod a c = 0}
+  =if (not (mod a c = 0)) then 
+     euclid_lemma_pre a b c else ()
+
+let lemma divisors_euclid_lemma (a b c:int)
+      requires{0<a}
+      requires{0<b}
+      requires{0<c}
+      requires{prime c}
+      requires{mem c (divisors (a*b))}
+      requires{not (mem c (divisors b))}
+      ensures{mem c (divisors a)}
+  = euclid_lemma a b c
+
+let ghost function bounded_primes (a :int):set int
+                                       requires{0<= a}
+           ensures{forall i. mem i result -> prime i}
+           ensures{forall i. mem i result -> 1<= i <=a}
+           ensures{forall i. 1<= i <=a -> prime i -> mem i result}
+  = my_filter   (to_fset 1 (a+1)) (fun i -> prime i)
+
+let ghost function prime_factors (a b:int):int
+          requires{1<= a}
+          ensures{0<=result}
+          ensures{forall j. 0<= j <= result -> mem (power_ b j) (divisors a)}
+          ensures{1< b && prime b -> result < a}
+          ensures{1< b && prime b -> forall j.  result <j  -> not (mem (power_ b j) (divisors a))}
+          ensures{1< b && prime b -> forall j.  result <j  -> not (mem b (divisors (div a (power_ b result))))}
+  = if 1< b && prime b then max_filter (to_fset 0 (a+1)) (fun i -> mem (power_ b i) (divisors a)) else 0
+
+let lemma set_prime_factors (a b i:int)
+           requires{1<= a}
+           requires{prime b}
+           requires{1< b}
+           requires{mod a (power_ b i)  =0}
+           requires{mod a (power_ b (i+1))  <>0}
+           ensures{prime_factors a b = i}
+  = ()
+
+let lemma set_prime_factors_null (a b :int)
+           requires{1<= a}
+           requires{prime b}
+           requires{1< b}
+           requires{mod a b  <> 0}
+           ensures{prime_factors a b = 0}
+  = set_prime_factors a b 0
+  
+let lemma set_prime_factors_over (a b :int)
+           requires{1<= a}
+           requires{a< b}
+           ensures{prime_factors a b = 0}
+  = ()
+  
+let lemma set_prime_factors_not_prime (a b :int)
+           requires{1<= a}
+           requires{not (prime b)}
+           ensures{prime_factors a b = 0}
+  = ()
+    
+let lemma set_prime_factors_one (a b i:int)
+           requires{1<= a}
+           requires{b = 1}
+           ensures{prime_factors a b = 0}
+  = ()
+
+let lemma set_prime_factors_diff (a b :int)
+           requires{1<= a}
+           requires{prime b}
+           requires{prime a}
+           requires{a<> b}
+           ensures{prime_factors a b = 0}
+  = ()
+  
+let lemma get_prime_factors (a b i:int)
+           requires{1<= a}
+           requires{prime b}
+           requires{1< b}
+           requires{prime_factors a b = i}
+           ensures{mod a (power_ b i)  =0}
+           ensures{mod a (power_ b (i+1))  <>0}
+             = ()
+
+let lemma prime_factors_itself (a :int)
+           requires{1< a}
+           requires{prime a}
+           ensures{prime_factors a a  =1}
+             = ()
+
+let lemma prime_factors_one (a :int)
+           requires{1< a}
+           ensures{prime_factors a 1  =0}
+             = ()
+
+                 use p_int.Int_comp
+             
+let lemma prime_factors_up (a:int)
+      requires{1<=a}
+  ensures{forall b. a < b -> prime_factors a b = 0}
+  ensures{forall b. a < b -> ind_iproduct  (fun i -> power_  i (prime_factors a i)) 0 (b+1)
+                             = ind_iproduct  (fun i -> power_  i (prime_factors a i))  0 (a+1)}
+  = ()
+             
+let lemma prime_factors_up_set (a b:int)
+      requires{1<=a <=b}
+  ensures{ind_iproduct  (fun i -> power_  i (prime_factors a i)) 0 (b+1)
+          = ind_iproduct  (fun i -> power_  i (prime_factors a i))  0 (a+1)}
+  = ()             
+    
+let lemma prime_factors_mult (a a' b:int)
+           requires{1<= a}
+           requires{1<= a'}
+           ensures{prime_factors (a*a') b = prime_factors a b + prime_factors a' b }
+  =
+  if prime b && 1<b then
+    begin
+      get_prime_factors a' b (prime_factors a' b);
+      get_prime_factors a' b (prime_factors a' b);
+      let diva = (div a (power_ b (prime_factors a b)))
+                   ensures{a = result * (power_ b (prime_factors a b))}
+                   ensures{not (mem b (divisors result))}
+                   ensures{1<= result <=a}
+      in let diva' = (div a' (power_ b (prime_factors a' b)))
+                       ensures{a' = result * (power_ b (prime_factors a' b))}
+                       ensures{1<= result <=a'}
+                       ensures{not (mem b (divisors result))}
+         in let multa = power_ b (prime_factors a b)
+                          ensures{a = result * diva}
+                          ensures{1<= result <=a}
+            in let multa' = power_ b (prime_factors a' b)
+                              ensures{a' = result * diva'}
+                              ensures{1<= result <=a'}
+               in
+             begin
+               unicity_div_mod (a*a') (diva * diva')  (multa * multa') 0;
+               if mod (a*a')  (power_ b (prime_factors a b + prime_factors a' b +1) ) =  0
+               then
+                 begin
+                   assert{mod (a*a')  (power_ b (prime_factors a b + prime_factors a' b +1) ) =  0};
+                   assert{mod (a*a')  (multa * multa' * b)  =  0};
+                   unicity_div_mod (diva * diva') b (div (a*a') (multa * multa' * b)) 0;
+                   assert{mem b (divisors (diva *diva'))};
+                   assert{false}
+                 end;
+               set_prime_factors (a*a') b (prime_factors a b + prime_factors a' b)
+             end
+    end
+  else ()
+  
+let lemma prime_factors_mult_gen (a a':int)
+           requires{1<= a}
+           requires{1<= a'}
+           ensures{ind_iproduct (fun i -> power_  i (prime_factors (a*a') i)) 0 (a*a'+1)
+                     = ind_iproduct (fun i -> power_  i (prime_factors a i)) 0 (a*a'+1)
+                       * ind_iproduct (fun i -> power_  i (prime_factors a' i)) 0 (a*a'+1)}
+  = prime_factors_up_set a (a*a');
+    prime_factors_up_set a' (a*a');
+    ind_iproduct_comp (fun i -> power_  i (prime_factors a i)) (fun i -> power_  i (prime_factors a' i))
+      (fun i -> power_  i (prime_factors (a*a') i))  0 (a*a'+1)
+    
+let ghost function proper_divisors (a:int): set int
+                                        requires{1<a}
+                                        requires{not (prime a)}
+                                        ensures{exists i. mem i result}
+                                        ensures{forall i. mem i result -> mem i (divisors a)}
+                                        ensures{forall i. mem i result -> 1<i < a}
+                                        ensures{forall i.  1<i < a && mod a i = 0 -> mem i result}
+                                        ensures{forall i. mem i result -> mem (div a i) result}
+                                        ensures{forall i. mem i result -> cardinal (divisors i) < cardinal (divisors a)}
+  =
+  remove a (remove 1 (divisors a))
+
+let ghost function prime_divisors (a:int): set int
+                                             requires{1<a}
+                                             requires{not (prime a)}
+                                             ensures{exists i. mem i result}
+                                             ensures{forall i. mem i result -> mem i (divisors a)}
+                                             ensures{forall i. mem i result -> prime i}
+                                             ensures{forall i. mem i result -> 1<i < a}
+           ensures{forall i.  1<i < a && mod a i = 0 && prime i -> mem i result}
+           ensures{forall i. mem i result -> mem (div a i) (proper_divisors a)}
+           ensures{forall i. mem i result -> cardinal (divisors i) < cardinal (divisors a)}
+  =
+  my_filter (proper_divisors a) (fun i -> prime i)
+
+  let lemma unicity_div_rev_ (i j q:int)
+      requires{0<i}
+      requires{mem  j (divisors i)}
+      requires{q= div i j}
+      ensures{i = j*q}
+    =()
+  
+let rec lemma factors_prod (a:int)
+               requires{1<=a}
+               ensures{forall x. a <= x -> a = ind_iproduct  (fun i -> power_  i (prime_factors a i))  0 (x+1)}
+               variant{cardinal (divisors a)}
+  = if prime a then
+      ind_iproduct_one_but_maybe_one_elt (fun i -> power_  i (prime_factors a i))  0 (a+1) a
+    else
+      let c = choose (proper_divisors a)
+               ensures{ result <> 1}
+               ensures{ result <> a}
+               ensures{mem  (div a result) (proper_divisors a)}
+      in let div_c = div a c
+               ensures{ result <> 1}
+               ensures{ result <> a}
+               ensures{result * c =a}
+               ensures{mem  result (divisors a)}
+         in
+         begin
+           factors_prod c;
+           factors_prod div_c;
+           prime_factors_mult_gen c div_c;
+           assert{c*div_c = ind_iproduct  (fun i -> power_  i (prime_factors c i))  0 (a+1)
+                  * ind_iproduct  (fun i -> power_  i (prime_factors div_c i))  0 (a+1) =
+                    ind_iproduct  (fun i -> power_  i (prime_factors a i))  0 (a+1) = a}
+         end  
+
+let lemma divisors_by_factor_decomp_pre (a b:int)
+               requires{1<=a}
+               requires{mem b (divisors a)}
+               ensures{forall i. prime_factors b i <= prime_factors a i}
+  =     prime_factors_mult_gen b (div a b);
+        assert{forall i.  prime_factors b i =  prime_factors a i - prime_factors (div a b) i}
+    
+let lemma divisors_by_factor_decomp_pre_ (a b i:int)
+               requires{1<=a}
+               requires{mem b (divisors a)}
+               ensures{prime_factors b i <= prime_factors a i}
+  =     ()
+      
+let lemma divisors_by_factor_decomp_pre_rec (a b:int)
+               requires{1<=a}
+               requires{1<=b<=a}
+               requires{forall i. prime_factors b i <= prime_factors a i}
+               ensures{mem b (divisors a) }
+  = let div_b = ind_iproduct (fun i -> power_ i (prime_factors a i - prime_factors b i)) 0 (a+1)
+    in
+    begin
+      assert{b = ind_iproduct (fun i -> power_  i (prime_factors b i))  0 (a+1)};
+     assert{a = ind_iproduct (fun i -> power_  i (prime_factors a i))  0 (a+1)};
+    ind_iproduct_comp (fun i -> power_  i (prime_factors b i)) (fun i -> power_  i (prime_factors a i - prime_factors b i))
+      (fun i -> power_  i (prime_factors a i))  0 (a+1);
+      assert{a = b * div_b};
+    end
+
+let rec lemma inf_by_prime_factors (a b c:int)
+          requires{1<=a<= c}
+          requires{1<=b}
+          requires{forall i.  prime_factors b i <= prime_factors a i }
+          ensures{b <= a}
+      = let rec lemma inter (k:int)
+                  requires{0<= k <= (max a b) +1}
+                  variant{k}
+                  ensures{ind_iproduct (fun i -> power_ i (prime_factors b i )) 0 k <= ind_iproduct (fun i -> power_ i (prime_factors a i )) 0 k}
+          = if k = 0 then ()
+            else
+              begin
+                assert{0<k};
+                inter (k-1);
+                  ind_iproduct_right_extension (fun i -> power_ i (prime_factors b i )) 0 k;
+                  ind_iproduct_right_extension (fun i -> power_ i (prime_factors a i )) 0 k;
+                  factors_prod a;
+                  factors_prod b;
+              end
+        in
+        begin
+        inter ((max a b) +1);
+        end
+          
+let lemma co_prime_to_prod (a b c : int)
+      requires{1<b}
+      requires{0<c}
+      requires{co_prime a c}
+      requires{co_prime b c}
+      ensures{co_prime (a*b) c}
+  = if c= 1 then ()
+    else if a= 1 then ()
+    else if b= 1 then ()
+    else
+      (co_prime_by_primes (a*b) c)
+
+let lemma co_prime_to_prod_rev (a b c : int)
+      requires{1<b}
+      requires{0<c}
+      requires{co_prime a c}
+      requires{co_prime b c}
+      ensures{co_prime  c (a*b)}
+  = co_prime_to_prod a b c
+    
+let rec lemma co_prime_pow (a b c:int)
+      requires{0<b}
+      requires{co_prime a b}
+      requires{0<c}
+      ensures{co_prime (power_ a c) b}
+      variant{c}
+  = if b = 1 then ()
+    else
+    if c = 1 then ()
+    else
+    if a = 1 then ()
+    else
+      begin
+        assert {1<a};
+        co_prime_pow a b (c-1);
+      end
+        
+let lemma  co_prime_pows (a b c d:int)
+      requires{0<b}
+      requires{co_prime a b}
+      requires{0<=c}
+      requires{0<=d}
+      ensures{co_prime (power_ a c) (power_ b d)}
+  =
+  if d = 0 then ()
+  else   if c = 0 then ()
+  else
+    begin
+      co_prime_pow a b c;
+      co_prime_pow b (power_ a c) d
+    end
+
+let rec lemma div_iproduct_primes ( bound:int) (f:int->int)
+      requires{0<=bound}
+      requires{forall i. 1 <= i-> not (prime i) -> f i =0}
+      requires{forall i. 1 <= i  -> 0<= f i }
+      requires{f 0 = 0 }
+      ensures{forall j. bound <j -> prime j ->  co_prime j (ind_iproduct (fun i -> power_ i (f i)) 0 (bound+1))}
+      ensures{forall j. 1<= j <= bound  -> prime j -> f j = 0 ->  co_prime j (ind_iproduct (fun i -> power_ i (f i)) 0 (bound+1))}
+      variant{bound}
+  =
+  if bound = 0 then()
+  else let  power_func = (fun i -> if 0<= i <= bound then power_ i (f i) else 1)
+       in
+         begin
+           ind_iproduct_right_extension power_func 0 (bound+1);
+           div_iproduct_primes  (bound -1) f;
+         end
+
+let lemma unicity_factors_prod_one (bound:int) (f:int ->int)
+          requires{0<=bound}
+          requires{forall i. not prime i -> f i = 0}
+          requires{ f 1 = 0}
+          requires{forall i. 1 <= i  -> 0<= f i }
+          requires{1 = ind_iproduct (fun i -> power_ i (f i)) 0 (bound+1)}
+          requires{forall i. prime i -> bound < i -> f i =  0}
+          ensures{forall i. prime i -> f i =  0}
+  =  ()
+  
+let rec lemma unicity_factors_prod_pre (a bound:int) (f:int ->int)
+          requires{forall i. prime i -> bound < i -> f i =  0}
+          requires{forall i. not prime i -> f i = 0}
+          requires{ f 1 = 0}
+          requires{forall i. 1 <= i  -> 0<= f i }
+          requires{1<=a<=bound}
+          requires{a= ind_iproduct (fun i -> power_ i (f i)) 0 (bound+1)}
+          ensures{forall i. prime_factors a i = f i}
+      variant{cardinal (divisors a)}
+  =
+  if a = 1 then ()
+      else
+        let b = if prime a then a else choose (prime_divisors a)
+              ensures{prime result}
+              ensures{mem  result (divisors a)}
+          in
+          let divb = div a b
+          in
+          begin
+            factors_prod b;
+            factors_prod divb;
+            factors_prod a;
+            assert{b = ind_iproduct (fun i -> power_ i (if i = b then 1 else 0)) 0 (bound+1)};
+            assert{a = b * divb};
+            (* utiliser ind_iproduct_comp *)
+            assert{0< f b};
+            assert{divb = ind_iproduct (fun i -> power_ i (if i = b then (f i)-1 else f i)) 0 (bound+1)};
+            unicity_factors_prod_pre divb bound (fun i -> if i = b then  (f i)-1 else f i);
+            assert{0< prime_factors a b};
+            assert{divb = ind_iproduct (fun i -> power_ i (if i = b then (prime_factors a i)-1 else prime_factors a i)) 0 (bound+1)};
+            unicity_factors_prod_pre divb bound (fun i -> if i = b then  (prime_factors a i)-1 else prime_factors a i);
+            assert{forall i.  prime_factors a i = if i = b then  (prime_factors divb i)+1 else prime_factors divb i};
+            assert{forall i. f i = prime_factors a i};
+          end
+
+let rec lemma unicity_factors_prod (a c:int) (f:int ->int)
+          requires{1<=c}
+          requires{forall i.  0<= f i }
+          requires{a= ind_iproduct (fun i -> power_ i (f i)) 0 (c+1)}
+          requires{forall i.   (f i) <= prime_factors c i}
+          ensures{mem a (divisors c)}
+  =
+  assert{1<=a<=c};
+  unicity_factors_prod_pre a c f
+
+let  lemma unicity_factors_prod_ ( c:int) (f:int ->int)
+          requires{1<=c}
+          requires{forall i.  0<= f i }
+          requires{forall i.   (f i) <= prime_factors c i}
+          ensures{mem (ind_iproduct (fun i -> power_ i (f i)) 0 (c+1)) (divisors c)}
+  = unicity_factors_prod  (ind_iproduct (fun i -> power_ i (f i)) 0 (c+1)) c f
+
+let  lemma unicity_factors_prod_gen (bound c:int) (f:int ->int)
+          requires{1<=c<=bound}
+          requires{forall i.  0<= f i }
+          requires{forall i.   (f i) <= prime_factors c i}
+          ensures{mem (ind_iproduct (fun i -> power_ i (f i)) 0 (bound+1)) (divisors c)}
+  =
+  ind_iproduct_trans (fun i -> power_ i (f i)) 0  (c+1) (bound+1);
+  ind_iproduct_one (fun i -> power_ i (f i)) (c+1) (bound+1);
+  unicity_factors_prod_   c f          
+          
+let ghost function gcd (a b:int) : int
+                                     requires{1<=a}
+                                     requires{1<=b}
+                                     ensures{forall i. prime_factors result i = min (prime_factors a i) (prime_factors b i)}
+                                     ensures{mem result (divisors a)}
+                                     ensures{mem result (divisors b)}
+                                     ensures{forall j. mem j (divisors a)-> mem j (divisors b) -> mem j (divisors result)}
+  =
+  let res = ind_iproduct (fun i -> power_ i  (min (prime_factors a i) (prime_factors b i))) 0 (a*b+1)
+  in begin
+      ind_iproduct_trans (fun i -> power_ i  (min (prime_factors a i) (prime_factors b i))) 0  (a+1) (a*b+1);
+      ind_iproduct_trans (fun i -> power_ i  (min (prime_factors a i) (prime_factors b i))) 0  (b+1) (a*b+1);
+      ind_iproduct_one (fun i -> power_ i  (min (prime_factors a i) (prime_factors b i)))   (a+1) (a*b+1);
+      ind_iproduct_one (fun i -> power_ i  (min (prime_factors a i) (prime_factors b i)))   (b+1) (a*b+1);
+      assert{res = ind_iproduct (fun i -> power_ i  (min (prime_factors a i) (prime_factors b i))) 0 (a+1)};
+      assert{res = ind_iproduct (fun i -> power_ i  (min (prime_factors a i) (prime_factors b i))) 0 (b+1)};
+      unicity_factors_prod res a (fun i -> min (prime_factors a i) (prime_factors b i));
+      unicity_factors_prod res b (fun i -> min (prime_factors a i) (prime_factors b i));
+        ind_iproduct (fun i -> power_ i (min (prime_factors a i) (prime_factors b i))) 0 (a*b+1)
+end
+  
+let lemma gcd_prime_factors (a b i :int)
+      requires{1<=a}
+      requires{1<=b}
+      ensures{ prime_factors (gcd a b) i = min (prime_factors a i) (prime_factors b i)}
+  = ()  
+            
+let ghost function scm (a b:int) : int
+                                     requires{1<=a}
+                                     requires{1<=b}
+      ensures{forall i. prime_factors result i = max (prime_factors a i) (prime_factors b i)}
+      ensures{mem a (divisors result)}
+      ensures{mem b (divisors result)}
+      ensures{forall j. 0<j -> mem a (divisors j)-> mem b (divisors j) -> mem result (divisors j)}
+  =
+    let res = ind_iproduct (fun i -> power_ i  (max (prime_factors a i) (prime_factors b i))) 0 (a*b+1)
+            ensures{a<= result <= a *b}
+            ensures{b<= result <= a *b}
+    in begin
+  factors_prod (a*b);
+  prime_factors_mult_gen a b;
+  unicity_factors_prod_ (a*b) (fun (i1:int) ->  (max (prime_factors a i1) (prime_factors b i1)));
+  unicity_factors_prod_pre (ind_iproduct (fun i -> power_ i (max (prime_factors a i) (prime_factors b i))) 0 (a*b+1))
+    (a*b) (fun (i1:int) ->  (max (prime_factors a i1) (prime_factors b i1)));
+  ind_iproduct_trans (fun i -> power_ i   (prime_factors a i) ) 0  (res+1) (a*b+1);
+  ind_iproduct_trans (fun i -> power_ i    (prime_factors b i)) 0  (res+1) (a*b+1);
+  ind_iproduct_one (fun i -> power_ i   (prime_factors a i) )   (res+1) (a*b+1);
+  ind_iproduct_one (fun i -> power_ i    (prime_factors b i))   (res+1) (a*b+1);
+  assert{forall j. 0<j -> mem a (divisors j)-> mem b (divisors j) ->  res <= j};
+res
+      end    
+    
+let lemma divisors_mult  (a b k i :int)
+   requires{0<a}
+   requires{0<b}
+   requires{1<=k}
+   requires{mem   (a*b) (divisors k)}
+   ensures{prime_factors a i <= prime_factors k i}
+    ensures{prime_factors b i <= prime_factors k i }
+  =
+  mem_divisors_trans a (a*b) k;
+   mem_divisors_trans b (a*b) k  
+
+let lemma prime_factors_to_div  (a i:int)
+      requires{0<a}
+      requires{0< prime_factors  a i }
+   ensures{mem i (divisors a)}
+  = ()
+
+let lemma prime_factors_not_prime  (a i:int)
+      requires{0<a}
+   requires{0< prime_factors  a i }
+   requires{a<>i}
+   ensures{not (prime a)}
+  = ()
+
+let lemma prime_factors_not_one  (a i:int)
+      requires{0<a}
+   requires{0< prime_factors  a i }
+   ensures{not a = 1}
+  = ()
+
+let lemma prime_prime_factors  (a i:int)
+   requires{a <>1}
+   requires{prime a }
+   ensures{prime_factors a  i = if a = i then 1 else 0}
+  = ind_iproduct_one_but_maybe_one_elt (fun i -> power_ i (if a = i then 1 else 0)) 0 (a+1) a;
+    unicity_factors_prod_pre a a (fun i -> if a = i then 1 else 0)    
+
+let  lemma mem_div_by_fact (a c:int) 
+          requires{1<=c}
+          requires{1<=a}
+          requires{forall i.   prime_factors a i <= prime_factors c i}
+          ensures{mem a (divisors c)}
+  = unicity_factors_prod_gen c c (prime_factors a)
+  
+let lemma div_prime  (a i:int)
+      requires{0<a}
+   requires{0< prime_factors a i}
+   requires{a<>i}
+   ensures{mem i (divisors a)}
+  =
+  assert{prime i};
+  assert{1< i < a};
+  factors_prod i;
+  unicity_factors_prod i a (fun j -> if j = i then 1 else 0)
+
+let lemma not_co_prime_itself (a:int)
+      requires{1<a}
+      ensures{not (co_prime a a)}
+  = assert{mem a (inter (divisors a) (divisors a))}
+  
+let lemma co_prime_gcd  (a b:int)
+   requires{0<a}
+   requires{0<b}
+   requires{co_prime a b}
+   ensures{forall i. prime_factors (gcd a b) i =0}
+  = ()
+
+use p_set.Fset_comp
+  
+  let lemma co_prime_gcd_rev  (a b:int)
+   requires{0<a}
+   requires{0<b}
+   requires{forall i. prime_factors (gcd a b) i =0}
+   ensures{co_prime a b}
+  =
+  assert{forall e. mem e (inter (divisors a) (divisors b)) -> (forall  i. prime_factors e i <=0) };
+  assert{forall e. mem e (inter (divisors a) (divisors b)) -> (forall  i. prime_factors e i =0) };
+  set_equal  (inter (divisors a) (divisors b)) (to_set 1)
+
+let lemma divisors_euclid_lemma_co_prime (a b c:int)
+      requires{0<a}
+      requires{0<b}
+      requires{0<c}
+      requires{mem c (divisors (a*b))}
+      requires{co_prime b c}
+      ensures{forall c'. mem c' (divisors c) -> mem c' (divisors a)}
+  = ()
+            
+let lemma divisors_euclid_lemma_co_prime_itself (a b c:int)
+      requires{0<a}
+      requires{0<b}
+      requires{0<c}
+      requires{mem c (divisors (a*b))}
+      requires{co_prime b c}
+      ensures{mem c (divisors a)}
+  = divisors_euclid_lemma_co_prime a b c
+            
+let lemma euclid_lemma_co_prime (a b c:int)
+      requires{0<a}
+      requires{0<b}
+      requires{0<c}
+      requires{co_prime b c}
+      requires{co_prime a c}
+      ensures{co_prime (a*b) c}
+  = ()            
+
+let lemma co_prime_odd (a i:int)
+  requires{0< a}
+  requires{0< i}
+  requires{odd a}
+  ensures{co_prime (power_ 2 i) a}
+  = set_co_prime 2 a;
+    co_prime_pow 2 a i
+
+let ghost function co_primes  (i:int): set int
+                                         requires{0<i}
+                     ensures{1< i -> mem  1 result}
+                     ensures{1< i -> mem (cardinal result) (to_fset 1 i)}
+                 ensures{forall j. mem j result -> 0< j < i}
+                 ensures{forall j. mem j result -> co_prime i j}
+                 ensures{forall j. 0<= j < i -> co_prime i j -> mem j result}
+           = my_filter (to_fset 0 i) (fun j -> co_prime i j)
+
+let rec lemma co_prime_iproduct (s:set int) (f:int->int) ( bound:int)
+      requires{0<bound}
+      requires{forall e. mem e s  -> 0< f e }
+      requires{forall e. mem e s  -> co_prime (f e) bound }
+      ensures{  co_prime  (iproduct s f) bound}
+      variant{cardinal s}
+  =
+  if cardinal s = 0 then()
+  else   begin
+           iproduct_from_choose s f;
+           co_prime_iproduct (remove (choose s) s) f bound;
+         end
+
+use complex_operations.FromInt
+use complex.Complex
+  
+let function greatest_factor_in_n (multi n i:int):int
+               requires{0<n}
+               requires{0< multi < power_ 2 n}
+               requires{0<= i < multi}
+               ensures{1<=result}
+           ensures{forall j. 0<= j < result  -> j * multi + mod i multi < power_ 2 n}
+           ensures{forall j. 0<= j < power_ 2 n -> mod j multi = i <-> exists k. 0<= k < result && j =  k * multi + i}
+           ensures{i_to_c (result-1) <=. i_to_c (power_ 2 n -i) /. i_to_c multi}
+           ensures{forall i'. mod i' multi <= i ->  div i' multi < result}
+  = if i < mod (power_ 2 n) multi  then div (power_ 2 n) multi +1
+    else div (power_ 2 n) multi
+
+           use complex_operations.Base_type
+  use exponentiation.Complex_Exponentiation
+
+let lemma greatest_factor_sum_in_n (multi n :int) (cst:complex)
+      requires{0<n}
+      requires{0< multi < power_ 2 n}
+      (* requires{0<= i < multi} *)
+      ensures{sum (to_fset 0 multi) (fun i -> i_to_c (greatest_factor_in_n multi n i) *. cst) = i_to_c (power_ 2 n) *. cst }
+      ensures{ cpower  (i_to_c (power_ 2 n))2 <=.sum (to_fset 0 multi) (fun i -> cpower (i_to_c (greatest_factor_in_n multi n i))2) *. i_to_c multi}
+  =
+  card_fset  multi;
+  card_fset_gen  (mod (power_ 2 n) multi) multi;
+  card_fset  (mod (power_ 2 n) multi);
+  sum_disjoint_transitivity (to_fset 0 (mod (power_ 2 n) multi)) (to_fset  (mod (power_ 2 n) multi) multi) 
+    (fun i -> if 0<= i < multi then i_to_c (greatest_factor_in_n multi n i)  else c_zero);
+  sum_constant (to_fset 0 (mod (power_ 2 n) multi)) (fun i -> if 0<= i < multi then i_to_c (greatest_factor_in_n multi n i)  else c_zero)
+    (i_to_c (div (power_ 2 n)multi+1));
+  sum_constant (to_fset  (mod (power_ 2 n) multi) multi) (fun i -> if 0<= i < multi then i_to_c (greatest_factor_in_n multi n i)  else c_zero)
+    (i_to_c (div (power_ 2 n)multi));
+
+  sum_disjoint_transitivity (to_fset 0 (mod (power_ 2 n) multi)) (to_fset  (mod (power_ 2 n) multi) multi) 
+    (fun i -> if 0<= i < multi then cpower (i_to_c (greatest_factor_in_n multi n i))2  else c_zero);
+  sum_constant (to_fset 0 (mod (power_ 2 n) multi)) (fun i -> if 0<= i < multi then cpower (i_to_c (greatest_factor_in_n multi n i))2  else c_zero)
+    (cpower (i_to_c (div (power_ 2 n)multi+1))2);
+  sum_constant (to_fset  (mod (power_ 2 n) multi) multi) (fun i -> if 0<= i < multi then cpower (i_to_c (greatest_factor_in_n multi n i))2  else c_zero)
+    (cpower (i_to_c (div (power_ 2 n)multi))2);
+
+  let divm = div (power_ 2 n) multi
+  in let modm = mod (power_ 2 n) multi
+     in let minusmod = multi - modm in
+        begin
+          assert{(power_ 2 n) = divm * multi + modm};
+          assert{(power_ 2 n) = divm * (modm + minusmod) + modm};
+          assert{(power_ 2 n) = ((divm + 1) * modm ) +  (minusmod*divm)};
+          assert{power_ (power_ 2 n) 2 = power_ ((divm + 1) * modm ) 2 + power_ (minusmod*divm) 2 + 2 * ((divm + 1) * modm ) * (minusmod*divm)};
+          assert{sum (to_fset 0 multi) (fun i -> cpower (i_to_c (greatest_factor_in_n multi n i)) 2) *. i_to_c multi =
+                   sum (to_fset 0 multi) (fun i ->  i_to_c multi *. cpower (i_to_c (greatest_factor_in_n multi n i))2)};
+          assert{sum (to_fset 0 multi) (fun i -> cpower (i_to_c (greatest_factor_in_n multi n i))2) *. i_to_c multi =
+                   i_to_c (modm * multi * power_  (divm+1)2 + minusmod * multi * power_ divm 2)};
+          assert{modm * multi * power_  (divm+1)2 + minusmod * multi * power_ divm 2
+                 = (modm * modm  * power_  (divm+1) 2 + minusmod * modm  * power_  (divm+1) 2)
+                   + (modm * minusmod  * power_  divm 2 + minusmod * minusmod  * power_  divm 2)};
+          assert{modm * multi * power_  (divm+1)2 + minusmod * multi * power_ divm 2
+                 = (modm * modm  * power_  (divm+1) 2 + minusmod * modm  * power_  (divm+1) 2)
+                   + (modm * minusmod  * power_  divm 2 + minusmod * minusmod  * power_  divm 2)};
+          assert{modm * multi * power_  (divm+1)2 + minusmod * multi * power_ divm 2
+                 = power_ (modm * (divm+1)) 2 + power_ (minusmod * divm) 2
+                   + (modm * minusmod * power_ (divm+1) 2
+                      + modm * minusmod * power_ divm 2)};
+          assert{2 * ((divm + 1) * modm ) * (minusmod*divm) =
+                   2* power_ divm 2 * modm * minusmod
+                   + 2*  modm * minusmod * divm  };
+          assert{ modm * minusmod * power_ (divm+1) 2
+                  + modm * minusmod * power_ divm 2
+                  = 2 * modm * minusmod * power_ divm 2
+                    + 2 * divm * modm * minusmod + modm * minusmod};
+          assert{ modm * minusmod * power_ (divm+1) 2
+                  + modm * minusmod * power_ divm 2
+                  = 2 * modm * minusmod * power_ divm 2
+                    + 2 * divm * modm * minusmod
+                    + modm * minusmod};
+          assert{2 * ((divm + 1) * modm ) * (minusmod*divm)
+                 = 2 * power_  divm 2 * modm * minusmod
+                   + 2 *modm * minusmod * divm  
+                 <=  modm * minusmod * power_ (divm+1) 2
+                     + modm * minusmod * power_ divm 2};
+          assert{power_ (power_ 2 n) 2
+                 <= modm * multi * power_  (divm+1)2 + minusmod * multi * power_ divm 2};
+        end
+
+  
+end
+
+module Inverse
+     use Divisors
+         use  Div_Mod
+         use int.Int
+     use int.EuclideanDivision
+     use exponentiation.Power_
+use export Evenness     
+use p_set.IndexestoSet
+use p_int.P_minmax
+  use p_set.Choose_filter
+         use  set.FsetComprehension
+
+let ghost function euler_phi (i:int)
+                     ensures{1<i ->mem result (to_fset 1 i)}
+                     requires{0<i}
+  = cardinal (co_primes i)
+      use functions.MapInjection
+      use complex_operations.Inv_func
+      use p_set.Fset_comp
+
+let lemma injec_mult_mod_pre (a i i' bound:int)
+      requires{co_prime a bound}
+      requires{0<= i < i' <bound}
+  ensures{mod (i * a) bound <> mod (i' * a ) bound }
+  =assert{i' < bound};
+   assert{0<= i'-i < bound};
+   if mod (i * a) bound = mod (i' * a ) bound
+   then
+     begin
+       unicity_div_mod (i * a) bound (div  (i * a) bound)  (mod  (i * a) bound) ;
+       unicity_div_mod (i' * a) bound (div  (i' * a) bound) (mod  (i' * a) bound);
+       unicity_div_mod ((i'-i) * a) bound (div  (i' * a) bound - div  (i * a) bound) 0;
+       divisors_euclid_lemma_co_prime (i'-i) a bound;
+       assert{mod (i'-i) bound = 0};
+       assert{false}
+     end
+   
+let lemma injec_mult_mod (a i i' bound:int)
+      requires{co_prime a bound}
+      requires{0<= i<bound}
+      requires{0<= i'<bound}
+  requires{i <> i'}
+  ensures{mod (i * a) bound <> mod (i' * a ) bound }
+  = if i < i' then injec_mult_mod_pre a i i' bound else injec_mult_mod_pre a i' i bound
+
+let lemma co_prime_mod_mult (a e bound :int)
+      requires{0<a}
+      requires{0<e}
+      requires{1<bound}
+      requires{co_prime a bound}
+      requires{co_prime e bound}
+      ensures{co_prime (mod (a * e) bound)  bound}
+  =()
+  
+let lemma set_injec_mult_mod (a  bound:int)
+      requires{1<bound}
+      requires{co_prime a bound}
+  ensures{p_bijective (fun i -> mod (a*i) bound) (co_primes bound) (co_primes bound) }
+  ensures{map  (fun i -> mod (a*i) bound) (co_primes bound) = (co_primes bound) }
+  =  assert{forall  e:int. co_prime e bound -> not (mem bound (divisors (a*e)))};
+  assert{forall b e:int. co_prime e bound ->  mem b (inter (divisors  (a*e) ) (divisors bound)) -> mem b (inter (divisors (mod (a*e) bound)) (divisors bound)) };
+injective_is_bijective_auto (fun i -> mod (a*i) bound) (co_primes bound)
+    
+let lemma injec_mult_mod_rev (a i i' bound:int)
+      requires{1<bound}
+      requires{co_prime a bound}
+      requires{0<= i<bound}
+      requires{0<= i'<bound}
+      requires{mod (i * a) bound = mod (i' * a ) bound }
+      ensures{i = i'}
+  =()  
+
+     predicate bezout_pred (pick bound k :int) = exists a b. k = a*pick + b*bound
+           
+let ghost function bezout_set(pick bound:int)
+               requires{0<pick < bound}
+           ensures{mem (min_set result) (divisors pick)}
+           ensures{mem (min_set result) (divisors bound)}
+           ensures{0< cardinal result }
+           ensures{0<= min_set result <= pick}
+           ensures{0<= min_set result < bound}
+  =
+  let res = my_filter (to_fset 1 (pick+1)) (bezout_pred pick bound) 
+  in let min = min_set res
+     in
+     let r = mod pick min ensures{0<= result < min}
+     in
+     if r = 0 then () else
+     begin
+       unicity_div_mod pick min (div pick min) r;
+       assert{r = pick - min * (div pick min)};
+       assert{exists s t. min = s*pick + t*bound};
+       assert{exists s t. r = pick - (s*pick + t*bound) * (div pick min)};
+       assert{exists s t. r = pick * (1 - (div pick min) * s) - (bound * t * (div pick min))};
+       assert{mem r res /\ r < min};
+       assert{false};
+     end;
+     let r = mod bound min ensures{0<= result < min}
+     in
+     if r = 0 then () else
+     begin
+       unicity_div_mod bound min (div bound min) r;
+       assert{r = bound - min * (div bound min)};
+       assert{exists s t. min = s*pick + t*bound};
+       assert{exists s t. r = bound - (s*pick + t*bound) * (div bound min)};
+       assert{exists s t. r = bound * (1 - (div bound min) * t) - (pick * s * (div bound min))};
+       assert{mem r res /\ r < min};
+       assert{false};
+     end;
+     res
+
+       use p_int.Int_comp
+  
+let lemma euler_theorem (pick bound:int)
+      requires{0<pick < bound}
+      requires{co_prime pick bound}
+      ensures{mod (power_ pick (euler_phi bound)) bound = 1}
+  =      set_injec_mult_mod pick bound;
+     let prod = mod (iproduct (co_primes bound) (fun x -> mod x bound)) bound
+     in begin
+         iproduct_map (co_primes bound)  (fun x -> mod (pick *x) bound) (fun x -> mod x bound);
+         assert{prod = mod (iproduct (co_primes bound) (fun x -> mod (pick * x) bound)) bound};
+         iproduct_extract_const (co_primes bound)(fun x -> x) pick;
+         mod_mod_iproduct  (co_primes bound) (fun x -> pick *x) bound;
+         mod_mod_iproduct  (co_primes bound) (fun x -> x) bound;
+         assert{prod = mod (iproduct (co_primes bound) (fun x -> pick * x)) bound};
+         assert{prod= mod (power_ pick (euler_phi bound ) * prod)bound};
+         assert{prod = mod (mod (power_ pick (euler_phi bound )) bound * prod)bound};
+         injec_mult_mod_rev prod (mod (power_ pick (euler_phi bound )) bound) 1 bound;
+         assert{mod (power_ pick (euler_phi bound )) bound = 1};
+       end
+
+let function modular_inverse (pick bound:int):int
+      requires{0<pick < bound}
+      requires{co_prime pick bound}
+      ensures{0<= result < bound}
+      ensures{mod ( result * pick) bound = 1}
+  = euler_theorem pick bound;
+  min_filter (to_fset 0 bound) (fun i -> mod ( i * pick) bound = 1)     
+
+let function multi_order (pick bound:int):int
+                                            requires{co_prime pick bound}
+                                            requires{0<pick < bound}
+                                            ensures{1<= result < bound}
+               ensures{mod  (power_ pick result)  bound = 1}
+= min_filter (to_fset 1 bound) (fun i -> mod (power_ pick i) bound = 1)     
+
+
+let  rec lemma modular_expo (a k bound i:int)
+      requires{0<=i}
+      requires{0<a < bound}
+      requires{0<=k}
+      requires{co_prime a bound}
+      requires{2<= bound}
+               ensures{mod (power_ a i) bound = mod (power_  a (k* (multi_order a bound) + i)) bound}
+       variant{k}
+  = if (k= 0) then ()
+    else
+      begin
+        assert {0< k};
+        modular_expo a (k-1) bound i
+      end
+
+
+  
+let lemma modular_expo_gen (a bound:int)
+      requires{0<a < bound}
+      requires{co_prime a bound}
+      ensures{forall i k . 0<= i -> 0<= k -> mod (power_ a i) bound = mod (power_  a (k* (multi_order a bound) + i)) bound}
+  = () 
+  
+let lemma modular_expo_rev (a k bound i:int)
+      requires{0<a < bound}
+      requires{0<=i}
+      requires{0<=k}
+      requires{co_prime a bound}
+               ensures{mod (power_  a (k* (multi_order a bound) + i)) bound = mod (power_ a i) bound}
+  = () 
+
+let lemma modular_expo_gen_rev (a bound:int)
+      requires{0<a < bound}
+      requires{co_prime a bound}
+      ensures{forall i k . 0<= i -> 0<= k ->  mod (power_  a (k* (multi_order a bound) + i)) bound = mod (power_ a i) bound }
+  = () 
+
+let lemma injec_mod_prod_multi_order_pre (pick bound i i':int)
+                                            requires{co_prime pick bound}
+                                            requires{0<pick < bound}
+                                            requires{mem i (to_fset 0 (multi_order pick bound))}
+                                            requires{mem i' (to_fset 0 (multi_order pick bound))}
+                                            requires{i<i'}
+  ensures{mod (power_ pick i') bound<> mod (power_ pick i) bound}
+  = if mod (power_ pick i') bound  = mod (power_ pick i') bound then
+      assert{mod (power_ pick (i'-i)) bound = 1}
+    else ()
+  
+let lemma injec_mod_prod_multi_order (pick bound i i':int)
+                                            requires{co_prime pick bound}
+                                            requires{0<pick < bound}
+                                            requires{mem i (to_fset 0 (multi_order pick bound))}
+                                            requires{mem i' (to_fset 0 (multi_order pick bound))}
+                                            requires{i<>i'}
+  ensures{mod (power_ pick i') bound <> mod (power_ pick i) bound }
+  = if i < i' then injec_mod_prod_multi_order_pre pick bound i i'
+                  else injec_mod_prod_multi_order_pre pick bound i'  i
+
+let lemma mod_eq_power_to_multi_order (pick bound i i':int)
+                                            requires{co_prime pick bound}
+                                            requires{0<pick < bound}
+                                            requires{0<=  i }
+                                            requires{0<= i'}
+                                            requires{mod (power_ pick i') bound = mod (power_ pick i) bound }                                            
+                                            ensures{mod i (multi_order pick bound)  = mod i' (multi_order pick bound)  }
+  = ()
+
+let lemma mod_eq_multi_order_to_power (pick bound i i':int)
+                                            requires{co_prime pick bound}
+                                            requires{0<pick < bound}
+                                            requires{0<=  i }
+                                            requires{0<= i'}
+                                            requires{mod i (multi_order pick bound)  = mod i' (multi_order pick bound)  }
+                                            ensures{mod (power_ pick i') bound = mod (power_ pick i) bound }                                            
+  = ()
+
+end 
+     

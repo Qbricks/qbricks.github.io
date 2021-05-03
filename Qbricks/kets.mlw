@@ -1,0 +1,227 @@
+module Superpositions
+         use qdata.Kronecker_Qbit
+         use qdata.Ket_basis
+         use matrices.Matrice
+         use matrices.Matrix_scalar
+         use qdata.Bv_to_ket
+         use complex.Complex
+         use matrices.Matrix_addition
+         use matrices.Matrix_equality
+         use p_set.Fset_comp
+         use  set.FsetComprehension
+         use binary.Bit_vector
+         use matrices.Kronecker_product
+         use qdata.Qreg
+         use pps.Pps
+         use  exponentiation.Complex_Exponentiation     
+         use qdata.Sqrt_two
+     
+let function qbit_zero() : matrix complex
+      ensures{get_ket result 0  = c_one}
+      ensures{get_ket result 1  = c_zero}
+      ensures{is_a_ket_l result 1}
+      ensures{rows result = 2}
+      ensures{columns result = 1}
+      ensures{get result 0 0 = c_one}
+      ensures{get result 1 0 = c_zero}
+      ensures{is_a_ket_basis_elt result}
+  = ket 1 0
+     
+let function qbit_one() : matrix complex
+      ensures{get_ket result 0  = c_zero}
+      ensures{get_ket result 1  = c_one}
+      ensures{is_a_ket_l result 1}
+      ensures{rows result = 2}
+      ensures{columns result = 1}
+      ensures{get result 0 0 = c_zero}
+      ensures{get result 1 0 = c_one}
+      ensures{is_a_ket_basis_elt result}
+  = ket 1 1
+
+let function qbit_plus() : matrix complex
+  ensures{result = pow_inv_sqrt_2 1 *.. add_ket_l (qbit_zero()) (qbit_one()) 1}
+  ensures{is_a_ket_l result 1}
+  ensures{rows result = 2}
+  ensures{columns result = 1}
+  ensures{get_ket result 0  = pow_inv_sqrt_2 1}
+  ensures{get_ket result 1  =  pow_inv_sqrt_2 1}
+  = pps_apply pps_hadamard (qbit_zero())
+
+let function qbit_minus() : matrix complex
+  ensures{result = pow_inv_sqrt_2 1 *.. add_ket_l (qbit_zero()) ((-. c_one) *.. qbit_one()) 1}
+      ensures{is_a_ket_l result 1}
+      ensures{rows result = 2}
+      ensures{columns result = 1}
+      ensures{get_ket result 0  = pow_inv_sqrt_2 1}
+      ensures{get_ket result 1  = -. pow_inv_sqrt_2 1}
+  = pps_apply pps_hadamard (qbit_one())
+  
+let lemma add_plus_minus()
+      ensures{add_ket_l (qbit_plus()) (qbit_minus()) 1 = squarert_two *.. (qbit_zero())}
+      ensures{add_ket_l (pow_inv_sqrt_2 1 *..(qbit_plus())) (pow_inv_sqrt_2 1 *..(qbit_minus())) 1 =  (qbit_zero())}
+  = set_equal_ket (add_ket_l (qbit_plus()) (qbit_minus()) 1) (squarert_two *.. (qbit_zero()))
+
+let lemma substr_plus_minus()
+      ensures{add_ket_l (qbit_plus()) (-.c_one *.. qbit_minus()) 1 = squarert_two *.. (qbit_one())}
+      ensures{add_ket_l (pow_inv_sqrt_2 1 *..(qbit_plus())) (-. pow_inv_sqrt_2 1 *..(qbit_minus()) ) 1 = (qbit_one())}
+  = set_equal_ket (add_ket_l (qbit_plus()) (-.c_one *.. qbit_minus()) 1) (squarert_two *..qbit_one())
+
+let lemma plus_to_zero()
+  ensures{pps_apply pps_hadamard (qbit_plus()) = (qbit_zero())}
+  = ()
+  
+let lemma plus_to_one()
+  ensures{pps_apply pps_hadamard (qbit_minus()) = (qbit_one())}
+  = ()
+  
+let lemma hadamard_comp (x:bitvec)
+      requires{length x = 1}
+      ensures{pps_apply pps_hadamard (pps_apply pps_hadamard (bv_to_ket x)) = (bv_to_ket x)}
+  = if bv_to_int x = 0 then plus_to_zero else plus_to_one
+  
+let lemma set_equal_qbit (a b : matrix complex)
+      requires{is_a_ket_l a 1}
+      requires{is_a_ket_l b 1}
+      requires{get_ket a  0  = get_ket b  0  }
+      requires{get_ket a  1  = get_ket b 1  }
+      ensures{a = b}
+  = set_equal_mat a b
+
+      use int.Int
+
+let function xor_qbits (x y: matrix complex)
+           requires{is_a_ket_l x 1}
+           requires{is_a_ket_l y 1}
+           ensures{is_a_ket_l result 1}
+           ensures{is_a_ket_basis_elt x -> is_a_ket_basis_elt y ->  result  = ket 1 (xor_i (ket_to_int x) (ket_to_int y))}
+           ensures{get_ket result 0 =  get_ket x 0 *. get_ket y 0 +. get_ket x 1 *. get_ket y 1}
+           ensures{get_ket result 1 =  get_ket x 0 *. get_ket y 1 +. get_ket x 1 *. get_ket y 0}
+  = make_ket 1 (fun i -> if i = 0 then get_ket x 0 *. get_ket y 0 +. get_ket x 1 *. get_ket y 1
+      else get_ket x 0 *. get_ket y 1 +. get_ket x 1 *. get_ket y 0)
+
+      use binary.Bit_vector_decomp
+      use unit_circle.Angle
+      use exponentiation.Power_
+  
+let lemma xor_int_to_ket (x: matrix complex) (i:int)
+      requires{is_a_ket_l x 1}
+  ensures{is_a_ket_l (xor_qbits (ket 1 i) x) 1}
+  =()
+  
+let lemma xor_qbit_minus (i:int)
+      requires{0<= i <2}
+      ensures{xor_qbits (ket 1 i) (qbit_minus()) = cpower (-. c_one) i *.. (qbit_minus())}
+  =()
+
+let lemma ket_sum_xor_qbit_minus (s: set 'a) (f:'a -> int)
+      requires{forall e: 'a. mem e s -> 0<= f e < 2}
+      ensures{ket_sum_l s (fun e -> xor_qbits (ket 1 (f e)) (qbit_minus())) 1 = ket_sum_l s (fun e -> cpower (-. c_one) (f e) *.. (qbit_minus())) 1}
+  =()
+
+let lemma superposition_xor_qbit_minus  (f:bitvec -> int) (n:int)
+      requires{forall e: bitvec. length  e = n  -> 0<= f e < 2}
+      requires{0<=n}
+      ensures{kronecker (pow_inv_sqrt_2 n *.. ket_sum_l (n_bvs n) (fun x ->  (cpower (-. c_one) (f x) *.. bv_to_ket x)) n) ( (qbit_minus()))
+        = pow_inv_sqrt_2 n *.. ket_sum_l (n_bvs n)  (fun e -> kronecker (bv_to_ket e ) (xor_qbits (ket 1 (f e)) (qbit_minus()))) (n+1)}
+            =()
+
+use unit_circle.Ang_sum  
+use export int.Int
+use p_set.IndexestoSet
+
+let lemma sum_ket_zero (n:int)
+      requires{n>=0}
+      ensures{forall y: bitvec. ang_sum (fun i -> int_to_ang ((getbv (ket_to_bv (ket n 0)) i) * (getbv y  i)) 1)  0 n = ang_zero}
+  = ket_zero n
+
+let rec function repeat_pps_had (n:int):pps
+        requires{n>=1}
+        ensures{h_width result = n}
+        ensures{h_range result = n}
+        ensures{forall x y: int->int.  forall i :int. 0<= i < n -> 
+                                               h_basis_ket result x y i =   y i}
+        ensures{forall x y: int->int. h_angle result x y   = ang_sum(fun i -> int_to_ang (if  x i =  y i = 1 then 1 else 0) 1) 0 n}
+        variant{n}               
+  =  sum_ket_zero n;
+     if n = 1 then
+               pps_hadamard
+           else
+               pps_par (repeat_pps_had (n-1)) pps_hadamard
+
+use p_int.Int_comp
+     
+let function kron_had_coeffs (n i j :int)
+           requires{0<=n}
+  = pow_inv_sqrt_2 n *. cpower (-. c_one)   (ind_isum (fun k -> getbv  (int_to_bv i n) k * getbv (int_to_bv j n) k)  0 n)
+
+  
+let function superposition_state (n:int)
+                   requires{n>=1}
+                   ensures{result  = pow_inv_sqrt_2 n *.. ket_sum_l  (n_bvs n) bv_to_ket  n}
+                   ensures{result  = pow_inv_sqrt_2 n *.. ket_sum_l  (to_fset 0 (power_ 2 n)) (ket  n) n}
+           ensures{is_a_ket_l result n}
+  =   pps_apply (repeat_pps_had n) (ket n 0)
+
+         use  complex_operations.FromInt  
+      
+let lemma get_ket_superposition (n i:int)
+      requires{1<=n}
+      requires{0<=i < power_ 2 n}
+      ensures{get_ket (superposition_state n ) i  = c_one /. (square_rt (i_to_c (power_ 2 n)))}
+=()
+        
+use p_int.Int_comp
+use binary.Bv_concat
+
+let rec lemma repeat_had_twice_bv (n:int) (x:bitvec)
+      requires{n>=1}
+      requires{length x = n}
+      ensures{pps_apply (repeat_pps_had n)(pps_apply (repeat_pps_had n ) (bv_to_ket x)) = bv_to_ket x}
+      variant{n}
+  = if n = 1
+    then ()
+    else
+      begin
+        repeat_had_twice_bv (n-1) (hpart x (n-1));
+        repeat_had_twice_bv 1 (tpart x (n-1));
+        assert{x = concat (hpart x (n-1))(tpart x (n-1))};
+      end
+  
+let lemma repeat_had_twice_bv_gen (n:int)
+      requires{n>=1}
+      ensures{forall x: bitvec. length x = n ->
+                        pps_apply (repeat_pps_had n)(pps_apply (repeat_pps_had n ) (bv_to_ket x)) = bv_to_ket x}
+  =()
+
+let lemma repeat_had_twice_ket (n:int)
+      requires{n>=1}
+      ensures{forall x: matrix complex. is_a_ket_l x n -> pps_apply (repeat_pps_had n)(pps_apply (repeat_pps_had n )x) =  x}
+  =()
+
+let lemma repeat_had_superposition (n:int)
+      requires{n>=1}
+      ensures{ pps_apply (repeat_pps_had n) (superposition_state n) = (ket n 0)}
+  =()
+
+let lemma path_sem_repeat_at_zero_bv (n:int) (x:bitvec)
+      requires{n>=1}
+      requires{length x = n}
+      ensures{get_ket (pps_apply (repeat_pps_had n ) (bv_to_ket x)) 0 =  pow_inv_sqrt_2 n  }
+  =()
+
+use complex_operations.Base_type
+  
+let lemma path_sem_repeat_at_zero (n:int) (x:matrix complex)
+      requires{n>=1}
+      requires{is_a_ket_l x n}
+      ensures{get_ket (pps_apply (repeat_pps_had n ) x) 0 =  pow_inv_sqrt_2 n *. ind_sum (get_ket x) 0 (power_ 2 n)}
+  =()
+
+let lemma ket_sum_power_minus_one (f  : bitvec -> int)(g  : bitvec -> bitvec -> int) (n:int)
+      requires{n>=0}
+      ensures{ket_sum_l (n_bvs n) (fun x -> cpower  (-. c_one) (f x) *.. ket_sum_l (n_bvs n) (fun y -> cpower  (-. c_one) (g x y) *.. bv_to_ket y) n) n
+      = ket_sum_l (n_bvs n) (fun y -> sum (n_bvs n) (fun x -> cpower (-. c_one) (g x y + f x)) *.. bv_to_ket y) n}
+=    
+ket_sum_sum_complex (fun x y -> (cpower (-. c_one) (g x y + f x))) (n_bvs n) (n_bvs n) n; 
+
+end

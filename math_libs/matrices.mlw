@@ -1,0 +1,2189 @@
+module Matrice
+         use  int.Int
+         use  ref.Ref
+         use  map.Map as M
+         use  p_set.IndexestoSet
+         use  p_set.Fset_comp
+         use  set.Fset
+         use  complex.Pairs
+     
+type matrix 'a = {
+    elts: int -> int -> 'a;
+    rows: int;
+    columns: int
+  } invariant { 0 < rows /\ 0 < columns }
+
+let predicate valid_index (a: matrix 'a) (r c: int) =
+  0 <= r < rows a && 0 <= c < columns a
+
+predicate equal_size (a b: matrix 'a) =
+    rows a = rows b /\ columns a = columns b 
+  
+let function get (a: matrix 'a) (r c: int) : 'a
+                                               ensures  { result = a.elts  r c }
+  = a.elts  r c
+
+
+let lemma elts_eq (a b:matrix 'a)
+      requires{a=b}
+      ensures{elts a = elts b}
+  =()
+  
+let lemma elts_inst_eq (a b:matrix 'a) (i j:int)
+      requires{a=b}
+      requires{0<= i < rows a}
+      requires{0<= j < columns a}
+      ensures{(elts a) i j = (elts b) i j}
+  =()
+  
+let function make (r c: int) (v: 'a) : matrix 'a
+                                         requires { r > 0 /\ c > 0 }
+                                         ensures  { rows result = r }
+                                         ensures  {columns result = c }
+                                         ensures  {forall i j. 0 <= i < r /\ 0 <= j < c -> get result i j = v }
+  ={
+  elts = (fun x y -> v);
+                    rows = r;
+                    columns = c}
+
+axiom equality   : 
+  forall m n : matrix 'a.  m = n <->  (rows m = rows n/\columns m = columns n)/\( forall i j:int. valid_index m i j   -> get m  i j = get n i j)
+  
+let lemma make_value (r c i j: int) (v: 'a)
+      requires{ r >0 /\ c > 0 }
+      requires{0<= i < r}
+      requires{0<= j < c}
+      ensures{get (make r c v) i j = v}
+  =()
+
+let ghost function mat_indices (m:matrix 'a)
+                     ensures{forall o.  mem o result -> 0<= fir o < rows m}
+                     ensures{forall o.  mem o result -> 0<= sec o < columns m}
+                     ensures{forall o.  0<= fir o < rows m -> 0<= sec o < columns m -> mem o result}
+                     ensures{forall i j:int. valid_index m i j <-> mem (i,j) result}
+  = cartesian_product (to_fset 0 (rows m)) (to_fset 0 (columns m))
+  
+let function set (a: matrix 'a) (r:int)( c: int) (v: 'a) :
+               matrix 'a
+                 requires { valid_index a r c }
+                 ensures{rows result = rows a}
+                 ensures{columns result = columns a}
+                 ensures{forall i j :int. valid_index a i j -> get result i j = if i = r && j = c then v else get a i j}
+                 ensures  { get result r c = v }
+                 ensures  {forall i j:int. valid_index result i j -> not (i = r) -> get result i j  = get a i j}
+                 ensures  {forall i j:int. valid_index result i j -> not (j = c) -> get result i j  = get a i j}
+  ={ rows = rows a; columns = columns a;elts =  fun i j  -> if ( i = r && j = c) then v else get a i j}        
+
+let lemma set_valid_index (a: matrix 'a) (i:int)( j: int)  
+      requires { 0<= i < rows a}
+      requires { 0<= j < columns a}
+      ensures{ valid_index a i j}
+  =()
+  
+let lemma get_valid_index (a: matrix 'a) ( r c: int)  
+      requires{rows a = r}
+      requires{columns a = c}
+      ensures {forall i j :int. valid_index a i j ->  0<= i < r}
+      ensures {forall  i j :int. valid_index a i j ->  0<= j < c}
+  =()
+  
+let lemma get_valid_index_params (a: matrix 'a) (r c i j: int)  
+      requires{rows a = r}
+      requires{columns a = c}
+      requires{valid_index a i j}
+      ensures {  0<= i < r}
+      ensures {0<= j < c}
+  =()
+  
+let lemma set_values (a: matrix 'a) (r:int)( c: int) (v: 'a) 
+      requires { valid_index a r c }
+      ensures{forall i j :int. valid_index a i j ->  get (set a r c v) i j = if i = r && j = c then v else get a i j}
+  =()
+  
+let lemma set_rows (a: matrix 'a) (r:int)( c: int) (v: 'a) 
+      requires { valid_index a r c }
+      ensures{rows (set a r c v) = rows a}                   
+  =()
+  
+let lemma set_columns (a: matrix 'a) (r:int)( c: int) (v: 'a) 
+      requires { valid_index a r c }
+      ensures{columns (set a r c v) = columns a}                   
+  =()
+  
+let function make_func (r c: int) (f: int -> int-> 'a) : matrix 'a
+                                                        requires{r > 0}
+                                                        requires{c > 0}
+                                                        ensures{elts result = f}
+                                                        ensures{rows result = r}
+                                                        ensures{columns result = c}
+                                                        ensures{forall i j:int. get result i j  =  f i j}
+   ={elts = f; rows = r; columns =c}        
+
+let function make_f (r c: int) (f: int -> int-> 'a) : matrix 'a
+                                                        requires{r > 0}
+                                                        requires{c > 0}
+                                                        ensures{rows result = r}
+                                                        ensures{columns result = c}
+                                                        ensures{forall i j:int. get result i j  =  f i j}
+   = make_func r c f
+
+let lemma assert_make
+      (r c: int) (f: int -> int-> 'a)(i j : int)
+      requires{0<= i <r}
+      requires{0<= j <c}
+      ensures{get (make_f  r c f) i j  =  f i j  }
+  =()
+
+let lemma assert_make_r
+      (r c: int) (f: int -> int-> 'a)
+      requires{0< r}
+      requires{0< c}
+      ensures{rows (make_f  r c f)   =  r  }
+  =()
+
+let lemma assert_make_c
+      (r c: int) (f: int -> int-> 'a)
+      requires{0< r}
+      requires{0< c}
+      ensures{columns (make_f  r c f)   =  c  }
+  =()
+
+let ghost function to_indexes (m:matrix 'a) =
+  ensures{cardinal result = rows m * columns m}
+    cartesian_product (to_fset 0 (rows m)) (to_fset 0 (columns m))
+
+let lemma set_to_indexes_mem (m: matrix 'a)(i j : int)
+      requires{0<= i < rows m}
+      requires{0<= j < columns m}
+      ensures{mem (i,j) (to_indexes m)}
+  = ()
+
+let lemma get_to_indexes_mem (m: matrix 'a)(o: (int,int))
+      requires{mem o (to_indexes m)}
+      ensures{0<= (fir o) < rows m}
+      ensures{0<= (sec o) < columns m}
+  = ()
+
+end
+     
+module Matrix_equality
+         use complex.Complex
+         use  int.Int
+         use  complex_operations.Base_type
+         use  Matrice
+  
+let predicate equal (m: matrix 'a) (n: matrix 'a)  
+  = (m == n)
+
+let lemma mat_equality (m: matrix 'a) (n: matrix 'a)  
+      requires{rows m = rows n}
+      requires{columns m = columns n}
+      requires{forall i j:int. valid_index m i j -> get m i j = get n i j}
+      ensures{equal m n}
+  =()  
+
+let predicate square (m: matrix 'a)  
+  =  rows m = columns m
+
+let lemma equal_sym (m n :matrix 'a)
+      ensures{equal m n = equal n m}
+  =()
+
+let lemma equal_rex  (m  :matrix 'a)
+      ensures{equal m m}
+  =()
+
+let lemma equal_trans  (m n o:matrix 'a)
+      ensures{equal m n -> equal n o -> equal m o}
+  =()
+
+  let lemma set_equal_mat (m: matrix 'a) (n: matrix 'a)  
+      requires{rows m = rows n}
+      requires{columns m = columns n}
+      requires{forall i j:int. valid_index m i j -> get m i j = get n i j}
+      ensures{m = n}
+  = ()
+
+let lemma set_equal_mat_make   (r c: int) (f g: int -> int-> 'a)
+      requires{0< r}
+      requires{0< c}
+      requires{forall i j. 0<= i < r -> 0<= j < c -> f i j = g i j}
+      ensures{make_f  r c f  = make_f r c g  }
+  =
+  set_equal_mat (make_f  r c f) (make_f  r c g)
+
+let lemma set_equal_mat_make_t   (r r' c c': int) (f g: int -> int-> 'a)
+      requires{0< r}
+      requires{0< c}
+      requires{r = r'}
+      requires{c = c'}
+      requires{forall i j. 0<= i < r -> 0<= j < c -> f i j = g i j}
+      ensures{make_f  r c f  = make_f r' c' g  }
+  =
+  set_equal_mat (make_f  r c f) (make_f  r c g)
+  
+let lemma get_equal_mat (m: matrix 'a) (n: matrix 'a)  
+      requires{ m = n}
+      ensures{rows m = rows n}
+      ensures{columns m = columns n}
+      ensures{forall i j:int. valid_index m i j -> get m i j = get n i j}
+  =()  
+
+let lemma equal_functions (r c: int) (f g: int-> int -> 'a)
+      requires{0<r}
+      requires{0<c}
+      requires{forall i j:int. 0<= i< r /\ 0<= j < c -> f i j = g i j}
+      ensures{make_f r c f = make_f r c g}
+  = set_equal_mat (make_f r c f) (make_f r c g)
+
+let lemma equal_functions_mat  (f : int-> int -> 'a) (m: matrix 'a)
+      requires{forall i j:int. 0<= i< rows m /\ 0<= j < columns m -> f i j = get m i j}
+      ensures{m = make_f (rows m) (columns m) f}
+  = set_equal_mat m (make_f (rows m) (columns m) f) 
+
+      use  complex.Complex
+
+      predicate null_mat (a: matrix complex)=
+      forall i j:int. valid_index a i j -> get a i j = c_zero
+
+let lemma set_null_mat (a: matrix complex)
+      requires{forall i j:int. valid_index a i j -> get a i j = c_zero}
+      ensures{null_mat a}
+  =()
+  
+let lemma get_null_mat (a: matrix complex)
+      requires{null_mat a}
+      ensures{forall i j:int. valid_index a i j -> get a i j = c_zero}
+  =()
+  
+end
+
+module Kronecker_product
+         use  complex.Complex
+         use  int.Int
+         use  complex_operations.Base_type
+         use  fsum.Set_iter
+         use  fsum.Iterations
+         use  Matrice         
+         use  Matrix_equality         
+         use  int.EuclideanDivision
+         use  arit.Div_Mod
+         use  arit.Base_arit
+         use  exponentiation.Int_Exponentiation
+         use  p_int.Int_comp
+         
+let          constant kronecker_neutral : matrix complex
+  =   make 1 1 ( c_one : complex)
+        
+   use  ref.Ref
+   use  set.FsetComprehension
+
+let function identity (n:int): matrix complex
+                                 requires{0<=n}
+           ensures{rows result = power 2 n}
+           ensures{columns result = power 2 n}
+           ensures{forall i j:int. valid_index result i j -> get result i j =  if i = j then c_one else c_zero}
+  = make_f (power 2 n) (power 2 n) (fun i j -> if i = j then c_one else c_zero) 
+
+let lemma identity_rows (n:int)
+      requires{0<=n}
+      ensures{rows (identity n) = power 2 n}
+  =()
+           
+let lemma identity_columns (n:int)
+                                 requires{0<=n}
+      ensures{columns (identity n) = power 2 n}
+  =()
+           
+let lemma identity_values (i  j n:int)
+      requires{0<=n}
+      requires{0<=i < power 2 n}
+      requires{0<=j < power 2 n}
+      ensures{get (identity n) i j = if i = j then c_one else c_zero}
+  =()
+           
+let function kronecker (m n: matrix complex):
+                     matrix complex
+                       ensures{rows result = rows m * rows n}
+                       ensures{columns result = columns m * columns n}
+                       ensures{forall i j:int. valid_index result i j ->
+                                          get result i j  =   (get  m (div i n.rows) (div j n.columns) )
+                                                              *. (get  n (mod i n.rows) (mod j n.columns) )}
+  =
+  assert{forall i j:int.  0 <= i < rows m * rows n -> 0 <= j < columns m * columns n ->
+                    valid_index    n (mod i n.rows) (mod j n.columns)
+                    /\  valid_index  m (div i n.rows) (div j n.columns)  };
+  make_f (rows m * rows n)(columns m *columns n) (fun i j -> (  get m (div i n.rows) (div j n.columns) )
+                                                             *.  ( get n (mod i n.rows) (mod j n.columns) ))
+
+  let lemma kronecker_eq (m1 n1 m2 n2: matrix complex)
+      requires{m1 = m2}
+      requires{n1 = n2}
+      ensures{kronecker m1 n1 = kronecker m2 n2}
+  =()
+  
+let lemma get_kronecker (m n: matrix complex)
+      ensures{kronecker m n = make_f (rows m * rows n)(columns m *columns n)
+                                (fun i j ->(get  m (div i n.rows) (div j n.columns) ) *.  ( get n (mod i n.rows) (mod j n.columns) ))}
+  =()
+
+let lemma kronecker_values (m n : matrix complex) (i j:int)
+      requires{valid_index (kronecker m n) i j}
+      ensures{get (kronecker m n) i j =   ( get m (div i n.rows) (div j n.columns) )
+                                          *. (get  n (mod i n.rows) (mod j n.columns) )}
+  =
+  ()
+
+let lemma kronecker_rows (m n : matrix complex)
+      ensures{rows (kronecker m n)  = rows m * rows n}
+  =
+  ()
+
+let lemma kronecker_columns (m n : matrix complex)
+      ensures{columns (kronecker m n)  = columns m * columns n}
+  =
+  ()
+
+let lemma kronecker_values_gen (m n : matrix complex) 
+      ensures{forall i j:int.valid_index (kronecker m n) i j ->
+                         get  (kronecker m n) i j =   ( get  m (div i n.rows) (div j n.columns) )
+                                                      *. ( get  n (mod i n.rows) (mod j n.columns) )}
+  =
+  ()
+
+let lemma kronecker_mod_values (m n : matrix complex) (i j:int)
+      requires{valid_index (kronecker m n) i j}
+      ensures{get (kronecker m n) i j =   ( get m (div (mod i (rows (kronecker m n) )) n.rows) (div (mod j (  columns(kronecker m n) )) (columns n)) )
+                                          *. (  get n (mod (mod i ( rows (kronecker m n) )) (rows n)) (mod (mod j (  columns (kronecker m n))) n.columns) )}
+  =
+  kronecker_values m n i j;
+  assert{i = (mod i ( rows (kronecker m n)))};
+  assert{j = (mod j ( columns(kronecker m n) ))};
+  mod_mod_right i (rows n) (rows m);
+  mod_mod_right j (columns n) (columns m);
+  ()
+
+let lemma kronecker_indexes (m n: matrix complex) (i j k l : int)
+      requires{valid_index m i j }
+      requires{valid_index n k l}
+      ensures{valid_index (kronecker m n) (i * (rows n) + k) (j * (columns n) + l)}
+  =
+  inf_mul i k (rows m )(rows n);
+  inf_mul j l (columns m )(columns n)
+
+let lemma kronecker_indexes_com (m n: matrix complex) (i j  : int)
+      requires{valid_index (kronecker m n) i j}
+      ensures{  valid_index m (div i (rows n))  (div j (columns n))}
+      ensures{valid_index n (mod i (rows n))  (mod j (columns n))}
+  = inf_mul_comm i  (rows (kronecker m n)) (rows n) (rows m);
+    inf_mul_comm j  (columns(kronecker m n)) (columns n) (columns m);
+    ()    
+
+let lemma kronecker_assoc_pre (m n o: matrix complex) (i j: int)
+      requires{0 <= i <rows m * rows n * rows o}
+      requires{0 <= j < columns m * columns n * columns o}
+      ensures{ get  (kronecker  (kronecker m n) o) i j  = get  (kronecker m (kronecker n o)) i j  }
+  =
+  kronecker_values_gen m n;
+  kronecker_values_gen n o;
+  kronecker_values (kronecker m n) o i j;
+  kronecker_values m (kronecker n o) i j
+
+let lemma kronecker_assoc()
+      ensures{op_assoc kronecker}
+  =
+  assert{forall m n o: matrix complex. rows (kronecker  (kronecker m n) o) = rows (kronecker m (kronecker  n o)) };
+  assert{forall m n o: matrix complex. columns (kronecker  (kronecker m n) o) = columns (kronecker m (kronecker  n o)) };
+  assert{forall m n o: matrix complex. forall i j:int. valid_index (kronecker  (kronecker m n) o) i j ->
+                                            get (kronecker  (kronecker m n) o) i j =  get (kronecker m (kronecker  n o)) i j};
+  assert{forall m n o: matrix complex.equal (kronecker  (kronecker m n) o) (kronecker m (kronecker n o))}
+
+let lemma kronecker_assoc_use  (a b c: matrix complex)
+      ensures{kronecker a (kronecker b c) = kronecker (kronecker a b) c}
+  =()
+  
+let lemma kronecker_assoc_use_rev  (a b c: matrix complex)
+      ensures{ kronecker (kronecker a b) c = kronecker a (kronecker b c)}
+  =()
+  
+let lemma neutral_ (m : matrix complex)
+      ensures{kronecker m kronecker_neutral = m} 
+      ensures{kronecker  kronecker_neutral m = m} 
+  =
+  assert{rows (kronecker m kronecker_neutral) = rows m = rows (kronecker kronecker_neutral m)};
+  assert{columns (kronecker m kronecker_neutral) = columns m = columns (kronecker  kronecker_neutral m)};
+  assert{rows kronecker_neutral =1};
+  assert{forall i j: int. valid_index m i j -> get (kronecker m kronecker_neutral) i j = get m i j = get (kronecker  kronecker_neutral m) i j};
+  assert{equal m (kronecker m kronecker_neutral)}; 
+  assert{equal  (kronecker kronecker_neutral m) m} 
+
+let lemma neutral()
+      ensures{kronecker_neutral = neutral_elt kronecker}
+      ensures{has_neutral kronecker}
+      ensures{iterable kronecker}
+  =
+  assert{op_neutral_left kronecker kronecker_neutral};
+  assert{op_neutral_right kronecker kronecker_neutral};
+  ()  
+  
+let lemma kronecker_equal ( m ml n nl:matrix complex)
+      requires{equal m ml}
+      requires{equal n nl}
+      ensures{equal (kronecker m n) (kronecker ml nl)}
+  =
+  assert{rows (kronecker m n) = rows (kronecker ml nl) };
+  assert{columns (kronecker m n) = columns (kronecker ml nl) };
+  assert{forall i j : int. valid_index  (kronecker m n) i j <-> valid_index (kronecker ml nl) i j};
+  assert{forall i j : int.
+                      valid_index  (kronecker m n) i j ->
+                      get (kronecker m n) i j = ( get  n (mod i n.rows) (mod j n.columns) )
+                                                *.( get  m (div i n.rows) (div j n.columns) )};
+  assert{forall i j : int.
+                      valid_index  (kronecker m n) i j ->
+                      valid_index n (mod i n.rows) (mod j n.columns) /\ valid_index nl (mod i n.rows) (mod j n.columns)/\
+valid_index m (div i n.rows) (div j n.columns) /\ valid_index ml (div i n.rows) (div j n.columns) /\
+get n (mod i n.rows) (mod j n.columns)  = get nl (mod i n.rows) (mod j n.columns)/\
+get m (div i n.rows) (div j n.columns)  = get ml (div i n.rows) (div j n.columns) /\
+( get  n (mod i n.rows) (mod j n.columns) ) *.( get  m (div i n.rows) (div j n.columns) ) =
+                        ( get  nl (mod i n.rows) (mod j n.columns) )
+                        *.(get   ml (div i n.rows) (div j n.columns) )};
+  assert{forall i j : int.
+                      valid_index  (kronecker m n) i j ->
+                      ( get  nl (mod i n.rows) (mod j n.columns) )
+                      *.( get  ml (div i n.rows) (div j n.columns) )
+                      = get (kronecker ml nl) i j = ( get  nl (mod i nl.rows) (mod j nl.columns) )
+                                                    *.( get  ml (div i nl.rows) (div j nl.columns) ) };
+  assert{forall i j : int. valid_index  (kronecker m n) i j ->     
+                      get (kronecker ml nl) i j = ( get  nl (mod i nl.rows) (mod j nl.columns) )
+                                                  *.(  get ml (div i nl.rows) (div j nl.columns) )  = get (kronecker ml nl ) i j}
+
+  let lemma kron_id (m n:int)
+    requires{0<=m}
+    requires{0<=n}
+    ensures{kronecker (identity m)(identity n) = (identity (m+n))}
+    =()
+    
+    use  fsum.Int_iter
+    use  fsum.Iterations
+    use  complex.Constant
+    use  complex.Assert_equal
+
+let ghost function frows  (f: int -> matrix complex) (k:int)
+                     ensures{ result >0}
+  = rows (f k)
+  
+let ghost function fcolumns  (f: int -> matrix complex) (k:int)
+                     ensures{ result >0}
+  = columns (f k)
+
+let lemma const_fcol (m: matrix complex)(k:int)
+      ensures{(fcolumns (const m)) k = columns m}
+  =()
+  
+let lemma const_frows (m: matrix complex)(k:int)
+      ensures{(frows (const m)) k = rows m}
+  =()
+  end
+
+module Matrix_product 
+         use  complex.Complex
+         use  int.Int
+         use  complex_operations.Base_type 
+         use  Matrice
+         use  Matrix_equality
+         use  ref.Ref
+         use  complex_operations.Indic
+         use  p_int.Int_comp
+         use  p_set.IndexestoSet
+         use  Kronecker_product
+     use fsum.Iterations
+use int.Int
+
+let   function mat_mult_no_bound (m n: matrix complex):
+                     matrix complex
+                       ensures{columns m = rows n -> rows result = rows m}
+                       ensures{columns m = rows n -> columns result = columns n}
+                       ensures{columns m = rows n -> forall i j:int. valid_index result i j ->
+                                                                get result i j  = ind_sum (fun k -> get m i k *. get n k j) 0 (columns m)}
+  =
+  assert{forall i j:int. 0<= i < rows m -> 0<= j < columns n ->
+                    int_iterate  (+.) (fun k -> get m i k +. get n k j) 0 (columns m) =
+                      ind_sum (fun k -> get m i k +. get n k j) 0 (columns m)};
+  if columns m = rows n then 
+    make_f  (rows m) (columns n) (fun i j -> ind_sum  (fun k -> get m i k *. get n k j) 0 (columns m))
+  else make_f 1 1 (fun i j -> c_zero)
+
+let  function mat_mult (m n: matrix complex):
+                     matrix complex
+                       requires{columns m = rows n}
+                       ensures{rows result = rows m}
+                       ensures{columns result = columns n}
+                       ensures{forall i j:int. valid_index result i j ->
+                                          get result i j  = ind_sum (fun k -> get m i k *. get n k j) 0 (columns m)}
+  = mat_mult_no_bound m n
+
+let  lemma correct_mat_mult (m n: matrix complex)
+                       requires{columns m = rows n}
+             ensures{ mat_mult m n = make_f  (rows m) (columns n) (fun i j -> ind_sum  (fun k -> get m i k *. get n k j) 0 (columns m))}
+=()
+
+let lemma mat_mult_values (m n: matrix complex) (i j :int)
+      requires{columns m = rows n}
+      requires{valid_index (mat_mult m n) i j}
+      ensures{get (mat_mult m n) i j = ind_sum (fun k -> get m i k *. get n k j) 0 (columns m)}
+  =()
+
+let lemma mat_mult_columns (m n: matrix complex)
+      requires{columns m = rows n}
+      ensures{columns (mat_mult m n) = columns n}
+  =()
+
+let lemma mat_mult_rows (m n: matrix complex)
+      requires{columns m = rows n}
+      ensures{rows (mat_mult m n) = rows m}
+  =()
+
+let lemma mat_mult_values_quant (m n: matrix complex) 
+      requires{columns m = rows n}
+      ensures{forall i j.valid_index (mat_mult m n) i j ->  get (mat_mult m n) i j = ind_sum (fun k -> get m i k *. get n k j) 0 (columns m)}
+  =()
+
+let rec ghost function int_mat_prod (f:int-> matrix complex)(i j:int)
+                         requires{i<=j}
+                         requires{forall k k':int. i<= k <= j /\ i <= k' <= j -> rows (f k) =  rows (f k') =  columns (f k')}
+                         ensures{rows result = rows (f i)}
+                         ensures{columns result = columns (f i)}
+                         ensures{columns result = rows (f i)}
+                         variant{j-i}
+  = if (j - i =0) then f i
+    else
+      mat_mult_no_bound (int_mat_prod f i (j-1)) (f j)
+  
+let lemma int_mat_prod_zero (f:int-> matrix complex)(i j:int)
+      requires{rows (f i) = columns (f i)}
+      requires{i=j}
+      ensures{int_mat_prod f i j = f i}
+  = ()
+  
+let  ghost function int_mat_prod_plus_one (f:int-> matrix complex)(i j:int)
+                      requires{i<j}
+                      requires{forall k k':int. i<= k <= j /\ i <= k' <= j -> rows (f k) =  rows (f k') =  columns (f k')}
+                      ensures{int_mat_prod f i j = mat_mult (int_mat_prod f i (j-1)) (f j)}
+  =()  
+
+let rec lemma int_mat_prod_eq (f g:int-> matrix complex)(i j:int)
+          requires{i<=j}
+          requires{forall k k':int. i<= k <= j -> i <= k' <= j -> rows (f k) =  rows (f k') =  columns (f k')}
+          requires{forall k :int. i<= k <= j -> f k = g k}
+          ensures{int_mat_prod f i j = int_mat_prod g i j}
+          variant{j-i}
+  = if (j-i) = 0 then()
+    else
+      begin
+        int_mat_prod_plus_one f i j;
+        int_mat_prod_plus_one g i j;
+        int_mat_prod_eq f g i (j-1);
+      end
+
+use exponentiation.Int_Exponentiation 
+let lemma mat_mult_id (n:int)(m: matrix complex)
+      requires{n>=0}
+      requires{columns m = power 2 n}
+      ensures{mat_mult m (identity n) = m}
+  =()
+
+let lemma id_mat_mult (n:int)(m: matrix complex)
+      requires{n>=0}
+      requires{rows m = power 2 n}
+      ensures{mat_mult (identity n) m = m}
+  =()
+
+let lemma mat_mult_eq (m n m' n': matrix complex)
+      requires{ m =  m'}
+      requires{ n =  n'}
+      requires{columns m = rows n}
+      ensures{mat_mult  m  n = mat_mult m' n'}
+  =()
+end
+
+module Matrix_addition
+         use  complex.Complex     
+         use  int.Int
+         use  complex_operations.Base_type
+         use  fsum.Int_iter
+         use  fsum.Set_iter
+         use  p_set.Fset_comp
+         use  p_set.IndexestoSet
+         use  Matrice
+         use  ref.Ref
+         use  int.Abs
+         use   Matrix_product
+         use  Matrix_equality
+         use  complex_operations.Indic
+     
+let  function add_mat (m n : matrix complex):
+                     matrix complex
+                       requires{rows m = rows n}
+                       requires{columns m = columns n}
+                       ensures{columns result = columns m = columns n}
+                       ensures{rows result = rows m = rows n}
+                       ensures{forall i j:int. 
+                                          get result i j  =  get m i j +.  get n i j }
+  = make_f (rows m) (columns m) (fun i j -> get m i j +. get n i j)
+
+let lemma add_mat_equal (m n m' n':matrix complex)
+      requires{rows m = rows n}
+      requires{columns m = columns n}
+      requires{m = m'}
+      requires{n = n'}
+      ensures{add_mat m n = add_mat m' n'}
+  =()
+  
+  let lemma add_value (m n: matrix complex)
+      requires{columns m = columns n}
+      requires{rows m = rows n}
+      requires{columns m = columns n}
+      ensures{forall i j:int. 0<= i < rows m ->
+                         0 <= j < columns m ->
+                         get (add_mat m n) i j  =  get m i j +. get n i j }
+  =()
+
+let lemma add_values (m n: matrix complex) (i j:int)
+      requires{columns m = columns n}
+      requires{rows m = rows n}
+      ensures{  get (add_mat m n) i j  =  get m i j +. get n i j }
+  =()
+
+let lemma add_mat_null_left (m n: matrix complex)
+      requires{columns m = columns n}
+      requires{rows m = rows n}
+      requires{null_mat m} 
+      ensures{  (add_mat m n)  =  n }
+  = set_equal_mat (add_mat m n)    n
+
+let lemma add_mat_null_right (m n: matrix complex)
+      requires{columns m = columns n}
+      requires{rows m = rows n}
+      requires{null_mat n} 
+      ensures{  (add_mat m n)  =  m }
+  = set_equal_mat (add_mat m n)    m
+
+let lemma set_equal_columns_elt (m n: matrix complex) (i:int)
+      requires{columns m = columns n = i}
+      ensures{ columns  m = columns n }
+  =()
+
+let lemma set_equal_rows_elt (m n: matrix complex) (i:int)
+      requires{rows m = rows n = i}
+      ensures{ rows  m = rows n }
+  =()
+
+let lemma add_columns (m n: matrix complex)
+      requires{columns m = columns n}
+      requires{rows m = rows n}
+      ensures{ columns (add_mat m n) = columns m }
+  =()
+
+let lemma add_rows (m n: matrix complex) 
+      requires{columns m = columns n}
+      requires{rows m = rows n}
+      ensures{ rows (add_mat m n) = rows m }
+  =()
+
+let lemma set_equal_dim_elt (m n: matrix complex) (i j:int)
+      requires{rows m = rows n = i}
+      requires{columns m = columns n = j}
+      ensures{ columns  m = columns n }
+      ensures{ rows  m = rows n }
+  =()
+
+let lemma set_dim_add (m n: matrix complex) (i j:int)
+      requires{rows m = rows n = i}
+      requires{columns m = columns n = j}
+      ensures{ rows (add_mat m n) = i }
+      ensures{ columns (add_mat m n) = j }
+  =()
+  
+let lemma add_mat_eq (m m1 n n1 : matrix complex)
+      requires{rows m = rows n}
+      requires{columns m = columns n}
+      requires{m = m1}
+      requires{n = n1}
+      ensures{add_mat m n = add_mat m1 n1}
+  = ()
+  
+let lemma add_mat_comm (m  n  : matrix complex)
+      requires{rows m = rows n}
+      requires{columns m = columns n}
+      ensures{add_mat m n = add_mat n m}
+  = set_equal_mat (add_mat m n) (add_mat n m)
+
+let lemma add_mat_eq_rev (m m1 n n1 : matrix complex)
+      requires{rows m = rows n}
+      requires{columns m = columns n}
+      requires{m = m1}
+      requires{n = n1}
+      ensures{add_mat n m = add_mat m1 n1}
+  = ()
+  
+
+  
+let ghost function add_neutral ():
+                     matrix complex
+                       ensures{forall i j:int. valid_index result i j ->  get result i j =  c_zero}
+                       ensures{rows result > 0}
+                       ensures{columns result > 0}
+  = let r = any int in
+    let c = any int in
+    make (abs r +1) (abs c +1) c_zero
+    
+let lemma distr_1_pre ( m n o : matrix complex) (i j:int)
+      requires{ rows m = rows n  }
+      requires{ columns m = columns n  }
+      requires{columns m = rows o}
+      requires{0<= i < rows m}
+      requires{0<= j < columns o}
+      ensures{ get (mat_mult (add_mat m n) o) i j = get ( add_mat (mat_mult m o) (mat_mult n o)) i j}
+  =     
+  let no = mat_mult n o in
+  let mo = mat_mult m o in
+  let a_mn = add_mat m n in
+  add_value mo no;
+  mat_mult_values m o i j;
+  mat_mult_values n o i j;
+  mat_mult_values a_mn o i j;
+  ind_sum_comp (fun k -> get m i k *. get o k j) (fun k -> get n i k *. get o k j)  0 (columns m)
+
+let lemma distr_l ( m n o : matrix complex)
+      requires{ rows m = rows n  }
+      requires{ columns m = columns n  }
+      requires{columns m = rows o}
+      ensures{(mat_mult (add_mat m n) o) = ( add_mat (mat_mult m o) (mat_mult n o))}
+  = set_equal_mat (mat_mult (add_mat m n) o)  ( add_mat (mat_mult m o) (mat_mult n o))
+
+let lemma distr_2_pre ( m n o : matrix complex)(i j :int)
+      requires{ rows n = rows o  }
+      requires{ columns n = columns o  }
+      requires{columns m = rows n}
+      requires{0<= i < rows m}
+      requires{0<= j < columns n}
+      ensures{valid_index (mat_mult m (add_mat  n o) ) i j}
+      ensures{ get (mat_mult m (add_mat  n o) ) i j  = get ( add_mat  (mat_mult m n) (mat_mult m o)) i j}
+  =
+  let a_no = add_mat n o in
+  let mn = mat_mult m n in
+  let mo = mat_mult m o in
+  add_value mn mo;
+  mat_mult_values m n i j;
+  mat_mult_values m o i j;
+  mat_mult_values m a_no i j;
+  ind_sum_comp (fun k -> get m i k *. get n k j) (fun k -> get m i k *. get o k j)  0 (columns m)
+  
+let lemma distr_r ( m n o : matrix complex)
+      requires{ rows n = rows o  }
+      requires{ columns n = columns o  }
+      requires{columns m = rows n}
+      ensures{(mat_mult m (add_mat  n o) )  = ( add_mat  (mat_mult m n) (mat_mult m o))}
+  = set_equal_mat (mat_mult m (add_mat  n o) )   ( add_mat  (mat_mult m n) (mat_mult m o))
+
+  end
+
+module Matrix_scalar 
+         use  complex.Complex
+         use  int.Int
+         use  complex_operations.Base_type
+         use  Matrice
+         use  Matrix_equality
+         use  Matrix_addition
+         use  ref.Ref
+         use  complex_operations.Indic
+         use  Matrix_product
+     
+let function ( *..)
+                     (s: complex) (m  : matrix complex):
+                     matrix complex
+                       ensures{columns result = columns m }
+                       ensures{rows result = rows m}
+                       ensures{forall i j:int. valid_index result i j -> get  result i j  = s *. (get  m i j) }
+                       ensures{forall i j:int. valid_index result i j <-> valid_index m i j }
+  = make_f (rows m) (columns m) (fun i j -> s *. get m i j)
+
+let lemma scalar_columns (m:matrix complex) (a: complex)
+      ensures{columns (a *.. m) = columns m}
+  =()
+
+let lemma scalar_values (m:matrix complex) (a: complex) (i j: int)
+      ensures{ get (a *.. m) i j = a *. get m i j}
+  =()
+
+let lemma scalar_rows (m:matrix complex) (a: complex)
+      ensures{rows (a *.. m) = rows m}
+  =()
+
+let lemma scalar_null (m:matrix complex) 
+      ensures{null_mat  (c_zero *.. m)}
+  =()
+
+let lemma scalar_c_one (m:matrix complex) 
+      ensures{  (c_one *.. m = m)}
+  =()
+
+let lemma scalar_c_one_gen (m:matrix complex) (a: complex)
+      requires{a =c_one}
+      ensures{  (a *.. m = m)}
+  =()
+
+let lemma scalar_null_gen (m:matrix complex) (a: complex) 
+      requires{a = c_zero}
+      ensures{null_mat  (a *.. m)}
+  =()
+
+let lemma scalar_plus (m:matrix complex) (a b: complex) 
+      ensures{(a +. b) *.. m = add_mat (a*.. m) (b *..m) }
+  =()
+
+let lemma scalar_plus_rev (m:matrix complex) (a b: complex) 
+      ensures{ add_mat (a*.. m) (b *..m) = (a +. b) *.. m }
+  =()
+
+let lemma add_scal (m n: matrix complex) (a: complex)
+      requires{rows m = rows n}
+      requires{columns m = columns n}
+      ensures{a *.. (add_mat m n) = add_mat (a*.. m) (a *.. n)}
+  = set_equal_mat (a *.. (add_mat m n)) (add_mat (a*.. m) (a *.. n))
+  
+let lemma add_scal_rev (m n: matrix complex) (a: complex)
+      requires{rows m = rows n}
+      requires{columns m = columns n}
+      ensures{add_mat (a*.. m) (a *.. n) = a *.. (add_mat m n)}
+  = ()
+  
+let lemma mat_mult_scal_values_l (m n: matrix complex) (a: complex) (i j:int)
+      requires{rows n = columns m}
+      requires{0 <= i < rows m}
+      requires{0 <= j < columns n}
+      ensures{a *.  (get (mat_mult m n) i j) = ind_sum (fun k -> a*. get m i k *. get n k j )  0 (columns m)}
+  = ind_sum_scal (fun k -> get m i k *. get n k j) 0 (columns m) a
+
+let lemma mat_mult_scal_values_r (m n: matrix complex) (a: complex) (i j:int)
+      requires{rows n = columns m}
+      requires{rows m = columns n}
+      requires{columns m = columns n}
+      requires{0 <= i < rows m}
+      requires{0 <= j < columns n}
+      ensures{ (get(mat_mult m n) i j) *.a = ind_sum (fun k -> a*. get m i k *. get n k j )  0 (columns m)}
+  = ind_sum_scal (fun k -> get m i k *. get n k j) 0 (columns m) a
+
+let lemma mat_mut_scal (m n: matrix complex) (a: complex)
+      requires{rows n = columns m}
+      ensures{mat_mult m (a*..n) = a*.. (mat_mult m n)}
+  =()
+  
+let lemma scal_mat_mut (m n: matrix complex) (a: complex)
+      requires{rows n = columns m}
+      ensures{mat_mult (a*..m) n = a *.. (mat_mult m n)}
+  =()
+  
+let lemma mat_mut_scal_rev (m n: matrix complex) (a: complex)
+      requires{rows n = columns m}
+      ensures{a*.. (mat_mult m n) =mat_mult m (a*..n) }
+  =()
+  
+let lemma scal_mat_mut_rev (m n: matrix complex) (a: complex)
+      requires{rows n = columns m}
+      ensures{a *.. (mat_mult m n) = mat_mult (a*..m) n}
+  =()
+  
+let lemma ind_sum_commute_scal_r  (f:int -> int -> complex) (g: int -> complex)(i j k l:int)
+      requires{i <=j}
+      requires{k <=l}
+      ensures{ ind_sum (fun k1 -> (ind_sum (f k1) k l) *. g k1) i j
+               = ind_sum (fun k1 -> ind_sum (fun k2 -> f k2 k1 *. g k2) i j) k l}
+  = assert{ ind_sum (fun k1 ->  (ind_sum (f k1) k l) *. g k1) i j
+            = ind_sum (fun k1 -> ind_sum (fun k2 -> f k1 k2 *. g k1) k l) i j};
+    ind_sum_commute (fun k1 k2 ->  f k1 k2 *. g k1) i j k l
+
+let lemma mat_mult_assoc_pre (m n o: matrix complex) (i j :int)
+      requires{columns m = rows n}
+      requires{ columns n = rows o}
+      requires{0 <= i < rows m}
+      requires{0 <= j < columns o}
+      ensures{get (mat_mult (mat_mult m n) o) i j = get (mat_mult m (mat_mult n o) ) i j}
+  = mat_mult_values (mat_mult m n) o i j;
+    assert{get (mat_mult (mat_mult m n) o) i j = ind_sum (fun k1 ->  ind_sum  (fun k2 -> (get m i k2 *. get n k2 k1 )) 0 (columns m) *. get o k1 j) 0 (columns n)};
+    ind_sum_commute_scal_r (fun k1 k2 -> (get m i k2 *. get n k2 k1 ) ) (fun k2 -> get o k2 j) 0 (columns n) 0 (columns m);
+    assert{get (mat_mult m (mat_mult n o) ) i j = ind_sum (fun k1 ->  get m i k1 *. (ind_sum  (fun k2 -> (get n k1 k2 *. get o k2 j )) 0 (columns n))) 0 (columns m)}         
+
+let lemma mat_mult_assoc (m n o: matrix complex)
+      requires{columns m = rows n}
+      requires{ columns n = rows o}
+      ensures{(mat_mult (mat_mult m n) o)  = (mat_mult m (mat_mult n o) )}
+  = set_equal_mat (mat_mult (mat_mult m n) o)   (mat_mult m (mat_mult n o) )
+
+let lemma mat_mult_assoc_quant (m n : matrix complex)
+      requires{columns m = rows n}
+      ensures{forall o : matrix complex. columns n = rows o ->
+                         (mat_mult (mat_mult m n) o)  = (mat_mult m (mat_mult n o) )}
+  = ()
+
+let lemma mat_mult_assoc_comm (m n o: matrix complex)
+      requires{columns m = rows n}
+      requires{ columns n = rows o}
+      ensures{(mat_mult m (mat_mult n o) ) = (mat_mult (mat_mult m n) o)}
+  = ()
+
+let lemma scalar_eq (m n: matrix complex) (a: complex)
+      requires{m = n}
+      ensures{a *.. m = a *..n}
+  = set_equal_mat (a *.. m) (a *.. n)
+
+let lemma scalar_eq_gen (m n: matrix complex) (a b: complex)
+      requires{m = n}
+      requires{a = b}
+      ensures{a *.. m = b *..n}
+  = set_equal_mat (a *.. m) (b *.. n)
+
+let lemma scalar_add (m : matrix complex) (a b: complex)
+      ensures{(a +. b) *.. m = add_mat (a *..m ) (b *..m )}
+  = set_equal_mat ((a +. b) *.. m) (add_mat (a *..m ) (b *..m ))
+
+let lemma scalar_assoc (m : matrix complex) (a b: complex)
+      ensures{(a  *.. (b *.. m)) = (a *. b) *.. m }
+  = set_equal_mat ((a +. b) *.. m) (add_mat (a *..m ) (b *..m ))
+
+let lemma scalar_assoc_rev (m : matrix complex) (a b: complex)
+      ensures{ (a *. b) *.. m  = (a  *.. (b *.. m))}
+  = ()
+  
+let lemma scalars_inv (m : matrix complex) (a b a' b': complex)
+      requires{a=a'}
+      requires{b=b'}
+      ensures{ (a' *.. (b' *.. m))  = (b  *.. (a *.. m))}
+  = ()
+  
+let lemma eq_scalar (m : matrix complex) (a b: complex)
+      requires{exists i j. valid_index m i j && get m i j <> c_zero}
+      requires{a *.. m = b *..m}
+      ensures{a = b}
+  =  ()
+
+let function mat_substr (m n : matrix complex)
+               requires{rows m = rows n}
+               requires{columns m = columns n}
+               ensures{rows result =rows m}
+               ensures{columns result = columns m}
+               ensures{forall i j. 0<= i < rows m -> 0<= j < columns m -> get result i j = get m i j -. get n i j}
+  = add_mat m (-. c_one *..  n)
+
+let lemma substr_rows  (m n : matrix complex) (r:int)
+               requires{rows m = rows n = r}
+               requires{columns m = columns n}
+               ensures{rows (mat_substr m n) = r}
+  =()
+  
+let lemma substr_columns  (m n : matrix complex) (c:int)
+               requires{rows m = rows n}
+               requires{columns m = columns n = c}
+               ensures{columns (mat_substr m n) = c}
+  =()
+  
+let lemma substr_value  (m n : matrix complex) (i j:int)
+               requires{rows m = rows n}
+               requires{columns m = columns n}
+               requires{0<= i < rows m}
+               requires{0<= j < columns m}
+               ensures{get (mat_substr m n) i j = get m i j -. get n i j}
+  =()
+
+let lemma distr_l_substr ( m n o : matrix complex)
+      requires{ rows m = rows n  }
+      requires{ columns m = columns n  }
+      requires{columns m = rows o}
+      ensures{(mat_mult (mat_substr m n) o) = ( mat_substr (mat_mult m o) (mat_mult n o))}
+  = distr_l m (-.c_one *.. n) o;
+    scal_mat_mut n o (-. c_one)
+
+let lemma distr_r_substr ( m n o : matrix complex)
+      requires{ rows n = rows o  }
+      requires{ columns n = columns o  }
+      requires{columns m = rows o}
+      ensures{(mat_mult m (mat_substr n o)) = (mat_substr (mat_mult m n) (mat_mult m o))}
+  = distr_r m n (-.c_one *.. o);
+    scal_mat_mut m o (-. c_one)
+
+      use complex_operations.Simpl_op
+
+let lemma mat_substr_eq (m m' n n':matrix complex)
+  requires{rows m = rows n}
+  requires{columns m = columns n}
+  requires{m = m'}
+  requires{n = n'}
+  ensures{mat_substr m n = mat_substr m' n' }
+  =()
+  
+let lemma substr_decomp (m n : matrix complex)
+               requires{rows m = rows n}
+               requires{columns m = columns n}
+               ensures{m = add_mat n (mat_substr m n) }
+  = set_equal_mat m (add_mat n (mat_substr m n)) 
+
+let lemma subtr_scal (m n: matrix complex) (a: complex)
+      requires{rows m = rows n}
+      requires{columns m = columns n}
+      ensures{a *.. (mat_substr m n) = mat_substr (a*.. m) (a *.. n)}
+  = set_equal_mat (a *.. (mat_substr m n)) (mat_substr (a*.. m) (a *.. n))
+
+let lemma subtr_scal_rev (m n: matrix complex) (a: complex)
+      requires{rows m = rows n}
+      requires{columns m = columns n}
+      ensures{mat_substr (a*.. m) (a *.. n) = a *.. (mat_substr m n)}
+  = ()
+  
+let lemma get_equal_mat_to_substr (m n : matrix complex) 
+               requires{rows m = rows n}
+               requires{columns m = columns n}
+               requires{m = n}
+               ensures{ (mat_substr m n) = make (rows m) (columns m) c_zero}
+  =   set_equal_mat  (mat_substr m n) (make (rows m) (columns m) c_zero)
+
+let lemma set_inequal_mat_by_substr (m n : matrix complex) 
+               requires{rows m = rows n}
+               requires{columns m = columns n}
+               ensures{m <> n <-> (mat_substr m n) <> make (rows m) (columns m) c_zero}
+  = if equal m  n then  ()
+                          else  ()
+end
+
+module Matrix_sums
+         use  complex.Complex
+         use  int.Int
+         use  complex_operations.Base_type
+         use  set.FsetComprehension
+         use  p_set.Fset_comp
+         use  p_set.IndexestoSet
+         use  Matrice
+         use  Matrix_equality
+         use  Matrix_scalar
+         use export Matrix_addition
+         use export Matrix_product
+         use  fsum.Fset_iter_Pos
+         use  complex_operations.Indic
+         use  complex.Pairs
+         use  functions.MapInjection
+         use  complex.Constant
+         
+         predicate constant_size (s: set 'a) (f : 'a -> matrix complex) =
+  forall e : 'a. mem e s ->  rows (f e) = rows (f (choose s))  /\  columns ( f e) = columns  (f (choose s))
+                                        
+let lemma set_constant_size (s: set 'a) (f : 'a -> matrix complex)
+      requires{forall e e': 'a. mem e s -> mem e' s ->  rows (f e) = rows (f e')}
+      requires{forall e e': 'a. mem e s -> mem e' s ->  columns (f e) = columns (f e')}
+      ensures{constant_size s f}
+  =()
+
+let lemma set_constant_size_exists (s: set 'a) (f : 'a -> matrix complex)
+      requires{exists r. forall e : 'a. mem e s  ->  rows (f e) = r}
+      requires{exists c. forall e : 'a. mem e s  ->  columns (f e) = c}
+      ensures{constant_size s f}
+  =()
+
+let lemma set_constant_size_t (s: set 'a) (f : 'a -> matrix complex) (r c : int)
+      requires{forall e : 'a. mem e s  ->  rows (f e) = r}
+      requires{forall e : 'a. mem e s  ->  columns (f e) = c}
+      ensures{constant_size s f}
+  =()
+
+let lemma guarded_set_constant_size (s : set 'a) (f : 'a -> matrix complex)(p: 'a -> bool) (m: matrix complex)
+      requires{constant_size s f}
+      requires{forall e:'a.mem e s -> p e}
+      ensures{constant_size s (fun j -> if (p j) then (f j) else m)}
+  =()
+
+let lemma set_constant_size_set (s: set 'a) (f: 'a -> complex)(m: matrix complex) (i j :int)
+      requires{valid_index m i j}
+      ensures{constant_size s (fun e -> set m i j  (f e))}
+  =()
+  
+let lemma get_constant_size (s: set 'a) (f : 'a -> matrix complex)
+      requires{constant_size s f}
+      ensures{forall e e': 'a. mem e s -> mem e' s ->  rows (f e) = rows (f e')}
+      ensures{forall e e': 'a. mem e s -> mem e' s ->  columns (f e) = columns (f e')}
+  =()
+  
+  
+let ghost function s_rows (s: set 'a) (f : 'a -> matrix complex) : int
+                                                               requires{constant_size s f}
+                                                               ensures{0<result}
+                                                               ensures{ forall e : 'a. mem e s -> rows (f e) = result}
+                                                               ensures{forall e e': 'a. mem e s -> mem e' s -> rows (f e) = rows (f e')}                 
+  = rows (f(choose s))
+  
+let function s_columns (s: set 'a) (f : 'a -> matrix complex) : int
+                                                            requires{constant_size s f}
+                                                            ensures{0<result}
+                                                            ensures{ forall e : 'a. mem e s -> columns (f e) = result}
+                                                            ensures{forall e e': 'a. mem e s -> mem e' s -> columns (f e) = columns (f e')}
+  = columns (f(choose s))
+  
+let lemma set_s_rows (s: set 'a)  (f : 'a -> matrix complex) (r:int)
+      requires{constant_size s f}
+      requires{rows (f (choose s)) = r}
+      ensures{s_rows s f = r}
+  =()
+  
+let lemma set_s_rows_elt (s: set 'a)  (f : 'a -> matrix complex)  (elt : 'a)
+      requires{constant_size s f}
+      requires{mem elt s}
+      ensures{s_rows s f = rows (f elt)}
+  =()
+
+let lemma set_s_columns (s: set 'a)  (f : 'a -> matrix complex) (r:int)
+      requires{constant_size s f}
+      requires{columns (f (choose s)) = r}
+      ensures{s_columns s f = r}
+  =()
+  
+let lemma set_s_columns_elt (s: set 'a)  (f : 'a -> matrix complex)  (elt : 'a)
+      requires{constant_size s f}
+      requires{mem elt s}
+      ensures{s_columns s f = columns (f elt)}
+  =()
+
+let lemma s_rows_eq  (s: set 'a) (f g: 'a -> matrix complex)
+      requires{constant_size s f}
+      requires{cardinal s > 0}
+      requires{forall e: 'a. mem e s -> f e = g e}
+      ensures{s_rows s f = s_rows s g}
+  = set_s_rows s f (rows (f(choose s)));
+    set_s_rows s g (rows (f(choose s)))
+
+let lemma set_constant_size_give (s: set 'a) (f : 'a -> matrix complex) (r c : int)
+      requires{cardinal s > 0}
+      requires{forall e : 'a. mem e s  ->  rows (f e) = r}
+      requires{forall e : 'a. mem e s  ->  columns (f e) = c}
+      ensures{constant_size s f}
+      ensures{forall e : 'a. mem e s  ->  rows (f e) = r}
+      ensures{forall e : 'a. mem e s  ->  columns (f e) = c}
+      ensures{s_rows s f = r}
+      ensures{s_columns s f = c}
+  =()
+    
+let lemma s_columns_eq  (s: set 'a) (f g : 'a -> matrix complex)
+      requires{constant_size s f}
+      requires{cardinal s > 0}
+      requires{forall e: 'a. mem e s -> f e = g e}
+      ensures{s_columns s f = s_columns s g}
+  = set_s_columns s f (columns (f(choose s)));
+    set_s_columns s g (columns (f(choose s)))
+    
+let lemma subset_constant_size (s s': set 'a) (f : 'a -> matrix complex)
+      requires{constant_size s f}
+      requires{not (is_empty s')}
+      requires{subset s' s}
+      ensures{constant_size s' f}
+      ensures{s_rows s' f = s_rows s f}
+      ensures{s_columns s' f = s_columns s f}
+  = assert{forall e: 'a. mem e s' -> mem e s}
+
+let lemma set_s_rows_rem (s: set 'a)  (f : 'a -> matrix complex) 
+      requires{cardinal s > 1}
+      requires{constant_size s f}
+      ensures{constant_size (remove (choose s) s) f}
+      ensures{s_rows (remove (choose s) s) f = rows (f(choose s)) }
+  = set_s_rows_elt s f (choose s);
+    subset_constant_size s (remove (choose s) s) f
+
+let lemma set_s_columns_rem (s: set 'a)  (f : 'a -> matrix complex) 
+      requires{cardinal s > 1}
+      requires{constant_size s f}
+      ensures{constant_size (remove (choose s) s) f}
+      ensures{s_columns (remove (choose s) s) f = columns (f(choose s)) }
+  = set_s_columns_elt s f (choose s);
+    subset_constant_size s (remove (choose s) s) f
+
+let lemma set_s_rows_add (s: set 'a)  (f : 'a -> matrix complex) (x:'a) 
+      requires{cardinal s > 0}
+      requires{constant_size s f}
+      requires{columns (f x) = s_columns s f}
+      requires{rows (f x) = s_rows s f}
+      ensures{s_rows (add x s) f = s_rows s f }
+  = set_s_rows_elt   (add x s) f x
+
+let lemma set_s_columns_add (s: set 'a)  (f : 'a -> matrix complex) (x:'a) 
+      requires{cardinal s > 0}
+      requires{constant_size s f}
+      requires{columns (f x) = s_columns s f}
+      requires{rows (f x) = s_rows s f}
+      ensures{s_columns (add x s) f = s_columns s f }
+  = set_s_columns_elt   (add x s) f x
+
+let lemma set_s_rows_columns_add (s: set 'a)  (f : 'a -> matrix complex) (x:'a) 
+      requires{cardinal s > 0}
+      requires{constant_size s f}
+      requires{columns (f x) = s_columns s f}
+      requires{rows (f x) = s_rows s f}
+      ensures{s_columns (add x s) f = s_columns s f }
+      ensures{s_rows (add x s) f = s_rows s f }
+  = set_s_columns_elt   (add x s) f x;
+    set_s_rows_elt   (add x s) f x
+    
+let   rec  function mat_sum  (s: set 'a)  (f:'a -> matrix complex)
+                         :  matrix complex
+                              requires{constant_size s f}
+                              requires{cardinal s >0}
+                              variant{cardinal s}
+                              ensures{rows result = s_rows s f}
+                              ensures{ columns result = s_columns s f}
+                              ensures{forall e:'a. mem e s ->  rows  (f e)  = s_rows s f}
+                              ensures{forall e:'a. mem e s ->  columns (f e)  = s_columns s f}
+  =   if (cardinal s = 1) then f (element s)
+      else begin
+          subset_constant_size s (remove (choose s) s) f;
+          add_mat (f  (choose s) ) (mat_sum (remove (choose s) s) f); 
+        end         
+    
+let lemma columns_mat_sum (s: set 'a)  (f:'a -> matrix complex)(n:int)
+      requires{cardinal s <> 0}
+      requires{constant_size s f}
+      requires{forall e: 'a. mem e s -> columns (f e) = n}
+      ensures{columns (mat_sum s f) = n}
+  =()
+  
+let lemma rows_mat_sum (s: set 'a)  (f:'a -> matrix complex)(n:int)
+      requires{cardinal s <> 0}
+      requires{constant_size s f}
+      requires{forall e: 'a. mem e s -> rows (f e) = n}
+      ensures{rows (mat_sum s f) = n}
+  =()
+  
+let lemma mat_sum_cardone  (s: set 'a)(f: 'a -> matrix complex)
+      requires{cardinal s = 1}
+      ensures{mat_sum s f =  f (element s)}
+  =
+  ()
+  
+let   rec lemma  mat_sum_to_sum_pre  (s: set 'a)  (f:'a -> matrix complex)  (i j : int)
+            requires{constant_size s f}
+            requires{cardinal s > 0}
+            requires{0<= i < s_rows s f}
+            requires{0<= j < s_columns s f}
+            ensures{get (mat_sum s f) i j = sum s (fun e -> get (f e) i j )}
+            variant{cardinal s}        
+  =  if (cardinal s = 1) then ()
+     else begin
+         assert{(mat_sum s f)  =  add_mat (f (choose s))(mat_sum (remove (choose s) s) f) };
+         assert{get (mat_sum s f) i j =  get (mat_sum (remove (choose s) s) f) i j +. get (f (choose s)) i j};
+         mat_sum_to_sum_pre (remove (choose s) s) f i j;
+         sum_add (remove (choose s) s) (fun e -> get (f e) i j) (choose s)
+       end         
+   
+let  lemma  mat_sum_to_sum  (s: set 'a)  (f:'a -> matrix complex) 
+       requires{constant_size s f}
+       requires{cardinal s > 0}
+       ensures{(mat_sum s f) = make_f (s_rows s f) (s_columns s f) (fun i j  -> sum s  (fun e -> get (f e) i j ))}      
+  =              get_equal_mat (mat_sum s f)  (make_f (s_rows s f) (s_columns s f) (fun i j  -> sum s  (fun e -> get (f e) i j )))
+
+let  lemma  mat_sum_value  (s: set 'a)  (f:'a -> matrix complex) (i j :int)
+       requires{constant_size s f}
+       requires{cardinal s > 0}
+       requires{valid_index (mat_sum s f) i j }
+       ensures{get (mat_sum s f) i j = sum s  (fun e -> get (f e) i j )}      
+  =  ()
+   
+let lemma mat_sum_add  (s: set 'a)(f: 'a -> matrix complex)(x: 'a)
+      requires{cardinal s > 0}
+      requires{constant_size s f}
+      requires{rows (f x) = s_rows s f}
+      requires{columns (f x) = s_columns s f}
+      requires{not (mem x s) }
+      ensures{mat_sum (add x s) f =  add_mat  ( f x)  (mat_sum s f)}
+  = set_s_rows_columns_add s f x;
+    columns_mat_sum (add x s) f (s_columns s f);
+    rows_mat_sum (add x s) f (s_rows s f)
+    
+let lemma mat_sum_plus_one  (s: set 'a)(f: 'a -> matrix complex)
+      requires{cardinal s > 1}
+      requires{constant_size s f}
+      ensures{mat_sum s f =  add_mat  ( f (choose s))  (mat_sum (remove (choose s) s) f)}
+  =
+  assert{forall e. mem e (remove (choose s) s) -> rows (f e) = rows (f(choose s))};
+  assert{forall e. mem e (remove (choose s) s) -> columns (f e) = columns (f(choose s))};
+  mat_sum_add  (remove (choose s) s) f (choose s)
+    
+let lemma mat_sum_comp_pre (s: set 'b)(f g: 'b -> matrix complex) (i j: int)
+      requires{constant_size s f}
+      requires{constant_size s g}
+      requires{0 <= i < s_rows s f}
+      requires{0 <= j < s_columns s f}
+      requires{s_rows s f = s_rows s g}
+      requires{s_columns s f = s_columns s g}
+      requires{cardinal s > 0}
+      ensures{get (mat_sum s (fun k ->  add_mat (f k) ( g k))) i j = get (add_mat (mat_sum s f) ( mat_sum s g)) i j}
+  = assert{sum s (fun k -> get (add_mat (f k) (g k)) i j) = sum s (fun k -> get (f k) i j +. get (g k) i j)};
+    sum_comp s (fun k -> get (f k) i j) (fun k -> get (g k) i j);
+    assert{sum s (fun k -> get (add_mat (f k) (g k)) i j) = sum s (fun k -> get (f k) i j) +. sum s  (fun k -> get (g k) i j)};
+    assert{s_rows s (fun k -> add_mat (f k) ( g k)) = (s_rows s f)};
+    assert{s_columns s (fun k -> add_mat (f k) ( g k)) = (s_columns s f)}
+
+let lemma mat_sum_comp (s: set 'b)(f g: 'b -> matrix complex)
+      requires{constant_size s f}
+      requires{constant_size s g}
+      requires{s_rows s f = s_rows s g}
+      requires{s_columns s f = s_columns s g}
+      requires{cardinal s > 0}
+      ensures{mat_sum s (fun k -> add_mat (f k) ( g k)) = add_mat (mat_sum s f) ( mat_sum s g)}
+  = assert{constant_size s (fun k -> add_mat (f k) ( g k))};
+    assert{s_rows s (fun k -> add_mat (f k) ( g k)) = s_rows s f};
+    assert{s_columns s (fun k -> add_mat (f k) ( g k)) = s_columns s f};
+    assert{constant_size s (fun k -> (add_mat (f k) (g k)))};
+    assert{rows (mat_sum s (fun k -> add_mat (f k) ( g k))) = rows (add_mat (mat_sum s f) (mat_sum s g))};
+    assert{columns (mat_sum s (fun k -> add_mat (f k) ( g k))) = columns (add_mat (mat_sum s f) (mat_sum s g))};
+    assert{forall i j: int. valid_index  (mat_sum s (fun k -> add_mat (f k) ( g k))) i j -> 0<= i < s_rows s f};
+    assert{forall i j: int. valid_index (mat_sum s (fun k ->  (add_mat (f k) ( g k)))) i j -> 0<= j < s_columns s f};
+    assert{ (mat_sum s (fun k -> add_mat (f k) ( g k))) = (add_mat (mat_sum s f) ( mat_sum s g))}
+
+let lemma mat_sum_comp_rec (s: set 'b)(f g: 'b -> matrix complex)
+      requires{constant_size s f}
+      requires{constant_size s g}
+      requires{s_rows s f = s_rows s g}
+      requires{s_columns s f = s_columns s g}
+      requires{cardinal s > 0}
+      ensures{ add_mat (mat_sum s f) ( mat_sum s g) = mat_sum s (fun k -> add_mat (f k) ( g k))}
+  = ()
+
+let lemma mat_sum_to_sum_fun  (s: set 'a)  (s': set 'b)  (f:'a ->'b -> matrix complex) (r c i j: int)
+      requires{cardinal s > 0}
+      requires{cardinal s' > 0}
+      requires{ forall e:'a. forall e1:'b. mem e s -> mem e1 s' -> rows (f e e1) = r}
+      requires{ forall e:'a. forall e1:'b. mem e s -> mem e1 s' -> columns (f e e1) = c}
+      requires{0<= i < r}
+      requires{0<= j < c}
+      ensures{sum s (fun e ->  ( (get(mat_sum s' (f e ))  i j)) ) = sum s ( fun e ->  (sum s' (fun e1 ->  (get (f e e1) i j)) ))}
+  = () 
+  
+let  lemma  mat_sum_to_sum_double_pre  (s: set 'a) (s': set 'b)  (f:'a ->'b -> matrix complex) (r c i j:int)
+       requires{forall e e'. mem e s -> mem e' s' -> rows (f e e') = r}
+       requires{forall e e'. mem e s -> mem e' s' -> columns (f e e') = c}
+       requires{0<= i < r}
+       requires{0<= j < c}
+       requires{cardinal s > 0}
+       requires{cardinal s' > 0}
+       ensures{get(mat_sum s (fun e -> mat_sum s' (f e))) i j = sum s (fun e -> sum s' (fun e' -> get (f e e') i j)) }            
+  =
+  assert{forall e. mem e s -> constant_size s' (f e)/\ s_rows s' (f e) = r /\ s_columns s' (f e) =c};
+  assert{constant_size  s (fun e -> mat_sum s' (f e))};
+  mat_sum_to_sum_pre s (fun e -> if mem e s then  mat_sum s' (f e) else make 1 1 c_one ) i j
+
+let rec lemma mat_mult_sum_out_l (s:set 'a) (f: 'a -> matrix complex) (n:matrix complex)
+          requires{cardinal s >0}
+          requires{forall e.mem e s -> columns (f e) = rows n}
+  requires{exists r. forall  e.mem e s -> rows (f e) = r}
+  ensures{mat_mult (mat_sum s f) n = mat_sum s (fun e -> mat_mult (f e) n)}
+      variant{cardinal s}
+  =
+  if cardinal s = 1 then mat_sum_cardone s f
+  else
+    begin
+      mat_mult_sum_out_l (remove (choose s) s) f n;
+      assert{add(choose s)  (remove (choose s) s)  = s};
+    end
+
+let  function mat_sum_dim   (s: set 'a)  (f:'a -> matrix complex) (r c : int): matrix complex
+                                                                                requires{0<r}
+                                                                                requires{0<c}
+                                                                                requires{forall e:'a. mem e s -> rows (f e) = r}
+                                                                                requires{forall e:'a. mem e s -> columns (f e) = c}
+                                                                                ensures{cardinal s > 0 -> result = mat_sum s f} 
+                                                                                ensures{cardinal s = 0 -> result = make r c c_zero}
+                                                                                ensures{rows result = r}
+                                                                                ensures{columns result = c}
+  = if (cardinal s = 0) then
+      begin
+        set_equal_mat (make r c c_zero) (make_f r c (fun i j  -> sum s  (fun e -> get(f e) i j )));
+        make r c c_zero;
+      end
+    else begin
+        mat_sum_to_sum s f;
+        mat_sum s f
+      end
+  
+let lemma mat_sum_dim_to_mat_sum (s: set 'a)  (f:'a -> matrix complex) (r c : int)
+      requires{cardinal s >0}
+      requires{0<r}
+      requires{0<c}
+      requires{forall e:'a. mem e s -> rows (f e) = r}
+      requires{forall e:'a. mem e s -> columns (f e) = c}
+      ensures{mat_sum_dim s f r c = mat_sum s f}
+  =()
+  
+let lemma mat_sum_dim_to_make_zero (s: set 'a)  (f:'a -> matrix complex) (r c : int)
+      requires{cardinal s =0}
+      requires{forall e:'a. mem e s -> rows (f e) = r}
+      requires{forall e:'a. mem e s -> columns (f e) = c}
+      requires{0<r}
+      requires{0<c}
+      ensures{mat_sum_dim s f r c = make r c c_zero}
+  =()
+
+let lemma mat_sum_dim_add  (s: set 'a)(f: 'a -> matrix complex)(x: 'a)(r c :int)
+      requires{cardinal s >=0 }
+      requires{not (mem x s) }
+      requires{forall e:'a. mem e (add x s) -> rows (f e) = r}
+      requires{forall e:'a. mem e (add x s) -> columns (f e) = c}
+      requires{0<r}
+      requires{0<c}
+      ensures{mat_sum_dim (add x s) f r c=  add_mat  ( f x)  (mat_sum_dim s f r c)}
+  = if (cardinal s = 0) then
+      assert{mat_sum_dim (add x s) f r c  = (f x) =  add_mat  ( f x)  (mat_sum_dim s f r c)}
+    else mat_sum_dim_to_mat_sum s f r c
+  
+let rec lemma  mat_sum_scalar  (s: set 'a)  (f:'a -> matrix complex) (a: complex) 
+          requires{constant_size s f}
+          requires{cardinal s > 0}
+          ensures{mat_sum s (fun k -> a*.. (f k)) = a*.. (mat_sum s f)}      
+          variant{cardinal s}
+  =
+  if (cardinal s = 1) then ()
+  else
+    begin
+      mat_sum_add  (remove (choose s) s) f (choose s);
+      mat_sum_add  (remove (choose s) s) (fun k -> a*.. (f k)) (choose s);
+      mat_sum_scalar  (remove (choose s) s) f a;
+      add_scal  (f (choose s)) (mat_sum  (remove (choose s) s) f)  a
+    end
+  
+let rec lemma  mat_sum_scalar_rev  (s: set 'a)  (f:'a -> matrix complex) (a: complex) 
+          requires{constant_size s f}
+          requires{cardinal s > 0}
+          ensures{ a*.. (mat_sum s f) = mat_sum s (fun k -> a*.. (f k))}      
+          variant{cardinal s}
+  = mat_sum_scalar s f a
+
+      use complex_operations.FromInt
+
+let rec lemma mat_sum_const (s:set 'a) (x:matrix complex)
+          requires{cardinal s > 0}
+          ensures{mat_sum s (fun _ -> x) = (i_to_c (cardinal s)) *.. x }
+          variant{cardinal s}
+  = if cardinal s = 1 then ()
+    else begin
+        mat_sum_add (remove (choose s) s) (fun _ -> x) (choose s);
+        mat_sum_const (remove (choose s) s) x;
+        end        
+  
+let lemma mat_sum_quot (s: set 'a) (x: matrix complex)
+      requires{cardinal s >0}
+      ensures{x = (c_one/.  i_to_c (cardinal s)) *.. mat_sum s (fun _ -> x)}
+  = mat_sum_scalar_rev s (fun _ -> x) (c_one/. i_to_c (cardinal s)) 
+
+let rec lemma  mat_sum_scalar_right  (s: set 'a)  (f:'a -> matrix complex) (m: matrix complex) (i j:int)
+          requires{constant_size s f}
+          requires{cardinal s > 0}
+          requires{0<= i < s_rows s f }
+          requires{0<= j < s_columns s f }
+          ensures{get (mat_sum s f) i j *.. m =  (mat_sum s (fun k -> get (f k) i j *.. m))}      
+          variant{cardinal s}
+  =
+  if (cardinal s = 1) then ()
+  else
+    begin
+      mat_sum_add  (remove (choose s) s) f (choose s);
+      mat_sum_add  (remove (choose s) s) (fun k -> get (f k) i j *.. m) (choose s);
+      mat_sum_scalar_right  (remove (choose s) s) f m i j;
+      scalar_plus_rev  m   (get (f (choose s) ) i j) (get  (mat_sum  (remove (choose s) s) f)  i j);
+    end
+
+let rec lemma  mat_sum_eq  (s: set 'a)  (f g:'a -> matrix complex) 
+          requires{cardinal s > 0}
+          requires{constant_size s f}
+          requires{forall a: 'a. mem a s -> f a = g a}
+          ensures{mat_sum s f= mat_sum s g}
+          variant{cardinal s}        
+  =  if (cardinal s = 1) then ()
+     else begin
+         mat_sum_add  (remove (choose s) s) f (choose s);
+         mat_sum_add  (remove (choose s) s) g (choose s);
+         mat_sum_eq (remove (choose s) s) f g;
+         assert {f (choose s) = g (choose s)}
+       end         
+
+let lemma  mat_sum_eq_gen  (s s': set 'a)  (f g:'a -> matrix complex) 
+      requires{cardinal s > 0}
+      requires{s=s'}
+      requires{constant_size s f}
+      requires{forall a: 'a. mem a s -> f a = g a}
+      ensures{mat_sum s f= mat_sum s' g}
+  = mat_sum_eq s f g
+  
+let lemma  mat_sum_eq_gen_int  (i1 i2 o1 o2: int)  (f g:int -> matrix complex) 
+      requires{i1 < o1}
+      requires{i1 =o1}
+      requires{i2 =o2}
+      requires{constant_size (to_fset i1 o1) f}
+      requires{forall a: int. mem a (to_fset i1 o1) -> f a = g a}
+      ensures{mat_sum (to_fset i1 o1) f= mat_sum (to_fset i2 o2) g}
+  = mat_sum_eq (to_fset i1 o1) f g
+  
+let lemma mat_sum_comp_eq (s: set 'b)(f g h: 'b -> matrix complex)
+      requires{constant_size s f}
+      requires{constant_size s g}
+      requires{constant_size s h}
+      requires{s_rows s f = s_rows s g = s_rows s h}
+      requires{s_columns s f = s_columns s g = s_columns s h}
+      requires{cardinal s > 0}
+      requires{forall e. forall i j:int.  mem e s -> 0<= i < s_rows s f -> 0 <= j < s_columns s f -> get (f e) i j +. get (g e) i j = get (h e) i j}
+      ensures{ add_mat (mat_sum s f) ( mat_sum s g) = mat_sum s h}
+  = mat_sum_comp_rec s f g
+  
+let lemma mat_sum_dim_eq   (s: set 'a)  (f g:'a -> matrix complex) (r c : int)
+      requires{0<r}
+      requires{0<c}
+      requires{forall e:'a. mem e s -> rows (f e) = r}
+      requires{forall e:'a. mem e s -> columns (f e) = c}
+      requires{forall e:'a. mem e s ->  f e =  g e}
+      ensures{mat_sum_dim s f r c  = mat_sum_dim s g r c }
+  = if (cardinal s = 0) then ()
+    else mat_sum_eq s f g
+  
+let lemma constant_size_map  (f: 'b -> matrix complex) (s: set 'a) (t:'a-> 'b)
+      requires{constant_size s (fun a -> f( t a))}
+      ensures{constant_size (map t s) f}
+  = set_constant_size (map t s) f
+  
+let rec lemma map_mat_sum (f: 'b -> matrix complex) (s: set 'a) (t:'a-> 'b)
+          requires{cardinal s > 0}
+          requires{constant_size s (fun a -> f( t a))}
+          requires{p_injective t s}
+          ensures{mat_sum (map  t s) f = mat_sum s (fun a -> f( t a))}
+          variant{cardinal s}
+  = constant_size_map f s t;
+    if (cardinal s = 1 ) then ()
+    else
+      begin
+        assert{map t (remove(choose s)s) = remove (t (choose s)) (map t s)};
+        mat_sum_add (remove (t (choose s)) (map t s))  f (t (choose s));
+        assert{mat_sum (map  t s) f= add_mat    ((fun a -> f (t a)) (choose s))  (mat_sum   (map t (remove (choose s)s) ) f)}; 
+        mat_sum_add (remove (choose s) s) (fun a -> f (t a)) (choose s);
+        assert{(remove  ( t (choose s)) (map t s)) = map t (remove (choose s)s) };
+        map_mat_sum f (remove (choose s)s)  t
+      end
+  
+let lemma map_mat_sum_rec (f: 'b -> matrix complex) (s: set 'a) (t:'a-> 'b)
+      requires{cardinal s > 0}
+      requires{constant_size s (fun a -> f( t a))}
+      requires{p_injective t s}
+      ensures{mat_sum s (fun a -> f( t a)) = mat_sum (map  t s) f }
+  = map_mat_sum f s t
+  
+let  lemma mat_sum_id (f: 'a -> matrix complex) (s: set 'a)  
+       requires{cardinal s > 0}
+       requires{constant_size s f}
+       requires{constant_size (map f s) p_id}
+       requires{p_injective f s}
+       ensures{mat_sum (map  f s) p_id = mat_sum s f}
+  = map_mat_sum p_id s f  
+
+let  ghost function nonn_mat_subset (f: 'a -> matrix complex) (s: set 'a) : set 'a
+                                                                        requires{constant_size s f}
+                                                                        ensures{subset result s}
+                                                                        ensures{forall e: 'a. mem e result -> mem e s}
+                                                                        ensures{constant_size result f}
+                                                                        ensures{result <> empty -> s_rows result f = s_rows s f}
+                                                                        ensures{result <> empty -> s_columns result f = s_columns s f}
+  = filter (fun e -> not (equal (f e)  (make (s_rows s f)(s_columns s f)  c_zero ))) s 
+
+let lemma mat_subset_elt (f: 'a -> matrix complex) (s: set 'a)
+      requires{constant_size s f}
+      ensures{forall e: 'a. mem e (nonn_mat_subset f s) -> mem e s}
+  =()
+  
+let lemma mat_subset_nonn_elt (f: 'a -> matrix complex) (s: set 'a)
+      requires{constant_size s f}
+      ensures{forall e: 'a. mem e (nonn_mat_subset f s) -> not (f e =  (make (s_rows s f)(s_columns s f)  c_zero ))}
+  =()
+
+let lemma nonn_mat_sum_cardzero (f: 'a -> matrix complex) (s: set 'a) (r c:int)
+      requires{cardinal s = 0}
+      requires{r > 0}
+      requires{c > 0}
+      ensures{ mat_sum_dim s f r c = mat_sum_dim (nonn_mat_subset  f s) f r c}
+  =           assert{cardinal (nonn_mat_subset  f s) = 0};
+              mat_sum_dim_to_make_zero  (nonn_mat_subset  f s) f r c;
+              mat_sum_dim_to_make_zero  s f r c
+
+let lemma nonn_mat_sum_cardone (f: 'a -> matrix complex) (s: set 'a) (r c:int)
+      requires{cardinal s = 1}
+      requires{r > 0}
+      requires{c > 0}
+      requires{  rows (f (choose s)) = r}
+      requires{ columns (f (choose s)) = c}
+      ensures{ mat_sum_dim s f r c = mat_sum_dim (nonn_mat_subset  f s) f r c}
+  =          if  (equal (f (choose s))  (make (s_rows s f)(s_columns s f)  c_zero ))
+             then
+               mat_sum_dim_to_make_zero  (nonn_mat_subset  f s) f r c
+             else
+               begin
+                 assert{mem (choose s) (nonn_mat_subset  f s)};
+                 set_cardone_elt (nonn_mat_subset  f s) (choose s);
+                 mat_sum_cardone  (nonn_mat_subset  f s) f;
+               end
+           
+let lemma mat_sum_null_but_maybe_one_elt (f: 'a -> matrix complex) (s: set 'a) (e: 'a)
+      requires{cardinal s > 1}
+      requires{constant_size s f}
+      requires{mem e s}
+      requires{forall e':'a.mem e' s -> e <> e' -> null_mat (f e')}
+      ensures{mat_sum s f = f e}
+  = set_equal_mat (mat_sum s f) (f e)
+  
+let lemma nonn_mat_sum_plus_one (f: 'a -> matrix complex) (s: set 'a) (r c:int)
+      requires{cardinal s > 1}
+      requires{r > 0}
+      requires{c > 0}
+      requires{forall e:'a. mem e s -> rows (f e) = r}
+      requires{forall e:'a. mem e s -> columns (f e) = c}
+      requires{mat_sum_dim (remove (choose s)s) f r c = mat_sum_dim (nonn_mat_subset  f  (remove (choose s)s)) f r c}
+      ensures{ mat_sum_dim s f r c = mat_sum_dim (nonn_mat_subset  f s) f r c} 
+  =      mat_sum_dim_add  (remove (choose s)s) f (choose s) r c;
+         set_constant_size (remove (choose s) s) f;
+         set_constant_size s f;
+         if  (equal (f (choose s))  (make (s_rows s f)(s_columns s f)  c_zero ))
+         then
+           begin
+             assert{f (choose s) = make (s_rows s f)(s_columns s f)  c_zero };
+             add_value (f (choose s)) (mat_sum_dim (remove (choose s)s) f r c);
+             set_equal_mat ( mat_sum_dim s f r c) (mat_sum_dim (remove (choose s)s) f r c);
+             set_equal (nonn_mat_subset  f s) (nonn_mat_subset  f  (remove (choose s)s));
+           end
+         else
+           begin
+             assert{f (choose s) <> make (s_rows s f)(s_columns s f)  c_zero };
+             assert{(mem (choose s) (nonn_mat_subset f s))};
+             mat_sum_dim_add  (remove (choose s)(nonn_mat_subset  f s)) f (choose s) r c;
+             set_equal (nonn_mat_subset  f   (remove (choose s) s)) (remove (choose s)(nonn_mat_subset  f s));
+           end
+         
+let rec lemma nonn_mat_sum (f: 'a -> matrix complex) (s: set 'a) (r c:int)
+          requires{r > 0}
+          requires{c > 0}
+          requires{forall e:'a. mem e s -> rows (f e) = r}
+          requires{forall e:'a. mem e s -> columns (f e) = c}
+          variant{cardinal s}
+  = ensures{ mat_sum_dim s f r c = mat_sum_dim (nonn_mat_subset  f s) f r c} 
+      if cardinal s = 0 then nonn_mat_sum_cardzero f s r c
+      else      if (cardinal s = 1) then nonn_mat_sum_cardone f s r c
+      else
+        begin
+          nonn_mat_sum f (remove (choose s)s) r c;
+          nonn_mat_sum_plus_one  f s r c;
+        end
+
+let lemma mat_sum_map_map (s1: set 'a ) (s2: set 'b ) (t1 : 'a -> 'c) (t2 : 'b -> 'c) (f: 'c -> matrix complex)
+      requires{cardinal s1 >0}
+      requires{p_injective t1 s1}
+      requires{constant_size s1 (fun a -> f (t1 a))}
+      requires{cardinal s2 >0}
+      requires{p_injective t2 s2}
+      requires{constant_size s2 (fun a -> f (t2 a))}
+      requires{map t1 s1 = map t2 s2}
+      ensures{mat_sum (map t1 s1) f = mat_sum (map t2 s2) f}
+  =
+  map_mat_sum f s1 t1;
+  map_mat_sum f s2 t2
+  
+let lemma mat_sum_disjoint_transitivity (s s1 s2 :set 'a)  (f: 'a -> matrix complex)
+      requires{constant_size s f}
+      requires{inter s1 s2 = empty}
+      requires{union s1 s2 = s}
+      requires{cardinal s1 > 0}
+      requires{cardinal s2 > 0}
+      ensures{add_mat (mat_sum s1 f) (mat_sum s2 f) = mat_sum s f}
+  =  subset_constant_size s s2 f;
+     subset_constant_size s s1 f;
+     mat_sum_to_sum s1 f;
+     mat_sum_to_sum s2 f;
+     mat_sum_to_sum s f;
+     set_equal_mat (add_mat (mat_sum s1 f) (mat_sum s2 f)) (mat_sum s f)
+
+let lemma mat_sum_null (f: 'a -> matrix complex) (s: set 'a) 
+      requires{cardinal s > 1}
+      requires{constant_size s f}
+      requires{forall e:'a.mem e s -> forall i j. valid_index (f e ) i j -> get (f e) i j =c_zero}
+      ensures{forall i j. valid_index (mat_sum s f) i j ->  get (mat_sum s f) i j = c_zero}
+  = mat_sum_to_sum s f
+
+let lemma mat_sum_null_b (f: 'a -> matrix complex) (s: set 'a) (r c: int)
+      requires{cardinal s > 1}
+      requires{forall e: 'a. mem e s -> rows (f e)  = r}
+      requires{forall e: 'a. mem e s -> columns (f e)  = c}
+      requires{forall e:'a.mem e s -> forall i j. valid_index (f e ) i j -> get (f e) i j =c_zero}
+      ensures{forall i j. 0<= i < r -> 0<= j < c -> get (mat_sum s f) i j = c_zero}
+  = mat_sum_null f s
+     
+let lemma map_add_mat_sum_t (s : set 'a)(s': set 'b) (f : 'b -> matrix complex) (injz injo : 'a ->'b)
+      requires{constant_size s' f}
+      requires{cardinal s > 0}
+      requires{inter (map injz s) (map injo s) = empty}
+      requires{union (map injz s) (map injo s) = s'}
+      requires{p_injective injo s}
+      requires{p_injective injz s}
+      ensures{mat_sum s (fun e -> add_mat (f (injz e)) (f (injo e))) =
+                mat_sum s' f}
+  =
+  subset_constant_size s' (map injz s) f;
+  subset_constant_size s' (map injo s) f;
+  assert{forall e. mem e s -> rows (f (injo e)) = s_rows s' f};
+  assert{forall e. mem e s -> rows (f (injz e)) = s_rows s' f};
+  assert{forall e. mem e s -> columns (f (injo e)) = s_columns s' f};
+  assert{forall e. mem e s -> columns (f (injz e)) = s_columns s' f};
+  subset_constant_size s' (union (map injz s) (map injo s)) f;
+  mat_sum_comp s  (fun e -> f (injz e)) (fun e -> f (injo e));
+  map_mat_sum f s injo;
+  map_mat_sum f s injz;
+  mat_sum_disjoint_transitivity s'  (map injz s) (map injo s)  f
+
+let lemma map_add_mat_sum (s s1 s2 s': set 'a) (f g h : 'a -> matrix complex)
+      requires{constant_size s' h}
+      requires{constant_size s f}
+      requires{constant_size s g}
+      requires{s_rows s' h = s_rows s f = s_rows s g}
+      requires{s_columns s' h = s_columns s f = s_columns s g}
+      requires{cardinal s > 0}
+      requires{p_injective f s}
+      requires{p_injective g s}
+      requires{p_injective h s'}
+      requires{map f s = map h s1}
+      requires{map g s = map h s2}
+      requires{inter s1 s2 = empty}
+      requires{union s1 s2 = s'}
+      ensures{mat_sum s (fun e -> add_mat (f e) (g e)) =
+                mat_sum s' (fun e -> h e)}
+  = assert{constant_size s (fun e -> add_mat (f e) (g e))};
+    assert{s_rows s (fun e -> add_mat (f e) (g e))  = (s_rows s' h)}; 
+    assert{s_columns s (fun e -> add_mat (f e) (g e)) =  (s_columns s' h)};
+    mat_sum_disjoint_transitivity s' s1 s2 h;
+    map_mat_sum p_id s  f;
+    map_mat_sum p_id s  g;
+    map_mat_sum p_id s'  h;
+    map_mat_sum p_id s1  h;
+    map_mat_sum p_id s2  h;
+    mat_sum_comp s f g;
+    assert{ (mat_sum s (fun e ->  add_mat (f e) (g e) ))
+            = add_mat (mat_sum (map f s) p_id)  (mat_sum (map g s) p_id)
+            =  add_mat (mat_sum (map h s1) p_id) (mat_sum(map h s2) p_id)
+            = mat_sum s' (fun e -> h e)}
+end
+
+module Mat_sums_comp
+         use  Matrix_sums
+         use  complex_operations.Base_type
+         use  set.FsetComprehension
+         use  p_set.Fset_comp
+         use  Matrice         
+         use  Matrix_equality
+         use  complex.Pairs
+         use  complex.Complex
+         use  int.Int
+         use  complex.Assert_equal
+
+let lemma mat_sum_sum_cartesian_product_pre (s1: set 'a)(s2: set 'b)(f : 'a -> 'b -> matrix complex) (r c:int)
+      requires{0<r}
+      requires{0<c}
+      requires{forall a b. mem a s1 -> mem b s2 -> rows (f a b) = r}
+      requires{forall a b. mem a s1 -> mem b s2 -> columns (f a b) = c}
+      requires{cardinal s1 >0}
+      requires{cardinal s2 >0}
+      ensures{mat_sum s1 (fun a -> mat_sum s2 (f a) ) = mat_sum (cartesian_product s1 s2) (fun o -> f (fir o) (sec o))}
+  =
+  let guarded_func = (fun a -> if mem a s1 then  mat_sum s2 (f a) else make r c c_zero) in
+  begin
+    set_constant_size (cartesian_product s1 s2) (fun o -> f (fir o) (sec o));
+    set_constant_size s1 guarded_func;
+    assert_equal (rows (mat_sum s1 guarded_func )) r;
+    assert_equal (columns (mat_sum s1 guarded_func)) c;
+    set_s_columns s1 guarded_func c;
+    set_s_rows s1 guarded_func  r;
+    get_valid_index (mat_sum s1 guarded_func) r c;
+    set_equal_mat (mat_sum s1 guarded_func) (mat_sum (cartesian_product s1 s2) (fun o -> f (fir o) (sec o)));
+    assert{mat_sum s1 (fun a -> if mem a s1 then  mat_sum s2 (f a) else make r c c_zero) = mat_sum s1 (fun a -> mat_sum s2 (f a) )}
+  end
+
+end
+
+
+module Matrix_decomp
+         use  complex.Complex
+         use  int.Int
+         use  Matrice
+         use  complex.Assert_equal
+         use  Matrix_sums
+         use  complex_operations.Base_type
+         use  complex_operations.Indic
+         use  Matrix_scalar
+         use  functions.MapInjection
+         use  Matrix_equality
+         use  complex.Pairs     
+         use  set.FsetComprehension
+         use  p_set.Fset_comp
+         use  p_set.Card_one_set
+         use  p_set.IndexestoSet
+         use  complex.Constant     
+         use p_set.Choose_filter
+     
+let function ind_basis_mat ( i  j r c :int): matrix complex
+                                                     requires{0<= i<r}
+                                                     requires{0<= j<c}
+                                                     ensures{rows result = r}
+                                                     ensures{columns  result = c}
+                                                     ensures{forall k l:int. valid_index result k l -> get result k l = indic_2 k i l j}
+                                                     ensures{forall o. mem o (mat_indices result) -> get result (fir o) (sec o) = c_one <-> (fir o) = i /\ sec o = j}
+  =
+  assert{forall o : (int,int). mem o (my_filter (mat_indices (make_f   r c (fun k l -> indic_2 k i l j)))
+                                  (fun x -> eq_t (get (make_f   r c (fun k l -> indic_2 k i l j)) (fir x) (sec x) ) c_one))
+                    -> 0<= fir o < r && 0<= sec o < c};
+  assert{forall o : (int,int). mem o (my_filter  (mat_indices (make_f   r c (fun k l -> indic_2 k i l j)))
+                                  (fun x -> eq_t (get (make_f   r c (fun k l -> indic_2 k i l j)) (fir x) (sec x) ) c_one))
+                    <-> o = (i,j)};
+  set_non_empty (my_filter   (mat_indices (make_f   r c (fun k l -> indic_2 k i l j)))
+                   (fun x -> eq_t (get (make_f   r c (fun k l -> indic_2 k i l j)) (fir x) (sec x) ) c_one));
+  set_cardone_elt (my_filter  (mat_indices (make_f   r c (fun k l -> indic_2 k i l j)))
+                     (fun x -> eq_t (get (make_f   r c (fun k l -> indic_2 k i l j)) (fir x) (sec x) ) c_one))
+    (i,j);
+  make_f   r c (fun k l -> indic_2 k i l j)
+
+let lemma ind_basis_mat_values (i j r c:int)
+      requires{0<= i<r}
+      requires{0<= j<c}
+      ensures{forall i1 j1:int. 0<= i1<r -> 0<= j1 < c -> get (ind_basis_mat i j r c) i1 j1 = indic_2 i i1 j j1}
+  =()
+  
+let lemma unic_ind_basis_mat (i1 j1 i2 j2 r c:int)
+      requires{0<= i1<r}
+      requires{0<= j1<c}
+      requires{0<= i2<r}
+      requires{0<= j2<c}
+      requires{ind_basis_mat i1 j1 r c =  ind_basis_mat i2 j2 r c }
+      ensures{(i1,j1) = (i2,j2)}
+  =
+  assert{forall i j. valid_index (ind_basis_mat i1 j1 r c) i j <-> valid_index (ind_basis_mat i2 j2 r c) i j };
+  assert{ get (ind_basis_mat i1 j1 r c) i1 j1  =  get (ind_basis_mat i2 j2 r c) i1 j1 }
+  
+let ghost function basis_mat (r c :int): set (matrix complex)
+                                           requires{0<r}
+                                           requires{0<c}
+                                           ensures{forall m : matrix complex. mem m result <->
+                                                                exists i j: int. (0<= i < r && 0<= j < c && m = ind_basis_mat i j r c)}
+                                           ensures{result = map 
+                                                              (fun o ->  ind_basis_mat (fir o) (sec o)  r c) (cartesian_product  (to_fset 0 r) (to_fset 0 c))}
+                                           ensures{constant_size result p_id}
+                                           ensures{s_columns  result p_id = c}
+                                           ensures{s_rows  result p_id = r}
+                                           ensures{forall m:matrix complex. mem m result -> cardinal (my_filter (mat_indices m)  (fun x -> eq_t  (get m (fir x) (sec x)) c_one) ) = 1}
+  = map (fun o -> let (i,j) = o in if (0<= i < r && 0<= j < c)
+                                   then
+                                     ind_basis_mat i j r c
+                                   else (make r c c_zero) )
+      (cartesian_product (to_fset 0 r)(to_fset 0 c))
+
+let ghost function basis_mat_indexes (m:matrix complex): (int,int)
+                                                     requires{mem m (basis_mat (rows m) (columns m))}
+                                                     ensures{m = (ind_basis_mat (fir result) (sec result) (rows m) (columns m))}
+                                                     ensures{m = make_f (rows m) (columns m) (fun i j -> indic_2 (fir result) i (sec result) j)}
+                                                     ensures{get m (fir result) (sec result ) = c_one}
+                                                     ensures{forall i j. valid_index m i j-> i = (fir result) -> j <> (sec result )-> get m i j = c_zero}
+                 ensures{valid_index m (fir result) (sec result) }
+  =
+  let fil = (my_filter (mat_indices m) (fun x -> if mem x (mat_indices m) then equal m (ind_basis_mat (fir x) (sec x) (rows m) (columns m))else false )  ) in
+  set_non_empty fil;
+  set_cardone fil;
+  element fil
+
+let lemma get_basis_mat_indexes (m:matrix complex)
+      requires{mem m (basis_mat (rows m) (columns m))}
+      ensures{m = (ind_basis_mat (fir (basis_mat_indexes m)) (sec (basis_mat_indexes m)) (rows m) (columns m))}
+      ensures{m = make_f (rows m) (columns m) (fun i j -> indic_2 (fir (basis_mat_indexes m)) i (sec (basis_mat_indexes m)) j)}
+      ensures{get m (fir (basis_mat_indexes m)) (sec (basis_mat_indexes m) ) = c_one}
+      ensures{forall i j. valid_index m i j-> (basis_mat_indexes m) <> (i,j)-> get m i j = c_zero}
+  =()
+  
+let lemma set_basis_mat_indexes (m:matrix complex)(i j :int)
+      requires{valid_index m i j}
+      requires{mem m (basis_mat (rows m) (columns m))}
+      requires{get m i j = c_one}
+      ensures{basis_mat_indexes m = (i,j)}
+      ensures{m = (ind_basis_mat i j (rows m) (columns m))}
+      ensures{m = make_f (rows m) (columns m) (fun i1 j1 -> indic_2  i i1  j j1)}
+      ensures{forall i1 j1. valid_index m i1 j1-> i1 = i -> j1 <> j-> get m i1 j1 = c_zero}
+  = get_basis_mat_indexes m;
+    assert{basis_mat_indexes m = (i,j)}
+    
+let ghost function basis_projection (m:matrix complex) (i j :int): matrix complex
+                                                               requires{0<= i < rows m}
+                                                               requires{  0<= j < columns m}
+                                                               ensures{rows result = rows m}
+                                                               ensures{columns result = columns m}
+                                                               ensures{ result = make_f (rows m) (columns m) (fun k l -> get m i j *. indic_2 k i l j)}
+                                                               ensures{ get result i j = get m i j}
+                                                               ensures{forall i' j':int. valid_index result i' j' -> i' <> i -> get result i' j' = c_zero}
+                                                               ensures{forall i' j':int. valid_index result i' j' -> j' <> j -> get result i' j' = c_zero}
+  =
+  set_equal_mat (  get m i j *..  (ind_basis_mat i j) (rows m) (columns m))
+    (make_f (rows m) (columns m) (fun k l -> get m i j *. indic_2 k i l j));
+  get m i j *.. (ind_basis_mat i j (rows m) (columns m))
+
+let lemma basis_projection_null (m:matrix complex)(i j k l:int)
+      requires{valid_index m i j}
+      requires{valid_index m k l}
+      requires{i = k -> j <> l}
+      ensures{get (basis_projection m i j) k l = c_zero}
+  =
+  assert{get (basis_projection m i j) k l = get m i j *. indic_2 k i l j}
+  
+let ghost function basis_projections (m:matrix complex) : set (matrix complex)
+                                                      ensures{result =  map  (couple (basis_projection m))  (to_indexes m)}
+                                                      ensures{forall e: matrix complex. mem e result -> rows e = rows m}
+                                                      ensures{forall e: matrix complex. mem e result -> columns e = columns m}
+                                                      ensures{constant_size result p_id}
+  = 
+  assert{forall i j. valid_index m i j -> rows  (basis_projection m i j) = rows m};
+  assert{forall i j. valid_index m i j -> columns  (basis_projection m i j) = columns m};
+  map (fun (o : (int,int)) ->  if  (valid_index m (fir o) (sec o))  then basis_projection m (fir o) (sec o)  else m)  (to_indexes m)
+
+let lemma rewrite_basis_projections (m:matrix complex)
+      ensures{basis_projections m =
+                map (fun (o : (int,int)) ->  if  (valid_index m (fir o) (sec o))  then basis_projection m (fir o) (sec o)  else m)  (to_indexes m)}
+  =()
+  
+let ghost  function indexes_decomp  (m:matrix complex) 
+                      ensures{rows result = rows m}
+                      ensures{columns result = columns m}
+  =
+  assert{forall e. mem e (to_indexes m) -> columns ((fun o -> if mem o (to_indexes m) then
+                                                                (basis_projection m) (fir o) (sec o)
+                                                              else m) e) = columns m};
+  assert{forall e. mem e (to_indexes m) -> rows ((fun o -> if mem o (to_indexes m) then
+                                                             (basis_projection m) (fir o) (sec o)
+                                                           else m) e) = rows m};
+  assert{s_columns  (to_indexes m)  (fun o -> if mem o (to_indexes m) then (basis_projection m) (fir o) (sec o)
+                                              else m) = columns m};
+  assert{s_rows  (to_indexes m)  (fun o -> if mem o (to_indexes m) then (basis_projection m) (fir o) (sec o)
+                                           else m) = rows m};
+  mat_sum (to_indexes m)  (fun o -> if mem o (to_indexes m) then (basis_projection m) (fir o) (sec o)
+                                    else m)
+
+let lemma rewrite_indexes_decomp  (m:matrix complex)
+      ensures{indexes_decomp  m = mat_sum (to_indexes m)  (fun o ->   basis_projection m (fir o) (sec o))}
+  =()
+  
+let lemma indexes_decomp_pre  (m:matrix complex) (i j :int)
+      requires{valid_index m i j}
+      ensures{get m i j = sum (to_indexes m) (fun o -> get (basis_projection m (fir o) (sec o)) i j)}
+  =     sum_indic_ts (to_indexes m)  (fun o -> if mem o (to_indexes m) then
+                                                 get (basis_projection m (fir o) (sec o)) i j
+                                               else c_zero) (i,j);
+        assert{sum (to_indexes m) (fun o -> get (basis_projection m (fir o) (sec o))  i j) =
+                 sum (to_indexes m)  (fun o ->   if mem o (to_indexes m) then
+                                                   get (basis_projection m (fir o) (sec o)) i j
+                                                 else c_zero)}
+
+let lemma indexes_decomp_pre_gen  (m:matrix complex) (i j :int)
+      ensures{forall i j:int. valid_index m i j ->
+                         get m i j = sum (to_indexes m) (fun o -> get (basis_projection m (fir o) (sec o)) i j)}
+  =     ()
+      
+let lemma mat_to_indexes_decomp  (m:matrix complex) 
+      ensures{m = indexes_decomp m}
+  =
+  assert{m  = make_f (rows m) (columns m ) (fun i j ->
+                  sum (to_indexes m) (fun o -> get (basis_projection m  (fir o) (sec o)) i j))};
+  assert{rows (basis_projection m  (fir (choose (to_indexes m))) (sec  (choose (to_indexes m))) ) = rows m};
+  assert{columns (basis_projection m  (fir (choose (to_indexes m))) (sec  (choose (to_indexes m))) ) = columns m};
+  assert{s_rows (to_indexes m) (fun o -> basis_projection m  (fir o) (sec o) )=  rows m};
+  assert{s_columns (to_indexes m) (fun o -> basis_projection m  (fir o) (sec o) ) = columns m};
+  assert{m  = mat_sum (to_indexes m) (couple (basis_projection m ))}
+  
+let ghost function basis_decomp (m:matrix complex): matrix complex
+                                                ensures{rows result = rows m}
+                                                ensures{columns result = columns m}
+  = mat_sum (basis_projections m) p_id
+  
+let lemma indexes_basis_decomp_equal_pre  (m:matrix complex) (i j: int) 
+      requires{valid_index m i j}
+      ensures{get (indexes_decomp m) i j = get (basis_decomp m) i j }
+  =
+  mat_to_indexes_decomp m;
+  sum_null_but_maybe_one_elt (fun mat -> get mat i j)  (basis_projections m) (basis_projection m i j)
+  
+let  lemma indexes_basis_decomp_equal  (m:matrix complex)
+       ensures{indexes_decomp m = basis_decomp m  }
+  =
+  set_equal_mat (indexes_decomp m) (basis_decomp m)
+  
+let lemma mat_to_basis_decomp  (m:matrix complex) 
+      ensures{m = indexes_decomp m}
+  = mat_to_indexes_decomp m;
+    indexes_basis_decomp_equal m
+    
+let rec lemma product_mat_sum_r_pre (m: matrix complex) (s' s: set 'a)(f: 'a->matrix complex)
+          requires{constant_size s f}
+          requires{columns m = s_rows s f}
+          requires{subset s' s}
+          requires{cardinal s' >0}
+          ensures{mat_mult m (mat_sum s' f)
+                  = mat_sum s' (fun a -> if mem a s then
+                                           mat_mult m (f a) else m)}
+          ensures{mat_mult m (mat_sum s' f)
+                  = mat_sum s' (fun a ->   mat_mult m (f a))}
+          ensures{rows (mat_sum s' f) = s_rows s f}
+          ensures{columns  (mat_sum s' f) = s_columns s f}
+          ensures{rows (mat_mult m (mat_sum s' f)) = rows m}
+          ensures{columns  (mat_mult m (mat_sum s' f)) = s_columns s f}
+          variant{cardinal s'}
+  = if (cardinal s' = 1) then
+      assert{mat_mult m (mat_sum s' f) = mat_mult m (f (choose s'))}
+    else
+      begin
+        subset_constant_size s s'  (fun a -> if mem a s then
+                                               mat_mult m (f a) else m);
+        if (cardinal s' = 1) then ()
+        else
+          begin
+            subset_constant_size s' (remove  (choose s')s') (fun a -> if mem a s then
+                                                                        mat_mult m (f a) else m);
+            mat_sum_add (remove  (choose s')s') (fun a -> if mem a s then
+                                                            mat_mult m (f a) else m)  (choose s');
+            product_mat_sum_r_pre m (remove  (choose s')s') s f;
+            distr_r m (f (choose s')) (mat_sum (remove (choose s') s') f);
+            assert{mat_mult m (mat_sum s' f)
+                   = mat_sum s' (fun a -> if mem a s then
+                                            mat_mult m (f a) else m)}
+          end
+      end
+
+let  lemma product_mat_sum_r (m: matrix complex) (s: set 'a)(f: 'a->matrix complex)
+       requires{constant_size s f}
+       requires{columns m = s_rows s f}
+       requires{cardinal s > 0}
+       ensures{mat_mult m (mat_sum s f) = mat_sum s (fun a ->  mat_mult m (f a) )}
+  = product_mat_sum_r_pre m s s f;
+    assert{ mat_sum s (fun a -> if mem a s then mat_mult m (f a) else m)
+            =  mat_sum s (fun a -> mat_mult m (f a))}
+
+let  lemma product_mat_sum_r_rev (m: matrix complex) (s: set 'a)(f: 'a->matrix complex)
+       requires{constant_size s f}
+       requires{columns m = s_rows s f}
+       requires{cardinal s > 0}
+       ensures{mat_sum s (fun a ->  mat_mult m (f a) )= mat_mult m (mat_sum s f) } 
+  = product_mat_sum_r m s  f
+
+let lemma p_injective_proj (m: matrix complex)
+      ensures{p_injective    (couple (basis_projection m)) (nonn_mat_subset (couple (basis_projection m)) (to_indexes m))}
+  =
+  assert{forall o. mem o (nonn_mat_subset (couple (basis_projection m )) (to_indexes m)) -> valid_index m (fir o) (sec o)};
+  assert{forall o. mem o (nonn_mat_subset (couple (basis_projection m )) (to_indexes m)) -> get (basis_projection m (fir o) (sec o)) (fir o) (sec o) <> c_zero };
+  assert{forall o o'. mem o (nonn_mat_subset (couple (basis_projection m)) (to_indexes m)) ->
+         mem o' (nonn_mat_subset (couple (basis_projection m)) (to_indexes m)) ->
+         o <> o' -> get (basis_projection m (fir o) (sec o)) (fir o') (sec o') = c_zero}
+  
+let lemma mat_decomp_equal_indexes  (m:matrix complex)
+      ensures{m = indexes_decomp m}
+  =
+  ()
+end
+
+module Diag_mat
+
+         use Matrice
+         use complex.Complex
+         use int.Int
+         use Matrix_scalar
+         use Matrix_addition
+         use Matrix_equality       
+
+         predicate is_diagonal (m:matrix complex) = exists f : int -> complex. m = make_f (rows m) (rows m) (fun i j -> if i = j then f i else c_zero)
+
+let function diag_mat (f: int-> complex) (s:int)
+               requires{0<s}
+               ensures{is_diagonal result}
+           ensures{rows result = s}
+           ensures{columns result = s}
+  = make_f s s (fun i j -> if (i = j) then f i else c_zero)
+
+let lemma diag_mat_rows (f: int-> complex) (s:int)
+               requires{0<s}
+           ensures{rows (diag_mat f s) = s}
+  = ()
+
+let lemma diag_mat_columns (f: int-> complex) (s:int)
+               requires{0<s}
+           ensures{columns (diag_mat f s) = s}
+  = ()
+
+let lemma diag_mat_values (f: int-> complex) (s i j:int)
+               requires{0<s}
+               requires{0<= i < s}
+               requires{0<= j < s}
+           ensures{get (diag_mat f s) i j  = if  i = j then f i else c_zero}
+  = ()
+
+
+let function diagonal (m:matrix complex) (i:int)
+               requires{0<= i < rows m}
+               requires{is_diagonal m}
+           = get m i i     
+
+let lemma diag_mat_add (f g h : int-> complex) (s:int)
+               requires{0<s}
+      requires{forall i:int. 0<= i< s -> f i +. g i = h i}
+      ensures{add_mat (diag_mat f s) (diag_mat g s) =  (diag_mat h s)}
+  =
+  set_equal_mat (add_mat (diag_mat f s) (diag_mat g s)) (diag_mat h s)
+
+let lemma diag_mat_subst (f g h : int-> complex) (s:int)
+               requires{0<s}
+      requires{forall i:int. 0<= i< s -> f i -. g i = h i}
+      ensures{ (diag_mat h s) = mat_substr (diag_mat f s) (diag_mat g s)}
+             =()
+
+let lemma diag_mat_scal (f g  : int-> complex) (s:int) (a: complex)
+               requires{0<s}
+      requires{forall i:int. 0<= i< s ->  g i =  a*. (f i)}
+      ensures{ diag_mat g s = a*.. (diag_mat f s) }
+             =()
+
+let lemma diag_mat_eq (f g  : int-> complex) (s s':int) 
+               requires{0<s}
+      requires{forall i:int. 0<= i< s ->  f i =   g i}
+      requires{s = s'}
+      ensures{diag_mat f s  =  diag_mat g s'}
+             =()
+                use Matrix_product
+             
+let function id_mat (n:int)
+               requires{n>=1}
+           ensures{forall i. 0<=i < n -> diagonal result i = c_one}
+           ensures{rows result = n}
+           ensures{columns result = n}
+  = diag_mat (fun i-> c_one) n
+
+let lemma set_id_mat (n:int) (f:int -> complex)
+      requires{1<=n}
+      requires{forall i:int. 0<= i < n -> f i = c_one}
+      ensures{diag_mat f n = id_mat n}
+  =()
+  
+let lemma id_mat_prod_r (n:int) (m:matrix complex)
+      requires{1<=n}
+      requires{rows m = n}
+      ensures{mat_mult (id_mat n) m = m}
+  =()
+           
+        
+let lemma id_mat_prod_l (n:int) (m:matrix complex)
+      requires{n>=1}
+      requires{columns m = n}
+      ensures{mat_mult m (id_mat n)  = m}
+  = get_valid_index (mat_mult m (id_mat n)) (rows m)  (columns m)
+   
+           
+end        

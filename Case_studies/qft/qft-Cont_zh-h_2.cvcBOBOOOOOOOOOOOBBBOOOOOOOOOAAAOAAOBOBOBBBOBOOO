@@ -1,0 +1,141 @@
+BOBO%%% this is a prelude for CVC3 
+%%% this is a prelude for CVC3 real arithmetic
+div_OBOby_zero: (REAL) -> REAL;
+%%% this is a prelude for CVC3 integer arithmetic
+uni : TYPE;
+
+ty : TYPE;
+
+sort: (Oty, uni) -> BOOLEAN;
+O
+witness: (ty) -> uni;
+BO
+% Owitness_sort
+  ASSERT (FORALL (a : ty): (sort(a, witness(a))));
+
+int: ty;
+O
+real: ty;
+
+t : TYPE;
+O
+tO1: ty;
+
+tzOero: t;
+
+tone: t;
+O
+pOrefix_mndt: (t) -> t;
+
+infix_pldt: (t, t) -> t;
+O
+infix_asdt: (t, t) -> t;
+
+% Unit_def_r
+ OOOOOO ASSERT (FORALL (x10 : t): (infix_pldt(x10, tzero) = x10));
+
+% NonTrivialRing
+  ASSERT (NOT (tzero = tone));
+OBO
+infix_mndt: (t, t) -> t;
+OOOOO
+% infix -._def
+  ASSERT
+  (FORALL (x10 : t, y10 : t): (infix_mndt(x10, y10) = infix_pldt(x10, 
+  prefix_mndt(y10))));
+
+% opposite
+  ASSERT (FORALL (a : t): (infix_mndt(a, a) = tzero));
+
+im: t;
+
+r_to_t: (REAL) -> t;
+
+% r_to_t_zero
+  ASSERT (r_to_t(0) = tzero);
+
+% r_to_t_inv
+  ASSERT (FORALL (i : REAL): (r_to_t((- i)) = prefix_mndt(r_to_t(i))));
+
+real_part: (t) -> REAL;
+
+im_part: (t) -> REAL;
+
+% Real_part_add
+  ASSERT
+  (FORALL (i : t, j : t): (real_part(infix_pldt(i, j)) = (real_part(i) + 
+  real_part(j))));
+
+% Complex_decomp
+  ASSERT
+  (FORALL (i : t): (i = infix_pldt(r_to_t(real_part(i)), infix_asdt(im, 
+  r_to_t(im_part(i))))));
+
+real_: (t) -> BOOLEAN;
+
+% real__def
+  ASSERT (FORALL (x10 : t): ((real_(x10)) <=> (im_part(x10) = 0)));
+
+% real_r_to_t
+  ASSERT (FORALL (x10 : REAL): (real_(r_to_t(x10))));
+
+t_real_part: (t) -> t;
+
+% t_real_part_def
+  ASSERT (FORALL (x10 : t): (t_real_part(x10) = r_to_t(real_part(x10))));
+
+set: (ty) -> ty;
+
+infix_mngt: (ty, ty) -> ty;
+
+exp: (t) -> t;
+
+cos: (t) -> t;
+
+% cos_zero
+  ASSERT (cos(tzero) = tone);
+
+% euler_real
+  ASSERT
+  (FORALL (x10 : t):
+  ((real_(x10)) => (cos(x10) = t_real_part(exp(infix_asdt(im, x10))))));
+
+angle_c : TYPE;
+
+angle_c1: ty;
+
+ang_exp_c: (angle_c) -> t;
+
+int_to_ang_c: (INT, INT) -> angle_c;
+
+ang_inv_c: (angle_c) -> angle_c;
+
+% ang_exp_c_zero
+  ASSERT (ang_exp_c(int_to_ang_c(0, 0)) = tone);
+
+real_to_ang_c: (t) -> angle_c;
+
+% Real_To_Ang_up
+  ASSERT
+  (FORALL (phi : t):
+  ((real_(phi)) => (real_to_ang_c(phi) = real_to_ang_c(infix_pldt(tone,
+  phi)))));
+
+% Real_zero_n
+  ASSERT (real_to_ang_c(tzero) = int_to_ang_c(0, 0));
+
+% Int_To_Ang_inv
+  ASSERT
+  (FORALL (k4 : INT, n12 : INT):
+  ((0 <= n12) => (ang_inv_c(int_to_ang_c(k4, n12)) = int_to_ang_c((- k4),
+  n12))));
+
+% ang_minus_one_from_real
+  ASSERT (int_to_ang_c(1, 1) = real_to_ang_c(prefix_mndt(tone)));
+
+% omega_d11
+  ASSERT (ang_exp_c(int_to_ang_c(1, 1)) = prefix_mndt(tone));
+
+QUERY
+% h4
+  FALSE;

@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="5">
+<prover id="0" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="1" name="CVC4" version="1.0" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="2" name="Alt-Ergo" version="2.2.0" timelimit="5" steplimit="0" memlimit="1000"/>
+<file proved="true">
+<path name=".."/>
+<path name="functions.mlw"/>
+<theory name="Shift" proved="true">
+ <goal name="VC shift_value" expl="VC for shift_value" proved="true">
+ <proof prover="2"><result status="valid" time="0.00" steps="2"/></proof>
+ </goal>
+ <goal name="VC shiftz" expl="VC for shiftz" proved="true">
+ <proof prover="2"><result status="valid" time="0.00" steps="2"/></proof>
+ </goal>
+ <goal name="VC shiftz_gen" expl="VC for shiftz_gen" proved="true">
+ <proof prover="2"><result status="valid" time="0.00" steps="4"/></proof>
+ </goal>
+ <goal name="VC shiftz_quant" expl="VC for shiftz_quant" proved="true">
+ <proof prover="2"><result status="valid" time="0.00" steps="6"/></proof>
+ </goal>
+ <goal name="VC shiftz_quant_rev" expl="VC for shiftz_quant_rev" proved="true">
+ <proof prover="2"><result status="valid" time="0.00" steps="2"/></proof>
+ </goal>
+ <goal name="VC shift_add" expl="VC for shift_add" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC shift_add.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.01" steps="41"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC concat_fun_value" expl="VC for concat_fun_value" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC concat_fun_value.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.00" steps="2"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC concat_eq" expl="VC for concat_eq" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC concat_eq.0" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="concat_fun_value">
+   <goal name="VC concat_eq.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="concat_fun_value">
+    <goal name="VC concat_eq.0.0.0" expl="postcondition" proved="true">
+    <transf name="eliminate_if" proved="true" >
+     <goal name="VC concat_eq.0.0.0.0" expl="VC for concat_eq" proved="true">
+     <transf name="split_vc" proved="true" >
+      <goal name="VC concat_eq.0.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="2"><result status="valid" time="0.00" steps="7"/></proof>
+      </goal>
+      <goal name="VC concat_eq.0.0.0.0.1" expl="postcondition" proved="true">
+      <proof prover="2"><result status="valid" time="0.00" steps="4"/></proof>
+      </goal>
+      <goal name="VC concat_eq.0.0.0.0.2" expl="postcondition" proved="true">
+      <proof prover="2"><result status="valid" time="0.00" steps="4"/></proof>
+      </goal>
+      <goal name="VC concat_eq.0.0.0.0.3" expl="postcondition" proved="true">
+      <proof prover="2"><result status="valid" time="0.00" steps="7"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC mod_func" expl="VC for mod_func" proved="true">
+ <proof prover="2"><result status="valid" time="0.00" steps="2"/></proof>
+ </goal>
+ <goal name="VC mod_func_inf" expl="VC for mod_func_inf" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC mod_func_inf.0" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="mod_func_def">
+   <goal name="VC mod_func_inf.0.0" expl="postcondition" proved="true">
+   <transf name="replace" proved="true" arg1="(mod i k)" arg2="i">
+    <goal name="VC mod_func_inf.0.0.0" expl="postcondition" proved="true">
+    <proof prover="2"><result status="valid" time="0.00" steps="6"/></proof>
+    </goal>
+    <goal name="VC mod_func_inf.0.0.1" expl="equality hypothesis" proved="true">
+    <proof prover="2"><result status="valid" time="0.00" steps="22"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="VC mod_func_inf.0.1" expl="rewrite premises" proved="true">
+   <proof prover="2"><result status="valid" time="0.00" steps="6"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC shift_mod" expl="VC for shift_mod" proved="true">
+ <transf name="compute_hyp_specified" proved="true" >
+  <goal name="VC shift_mod.0" expl="VC for shift_mod" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="VC shift_mod.0.0" expl="postcondition" proved="true">
+   <transf name="eliminate_definition" proved="true" >
+    <goal name="VC shift_mod.0.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="shift_def">
+     <goal name="VC shift_mod.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="mod_func_def">
+      <goal name="VC shift_mod.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="mod_func_def">
+       <goal name="VC shift_mod.0.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="VC shift_mod.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+        <transf name="instantiate" proved="true" arg1="Mod_mult" arg2="k,1,i">
+         <goal name="VC shift_mod.0.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+         <proof prover="2"><result status="valid" time="0.00" steps="4"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="VC shift_mod.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="2"><result status="valid" time="0.00" steps="2"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="VC shift_mod.0.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="2"><result status="valid" time="0.00" steps="2"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC shift_mod_rev" expl="VC for shift_mod_rev" proved="true">
+ <proof prover="2"><result status="valid" time="0.00" steps="4"/></proof>
+ </goal>
+</theory>
+<theory name="Logic" proved="true">
+ <goal name="VC not_disj" expl="VC for not_disj" proved="true">
+ <proof prover="2"><result status="valid" time="0.00" steps="4"/></proof>
+ </goal>
+</theory>
+<theory name="MapInjection" proved="true">
+ <goal name="VC set_equal_func" expl="VC for set_equal_func" proved="true">
+ <proof prover="2"><result status="valid" time="0.01" steps="11"/></proof>
+ </goal>
+ <goal name="VC get_equal_func" expl="VC for get_equal_func" proved="true">
+ <proof prover="2"><result status="valid" time="0.01" steps="7"/></proof>
+ </goal>
+ <goal name="VC set_injective" expl="VC for set_injective" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC set_injective.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="12"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC image" expl="VC for image" proved="true">
+ <proof prover="2"><result status="valid" time="0.02" steps="90"/></proof>
+ </goal>
+ <goal name="VC card_image" expl="VC for card_image" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC card_image.0" expl="assertion" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="4"/></proof>
+  </goal>
+  <goal name="VC card_image.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="4"/></proof>
+  </goal>
+  <goal name="VC card_image.2" expl="assertion" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="4"/></proof>
+  </goal>
+  <goal name="VC card_image.3" expl="variant decrease" proved="true">
+  <proof prover="2"><result status="valid" time="0.01" steps="9"/></proof>
+  </goal>
+  <goal name="VC card_image.4" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.12" steps="477"/></proof>
+  </goal>
+  <goal name="VC card_image.5" expl="precondition" proved="true">
+  <transf name="compute_hyp" proved="true" >
+   <goal name="VC card_image.5.0" expl="precondition" proved="true">
+   <transf name="case" proved="true" arg1="(e = f (choose s))">
+    <goal name="VC card_image.5.0.0" expl="true case (precondition)" proved="true">
+    <proof prover="2"><result status="valid" time="0.02" steps="17"/></proof>
+    </goal>
+    <goal name="VC card_image.5.0.1" expl="false case (precondition)" proved="true">
+    <proof prover="2"><result status="valid" time="0.12" steps="466"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC card_image.6" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.09" steps="17"/></proof>
+  </goal>
+  <goal name="VC card_image.7" expl="precondition" proved="true">
+  <transf name="compute_hyp" proved="true" >
+   <goal name="VC card_image.7.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.02" steps="17"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC card_image.8" expl="postcondition" proved="true">
+  <transf name="eliminate_if" proved="true" >
+   <goal name="VC card_image.8.0" expl="postcondition" proved="true">
+   <transf name="destruct" proved="true" arg1="H">
+    <goal name="VC card_image.8.0.0" expl="postcondition" proved="true">
+    <transf name="case" proved="true" arg1="(cardinal s =0)">
+     <goal name="VC card_image.8.0.0.0" expl="true case (postcondition)" proved="true">
+     <proof prover="2"><result status="valid" time="0.02" steps="12"/></proof>
+     </goal>
+     <goal name="VC card_image.8.0.0.1" expl="false case (postcondition)" proved="true">
+     <transf name="destruct" proved="true" arg1="H">
+      <goal name="VC card_image.8.0.0.1.0" expl="destruct premise" proved="true">
+      <proof prover="2"><result status="valid" time="0.01" steps="2"/></proof>
+      </goal>
+      <goal name="VC card_image.8.0.0.1.1" expl="false case (postcondition)" proved="true">
+      <transf name="destruct" proved="true" arg1="H">
+       <goal name="VC card_image.8.0.0.1.1.0" expl="false case (postcondition)" proved="true">
+       <transf name="eliminate_let" proved="true" >
+        <goal name="VC card_image.8.0.0.1.1.0.0" expl="false case (postcondition)" proved="true">
+        <transf name="destruct" proved="true" arg1="H">
+         <goal name="VC card_image.8.0.0.1.1.0.0.0" expl="false case (postcondition)" proved="true">
+         <proof prover="2"><result status="valid" time="0.02" steps="21"/></proof>
+         </goal>
+        </transf>
+        <transf name="split_all_full" proved="true" >
+         <goal name="VC card_image.8.0.0.1.1.0.0.0" expl="false case (postcondition)" proved="true">
+         <transf name="case" proved="true" arg1="(mem (f @ choose s) (image f (remove (choose s) s)))">
+          <goal name="VC card_image.8.0.0.1.1.0.0.0.0" expl="false case (true case. postcondition)" proved="true">
+          <transf name="replace" proved="true" arg1="(image f s)" arg2="(image f (remove (choose s) s))">
+           <goal name="VC card_image.8.0.0.1.1.0.0.0.0.0" expl="false case (true case. postcondition)" proved="true">
+           <transf name="assert" proved="true" arg1="( cardinal (image f (remove (choose s) s)) &lt;= cardinal (remove (choose s) s))">
+            <goal name="VC card_image.8.0.0.1.1.0.0.0.0.0.0" expl="asserted formula" proved="true">
+            <proof prover="2"><result status="valid" time="0.02" steps="24"/></proof>
+            </goal>
+            <goal name="VC card_image.8.0.0.1.1.0.0.0.0.0.1" expl="false case (true case. postcondition)" proved="true">
+            <proof prover="2"><result status="valid" time="0.02" steps="24"/></proof>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="VC card_image.8.0.0.1.1.0.0.0.0.1" expl="equality hypothesis" proved="true">
+           <proof prover="2"><result status="valid" time="0.02" steps="24"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="VC card_image.8.0.0.1.1.0.0.0.1" expl="false case (postcondition)" proved="true">
+          <proof prover="2"><result status="valid" time="0.02" steps="31"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC card_image_injective" expl="VC for card_image_injective" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC card_image_injective.0" expl="assertion" proved="true">
+  <proof prover="2"><result status="valid" time="0.01" steps="6"/></proof>
+  </goal>
+  <goal name="VC card_image_injective.1" expl="variant decrease" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="11"/></proof>
+  </goal>
+  <goal name="VC card_image_injective.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.03" steps="206"/></proof>
+  </goal>
+  <goal name="VC card_image_injective.3" expl="assertion" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="141"/></proof>
+  </goal>
+  <goal name="VC card_image_injective.4" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.01" steps="19"/></proof>
+  </goal>
+  <goal name="VC card_image_injective.5" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="19"/></proof>
+  </goal>
+  <goal name="VC card_image_injective.6" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="14"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC get_injective" expl="VC for get_injective" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC get_injective.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="23"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC get_not_injective" expl="VC for get_not_injective" proved="true">
+ <proof prover="2"><result status="valid" time="0.02" steps="22"/></proof>
+ </goal>
+ <goal name="VC set_injective_in" expl="VC for set_injective_in" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC set_injective_in.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.01" steps="32"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC get_injective_in" expl="VC for get_injective_in" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC get_injective_in.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="19"/></proof>
+  </goal>
+  <goal name="VC get_injective_in.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.01" steps="44"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC set_surjective" expl="VC for set_surjective" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC set_surjective.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="24"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC get_surjective" expl="VC for get_surjective" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC get_surjective.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.01" steps="21"/></proof>
+  </goal>
+  <goal name="VC get_surjective.1" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.04"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC image_surjective" expl="VC for image_surjective" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC image_surjective.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.01" steps="2"/></proof>
+  </goal>
+  <goal name="VC image_surjective.1" expl="precondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="VC image_surjective.1.0" expl="precondition" proved="true">
+   <transf name="instantiate" proved="true" arg1="p_surjective_def" arg2="f,s,s&#39;">
+    <goal name="VC image_surjective.1.0.0" expl="precondition" proved="true">
+    <proof prover="2"><result status="valid" time="0.02" steps="48"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  <transf name="split_all_full" proved="true" >
+   <goal name="VC image_surjective.1.0" expl="precondition" proved="true">
+   <transf name="instantiate" proved="true" arg1="H2" arg2="e">
+    <goal name="VC image_surjective.1.0.0" expl="precondition" proved="true">
+    <transf name="destruct" proved="true" arg1="Hinst">
+     <goal name="VC image_surjective.1.0.0.0" expl="destruct premise" proved="true">
+     <proof prover="2"><result status="valid" time="0.01" steps="4"/></proof>
+     </goal>
+     <goal name="VC image_surjective.1.0.0.1" expl="precondition" proved="true">
+     <transf name="destruct" proved="true" arg1="Hinst">
+      <goal name="VC image_surjective.1.0.0.1.0" expl="precondition" proved="true">
+      <proof prover="2"><result status="valid" time="0.02" steps="10"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="VC image_surjective.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="48"/></proof>
+  </goal>
+  <goal name="VC image_surjective.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="4"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC bijective_is_injective" expl="VC for bijective_is_injective" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC bijective_is_injective.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="71"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC bijective_is_surjective" expl="VC for bijective_is_surjective" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC bijective_is_surjective.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.01" steps="4"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC set_bijective" expl="VC for set_bijective" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC set_bijective.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="4"/></proof>
+  </goal>
+  <goal name="VC set_bijective.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="8"/></proof>
+  </goal>
+  <goal name="VC set_bijective.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="6"/></proof>
+  </goal>
+  <goal name="VC set_bijective.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.01" steps="23"/></proof>
+  </goal>
+  <goal name="VC set_bijective.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.03" steps="154"/></proof>
+  </goal>
+  <goal name="VC set_bijective.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.01" steps="8"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC bijectivity_is_transitive" expl="VC for bijectivity_is_transitive" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC bijectivity_is_transitive.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.04" steps="88"/></proof>
+  </goal>
+  <goal name="VC bijectivity_is_transitive.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="111"/></proof>
+  </goal>
+  <goal name="VC bijectivity_is_transitive.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.33" steps="529"/></proof>
+  </goal>
+  <goal name="VC bijectivity_is_transitive.3" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="2.85"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC bijective_image" expl="VC for bijective_image" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC bijective_image.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="4"/></proof>
+  </goal>
+  <goal name="VC bijective_image.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="6"/></proof>
+  </goal>
+  <goal name="VC bijective_image.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="6"/></proof>
+  </goal>
+  <goal name="VC bijective_image.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="7"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC get_bijective" expl="VC for get_bijective" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC get_bijective.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.01" steps="4"/></proof>
+  </goal>
+  <goal name="VC get_bijective.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="4"/></proof>
+  </goal>
+  <goal name="VC get_bijective.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="6"/></proof>
+  </goal>
+  <goal name="VC get_bijective.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="10"/></proof>
+  </goal>
+  <goal name="VC get_bijective.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="27"/></proof>
+  </goal>
+  <goal name="VC get_bijective.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="4"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC bijective_eq" expl="VC for bijective_eq" proved="true">
+ <proof prover="2"><result status="valid" time="0.27" steps="687"/></proof>
+ </goal>
+ <goal name="VC bijective_eq_gen" expl="VC for bijective_eq_gen" proved="true">
+ <proof prover="2"><result status="valid" time="0.02" steps="28"/></proof>
+ </goal>
+ <goal name="VC bij_equal_card" expl="VC for bij_equal_card" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC bij_equal_card.0" expl="assertion" proved="true">
+  <proof prover="2"><result status="valid" time="0.83" steps="3714"/></proof>
+  </goal>
+  <goal name="VC bij_equal_card.1" expl="variant decrease" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="14"/></proof>
+  </goal>
+  <goal name="VC bij_equal_card.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="114"/></proof>
+  </goal>
+  <goal name="VC bij_equal_card.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.26" steps="3711"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="VC set_bijective_auto" expl="VC for set_bijective_auto" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="VC set_bijective_auto.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.03" steps="39"/></proof>
+  </goal>
+  <goal name="VC set_bijective_auto.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.03" steps="59"/></proof>
+  </goal>
+  <goal name="VC set_bijective_auto.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.02" steps="2"/></proof>
+  </goal>
+  <goal name="VC set_bijective_auto.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.07" steps="4"/></proof>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>

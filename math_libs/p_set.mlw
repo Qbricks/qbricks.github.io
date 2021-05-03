@@ -1,0 +1,671 @@
+
+module Fset_comp
+         use  set.FsetComprehension
+                                          use  int.Int
+                                          use  complex.Assert_equal
+                                          use  complex.Pairs
+                                          use  ref.Ref
+
+                                          predicate eq_e (a a' :'a)= a = a'
+
+let lemma set_equal (s s': set 'a)
+      requires{forall e: 'a. mem e s -> mem e s'}
+      requires{forall e: 'a. mem e s' -> mem e s}
+      ensures{s = s'}
+  =
+  assert{subset s s'};
+  assert{subset s' s};
+  assert{s == s'}
+
+let lemma set_equal_eqq (s s': set 'a)
+      requires{forall e: 'a. mem e s -> mem e s'}
+      requires{forall e: 'a. mem e s' -> mem e s}
+      ensures{s == s'}
+  = ()
+  
+let lemma union_exchange (s s': set 'a)
+      requires{not (is_empty s')}
+      ensures{union (add (choose s') s) (remove (choose s') s') = union s s'}
+  = ()
+
+let lemma get_filter (p: 'a -> bool) (s:set 'a) (x:'a)
+      requires{mem x (filter p s)}
+      ensures{p x}
+      ensures{mem x s}
+  =()
+
+let lemma set_filter (p: 'a -> bool) (s:set 'a) (x:'a)
+      requires{p x}
+      requires{mem x s}
+      ensures{mem x (filter p s)}
+  =()
+
+let lemma inter_empty (s s' : set 'a)
+      requires{is_empty s}
+      ensures{is_empty (inter s s')}
+  = assert{forall a: 'a. mem a (inter s s') -> mem a s /\ mem a s'}
+  
+let lemma inter_empty_comm (s s' : set 'a)
+      requires{is_empty s'}
+      ensures{is_empty (inter s s')}
+  = ()
+
+let lemma inter_empty_elts (s s' : set 'a)
+      requires{forall e. mem e s -> not (mem e s')}
+      ensures{is_empty (inter s s')}
+  = ()
+
+let lemma inter_sym (s s' : set 'a)
+      ensures{inter s s' = inter s' s}
+  = ()
+
+let lemma union_sym (s s' : set 'a)
+      ensures{union s s' = union s' s}
+  = ()
+  
+let lemma union_empty (s s' : set 'a)
+      requires{is_empty s }
+      ensures{union s s' = s'}
+  = assert{forall a: 'a. mem a (union s s') <-> mem a s'};
+    assert{ (union s s') == s' };()
+    
+let lemma union_comm (s s' : set 'a)
+      requires{is_empty s' }
+      ensures{union s s' =  s}
+  = assert{forall a: 'a. mem a (union s s') <-> mem a (union s' s)};
+    assert{ (union s s') == (union s' s)}:()
+
+let lemma union_members (s s':set 'a)
+      ensures{forall a: 'a. mem a (union s s') -> not (mem a s) -> mem a s'}
+      ensures{forall a: 'a. mem a (union s s') -> not (mem a s') -> mem a s}
+  =()
+  
+let lemma union_alt (s s': set 'a) (e:'a)
+      requires{mem e (union s s')}
+      requires{not mem e s}
+      ensures{mem e s'}
+  =()
+  
+let lemma union_empty_comm (s s' : set 'a)
+      requires{is_empty s'}
+      ensures{union s s' = s}
+  = assert{forall a: 'a. mem a (union s s') <-> mem a s};
+    assert{(union s s') == s}; ()
+    
+let lemma set_subset (s' s: set 'a)
+      requires{forall e:'a. mem e s' -> mem e s}
+      ensures{subset s' s}
+  =()  
+
+let lemma set_empty (s: set 'a)
+      requires{forall e :'a. not (mem e s)}
+      ensures{s = empty}
+      ensures{is_empty s}
+  = assert{cardinal s = 0}
+  
+let lemma get_empty (s: set 'a)
+      requires{s = empty}
+      ensures{forall e :'a. not (mem e s)}
+      ensures{is_empty s}
+  = assert{cardinal s = 0}
+
+let lemma get_non_empty (s: set 'a)
+      requires{not (is_empty s)}
+      ensures{exists e: 'a. mem e s}
+  = assert{cardinal s > 0}
+
+let lemma set_non_empty (s: set 'a)
+      requires{exists e: 'a. mem e s}
+      ensures{not (is_empty s)}
+      ensures{cardinal s > 0}
+  = ()
+
+let lemma set_pos_card_elt (s: set 'a) (a: 'a)
+      requires{ mem a s}
+      ensures{cardinal s > 0}
+  = ()
+
+let lemma union_add (s s':set 'a) (x: 'a)
+      requires{not mem x s'}
+      ensures{union s (add x s') = add x  (union s s')}
+  =
+  assert{union s (add x s') == add x  (union s s')}
+
+let lemma union_add_mem (s s':set 'a) (x y: 'a)
+      requires{mem x  (add y  (union s s'))}
+      ensures{not mem x s' -> not mem x s -> x = y}
+  = ()
+
+let lemma union_add_comm (s s':set 'a) (x: 'a)
+      requires{not mem x s'}
+      ensures{add x  (union s s') = union s (add x s')}
+  = ()
+  
+let lemma remove_add (s :set 'a) (x: 'a)
+      requires{not mem x s}
+      ensures{remove x  (add x  s ) =  s }
+  =  assert{remove x  (add x  s ) ==  s };
+     ()     
+     
+let lemma add_remove (s :set 'a) (x: 'a)
+      requires{ mem x s}
+      ensures{add x  (remove x  s ) =  s }
+  = ()      
+      
+      predicate p_injective (f: 'a -> 'b) (s: set 'a) =
+      forall e e': 'a. mem e s -> mem e' s -> e <> e' -> f e <> f e'
+
+let lemma set_map_mem (f: 'a ->  'b)(s : set 'a) (b :'b)
+      requires{exists a:'a. mem a s /\ b = f a}
+      ensures{mem b (map f s)}
+  =()
+
+let lemma map_add (f: 'a ->  'b)(s : set 'a)(x:'a)
+      requires{not (mem x s) }
+      ensures{map f (add x s)  =  add  ( f x)  (map f s)}
+  = set_equal (map f (add x s)) (add  ( f x)  (map f s))
+
+let rec lemma map_eq (f g: 'a ->  'b)(s : set 'a) 
+          requires{forall e: 'a. mem e s -> f e = g e}
+          ensures{map f s = map g s}
+          variant{cardinal s}
+  = if cardinal s = 0 then ()
+    else
+      begin
+        map_add f  (remove (choose s)s) (choose s); 
+        map_add g  (remove (choose s)s) (choose s); 
+        assert_equal (f (choose s)) (g (choose s));
+        map_eq f g (remove (choose s)s)
+      end
+
+let lemma remove_mem (s: set 'a) (e f:'a)
+      requires{mem e (remove f s)}
+      ensures{mem e s}
+  =()
+  
+let rec lemma injective_map_cardinal (f: 'a ->  'b)(s : set 'a)
+          requires{p_injective f s}
+          ensures{cardinal ( map f s) = cardinal s}
+          variant{cardinal s}
+  = if (cardinal s = 0) then ()
+    else
+      begin
+        assert{(not (mem (f (choose s)) (map f (remove (choose s)s))))};
+        injective_map_cardinal f (remove (choose s)s);
+      end
+  
+let lemma set_map_mem_el (f: 'a ->  'b)(s : set 'a) (b :'b)(a:'a)
+      requires{ mem a s}
+      requires{b = f a}
+      ensures{mem b (map f s)}
+  =()
+
+let lemma set_map_mem_el_gen (f: 'a ->  'b)(s : set 'a) (b :'b)
+      requires{exists a :'a.  mem a s /\b = f a}
+      ensures{mem b (map f s)}
+  =()
+  
+  
+let lemma map_antec (f: 'a ->  'b)(s : set 'a) (b :'b)
+      requires{mem b (map f s)}
+      ensures{exists a:'a. mem a s /\ b = f a}
+  =()
+  
+let lemma map_antec_gen (f: 'a ->  'b)(s : set 'a)
+      ensures{forall b:'b. mem b (map f s) -> exists a:'a. mem a s /\ b = f a}
+  =()
+  
+let lemma map_remove_choose (s: set 'a)(f: 'a -> 'b)
+      requires{p_injective f s}
+      ensures{map f (remove (choose s) s)  = remove (f (choose s))  (map f s)}
+  =      set_equal (map f (remove (choose s) s)) (remove (f (choose s)) (map  f s)) 
+       
+let ghost function antec_set (s: set 'a)(f: 'a -> 'b) (b:'b): set 'a
+                                                                requires{mem b (map f s)}
+  = filter  (fun (e:'a) -> eq_e (f e)    b) s
+
+let ghost function remove_s (s s':set 'a):set 'a
+                                            requires{subset s' s}
+                                            ensures{forall e:'a. mem e result <-> mem e s && not mem e s'}
+  = filter  (fun e -> not mem e s') s
+
+let ghost function remove_antecs (s: set 'a)(f: 'a -> 'b) (b:'b): set 'a
+                                                                    requires{mem b (map f s)}
+                                                                    ensures{forall e:'a. mem e result <-> mem e s && f e <> b}
+                                                                    ensures{cardinal result < cardinal s}
+  = remove_s s (antec_set s f b)
+
+let lemma map_remove_antec  (s: set 'a)(f: 'a -> 'b) (b:'b)
+      requires{mem b (map f s)}
+      ensures{map f  (remove_antecs s f b)  = remove b (map f s)}
+  = set_equal (map f  (remove_antecs s f b)) (remove b (map f s))
+  
+let lemma map_non_empty (f: 'a ->  'b)(s : set 'a)
+      requires{cardinal s > 0}
+      ensures{cardinal (map f s) > 0}
+  = assert{mem (f (choose s)) (map f s)}
+  
+let lemma non_empty_map (f: 'a ->  'b)(s : set 'a)
+      requires{cardinal (map f s) > 0}
+      ensures{cardinal s > 0}
+  = map_antec f s (choose (map f s))
+  
+let  rec  function right_injections (a : 'a)  (s: set 'b): set ('a,'b)
+                                                             variant{cardinal s}
+                                                             ensures{cardinal result = cardinal s}
+                                                             ensures{forall a': 'a. forall b: 'b. mem (a',b) result <-> a'= a /\ mem b s}
+                                                             ensures{result = map  (fun b -> (a,b)) s}
+  = if (is_empty s) then empty
+    else
+      begin
+        set_equal (add (a, (choose s)) (right_injections a (remove(choose s) s))) (map  (fun b -> (a,b)) s);
+        add (a, (choose s)) (right_injections a (remove(choose s) s))
+      end
+  
+let  rec ghost function left_injections (s: set 'a)(b : 'b): set ('a,'b)
+                                                               variant{cardinal s}
+                                                               ensures{forall a: 'a. forall b': 'b. mem (a,b') result <-> (mem a s /\ b' = b)}
+                                                               ensures{cardinal result = cardinal s}
+                                                               ensures{result = map  (fun a -> (a,b)) s}
+  = if ( is_empty s) then empty
+    else
+      begin
+        let result1 = 
+          (left_injections (remove(choose s) s) b) in
+        begin
+          set_equal (add ((choose s),b) result1)(map  (fun a -> (a,b)) s);
+          add ((choose s), b) result1;
+        end
+      end
+
+  let lemma set_map_eq (f: 'a ->  'b)(s : set 'a)(s' : set 'b) 
+      requires{forall b. mem b s' -> exists a. mem a s /\ f a = b}
+      requires{forall a. mem a s ->  mem (f a)  s'}
+      ensures{map f s = s'}
+  =()
+
+let  lemma right_injections_l (a : 'a)  (s: set 'b)
+       ensures{cardinal (right_injections a s) = cardinal s}
+       ensures{forall a': 'a. forall b: 'b. mem (a',b) (right_injections a s) <-> a'= a /\ mem b s}
+       ensures{(right_injections a s) = map  (fun b -> (a,b)) s}
+  = ()
+
+let  lemma left_injections_l (s: set 'a)(b : 'b)
+       ensures{forall a: 'a. forall b': 'b. mem (a,b') (left_injections s b) <-> (mem a s /\ b' = b)}
+       ensures{cardinal (left_injections s b) = cardinal s}
+       ensures{(left_injections s b) = map (fun a -> (a,b)) s}
+  = ()
+  
+let lemma disjoint_injections (s: set 'a)(b: 'b)(c: 'b)
+      requires{b<> c}
+      ensures{is_empty ( inter (right_injections b s) (right_injections c s)  )}
+      ensures{is_empty (  inter (left_injections  s b) (left_injections  s c)) }
+  = ()
+
+let rec lemma induction (p: (set 'a)-> bool) (t: set 'a)
+          requires{forall s: set 'a. is_empty s -> p s}
+          requires{forall s: set 'a. p s -> forall t: 'a.
+                                                      not (mem t s) -> p (add t s)}
+          variant{cardinal t}
+          ensures{p t}=
+  if cardinal t = 0 then () else
+    begin
+      assert{cardinal (remove (choose t) t) = (cardinal t) -1};
+      induction p (remove (choose t) t);
+      assert{p (remove (choose t) t)};
+    end
+  
+let  lemma cardinal_sum (s s' : set 'a)
+       ensures{cardinal (union s s') = cardinal s + cardinal s' - cardinal (inter s s')}
+  =
+  (induction (fun set -> cardinal (union s set) = cardinal s + cardinal set - cardinal (inter s set)) s')
+
+let lemma cardinal_eq (s s' : set 'a)
+      requires{forall e. mem e s -> mem e s'}
+      requires{forall e. mem e s' -> mem e s}
+      ensures{cardinal s = cardinal s'}
+  =()
+  
+let  lemma cardinal_sum_empty_inter (s s' : set 'a)
+       requires{inter s s' = empty}
+       ensures{cardinal (union s s') = cardinal s + cardinal s'}
+  =
+  assert{cardinal (union s s') = cardinal s + cardinal s' - cardinal (inter s s')};
+  induction (fun set -> (if is_empty (inter s set) then (cardinal (union s set) = cardinal s + cardinal set) else True)) s';
+  ()  
+  
+let rec  function cartesian_product (s1: set 'a)(s2: set 'b): set ('a, 'b)
+                                                                ensures{cardinal result = (cardinal s1) * (cardinal s2)}
+                                                                ensures{forall a: 'a. forall b: 'b. mem (a,b) result <-> mem a s1 /\ mem b s2}
+                                                                ensures{forall o: ('a,'b). mem o result <->  mem (fir o) s1 /\ mem (sec o) s2}
+                                                                variant{cardinal s1}
+  = if (is_empty s1) then empty
+    else let prog = ref empty in
+         let reg = ref s1 in
+         while (cardinal !reg > 0) do
+           variant{cardinal !reg}
+             invariant{subset !reg s1}
+             invariant{forall a: 'a. forall b: 'b. mem (a,b) !prog  <-> mem a s1 /\ mem b s2 /\ not (mem a !reg) }
+             invariant{cardinal !prog =cardinal s2 * (cardinal s1 - cardinal !reg) }
+             prog := union (right_injections (choose !reg)  s2) !prog;
+           reg := remove (choose !reg) !reg
+         done;
+         !prog
+
+let ghost function commute (o :('a,'b)): ('b,'a)
+  = (let (a,b) = o in (b,a))
+
+let lemma commute_inj (a a': 'a)(b b' :'b)
+      requires{a = a' -> b <> b' }
+      ensures{commute (a,b) <> commute (a',b')}
+  = ()
+  
+let lemma mem_cartesian_product  (s1: set 'a)(s2: set 'b) (a:'a) (b:'b)
+      requires{mem a s1}
+      requires{mem b s2}
+      ensures{mem (a,b) (cartesian_product s1 s2)}
+  = ()
+  
+let lemma commute_inj_gen (s1 : set 'a) (s2: set 'b)
+      ensures{p_injective   commute (cartesian_product s1 s2)}
+  = assert {forall o o' : ('a, 'b). o <> o' -> commute o <> commute o'}
+  
+let ghost function commute_product (s1 : set 'a ) (s2: set 'b)
+                     ensures{result = (  cartesian_product s2 s1)}
+  = assert {forall o: ('a,'b). let (a,b) = o in mem o (  cartesian_product s1 s2) <-> (mem a s1 /\ mem b s2)};
+    assert {forall o: ('a,'b). let (a,b) = o in mem o (  cartesian_product s1 s2) <-> mem (b,a) (map commute (cartesian_product s1 s2))};
+    assert {forall o: ('a,'b). let (a,b) = o in mem o (  cartesian_product s1 s2) <-> mem (b,a)   (cartesian_product s2 s1)};
+    assert{map commute (cartesian_product s1 s2) ==  (  cartesian_product s2 s1)};
+    map commute (cartesian_product s1 s2) 
+
+let ghost function commute_product_el (s1 : set 'a ) (s2: set 'b)
+                     ensures{forall o: ('a,'b). let (a,b) = o in mem o (  cartesian_product s1 s2) <-> (mem a s1 /\ mem b s2) <-> mem (b,a) result}
+  = map commute (cartesian_product s1 s2) 
+  
+let  lemma cartesian_product_union (s1: set 'a)(s2 s3: set 'b)
+       ensures{cartesian_product s1 (union s2 s3) = union (cartesian_product s1 s2)(cartesian_product s1 s3)}
+  = assert{forall o: ('a,'b). let (a,b) = o in  mem o (cartesian_product s1 (union s2 s3)) <-> mem a s1 /\ mem b (union s2 s3)};
+    assert{forall o: ('a,'b). let (a,b) = o in mem o (cartesian_product s1 (union s2 s3)) <->  mem a s1 /\ (mem b s2 \/ mem b s3)};
+    assert{forall o: ('a,'b). let (a,b) = o in mem o (cartesian_product s1 (union s2 s3)) <->  (mem a s1 /\ mem b s2) \/ (mem a s1 /\ mem b s3)};
+    assert{forall o: ('a,'b). mem o (cartesian_product s1 (union s2 s3)) <-> (mem o  (cartesian_product s1 s2)) \/(mem o  (cartesian_product s1 s3))};
+    assert{cartesian_product s1 (union s2 s3) == union (cartesian_product s1 s2)(cartesian_product s1 s3)}
+
+let  lemma cartesian_union_product (s1 s2: set 'a)(s3: set 'b)
+       ensures{cartesian_product (union s1 s2) s3 = union (cartesian_product s1 s3)(cartesian_product s2 s3)}
+  = assert{forall o: ('a,'b).let (a,b) = o in mem o (cartesian_product  (union s1 s2) s3) <->  mem a (union s1 s2) /\ mem b s3};
+    assert{forall o: ('a,'b). let (a,b) = o in mem o (cartesian_product  (union s1 s2) s3) <->  (not(mem a s1) -> mem a s2)/\ mem b s3};
+    assert{forall o: ('a,'b). let (a,b) = o in mem o (cartesian_product  (union s1 s2) s3) <->  ((not(mem a s1  /\ mem b s3)) -> (mem a s2 /\ mem b s3))};
+    assert{cartesian_product (union s1 s2) s3 == union (cartesian_product s1 s3)(cartesian_product s2 s3)}
+
+let lemma cartesian_product_cardone_r (s1: set 'a)(s2: set 'b)
+      requires{cardinal s1 =1}
+      ensures{let e = choose s1 in cartesian_product s1 s2 == right_injections e s2}
+      ensures{let e = choose s1 in cartesian_product s1 s2 == map  (fun e2 -> (e,e2)) s2}
+  = ()
+
+let lemma cartesian_product_cardone_l (s1: set 'a)(s2: set 'b)
+      requires{cardinal s2 =1}
+      ensures{let e = choose s2 in cartesian_product s1 s2 == left_injections s1 e}
+      ensures{let e = choose s2 in cartesian_product s1 s2 == map (fun e1 -> (e1,e)) s1}
+  =  left_injections_l s1 (choose s2)
+
+let lemma disjoint_cartesian_product_l (s1 s2: set 'a)(s3: set 'b)
+      requires{inter s1 s2 = empty}
+      ensures{inter (cartesian_product s1 s3)  (cartesian_product s2 s3) = empty }
+  = set_empty (inter (cartesian_product s1 s3)  (cartesian_product s2 s3))
+  
+let lemma disjoint_cartesian_product_r (s1: set 'a)  (s2 s3: set 'b)
+      requires{inter s2 s3 = empty}
+      ensures{inter (cartesian_product s1 s2)  (cartesian_product s1 s3) = empty }
+  = set_empty (inter (cartesian_product s1 s2)  (cartesian_product s1 s3))
+
+let rec function iter_union (s : set (set 'a)) : set 'a
+                                                   variant{cardinal s}
+  = if is_empty s then empty
+    else union (choose s) (iter_union (remove (choose s)s)) 
+
+let lemma get_mem_union (s s': set 'a) (e:'a)
+      requires{mem e (union s s')}
+      requires{not (mem e s')}
+      ensures{mem e  s}
+  =()
+
+let lemma get_mem_union' (s s': set 'a) (e:'a)
+      requires{mem e (union s s')}
+      requires{not (mem e s)}
+      ensures{mem e  s'}
+  =()
+
+let lemma set_mem_union (s s': set 'a) (e:'a)
+      requires{mem e s}
+      ensures{mem e (union s s')}
+  =()
+
+let lemma set_mem_union' (s s': set 'a) (e:'a)
+      requires{mem e s'}
+      ensures{mem e (union s s')}
+  =()
+
+end     
+
+module Choose_filter
+         use  set.FsetComprehension
+         use int.Int
+         use Fset_comp
+     
+let rec function choose_filter (s: set 'a) (p: 'a -> bool) : 'a
+                                                               requires{exists e. mem e s && p e}
+                                                               ensures{p result}
+                                                               ensures{mem result s}
+                                                               variant{cardinal s}
+  =
+  if p (choose s) then choose s
+  else
+    choose_filter (remove (choose s) s) p
+  
+let rec function my_filter (s: set 'a) (p: 'a -> bool) : set 'a
+                                                           ensures{forall e. mem e s -> (p e <-> mem e result)}
+                                                           ensures{forall e. mem e result  -> mem e s}
+                                                           ensures{0<= cardinal result <= cardinal s}
+                                                           variant{cardinal s}
+  =
+  if is_empty s then empty
+  else if p (choose s) then add (choose s) (my_filter (remove (choose s) s) p)
+  else (my_filter (remove (choose s) s) p)
+
+let lemma in_my_filter  (s: set 'a) (p: 'a -> bool) (e:'a)
+      requires{mem e s}
+      requires{p e}
+      ensures{mem e (my_filter s p)}
+  =()
+
+let lemma not_in_my_filter_set  (s: set 'a) (p: 'a -> bool) (e:'a)
+      requires{not (mem e s)}
+      ensures{not (mem e (my_filter s p))}
+  =()
+
+let lemma not_in_my_filter_filter  (s: set 'a) (p: 'a -> bool) (e:'a)
+      requires{not (p e)}
+      ensures{not (mem e (my_filter s p))}
+  =()
+
+let lemma in_my_filter_set  (s: set 'a) (p: 'a -> bool) (e:'a)
+      requires{mem e (my_filter s p)}
+      ensures{mem e s}
+  =()
+
+let lemma in_my_filter_filter  (s: set 'a) (p: 'a -> bool) (e:'a)
+      requires{mem e (my_filter s p)}
+      ensures{p e}
+  =()
+
+let lemma my_filter_inter (s: set 'a) (p1 p2: 'a -> bool) 
+      requires{forall e: 'a. mem e s -> p1 e -> not p2 e}
+      ensures{inter (my_filter s p1) (my_filter s p2) = empty}
+  =()
+
+  
+let lemma my_filter_union (s: set 'a) (p1 p2: 'a -> bool) 
+      requires{forall e: 'a. mem e s -> not p1 e ->  p2 e}
+      ensures{union (my_filter s p1) (my_filter s p2) = s}
+  =()
+
+
+end
+     
+module My_map
+         use Fset_comp
+         use  set.FsetComprehension
+         use int.Int
+     
+let rec function my_map  (f: 'a -> 'b) (s: set 'a): set 'b
+                                                      ensures{result = map f s}
+                                                      (* ensures{cardinal result = cardinal s} *)
+                                                      variant{cardinal s }
+  = if is_empty s then empty
+    else add (f (choose s)) (my_map f (remove (choose s)s) )
+
+
+end
+     
+module Card_one_set
+         use  set.FsetComprehension
+         use  int.Int
+
+let function element  (s: set 'a): 'a
+                                     requires{cardinal s = 1}
+  = choose s
+
+let lemma cardone  (s:set 'a)(a: 'a)
+      requires{forall b: 'a. mem b s <-> b = a}
+      requires{cardinal s > 0}
+      ensures{cardinal s =1}
+      ensures{element s = a}
+  = assert{s == add a empty}
+
+let lemma set_cardone  (s:set 'a)
+      requires{cardinal s > 0}
+      requires{exists a:'a.forall b: 'a. mem b s <-> b = a}
+      ensures{cardinal s =1}
+  =   ()
+
+let lemma get_cardone  (s:set 'a)
+      requires{cardinal s =1}
+      ensures{exists a:'a.forall b: 'a. (mem b s <-> b = a)}
+  =   ()
+
+let lemma get_cardone_elt  (s:set 'a)(e :'a)
+      requires{cardinal s =1}
+      requires{mem e s}
+      ensures{e = element s}
+  =   ()
+
+let lemma set_cardone_elt  (s:set 'a) (a:'a)
+      requires{forall b: 'a.( mem b s <-> b = a)}
+      ensures{cardinal s =1}
+      ensures{element s = a}
+  =   ()
+
+let lemma set_cardone_elt_  (s:set 'a) (a:'a)
+      requires{forall b: 'a. mem b s <-> b = a}
+      ensures{cardinal s =1}
+  =   set_cardone_elt s a
+
+let lemma cardzero  (s:set 'a)
+      requires{forall b: 'a. not mem b s}
+      ensures{cardinal s =0}
+  = ()
+
+let lemma get_choose_cardone  (s:set 'a) (e:'a)
+      requires{cardinal s = 1}
+      requires{mem e s}
+      ensures{choose s = e}
+  = ()
+end
+
+module IndexestoSet
+         use  set.Fset
+         use  Fset_comp
+         use  int.Int
+         use  ref.Ref
+
+let  function to_set (e: 'a): set 'a
+                                ensures{forall b: 'a.  b = e -> mem b result }
+                                ensures{cardinal result = 1}
+                                ensures{forall b: 'a. mem b result -> b = e}
+  = add e empty
+
+let function to_fset (i j :int): set int
+                                   ensures{i< j -> cardinal result = j -i}
+                                   ensures{ j <= i -> is_empty result }
+                                   ensures{forall k:int. mem k result <-> i<=k<j}
+  =   if (j <= i) then empty
+      else
+        let  ind = ref i in
+        let card = ref 0 in
+        let pset = ref empty in 
+        while (!ind <j) do           
+          variant{j - !ind}
+            invariant{forall k: int. mem k !pset <-> i<= k < !ind }
+            invariant{cardinal !pset = !card}
+            invariant{!ind - !card = i}
+            invariant{!ind <=j}
+            pset := add !ind !pset ;
+          ind:= !ind + 1;
+          card:= !card + 1;
+        done;
+        !pset
+
+let lemma to_fset_bounds (i k j:int)
+      requires{i< j}
+  requires{mem k (to_fset i j)}
+  ensures{i <= k < j}
+  =()
+  
+let lemma to_fset_unit_ext (i j: int)
+      requires{i< j}
+      ensures{to_fset i j = add i (to_fset (i+1) j)}
+  =         assert{forall m : int. mem m (to_fset i j) <-> i <= m < j}; 
+            assert{forall m : int. mem m (add i (to_fset (i+1) j)) <-> m= i \/i <= m < j}; 
+            assert{forall m : int.mem m (to_fset i j) <-> mem m (add i (to_fset (i+1) j))}; 
+            assert{to_fset i j == add i (to_fset (i+1) j)}
+            
+let rec lemma to_fset_ext (i i' j: int)
+          requires{i <= i' <= j}
+          ensures{to_fset i j = union (to_fset i i') (to_fset i' j)}
+          variant{i'-i}
+  = if i = i' then ()
+    else
+      begin
+        assert{to_fset i j == add i (to_fset (i+1) j)};
+        assert{to_fset i j = add i (to_fset (i+1) j)};
+        to_fset_ext (i+1) i' j;
+        assert{to_fset i j = add i (union (to_fset (i+1) i') (to_fset i' j))};
+        union_add_comm  (to_fset (i+1) i') (to_fset i' j) i;
+        assert{to_fset i j ==  (union (add i(to_fset (i+1) i')) (to_fset i' j))};
+        assert{to_fset i j =  (union (add i(to_fset (i+1) i')) (to_fset i' j))};
+        assert{to_fset i i' = add i(to_fset (i+1) i')};
+        assert{to_fset i j = union (to_fset i i') (to_fset i' j)};
+      end
+
+let lemma card_fset ( n : int)
+      requires{0<= n}
+      ensures{cardinal (to_fset 0 n) = n}
+  =()
+
+let lemma card_fset_gen (i j : int)
+      requires{i<= j}
+      ensures{cardinal (to_fset i j) = j-i}
+  =()
+
+let lemma set_mem_to_fset (i k j:int)
+      requires{i<= k < j}
+  ensures{mem k (to_fset i j)}
+  =()
+  
+end
+
+
+
+
+

@@ -1,0 +1,288 @@
+%%% this is a prelude for CVC3 
+%%% this is a prelude for CVC3 integer arithmetic
+uni : TYPE;
+
+ty : TYPE;
+
+sort: (ty, uni) -> BOOLEAN;
+
+witness: (ty) -> uni;
+
+% witness_sort
+  ASSERT (FORALL (a : ty): (sort(a, witness(a))));
+
+int: ty;
+
+real: ty;
+
+t : TYPE;
+
+t1: ty;
+
+tzero: t;
+
+tone: t;
+
+prefix_mndt: (t) -> t;
+
+infix_pldt: (t, t) -> t;
+
+infix_asdt: (t, t) -> t;
+
+infix_lseqdt: (t, t) -> BOOLEAN;
+
+prefix_mnas: (REAL) -> REAL;
+
+infix_plas: (REAL, REAL) -> REAL;
+
+infix_asas: (REAL, REAL) -> REAL;
+
+infix_lseqas: (REAL, REAL) -> BOOLEAN;
+
+im_part: (t) -> REAL;
+
+real_: (t) -> BOOLEAN;
+
+% real__def
+  ASSERT (FORALL (x : t): ((real_(x)) <=> (im_part(x) = 0)));
+
+% compat_order_mult
+  ASSERT
+  (FORALL (x : t, y : t, z : t):
+  ((infix_lseqdt(x, y))
+  => ((real_(x))
+     => ((real_(y))
+        => ((real_(z))
+           => ((infix_lseqdt(tzero, z)) => (infix_lseqdt(infix_asdt(x, z), 
+              infix_asdt(y, z)))))))));
+
+set: (ty) -> ty;
+
+mem: (ty, uni, uni) -> BOOLEAN;
+
+infix_eqeq: (ty, uni, uni) -> BOOLEAN;
+
+% infix ==_spec
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (s1 : uni, s2 : uni):
+  (((infix_eqeq(a, s1, s2))
+   => (FORALL (x : uni): ((mem(a, x, s1)) <=> (mem(a, x, s2)))))
+  AND ((FORALL (x : uni):
+       ((sort(a, x)) => ((mem(a, x, s1)) <=> (mem(a, x, s2)))))
+      => (infix_eqeq(a, s1, s2))))));
+
+infix_mngt: (ty, ty) -> ty;
+
+infix_at: (ty, ty, uni, uni) -> uni;
+
+% infix @_sort
+  ASSERT
+  (FORALL (a : ty, b : ty):
+  (FORALL (x : uni, x1 : uni): (sort(b, infix_at(b, a, x, x1)))));
+
+op_neutral_left: (ty, uni, uni) -> BOOLEAN;
+
+% op_neutral_left_def
+  ASSERT
+  (FORALL (im1 : ty):
+  (FORALL (op1 : uni, neutral1 : uni):
+  ((op_neutral_left(im1, op1, neutral1))
+  <=> (FORALL (e5 : uni):
+      ((sort(im1, e5)) => (infix_at(im1, im1, infix_at(infix_mngt(im1, im1),
+      im1, op1, neutral1), e5) = e5))))));
+
+op_neutral_right: (ty, uni, uni) -> BOOLEAN;
+
+% op_neutral_right_def
+  ASSERT
+  (FORALL (im1 : ty):
+  (FORALL (op1 : uni, neutral1 : uni):
+  ((op_neutral_right(im1, op1, neutral1))
+  <=> (FORALL (e5 : uni):
+      ((sort(im1, e5)) => (infix_at(im1, im1, infix_at(infix_mngt(im1, im1),
+      im1, op1, e5), neutral1) = e5))))));
+
+op_assoc: (ty, uni) -> BOOLEAN;
+
+% op_assoc_def
+  ASSERT
+  (FORALL (im1 : ty):
+  (FORALL (op1 : uni):
+  (((op_assoc(im1, op1))
+   => (FORALL (a : uni, b : uni, c : uni): (infix_at(im1, im1, infix_at(
+      infix_mngt(im1, im1), im1, op1, infix_at(im1, im1, infix_at(
+      infix_mngt(im1, im1), im1, op1, a), b)), c) = infix_at(im1, im1, 
+      infix_at(infix_mngt(im1, im1), im1, op1, a), infix_at(im1, im1, 
+      infix_at(infix_mngt(im1, im1), im1, op1, b), c)))))
+  AND ((FORALL (a : uni, b : uni, c : uni):
+       ((sort(im1, a))
+       => ((sort(im1, b))
+          => ((sort(im1, c)) => (infix_at(im1, im1, infix_at(infix_mngt(im1,
+             im1), im1, op1, infix_at(im1, im1, infix_at(infix_mngt(im1,
+             im1), im1, op1, a), b)), c) = infix_at(im1, im1, infix_at(
+             infix_mngt(im1, im1), im1, op1, a), infix_at(im1, im1, infix_at(
+             infix_mngt(im1, im1), im1, op1, b), c)))))))
+      => (op_assoc(im1, op1))))));
+
+iterates: (ty, uni, uni) -> BOOLEAN;
+
+% iterates_def
+  ASSERT
+  (FORALL (im1 : ty):
+  (FORALL (op1 : uni, neutral1 : uni):
+  ((iterates(im1, op1, neutral1))
+  <=> ((op_neutral_left(im1, op1, neutral1))
+      AND ((op_neutral_right(im1, op1, neutral1)) AND (op_assoc(im1, op1)))))));
+
+int_iterate: (ty, uni, uni, INT, INT) -> uni;
+
+% int_iterate_sort
+  ASSERT
+  (FORALL (im1 : ty):
+  (FORALL (x : uni, x1 : uni, x2 : INT, x3 : INT): (sort(im1, 
+  int_iterate(im1, x, x1, x2, x3)))));
+
+c_iter: (ty, uni, uni, INT) -> uni;
+
+% c_iter_sort
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (x : uni, x1 : uni, x2 : INT): (sort(a, c_iter(a, x, x1, x2)))));
+
+% C_iter_one
+  ASSERT
+  (FORALL (a : ty):
+  (FORALL (op1 : uni):
+  (FORALL (i40 : uni): ((sort(a, i40)) => (c_iter(a, op1, i40, 1) = i40)))));
+
+infix_pl_closure: (ARRAY INT OF (ARRAY INT OF INT));
+
+t2tb1: ((ARRAY INT OF (ARRAY INT OF INT))) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x : (ARRAY INT OF (ARRAY INT OF INT))): (sort(infix_mngt(int, 
+  infix_mngt(int, int)), t2tb1(x))));
+
+tb2t1: (uni) -> (ARRAY INT OF (ARRAY INT OF INT));
+
+% BridgeL
+  ASSERT
+  (FORALL (i40 : (ARRAY INT OF (ARRAY INT OF INT))):PATTERN (t2tb1(i40)):  (
+  tb2t1(t2tb1(i40)) = i40));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb1(tb2t1(j1))):  (t2tb1(tb2t1(j1)) = j1));
+
+t2tb4: ((ARRAY INT OF INT)) -> uni;
+
+% t2tb_sort
+  ASSERT
+  (FORALL (x : (ARRAY INT OF INT)): (sort(infix_mngt(int, int), t2tb4(x))));
+
+tb2t4: (uni) -> (ARRAY INT OF INT);
+
+% BridgeL
+  ASSERT
+  (FORALL (i40 : (ARRAY INT OF INT)):PATTERN (t2tb4(i40)):  (tb2t4(
+  t2tb4(i40)) = i40));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb4(tb2t4(j1))):  (t2tb4(tb2t4(j1)) = j1));
+
+t2tb5: (INT) -> uni;
+
+% t2tb_sort
+  ASSERT (FORALL (x : INT): (sort(int, t2tb5(x))));
+
+tb2t5: (uni) -> INT;
+
+% BridgeL
+  ASSERT
+  (FORALL (i40 : INT):PATTERN (t2tb5(i40)):  (tb2t5(t2tb5(i40)) = i40));
+
+% BridgeR
+  ASSERT
+  (FORALL (j1 : uni):PATTERN (t2tb5(tb2t5(j1))):  (t2tb5(tb2t5(j1)) = j1));
+
+% infix +_closure_def
+  ASSERT
+  (FORALL (y : INT, y1 : INT): (tb2t5(infix_at(int, int, infix_at(
+  infix_mngt(int, int), int, t2tb1(infix_pl_closure), t2tb5(y)), 
+  t2tb5(y1))) = (y + y1)));
+
+% isum_iter
+  ASSERT (iterates(int, t2tb1(infix_pl_closure), t2tb5(0)));
+
+ind_isum: ((ARRAY INT OF INT), INT, INT) -> INT;
+
+% ind_isum_def
+  ASSERT
+  (FORALL (f4 : (ARRAY INT OF INT), i40 : INT, j1 : INT): (ind_isum(f4, i40,
+  j1) = tb2t5(int_iterate(int, t2tb1(infix_pl_closure), t2tb4(f4), i40,
+  j1))));
+
+power: (INT, INT) -> INT;
+
+infix_as_closure: (ARRAY INT OF (ARRAY INT OF INT));
+
+% infix *_closure_def
+  ASSERT
+  (FORALL (y : INT, y1 : INT): (tb2t5(infix_at(int, int, infix_at(
+  infix_mngt(int, int), int, t2tb1(infix_as_closure), t2tb5(y)), 
+  t2tb5(y1))) = (y * y1)));
+
+% power_def
+  ASSERT
+  (FORALL (e5 : INT, i40 : INT): (power(e5, i40) = tb2t5(c_iter(int, 
+  t2tb1(infix_as_closure), t2tb5(e5), i40))));
+
+% power_plus_one
+  ASSERT
+  (FORALL (e5 : INT, i40 : INT): (power(e5, (i40 + 1)) = (e5 * power(e5,
+  i40))));
+
+fc47: (ARRAY INT OF INT);
+
+% fc_def
+  ASSERT
+  (FORALL (k38 : INT): (tb2t5(infix_at(int, int, t2tb4(fc47), t2tb5(k38))) = 
+  power(2, (k38 + 1))));
+
+% power_decomp
+  ASSERT
+  (FORALL (i40 : INT):
+  ((1 <= i40) => (ind_isum(fc47, 0, i40) < power(2, (i40 + 1)))));
+
+fc48: (ARRAY INT OF INT);
+
+% fc_def
+  ASSERT
+  (FORALL (k38 : INT): (tb2t5(infix_at(int, int, t2tb4(fc48), t2tb5(k38))) = 
+  power(2, (k38 - 1))));
+
+% power_decomp_minus_one
+  ASSERT
+  (FORALL (i40 : INT):
+  ((1 <= i40) => (ind_isum(fc48, 1, i40) < power(2, (i40 - 1)))));
+
+power_closure: (ARRAY INT OF (ARRAY INT OF INT));
+
+% power_closure_def
+  ASSERT
+  (FORALL (y : INT, y1 : INT): (tb2t5(infix_at(int, int, infix_at(
+  infix_mngt(int, int), int, t2tb1(power_closure), t2tb5(y)), t2tb5(y1))) = 
+  power(y, y1)));
+
+% power_decomp_
+  ASSERT
+  (FORALL (i40 : INT):
+  ((1 <= i40) => (ind_isum(tb2t4(infix_at(infix_mngt(int, int), int, 
+  t2tb1(power_closure), t2tb5(2))), 0, i40) < power(2, i40))));
+
+QUERY
+% h6
+  FALSE;

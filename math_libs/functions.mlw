@@ -1,0 +1,266 @@
+module Shift
+         use int.Int
+         use int.EuclideanDivision
+
+let function shift (f: int -> 'a)(i k:int)
+  = f (k+i)
+
+let lemma shift_value (f: int -> 'a)( i k:int)
+      ensures{shift f i k = f (k+i)}
+  = ()
+
+let lemma shiftz (f: int -> 'a)(k:int)
+      ensures{shift f 0 k = f k}
+  = ()
+  
+let lemma shiftz_gen (f: int -> 'a)(i k:int)
+      requires{i = 0}
+      ensures{shift f i k = f k}
+  = ()
+
+let lemma shiftz_quant (f: int -> 'a)
+      ensures{shift f 0 = f }
+  = ()
+
+let lemma shiftz_quant_rev (f: int -> 'a)
+      ensures{ f  = shift f 0 }
+  = ()
+
+let function concat_fun  (f g: int -> 'a)(i k:int)
+  = if k< i then f k else g (k-i)
+
+let lemma shift_add (f: int -> 'a) (i j k:int)
+      ensures{shift (shift f j) i k = shift f (i+j) k}
+  =()
+  
+let lemma concat_fun_value  (f g: int -> 'a)(i k:int)
+      ensures{concat_fun f g i k = if k< i then f k else g (k-i)}
+  =()
+
+let lemma concat_eq (f1 g1 f2 g2: int -> 'a) (i1 i2 k : int)
+      requires{forall l:int. l < i1 -> f1 l = f2 l}
+      requires{forall l:int. l >= 0 -> g1 l = g2 l}
+      requires{i1 = i2}
+      ensures{concat_fun f1 g1 i1 k = concat_fun f2 g2 i2 k}
+  =()
+  
+let function mod_func (f: int -> 'a)(k i:int)
+               requires{k > 0}
+  = f (mod i k)
+
+let lemma mod_func_inf (f: int -> 'a)(k i:int)
+      requires{k > 0}
+      requires{0<= i < k }
+      ensures{mod_func f k i = f i}
+  = ()
+
+let lemma shift_mod (f: int -> 'a)(k i:int)
+      requires{k > 0}
+      ensures{mod_func f k i =  (shift (mod_func f k) k i) }
+  =()
+
+let lemma shift_mod_rev (f: int -> 'a)(k i:int)
+      requires{k > 0}
+      ensures{(shift (mod_func f k) k i) = mod_func f k i}
+  =()
+end
+     
+module Logic
+
+let lemma not_disj (a b: bool)
+      requires{not a}
+      requires{not b}
+      ensures{not (a\/ b)}
+  =()  
+end
+     
+module MapInjection
+         use  int.Int
+         use  set.FsetComprehension
+         use  p_set.Fset_comp
+         use  p_set.Card_one_set
+         use  p_set.IndexestoSet
+         use  complex.Assert_equal
+
+         predicate p_injective_in (f: 'a -> 'b) (s : set 'a) (s': set 'b) =
+  forall e:'a. mem e s -> mem (f e) s' /\
+forall e e': 'a. mem e s -> mem e' s -> e <> e' -> f e <> f e'
+
+predicate equal_func (f g: 'a -> 'b) =
+    forall e: 'a. f e = g e
+
+let lemma set_equal_func (f g: 'a -> 'b)
+      requires{forall e: 'a. f e = g e}
+      ensures{f = g}
+  = assert{equal_func f g}
+  
+let lemma get_equal_func (f g: 'a -> 'b)
+      requires{equal_func f g}
+      ensures{forall e: 'a. f e = g e}
+  =()
+  
+let lemma set_injective (f: 'a -> 'b) (s: set 'a)
+      requires{    forall e e': 'a. mem e s -> mem e' s -> e <> e' -> f e <> f e'}
+      ensures{p_injective f s}
+  = ()
+
+
+let ghost  function image (f: 'a -> 'b) (s : set 'a) : set 'b
+                                                         ensures{forall a: 'b. mem a result <-> exists antec_a: 'a. mem antec_a s /\ a = f antec_a}
+  = map f s
+  
+let rec lemma card_image (f: 'a -> 'b) (s : set 'a)
+          ensures{cardinal (image f s) <= cardinal s}
+          variant{cardinal s}
+  = if (cardinal s = 0) then
+      begin
+        assert{forall e:'b. mem e (image f s) -> exists e':'a. mem e' s};
+        set_empty (image f s);        
+      end
+    else
+      begin
+        assert {cardinal s = cardinal (remove (choose s) s) +1};
+        card_image f (remove (choose s) s);
+        if (mem (f (choose s)) (image f (remove (choose s) s))) then
+          set_equal (image f  s) (image f (remove (choose s) s))
+        else
+          set_equal (add (f (choose s)) (image f  (remove (choose s) s)))  (image f s)
+      end
+  
+let rec lemma card_image_injective (f: 'a -> 'b) (s : set 'a)
+          requires{p_injective f s}
+          ensures{cardinal (image f s) = cardinal s}
+          variant{cardinal s}
+  = if (cardinal s = 0) then ()
+    else
+      begin
+        assert {cardinal s = cardinal (remove (choose s) s) +1};
+        card_image_injective f (remove (choose s) s);
+        assert{not (mem (f (choose s)) (image f (remove (choose s) s)))};
+        set_equal (add (f (choose s)) (image f  (remove (choose s) s)))  (image f s);
+      end
+  
+let lemma get_injective (f: 'a -> 'b) (s: set 'a)
+      requires{p_injective f s}
+      ensures{    forall e e': 'a. mem e s -> mem e' s -> e <> e' -> f e <> f e'}
+  = ()
+  
+let lemma get_not_injective (f: 'a -> 'b) (s: set 'a)
+      requires{not (p_injective f s)}
+      ensures{exists e e': 'a. mem e s /\ mem e' s /\ e <> e' /\ f e = f e'}
+  = ()
+  
+let lemma set_injective_in (f: 'a -> 'b)  (s : set 'a)(s' : set 'b)
+      requires{forall e:'a. mem e s -> mem (f e) s'}
+      requires{ forall e e': 'a. mem e s -> mem e' s -> e <> e' -> f e <> f e'}
+      ensures{p_injective f s}
+  = ()
+  
+let lemma get_injective_in (f: 'a -> 'b)  (s : set 'a)(s' : set 'b)
+      requires{p_injective_in f s s'}
+      ensures{forall e:'a. mem e s -> mem (f e) s'}
+      ensures{    forall e e': 'a. mem e s -> mem e' s -> e <> e' -> f e <> f e'}
+  =()
+     
+     predicate p_surjective (f: 'a -> 'b)  (s : set 'a)(s' : set 'b) =
+     (forall e:'a. mem e s -> mem (f e) s') /\
+(forall e':'b.mem e' s' -> exists e : 'a. mem e s /\ f e = e')
+  
+let lemma set_surjective (f: 'a -> 'b)  (s : set 'a)(s' : set 'b)
+      requires{forall e:'a. mem e s -> mem (f e) s'}
+      requires{    forall e' : 'b. mem e' s' -> exists e : 'a. mem e s /\ f e = e'}
+      ensures{p_surjective f s s'}
+  = ()
+  
+let lemma get_surjective (f: 'a -> 'b)  (s : set 'a)(s' : set 'b)
+      ensures{forall e:'a. mem e s -> mem (f e) s'}
+      requires{p_surjective f s s'}
+      ensures{    forall e' : 'b. mem e' s' -> exists e : 'a. mem e s /\ f e = e'}
+  = ()
+
+let lemma image_surjective (f: 'a -> 'b)  (s : set 'a)(s' : set 'b)
+      requires{p_surjective f s s'}
+      ensures{ (image f s) =  s'}
+  =
+  get_surjective f s s';
+  set_equal (image f s) s'
+    
+    predicate p_bijective (f: 'a -> 'b)  (s : set 'a)(s' : set 'b) = p_injective_in f s s' /\ p_surjective f s s'
+
+let lemma bijective_is_injective (f: 'a -> 'b)  (s : set 'a)(s' : set 'b)
+      requires{p_bijective f s s'}
+      ensures{p_injective f s}
+  =()
+  
+let lemma bijective_is_surjective (f: 'a -> 'b) (s : set 'a)(s' : set 'b)
+      requires{p_bijective f s s'}
+      ensures{p_surjective f s s'}
+  =()
+  
+let lemma set_bijective (f: 'a -> 'b) (s : set 'a)(s' : set 'b)
+      requires{forall e:'a. mem e s -> mem (f e) s'}
+      requires{    forall e e': 'a. mem e s -> mem e' s -> e <> e' -> f e <> f e'}
+      requires{    forall e' : 'b. mem e' s' -> exists e : 'a. mem e s /\ f e = e'}
+      ensures{p_bijective f s s'}
+      ensures{map f s = s'}
+  =
+  set_injective_in f s s';
+  set_surjective f s s'         
+
+let lemma bijectivity_is_transitive (f: 'a -> 'b)(g: 'b -> 'c) (s : set 'a)(s' : set 'b)(s'' :set 'c)
+      requires{p_bijective f s s'}
+      requires{p_bijective g s' s''}
+      ensures{p_bijective (fun k ->  g (f k)) s s''}
+  = set_bijective (fun k ->  g (f k)) s s''  
+
+let lemma bijective_image (f: 'a -> 'b) (s : set 'a) (s':set 'b)
+      requires{p_bijective f s s'}
+      ensures{cardinal s = cardinal s'}
+      ensures{ s' = image f s}
+  =
+  image_surjective f s s';
+  card_image_injective f s
+  
+let lemma get_bijective (f: 'a -> 'b) (s : set 'a)(s' : set 'b)
+      requires{p_bijective f s s'}
+      ensures{forall e:'a. mem e s -> mem (f e) s'}
+      ensures{forall e e': 'a. mem e s -> mem e' s -> e <> e' -> f e <> f e'}
+      ensures{  forall e' : 'b. mem e' s' -> exists e : 'a. mem e s /\ f e = e'}
+      ensures{cardinal s = cardinal s'}
+  =
+  get_injective_in f s s';
+  get_surjective f s s'         
+
+let lemma bijective_eq (f g: 'a -> 'b)  (s : set 'a)(s' : set 'b)
+      requires{p_bijective f s s'}
+      requires{forall e:'a. mem e s -> f e = g e}
+      ensures{p_bijective g s s'}
+  = get_bijective f s s';
+    set_bijective g s s'
+
+let lemma bijective_eq_gen (f : 'a -> 'b)  (s : set 'a)(s' : set 'b)
+      requires{p_bijective f s s'}
+      ensures{forall g: 'a -> 'b. (forall e:'a. mem e s -> f e = g e) -> p_bijective g s s'}
+  = ()
+  
+let rec lemma bij_equal_card (f: 'a -> 'b) (s: set 'a)
+          requires{cardinal s = cardinal (map f s)}
+          ensures{p_bijective f s (map f s)}
+          variant{cardinal s}
+  = if cardinal s = 0 then ()
+    else
+      begin
+        assert{map f (remove (choose s)s) = remove (f (choose s)) (map f s)};
+        bij_equal_card f (remove (choose s)s);
+      end
+  
+let lemma set_bijective_auto (f: 'a -> 'a) (s : set 'a)
+      requires{forall e:'a. mem e s -> mem (f e) s}
+      requires{    forall e' : 'a. mem e' s -> exists e : 'a. mem e s /\ f e = e'}
+      ensures{p_bijective f s s}
+  =
+  set_equal s (map f s);
+  bij_equal_card f s
+
+
+end

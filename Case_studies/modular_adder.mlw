@@ -1,0 +1,424 @@
+module Adder
+
+         use export qbricks.Circuit
+         use  export binary.Bit_vector
+         use  p_int.Int_comp
+         use  qft.Qft
+         use export exponentiation.Power_
+         use binary.Bit_vector_inversions
+         use export qbricks.Diag_circuit
+         use  qbricks.Circuit_macros
+         use  export qdata.Kronecker_Qbit
+         use  arit.Div_Mod
+         use qft.Rev_qft
+         use qdata.Ket_basis_concat
+
+let rec function cascade_adder_ ( target n  step:int) (y:bitvec): circuit
+     requires{0<= target < n }
+     requires{n-target-1<= step<n }
+     requires{length y = n}
+     variant{step-(n-target-1)}
+     ensures{ancillas result = 0}
+     ensures{diagonal result (fun x -> ang_sum  (fun k ->  int_to_ang ( getbv y k  * getbv x  target 
+                                  * power_ 2 ((n-k-1)+(n-target-1)) ) n ) (n-target-1) ( step +1))}
+     ensures{size result = step-(n-target)+2}
+     ensures{width result = n}
+  =
+  if step = n-target-1 then przp (getbv y step * 1) target n   
+  else diag_sequence (cascade_adder_ target n (step-1) y)
+         (przp (getbv y step * ((step - (n-target-1))+1)) target  n)
+         (fun x -> ang_sum  (fun k ->  int_to_ang ( getbv y k  * getbv x  target 
+                                                    * power_ 2 ((n-k-1)+(n-target-1))) n ) (n-target-1) ( step -1+1))
+         (fun x ->  int_to_ang ( getbv y step  * getbv x target * power_ 2 ((n-step-1) + (n-target-1)))  n)
+         (fun x -> ang_sum  (fun k ->  int_to_ang ( getbv y k  * getbv x  target 
+                                                    * power_ 2 ((n-k-1)+(n-target-1)) ) n ) (n-target-1) ( step +1))
+  
+let function pre_adder_const_ (n:int)  (y:bitvec): circuit
+     requires{0< n }
+     requires{length y = n}
+     ensures{ancillas result = 0}
+     ensures{size result <=  polysquare n 1 0 0 }
+     ensures{width result = n}
+     ensures{diagonal result (fun x  ->
+                 ang_sum  (fun target ->
+                     ang_sum  (fun k ->  int_to_ang ( getbv y k  * getbv x  target 
+                                                      * power_ 2 ((n-k-1)+(n-target-1)) ) n ) (n-target-1) n) 0 n)}
+     ensures{diagonal result (fun x  ->
+                 int_to_ang  (bv_to_int x* bv_to_int y) n)}
+     ensures{forall x : bitvec. length x =  n -> path_sem result (bv_to_ket x) = 
+                                                   int_qft_coeff    (bv_to_int y)  (bv_to_int x)  n *.. (bv_to_ket x)}
+  =  let  rec function cascade_adder_lines (k  :int): circuit
+          requires{0<= k < n}
+          variant{k}
+          ensures{ancillas result = 0}
+          ensures{diagonal result (fun x -> ang_sum  (fun target ->
+ang_sum  (fun k ->  int_to_ang ( getbv y k  * getbv x  target 
+                                                      * power_ 2 ((n-k-1)+(n-target-1))) n ) (n-target-1) n)  0 (k+1))}
+          ensures{size result <=    n * (k+1)}
+          ensures{width result = n}
+                =
+                if k = 0 then cascade_adder_ 0  n (n-1) y
+                else
+                  diag_sequence (cascade_adder_lines (k-1) )
+                       (cascade_adder_ k n (n-1) y)
+                       (fun x -> ang_sum  (fun target ->
+                                     ang_sum  (fun k ->  int_to_ang ( getbv y k  * getbv x  target 
+                                                      * power_ 2 ((n-k-1)+(n-target-1)) ) n ) (n-target-1) n) 0 (k-1+1))
+                       (fun x -> ang_sum  (fun l ->  int_to_ang ( getbv y l  * getbv x  k
+                                                      * power_ 2 ((n-l-1)+(n-k-1)) ) n ) (n-k-1) (n-1+1))
+                       (fun x -> ang_sum  (fun target ->   ang_sum  (fun k ->  int_to_ang ( getbv y k  * getbv x  target 
+                                                      * power_ 2 ((n-k-1)+(n-target-1)) ) n ) (n-target-1) n) 0 (k+1))                
+          in
+     ang_sum_sum_bv_to_int_mult_gen n;
+     leq_trans (size (cascade_adder_lines (n-1) )) ( n * (n-1+1)) (polysquare n 1 0 0);
+     cascade_adder_lines (n-1)                 
+                              
+let ghost function pre_adder_const_apply (n i j:int): matrix complex
+      requires{0< n }
+      requires{0<= j < power_ 2 n}
+      ensures{result = apply_qft n  (i +  j)}
+ensures{ket_length  result = n}
+  = path_sem (pre_adder_const_ n (int_to_bv j n)) (apply_qft n i)
+
+let lemma pre_adder_const_add (n :int)  (j:int)
+      requires{0< n }
+      requires{0<= j < power_ 2 n}
+      ensures{forall i. path_sem (pre_adder_const_ n (int_to_bv j n)) (apply_qft n i) = apply_qft n  (i +  j)}
+  =()
+
+let function add_in_qft (added n:int) :circuit
+           requires{0< n }
+           ensures{width result = n+1}
+           ensures{ancillas result = 0}
+           ensures{size result <=   polysquare (n+1) 1 0 0}
+ensures{forall b. sem result (apply_qft (n+1) b) (apply_qft (n+1)  (added+b))}
+ensures{width result = n+1}
+  = pre_adder_const_add (n+1)  (mod added (power_ 2 (n+1)));
+    pre_adder_const_ (n+1) (int_to_bv (mod added (power_ 2 (n+1))) (n+1))
+
+let function place_add_in_qft (added n k:int) :circuit
+    requires{0< k }
+           requires{0< n }
+           ensures{width result = n+1+k}
+           ensures{ancillas result = 0}
+           ensures{size result <=   polysquare (n+1) 1 0 0}
+           ensures{forall b. forall y.  is_a_ket_l y k ->
+                   sem result (kronecker (apply_qft (n+1) b) y)  (kronecker (apply_qft (n+1)  (b+added)) y)}
+ensures{width result = n+1+k}
+  =place_kron_left_sem (add_in_qft added n ) (n+1+k);
+   place (add_in_qft added n ) 0 (n+1+k)
+
+
+let function place_substract_in_qft (substracted n k:int)  :circuit
+           requires{0< k }
+           requires{0< n }
+           ensures{width result = n+1+k}
+           ensures{ancillas result = 0}
+           ensures{size result <=   polysquare (n+1) 1 0 0}
+           ensures{forall b. forall y.  is_a_ket_l y k ->
+                    is_a_ket_l y 1 -> sem result (kronecker (apply_qft (n+1) b) y)  (kronecker (apply_qft (n+1)  (b-substracted)) y)}
+ensures{width result = n+1+k}
+  = reverse (place_add_in_qft substracted n k)
+   
+let function place_add_in_comput_basis (added n  size_reg:int) :circuit
+           requires{0< n }
+           requires{n +1< size_reg}
+           ensures{width result = size_reg}
+           ensures{ancillas result = 0}
+           ensures{size result <=   polysquare (n+1) (cont_size*2+1) 0 0}
+           ensures{forall b. forall  z. 0<=b < power_ 2 (n+1)  -> is_a_ket_l z (size_reg-n-1) ->
+                   sem result  (kronecker (ket (n+1) b) z)   (kronecker (ket (n+1)  (mod (b+added) (power_ 2 (n+1)))) z)}
+           ensures{width result = size_reg}
+  =
+polysquare_leq_trans (n+1) (cont_size*2) 0  0    1 0 0 
+    (polysquare (n+1)   (cont_size*2)   0 0)
+    (size (place_add_in_qft  added n (size_reg -n-1)))
+    (size (apply_function_in_qft_basis_zero (place_add_in_qft  added n (size_reg -n-1)) (n+1)  size_reg (fun i -> mod (i + added) (power_ 2 (n+1)))));
+  apply_function_in_qft_basis_zero (place_add_in_qft  added n (size_reg -n-1)) (n+1)  size_reg (fun i -> mod (i + added) (power_ 2 (n+1)))
+
+    use int.Int
+  
+let function place_substract_in_comput_basis (substracted n  size_reg:int) :circuit
+           requires{0< n }
+           requires{n +1 < size_reg}
+           ensures{width result = size_reg}
+           ensures{ancillas result = 0}
+           ensures{size result <=   polysquare (n+1) (cont_size*2+1) 0 0}
+           ensures{forall b. forall  z: matrix complex. 0<=b < power_ 2 (n+1) -> is_a_ket_l z (size_reg-n-1) ->
+                   sem result  (kronecker (ket (n+1) b) z)   (kronecker (ket (n+1)  (mod (b-substracted) (power_ 2 (n+1)))) z)}
+           ensures{width result = size_reg}
+  =
+  place_add_in_comput_basis (- substracted) n  size_reg
+  
+
+let function cont_add_in_qft (added n k:int) :circuit
+           requires{0< n }
+           requires{0<= added < power_ 2 n}
+           ensures{width result = n+2}
+           ensures{ancillas result = 0}
+           ensures{size result <=   polysquare (n+1) cont_size 0 0}
+           ensures{forall b. sem result (kronecker (apply_qft (n+1) b) (ket 1 0))  (kronecker (apply_qft (n+1)  b) (ket 1 0))}
+           ensures{forall b. sem result (kronecker (apply_qft (n+1) b) (ket 1 1))  (kronecker (apply_qft (n+1)  (added+b)) (ket 1 1))}
+ensures{width result = n+2}
+  =cont_last_qbit_kron (add_in_qft added n )
+   
+let function check_first_bit_is_one (n :int):circuit
+               requires{0<n}
+                 ensures{size result <= cont_size * 3 }
+                 ensures{ancillas result = 0}
+                 ensures{width result = n+2}
+               ensures{forall g: int.  0<= g < power_ 2 n ->
+                                                sem result  (kronecker (ket (n+1)   g)  (ket 1 0)) (kronecker (ket (n+1)   g)  (ket 1 0))}
+               ensures{forall g: int. power_ 2 n <= g < power_ 2 (n+1) ->
+                                                sem result  (kronecker (ket (n+1)   g)  (ket 1 0)) (kronecker (ket (n+1)   g)  (ket 1 1))}
+    =sem_ind_cnot_zero (n+2);
+   ind_cnot 0 (n+1) (n+2)
+
+(* let function check_first_bit_is_one_gen (k  n:int):circuit
+ *                   requires{0<k}
+ *                   requires{0<n}
+ *                  ensures{size result <= cont_size * 3 }
+ *                  ensures{ancillas result = 0}
+ *                  ensures{width result = k+n+2}
+ *                ensures{forall g: int. forall y: matrix complex. is_a_ket_l y k -> 0<= g < power_ 2 n ->
+ *                                                 sem result (kronecker y (kronecker (ket (n+1)   g)  (ket 1 0))) (kronecker y (kronecker (ket (n+1)   g)  (ket 1 0)))}
+ *                ensures{forall g: int. forall y: matrix complex. is_a_ket_l y k -> power_ 2 n <= g < power_ 2 (n+1) ->
+ *                                                 sem result  (kronecker y (kronecker (ket (n+1)   g)  (ket 1 0))) (kronecker y (kronecker (ket (n+1)   g)  (ket 1 1)))}
+ *     =place_kron_right_sem (check_first_bit_is_one  n) k (k+n+2);
+ *      place (check_first_bit_is_one  n) k (k+n+2) *)
+
+let function uncheck_first_bit_is_zero (n :int):circuit
+               requires{0<n}
+                 ensures{size result <= cont_size * 3 +6}
+               ensures{ancillas result = 0}
+                 ensures{width result = n+2}
+               ensures{forall g: int.  0<= g < power_ 2 n ->
+                                                sem result  (kronecker (ket (n+1)   g) (ket 1 1)) (kronecker (ket (n+1)   g) (ket 1 0))}
+               ensures{forall g: int.  power_ 2 n <= g < power_ 2 (n+1) ->
+                                                sem result  (kronecker (ket (n+1)   g) (ket 1 0)) (kronecker (ket (n+1)   g) (ket 1 0))}
+  =
+sem_ind_neg_cnot_zero (n+1);
+  ind_neg_cnot 0 (n+1) (n+2)
+  
+let function check_first_bit_is_one_from_qft (n :int) :circuit
+               requires{0<n}
+               ensures{size result <= polysquare (n+1)   (cont_size*2)   0 (cont_size * 3 +6)}
+               ensures{ancillas result = 0}
+                 ensures{width result = n+2}
+               ensures{forall g. 0<= g < power_ 2 n -> sem result  (kronecker (apply_qft (n+1)   g) (ket 1 0)) (kronecker (apply_qft (n+1)   g) (ket 1 0))}
+               ensures{forall g. power_ 2 n<= g < power_ 2 (n+1) -> 
+                                                sem result  (kronecker (apply_qft (n+1)   g) (ket 1 0))  (kronecker (apply_qft (n+1)   g) (ket 1 1))}
+           = apply_from_qft_zero (n+1) 1 (check_first_bit_is_one n)
+
+let function uncheck_first_bit_is_zero_from_qft (n :int) :circuit
+               requires{0<n}
+               ensures{size result <= polysquare (n+1)   (cont_size*2)   0 (cont_size * 3 +6)}
+               ensures{ancillas result = 0}
+                 ensures{width result = n+2}
+               ensures{forall g. 0<= g < power_ 2 n  -> sem result  (kronecker (apply_qft (n+1)   g) (ket 1 1)) (kronecker (apply_qft (n+1)   g) (ket 1 0))}
+               ensures{forall g. power_ 2 n  <= g < power_ 2 (n+1) -> 
+                                                sem result  (kronecker (apply_qft (n+1)   g) (ket 1 0))  (kronecker (apply_qft (n+1)   g) (ket 1 0))}
+           = apply_from_qft_zero (n+1) 1 (uncheck_first_bit_is_zero n)
+
+let function substract_and_check(n:int)  (bound  :int) (ghost value  :int):circuit
+             requires{0< n }
+             requires{0<= value < 2*bound}
+             requires{power_ 2 (n-1) <= bound < power_ 2 n}
+          ensures{ancillas result = 0}
+          ensures{width result = n+2}
+          ensures{size result <= polysquare (n+1) (cont_size*2+1) 0 (cont_size * 3 +6)}
+          ensures{value < bound ->
+                  sem result  (kronecker (apply_qft (n+1)   value) (ket 1 0)) (kronecker (apply_qft (n+1) (value - bound)) (ket 1 1))}
+          ensures{bound<=value ->
+                  sem result  (kronecker (apply_qft (n+1)   value) (ket 1 0)) (kronecker (apply_qft (n+1)  (value - bound)) (ket 1 0))}
+= polysquare_leq_trans (n+1) 1 0 0 (cont_size*2)   0 (cont_size * 3 +6)
+    (size (place_substract_in_qft bound n 1))
+    (size (check_first_bit_is_one_from_qft n ))
+(size (sequence (place_substract_in_qft bound n 1  ) (check_first_bit_is_one_from_qft n  )));
+  if value < bound then
+     sem_comp (place_substract_in_qft bound n 1) (check_first_bit_is_one_from_qft n  )
+       (kronecker (apply_qft (n+1)   value) (ket 1 0))
+       (kronecker (apply_qft (n+1)   (mod (value - bound) (power_ 2 (n+1)))) (ket 1 0))
+       (kronecker (apply_qft (n+1) (mod (value - bound) (power_ 2 (n+1)))) (ket 1 1))
+  else
+     sem_comp (place_substract_in_qft bound n 1) (check_first_bit_is_one_from_qft n  )
+       (kronecker (apply_qft (n+1)   value) (ket 1 0))
+       (kronecker (apply_qft (n+1)    (value - bound) ) (ket 1 0))
+  (kronecker (apply_qft (n+1)  (value - bound) ) (ket 1 0));
+sequence (place_substract_in_qft bound n 1) (check_first_bit_is_one_from_qft n  )
+
+let function reduces_to_modulo_pre (n:int)  (bound  :int) (ghost value  :int):circuit
+                                                                             requires{0< n }
+             requires{0<= value < 2*bound}
+             requires{power_ 2 (n-1) <= bound < power_ 2 n}
+          ensures{ancillas result = 0}
+          ensures{width result = n+2}
+          ensures{size result <= polysquare (n+1) (cont_size*3+1) 0 (cont_size * 3 +6)}
+          ensures{value < bound ->
+                  sem result  (kronecker (apply_qft (n+1)   value) (ket 1 0)) (kronecker (apply_qft (n+1) (mod value  bound)) (ket 1 1))}
+          ensures{bound<=value ->
+                  sem result  (kronecker (apply_qft (n+1)   value) (ket 1 0)) (kronecker (apply_qft (n+1)  (mod value  bound)) (ket 1 0))}
+             ensures{forall value':int. 0<= value' < 2*bound -> result = sequence (substract_and_check n bound value') (cont_add_in_qft bound n 1) }
+    = polysquare_leq_trans (n+1)  (cont_size*2+1)   0 (cont_size * 3 +6) cont_size  0 0
+    (size (substract_and_check n bound value))
+    (size (cont_add_in_qft bound n 1))
+(size (sequence (substract_and_check n bound value) (cont_add_in_qft bound n 1)));
+  if value < bound then
+    sem_comp
+      (substract_and_check n bound value) (cont_add_in_qft bound n 1) 
+       (kronecker (apply_qft (n+1)   value) (ket 1 0))
+       (kronecker (apply_qft (n+1)  (value - bound)) (ket 1 1))
+       (kronecker (apply_qft (n+1) value ) (ket 1 1))
+  else
+    sem_comp
+      (substract_and_check n bound value ) (cont_add_in_qft bound n 1) 
+       (kronecker (apply_qft (n+1)   value) (ket 1 0))
+       (kronecker (apply_qft (n+1)  (mod value  bound)) (ket 1 0))
+       (kronecker (apply_qft (n+1)  (mod value  bound)) (ket 1 0));
+       sequence (substract_and_check n bound value ) (cont_add_in_qft bound n 1) 
+
+let function add_modulo_pre (n:int)  (bound added :int) (ghost value  :int):circuit
+        requires{0< n }
+        requires{0<= added < bound}
+        requires{0<= value < bound}
+        requires{power_ 2 (n-1) <= bound < power_ 2 n}
+        ensures{ancillas result = 0}
+        ensures{width result = n+2}
+        ensures{size result <= polysquare (n+1) (cont_size*3+2) 0 (cont_size * 3 +6)}
+        ensures{value + added < bound ->
+                  sem result  (kronecker (apply_qft (n+1)   value) (ket 1 0)) (kronecker (apply_qft (n+1) (mod (added+ value)  bound)) (ket 1 1))}
+        ensures{bound<=value + added->
+                  sem result  (kronecker (apply_qft (n+1)   value) (ket 1 0)) (kronecker (apply_qft (n+1)  (mod (added+ value)  bound)) (ket 1 0))}
+             ensures{forall value':int. 0<= value' < bound -> result = sequence (place_add_in_qft added n 1) (reduces_to_modulo_pre n bound (value'+ added)) }
+    = polysquare_leq_trans (n+1)  1 0 0 (cont_size*3+1)   0 (cont_size * 3 +6) 
+    (size (place_add_in_qft added n 1))
+    (size (reduces_to_modulo_pre n bound (value+ added)))
+(size (sequence (place_add_in_qft added n 1) (reduces_to_modulo_pre n bound (value+ added))));
+  if value +added < bound then
+    sem_comp (place_add_in_qft added n 1) (reduces_to_modulo_pre n bound (value+ added))
+       (kronecker (apply_qft (n+1)   value) (ket 1 0))
+       (kronecker (apply_qft (n+1)  (value + added)) (ket 1 0))
+       (kronecker (apply_qft (n+1) (mod (value + added)bound )) (ket 1 1))
+  else
+    sem_comp (place_add_in_qft added n 1) (reduces_to_modulo_pre n bound (value+ added))
+       (kronecker (apply_qft (n+1)   value) (ket 1 0))
+       (kronecker (apply_qft (n+1)  (value + added)) (ket 1 0))
+       (kronecker (apply_qft (n+1)  (mod (value + added)  bound)) (ket 1 0));
+       sequence (place_add_in_qft added n 1) (reduces_to_modulo_pre n bound (value+ added)) 
+
+  let function substract_and_uncheck(n:int)  (substracted  :int) (ghost value  :int):circuit
+             requires{0< n }
+             requires{0<= value < power_ 2 n}
+             requires{0 <= substracted < power_ 2 n}
+          ensures{ancillas result = 0}
+          ensures{width result = n+2}
+          ensures{size result <= polysquare (n+1) (cont_size*2+1) 0 (cont_size * 3 +6)}
+          ensures{value < substracted ->
+                  sem result  (kronecker (apply_qft (n+1)   value) (ket 1 0)) (kronecker (apply_qft (n+1)  (value - substracted)) (ket 1 0))}
+          ensures{substracted<=value ->
+                  sem result  (kronecker (apply_qft (n+1)   value) (ket 1 1)) (kronecker (apply_qft (n+1)  (value - substracted)) (ket 1 0))}
+    = polysquare_leq_trans (n+1) 1 0 0 (cont_size*2)   0 (cont_size * 3 +6)
+    (size (place_substract_in_qft substracted n 1))
+    (size (uncheck_first_bit_is_zero_from_qft n ))
+(size (sequence (place_substract_in_qft substracted n 1  ) (uncheck_first_bit_is_zero_from_qft n  )));
+  if value < substracted then
+     sem_comp (place_substract_in_qft substracted n 1) (uncheck_first_bit_is_zero_from_qft n  )
+       (kronecker (apply_qft (n+1)   value) (ket 1 0))
+       (kronecker (apply_qft (n+1)   (mod (value - substracted) (power_ 2 (n+1)))) (ket 1 0))
+       (kronecker (apply_qft (n+1) (mod (value - substracted) (power_ 2 (n+1)))) (ket 1 0))
+  else
+     sem_comp (place_substract_in_qft substracted n 1) (uncheck_first_bit_is_zero_from_qft n  )
+       (kronecker (apply_qft (n+1)   value) (ket 1 1))
+       (kronecker (apply_qft (n+1)    (value - substracted) ) (ket 1 1))
+  (kronecker (apply_qft (n+1)  (value - substracted) ) (ket 1 0));
+sequence (place_substract_in_qft substracted n 1) (uncheck_first_bit_is_zero_from_qft n  )
+
+  let function uncheck_modulo (n:int)  (substracted  :int) (ghost value  :int):circuit
+             requires{0< n }
+             requires{0<= value < power_ 2 n}
+             requires{0 <= substracted < power_ 2 n}
+          ensures{ancillas result = 0}
+          ensures{width result = n+2}
+          ensures{size result <= polysquare (n+1) (cont_size*2+2) 0 (cont_size * 3 +6)}
+          ensures{value < substracted ->
+                  sem result  (kronecker (apply_qft (n+1)   value) (ket 1 0)) (kronecker (apply_qft (n+1) value) (ket 1 0))}
+          ensures{substracted<=value ->
+                  sem result  (kronecker (apply_qft (n+1)   value) (ket 1 1)) (kronecker (apply_qft (n+1)  value) (ket 1 0))}
+          ensures{forall value'. 0<= value' < power_ 2 n -> result = sequence (substract_and_uncheck n substracted value') (place_add_in_qft substracted n 1) }
+= polysquare_leq_trans (n+1) (cont_size*2+1)   0 (cont_size * 3 +6) 1 0 0 
+    (size (substract_and_uncheck n substracted value))
+    (size (place_add_in_qft substracted n 1))
+    (size (sequence (substract_and_uncheck n substracted value) (place_add_in_qft substracted n 1)));
+  if value < substracted then
+     sem_comp (substract_and_uncheck n substracted value) (place_add_in_qft substracted n 1)
+       (kronecker (apply_qft (n+1)   value) (ket 1 0))
+       (kronecker (apply_qft (n+1) (value - substracted) ) (ket 1 0))
+       (kronecker (apply_qft (n+1) value) (ket 1 0))
+  else
+     sem_comp (substract_and_uncheck n substracted value) (place_add_in_qft substracted n 1)
+       (kronecker (apply_qft (n+1)   value) (ket 1 1))
+       (kronecker (apply_qft (n+1)  (value - substracted) ) (ket 1 0))
+       (kronecker (apply_qft (n+1)  value ) (ket 1 0));
+sequence (substract_and_uncheck n substracted value) (place_add_in_qft substracted n 1)
+
+  let function modular_adder_ (n:int)  (bound added :int) (ghost value  :int):circuit
+                                                                             requires{0< n }
+             requires{0<= added < bound}
+             requires{0<= value < bound}
+             requires{power_ 2 (n-1) <= bound < power_ 2 n}
+          ensures{ancillas result = 0}
+          ensures{width result = n+2}
+          ensures{size result <= polysquare (n+1) (cont_size*5+4) 0 (cont_size * 6 +12)}
+          ensures{sem result  (kronecker (apply_qft (n+1)   value) (ket 1 0)) (kronecker (apply_qft (n+1) (mod (added+ value)  bound)) (ket 1 0))}
+          ensures{forall value':int. 0<= value' < bound -> result =
+                  sequence (add_modulo_pre n bound added value') (uncheck_modulo  n added (mod (value' + added)  bound))  }
+    = polysquare_leq_trans (n+1) (cont_size*3+2) 0 (cont_size * 3 +6) (cont_size*2+2) 0 (cont_size * 3 +6) 
+    (size (add_modulo_pre n bound added value))
+    (size (uncheck_modulo  n added (mod (value + added)  bound)))
+(size (sequence (add_modulo_pre n bound added value) (uncheck_modulo  n added (mod (value + added)  bound))));
+  if value + added < bound then
+    sem_comp (add_modulo_pre n bound added value) (uncheck_modulo  n added (mod (value + added)  bound))
+       (kronecker (apply_qft (n+1)   value) (ket 1 0))
+       (kronecker (apply_qft (n+1) (mod (value + added)bound )) (ket 1 1))
+       (kronecker (apply_qft (n+1) (mod (value + added)bound )) (ket 1 0))
+  else
+    sem_comp (add_modulo_pre n bound added value) (uncheck_modulo  n added (mod (value + added)  bound))
+       (kronecker (apply_qft (n+1)   value) (ket 1 0))
+       (kronecker (apply_qft (n+1)  (mod (value + added)  bound)) (ket 1 0))
+       (kronecker (apply_qft (n+1)  (mod (value + added)  bound)) (ket 1 0));
+       sequence (add_modulo_pre n bound added value) (uncheck_modulo  n added (mod (value + added)  bound))
+
+ let function modular_adder (added bound  n :int):circuit
+       requires{0<n}
+        requires{power_ 2 (n-1) <= bound < power_ 2 n}
+        ensures{size result <=  polysquare (n+1) (5* cont_size + 4)  0 (6* cont_size + 12)}
+        ensures{ancillas result = 0}
+        ensures{width result = n+2}
+        ensures{forall value. 0<= value < bound -> result = modular_adder_ n bound (mod added bound)  value}
+        ensures{forall b:int. 0<= b < bound -> sem result  (kronecker (apply_qft (n+1)  b) (ket 1 0))  (kronecker (apply_qft  (n+1)  (mod (added +b) bound ))  (ket 1 0))}
+        ensures{forall b:int.  sem result  (kronecker (apply_qft (n+1)  (mod b bound)) (ket 1 0))  (kronecker (apply_qft  (n+1)  (mod (added +b) bound ))  (ket 1 0))}
+    =
+    modular_adder_ n bound (mod added bound) 0
+
+ (* let function modular_adder (added bound  n :int):circuit
+  *       requires{0<n}
+  *        requires{power_ 2 (n-1) <= bound < power_ 2 n}
+  *        ensures{size result <=  polysquare (n+1) (5* cont_size + 4)  0 (6* cont_size + 12)}
+  *        ensures{ancillas result = 1}
+  *        ensures{width result = n+1}
+  *        ensures{forall b:int. 0<= b < bound -> sem result   (apply_qft (n+1)  b)    (apply_qft  (n+1)  (mod (added +b) bound )) }
+  *        ensures{forall b:int.  sem result   (apply_qft (n+1)  (mod b bound))    (apply_qft  (n+1)  (mod (added +b) bound ))  }
+  *    =
+  *    ancilla_qft (modular_adder_with_ancilla added bound n) 1 (n+2) *)
+
+    
+  let ghost function adder_gate_bound (n:int):int
+        requires{0<n}
+        ensures{0<=result}
+        ensures{forall added bound  : int.
+                                     power_ 2 (n-1)< bound < power_ 2 n -> 0<=added < bound ->size (modular_adder  added bound n ) <= result}               
+    =  polysquare (n+1) (5* cont_size + 4)  0 (6* cont_size + 12)
+end
+
+
+     
