@@ -1,3 +1,7 @@
+
+
+<img src="https://user-images.githubusercontent.com/83573296/120330588-3f4d4b80-c2ed-11eb-9255-52e70fca5c0d.png" align="right" alt="drawing" width="350"  >
+
 # Welcome to Qbricks
 
 
@@ -16,10 +20,25 @@ For an introduction to Qbricks, please read our [article](https://github.com/Qbr
 
 ![open_positions](https://user-images.githubusercontent.com/83573296/116979069-d1e5d500-acc4-11eb-9381-61a52f3e26f6.png)
 
-- PhD open positions : developping formal verification techniques ready to use in the NISQ era.
-- postDoc open position (2 years) : verified compilation and development of an hardware agnostic verfied quantum assembly language.
+### PhD open positions (3 years): Probing quantum verification in the NISQ era
 
-For both positions, if interested please contact sebastien.bardin@cea.fr.
+The goal of this doctoral position is to probe formal verification against first generation of quantum application (NISQ era). Possibilities include, among other: extending Qbricks semantic and proof model to the hybrid paradigm, develop and implement a specification and proof system for error propagation and correction in quantum computing, develop  certified ready-to-use NISQ applications.  
+
+Keywords: quantum programming,  formal verification, NISQ, quantum error correction
+
+### PostDoc open position (2 years) : verified compilation 
+
+The goal of this post-doctoral position is to extend  formal verification practice to quantum compilation.  Possibilities include, among others, error correction mechanisms in certified quantum code, together with specifications and reasoning technique for certifying its reliability, automatized certified optimizer for quantum circuits, hardware agnostic assembly language together with its compiler,
+
+Keywords: quantum programming, compilation, optimization, formal verification
+
+### How to apply
+
+Applications should be sent to sebastien.bardin@cea.fr as soon as possible (first come, first served) and by early July 2021 at the latest. Candidates should send a CV, a cover letter, a transcript of all their university results, as well as contact information of two references. Each  position is expected to start in October 2021.
+
+Advisors: Sébastien Bardin (CEA), Christophe Chareton (CEA)
+Contact: sebastien.bardin@cea.fr
+
 
 # News 
 
