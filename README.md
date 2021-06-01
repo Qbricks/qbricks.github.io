@@ -1,6 +1,6 @@
 
 
-<img src="https://user-images.githubusercontent.com/83573296/120330588-3f4d4b80-c2ed-11eb-9255-52e70fca5c0d.png" align="right" alt="drawing" width="350"  >
+<img src="https://user-images.githubusercontent.com/83573296/120336791-fdbf9f00-c2f2-11eb-986b-5116dbe7bb71.png" align="right" alt="drawing" width="350"  >
 
 # Welcome to Qbricks
 
