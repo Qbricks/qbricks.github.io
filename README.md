@@ -43,7 +43,6 @@ Contact: sebastien.bardin@cea.fr
 # News 
 
 - **Presentation at IQFA** Nov 2021_ Qbricks was presented at the 12th Colloquium on Quantum Engineering, Fundamental Aspects to Applications, 2021 [(slides)](https://github.com/Qbricks/qbricks.github.io/files/7526625/IQFA_21.pdf).
-slides)](https://github.com/Qbricks/qbricks.github.io/files/6630309/main.pdf).
 - **Online survey** [Formal Methods for Quantum Programs: A Survey](https://arxiv.org/abs/2109.06493) _September 2021_. 
 - **Presentation at QPL** _June 2021_ Qbricks was presented at the 2021 online QPL conference [(slides)](https://github.com/Qbricks/qbricks.github.io/files/6630309/main.pdf).
 - **Qbricks at ESOP**        _March 2021_  Glad to participate to the 2021 online ESOP conference [(slides)](https://github.com/Qbricks/qbricks.github.io/files/6419798/main.pdf).
