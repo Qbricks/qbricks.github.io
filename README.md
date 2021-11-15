@@ -19,7 +19,7 @@ For an introduction to Qbricks, please read our [article](https://github.com/Qbr
 
 ### Soon available code
 
-Due to some policy ajustments from our host institution, we are commonly unable to provide Qbricks code as a free ressource, this will be fixed in a near future.
+Due to some policy adjustments from our host institution, we are currently unable to provide Qbricks code, this will be fixed in a near future.
 
 
 ![open_positions](https://user-images.githubusercontent.com/83573296/116979069-d1e5d500-acc4-11eb-9381-61a52f3e26f6.png)
