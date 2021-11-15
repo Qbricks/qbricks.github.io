@@ -5,6 +5,7 @@
 # Welcome to Qbricks
 
 
+
 Qbricks is open-source environment for automated formal verification of  quantum programs. It enables the writing of quantum circuit building programs, specified with their I/O functions and/or their resource requirements. Thanks to a characterization of quantum circuits as _paramatrized path-sums_, 
 the specifications of Qbricks  circuit-building quantum programs reduces to first-order proof obligations. Its host language,  the [Why3](http://why3.lri.fr/) deductive verification environment, provides an interface with SMT-solvers, enabling an high-level of automation in the vertfication of Qbricks specifications.
 
@@ -16,6 +17,9 @@ It is developed at the [CEA LIST](http://www-list.cea.fr/en/) [(part of Universi
 
 For an introduction to Qbricks, please read our [article](https://github.com/Qbricks/qbricks.github.io/files/6414263/final--ESOP-2021.pdf) and see the related presentation [slides](https://github.com/Qbricks/qbricks.github.io/files/6419798/main.pdf). A tutorial redaction is under progress.
 
+### Soon available code
+
+Due to some policy ajustments from our host institution, we are commonly unable to provide Qbricks code as a free ressource, this will be fixed in a near future.
 
 
 ![open_positions](https://user-images.githubusercontent.com/83573296/116979069-d1e5d500-acc4-11eb-9381-61a52f3e26f6.png)
