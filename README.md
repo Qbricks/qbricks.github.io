@@ -2,6 +2,7 @@
 
 <img src="https://user-images.githubusercontent.com/83573296/120336791-fdbf9f00-c2f2-11eb-986b-5116dbe7bb71.png" align="right" alt="drawing" width="350"  >
 
+<img src = "https://upload.wikimedia.org/wikipedia/commons/9/91/CEA_logo_nouveau.svg">
 # Welcome to Qbricks
 
 
