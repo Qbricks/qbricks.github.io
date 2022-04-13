@@ -2,7 +2,11 @@
 
 <img src="https://user-images.githubusercontent.com/83573296/120336791-fdbf9f00-c2f2-11eb-986b-5116dbe7bb71.png" align="right" alt="drawing" width="350"  >
 
-<img src = "https://upload.wikimedia.org/wikipedia/commons/9/91/CEA_logo_nouveau.svg">
+
+
+
+
+
 # Welcome to Qbricks
 
 
@@ -18,6 +22,7 @@ It is developed at the [CEA LIST](http://www-list.cea.fr/en/) [(part of Universi
 For an introduction to Qbricks, please read our [article](https://github.com/Qbricks/qbricks.github.io/files/6414263/final--ESOP-2021.pdf) and see the related presentation [slides](https://github.com/Qbricks/qbricks.github.io/files/6419798/main.pdf). A tutorial redaction is under progress.
 
 
+<img src = "https://www.cea.fr/PublishingImages/cea.jpg" align="left" alt="drawing" width="150">
 
 ![open_positions](https://user-images.githubusercontent.com/83573296/116979069-d1e5d500-acc4-11eb-9381-61a52f3e26f6.png)
 
