@@ -20,11 +20,6 @@ For an introduction to Qbricks, please read our [article](https://github.com/Qbr
 
 ![open_positions](https://user-images.githubusercontent.com/83573296/116979069-d1e5d500-acc4-11eb-9381-61a52f3e26f6.png)
 
-### PhD open positions (3 years): Probing quantum verification in the NISQ era
-
-The goal of this doctoral position is to probe formal verification against first generation of quantum application (NISQ era). Possibilities include, among other: extending Qbricks semantic and proof model to the hybrid paradigm, develop and implement a specification and proof system for error propagation and correction in quantum computing, develop  certified ready-to-use NISQ applications.  
-
-Keywords: quantum programming,  formal verification, NISQ, quantum error correction
 
 ### PostDoc open position (2 years) : verified compilation 
 
@@ -36,8 +31,8 @@ Keywords: quantum programming, compilation, optimization, formal verification
 
 Applications should be sent to sebastien.bardin@cea.fr as soon as possible (first come, first served) and by early July 2021 at the latest. Candidates should send a CV, a cover letter, a transcript of all their university results, as well as contact information of two references. Each  position is expected to start in October 2021.
 
-Advisors: Sébastien Bardin (CEA), Christophe Chareton (CEA)
-Contact: sebastien.bardin@cea.fr
+Advisors:  Christophe Chareton (CEA), Sébastien Bardin (CEA)
+Contact: christophe.chareton@cea.fr
 
 
 # News 
