@@ -39,7 +39,7 @@ Keywords: quantum programming, compilation, optimization, formal verification
 
 ### How to apply
 
-Applications should be sent to sebastien.bardin@cea.fr as soon as possible (first come, first served) and by early July 2021 at the latest. Candidates should send a CV, a cover letter, a transcript of all their university results, as well as contact information of two references. Each  position is expected to start in October 2021.
+Applications should be sent to christophe.chareton@cea.fr as soon as possible (first come, first served) and by early July 2021 at the latest. Candidates should send a CV, a cover letter, a transcript of all their university results, as well as contact information of two references. Each  position is expected to start in October 2021.
 
 Advisors:  Christophe Chareton (CEA), Sébastien Bardin (CEA)
 Contact: christophe.chareton@cea.fr
