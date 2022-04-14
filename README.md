@@ -47,6 +47,9 @@ Contact: christophe.chareton@cea.fr
 
 # News 
 
+
+- **Our code is back** to open source [diffusion](https://github.com/Qbricks/qbricks.github.io), under License LGPL,2.1
+- **Book chapter submission** _March 2022_ Our survey on formal methods in quantum computing was submitted, as a Book Chapter to appear in the " "Handbook of Formal Analysis and Verification in Cryptography" (CRC), see the [preprint](https://arxiv.org/abs/2109.06493).
 - **Presentation at IQFA** _Nov 2021_ Qbricks was presented at the [12th Colloquium on Quantum Engineering, Fundamental Aspects to Applications](https://iqfacolloq2021.sciencesconf.org/), 2021 [(slides)](https://github.com/Qbricks/qbricks.github.io/files/7526625/IQFA_21.pdf).
 - **Online survey** [Formal Methods for Quantum Programs: A Survey](https://arxiv.org/abs/2109.06493) _September 2021_. 
 - **Presentation at QPL** _June 2021_ Qbricks was presented at the 2021 online QPL conference [(slides)](https://github.com/Qbricks/qbricks.github.io/files/6630309/main.pdf).
