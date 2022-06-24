@@ -1,0 +1,1051 @@
+module Int_comp
+         use  int.Int
+         use  set.Fset
+         use  p_set.Fset_comp
+         use  p_set.IndexestoSet
+         use fsum.Iterations
+         use fsum.Set_iter
+         use fsum.Int_iter
+         use  complex.Constant
+         use  functions.MapInjection
+
+
+let lemma leq_trans (a b c : int)
+  requires{a <= b}
+  requires{b <= c}
+  ensures{a <= c}
+  =()
+  
+let lemma inf_trans (a b c : int)
+  requires{a < b}
+  requires{b < c}
+  ensures{a < c}
+  =()
+  
+let lemma leq_trans_add (a b c d : int)
+  requires{a <= c}
+  requires{b <= d}
+  ensures{a + b <= c + d}
+  =()
+  
+let lemma leq_trans_mult (a b c  : int)
+      requires{0<= c}
+      requires{a <= b}
+  ensures{a *c <= b*c}
+  =()
+  
+let lemma leq_trans_mult_right (a b c  : int)
+      requires{0<= c}
+      requires{a <= b}
+  ensures{c*a <= c*b}
+  =()
+  
+let lemma compat_int_order_mult (a b c d  : int)
+      requires{0<= c <=d}
+      requires{0<=a <= b}
+  ensures{c*a <= d*b}
+  =()
+  
+let lemma leq_trans_fact (a b c n : int)
+      requires{0<=n}
+      requires{0<=a<= c}
+      requires{0<=b<= (c * n)}
+      ensures{a+ b <= c * (n+1)}
+  =()
+  
+  
+let lemma leq_trans_facrev (a b c n : int)
+      requires{0<=n}
+      requires{0<=a<= c}
+      requires{0<=b<= (c * n)}
+      ensures{b +a <= c * (n+1)}
+  =()
+  
+let lemma neutrals()
+      ensures{0 = neutral_elt (+)}
+      ensures{1 = neutral_elt ( * )}
+      ensures{iterable (+)}
+      ensures{iterable ( * )}
+  = assert{ op_neutral_left (+) 0};
+    assert{ op_neutral_right (+) 0};
+    assert{op_assoc (+)};
+    assert{ op_neutral_left ( * ) 1};
+    assert{ op_neutral_right ( * ) 1};
+    assert{op_assoc ( * )}
+    
+let ghost function isum (s: set 'a) (t : 'a -> int): int
+  = iterate (+) s t
+
+let  function iproduct (s: set 'a) (t : 'a -> int): int
+  = iterate ( * ) s t
+
+      lemma isum_iter: iterates (+) 0
+                         lemma isum_iter__: iterable (+)   
+
+let lemma isum_eq  (s: set 'a) (t t': 'a -> int)
+  requires{forall e:'a. mem e s -> t e = t' e}
+  ensures{isum s t = isum s t'}
+  = iterate_eq (+) s t t'
+  
+let lemma isum_eq_gen  (s s': set 'a) (t t': 'a -> int)
+      requires{s = s'}
+      requires{forall e:'a. mem e s -> t e = t' e}
+  ensures{isum s t = isum s t'}
+  = isum_eq s t t'
+
+let   lemma isum_add (s: set 'b)(f: 'b -> int)(x: 'b)
+        requires{not mem x s}
+        ensures{isum (add x s) f  = (f x) + isum s f}
+  = iterate_add (+) s f x
+  
+let lemma iproduct_eq  (s: set 'a) (t t': 'a -> int)
+  requires{forall e:'a. mem e s -> t e = t' e}
+  ensures{iproduct s t = iproduct s t'}
+  = iterate_eq ( * ) s t t'
+  
+let lemma iproduct_eq_gen  (s s': set 'a) (t t': 'a -> int)
+      requires{s = s'}
+      requires{forall e:'a. mem e s -> t e = t' e}
+  ensures{iproduct s t = iproduct s t'}
+  = iproduct_eq s t t'
+
+let   lemma iproduct_add (s: set 'b)(f: 'b -> int)(x: 'b)
+        requires{not mem x s}
+        ensures{iproduct (add x s) f  = (f x) * iproduct s f}
+  = iterate_add ( * ) s f x
+
+let   lemma iproduct_from_choose (s: set 'b)(f: 'b -> int)
+        requires{0 < cardinal s }
+        ensures{iproduct s f  = (f (choose s)) * iproduct (remove (choose s) s) f}
+  = iproduct_add (remove (choose s) s) f (choose s)
+
+         use  set.FsetComprehension
+
+  
+let lemma iproduct_map  (s: set int)(f: int -> int)(t: int -> int)
+           requires{p_injective f s }
+           ensures{iproduct (map  f s) t  =  iproduct s (fun b -> t (f b))}
+= iterate_map ( * ) s f t
+
+let lemma iproduct_map_auto  (s: set int)(f: int -> int)(t: int -> int)
+           requires{p_bijective f s s}
+           ensures{iproduct s t  =  iproduct s (fun b -> t (f b))}
+= iproduct_map s f t
+
+let rec lemma iproduct_one (s: set 'a)(f: 'a -> int)
+          requires{forall e. mem e s -> f e = 1}
+          ensures{iproduct s f = 1}
+          variant{cardinal s}
+  =  if cardinal s = 0 then ()
+  else
+    begin
+      iproduct_from_choose s f;
+      iproduct_one (remove (choose s)s) f;
+    end
+
+let   lemma iproduct_one_but_maybe_one_elt (s: set 'a)(f: 'a -> int) (e: 'a)
+          requires{mem e s}
+          requires{forall e'. mem e' s -> e'<> e -> f e' = 1}
+          ensures{iproduct s f = f e}
+        ensures{iproduct s f  = (f (choose s)) * iproduct (remove (choose s) s) f}
+  = iproduct_one (remove e s) f ;
+  iproduct_add (remove e s) f e
+   
+(* let lemmma iproduct_one_but_maybe_one_elt (s: set int)(f: int -> int)(e: int) *)
+  
+let lemma mul_assoc (a b c: int)
+      ensures{(a* b) *c = a * (b*c)}
+  =()
+  
+let lemma ad_assoc (a b c: int)
+      ensures{(a+ b) +c = a + (b+c)}
+  =()
+  
+let lemma ad_assoc_rev (a b c: int)
+      ensures{ a + (b+c) = (a+ b) +c}
+  =()
+  
+let lemma ad_seq_switch (a b c a' b' c': int)
+      requires{a=a'}
+      requires{b=b'}
+      requires{c=c'}
+      ensures{ a' + (b'+c') = b + (c +a)}
+  =()
+  
+let lemma mul_comm (a b : int)
+      ensures{a* b  = b*a}
+  =()
+  
+let lemma add_eq_i (a a' b b' : int)
+      requires{a = a'}
+      requires{b = b'}
+      ensures{a + b  = a' + b'}
+  =()
+  
+let lemma mult_eq_i (a a' b b' : int)
+      requires{a = a'}
+      requires{b = b'}
+      ensures{a * b  = a' * b'}
+  =()
+  
+let lemma mul_assoc_rev (a b c: int)
+      ensures{a * (b*c) = (a* b) *c}
+  =()
+  
+let lemma mult_add_distr (a b c d: int)
+      ensures{(a + b) * (c+ d) = (a* c) + (a*d)+ (b*c) + (b*d) }
+  =()
+  
+let lemma mult_add_right (a b c d: int)
+      ensures{(a + b) * c = (a* c) + (b*c) }
+  =()
+  
+let lemma mult_add_right_rev (a b c d: int)
+      ensures{(a* c) + (b*c) =(a + b) * c}
+  =()  
+  
+let lemma mult_add_left (a b c d: int)
+      ensures{a * (b+c) = (a* b) + (a*c) }
+  =()
+  
+let lemma mult_add_left_rev (a b c d: int)
+      ensures{(a* b) + (a*c) = a * (b+c)}
+  =()
+  
+let lemma mult_add_distr_rev (a b c d: int)
+      ensures{(a* c) + (a*d)+ (b*c) + (b*d) = (a + b) * (c+ d)  }
+  =()
+  
+let lemma mul_assoc_comm (a b c: int)
+      ensures{(a* b) *c = b * (a*c)}
+  =()
+  
+let lemma mul_assoc_rev_comm (a b c: int)
+      ensures{a * (b*c) = (a* c) *b}
+  =()
+  
+  let lemma add_assoc (a b c: int)
+      ensures{(a+ b) +c = a + (b+c)}
+  =()
+  
+let lemma add_assoc_rev (a b c: int)
+      ensures{a + (b+c) = (a+ b) +c}
+  =()
+  
+let lemma isum_empty (s: set 'a) (f : 'a  -> int)  
+      requires{is_empty s}
+      ensures{ isum s f =  0}
+  =
+  iterate_empty (+)  s f ;
+  ()
+
+let lemma iproduct_empty (s: set 'a) (f : 'a  -> int)  
+      requires{is_empty s}
+      ensures{ iproduct s f =  1}
+  =
+  ()
+
+let lemma isum_iter_ ()
+      ensures{opposite_n (+) (-) 0}
+      ensures{opposite (+) (-)}
+      ensures{opposite_com (+) (-)} 
+      ensures{inverse_tuple (+) (-) 0}
+  = ()
+  
+  
+let  function ind_isum  (f :int -> int) (i:int) (j:int) 
+  = int_iterate (+) f i j
+  
+let lemma ind_isum_empty (f :int -> int) (i:int) (j:int) 
+      requires{j <= i}
+      ensures{ ind_isum  f i j =  0}
+  =
+  int_iterate_def_empty (+) f i j;
+  ()
+  
+let lemma ind_isum_one (f :int -> int) (i:int) (j:int) 
+      requires{j = i +1 }
+      ensures{ ind_isum  f i j =  f i}
+  =
+  ()
+  
+let lemma ind_isum_plus_one (f :int -> int) (i:int) (j:int) 
+      requires{i < j}
+      ensures{ ind_isum  f i j =  (f i) + ( ind_isum  f (i+1) j)}
+  =
+  int_iterate_def_plus_one (+) f i j;
+  ()
+  
+let lemma ind_isum_to_isum  (f :int -> int) (i:int) (j:int) 
+      requires{i < j}
+      ensures{ ind_isum  f i j =  isum (to_fset i j) f}
+  =
+  ()
+
+let lemma pos_to_strict (a:int)
+  requires{1<= a}
+  ensures{0< a}
+  =()
+  
+let lemma pos_by_strict (a:int)
+  requires{0< a}
+  ensures{1<= a}
+  =()
+  
+let rec lemma ind_isum_const (k i j:int)
+          requires{i < j}
+          ensures{ind_isum (const k) i j = k* (j-i)}
+          variant{j-i}
+  = if (j= i+1) then ()
+    else
+      begin
+        ind_isum_plus_one (const k) i j;
+        ind_isum_const k (i+1) j
+      end
+
+  
+let rec lemma ind_isum_null (f: int -> int) (i j :int)
+          requires{i < j}
+          requires{forall k:int. i <= k < j -> f k = 0}
+          ensures{ind_isum f i j = 0}
+          variant{j-i}
+  = if (j= i+1) then ()
+    else
+      begin
+        ind_isum_plus_one f i j;
+        ind_isum_null f (i+1) j
+      end
+
+  
+
+  
+let lemma ind_isum_right_extension (f :int -> int) (i:int) (j:int)
+      ensures{i<= j -> ind_isum f i (j+1) = ind_isum f i j + f j}
+  =int_iterate_right_extension (+) f i (j+1);
+   ()
+
+let lemma ind_isum_re (f :int -> int) (i:int) (j:int)
+      requires{i < j}
+      ensures{ind_isum f i j = ind_isum f i (j-1) + f (j-1)}
+  =ind_isum_right_extension f i (j-1);
+   ()
+
+let lemma ind_isum_re_null (f :int -> int) (i:int) (j:int)
+      requires{i < j}
+      requires{f j = 0}
+      ensures{ind_isum f i (j+1) = ind_isum f i j }
+  =ind_isum_right_extension f i (j-1);
+   ()
+
+
+let rec lemma ind_isum_null_but_maybe_one_elt  (l h :int) (t:  int -> int) (e: int)
+      requires{l<= e < h}
+      requires{forall a. l<= a < h ->  a <> e -> t a = 0}
+      ensures{ind_isum   t l h = t e}
+      variant{h-e}
+  =
+  if (h-l) = 1 then ind_isum_one t l h
+  else
+    if (h-e) = 1
+    then
+      begin
+        ind_isum_re t l h;
+        ind_isum_null t l (h-1);
+      end
+    else
+      begin
+        ind_isum_re t l h;
+        ind_isum_null_but_maybe_one_elt  l (h-1) t e;
+        end
+                   
+
+   
+let  lemma ind_isum_eq (f g : int -> int) i j
+       requires{forall k : int. i <= k < j -> f k = g k}
+       ensures{ ind_isum  f i j = ind_isum   g i j}
+  =
+  int_iterate_eq  (+)  f g i j 
+
+let  lemma ind_isum_to_guard (f g: int -> int) (p: int-> bool) i j
+       requires{forall k:int. i <= k < j -> p k}
+       ensures{ ind_isum  ( fun k -> if p k then f k else g k) i j = ind_isum   f i j}
+  =
+  ind_isum_eq    f ( fun k -> if p k then f k else g k) i j 
+
+let  lemma ind_isum_no_guard (f g: int -> int) (p: int-> bool) i j
+       requires{forall k:int. i <= k < j -> not (p k)}
+       ensures{ ind_isum  ( fun k -> if p k then g k else f k) i j = ind_isum   f i j}
+  =
+  ind_isum_eq    f ( fun k -> if p k then g k else f k) i j 
+
+let  lemma ind_isum_eq_gen (f g : int -> int) (i i1 j j1:int)
+       requires{forall k : int. i <= k < j -> f k = g k}
+       requires{i = i1}
+       requires{j = j1}
+       ensures{ ind_isum  f i j = ind_isum   g i1 j1}
+  =
+  ind_isum_eq  f g i j 
+
+let  lemma ind_isum_func_const (k:int) ( f: int->int)(  i j:int)
+       requires{i < j}
+       requires{forall l:int. i<= l < j -> f l = k}
+       ensures{ind_isum f i j = k* (j-i)}
+  =
+ind_isum_const k i j;
+  ind_isum_eq f (const k) i j        
+
+let rec  lemma ind_isum_pos (f : int -> int) i j
+           requires{i <=j}
+           requires{forall k : int. i <= k < j -> f k >=0}
+           ensures{0<= ind_isum  f i j}
+           variant{j-i}
+  = if (j-i = 0) then ()
+    else
+      begin
+        ind_isum_right_extension f i (j-1);
+        ind_isum_pos f i (j-1)
+      end
+  
+let ghost function ind_iproduct  (f :int -> int) (i:int) (j:int) 
+  = int_iterate ( * ) f i j
+
+let  lemma ind_iproduct_eq (f g : int -> int) i j
+       requires{forall k : int. i <= k < j -> f k = g k}
+       ensures{ ind_iproduct  f i j = ind_iproduct   g i j}
+  =
+  int_iterate_eq  ( * )  f g i j 
+
+let  lemma ind_iproduct_eq_gen (f g : int -> int) (i1 j1 i2 j2:int)
+       requires{forall k : int. i1 <= k < j1 -> f k = g k}
+       requires{i1 =i2}
+       requires{j1 =j2}
+       ensures{ ind_iproduct  f i1 j1 = ind_iproduct   g i2 j2}
+  =
+  ind_iproduct_eq f g i1 j1
+
+let lemma ind_iproduct_to_iproduct (f :int -> int) (i:int) (j:int)
+      ensures{ind_iproduct f i j = iproduct (to_fset i j) f}
+  = ()
+
+
+let   lemma ind_iproduct_one_but_maybe_one_elt (f: int -> int) (i j e: int)
+          requires{i<= e < j}
+          requires{forall e'. i<= e' <= j  -> e <> e' ->f e' = 1}
+          ensures{ind_iproduct  f i j = f e}
+  =
+      ind_iproduct_to_iproduct f i j ;
+      iproduct_one_but_maybe_one_elt (to_fset i j) f e
+
+
+      
+let lemma mult_one_int (a b:int)
+      requires{b = 1}
+      ensures{a* b = a}
+  =()
+  
+let lemma one_mult_int (a b:int)
+      requires{a = 1}
+      ensures{a* b = b}
+  =()
+  
+let lemma mult_zero_int (a b:int)
+      requires{b = 0}
+      ensures{a* b = 0}
+  =()
+  
+let lemma zero_mult_int (a b:int)
+      requires{a = 0}
+      ensures{a* b = 0}
+  =()
+  
+let lemma iproduct_to_iterate (f :int -> int) (i:int) (j:int)
+      ensures{ind_iproduct f i j = int_iterate ( * )  f i j}
+  = ()
+
+
+let  lemma ind_isum_map_auto  (i j :int)(f: int -> int)(t: int -> int)
+       requires{p_bijective f (to_fset i j)  (to_fset i j) }
+       ensures{ind_isum t i j   = ind_isum  (fun b -> t (f b))  i j}
+  = int_iterate_map_auto (+) i j  f t 
+  
+let  lemma ind_isum_rev  (i j :int)(f: int -> int)
+       (* requires{p_bijective f (to_fset i j)  (to_fset i j) } *)
+       ensures{ind_isum f i j   = ind_isum  (fun k -> f (j-k-1+i))  i j}
+  = ind_isum_map_auto i j (fun k -> j-k-1+i) f
+  
+let  lemma ind_isum_map  (i j k l :int)(f: int -> int)(t: int -> int)
+       requires{p_bijective f (to_fset i j)  (to_fset k l) }
+       ensures{ind_isum t k l   = ind_isum  (fun b -> t (f b))  i j}
+  = int_iterate_map (+) i j k l  f t 
+  
+let  lemma ind_isum_map_auto_bij  (i j :int)(f: int -> int)(t: int -> int)
+       requires{forall e:int.  i<= e < j ->  i<= f e < j}
+       requires{    forall e e': int. i<= e < j -> i<= e' < j  -> e <> e' -> f e <> f e'}
+       requires{    forall e' : int. i<= e' < j  -> exists e : int. i<= e < j  /\ f e = e'}
+       ensures{ind_isum t i j   = ind_isum  (fun b -> t (f b))  i j}
+  = set_bijective f  (to_fset i j) (to_fset i j);
+    ind_isum_map_auto  i j  f t 
+    
+let  lemma ind_isum_map_bij  (i j k l :int)(f: int -> int)(t: int -> int)
+       requires{forall e:int.  i<= e < j ->  k<= f e < l}
+       requires{    forall e e': int. i<= e < j  -> i<= e' < j  -> e <> e' -> f e <> f e'}
+       requires{    forall e' : int. k<= e' < l -> exists e : int. i<= e < j /\ f e = e'}
+       ensures{ind_isum t k l   = ind_isum  (fun b -> t (f b))  i j}
+  =  set_bijective f    (to_fset i j) (to_fset k l);
+     ind_isum_map  i j k l  f t 
+     
+let lemma ind_iproduct_empty (f :int -> int) (i:int) (j:int) 
+      requires{i >= j}
+      ensures{ ind_iproduct  f i j =  1}
+  =
+  int_iterate_def_empty ( * ) f i j
+
+let lemma ind_iproduct_plus_one (f :int -> int) (i:int) (j:int) 
+      requires{i < j}
+      ensures{ ind_iproduct  f i j =  (f i) * ( ind_iproduct  f (i+1) j)}
+  = int_iterate_def_plus_one ( * ) f i j
+  
+let lemma ind_iproduct_right_extension (f :int -> int) (i:int) (j:int)
+      ensures{i< j -> ind_iproduct f i j = ind_iproduct f i (j-1) * f (j-1)}
+  =int_iterate_right_extension ( * ) f i j
+  
+let lemma ind_iproduct_right_extension_comm (f :int -> int) (i:int) (j:int)
+      ensures{i< j -> ind_iproduct f i (j-1) * f (j-1) = ind_iproduct f i j }
+  =
+  ()
+
+
+let rec lemma ind_iproduct_comp (f g h : int->int) (i j:int)
+          requires{i<=j}
+          requires{forall k. i<= k < j -> f k * g k = h k}
+      ensures{ind_iproduct h i j = ind_iproduct f i j *ind_iproduct g i j}
+      variant{j-i}
+  =
+  if i = j then
+    begin
+      ind_iproduct_empty f i j;
+      ind_iproduct_empty g i j;
+      ind_iproduct_empty h i j;
+    end
+  else
+    begin
+      ind_iproduct_right_extension f i j;
+      ind_iproduct_right_extension g i j;
+      ind_iproduct_right_extension h i j;
+      let lemma inter ()
+        ensures{forall a b c d:int. (a*b) * (c*d) =  (a*c) * (b*d)}
+        =()
+      in
+      begin
+        inter();
+        ind_iproduct_comp f g h i (j-1)
+      end
+    end
+  
+
+      let rec lemma ind_iproduct_one (f : int -> int) i j
+          requires{forall k : int. i <= k < j -> f k = 1}
+          ensures{ ind_iproduct  f i j = 1}
+          variant{j-i}
+  =
+  if(j<= i) then ()
+  else
+    begin
+      ind_iproduct_right_extension f i j;
+      ind_iproduct_one f i (j-1);
+    end
+
+  
+  
+let rec lemma positive_iproduct  (f :int -> int) (i:int) (j:int)
+          requires{forall k. i<= k < j -> f k > 0}
+          ensures{ind_iproduct f i j > 0}
+          variant{j-i}
+  = if (j <= i) then ()
+    else begin
+        assert{ind_iproduct f i j = f i * ind_iproduct f (i+1) j};
+        positive_iproduct f (i+1) j;
+      end
+
+  
+let rec lemma ind_iproduct_pos  (f :int -> int) (i:int) (j:int)
+          requires{forall k. i<= k < j -> 0<= f k}
+          ensures{0<= ind_iproduct f i j }
+          variant{j-i}
+  = if (j <= i) then ()
+    else begin
+        assert{ind_iproduct f i j = f i * ind_iproduct f (i+1) j};
+        ind_iproduct_pos f (i+1) j;
+      end
+
+let rec lemma ind_iproduct_strict_pos  (f :int -> int) (i:int) (j:int)
+          requires{forall k. i<= k < j -> 0< f k}
+          ensures{0< ind_iproduct f i j }
+          variant{j-i}
+  = if (j <= i) then ()
+    else begin
+        assert{ind_iproduct f i j = f i * ind_iproduct f (i+1) j};
+        ind_iproduct_strict_pos f (i+1) j;
+      end
+
+let rec lemma iproduct_strict_pos  (s: set 'a) (f :'a -> int)
+          requires{forall k. mem k s -> 0< f k}
+          ensures{0< iproduct s f }
+          variant{cardinal s}
+  = if (cardinal s = 0) then ()
+    else begin
+        assert{iproduct s f = f (choose s) * iproduct (remove (choose s) s) f};
+        iproduct_strict_pos (remove (choose s) s) f;
+      end
+
+let  lemma ind_iproduct_strict_pos_one  (f :int -> int) (i:int) (j:int)
+          requires{forall k. i<= k < j -> 0< f k}
+          ensures{1 <= ind_iproduct f i j }
+  =ind_iproduct_strict_pos f i j
+  
+  
+let lemma ind_iproduct_left_right (f : int -> int) (l  k h : int)
+      requires{l <= k<= h}
+      ensures{ind_iproduct f l k = ind_iproduct (fun a -> f (h-(a+1)+ l)) (h- k + l) h}
+  =
+  int_iterate_left_right ( * )  f l k  h 
+
+let lemma iterable_imult ()                             
+      ensures{iterable ( * )}
+  = assert {iterates ( * ) 1}
+
+let lemma int_minus_distr (a b: int)
+  ensures{- (a+b) = (-a) + (- b)}
+  =()
+  
+let lemma int_minus_eq (a b: int)
+ requires{a = b }
+  ensures{-a = -b }
+  =()
+  
+let  lemma ind_iproduct_map_auto  (i j :int)(f: int -> int)(t: int -> int)
+       requires{p_bijective f (to_fset i j)  (to_fset i j) }
+       ensures{ind_iproduct t i j   = ind_iproduct  (fun b -> t (f b))  i j}
+  = int_iterate_map_auto ( * ) i j  f t 
+  
+let  lemma ind_iproduct_map  (i j k l :int)(f: int -> int)(t: int -> int)
+       requires{p_bijective f (to_fset i j)  (to_fset k l) }
+       ensures{ind_iproduct t k l   = ind_iproduct  (fun b -> t (f b))  i j}
+  = int_iterate_map ( * ) i j k l  f t 
+                    
+let  lemma ind_iproduct_trans  (f : int -> int ) (i k j : int)
+       requires {i <= k <= j}
+       ensures  { ind_iproduct f i j =  ind_iproduct f i k *  ind_iproduct f k j  }
+  =
+  int_iterate_transitivity ( * ) f i k j
+
+let rec lemma ind_iproduct_inf  (f g : int -> int ) (i  j : int)
+       requires  {forall k. i<= k < j -> 0<= f k <= g k}
+       ensures  { ind_iproduct f i j <=  ind_iproduct g i j}
+      variant{j-i}
+  =
+  if (j <= i) then ()
+  else
+    begin
+    assert{i < j};
+      ind_iproduct_right_extension f i j;
+      ind_iproduct_right_extension g i j;
+      ind_iproduct_inf f g i (j-1);
+      end
+    
+    
+
+    
+use p_set.Choose_filter
+
+let   lemma ind_iproduct_sup_one (f: int -> int) (i j e: int)
+        requires{i<j}
+        requires{forall k. i<= k < j -> 1<= f k }
+          requires{exists k. i<= k < j && f k <> 1 }
+          ensures{1 < ind_iproduct  f i j }
+  =
+  let k = choose (my_filter (to_fset i j) (fun l -> f l <> 1))
+        ensures{i<= result < j}
+        ensures{f result <> 1}
+  in
+  begin
+    ind_iproduct_trans f i k j;
+    ind_iproduct_plus_one f  k j;
+  end
+  
+let rec lemma ind_isum_transl (f: int -> int)(i j k:int)
+          ensures{ind_isum f i j  = ind_isum (fun b ->  f (b + k))  (i-k) (j-k)}
+          variant{j-i}
+  = int_iterate_transl (+) f i j k
+
+let rec lemma ind_isum_transl_plus_one (f: int -> int)(i j:int)
+          ensures{ind_isum f i j  = ind_isum (fun b ->  f (b -1))  (i+1) (j+1)}
+          variant{j-i}
+  = ind_isum_transl f i j (-1)
+
+let rec lemma ind_isum_transl_minus_one (f: int -> int)(i j:int)
+          ensures{ind_isum f i j  = ind_isum (fun b ->  f (b +1))  (i-1) (j-1)}
+          variant{j-i}
+  = ind_isum_transl f i j 1
+  
+let rec lemma ind_isum_scal  (f :int -> int) (i j:int) (a:int) 
+          requires{i<= j}
+          ensures{ind_isum  (fun i -> a* (f i)) i j = a* (ind_isum  f i j)}      
+          variant{j-i}
+  = if (j-i = 0) then ()
+    else
+      begin
+        ind_isum_right_extension (fun i -> a* (f i)) i (j-1);
+        ind_isum_right_extension f i (j-1);
+        ind_isum_scal f  i (j-1)  a;
+      end
+  
+let lemma minus_ind_isum  (f :int -> int) (i j:int) 
+      requires{i<= j}
+      ensures{ - (ind_isum  f i j) = ind_isum  (fun i ->  (-(f i))) i j}      
+  = ind_isum_scal f i j (-1)
+  
+let lemma minus_ind_isum_rev  (f :int -> int) (i j:int) 
+      requires{i<= j}
+      ensures{ind_isum  (fun i ->  (-(f i))) i j =  - (ind_isum  f i j) }      
+  = ()
+  
+let lemma ind_isum_scal_rev  (f :int -> int) (i j:int) (a:int) 
+      requires{i<= j}
+      ensures{ a* (ind_isum  f i j) = ind_isum  (fun i -> a* (f i)) i j}      
+  = ind_isum_scal f i j a
+  
+  
+let lemma ind_isum_scal_rev_right  (f :int -> int) (i j:int) (a:int) 
+      requires{i<= j}
+      ensures{ (ind_isum  f i j) * a = ind_isum  (fun i ->  (f i) * a) i j}      
+  = ind_isum_scal f i j a
+  
+let lemma ind_isum_scal_right  (f :int -> int) (i j:int) (a:int) 
+      requires{i<= j}
+      ensures{ ind_isum  (fun i ->  (f i) * a) i j = (ind_isum  f i j) * a  }      
+  = ind_isum_scal f i j a
+  
+let rec lemma ind_isum_bound  (f g  :int -> int) (i j:int) 
+          requires{i< j}
+          requires{forall k. i<= k <j -> f k < g k}
+          ensures{ind_isum  f i j < ind_isum g i j}      
+          variant{j-i}
+  = if (j-i = 1) then ()
+    else
+      begin
+        ind_isum_right_extension g i (j-1);
+        ind_isum_right_extension f i (j-1);
+        ind_isum_bound f g i (j-1);
+      end
+
+let lemma comp_trans_equal_strict (a b c :int)
+      requires{a<=b}
+      requires{b<c}
+      ensures{a<c}
+  =()
+  
+let lemma transitive_inf_leq_int (a b c :int)
+      requires{a<b}
+      requires{b<=c}
+      ensures{a<c}
+  =()
+  
+let lemma transitive_inf_int (a b c :int)
+      requires{a<b}
+      requires{b<c}
+      ensures{a<c}
+  =()
+  
+let lemma compeq_trans_sum (a b c :int)
+      requires{b<=c}
+      ensures{a + b <= a+c}
+  =()
+  
+let lemma compeq_trans_sum_zero (a b :int)
+      requires{0 <=b}
+      ensures{a  <= a+b}
+  =()
+  
+let lemma comp_trans_sum (a b c :int)
+      requires{b<c}
+      ensures{a + b < a+c}
+  =()
+  
+let lemma comp_trans_mult (a b c :int)
+      requires{0<= a <b}
+      requires{0< c}
+      ensures{a *c < b*c}
+  =()
+  
+let rec lemma ind_isum_bound_eq  (f g  :int -> int) (i j:int) 
+          requires{i<= j}
+          requires{forall k. i<= k <j -> f k <= g k}
+          ensures{ind_isum  f i j <= ind_isum g i j}      
+          variant{j-i}
+  = if (j-i = 0) then ()
+    else
+      if (j-i = 1) then ()
+      else
+        begin
+          ind_isum_right_extension g i (j-1);
+          ind_isum_right_extension f i (j-1);
+          ind_isum_bound_eq f g i (j-1);
+        end
+
+let  lemma ind_isum_scal_gen  (f :int -> int) (i j :  int)  
+       ensures{forall a: int. i <= a < j -> ind_isum  (fun i -> a* (f i)) i j = a* (ind_isum  f i j)}      
+  = ()
+
+let  lemma ind_isum_trans  (f : int -> int ) (i k j : int)
+       requires {i <= k <= j}
+       ensures  { ind_isum f i j =  ind_isum f i k +  ind_isum f k j  }
+  =
+  int_iterate_transitivity ( + ) f i k j
+
+let lemma minus_out_int (a b:int)
+      ensures{- a* b = -(a*b)}
+  =()
+  
+end
+     
+module Abs
+
+         use export int.Abs
+         use  int.Int
+
+let lemma abs_eqinf (x y:int)
+      requires{x <= y <= 0}
+      ensures{abs x >= abs y}
+  =
+  if (abs x < abs y) then
+    assert{x + abs x < y + abs y}  
+  else ()
+
+let lemma abs_inf (x y:int)
+      requires{0 < x < y <= 0}
+      ensures{abs x > abs y}
+  =  if (abs x <= abs y) then
+       assert{x + abs x < y + abs y}
+
+let lemma abs_eqsup (x y:int)
+      requires{0>= x >= y }
+      ensures{abs x <= abs y}
+  =()
+
+let lemma abs_sup (x y:int)
+      requires{0 >= x > y    }
+      ensures{abs x < abs y}
+  =assert{abs x >= abs y -> x+ abs x > y + abs y}
+  
+let lemma inv_negeq (x :int)
+      requires{ 0 >= x  }
+      ensures{abs x >= 0}
+  = assert{abs x < 0 -> x + abs x < 0}
+
+let lemma inv_neg (x :int)
+      requires{ 0 > x  }
+      ensures{abs x > 0}
+  = assert{abs x <= 0 -> x + abs x < 0}
+
+end
+     
+module From_int_iter                          
+         use  complex.Complex
+         use  int.Int
+         use  complex_operations.Indic
+         use   complex_operations.FromInt
+         use  complex_operations.Base_type
+         use  Int_comp
+
+     
+let rec lemma from_int_sum (f : int -> int) (i j :int)
+          requires{i <= j}
+          ensures{i_to_c (ind_isum f i j) = ind_sum (fun k -> i_to_c (f k)) i j}
+          variant{j-i}
+  = if (j = i) then ()
+    else
+      begin
+        ind_sum_right_extension (fun k -> i_to_c (f k)) i j;
+        ind_isum_right_extension f i (j-1);
+        from_int_sum f i (j-1);
+      end
+
+   use set.FsetComprehension
+
+let rec lemma i_to_c_sum (s: set 'a) (f:'a-> int)(g:'a-> complex)
+          requires{1<= cardinal s }
+          requires{forall e. mem e s -> i_to_c (f e) = g e}
+          ensures{i_to_c (isum s f) = sum s g}
+      variant{cardinal s}
+  = if cardinal s =  1 then ()
+    else
+      begin
+        isum_add (remove (choose s) s) f (choose s);
+        sum_plus_one s g;
+        i_to_c_sum (remove (choose s) s) f g;
+      end
+
+  
+let rec lemma from_int_product (f : int -> int) (i j :int)
+          requires{i <= j}
+          ensures{i_to_c (ind_iproduct f i j) = ind_product (fun k -> i_to_c (f k)) i j}
+          variant{j-i}
+  = if (j = i) then ()
+    else
+      begin
+        ind_product_right_extension (fun k -> i_to_c (f k)) i j;
+        ind_iproduct_right_extension f i j;
+        from_int_product f i (j-1);
+      end
+
+      
+end
+
+     
+
+module P_minmax
+         use export int.MinMax
+         use  set.Fset
+         use  int.Int
+     
+let rec function min_set (s: set int)
+                   requires{cardinal s > 0}
+                   ensures{mem result s}
+                   ensures{forall e:int . mem e s -> e >= result }
+                   variant{cardinal s}
+  = if (cardinal s = 1) then choose s
+    else min (choose s) (min_set (remove (choose s)s))
+  
+  
+let rec function max_set (s: set int)
+                   requires{cardinal s > 0}
+                   ensures{mem result s}
+                   ensures{forall e:int . mem e s -> e <= result }
+                   variant{cardinal s}
+  = if (cardinal s = 1) then choose s
+    else max (choose s) (max_set (remove (choose s)s))
+
+let function  max3 (a b c : int)
+                ensures{result = max a (max b c)}
+            = max (max a b) c
+
+let lemma  max_right (a b  : int)
+      requires{a<=b}
+      ensures{ max a b = b}
+            = ()
+
+let lemma  max_left (a b  : int)
+      requires{b<=a}
+      ensures{ max a b = a}
+            = ()
+
+let rec function min_filter (s: set int) (p: int -> bool) : int
+                                                              requires{exists e. mem e s && p e}
+               ensures{p result}
+               ensures{mem result s}
+               ensures{forall e. mem e s -> p e -> result <= e}
+               ensures{forall e. mem e s ->e < result -> not (p e)}
+               variant{cardinal s}
+  =
+  if p (min_set s) then min_set s
+  else
+    min_filter (remove (min_set s) s) p
+
+let rec function max_filter (s: set int) (p: int -> bool) : int
+                                                              requires{exists e. mem e s && p e}
+               ensures{p result}
+               ensures{mem result s}
+               ensures{forall e. mem e s -> p e -> e<= result}
+               ensures{forall e. mem e s -> result < e -> not (p e)}
+               variant{cardinal s}
+  =
+  if p (max_set s) then max_set s
+  else
+    max_filter (remove (max_set s) s) p
+
+      use complex.Complex
+      use complex_operations.FromInt
+      use p_set.IndexestoSet
+      use complex_operations.Conjugate
+
+let lemma appr_pre  ( theta:complex)  (n :int)
+      requires{0<n}
+      requires{real_ theta}
+      requires{c_zero <. theta <=. c_one}
+      ensures{exists k: int. mem k (to_fset 0 (n+1)) &&
+                          modulus (theta -.  (i_to_c k/. i_to_c n)) <=. c_one /. (i_to_c (n*2))}
+  =
+  if theta == c_one then ()
+  else
+    let mintheta        =   max_filter (to_fset 0 (n+1)) (fun x -> (i_to_c x/. i_to_c n) <=. theta)
+                              ensures{(i_to_c result/. i_to_c n) <=. theta}
+                              ensures{i_to_c result <=. theta *. i_to_c n}
+                              ensures{mem result (to_fset 0 (n+1))}
+                              ensures{forall e. mem e (to_fset 0 (n+1)) -> (i_to_c e/. i_to_c n) <=. theta -> e <= result}
+                              ensures{forall e. mem e (to_fset 0 (n+1)) ->   result < e -> theta <. (i_to_c e/. i_to_c n)  }
+    in   let majtheta
+           =   min_filter (to_fset 0 (n+1)) (fun x ->  theta<=.  (i_to_c x/. i_to_c n))
+               ensures{theta <=. (i_to_c result/. i_to_c n) }
+               ensures{theta*. i_to_c n <=. i_to_c result}
+               ensures{mem result (to_fset 0 (n+1))}
+               ensures{forall e. mem e (to_fset 0 (n+1)) -> theta <=. (i_to_c e/. i_to_c n)  -> result <= e}
+               ensures{forall e. mem e (to_fset 0 (n+1)) -> e < result ->  (i_to_c e/. i_to_c n) <=. theta }
+               ensures{result -1 <= mintheta}
+               ensures{result -1 < mintheta}
+             
+         in
+         assert{(i_to_c mintheta/. i_to_c n) <=. theta <=. i_to_c  majtheta /. i_to_c n};
+         assert{theta <. i_to_c (mintheta +1) /. (i_to_c n) };
+         assert{i_to_c (majtheta -1) /. (i_to_c n) <=. theta};
+         assert{majtheta <= mintheta +1 };
+         assert{mintheta < majtheta };
+         assert{majtheta - 1 = mintheta };
+         assert{i_to_c (majtheta - 1) /. i_to_c n =  i_to_c mintheta  /. i_to_c n};
+         assert{i_to_c majtheta  /. i_to_c n  -.   i_to_c mintheta  /. i_to_c n = c_one /. i_to_c n};
+         assert{i_to_c majtheta  /. i_to_c n  -.   i_to_c mintheta  /. i_to_c n = (theta -. (i_to_c mintheta  /. i_to_c n )) +. ((i_to_c (majtheta + 1) /. i_to_c n) -. theta)};
+         if   theta -.  (i_to_c mintheta /. i_to_c n) <=. c_one /. (i_to_c (n*2));
+         then assert{modulus (theta -.  (i_to_c mintheta /. i_to_c n)) <=. c_one /. (i_to_c (n*2))}
+         else
+           begin
+             assert{  (i_to_c majtheta /. i_to_c n) -. theta <=. c_one /. (i_to_c (n*2))};
+             assert{modulus (  (i_to_c majtheta /. i_to_c n) -. theta) <=. c_one /. (i_to_c (n*2))};
+           end
+                                                       
+let lemma appr  ( theta:complex)  (n :int)
+      requires{0<n}
+      requires{real_ theta}
+      requires{c_zero <=. theta <=. c_one}
+      ensures{exists k: int. mem k (to_fset 0 (n+1)) &&
+                          modulus (theta -.  (i_to_c k/. i_to_c n)) <=. c_one /. (i_to_c (n*2))}
+  =
+  if theta == c_zero then ()
+  else appr_pre theta n
+
+let function min_complex (a b: complex)
+           requires{real_ a}
+           requires{real_ b}
+                   ensures{real_ result}
+           ensures{result<=.a}
+           ensures{result<=.b}
+  = if a<=. b then a else b
+  
+let rec function min_set_complex (s: set 'a) (f: 'a -> complex)
+                   requires{cardinal s > 0}
+                   requires{forall x. mem x s -> real_ (f x)}
+                   ensures{exists e. mem e s && result = f e}
+                   ensures{real_ result}
+                   ensures{forall e:'a . mem e s -> result <=. f e }
+                   variant{cardinal s}
+  = if (cardinal s =1)  then f (choose s)
+    else min_complex  (f (choose s)) (min_set_complex (remove (choose s)s) f) 
+
+let lemma min_set_complex_pos (s: set 'a) (f: 'a -> complex)
+                   requires{cardinal s > 0}
+                   requires{forall x. mem x s -> real_ (f x)}
+                   requires{forall x. mem x s -> c_zero <=. (f x)}
+                   ensures{c_zero <=. min_set_complex s f}
+  = ()
+
+end
+                                                                                                                                                                                                                                                                                                  

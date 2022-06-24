@@ -1,0 +1,1357 @@
+
+module Int_Exponentiation
+         use  complex.Constant
+         use  fsum.Iterations
+         use  p_int.Int_comp
+         use  int.Int 
+
+let rec function power (e i:int)  : int
+                                  requires{0<=i}
+               variant{i}
+  = if i = 0 then 1
+    else
+      e * power e (i-1)
+
+                                  lemma Power_zero :forall i:int. power i 0 = 1
+lemma Power_one :forall i:int. power i 1 = i
+
+let lemma power_plus_one ( i x:int)
+  requires{0<=x}
+  ensures{power i (x+1) = power i x * i}
+  =()
+  
+let rec lemma power_sum (i x y :int)
+          requires{0<=x}
+         requires{0<=y} 
+         ensures{power i (x+y) =  power i x *     power   i y}
+         variant{y}
+  = if y = 0 then ()
+  else if y = 1 then power_plus_one  i x
+    else begin
+        power_sum i x (y-1) ;
+          power_plus_one  i (x+ (y-1))
+      end
+           
+let rec lemma power_mult (i x y :int)
+          requires{0<=x}
+         requires{0<=y} 
+         ensures{power i (x*y) =  power (power i x) y    }
+         variant{y}
+  = if y = 0 then()
+    else begin
+        power_mult i x (y-1) ;
+          power_sum i (x* (y-1)) x ;
+      power_plus_one  (power i x) (y-1)
+      end
+           
+lemma Power_sum :  forall x y i:int. x>= 0 -> y >= 0 ->
+    power i (x+y) =  power i x *     power   i y
+lemma Power_mult :  forall x y i:int. x>= 0 ->y  >= 0 ->
+                                 power i (x*y) =  (power    (power   i x) y)
+                                                                            
+     
+    let rec lemma power_to_ind_iproduct  (e i:int)
+          requires{0<= i}
+          ensures{power e i = ind_iproduct (const e) 0 i}
+          variant{i}
+  = if (i = 0) then ()
+    else begin
+        power_plus_one e (i-1);
+        ind_iproduct_right_extension (const e) 0 i;
+        power_to_ind_iproduct e (i-1);
+      end
+
+let rec lemma power_transl  (e k i:int)
+          requires{0<= i}
+          ensures{power e i = ind_iproduct (const e) k (k+i)}
+          variant{i}
+  = if (i = 0) then ()
+    else begin
+        power_plus_one e (i-1);
+        ind_iproduct_right_extension (const e) k (k+i);
+        power_transl e k (i-1);
+      end
+
+let lemma ind_iproduct_to_power  (e i j:int)
+      requires{0<= i<=j}
+      ensures{ind_iproduct (const e) i j = power e (j-i)}
+  =
+  assert{ind_iproduct (const e) i j =   int_iterate ( * ) (const e) i j};
+         power_transl e i (j-i)
+
+let lemma ind_iproduct_to_power_gen  (e :int)
+      ensures{forall i j:int. 0<= i<=j -> ind_iproduct (const e) i j = power e (j-i)}
+  =()
+  
+(* let  lemma power_sum (x:int) (n m :int)
+ *        requires{n>=0}
+ *        requires{m>=0}
+ *        ensures{    power x (n+m) = power x n * power x m}
+ *   =
+ *   () *)
+
+let  lemma power_sum_rev (x:int) (n m :int)
+       requires{n>=0}
+       requires{m>=0}
+       ensures{   power x n * power x m =   power x (n+m)}
+  =
+  ()
+
+let  lemma power_eq (x:int) (n m :int)
+       requires{n = m}
+       ensures{    power x n = power x m}
+  =
+  ()
+
+let  lemma power_eq_gen (x y:int) (n m :int)
+       requires{n = m}
+       requires{x = y}
+       ensures{    power x n = power y m}
+  =
+  ()
+
+  let rec lemma power_2_sum(i:int)
+          requires{i>= 1}
+          ensures{ind_isum (fun k -> power 2 (k+1)) 0 i = power 2 (i+1)-2 }
+          variant{i}
+    = if i = 1 then ()
+      else
+        begin
+          ind_isum_right_extension (fun k -> if 0<= k then power 2 (k+1) else 0) 0 (i-1);
+          power_2_sum (i-1);
+          power_plus_one 2 (i-1);
+        end
+
+let rec lemma power_decomp (i:int)
+          requires{i>= 1}
+          ensures{ind_isum (fun k -> power 2 (k+1)) 0 i < power 2 (i+1) }
+          variant{i}
+  = power_2_sum i
+
+let rec lemma power_decomp_minus_one (i:int)
+          requires{i>= 1}
+          ensures{ind_isum (fun k -> if 1<= k < i+1 then power 2 (k-1) else 0) 1 i < power 2 (i-1) }
+          variant{i}
+  =
+  if (i = 1) then ()
+  else
+    begin
+      ind_isum_right_extension (fun k -> if 1<= k < i+1 then power 2 (k-1) else 0) 1 (i-1);
+      power_decomp_minus_one  (i-1);
+    end
+  
+let rec lemma power_decomp_ (i:int)
+          requires{i>= 1}
+          ensures{ind_isum (fun k -> power 2 k) 0 i < power 2 i }
+          variant{i}
+  =
+  if (i = 1) then ()
+  else
+    begin
+      ind_isum_plus_one (fun k -> if 0<= k < i+1 then power 2 k else 0) 0 i;
+      power_decomp_  (i-1);
+    end
+
+  
+let lemma power_decomp_one (i:int)
+      requires{i>= 1}
+      ensures{ind_isum (fun k -> power 2 (k+1)) 1 i < power 2 (i+1) }
+  =
+  if i = 1 then ()
+  else
+    begin
+      ind_isum_plus_one (fun k -> if (0<= k) then power 2 (k+1) else 1) 0 i;
+      power_decomp i;
+      assert{ind_isum (fun k -> power 2 (k+1)) 1 i < ind_isum (fun k -> power 2 (k+1)) 0 i }
+    end
+  
+let  lemma power_decomp_one_ (i:int)
+       requires{i>= 1}
+       ensures{ind_isum (fun k -> power 2 k) 1 i < power 2 i }
+  =
+  if i = 1 then ()
+  else
+    begin
+      ind_isum_plus_one (fun k -> if (0<= k) then power 2 k else 1) 0 i;
+      power_decomp i;
+      assert{ind_isum (fun k -> power 2 k) 1 i < ind_isum (fun k -> power 2 k) 0 i }
+    end
+
+let lemma growing_mult(n m :int)
+      requires{0<= n}
+      requires{1<= m}
+      ensures{n*m >= n}
+  =()
+
+let lemma strict_growing_mult(n m :int)
+      requires{1< n}
+      requires{1< m}
+      ensures{n*m > n}
+  =()
+
+let lemma init_exp (k :int)
+      ensures{power k 0 = 1}
+      ensures{power k 1 = k}
+      ensures{power k 2 = k*k}
+  =()
+
+let rec lemma positive_int_exp (k n:int)
+          requires {1 <= k}
+          requires {0<= n}
+          ensures{power k n >= 1}
+          ensures  {power k n > 0 }
+          ensures{ power k n <= power k (n+1)}
+          variant{n}
+  =                               
+  if n= 0 then  () else
+    begin
+      assert { power k n >= k * (power k (n-1))};
+      positive_int_exp k (n-1)
+    end;
+  assert{power k (n+1) = power k n * k }
+
+let rec lemma strict_positive_int_exp (k n:int)
+          requires {1 < k}
+          requires {0< n}
+          ensures{power k n > 1}
+          ensures{ power k (n-1) < power k n}
+          ensures{ power k n < power k (n+1)}
+          variant{n}
+  =
+  if n= 0 then ()  else
+    begin
+      assert { power k n = k * (power k (n-1))};
+      positive_int_exp k (n-1)
+    end   
+
+      use int.EuclideanDivision
+  
+let rec lemma power_minus_one (i:int)
+          requires{0<=i}
+          ensures{mod i 2 = 0 -> power (-1) i = 1}
+          ensures{mod i 2 = 1 -> power (-1) i = -1}
+      variant{i}
+  = if i = 0 then ()
+    else power_minus_one (i-1)
+  
+let lemma growing_exp (k m n :int)
+      requires{1 <= k}
+      requires{0<= m <=n}
+      ensures{power k m <= power  k n}
+  = 
+  assert {power k n = power k (m + (n-m))};
+  assert {power k n = power k m * power k  (n-m)};
+  assert {power k m = power k m * 1}
+  
+let lemma strict_growing_exp (k:int)(m n :int)
+      requires{1 < k}
+      requires{0<= m<n}
+      ensures{power k m < power  k n}
+  = ()
+
+let lemma unicity_exp (k  m n :int)
+      requires{1 < k}
+      requires{0<= m}
+      requires{0<= n}
+      ensures{power k m = power k n <-> m=n}      
+  = ()
+
+let lemma bounded_sum_exp
+      (i j :int)(  m n :int)
+      requires{0<= m}
+      requires{0<= n}
+      requires{0<= i< power 2 m}
+      requires{0<=j< power 2 n}
+      ensures{(i * (power 2 n)) + j < power 2 (m+n)}      
+  = assert{i <= (power 2 m) - one};
+    assert{(i * (power 2 n)) <= ((power 2 m) - one)* power 2 n};
+    assert{(i * (power 2 n)) <= (power 2 (m+n)) - (power 2 n)};
+    assert{ j <=  (power 2 n) - one};
+    assert{(i * (power 2 n)) + j <= power 2 (m+n)- (power 2 n) + (power 2 n)- one}                                                                                           
+    
+end
+
+module Power_
+
+         use Int_Exponentiation
+         use  p_int.Int_comp
+         use  complex.Constant
+         use  fsum.Iterations
+         use  int.Int 
+         use  int.EuclideanDivision
+     
+let  function power_ (e i:int)  : int
+  = if i >= 0 then power e i else 0
+
+let lemma power_to_ ( i x:int)
+  requires{0<=x}
+  ensures{power i x = power_ i x}
+  =()
+  
+let lemma power_no_ ( i x:int)
+  requires{0<=x}
+  ensures{power_ i x = power i x}
+  =()
+  
+let lemma power__plus_one ( i x:int)
+  requires{0<=x}
+  ensures{power_ i (x+1) = power_ i x * i}
+  =()
+  
+
+let lemma power__eq ( e e' i i':int)
+  requires{e = e'}
+  requires{i = i'}
+  ensures{power_ e i = power_ e' i'}
+  =()
+  
+let  lemma power__sum (i x y :int)
+          requires{0<=x}
+         requires{0<=y} 
+         ensures{power_ i (x+y) =  power_ i x *     power_   i y}
+  = ()
+  
+let lemma power__sum_rev (i x y :int)
+          requires{0<=x}
+         requires{0<=y} 
+         ensures{power_ i x *     power_   i y =power_ i (x+y) }
+  = ()
+  
+let rec lemma power__mult (i x y :int)
+          requires{0<=x}
+         requires{0<=y} 
+         ensures{power_ i (x*y) =  power_ (power_ i x) y    }
+         variant{y}
+  = ()
+                                    
+      lemma Power_zero_ :forall i:int. power_ i 0 = 1
+lemma Power_one_ :forall i:int. power_ i 1 = i
+lemma Power_sum_ :  forall x y i:int.  0<=x -> y >= 0 ->
+    power_ i (x+y) =  power_ i x *     power_   i y
+lemma Power_mult_ :  forall x y i:int. x>= 0 ->y  >= 0 ->
+                                 power i (x*y) =  (power    (power   i x) y)
+                                                                            
+lemma Power_pos_ : forall i:int.i>=0 -> power_ i 0 >0
+lemma Power_pos_gen_ : forall i j:int.i>0 -> j >= 0 -> 0 < power_ i j
+
+lemma power_two_ : forall x:int. 0<= x -> power_ x 2 = x * x
+
+lemma power_plus_one_two : forall x:int. 0<= x -> power_ 2 (x+1) = power_ 2 x + power_ 2 x 
+
+let rec lemma growing_right_power_ (a b i:int)
+      requires{0<=i}
+      requires{0<= a <= b}
+      ensures{power_ a i <= power_ b i}
+      variant{i}
+  = if i = 0 then ()
+    else
+      begin
+        power__plus_one a (i-1);
+        power__plus_one b (i-1);
+        growing_right_power_ a b (i-1);
+      end
+  
+let rec lemma power_of_one_ (a b :int)
+      requires{0<=b}
+      requires{a = 1}
+      ensures{power_ a b =1}
+      variant{b}
+  = if b = 0 then ()
+    else
+      begin
+        power__plus_one a (b-1);
+        power_of_one_ a (b-1);
+      end
+  
+let lemma bound_power_ (i a k n:int)
+      requires{0< a}
+      requires{0< k<=n}
+      requires{0<=i < power_ a n}
+      ensures{div i (power_ a (n-k)) < power_ a k}
+  =
+  assert{mod i (power_ a (n-k)) < power_ a (n-k)};
+  assert{i < (power_ a (n-k)) *  power_ a k}
+  
+let lemma power_inf ( a n n':int)
+      requires{1< a}
+      requires{0< n<n'}
+      ensures{power_  a n < power_ a n'}
+  =()
+  
+let lemma power_leq ( a n n':int)
+      requires{0<= a}
+      requires{0< n<=n'}
+      ensures{power_  a n <= power_ a n'}
+  =()
+  
+let lemma power_rises ( a n :int)
+      requires{1< a}
+      requires {1 < n}
+      ensures{a < power_ a n}
+  = power_inf a 1 n
+  
+let rec lemma int_expo_rises ( a n :int)
+      requires{1< a}
+      requires {1 <= n}
+      ensures{n < power_ a n}
+      variant{n}
+  =
+  if n = 1 then ()
+  else begin
+      int_expo_rises a (n-1);
+      assert {n+1 < (power a n) +1 < (power a n) + (power a n)<=  a* (power a n)= power a  (n+1)} ;
+    end
+  
+let lemma bound_power_2 (i   n:int)
+      requires{0<= n}
+      requires{0<=i < power_ 2 (n+1)}
+      ensures{div i (power_ 2 n) < 2}
+  =()
+  
+let function polysquare n a2 a1 a0:int
+           requires{0<n}
+           requires{0<=a2}
+           requires{0<=a1}
+           requires{0<=a0}
+           ensures{0<=result}
+  = a2 * (power_ n 2) + (a1 * n) + a0
+
+
+let lemma polysquare_leq_trans (n a2 a1 a0 b2 b1 b0 pa pb ps :int)
+           requires{0<n}
+           requires{0<=a2}
+           requires{0<=a1}
+           requires{0<=a0}
+           requires{0<=b2}
+           requires{0<=b1}
+           requires{0<=b0}
+           requires{pa <= polysquare n a2 a1 a0}
+           requires{pb <= polysquare n b2 b1 b0}
+           requires{ps <= pa + pb}
+           ensures{ps <= polysquare n (a2 + b2) (a1 + b1) (a0 + b0)}
+           =()
+
+let lemma polysquare_leq_trans_sc (n a2 a1 a0 b2 b1 b0 pa sc ps :int)
+           requires{0<n}
+           requires{0<=a2}
+           requires{0<=a1}
+           requires{0<=a0}
+           requires{0<=sc}
+           requires{sc*a2<=b2}
+           requires{sc*a1<=b1}
+           requires{sc*a0<=b0}
+           requires{pa <= polysquare n a2 a1 a0}
+           requires{ps <= sc*pa}
+           ensures{ps <= polysquare n b2 b1 b0}
+           = leq_trans ps (sc*pa) (sc*polysquare n a2 a1 a0);
+             leq_trans ps  (sc*polysquare n a2 a1 a0) (polysquare n b2 b1 b0)
+
+let lemma polysquare_update (na nb a2 a1 a0 pa  :int)
+           requires{0<na <= nb}
+           requires{0<=a2}
+           requires{0<=a1}
+           requires{0<=a0}
+           requires{pa<=polysquare na a2 a1 a0}
+           ensures{pa<=polysquare nb a2 a1 a0}
+           = leq_trans pa (polysquare na a2 a1 a0) (polysquare nb a2 a1 a0)
+
+
+let rec lemma power__minus_one (i:int)
+          requires{0<=i}
+      ensures{mod i 2 = 1 -> power_ (-1) i = -1}
+      ensures{mod  i 2 = 0 -> power_ (-1) i = 1}
+      variant{i}
+  =  if i = 0 then ()
+     else
+       power_minus_one (i-1)
+     
+   
+end     
+
+     
+module Complex_Exponentiation
+         use  complex.Complex
+         use  int.Int 
+         use  complex_operations.Base_type
+         use  complex.Constant
+         use  complex_operations.FromInt
+         use  fsum.Iterations
+         use  fsum.Int_iter
+         use  p_int.Abs
+        
+val  function cpower complex int: complex
+
+axiom Cpower_zero :forall i:complex. cpower i 0 = c_one
+axiom Cpower_one :forall i:complex. cpower i 1 = i
+                                                                            
+axiom Cpower_sum :forall i :complex. forall n m:int. (i = c_zero -> n<> -m) -> cpower i (n+m) =  cpower i n *. cpower i m 
+
+axiom zero_poower: forall e:int. e<> 0 -> cpower c_zero e = c_zero
+
+lemma cpower_ttwo_two : cpower ttwo 2 = i_to_c 4
+                                          
+let constant  squarert_two : complex = square_rt ttwo                                                                
+lemma real_squarert_two: real_ squarert_two
+lemma squarertTwo : cpower squarert_two 2 = ttwo  
+
+let lemma complete_rt_two (a:complex)
+      requires{a = squarert_two/. ttwo}
+      ensures{squarert_two *. a = c_one}
+  =()
+                                          
+let lemma cpower_sum (x:complex) (n m :int)
+      requires{x = c_zero -> n<> -m}
+          ensures{cpower x (n+m) = cpower x n *. cpower x m}
+  = ()
+
+let lemma cpower_one (x:complex) (n :int)
+      requires{n = 1}
+          ensures{    cpower x n = x}
+  = ()
+
+      
+let lemma cpower_two (x:complex) (n :int)
+      requires{n = 2}
+          ensures{    cpower x n = x *. x}
+  = ()
+
+let lemma cpower_two_rev (x:complex) (n :int)
+          ensures{x *. x =     cpower x 2}
+  = ()
+
+let lemma cpower_sum_rev (x:complex) (n m :int)
+      requires{x = c_zero -> n<> -m}
+          ensures{cpower x n *. cpower x m =     cpower x (n+m)}
+  = ()
+
+  
+let lemma cpower_plus_one (e:complex) ( i:int)
+      requires{e = c_zero -> i <> -1}
+      ensures{cpower e (i+1) = cpower e i *. e}
+  = cpower_sum e i 1
+  
+let lemma cpower_zero (e:complex) 
+      ensures{cpower e 0  = c_one}
+  = () 
+
+let lemma cpower_eq (e e':complex) (i i':int) 
+      requires{e = e'}
+      requires{i= i'}
+      ensures{cpower e i  = cpower e' i'}
+  = () 
+
+let lemma cpower_inv (e:complex) ( i:int)
+      requires{e<> c_zero}
+      ensures{cpower e i *. cpower e (-i) = c_one}
+  =()
+
+
+let rec lemma compat_cpower_leq  (a b:complex)(i:int)
+      requires{c_zero<=. a <=.b}
+      requires{0<= i}
+      ensures{c_zero <=. cpower a i <=. cpower b i}
+      variant{i}
+  = if i = 0 then ()
+    else
+      begin
+        assert{0<i};
+      compat_cpower_leq a b (i-1)
+      end
+      
+let lemma cpower_inv_rew (e:complex) ( i:int)
+      requires{e<> c_zero}
+      ensures{cpower e i  = c_one /.  cpower e (-i)}
+  =()
+
+let lemma inv_cpower (e:complex) ( i:int)
+      requires{cpower e i <> c_zero}
+      ensures{c_one /. (cpower e i)  = cpower e (-i)}
+  = ()
+
+let rec lemma cpower_div (x y:complex) (n :int)
+      requires{0<=n}
+      requires{y<>c_zero}
+      ensures{cpower (x/.y) n  = (cpower x n) /. (cpower y n)}
+      variant{n}
+  = if n = 0 then ()
+    else
+      begin
+        assert{0<n};
+        cpower_div x y (n-1)
+      end
+  
+let lemma cpower_div_rev (x y:complex) (n :int)
+      requires{0<=n}
+      requires{y<>c_zero}
+      ensures{ (cpower x n) /. (cpower y n) = cpower (x/.y) n }
+  = ()
+
+let lemma cpower_pi_bound_square_inv  ()
+      ensures{i_to_c 4 /. cpower pi 2 <=. c_one}
+  =()
+
+  
+let rec lemma cpower_mult_split (x y:complex)(m:int)
+      requires{0<=m}
+  ensures{cpower (x*. y) m = cpower x m *. cpower y m}
+variant{m}
+  = if m = 0 then ()
+    else
+      begin
+        assert{0<m};
+        cpower_mult_split x y (m-1)
+        end
+
+let lemma not_cpower_zero (e:complex) ( i:int)
+      requires{ e <> c_zero}
+      ensures{cpower e i  <> c_zero}
+  = ()
+  
+let lemma cpower_inv_out (x y:complex)
+      requires{c_zero <. y}
+  ensures{cpower ( (c_one/. (square_rt y)) *. x) 2  *. y =  cpower x 2}
+  =()
+
+     use Power_
+
+
+let lemma squarert_inv (x:complex)
+      requires{c_zero <. x}
+      ensures{c_one /. (square_rt x) = square_rt (c_one /. x)}
+  =()
+  
+let lemma squarert_inv_rev (x:complex)
+      requires{c_zero <. x}
+      ensures{square_rt (c_one /. x) = c_one /. (square_rt x)}
+  =()
+  
+let rec lemma cpower_squarert_two (i:int)
+      requires{0<=i}
+      ensures{cpower squarert_two i = square_rt (i_to_c (power_ 2 i))}
+      variant{i}
+  = if i = 0 then ()
+    else
+      begin
+        assert{ i = i-1 +1};
+        cpower_squarert_two (i-1);
+      end
+
+  
+let lemma cpower_square_rt_raise (x y:complex)
+      requires{c_zero <. y}
+  ensures{cpower ( (x /. (square_rt y))) 2   =  cpower x 2 *. c_one /. y}
+  =()
+
+
+let lemma cpower_subst (x:complex) (n m :int)
+      requires{x <> c_zero}
+          ensures{(c_one /. cpower x (n)) *. cpower x m = cpower x (m-n)}
+  = ()
+
+
+  
+let rec lemma cpower_c_one_pos (m:int) 
+          requires{m >= 0}
+          ensures{cpower c_one m = c_one }
+          variant{m}
+  = if (m = 0) then ()
+    else begin
+        cpower_plus_one c_one (m-1);
+        cpower_c_one_pos (m-1);
+      end
+
+let rec lemma mult_cpower (x x':complex) (i:int)
+          requires{0<= i}
+          ensures{cpower x i *. cpower x' i = cpower (x*.x') i}
+          variant{i}
+  = if i= 0
+    then
+      begin cpower_zero x; cpower_zero x'; cpower_zero (x *. x'); end
+    else
+      begin
+        cpower_plus_one x (i-1);
+        cpower_plus_one x' (i-1);
+        cpower_plus_one (x*.x') (i-1);
+        mult_cpower x x' (i-1);
+      end
+        
+let  lemma mult_cpower_rev (x x':complex) (i:int)
+          requires{0<= i}
+          ensures{cpower (x*.x') i = cpower x i *. cpower x' i}
+  = mult_cpower x x' i        
+  
+let rec lemma cpower_iterate (e:complex) ( i:int) 
+          requires{0<= i}
+          ensures{cpower e i = int_iterate ( *.) (const e) 0 i }
+          variant{i}
+  = if (i = 0) then ()
+    else begin
+        int_iterate_right_extension ( *.) (const e) 0 i;
+        cpower_plus_one e (i-1);
+        cpower_iterate e (i-1);
+      end  
+  
+let rec lemma cpower_modulus (x:complex) (n:int)
+          requires{0<=n}
+          ensures{modulus (cpower x n) = (cpower (modulus x) n)}
+      ensures{n >0 ->modulus x <. c_one -> modulus (cpower x n) <. c_one}
+      ensures{ n > 0 ->modulus x = c_one -> modulus (cpower x n) = c_one}
+      ensures{ n > 0 ->modulus x >. c_one -> modulus (cpower x n) >. c_one}
+      ensures{n >0 ->modulus (cpower x n) <. c_one -> modulus x <. c_one  }
+      ensures{ n > 0 -> modulus (cpower x n) = c_one -> modulus x = c_one }
+      ensures{ n > 0 -> modulus (cpower x n) >. c_one -> modulus x >. c_one }
+      variant{n}
+  = if n = 0 then ()
+    else
+      begin
+                cpower_plus_one x (n-1);
+                mult_modulus (cpower x (n-1)) x;
+                  cpower_modulus x (n-1)
+                end
+
+let rec lemma cpower_mult_pre (x:complex) (n m :int)
+          requires{0<=m}
+          (* requires{0<=n} *)
+          ensures{    cpower x (n*m) = cpower (cpower x n ) m}
+          variant{m}
+  =
+  if (n= 0) then assert{cpower x (n*m) = c_one = cpower (cpower x n ) m}
+  else
+    if (m = 0) then assert{cpower x (n*m) = c_one = cpower (cpower x n ) m}
+    else
+      begin
+        cpower_sum x (n* (m-1)) n;
+        cpower_mult_pre x n (m-1);
+      end
+
+let  lemma cpower_mult (x:complex) (n m :int)
+          (* requires{0<=m} *)
+          (* requires{0<=n} *)
+          ensures{    cpower x (n*m) = cpower (cpower x n ) m}
+  = if (0<=m) then cpower_mult_pre x n m
+                     else cpower_mult_pre x n (-m)
+
+let  lemma cpower_mult_rev (x:complex) (n m :int)
+          (* requires{0<=m} *)
+          (* requires{0<=n} *)
+          ensures{    cpower (cpower x n ) m = cpower x (n*m)}
+  = ()
+  
+let rec lemma non_zero_cpower_pos (i:complex) ( n:int) 
+          requires{i <> c_zero}
+          ensures{cpower i n <> c_zero}
+          requires{n >= 0}
+          variant{n}
+  =      if n = 0 then ()
+         else
+           begin
+             cpower_plus_one i (n-1);
+             non_zero_cpower_pos i (n-1);
+           end
+
+let lemma inv_cpower_ (e:complex) ( i:int)
+      requires{ e <> c_zero}
+      ensures{c_one /. (cpower e i)  = cpower e (-i)}
+  =inv_cpower e i;
+   if (i > 0) then non_zero_cpower_pos e i
+else non_zero_cpower_pos e (-i)
+       
+let rec lemma zero_cpower_pos  ( n:int) 
+          requires{n > 0}
+          ensures{cpower c_zero n = c_zero}
+          variant{n}
+  =      if n = 1 then ()
+         else
+           begin
+             cpower_plus_one c_zero (n-1);
+             zero_cpower_pos  (n-1);
+           end
+       
+let  lemma zero_cpower  ( n:int) 
+       requires{n <> 0}
+       ensures{cpower c_zero n = c_zero}
+  =   if (n >= 0) then zero_cpower_pos  n
+      else zero_cpower_pos  (abs n)
+    
+let  lemma non_zero_cpower (i:complex) ( n:int) 
+       requires{i <> c_zero}
+       ensures{cpower i n <> c_zero}
+  =   if (n >= 0) then non_zero_cpower_pos i n
+      else non_zero_cpower_pos i (abs n)
+    
+let rec lemma real_cpower_pos (elt:complex) ( i:int)
+          requires{real_ elt}
+          requires{0<= i}
+          ensures{real_ (cpower elt i)}
+          variant{i}
+  = if (eq_t elt  c_zero) then if (i = 0) then () else zero_cpower i
+    else
+      if (i = 0) then ()
+      else
+        begin
+          cpower_plus_one elt i;
+          real_cpower_pos elt (i-1);
+          mult_real_real  (cpower elt (i-1)) elt;
+        end
+
+          use  complex.P_real
+  
+let  lemma real_cpower (elt:complex) ( i:int)
+       requires{real_ elt}
+       ensures{real_ (cpower elt i)}
+  = if teq elt  c_zero then ()
+    else
+      begin
+        if (i >=  0) then cpower_inv elt i
+        else
+          begin
+            real_cpower_pos elt (abs i);
+            non_zero_cpower elt (abs i);
+            decomp_mult_im_part (c_one /. (cpower elt (abs i)))  (cpower elt (abs i))   ;
+            assert{im_part ((c_one /. (cpower elt (abs i))) *. (cpower elt (abs i))) = real_part (cpower elt (abs i)) ** im_part (c_one /. (cpower elt (abs i)))};
+          end
+      end
+
+let rec lemma real_cpower_is_pos (elt:complex) ( i:int)
+          requires{real_ elt}
+          requires{c_zero <=. elt}
+          requires{0<= i}
+          ensures{c_zero <=. cpower elt i }
+      variant{i}
+  = if i = 0 then ()
+    else
+      begin
+        assert{0<i};
+      real_cpower_is_pos elt (i-1)
+      end
+
+let rec lemma real_cpower_is_strict_pos (elt:complex) ( i:int)
+          requires{real_ elt}
+          requires{c_zero <. elt}
+          requires{0<= i}
+          ensures{c_zero <. cpower elt i }
+      variant{i}
+  = if i = 0 then ()
+    else
+      begin
+        assert{0<i};
+        real_cpower_is_strict_pos elt (i-1)
+      end
+
+
+  
+let lemma real_modulus_square (x:complex)
+      requires{real_ x}
+      ensures{cpower (modulus x) 2 = cpower x 2}
+  =()
+
+  
+let lemma real_modulus_pos (x:complex)
+      requires{real_ x}
+      requires{x>=. c_zero}
+      ensures{modulus x = x }
+  =()
+
+  use complex_operations.Conjugate
+
+let lemma inv_rewrite (x :complex)
+      requires{x <> c_zero}
+      ensures{c_one/.x = conjugate x /. cpower (modulus x) 2}
+      ensures{c_one/.x = conjugate x *. (c_one /. cpower (modulus x) 2)}
+  =
+  assert{c_one/. x = conjugate x /. (conjugate x) /. x}
+
+  
+let lemma inv_modulus (x :complex)
+      requires{x <> c_zero}
+      ensures{modulus (c_one/.x) = c_one /. modulus x}
+  =
+  assert{c_one /. x = conjugate x /. (x *. conjugate x)}
+
+let lemma div_modulus (x y:complex)
+      requires{x <> c_zero}
+      ensures{modulus (y/.x) = (modulus y) /. (modulus x)}
+  =
+  assert{modulus (y/.x) = modulus y *. modulus (c_one /.x) = modulus y *. c_one /. (modulus x)}
+
+let lemma square_frac_modulus (x y:complex)
+      requires{y<> c_zero}
+  ensures{cpower (modulus (x /. y)) 2 =  (cpower (modulus x) 2) /. (cpower (modulus y) 2)}
+  =()
+
+     let lemma modulus_one_decomp (k n:int)
+           requires{0<= k < power_ 2 n}
+           ensures{modulus
+                     ((square_rt (i_to_c (power_ 2 n - k)) /. square_rt (i_to_c (power_ 2 n)))
+                      +. (im *. (square_rt (i_to_c k) /. square_rt (i_to_c (power_ 2 n)))))
+                   = c_one}
+       =()
+       
+     let lemma modulus_one_decomp_add (k n:int)
+           requires{0<= k < power_ 2 n}
+           ensures{modulus
+                     ((square_rt (i_to_c (power_ 2 n - k)) /. square_rt (i_to_c (power_ 2 n))))
+                      +. modulus ( (square_rt (i_to_c k) /. square_rt (i_to_c (power_ 2 n))))
+                   = c_one}
+       =()
+       
+(* let lemma square_frac_modulus (x y:complex)
+ *       requires{y<> c_zero}
+ *       requires{cpower (modulus (x/y)) 2 }
+ *       ensures{cpower (modulus (x /. y)) 2 =  (cpower (modulus x) 2) /. (cpower (modulus y) 2)}
+ *   =() *)
+  
+let lemma extract_2_sq_modulus (x y a:complex)
+      requires{a<> c_zero}
+      requires{y<> c_zero}
+  ensures{(cpower (modulus x) 2) /. (cpower (modulus y) 2) = (a*.  (cpower (modulus ( x)) 2)) /. (a*. (cpower (modulus (  y)) 2))  }
+  =()
+  
+let lemma cpower_2_modulus_simpl (x y z:complex)
+      requires{x<> c_zero}
+      requires{y<> c_zero}
+      requires{z<> c_zero}
+  ensures{(cpower (modulus (x *. y)) 2) /. (cpower (modulus (z *. y)) 2) =  (cpower (modulus x ) 2) /. (cpower (modulus z ) 2)}
+  =()
+
+let rec lemma cpower_div_leq_one (a b:complex)(i:int)
+      requires{c_zero<=.a<=.b}
+      requires{c_zero<.b}
+      requires{0<= i}
+      ensures{c_zero <=. cpower a i /. cpower b i <=.c_one}
+      variant{i}
+  = if i = 0 then ()
+    else begin
+ cpower_div  a b i;
+ cpower_div  a b (i-1);
+cpower_plus_one a (i-1);
+cpower_plus_one b (i-1);
+cpower_plus_one (a/.b) (i-1);
+ cpower_div_leq_one a b (i-1);
+      end
+
+  
+let lemma cpower_cpower (x:complex) (a b: int)
+  ensures{cpower (cpower x a) b = cpower x (a*b)}
+  =()
+  
+let lemma pre_cond_int_ (a b c :complex)
+      requires{a <. b}
+      requires{c_zero <. c}
+      ensures{a*. c <. b*. c}
+  =
+  assert{real_ a};
+  assert{real_ b};
+  assert{real_ c};
+  mult_real_real a c;
+  mult_real_real b c
+
+let lemma growing_mult(n m :complex)
+      requires{c_zero<=. n}
+      requires{c_one <=. m}
+      ensures{n <=. n*. m }
+  =()
+
+let lemma strict_growing_mult_pos(n m :complex)
+      requires{c_one<. n}
+      requires{c_one<. m}
+      ensures{ n <. n *. m}
+  = ()
+
+let lemma init_exp (k :complex)
+      ensures{cpower k 0 = c_one}
+      ensures{cpower k 1 = k}
+      ensures{cpower k 2 = k*.k}
+  =()
+
+let rec lemma int_exp_pos (k : complex )(n:int)
+          requires {c_one <=. k}
+          requires {0<= n}
+          ensures{cpower k n >=. c_one}
+          ensures  {cpower k n >. c_zero }
+          ensures{ cpower k n <=. cpower k (n+1)}
+          variant{n}
+  =                               
+  if n= 0 then  () else
+    begin
+      real_cpower k n;
+      assert { cpower k n >=. k *. (cpower k (n-1))};
+      int_exp_pos k (n-1)
+    end;
+  assert{cpower k (n+1) = cpower k n *. k }
+  
+let rec lemma strict_int_exp_pos (k:complex) ( n:int)
+          requires {c_one <. k}
+          requires {0< n}
+          ensures{cpower k n >. c_one}
+          ensures{ cpower k (n-1) <. cpower k n}
+          ensures{ cpower k n <. cpower k (n+1)}
+          variant{n}
+  =
+  int_exp_pos k (n-1)
+
+let  lemma strict_int_exp_neg (k:complex) ( n:int)
+       requires {c_one <. k}
+       requires {n < 0}
+       ensures{cpower k n <. c_one}
+       ensures{ cpower k (n-1) <. cpower k n}
+       ensures{ cpower k n <. cpower k (n+1)}
+  = cpower_inv k n;
+    cpower_inv k (n+1)
+    
+let lemma int_exp_neg (k : complex )(n:int)
+      requires {c_one <=. k}
+      requires {n< 0}
+      ensures{cpower k n <=. c_one}
+      ensures  {cpower k n >. c_zero }
+      ensures{ cpower k n <=. cpower k (n+1)}
+  = 
+  int_exp_pos k (abs n);
+  inv_pos (cpower k (abs n))
+  
+    
+let lemma positive_exp (k:complex)(m )
+      requires{c_one <=. k}
+      ensures{c_zero <. cpower  k m}
+  =
+  if (k <. c_one) then
+    if (m >= 0) then int_exp_pos k m
+    else strict_int_exp_neg k m
+  else ()
+
+  let lemma growing_exp_pos (k:complex)( m n :int)
+      requires{c_one <=. k}
+      requires{0<= m <=n}
+      ensures{cpower k m <=. cpower  k n}
+  = 
+  assert {cpower k n = cpower k (m + (n-m))};
+  assert {cpower k n = cpower k m *. cpower k  (n-m)};
+  assert {cpower k m = cpower k m *. c_one}
+
+let lemma growing_exp (k:complex)( m n :int)
+      requires{c_one <=. k}
+      requires{ m <=n}
+      ensures{cpower k m <=. cpower  k n}
+  = if (c_one <. k) then
+      if (0 <= m ) then
+        growing_exp_pos k m n
+      else
+        if (n <= 0)
+        then
+          begin
+            growing_exp_pos k (abs n) (abs m);
+            inv_eqsup   (cpower k (abs m))  (cpower k (abs n));
+          end
+        else
+          begin
+            strict_int_exp_neg k m;
+            int_exp_pos k n;
+          end
+    else ()
+
+let lemma growing_exp_arg (k k':complex)(  n :int)
+      requires{c_zero <=. k<=. k'}
+      requires{ 0 <=n}
+      ensures{cpower k n <=. cpower  k' n}
+  = ()
+  
+let lemma strict_growing_exp (k:complex)(m n :int)
+      requires{c_one <. k}
+      requires{ m <n}
+      ensures{cpower k m <. cpower  k n}
+  = strict_int_exp_pos k (n-m);
+    cpower_sum k m (n-m)
+
+let  rec lemma cpower_comm_pos (x y : complex) (n:int)
+           requires{c_one <=. x}
+           requires{c_one <=. y}
+           requires{0<=n}
+           ensures{  cpower (x *. y) n = cpower x n *. cpower y n}
+           variant{n}
+  = if n = 0 then ()
+    else
+      begin
+        cpower_plus_one x (n-1);
+        cpower_plus_one (x*. y) (n-1);
+        cpower_plus_one y (n-1);
+        cpower_comm_pos x y (n-1);
+      end
+
+let  lemma cpower_comm (x y : complex) (n:int)
+       requires{c_one <=. x}
+       requires{c_one <=. y}
+       ensures{  cpower (x *. y) n = cpower x n *. cpower y n}
+  =   if (0<= n) then
+        cpower_comm_pos x y n
+      else
+        begin
+          inv_mult (cpower x (abs n)) (cpower y (abs n));
+          cpower_comm_pos x y (abs n);
+        end
+
+      
+    
+let lemma unicity_exp
+      (k:complex)(m n :int)
+      requires{c_one <. k}
+      ensures{cpower k m = cpower k n <-> m=n}      
+  =
+  if (m < n) then strict_growing_exp k m n
+  else   if (n < m) then strict_growing_exp k n m
+  else assert{m = n}
+
+         use Power_
+  
+let rec lemma cpower_i_to_c (a:int) (b:int)
+      requires{0<=b}
+      ensures{i_to_c (power_ a b ) = cpower (i_to_c a) b}
+      variant{b}
+  = if b = 0 then ()
+    else
+      begin
+      cpower_plus_one (i_to_c a) (b-1);
+    power__plus_one a (b-1);
+    cpower_i_to_c a (b-1);
+    end
+         
+let lemma cpower_i_to_c_rev (a:int) (b:int)
+      requires{0<=b}
+      ensures{cpower (i_to_c a) b = i_to_c (power_ a b )}
+              =()
+         
+use p_set.IndexestoSet
+
+let rec lemma geometric_series (a q:complex) (n:int)
+          requires{1<=n}
+          requires{c_one <> q}
+          ensures{sum (to_fset 0 n) (fun i -> a*. (cpower q i)) = a*. (c_one -. cpower q n)/. (c_one -. q)}
+      variant{n}
+  = if n = 1 then ()
+    else
+      begin
+      geometric_series  a q (n-1);
+      sum_add (to_fset 0 (n-1)) (fun i -> a*. (cpower q i)) (n-1);
+      assert{sum (to_fset 0 n) (fun i -> a*. (cpower q i)) =
+               a*. (c_one -. cpower q (n-1))/. (c_one -. q) +. a*. cpower q (n-1)}; 
+      assert{a*. cpower q (n-1) = a*. ((c_one-.q) *.cpower q (n-1))  /.(c_one -.q) };
+      assert{(c_one-.q) *.cpower q (n-1) = cpower q (n-1) -. cpower q n};
+      end
+  
+let rec lemma ind_geometric_series_r (a q:complex) (n:int)
+          requires{n>=1}
+          requires{c_one <> q}
+          ensures{ind_sum  (fun i -> a*. (cpower q i))  0 n  = a*. (c_one -. cpower q n)/. (c_one -. q)}
+  =()
+  
+let rec lemma ind_geometric_series (q:complex) (n:int)
+          requires{n>=1}
+          requires{c_one <> q}
+          ensures{ind_sum  (fun i ->  (cpower q i))  0 n  =  (c_one -. cpower q n)/. (c_one -. q)}
+  = ind_geometric_series_r c_one q n
+  
+let rec lemma geometric_series_init_one (q :complex) (n:int)
+          requires{n>=1}
+          requires{c_one <> q}
+          ensures{sum (to_fset 0 n) (fun i -> cpower q i) =  (c_one -. cpower q n)/. (c_one -. q)}
+      variant{n}
+  = geometric_series c_one q n
+
+let rec lemma geometric_series_c_one (a q:complex) (n:int)
+          requires{1<=n}
+          requires{q= c_one}
+          ensures{sum (to_fset 0 n) (fun i -> a*. (cpower q i)) = a*. (i_to_c n)}
+      variant{n}
+  = if n = 1 then ()
+    else
+      geometric_series_c_one  a q (n-1)
+
+let  lemma geometric_series_c_one_init_one (a q:complex) (n:int)
+          requires{1<=n}
+          requires{q= c_one}
+          ensures{sum (to_fset 0 n) (fun i ->  (cpower q i)) = i_to_c n}
+  =   geometric_series_c_one  c_one q n
+
+
+  
+let lemma positive_cpower_2 (x:complex)
+      requires{real_ x}
+      requires{c_zero <> x}
+      ensures{c_zero <. cpower x 2}
+  =
+  if c_zero <. x then ()
+  else ()
+  
+let lemma positive_cpower_2_mod (x:complex)
+      ensures{c_zero <=. cpower (modulus x) 2}
+  =()
+  
+let lemma cpower_2_mod_non_null (x:complex)
+      requires{x<> c_zero}
+      ensures{c_zero <. cpower (modulus x) 2}
+  =()
+  
+let lemma cpower_2_mod_mult_non_null (x y:complex)
+      requires{x<> c_zero}
+      requires{y<> c_zero}
+      ensures{c_zero <. cpower (modulus x) 2}
+  =()
+  
+let lemma growing_cpower_2 (x y:complex)
+      requires{c_zero <=.  x <=. y}
+      ensures{cpower x 2 <=. cpower y 2}
+  =()
+use Int_Exponentiation
+use Power_
+  
+let lemma cpower_incr_power_2 (k:int)
+      requires{0<= k}
+      ensures{cpower (i_to_c (power_ 2 k)) 2 = (i_to_c (power_ 2 (2 *k)))}
+  =()
+
+let lemma cpower_modulus_incr_power_2 (k:int)
+      requires{0<= k}
+      ensures{cpower (modulus (i_to_c (power_ 2 k))) 2 =  i_to_c ( (power_ 2 (2 *k)))}
+  =()
+
+let lemma cpower_modulus_supeq (x y :complex) (i:int)
+      requires{i>=1}
+      requires{modulus x >=. modulus y}
+      ensures{cpower (modulus x) i >=. cpower (modulus y) i}
+  =()
+
+let lemma cpower_modulus_div_simpl (x y z:complex) (i:int)
+      requires{i>=1}
+      requires{c_zero <=. x}
+      requires{c_zero <. y}
+      requires{c_zero <. z}
+      ensures{cpower x i /. cpower y i = cpower (modulus (x*.z)) i /. cpower (modulus (y*.z)) i}
+  = assert{cpower x i /. cpower y i = cpower (x/.y) i};
+    assert{cpower (modulus (x*.z)) i /. cpower (modulus (y*.z)) i = cpower ((modulus (x*.z))  /.(modulus (y*.z))  ) i
+           = cpower (modulus ((x*.z)/.(y*.z))) i = modulus (cpower ((x*.z)/.(y*.z)) i)};
+    assert{cpower ((x*.z)/.(y*.z)) i = cpower ((x/.y) *. (z/.z))i = cpower (x/.y) i }
+
+
+  
+let lemma cpower_two_modulus_div_simpl (x y z:complex) 
+      requires{real_ x}
+      requires{real_ y}
+      requires{real_ z}
+      requires{c_zero <> y}
+      requires{c_zero <> z}
+      ensures{cpower x 2 /. cpower y 2 = cpower (modulus (x*.z)) 2 /. cpower (modulus (y*.z)) 2}
+  = let absx
+      = if c_zero <=. x then x else (-.x) ensures{c_zero <=. result} ensures{cpower result 2 = cpower x 2} ensures{modulus result = modulus x}
+    in let absy
+         = if c_zero <. y then y else (-.y) ensures{c_zero <. result} ensures{cpower result 2 = cpower y 2} ensures{modulus result = modulus y}
+       in let absz
+            = if c_zero <. z then z else (-.z)  ensures{c_zero <. result} ensures{modulus result = modulus z}
+          in     cpower_modulus_div_simpl absx absy absz 2
+
+  
+end
+     
+module Complex_exp
+         use  complex.P_real
+         use  complex.Complex
+         use  int.Int
+         use  complex_operations.Im_re
+         use  complex_operations.FromInt
+         use  Complex_Exponentiation
+
+     
+val function exp complex :complex
+constant e : complex = exp c_one
+
+axiom e_mod : forall x:complex.  modulus (exp x) = c_one
+lemma e_diff_c_zero : forall x:complex.  exp x <> c_zero
+
+axiom Exp_one : real_ (exp c_one)
+axiom Exp_zero : exp c_zero  = c_one
+axiom Exp_sum : forall  x y:complex. exp (x+.y) = exp x *. exp y
+lemma exp_one : real_ e
+
+axiom Exp_quarter_pi : exp  (im *. pi /. (i_to_c 4))  = ( squarert_two /. ttwo) +. (im *. ( squarert_two /. ttwo))                                            
+
+               
+let lemma exp_sum ( x y:complex)
+      ensures{exp (x+.y) = exp x *. exp y}
+  =()  
+
+let lemma exp_eq (t1 t2:complex)
+      requires{t1 =t2}
+      ensures{exp t1 =exp t2}
+  =()
+  
+let lemma exp_sum_rev ( x y:complex)
+      ensures{ exp x *. exp y = exp (x+.y)}
+  =()  
+  
+let lemma exp_inv  (i:complex)
+      requires{exp i <> c_zero}
+      ensures{exp (-.i) = c_one /. (exp i) }
+  = exp_sum  (-.i) i
+
+let lemma exp_inv_rev  (i:complex)
+      requires{exp i <> c_zero}
+      ensures{ c_one /. (exp i) = exp (-.i) }
+  = exp_sum  (-.i) i
+
+let rec lemma exp_mult_pre ( x :complex) (y:int)
+          requires{y >=0}
+          ensures{exp  (x*.(i_to_c y)) = cpower (exp x) y}
+          variant{y}
+  = if (y = 0) then ()
+    else begin
+        assert{x*.(i_to_c y) = x *. (i_to_c (y-1)) +. x};
+        exp_sum (x *. (i_to_c (y-1))) x;
+        exp_mult_pre x (y-1);
+        cpower_plus_one (exp x) (y-1);
+      end
+           
+let rec lemma exp_mult ( x :complex) (y:int)
+          ensures{exp  (x*.(i_to_c y)) = cpower (exp x) y}
+  = if (teq x  c_zero) then ()
+    else
+      begin
+        if (y >= 0) then exp_mult_pre x y
+        else exp_mult_pre x (-y)
+      end
+  
+let lemma cpower_to_exp ( x :complex) (y:int)
+      ensures{cpower (exp x) y = exp  (x*.(i_to_c y)) }
+=()
+      
+
+let lemma exp_h_pi()
+      ensures{exp  (im *. pi /. ttwo)  = im}
+  =
+  assert{(im *. pi /. ttwo) = ttwo *.(im *. pi /. (i_to_c 4))};
+  exp_mult  (im *. pi /. (i_to_c 4)) 2
+
+let  constant two_pi_i = (im *. pi *. ttwo)               
+                            
+let lemma exp_pi ()
+      ensures{exp (im *. pi)  = -. c_one}
+  = exp_mult  two_pi_i 2
+  
+let lemma exp_two_pi ()
+      ensures{exp two_pi_i  =  c_one}
+  = exp_mult  (im *. pi) 2
+  
+let lemma exp_two_pi_mul (k:int)
+      ensures{exp ((i_to_c k) *.two_pi_i)  =  c_one}
+  = exp_mult  two_pi_i k
+
+let lemma exp_two_pi_mul_den (k l:int)
+      requires{k<>0}
+      ensures{exp (((i_to_c (k*l)) *. two_pi_i) /. (i_to_c k) )  =  c_one}
+  = i_to_c_nzero k;
+    if (l = 0) then ()
+    else exp_mult  two_pi_i l
+
+let lemma exp_two_pi_mul_den_add (k l m:int) 
+      (* requires{k* m >= 0} *)
+      ensures{exp (((i_to_c (k *m +l )) *. two_pi_i))  =  exp ((i_to_c l) *. two_pi_i)}
+  = exp_sum  ((i_to_c (k*m)) *. two_pi_i) ((i_to_c l) *. two_pi_i);
+    exp_two_pi_mul (k * m) 
+end                        

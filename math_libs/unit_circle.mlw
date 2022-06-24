@@ -1,0 +1,1873 @@
+
+module Angle
+         use  complex.Complex
+         use int.Int
+         use  exponentiation.Power_
+         use exponentiation.Complex_exp
+
+type angle
+       
+val function ang_inv angle:angle
+val function ang_add angle angle:angle   
+val function ang_meas (o:angle): complex
+           ensures{c_zero <=. result <. c_one}
+
+let lemma real_ang_meas (o:angle)
+      ensures{real_ (ang_meas o)}
+  =()
+
+val function real_to_ang (phi: complex):angle
+               requires{real_ phi}
+
+val constant ang_zero :angle
+
+clone algebra.CommutativeGroup with type t = angle,
+function inv = ang_inv,
+function op = ang_add,
+constant unit = ang_zero,
+axiom Assoc, axiom Unit_def_l,
+axiom Unit_def_r, axiom Inv_def_l,
+axiom Inv_def_r,axiom Comm                                 
+axiom Real_To_Ang_one:forall phi: complex.  real_ phi -> real_to_ang c_one = ang_zero              
+axiom Real_To_Ang_inv:forall phi: complex.  real_ phi -> ang_inv (real_to_ang phi) = real_to_ang (-. phi)               
+axiom Real_To_Ang_add: forall phi phi' : complex. real_ phi -> real_ phi'  -> ang_add (real_to_ang phi)  (real_to_ang phi') = real_to_ang (phi +. phi')              
+axiom meas_value: forall phi: complex. real_ phi -> c_zero <=. phi <. c_one -> ang_meas (real_to_ang phi) = phi
+axiom Equal_angle: forall o o':angle. exp (two_pi_i *. ang_meas o) = exp (two_pi_i *. ang_meas o') <-> o = o'                                  
+
+let lemma set_equal_angle_meas (o o':angle)
+      requires{o = o'}
+      ensures{ang_meas o = ang_meas o'}
+  =()
+  
+let lemma get_equal_angle_meas (o o':angle)
+      requires{ang_meas o = ang_meas o'}
+      ensures{o = o'}
+  =()
+
+let lemma meas_real_to_ang (o:angle)
+      ensures{real_to_ang (ang_meas o) = o}
+  =()
+       
+let lemma meas_real_to_ang_rev (o:angle)
+      ensures{ o = real_to_ang (ang_meas o)}
+  =()
+
+let lemma ang_add_rev(o o':angle)
+      ensures{ang_add o o' = ang_add o' o}
+  =()
+       
+let lemma real_to_ang_zero()
+      ensures{real_to_ang c_zero = ang_zero}
+  = assert{forall o: angle. ang_add o (real_to_ang c_zero) = o };
+    assert{forall o: angle. ang_add ang_zero o = o };
+    assert{ang_add ang_zero  (real_to_ang c_zero) = ang_zero = real_to_ang c_zero}
+    
+let function ang_exp (o:angle): complex
+    ensures{result <> c_zero}
+=  exp (two_pi_i *. ang_meas o)
+
+let lemma set_equal_angle_exp (o o':angle)
+      requires{o = o'}
+      ensures{ang_exp o = ang_exp o'}
+  =()
+     
+let lemma get_equal_angle_exp (o o':angle)
+      requires{ang_exp o = ang_exp o'}
+      ensures{o = o'}
+  =()
+
+let lemma meas_value_plus_one (phi: complex)
+      requires{real_ phi}
+      ensures{exp (two_pi_i *. ang_meas (real_to_ang phi)) = exp (two_pi_i *. (ang_meas (real_to_ang phi) +. c_one))}
+  =()
+     
+     use complex_operations.FromInt
+     use  exponentiation.Complex_Exponentiation
+ 
+let lemma ang_exp_pi_over_four()
+     ensures{ang_exp (real_to_ang (c_one /.(i_to_c 8))) = ( squarert_two /. ttwo) +. (im *. ( squarert_two /. ttwo))}
+  =()
+     
+let lemma ang_exp_pi_over_two()
+ensures{ang_exp (real_to_ang (c_one/. (i_to_c 4))) = im}
+  =()
+
+let lemma ang_exp_pi()
+ensures{ang_exp (real_to_ang (c_one /. (i_to_c 2))) = -. c_one}
+  =()
+
+let lemma real_to_ang_c_one()
+      ensures{real_to_ang c_one = ang_zero}
+  = ()
+
+let lemma set_ang_meas_eq (o o':angle)
+      requires{o = o'}
+      ensures{ang_meas o = ang_meas o'}
+      =()
+
+let lemma get_ang_meas_eq (o o':angle)
+      requires{ang_meas o = ang_meas o'}
+      ensures{o = o'}
+      =()
+
+let lemma ang_exp_zero ()
+      ensures{ang_exp ang_zero = c_one}
+  =()
+
+let lemma ang_exp_two_pi()
+ensures{ang_exp (real_to_ang (i_to_c 1)) =  c_one}
+  =()
+
+let lemma ang_exp_c_one()
+ensures{ang_exp (real_to_ang c_one) =  c_one}
+  =()
+
+let lemma ang_meas_add_inf_c_one (o o':angle)
+      requires{ang_meas o +. ang_meas o' <. c_one}
+      ensures{ang_meas (ang_add o o') = ang_meas o +. ang_meas o' }
+  =()
+
+let lemma set_ang_exp_eq (o o':angle)
+      requires{o = o'}
+      ensures{ang_exp o = ang_exp o'}
+      =()
+
+let lemma get_ang_exp_meas_eq (o o':angle)
+      requires{ang_exp o = ang_exp o'}
+      ensures{ang_meas o = ang_meas o'}
+  =()
+  
+let lemma get_ang_exp_eq (o o':angle)
+      requires{ang_exp o = ang_exp o'}
+      ensures{o = o'}
+  =()
+  
+let lemma ang_meas_zero ()
+      ensures{ang_meas ang_zero = c_zero}
+  =()
+
+let lemma real_to_ang_add_one(x: complex)
+      requires{real_ x}
+ensures{real_to_ang (x+.c_one) = real_to_ang x}
+  =()
+     
+     use complex_operations.Int_dec_parts
+
+let lemma ang_exp_add_b (o o':angle)
+      requires{ang_meas o +. ang_meas o' <. c_one}
+      ensures{ang_exp (ang_add o o') = ang_exp o *. ang_exp o'}
+  = ()
+
+let lemma ang_exp_add_b_rev (o o':angle)
+      requires{ang_meas o +. ang_meas o' <. c_one}
+      ensures{ang_exp o *. ang_exp o' = ang_exp (ang_add o o')}
+  = ()
+
+let lemma real_to_ang_add(x x': complex)
+      requires{real_ x}
+      requires{real_ x'}
+ensures{real_to_ang (x+.x') = ang_add (real_to_ang x) (real_to_ang x')}
+  = ()
+
+  let lemma real_to_ang_add_rev (x x': complex)
+      requires{real_ x}
+      requires{real_ x'}
+ensures{ ang_add (real_to_ang x) (real_to_ang x')=real_to_ang (x+.x')}
+  = ()
+
+let lemma ang_inv_add (o o':angle)
+  ensures{ang_inv (ang_add o o') = ang_add (ang_inv o) (ang_inv o') }
+  =()
+  
+let lemma ang_inv_add_rev (o o':angle)
+  ensures{ang_add (ang_inv o) (ang_inv o') =ang_inv (ang_add o o')}
+  =()
+  
+let lemma ang_exp_add_pre (o o':angle)
+      requires{c_one <=. ang_meas o +. ang_meas o'}
+  requires{ang_meas o <=. ang_meas o'}
+    ensures{ang_exp (ang_add o o') = ang_exp o *. ang_exp o'}
+  =  assert{ang_add o o' = ang_add (real_to_ang c_one)  (real_to_ang (ang_meas o+. ang_meas o' -. c_one))};
+  ang_exp_add_b ang_zero (real_to_ang (ang_meas o +. ang_meas o' -. c_one));
+  let tt = ang_meas o' +. ang_meas o -. c_one
+       ensures{c_zero +. result = ang_meas o' +. ang_meas o -. c_one}
+         ensures{c_zero<=.result <. c_one}
+         ensures{ang_exp (ang_add o o') = ang_exp (real_to_ang result) *. ang_exp ang_zero  = ang_exp o *. ang_exp o'}
+  in ()
+  
+let lemma ang_exp_add (o o':angle)
+    ensures{ang_exp (ang_add o o') = ang_exp o *. ang_exp o'}
+  = if   ang_meas o +. ang_meas o' <. c_one then 
+    ang_exp_add_b o o'
+    else if ang_meas o <=. ang_meas o'
+    then ang_exp_add_pre o o'
+    else ang_exp_add_pre o' o
+
+let lemma ang_meas_add (o o':angle)
+    ensures{real_to_ang (ang_meas (ang_add o o')) = ang_add  o  o'}
+  = ()
+
+  
+let lemma ang_exp_add_rev (o o':angle)
+    ensures{ang_exp o *. ang_exp o' =ang_exp (ang_add o o')}
+  = ang_exp_add o o'
+
+let rec lemma real_to_ang_int_pre  (k:int)
+                requires{0<=k}
+                ensures{ang_exp (real_to_ang ( i_to_c k)) = c_one}
+      variant{k}
+        = if k = 0 then ()
+          else
+            begin
+              real_to_ang_int_pre (k-1);
+              ang_exp_add (real_to_ang c_one) (real_to_ang (i_to_c k))
+            end
+        
+let  lemma real_to_ang_int  (k:int)
+                ensures{ang_exp (real_to_ang ( i_to_c k)) = c_one}
+        = if  0 <= k then real_to_ang_int_pre k else real_to_ang_int_pre (-k)
+        
+let  lemma real_to_ang_int_  (k:int)
+                ensures{real_to_ang ( i_to_c k) = ang_zero}
+        = ()
+        
+        
+let lemma real_to_ang_value_add ( phi: complex) (k:int)
+      requires{c_zero <=.  phi <. c_one}
+      ensures{ang_exp (real_to_ang (phi +. i_to_c k)) = exp (two_pi_i *. phi)}
+  = ang_exp_add (real_to_ang phi) (real_to_ang (i_to_c k))
+     
+let lemma real_to_ang_value ( phi: complex) 
+      requires{real_ phi}
+      ensures{ang_exp (real_to_ang phi) = exp (two_pi_i *. phi)}
+  = real_to_ang_value_add (dec_part phi)(int_part_int phi)
+      
+lemma ang_exp_zero_: ang_exp ang_zero = c_one
+                                   
+let rec function ang_mult_int_  (theta:angle) (i:int): angle
+                                                        requires{0<= i}
+                                                        ensures{result = real_to_ang (ang_meas theta *. i_to_c i)}
+                                                        variant{i}
+  = if i = 0 then ang_zero
+    else ang_add (ang_mult_int_ theta (i-1)) theta                                                        
+                                   
+let  function ang_mult_int  (theta:angle) (i:int): angle
+  = if 0 <= i  then ang_mult_int_ theta i
+else ang_inv (ang_mult_int_ theta (-i))
+                                                        
+let  lemma ang_mult_int_to_real_to_ang  (theta:angle) (i:int)
+       ensures{ang_mult_int theta i =  real_to_ang (ang_meas theta *. i_to_c i)}     
+  = ()
+  
+let lemma ang_mult_int_plus_one_pos  (theta:angle) (i:int)
+                                   requires{0<i}                     
+    ensures{ang_mult_int theta i = ang_add (ang_mult_int theta (i-1)) theta}
+  =()
+     
+let lemma ang_mult_int_inv  (theta:angle) (i:int)
+                                   requires{i<0}                     
+    ensures{ang_mult_int theta i = ang_inv (ang_mult_int theta (-i))}
+  =()
+     
+use int.EuclideanDivision
+use complex_operations.Conjugate
+
+let lemma real_to_ang_eq  (phi phi': complex)
+      requires{real_ phi}
+      requires{phi = phi'}
+      ensures{real_to_ang phi = real_to_ang phi' }
+  =()
+
+let lemma set_equal_angle_by_exp (o o':angle)
+      requires{ang_exp o = ang_exp o'}
+      ensures{o = o'}
+  =()
+
+let  lemma real_to_ang_int_dec_part  (x:complex)
+       requires{real_ x}
+       ensures{real_to_ang x = real_to_ang (dec_part x)}
+        = ()
+  
+let lemma set_equal_exp_by_ang (o o':angle)
+      requires{o = o'}
+      ensures{ang_exp o = ang_exp o'}
+  =()
+     
+use arit.  Div_Mod
+
+let function int_to_ang (k n: int): angle
+   requires{n >=0}
+   ensures{result = real_to_ang (i_to_c (mod k (power_ 2 n)) /. i_to_c (power_ 2 n))}
+   ensures{0<= k < power_ 2 n-> ang_meas  result = (i_to_c k /. i_to_c (power_ 2 n))}
+  =
+  assert{(i_to_c k /. i_to_c (power_ 2 n)) = (i_to_c (mod k (power_ 2 n)) /. i_to_c (power_ 2 n))+. i_to_c (div k (power_ 2 n))};
+  real_to_ang (i_to_c k /. i_to_c (power_ 2 n))
+
+let lemma real_to_ang_inv(x : complex)
+      requires{real_ x}
+      ensures{real_to_ang (-. x) = ang_inv (real_to_ang x)}
+  = ()
+  
+let lemma real_to_ang_inv_rev (x : complex)
+      requires{real_ x}
+      ensures{ ang_inv (real_to_ang x) = real_to_ang (-. x)}
+  = ()
+  
+let lemma involutive_ang_inv (o : angle)
+      ensures{ ang_inv (ang_inv o) = o}
+  = ()
+  
+lemma Real_To_Ang_inv_add:forall phi: complex. real_ phi -> ang_add (real_to_ang phi)  (real_to_ang (-. phi)) = ang_zero             
+lemma Real_To_Ang_up: forall phi: complex. real_ phi -> real_to_ang phi = real_to_ang (c_one +. phi)
+  
+let rec lemma real_To_Ang_cyclic_pos (phi: complex) ( k:int)
+          requires{real_ phi}
+          requires{0<=k}
+          ensures{real_to_ang phi = real_to_ang ((i_to_c k) +. phi)}
+      variant{k}
+  = if k = 0 then ()
+    else real_To_Ang_cyclic_pos phi (k-1)
+  
+let  lemma real_To_Ang_cyclic_neg (phi: complex) ( k:int)
+          requires{real_ phi}
+          requires{0<=k}
+          ensures{real_to_ang ((i_to_c k) -. phi) = real_to_ang (-.phi) }
+  = real_To_Ang_cyclic_pos (-. phi) k
+
+let lemma real_to_ang_equiv (x x':complex)
+      requires{real_ x}
+      requires{exists k:int. x' = x+. i_to_c k}
+      ensures{real_to_ang x = real_to_ang x'}
+      =()
+      
+      lemma Real_zero_n: real_to_ang c_zero  = ang_zero
+                                                
+let rec lemma real_ang_mult_pos (phi: complex)  (i:int)
+          requires{real_ phi}
+          requires{0<=i}
+          ensures{ang_mult_int (real_to_ang phi) i = real_to_ang (phi *. (i_to_c i))}
+          variant{i}
+          = if i = 0 then ()
+        else real_ang_mult_pos phi (i-1)
+
+let lemma real_ang_mult (phi: complex)  (i:int)
+          requires{real_ phi}
+          ensures{ang_mult_int (real_to_ang phi) i = real_to_ang (phi *. (i_to_c i))}
+          = if   0<= i then real_ang_mult_pos phi i
+          else
+            begin
+              real_ang_mult_pos phi (-i);
+              real_to_ang_inv  (phi *. (i_to_c i));
+            end
+
+let lemma real_to_ang_down_cucles (phi : complex) (x: complex)
+      requires{real_ phi}
+      requires{x = c_one}
+      ensures{real_to_ang (phi-. x) = real_to_ang phi}
+  =()
+
+  use qdata.Sqrt_two
+  
+let lemma int_to_ang_to_real_to_ang (theta:angle) (k n :int)
+      requires{n>=0}
+      requires{theta = int_to_ang k n}
+      ensures{theta = real_to_ang (i_to_c k *. pow_inv_2 n)}
+=()
+      
+let lemma real_to_ang_to_int_to_ang (theta:angle) (k n :int)
+      requires{n>=0}
+      ensures{real_to_ang (i_to_c k *. pow_inv_2 n) = int_to_ang k n}
+=()
+      
+let lemma real_to_ang_to_int_to_ang_add (theta:angle) (k k' n :int)
+      requires{n>=0}
+      ensures{real_to_ang ((i_to_c k +. i_to_c k') *. pow_inv_2 n) = int_to_ang (k+k') n}
+=()
+      
+let lemma int_to_ang_to_real_to_ang_gen (k n :int) (kx: complex)
+      requires{n>=0}
+      requires{kx = i_to_c k}
+      ensures{int_to_ang k n = real_to_ang (kx *. pow_inv_2 n)}
+=()
+      
+lemma Int_To_Ang_inv: forall k n: int.n>= 0 -> ang_inv (int_to_ang k n) = (int_to_ang (-k) n)              
+lemma Int_To_Ang_inv_add: forall k n: int.n>= 0 -> ang_add (int_to_ang k n)  (int_to_ang (-k) n) = ang_zero             
+lemma Int_To_Ang_add: forall k k' n: int.n>= 0 -> ang_add (int_to_ang k n)  (int_to_ang k' n) = int_to_ang (k+k') n             
+lemma Int_To_Ang_up: forall k n:int. 0<= n -> int_to_ang k n = int_to_ang (2*k) (n+1)
+lemma Int_To_Ang_cyclic: forall k n: int. 0<= n -> int_to_ang k n = int_to_ang (k + (power_ 2 n)) n                                                     
+lemma Zero_n: forall n:int. n>= 0 ->int_to_ang 0 n = ang_zero
+
+let constant ang_minus_one
+  = int_to_ang 1 1                                                       
+
+let lemma set_ang_minus_one_by_int (a b : int)
+      requires{a = 1}
+      requires{b = 1}
+      ensures{int_to_ang a b = ang_minus_one}
+  =()
+  
+let lemma ang_minus_one_from_real()
+  ensures{ang_minus_one = real_to_ang (c_one/.ttwo)}
+  =()
+     
+let lemma ang_exp_minus_one()
+  ensures{ang_exp ang_minus_one = -. c_one}
+  =()
+
+let lemma set_ang_zero_by_int (a b : int)
+      requires{a = 0}
+      requires{0<=b}
+      ensures{int_to_ang a b = ang_zero}
+  =()
+
+let lemma ang_minus_one_twice( a1 a2 :angle)
+      requires{a1 = ang_minus_one}
+      requires{a2 = ang_minus_one}
+  ensures{ang_add a1 a2  = ang_zero}
+  =()
+     
+let function  div_two (d:angle):angle
+            ensures{ang_meas result = ang_meas d /. ttwo}
+            ensures{ang_add result result =  d }
+  =
+  real_to_ang (ang_meas d/. ttwo)
+  
+lemma Div_two: forall d: angle. ang_add (div_two d) (div_two d)  = d
+lemma div_two_int_to_ang: forall k n:int. n>=0 -> 0<=k < (power_ 2 n) -> div_two (int_to_ang k n)   = int_to_ang k (n+1)
+
+let lemma ang_exp_mult (x x':angle)
+      ensures{ang_exp x *. ang_exp x' = ang_exp (ang_add x  x')}
+      =()
+
+let lemma ang_exp_modulus (x :angle)
+      ensures{modulus (ang_exp x)= c_one}
+      =()
+
+let lemma ang_exp_not_one (i: complex)
+      requires{c_zero<. i <. c_one}
+      ensures{ang_exp (real_to_ang i) <> c_one}
+  =()
+      
+let lemma ang_exp_not_by_modulus (i: complex)
+      requires{c_zero<. i <. c_one}
+      ensures{ang_exp (real_to_ang (modulus i)) <> c_one}
+  =()
+      
+let function k_int_to_ang (k:int) : angle
+requires{0<= k}
+  = int_to_ang 1 k
+
+lemma K_int_to_angplus_one: forall k:int. k > 0 -> ang_add (k_int_to_ang k) (k_int_to_ang k) = k_int_to_ang (k-1)
+
+let rec function  phase_inv_pre (i :int) (d:angle): angle
+                                                      requires{0<=i}
+                                                      ensures{mod i 2 = 0 -> result = d}
+                                                      ensures{mod i 2 = 1 -> result = ang_inv d}
+                                                      variant{i}
+  = if i = 0 then d
+  else   ang_inv (phase_inv_pre (i-1) d)
+      
+let  function  phase_inv_ (i :int) (d:angle): angle
+                                                ensures{mod i 2 = 0 -> result = d}
+                                                ensures{mod i 2 = 1 -> result = ang_inv d}
+  = if 0<=i  then phase_inv_pre i d
+                    else phase_inv_pre (-i) d
+      
+lemma Even_phase_inv: forall d:angle. forall i:int.  mod i 2 = 0 -> phase_inv_ i d = d
+lemma Odd_phase_inv: forall d:angle. forall i:int. mod i 2 = 1 -> phase_inv_ i d = ang_inv d
+lemma Gen_phase_inv:  forall k n i:int. n>=0 -> i>= 0 -> phase_inv_ i (int_to_ang k n)  = int_to_ang (power_ (-1) i * k) n
+lemma Gen_phase_inv_neg:  forall k n i:int. n>=0 -> i< 0 -> phase_inv_ i (int_to_ang k n)  = int_to_ang (power_ (-1) (-i) * k) n
+lemma Ang_exp_inv: forall o:angle. ang_exp (ang_inv o) = c_one /. (ang_exp o)                                                                                                    
+
+let lemma ang_inv_to_conjugate (o:angle)
+  ensures{ang_exp (ang_inv o) = conjugate (ang_exp o)}
+  =()
+
+let lemma exp_minus (x:complex)
+      requires{real_ x}
+      ensures{exp (im *. (-. x)) = conjugate (exp (im *. x))}
+  =()
+
+let lemma conjugate_to_ang_inv (o:angle)
+  ensures{conjugate (ang_exp o) = ang_exp (ang_inv o)}
+  =()
+  
+let lemma conjugate_inv_elim (o:angle)
+  ensures{conjugate (ang_exp (ang_inv o)) = ang_exp o}
+  =()
+
+let lemma ang_exp_neg_conjugate (x: complex)
+      requires{real_ x}
+  ensures{ang_exp (real_to_ang (-.x)) = conjugate (ang_exp (real_to_ang x))}
+  =()
+
+let lemma ang_exp_neg_conjugate_rev (x: complex)
+      requires{real_ x}
+  ensures{conjugate (ang_exp (real_to_ang x)) = ang_exp (real_to_ang (-.x))}
+  =()
+
+let lemma ang_mult_int_in (i k n:int)
+      requires{0<=n}
+      ensures{ang_mult_int (int_to_ang k n) i = int_to_ang (i *k) n}
+  =()
+  
+let lemma ang_mult_int_out (i k n:int)
+      requires{0<=n}
+      ensures{int_to_ang (i*k) n = ang_mult_int (int_to_ang k n) i}
+  =()
+  
+let rec lemma int_to_ang_cycles (k n i:int)
+          requires{0<=n}
+          requires{0<=i}
+          ensures{int_to_ang (k + (i* power_ 2 n)) n = int_to_ang k n}
+          variant{i}
+  = if (i = 0) then ()
+    else
+      int_to_ang_cycles k n (i-1)
+
+        use p_int.Int_comp
+      use arit.Div_Mod
+
+let lemma int_to_ang_eq (k1 k2 n1 n2: int)
+      requires{k1=k2}
+      requires{n1=n2}
+      ensures{int_to_ang k1 n1 = int_to_ang k2 n2}
+  =()
+
+let rec lemma int_to_ang_cycles_neg (k n i:int)
+          requires{0<=n}
+          requires{0>=i}
+          ensures{int_to_ang (k + (i* power_ 2 n)) n = int_to_ang k n}
+          variant{-i}
+  = if (i = 0) then ()
+    else
+      int_to_ang_cycles_neg k n (i+1)
+  
+let  lemma int_to_ang_cycles_gen (k n i:int)
+       requires{0<=n}
+       ensures{int_to_ang (k + (i* power_ 2 n)) n = int_to_ang k n}
+  = if (i >= 0) then int_to_ang_cycles k n i else int_to_ang_cycles_neg k n i
+
+let lemma int_to_ang_cycles_zero (n' n:int)
+      requires{0<= n <= n'}
+      ensures{int_to_ang (power_ 2 n') n = ang_zero}
+  = int_to_ang_cycles 0 n (power_ 2 (n'-n));
+    power__sum 2 (n'-n) n
+
+let lemma int_to_ang_cycles_zero_mult (k n' n:int)
+      requires{0<= n <= n'}
+      ensures{int_to_ang (k * power_ 2 n') n = ang_zero}
+  = int_to_ang_cycles_zero n' n;
+    assert{int_to_ang (k * power_ 2 n') n = int_to_ang (k*0) 1}
+    
+let lemma int_to_ang_cycles_zero_mult_ (k n' n:int)
+      requires{0<= n <= n'}
+      ensures{int_to_ang (k * power_ 2 n') n = ang_zero}
+  = int_to_ang_cycles_zero n' n;
+    assert{int_to_ang (k * power_ 2 n') n = int_to_ang (k*0) 1}
+  
+let rec lemma int_to_ang_up (k n n':int)
+          requires{0<=n}
+          requires{0<=n'}
+          ensures{int_to_ang (k * power_ 2 n') (n+n') = int_to_ang k n}
+          variant{n'}
+  = if n' = 0 then ()
+    else begin
+        power__plus_one 2 (n'-1);
+        int_to_ang_up k n (n'-1);
+      end
+
+let lemma int_to_ang_mod (k n:int)
+      requires{0<= n}
+      ensures{(int_to_ang k n) = (int_to_ang (mod k (power_ 2 n)) n)}
+  = decomp k (power_ 2 n);
+    int_to_ang_cycles_gen (mod k (power_ 2 n))  n (div k (power_ 2 n))
+
+let lemma int_to_ang_equiv (k1 k2 n1 n2: int)
+      requires{0<=n1}
+      requires{mod k1 (power_ 2 n1 )= mod  k2 (power_ 2 n1)}
+      requires{n1=n2}
+      ensures{int_to_ang k1 n1 = int_to_ang k2 n2}
+  =()
+
+let lemma int_to_ang_red (k n:int)
+      requires{1<=n}
+      requires{0 <> k}
+      requires{mod k 2 = 0}
+      ensures{int_to_ang k n = int_to_ang (div k 2) (n-1)}
+  =()
+  
+let  lemma int_to_ang_bin_rev (k n i j:int)
+          requires{0<=n}
+          requires{0<=i}
+          requires{j=n-1}
+          ensures{int_to_ang (-(i* power_ 2 j)) n = int_to_ang (i* power_ 2 (n-1)) n}
+  = if (i = 0) then ()
+    else ()
+
+let  lemma int_to_ang_bin_rev_ (k n i j:int)
+          requires{0<=n}
+          requires{0<=i}
+          requires{j=n-1}
+          ensures{int_to_ang (-(i* power_ 2 j)) n = int_to_ang (i* power_ 2 (n-1)) n}
+  = if (i = 0) then ()
+    else ()
+  
+let lemma int_to_ang_add_rev (i j n:int)
+      requires{0<= n}
+      ensures{int_to_ang (i + j) n = ang_add (int_to_ang i n) (int_to_ang j n) }
+  =()
+
+let lemma int_to_ang_ind_isum_plus_one (f: int -> int) (i j n:int)
+  requires{i < j}
+      requires{0<= n}
+ensures{int_to_ang (ind_isum f i j) n = ang_add (int_to_ang (f i) n) (int_to_ang (ind_isum f (i+1) j) n)}
+= ()
+  
+let lemma int_to_ang_ind_isum_plus_one_rev (f: int -> int) (i j n:int)
+  requires{i < j}
+      requires{0<= n}
+ensures{int_to_ang (ind_isum f i j) n = ang_add  (int_to_ang (ind_isum f (i+1) j) n) (int_to_ang (f i) n)}
+= ()
+
+let lemma int_to_ang_ind_isum_right_extension (f: int -> int) (i j n:int)
+  requires{i < j}
+      requires{0<= n}
+ensures{int_to_ang (ind_isum f i j) n = ang_add  (int_to_ang (ind_isum f i (j-1)) n) (int_to_ang  (f (j-1)) n)}
+= ()
+
+let lemma int_to_ang_ind_isum_right_extension_rev (f: int -> int) (i j n:int)
+  requires{i < j}
+      requires{0<= n}
+ensures{int_to_ang (ind_isum f i j) n = ang_add  (int_to_ang  (f (j-1))n) (int_to_ang (ind_isum f i (j-1)) n)}
+= ()
+
+let lemma minus_int_to_ang_ind_isum_plus_one (f: int -> int) (i j n:int)
+  requires{i < j}
+      requires{0<= n}
+ensures{int_to_ang (-(ind_isum f i j)) n = ang_add (int_to_ang (- f i) n) (int_to_ang (-(ind_isum f (i+1) j)) n)}
+= ()
+  
+let lemma minus_int_to_ang_ind_isum_plus_one_rev (f: int -> int) (i j n:int)
+  requires{i < j}
+      requires{0<= n}
+ensures{int_to_ang (-(ind_isum f i j)) n = ang_add  (int_to_ang (-(ind_isum f (i+1) j)) n) (int_to_ang (-f i) n)}
+= ()
+
+let lemma minus_int_to_ang_ind_isum_right_extension (f: int -> int) (i j n:int)
+  requires{i < j}
+      requires{0<= n}
+ensures{int_to_ang (-(ind_isum f i j)) n = ang_add  (int_to_ang (-(ind_isum f i (j-1))) n) (int_to_ang  (-f (j-1)) n)}
+= ()
+
+let lemma minus_int_to_ang_ind_isum_right_extension_rev (f: int -> int) (i j n:int)
+  requires{i < j}
+      requires{0<= n}
+ensures{int_to_ang (-(ind_isum f i j)) n = ang_add  (int_to_ang  (- f (j-1))n) (int_to_ang (-(ind_isum f i (j-1))) n)}
+= ()
+
+let lemma int_to_ang_simpl (k n1 n2 :int)
+      requires{n1 >= 0}
+      requires{n2 >= 0}
+      ensures{ (int_to_ang (k * (power_ 2 n1)) (n2 + n1)) =  (int_to_ang k n2)}
+  =()
+  
+let lemma ang_add_eq (d1 d2 e1 e2:angle)
+      requires{d1 = e1}
+      requires{d2 = e2}
+      ensures{ang_add d1 d2 = ang_add e1 e2}
+  =()
+
+let lemma ang_add_comm (d1 d2 : angle)
+      ensures{ang_add d1 d2 = ang_add d2 d1}
+  = ()
+
+let lemma ang_add_eq_comm (d1 d2 d3 d4: angle)
+      requires{d1 = d3}
+      requires{d2 = d4}
+      ensures{ang_add d1 d2 = ang_add d4 d3}
+  = ang_add_comm d1 d2
+
+let lemma ang_mult_int_zero (theta:angle)
+      ensures{ang_mult_int theta 0 = ang_zero}
+  =()
+  
+let lemma ang_div (k n i:int)
+      requires{n>=0}
+      requires{i>=0}
+      ensures{int_to_ang k n = ang_mult_int   (int_to_ang k (n+i)) (power_ 2 i)}
+  = ()
+
+let lemma ang_zero_add (d' d:angle)
+      requires{d' = ang_zero}
+      ensures{ang_add d' d = d}
+  =()
+  
+let lemma int_to_ang_rev (k l n m:int)
+      requires{0<n}
+      requires{0<=k}
+      requires{n = m+1}
+      ensures{int_to_ang (- k * l *  power_ 2 m) n = int_to_ang (k * l*power_ 2 m) n}
+  = assert{int_to_ang (- k * l *  power_ 2 m) n  = int_to_ang (- k * l ) 1 };
+    if (mod (-k *l) 2) = 0 then
+begin
+  assert{int_to_ang (- k * l *  power_ 2 m) n  = int_to_ang 0 1 };
+  assert{mod (-k *l) 2 = 0};
+  assert{int_to_ang ( k * l *  power_ 2 m) n  = int_to_ang 0 1 };
+end
+    else
+    begin
+  assert{int_to_ang (- k * l *  power_ 2 m) n  = int_to_ang (-1) 1  = int_to_ang 1 1 };
+  assert{mod (-k *l) 2 = 1};
+  assert{int_to_ang ( k * l *  power_ 2 m) n  = int_to_ang 1 1 };
+    end
+   
+let lemma int_to_ang_rev_ (k l n m:int)
+      requires{0<n}
+      requires{0<=k}
+      requires{0<=l}
+      requires{n = m+1}
+      ensures{int_to_ang (- k * l *  power_ 2 m) n = int_to_ang (k * l*power_ 2 m) n}
+  =
+assert{power_ 2 m = power_ 2 m};
+assert{power_ 2 n = power_ 2 n};
+  int_to_ang_rev k l n m 
+  
+let lemma ang_add_zero_d (d' d:angle)
+      requires{d' = ang_zero}
+      ensures{ang_add d d' = d}
+  =()
+
+let lemma real_to_ang_distr_minus()
+         ensures{forall x z t: complex. forall y:int. real_ x -> real_ z -> real_ t ->   ang_add (real_to_ang (x*.(i_to_c y))) (real_to_ang ((i_to_c y)*. -. z *. t))
+          = ang_mult_int (real_to_ang (x-. (z *. t))) y}
+  =()
+   
+let rec lemma ang_mult_int_exp_pos  (o: angle) ( i:int)
+          requires{0<=i}
+          ensures{ang_exp (ang_mult_int o i) = cpower (ang_exp o) i}
+          variant{i}
+          = if i = 0 then ()
+            else
+              begin
+                assert{0<i};
+                ang_mult_int_exp_pos o (i-1)
+              end
+          
+let  lemma ang_mult_int_exp  (o: angle) ( i:int)
+          ensures{ang_exp (ang_mult_int o i) = cpower (ang_exp o) i}
+          = if  0<=i then ang_mult_int_exp_pos o i
+        else ang_mult_int_exp_pos o  (-i)
+
+let lemma ang_mult_int_exp_rev (o:angle) (i:int)
+      ensures{cpower (ang_exp o) i = ang_exp (ang_mult_int o i)}
+  =()
+
+let lemma cpower_ang_exp_real (x: complex) (i:int)
+      requires{real_ x}
+      ensures{cpower (ang_exp (real_to_ang x)) i = ang_exp (real_to_ang  (x *. i_to_c i))}
+  =()
+
+let lemma ang_mult_int_add (o:angle) (i i':int)
+      ensures{ang_mult_int o (i+i') = ang_add (ang_mult_int o i) (ang_mult_int o i')}
+  =()
+
+let lemma ang_mult_int_plus_one (o:angle) (i :int)
+      ensures{ang_add o (ang_mult_int o i) = ang_mult_int o (i+1)}
+  =()
+
+let lemma ang_mult_int_plus_one_rev (o:angle) (i :int)
+      ensures{ang_mult_int o (1+i) = ang_add o (ang_mult_int o i)}
+  =()
+  
+let lemma ang_mult_int_double (o:angle)(i:int)
+      ensures{ang_mult_int o (2 *i) = ang_add (ang_mult_int o i) (ang_mult_int o i)}
+  =()
+
+let lemma ang_mult_int_inv_one (o:angle)(i:int)
+      ensures{ang_mult_int o (-1) = ang_inv o}
+  =()
+
+let lemma ang_mult_int_one (o:angle)(n:int)
+      requires{n = 1}
+      ensures{ang_mult_int o n =  o}
+  =()
+
+let lemma ang_mult_int_inv_rev (o:angle)(i:int)
+      ensures{ang_inv o = ang_mult_int o (-1)}
+  =()
+
+let lemma ang_mult_int_comp (o:angle) (i j:int)
+      ensures{ang_mult_int (ang_mult_int o i) j = ang_mult_int o (i*j)}
+  =()
+
+let lemma ang_mult_int_comp_rev (o:angle) (i j:int)
+      ensures{ang_mult_int o (i*j) =ang_mult_int (ang_mult_int o i) j}
+  =()
+
+let rec lemma add_ang_mult_int_pos (o o':angle) (i:int)
+          requires{0<=i}
+          ensures{ang_add (ang_mult_int o i) (ang_mult_int o' i) =  (ang_mult_int (ang_add o o') i)}
+      variant{i}
+  = if i = 0 then ()
+    else
+      begin
+        assert {0<i};
+        add_ang_mult_int_pos o o' (i-1)
+      end
+  
+let lemma add_ang_mult_int (o o':angle) (i:int)
+  ensures{ang_add (ang_mult_int o i) (ang_mult_int o' i) =  (ang_mult_int (ang_add o o') i)}
+  = if 0<=i  then  add_ang_mult_int_pos o o' i
+    else  add_ang_mult_int_pos o o' (-i)
+  
+let function ang_substr (o o':angle)
+           = ang_add o (ang_inv o')
+
+let lemma ang_substr_inv (o o':angle)
+      ensures{ang_substr o (ang_mult_int o' (-1)) = ang_add o o'}
+  =()
+
+let lemma ang_mult_int_distr (o o':angle) (n:int)
+      ensures{ang_mult_int  (ang_add o o') n  = ang_add (ang_mult_int o n) (ang_mult_int o' n) }
+  =()
+
+let lemma ang_mult_int_distr_rev (o :angle) (n1 n2:int)
+      ensures{ang_add (ang_mult_int o n1) (ang_mult_int o n2) = ang_mult_int  o (n1 +n2)}
+  =()
+
+let lemma ang_add_assoc (o o' o'':angle)
+      ensures{ang_add o (ang_add o' o'') = ang_add (ang_add o o') o'' }
+  =()
+
+let lemma ang_add_assoc_rev (o o' o'':angle)
+      ensures{ang_add (ang_add o o') o'' = ang_add o (ang_add o' o'')}
+  =()
+
+let lemma ang_add_own_inv (o :angle)
+      ensures{ang_add (ang_mult_int o (-1)) o = ang_zero }
+  =()
+
+let lemma ang_exp_inv (o:angle)
+      ensures{ang_exp(ang_inv o) = conjugate (ang_exp o)}
+  =()
+        end
+     
+module Ang_sum
+
+         use Angle
+         use int.Int
+use fsum.Iterations
+use complex.Complex
+     use fsum.Int_iter
+     use p_set.IndexestoSet
+     use functions.MapInjection
+use exponentiation.Power_
+use complex_operations.FromInt
+use binary.Bit_vector_inversions
+      use  int.EuclideanDivision
+     
+let  function ang_sum (f : int -> angle) (i j:int):angle
+  =
+  if j<= i then ang_zero else int_iterate ang_add f i j
+  
+let lemma ang_sumto_int_iterate (f: int -> angle) (i j:int)
+      requires{i < j}
+      ensures{ang_sum f i j = int_iterate ang_add f i j}
+  =()
+  
+let lemma ang_sum_plus_one (f :int -> angle) (i:int) (j:int) 
+      requires{i +1 < j}
+      ensures{ ang_sum f i j = ang_add (f i)(ang_sum f (i+1) j)}
+  = int_iterate_def_plus_one ang_add f i j
+
+let lemma ang_sum_cardone (f :int -> angle) (i:int) (j:int) 
+      requires{j = i+1}
+      ensures{ang_sum f i j =  f i}
+  =int_iterate_cardone ang_add f i j
+
+let lemma ang_sum_cardone_p (f :int -> angle) (i:int) (j:int)  (r: angle)
+      requires{j = i+1}
+      requires{f i = r}
+      ensures{r =ang_sum f i j}
+  =int_iterate_cardone ang_add f i j
+
+let rec lemma ang_sum_neutral (f :int -> angle) (i:int) (j:int) 
+          requires{i <= j}
+          requires{forall k:int. i<= k < j -> f k = ang_zero}
+          ensures{ang_sum f i j =  ang_zero}
+          variant{j-i}
+  =
+  if j = i then ()
+  else  if j = i +1
+  then ang_sum_cardone f i j
+  else
+    begin
+      ang_sum_plus_one f i j;
+      ang_sum_neutral f (i+1) j;
+    end
+
+  let lemma ang_sum_def_plus_one_com (f :int -> angle) (i:int) (j:int) 
+      requires{i +1 < j}
+      ensures{  ang_add (f i)( ang_sum f (i+1) j) = ang_sum f i j }
+  =int_iterate_def_plus_one_com ang_add f i j
+  
+let rec lemma ang_sum_right_extension  (f : int -> angle) (i j : int)
+          requires{i +1 < j }
+          ensures  { (ang_sum f i j) =  (ang_add (ang_sum f i (j-1))  (f (j-1))) }
+          variant{j - (i+1)}
+  = if i+ 2 = j then ()
+    else begin
+        ang_sum_plus_one f i j;
+        ang_sum_plus_one f i (j-1);
+        ang_sum_right_extension f (i+1) j;
+      end
+
+let  lemma ang_sum_transitivity  (f : int -> angle) (i k j : int)
+       requires {i < k < j}
+       ensures  { ang_sum f i j =  ang_add (ang_sum f i k)  (ang_sum f k j) }
+  = int_iterate_transitivity_ ang_add f i k j
+    
+let lemma ang_sum_eq  (f g : int -> angle) (i j:int)
+      requires{i <= j}
+      requires{forall k : int. i <= k < j -> f k = g k}
+      ensures{ ang_sum  f i j = ang_sum  g i j}
+  = if i = j then () else
+  int_iterate_eq ang_add f g i j
+
+let lemma ang_sum_int_to_ang  (f g : int -> angle) (i j :int)
+      requires{i < j}
+      requires{forall k : int. i <= k < j -> f k = g k}
+      requires{exists n. forall k : int. exists j j'. f k = int_to_ang j n /\ g k = int_to_ang j' n /\ j = j'}
+      ensures{ ang_sum f i j = ang_sum  g i j}
+  = ()
+
+let lemma vang_sum_eq  (f g : int -> angle) (i j:int)
+      requires{i < j}
+      requires{forall k : int. i <= k < j -> f k = g k}
+      ensures{ang_exp (ang_sum  f i j) = ang_exp (ang_sum  g i j)}
+  = ()
+
+  use matrices.Matrice
+  use matrices.Matrix_scalar
+
+let lemma vang_sum_scal_eq  (f g : int -> angle) (m n: matrix complex) (i j:int)
+      requires{i < j}
+      requires{m = n}
+      requires{forall k : int. i <= k < j -> f k = g k}
+      ensures{ang_exp (ang_sum  f i j) *.. m = ang_exp (ang_sum  g i j) *.. n}
+  = ()
+
+let rec lemma ang_sum_inv  (f  :int -> angle) (i j:int)
+      ensures{ang_inv (ang_sum f i j) = ang_sum (fun k -> ang_inv (f k)) i j}
+      variant{j-i}
+  = if (j<= i) then ()
+    else
+    if ( i+1=j) then ()
+    else
+      begin
+        assert{i+1<j};
+        ang_sum_plus_one f i j;
+          ang_sum_plus_one (fun k -> ang_inv (f k))  i j;
+          ang_inv_add (ang_sum f (i+1) j) (f i);
+          ang_sum_inv f (i+1) j;
+      end
+  
+    let lemma ang_sum_plus_one_p (f g :int -> angle) (i:int) (j l m:int) (r:angle)
+      requires{i +1 < j}
+      requires{l = i+1}
+      requires{m = j}
+      requires{ g i = r}
+      requires{forall k : int. i+1 <= k < j -> f k = g k} 
+      ensures{  ang_add r ( ang_sum f l m) = ang_sum g i j} 
+  =()
+
+    let lemma vang_sum_plus_one_p (f g :int -> angle) (i:int) (j l m:int) (r:angle)
+      requires{i +1 < j}
+      requires{l = i+1}
+      requires{m = j}
+      requires{ g i = r}
+      requires{forall k : int. i+1 <= k < j -> f k = g k} 
+      ensures{  ang_exp r *. ang_exp ( ang_sum f l m) = ang_exp (ang_sum g i j)} 
+  =()
+
+    let lemma vang_sum_plus_one_rev (f g :int -> angle) (i:int) (j l m:int) (r:angle)
+      requires{i +1 < j}
+      requires{l = i+1}
+      requires{m = j}
+      requires{ g i = r}
+      requires{forall k : int. i+1 <= k < j -> f k = g k} 
+      ensures{ang_exp (ang_sum g i j) =   ang_exp r *. ang_exp ( ang_sum f l m)} 
+  =()
+
+    let lemma ang_sum_right_extension_p (f g :int -> angle) (i:int) (j l m:int) (r:angle)
+      requires{i +1 < j}
+      requires{m = j-1}
+      requires{l = i}
+      requires{ g (j-1) = r}
+      requires{forall k : int. i <= k < j -1 -> f k = g k} 
+      ensures{  ang_add  ( ang_sum f l m) r = ang_sum g i j} 
+  =()
+
+    let lemma vang_sum_right_extension_p (f g :int -> angle) (i:int) (j l m:int) (r:angle)
+      requires{i +1 < j}
+      requires{m = j-1}
+      requires{l = i}
+      requires{ g (j-1) = r}
+      requires{forall k : int. i <= k < j -1 -> f k = g k} 
+      ensures{  ang_exp  ( ang_sum f l m) *. ang_exp r = ang_exp ( ang_sum g i j)} 
+  =()
+
+    let lemma vang_sum_right_extension_rev (f g :int -> angle) (i:int) (j l m:int) (r:angle)
+      requires{i +1 < j}
+      requires{m = j-1}
+      requires{l = i}
+      requires{ g (j-1) = r}
+      requires{forall k : int. i <= k < j -1 -> f k = g k} 
+      ensures{ ang_exp ( ang_sum g i j) =  ang_exp  ( ang_sum f l m) *. ang_exp r} 
+  =()
+
+let lemma ang_sum_cardzero (f: int -> angle) (i j:int)
+      requires{j <= i}
+      ensures{ang_sum f i j = ang_zero}
+  = ()
+
+let lemma ang_sum_eq_gen  (f g : int -> angle) (i j i' j':int)
+      requires{i < j}
+      requires{i = i'}
+      requires{j = j'}
+      requires{forall k : int. i <= k < j -> f k = g k}
+      ensures{ ang_sum  f i j = ang_sum  g i' j'}
+  = ang_sum_eq f g i j
+
+      use p_int.Int_comp
+
+let lemma ang_sum_sum_eq_vl  (f g : int -> (int -> angle)) (i j i' j' l  l':int)
+      requires{i < j}
+      requires{j <= l}
+      requires{i = i'}
+      requires{j = j'}
+      requires{l = l'}
+      requires{forall x x' : int. i <= x < j ->  x <= x' < l -> f x x' = g x x'}
+      ensures{ ang_sum  (fun x -> ang_sum (f x) x l ) i j = ang_sum  (fun x -> ang_sum (g x) x l' ) i' j' }
+  = ()
+
+let rec lemma ang_sum_minus  (f : int -> int) (i j n: int)
+          requires{n>=0}
+          requires{i  < j }
+          ensures  { (ang_sum (fun k -> int_to_ang (-  f k) n) i j) =  int_to_ang (- ind_isum f i j) n }
+          variant{j - (i+1)}
+  = if i+ 1 = j then
+      begin
+        ang_sum_cardone (fun k -> int_to_ang (-  f k) n) i j;
+        ind_isum_one f i j;
+    end
+    else
+           begin
+        ang_sum_plus_one (fun k -> int_to_ang (-  f k) n) i j;
+        ind_isum_plus_one f i j;
+        ang_sum_minus f (i+1) j n;
+        ang_sum_minus f i (i+1) n;
+           end
+
+use binary.Bit_vector
+  
+let lemma multiple_control_as_ang_sum (n:int)
+      requires{0<n}
+      ensures{forall x: bitvec. length x = n -> (if (forall j . 0<= j< n -> getbv x j = 1) then ang_minus_one else ang_zero) =  (ang_mult_int  ang_minus_one (ind_iproduct ( getbv x ) 0 n))}
+=()
+
+let lemma multiple_control_as_ang_sum_rev (n:int)
+      requires{0<n}
+      ensures{forall x: bitvec. length x = n -> (ang_mult_int  ang_minus_one (ind_iproduct (getbv x) 0 n)) = (if (forall j . 0<= j< n -> getbv x j = 1) then ang_minus_one else ang_zero)}
+=()
+
+let  lemma ang_sum_map  (i j k l:int)(f: int -> int)(t: int -> angle)
+       requires{i < j}
+       requires{p_bijective f (to_fset i j)  (to_fset k l) }
+       ensures{ang_sum t k l    = ang_sum (fun b -> t (f b))  i j}
+  = int_iterate_map ang_add  i j k l f t
+
+let rec lemma ang_sum_break (f: int -> angle) (i j y:int)
+          requires{i <= y <= j}
+          ensures{ang_sum f i j = ang_add (ang_sum f i y) (ang_sum f y j)}
+          variant{y - i}
+  = if (y = i) then ()
+    else
+      if (y = j-1)
+      then ()
+      else
+        if (y = i + 1)
+        then
+          ang_sum_cardone f i y
+        else
+          begin
+            ang_sum_right_extension f i y;
+          end
+
+let rec lemma ang_sum_break_zero_l (f: int -> angle) (i j y:int)
+          requires{i <= y <=j}
+          requires{forall k:int. i<= k < y -> f k = ang_zero}
+          ensures{ang_sum f y j = ang_sum f i j}
+  =ang_sum_break f i j y
+
+let rec lemma ang_sum_break_zero_lg (f g: int -> angle) (i j y:int)
+          requires{i <= y <=j}
+          requires{forall k:int. i<= k < y -> f k = ang_zero}
+          requires{forall k:int. i <= k < j -> f k = g  k}
+          ensures{ang_sum f y j = ang_sum g i j}
+  =ang_sum_break f i j y
+  
+let rec lemma ang_sum_break_zero_lg_params (f g: bitvec -> bitvec-> int -> int -> angle) (i j  s r:int)
+          requires{s>=0}
+          requires{r>=0}
+          requires{forall x z: bitvec. forall  a k:int. length x = s -> length z = r -> i<= a < j-> i<= k < a -> g x z a k = ang_zero}
+          requires{forall x z: bitvec. forall  a k:int. length x = s -> length z = r ->  i<= a < j-> a<= k < j -> f x z a k = g x z a k}
+          ensures{forall x z: bitvec. forall a:int. length x = s -> length z = r -> i<= a < j ->  ang_sum (fun k -> f x z a k) a j = ang_sum  (fun k -> g x z a k) i j}
+  =()
+
+let rec lemma ang_sum_break_zero_l_params (f g:  'a -> 'a -> int -> angle) (i j l:int)
+          requires{i <= l <=j}
+          ensures{forall x y :'a. (forall k:int. i <= k < l -> f x y k = ang_zero) ->
+                              (forall k:int. i <= k < j -> f x y k = g x y k) ->
+                              ang_sum (g x y) i j = ang_sum (f x y) l j }
+  =()
+  
+let lemma ang_sum_break_param (f: int -> int -> angle) (i j:int)
+      requires{i < j}
+      ensures{forall y:int. i <= y < j -> ang_sum (f y) i j = ang_add (ang_sum (f y) i y) (ang_sum (f y) y j)}
+  = ()            
+
+let lemma ang_sum_neutral_param_r (f :int -> int -> angle) (i:int) (j:int) 
+      requires{i < j}
+      ensures{forall y:int. i<= y < j ->  (forall k:int.   y<= k < j -> f y k = ang_zero) -> ang_sum (f y) y j = ang_zero}
+  =  ()
+
+let lemma ang_sum_neutral_param_l (f :int -> int -> angle) (i:int) (j:int) 
+      requires{i < j}
+      ensures{forall y:int. i<= y < j ->  (forall k:int.   i<= k < y -> f y k = ang_zero ) -> ang_sum (f y) i y = ang_zero}
+  =  ()  
+  
+let rec lemma ang_sum_transl (f: int -> angle)(i j k:int)
+          requires{i < j}
+          ensures{ang_sum f i j  = ang_sum (fun b ->  f (b + k))  (i-k) (j-k)}
+          variant{j-i}
+  =
+  if (i + 1 = j) then
+    begin
+      ang_sum_cardone f i j;
+      ang_sum_cardone (fun b ->  f (b + k))  (i-k) (j-k);
+    end
+  else
+    begin
+      ang_sum_plus_one f i j;
+      ang_sum_plus_one (fun b ->  f (b + k))  (i-k) (j-k);
+      ang_sum_transl f (i+1) j k;
+    end
+  
+let lemma ang_sum_transl_one (f: int -> angle)(i j:int)
+      requires{i < j}
+      ensures{ang_sum f i j  = ang_sum (fun b ->  f (b - 1))  (i+1) (j+1)}
+  = ang_sum_transl  f i j (-1)
+
+let rec lemma ang_sum_to_ind_isum (f: int-> int) (n i j:int)
+          requires{0<=n}
+          requires{i < j}
+          ensures{ang_sum (fun k -> int_to_ang (f k) n) i j = int_to_ang (ind_isum f i j) n}
+          variant{j-i}
+  =
+  if (j = i+1)
+  then ()
+  else
+    begin
+      ang_sum_plus_one (fun k -> int_to_ang (f k) n) i j;
+      ind_isum_plus_one f i j;
+      ang_sum_to_ind_isum f n (i+1) j;
+    end
+  
+let  lemma ind_isum_to_d_sum (f: int-> int) (n i j:int)
+       requires{0<=n}
+       requires{i < j}
+       ensures{int_to_ang (ind_isum f i j) n = ang_sum (fun k -> int_to_ang (f k) n) i j}
+  = ()
+
+  use binary.Bit_vector_decomp
+  use binary.Binary_Op
+  
+let lemma ang_sum_int_decomp (bvx : int-> int) (k n :int)
+      requires{0<n}
+      requires{binary bvx}
+      ensures{ang_sum (fun x -> int_to_ang ((bvx x) * power_ 2 (n- x-1) * k) n) 0 n
+      = int_to_ang (bin_to_int bvx n * k) n}
+  =()
+  
+let lemma ang_sum_int_decomp_gen (bvx : int-> int) (n :int)
+      requires{0<n}
+      requires{binary bvx}
+      ensures{forall k: int. ang_sum (fun x -> int_to_ang ((bvx x) * power_ 2 (n- x-1) * k) n) 0 n
+      = int_to_ang (bin_to_int bvx n * k) n}
+=()  
+
+let lemma ang_sum_bv_to_int  (n :int)
+      requires{0<n}
+      ensures{forall x:bitvec. forall k: int.length x = n ->  ang_sum (fun i -> int_to_ang (getbv  x i * power_ 2 (n- i-1) * k) n) 0 n
+      = int_to_ang (bv_to_int x  * k) n}
+= ()
+  
+let lemma ang_sum_bv_to_int_  (n :int)
+      requires{0<n}
+      ensures{forall x:bitvec. forall k: int.length x = n ->  ang_sum (fun i -> int_to_ang (getbv  x i * power_ 2 (n- i-1) * k) n) 0 n
+      = int_to_ang (bv_to_int x  * k) n}
+= ()
+
+let lemma ang_sum_sum_bv_to_int_mult (n:int) (x y: bitvec)
+      requires{0<n}
+      requires{length x = n}
+      requires{length y = n}
+      ensures{ang_sum  (fun target -> ang_sum  (fun k ->  int_to_ang ( getbv y k  * getbv x  target 
+                                                                       * power_ 2 ((n-k-1)+(n-target-1)) ) n ) (n-target-1) n) 0 n
+              = int_to_ang (bv_to_int x * bv_to_int y) n}
+  =
+  assert{ang_sum  (fun target -> ang_sum  (fun k ->  int_to_ang ( getbv y k  * getbv x  target 
+                                                                  * power_ 2 ((n-k-1)+(n-target-1)) ) n ) (n-target-1) n) 0 n =
+           ang_sum  (fun target ->   int_to_ang ( getbv x  target* power_ 2 (n-target-1) * bv_to_int y) n) 0 n}
+
+    let lemma ang_sum_sum_bv_to_int_mult_gen (n:int)
+      requires{0<n}
+          ensures{forall x y: bitvec. length x = n -> length y = n ->
+                              ang_sum  (fun target -> ang_sum  (fun k ->  int_to_ang ( getbv y k  * getbv x  target 
+                                                                           * power_ 2 ((n-k-1)+(n-target-1)) ) n ) (n-target-1) n) 0 n
+                  = int_to_ang (bv_to_int x * bv_to_int y) n}
+      =()
+
+    let lemma ang_sum_int_decomp_gen_rev (bvx : int-> int) (n :int)
+      requires{0<n}
+      requires{binary bvx}
+      ensures{forall k: int.
+       int_to_ang (bin_to_int bvx n * k) n
+  = ang_sum (fun x -> int_to_ang ((bvx x) * power_ 2 (n- x-1) * k) n) 0 n}
+=()  
+
+let rec lemma sum_ang_mult_int_e  (o: angle) (f: int-> int)( l h:int)
+          ensures{ang_sum (fun i -> ang_mult_int o  ( f i)) l h =
+          ang_mult_int o (ind_isum f l h)}
+          requires{l < h}
+      variant{h-l}
+  =
+  if l + 1 = h
+  then
+    begin
+      ang_sum_cardone (fun x -> ang_mult_int o (f x) ) l h;
+      ind_isum_one f l h;
+end
+      else
+        begin
+          ang_sum_plus_one (fun x -> ang_mult_int o (f x) )l h;          
+          ind_isum_plus_one f l h ;         
+          ang_mult_int_add o (f l) (ind_isum f (l+1) h);
+          sum_ang_mult_int_e o f  (l+1) h;
+        end
+
+  use complex_operations.Base_type
+
+let rec lemma real_to_ang_sum (phi : int -> complex) (l h:int)
+          requires{l<h}
+          requires{forall i: int. l<= i < h -> real_ (phi i)}
+          ensures{ang_sum (fun i-> real_to_ang (phi i)) l h = real_to_ang (ind_sum phi l h)}
+      variant{h-l}
+  =
+  if l + 1 = h then
+    begin
+      ind_sum_cardone phi l h;
+      end
+      else
+        begin
+          real_to_ang_sum phi (l+1) h;
+      ind_sum_plus_one phi l h
+      end
+      
+let rec lemma real_to_ang_sum_int (f : int -> int) (l h:int) (x: complex)
+          requires{l<h}
+          requires{real_ x}
+          ensures{ang_sum (fun i-> real_to_ang (x *. i_to_c (f i)) ) l h = real_to_ang ( x *. i_to_c (ind_isum f l h))}
+      variant{h-l}
+  =
+  if l + 1 = h then
+    begin
+      ang_sum_cardone (fun i-> real_to_ang (x *. i_to_c (f i) )) l h;
+      ind_isum_one f l h;
+      end
+      else
+        begin
+          real_to_ang_sum_int f (l+1) h x;
+      ang_sum_plus_one (fun i-> real_to_ang (x *. i_to_c (f i) )) l h;
+      ind_isum_plus_one f l h
+      end
+
+let lemma real_to_ang_sum_int_gen (f : int -> int) (l h:int) 
+          requires{l<h}
+          ensures{forall x. real_ x -> ang_sum (fun i-> real_to_ang (x *. i_to_c (f i)) ) l h = real_to_ang ( x *. i_to_c (ind_isum f l h))}
+  = ()
+  
+let  lemma real_to_ang_bv_inversion (f : int -> int) (ft:int) (x: complex) (y : bitvec)
+          requires{0<ft}
+          requires{real_ x}
+          requires{length y = ft}
+          ensures{ang_sum (fun i-> real_to_ang (x *. i_to_c (power_ 2 i) *. i_to_c (getbv y i) )) 0 ft = real_to_ang ( x *. i_to_c (bv_to_int (bv_inversion y)))}
+  =
+bv_to_int_inversion_sum_inc y;
+  real_to_ang_sum_int (fun i -> getbv y i * power_ 2 i) 0 ft x
+
+let rec lemma sum_ang_mult_int  (f : int -> angle) (i l h:int)
+          requires{l < h}
+          ensures{ang_sum (fun x -> ang_mult_int (f x) i) l h = ang_mult_int (ang_sum f l h) i}
+      variant{h-l}
+  =
+  if l + 1 = h
+  then
+    begin
+      ang_sum_cardone (fun x -> ang_mult_int (f x) i) l h;
+      ang_sum_cardone f l h;
+end
+      else
+        begin
+          ang_sum_plus_one (fun x -> ang_mult_int (f x) i) l h;          
+          ang_sum_plus_one f l h ;         
+          add_ang_mult_int (f l) ( ang_sum f (l+1) h) i;
+          add_ang_mult_int (ang_mult_int (f l) i) ( ang_sum (fun x -> ang_mult_int (f x) i) (l+1) h) i;
+          sum_ang_mult_int f i (l+1) h;
+        end
+
+let lemma ang_sum_bv_to_int_inversion_pre  (n :int) (x:bitvec)
+      requires{0<n}
+      requires{length x = n}
+      ensures{forall theta: complex. real_ theta ->
+                            real_to_ang (theta *. i_to_c (bv_to_int (bv_inversion x)))  =
+                              ang_sum (fun i -> real_to_ang ((theta *. i_to_c  ( power_ 2 i)) *. i_to_c (getbv  x i ))) 0 n}
+  =   real_to_ang_sum_int_gen (fun i -> power_ 2 i * getbv x i) 0 n 
+
+let lemma ang_sum_bv_to_int_inversion  (n :int)
+      requires{0<n}      
+      ensures{forall x:bitvec.forall theta: complex.length x = n -> real_ theta ->
+                                            real_to_ang (theta *. i_to_c (bv_to_int (bv_inversion x)))  =
+                                              ang_sum (fun i -> real_to_ang ((theta *. i_to_c  ( power_ 2 i)) *. i_to_c (getbv  x i ))) 0 n}
+  = ()
+      
+let lemma ang_sum_bv_to_int_opp_pre  (n :int) (x:bitvec)
+      requires{0<n}
+      requires{length x = n}
+      ensures{forall theta: complex. real_ theta ->
+                            real_to_ang (theta *.  (i_to_c (- (bv_to_int x))))  =
+                              ang_sum (fun i -> real_to_ang ((theta *. i_to_c  ( power_ 2 (n-i-1))) *. i_to_c (- getbv  x i ))) 0 n}
+  =   real_to_ang_sum_int_gen (fun i -> power_ 2 (n-i-1) * (- getbv x i)) 0 n 
+
+let lemma ang_sum_bv_to_int_opp  (n :int) 
+      requires{0<n}
+      ensures{forall x:bitvec.forall theta: complex.length x = n -> real_ theta ->
+                            real_to_ang (theta *.  (i_to_c (- (bv_to_int x))))  =
+                              ang_sum (fun i -> real_to_ang ((theta *. i_to_c  ( power_ 2 (n-i-1))) *. i_to_c (- getbv  x i ))) 0 n}
+  =   ()
+      
+let lemma ang_sum_bv_to_int_mult_pre  (n :int) (x:bitvec)
+      requires{0<n}
+      requires{length x = n}
+      ensures{forall theta: complex. real_ theta ->
+                            real_to_ang (theta *.  (i_to_c ( (bv_to_int x))))  =
+                              ang_sum (fun i -> real_to_ang ((theta *. i_to_c  ( power_ 2 (n-i-1))) *. i_to_c ( getbv  x i ))) 0 n}
+  =   real_to_ang_sum_int_gen (fun i -> power_ 2 (n-i-1) * (getbv x i)) 0 n 
+
+let lemma ang_sum_bv_to_int_mult  (n :int) 
+      requires{0<n}
+      ensures{forall x:bitvec.forall theta: complex.length x = n -> real_ theta ->
+                            real_to_ang (theta *.  (i_to_c ((bv_to_int x))))  =
+                              ang_sum (fun i -> real_to_ang ((theta *. i_to_c  ( power_ 2 (n-i-1))) *. i_to_c (getbv  x i ))) 0 n}
+  =   ()
+
+let lemma rewrite_ang_sum_sum_to_bv_and_inversion (n:int) (x y: bitvec)
+      requires{0<n}
+      requires{length x = n}
+      requires{length y = n}
+      ensures{ang_sum (fun j -> ang_sum (fun i -> int_to_ang (- getbv x i * getbv y j * power_ 2 (n-i-1+j)) n) j n) 0 n
+= real_to_ang ((i_to_c (- bv_to_int x)) *. i_to_c (bv_to_int (bv_inversion y)) /. (i_to_c (power_ 2 n))) }
+= ang_sum_break_zero_lg_params  (fun x y j i -> int_to_ang (- getbv x i * getbv y j * power_ 2 (n-i-1+j)) n)
+  (fun x y j i -> int_to_ang ((- getbv x i * power_ 2 (n-i-1)) * (getbv y j * power_ 2 j)) n)
+  0 n n n;
+  assert{ang_sum (fun j -> ang_sum (fun i -> int_to_ang (- getbv x i * getbv y j * power_ 2 (n-i-1+j)) n) j n) 0 n =
+           ang_sum (fun j -> ang_sum (fun i -> real_to_ang  ( (( i_to_c (power_ 2  j * getbv y j)  *.  i_to_c (power_ 2 (n-i-1))) *. i_to_c (- getbv x i))/. i_to_c (power_ 2 n))) 0 n) 0 n};
+             ang_sum_bv_to_int_opp n;
+  assert{ang_sum (fun j -> ang_sum (fun i -> int_to_ang (- getbv x i * getbv y j * power_ 2 (n-i-1+j)) n) j n) 0 n =
+           ang_sum (fun j ->  real_to_ang ( i_to_c (power_ 2  j * getbv y j)  *.  i_to_c (- (bv_to_int x)) /. i_to_c (power_ 2 n))  ) 0 n};
+    ang_sum_bv_to_int_inversion n
+      
+    use qdata.Sqrt_two
+
+let lemma rewrite_ang_sum_sum_to_bv_and_inversion_gen (n:int)
+      requires{0<n}
+      ensures{forall x y: bitvec. length x = n -> length y = n ->
+                          ang_sum (fun j -> ang_sum (fun i -> int_to_ang (- getbv x i * getbv y j * power_ 2 (n-i-1+j)) n) j n) 0 n
+= real_to_ang ((i_to_c (- bv_to_int x)) *. i_to_c (bv_to_int (bv_inversion y)) *.pow_inv_2 n) }
+=()
+
+let lemma int_to_ang_by_sum_mult_break(n:int) (x y: bitvec)
+      requires{0<n}
+      requires{length x = n}
+      requires{length y = n}
+      ensures{int_to_ang (ind_isum (fun j -> ind_isum (fun i ->  getbv x i * getbv y j * power_ 2 (n-i-1+j)) j n) 0 n) n
+= int_to_ang (bv_to_int x * bv_to_int (bv_inversion y)) n}
+  = rewrite_ang_sum_sum_to_bv_and_inversion n x y
+  
+let lemma int_to_ang_by_sum_mult_break_gen (n:int) 
+      requires{0<n}
+      ensures{forall x y: bitvec. length x = n -> length y = n ->
+                          int_to_ang (ind_isum (fun j -> ind_isum (fun i -> getbv x i * getbv y j * power_ 2 (n-i-1+j)) j n) 0 n) n
+= int_to_ang ( bv_to_int x * bv_to_int (bv_inversion y)) n}
+  = ()
+
+let lemma int_to_ang_by_sum_mult_break_neg (n:int) 
+      requires{0<n}
+      ensures{forall x y: bitvec. length x = n -> length y = n ->
+                          int_to_ang (ind_isum (fun j -> - ind_isum (fun i -> getbv x i * getbv y j * power_ 2 (n-i-1+j)) j n) 0 n) n
+= int_to_ang (- bv_to_int x * bv_to_int (bv_inversion y)) n}
+  = ()
+
+      use binary.Bv_concat
+  
+let rec function bv_check_zero (x:bitvec) 
+                   ensures{result = if (forall j . 0<= j< length x -> getbv x j = 1) then ang_minus_one else ang_zero}
+                   variant{length x}
+  = if length x  = 0 then  ang_minus_one else 
+    if length x  = 1 then if getbv x 0 = 1 then ang_minus_one else ang_zero
+    else if getbv x 0 = 1 then (bv_check_zero (tpart x 1)) else ang_zero
+
+  
+let lemma bv_check_zero_int (x:bitvec) (i n:int)
+                   requires{0<= n}
+                   requires{0<= i < power_ 2 n}
+                   ensures{bv_check_zero (int_to_bv i n) =  if i = power_ 2 n -1  then ang_minus_one else ang_zero}
+  = ()
+  
+let lemma  bv_check_zero_plus_one (x:bitvec) 
+      requires{1< length x }
+      ensures{bv_check_zero x = if getbv x 0 = 1 then (bv_check_zero (tpart x 1)) else ang_zero}
+  =()
+                
+  
+let lemma  bv_check_zero_two (x:bitvec) 
+      requires{ length x = 2}
+      ensures{bv_check_zero x = if getbv x 0 = getbv x 1 = 1 then ang_minus_one else ang_zero}
+  =()
+                
+  
+end
+
+module Real_to_complex_trig
+         use  complex.Complex
+         use  complex_operations.FromInt
+         use exponentiation.Complex_exp
+         use exponentiation.Complex_Exponentiation
+use matrices.Matrice
+use int.Int
+use qdata.Qreg
+     use Angle
+     
+let function complex_as_a_vector (x: complex): matrix complex
+                                 ensures{is_a_ket_l result 1}
+                                 ensures{ket_norm_l result 1 = modulus x}
+  = make_f 2 1 (fun i _ -> if i = 0 then t_real_part x else t_im_part x)
+  
+let function sin    (x: complex)
+               requires{real_ x}
+               ensures{real_ result}
+  =  t_im_part (exp (im *. x))
+
+let function cos    (x: complex)
+               requires{real_ x}
+               ensures{real_ result}
+  =  t_real_part (exp (im *. x))
+
+lemma euler_real_r : forall x: complex. real_ x -> cos x = r_to_c (real_part (exp (im *. x)))
+lemma euler_im_r : forall x: complex. real_ x -> sin x = r_to_c (im_part (exp (im *. x)))
+lemma cos_zero : cos c_zero = c_one
+lemma cos_half_pi : cos (pi /. ttwo) = c_zero
+lemma cos_quarter_pi : cos (pi /. (i_to_c 4)) = (squarert_two /. ttwo)
+lemma cos_pi : cos pi = -. c_one
+lemma sin_zero : sin c_zero = c_zero
+lemma sin_half_pi : sin (pi /. ttwo) = c_one
+
+let lemma sin_ang_exp(x: complex)
+      requires{real_ x}
+  ensures{sin (ttwo *.pi  *. x) = t_im_part (ang_exp (real_to_ang x))}
+=()
+
+let lemma cos_ang_exp(x: complex)
+      requires{real_ x}
+  ensures{cos (ttwo *.pi *. x) = t_real_part (ang_exp (real_to_ang x))}
+=()
+
+let lemma sin_ang_exp_(x: complex)
+      requires{real_ x}
+  ensures{sin x = t_im_part (ang_exp (real_to_ang (x /. (ttwo*.pi))))}
+=()
+
+let lemma cos_ang_exp_(x: complex)
+      requires{real_ x}
+  ensures{cos x = t_real_part (ang_exp (real_to_ang (x/. (ttwo*.pi))))}
+=()
+
+let lemma cos_sin_square_add (x: complex)
+      requires{real_ x}
+      ensures{cpower (cos x) 2 +. cpower (sin x) 2 = c_one}
+= ang_exp_modulus  (real_to_ang (x/. (ttwo*.pi)))
+
+let lemma c_one_minus_sin_square (x: complex)
+      requires{real_ x}
+  ensures{c_one -. cpower (sin x) 2 = cpower (cos x) 2}
+=()
+
+let lemma c_one_minus_cos_square (x: complex)
+      requires{real_ x}
+  ensures{c_one -. cpower (cos x) 2 = cpower (sin x) 2}
+=()
+
+
+
+   
+(* val lemma bounded_by_sine (x: complex)
+ *       requires{real_ x}
+ *       requires{c_zero <=. x <=. c_one/. ttwo}
+ *       ensures{ttwo *. x  <=. modulus (sin(pi *.  x )) } *)
+                                                                            
+let lemma euler_real (x: complex)
+      requires{real_ x}
+      ensures{cos x = t_real_part (exp (im *. x))}
+  =()
+  
+let lemma euler_im (x: complex)
+      requires{real_ x}
+      ensures{sin x = t_im_part (exp (im *. x))}
+  =()
+
+end
+
+     
+module Trigo_form
+use exponentiation.Power_
+use complex.Complex
+               use  exponentiation.Complex_Exponentiation
+               use complex_operations.FromInt
+use Angle
+use Real_to_complex_trig
+use int.Int     
+     use exponentiation.Complex_exp
+     use qdata.Sqrt_two
+         use  int.EuclideanDivision
+
+let lemma cos_add (x x': complex)
+      requires{real_ x}
+      requires{real_ x'}
+      ensures{cos (x+. x') = cos x *. cos x' -. sin x *. sin x'}
+  =()
+  
+let lemma sin_add (x x': complex)
+      requires{real_ x}
+      requires{real_ x'}
+      ensures{sin ( x +. x') = sin x *. cos x' +. cos x *. sin x'}
+  =()
+
+let lemma cos_two_x (x x': complex)
+      requires{real_ x}
+      ensures{cos (ttwo *. x) = cpower (cos x) 2 -. cpower (sin x) 2}
+  = cos_add x x
+  
+let lemma sin_two_x (x x': complex)
+      requires{real_ x}
+      requires{real_ x'}
+      ensures{sin (ttwo *. x) = ttwo *. sin x *. cos x}
+  = sin_add x x
+  
+
+let lemma cos_minus (x: complex)
+      requires{real_ x}
+      ensures{cos (-.x) = cos x}
+  =   ang_exp_neg_conjugate x
+
+  
+
+let lemma sin_minus (x: complex)
+      requires{real_ x}
+      ensures{sin (-.x) = -. (sin  x)}
+  =  ang_exp_neg_conjugate x
+
+  
+
+  
+let lemma symetries_vert (x : complex)
+      requires{real_ x}
+      ensures{sin (pi/. ttwo +. x) = sin  (pi/. ttwo -. x)}
+      ensures{cos (pi/. ttwo +. x) = -. cos  (pi/. ttwo -. x)}
+  =()                        
+
+  let lemma pi_minus  (x : complex)
+      requires{real_ x}
+      ensures{sin (pi-. x) = sin  x}
+      ensures{cos (pi-. x) = -. cos  x}
+  = symetries_vert ((pi/.ttwo)-.x)
+
+
+     use arit.Evenness
+  
+let rec lemma sin_plus_pi_pos (x : complex) (k:int)
+      requires{real_ x}
+      requires{0<=k}
+      ensures{even k -> sin (pi *. (x+. i_to_c k)) = sin  (pi *. x)}
+      ensures{odd k -> sin (pi *. (x+. i_to_c k)) = -. sin  (pi *. x)}
+      variant{k}
+  = if k = 0 then ()
+    else sin_plus_pi_pos x (k-1)
+
+let  lemma sin_plus_pi (x : complex) (k:int)
+      requires{real_ x}
+      ensures{even k -> sin (pi *. (x+. i_to_c k)) = sin  (pi *. x)}
+      ensures{odd k -> sin (pi *. (x+. i_to_c k)) = -. sin  (pi *. x)}
+  = if  0 <= k then sin_plus_pi_pos x k 
+    else sin_plus_pi_pos (x +. i_to_c k) (-k)
+
+let rec lemma cos_plus_pi_pos (x : complex) (k:int)
+      requires{real_ x}
+      requires{0<=k}
+      ensures{even k -> cos (pi *. (x+. i_to_c k)) = cos  (pi *. x)}
+      ensures{odd k -> cos (pi *. (x+. i_to_c k)) = -. cos  (pi *. x)}
+      variant{k}
+  = if k = 0 then ()
+    else cos_plus_pi_pos x (k-1)
+
+let  lemma cos_plus_pi (x : complex) (k:int)
+      requires{real_ x}
+      ensures{even k -> cos (pi *. (x+. i_to_c k)) = cos  (pi *. x)}
+      ensures{odd k -> cos (pi *. (x+. i_to_c k)) = -. cos  (pi *. x)}
+  = if  0 <= k then cos_plus_pi_pos x k 
+    else cos_plus_pi_pos (x +. i_to_c k) (-k)
+
+let  lemma mod_sin_plus_pi (x : complex) (k:int)
+      requires{real_ x}
+      ensures{modulus ( sin (pi *. (x+. i_to_c k))) = modulus (sin  (pi *. x))}
+  = ()
+
+let  lemma mod_cos_plus_pi (x : complex) (k:int)
+      requires{real_ x}
+      ensures{modulus ( cos (pi *. (x+. i_to_c k))) = modulus (cos  (pi *. x))}
+  = ()
+
+use complex_operations.Int_dec_parts
+
+let lemma sin_mod_two_pi (x:complex)
+      requires{real_ x}
+      ensures{sin (ttwo *. pi *. x) = sin (ttwo *. pi *. (dec_part x))}
+  =()
+  
+
+let lemma cos_mod_two_pi (x:complex)
+      requires{real_ x}
+      ensures{cos (ttwo *. pi *. x) = cos (ttwo *. pi *.(dec_part x))}
+  =()
+  
+  
+let lemma square_modulus_c_one_minus (phi: complex)
+      requires{real_ phi}
+      ensures{cpower (modulus (c_one -. ang_exp (real_to_ang phi))) 2 = (i_to_c 4) *. cpower (modulus (sin (pi *. phi ))) 2 }
+  =()
+
+
+  
+val lemma growing_sine (a b: complex)
+      requires{c_zero <=. a <. b <=. c_one/.ttwo}
+      ensures{sin (pi *. a) <. sin (pi *. b)}
+
+let lemma non_null_sine (x: complex)
+      requires{c_zero <. x <. pi}
+      ensures{ c_zero <. sin x }
+  =if
+    x<=. pi/. ttwo then growing_sine c_zero (x/.pi)
+  else
+    begin
+      pi_minus x;
+      growing_sine c_zero ( c_one -. (x/.pi));
+      end
+
+  val lemma bounded_by_sine (x:complex)
+      requires{real_ x}
+      requires{c_zero <=. modulus x <=. c_one/. ttwo}
+      ensures{modulus (ttwo *. x)  <=. modulus (sin(pi *.  x )) }
+  
+let lemma bounded_by_sine_one (x: complex) (k:int)
+      requires{0<=k}
+      requires{real_ x}
+      requires{ modulus (x-. c_one)  <=. c_one/. (i_to_c (power_ 2 (k+1)))}
+      ensures{modulus (ttwo *. (x -. c_one) *. (i_to_c (power_ 2 k))) <=. modulus (sin(pi *. (i_to_c (power_ 2 k)) *. x )) }
+  =bounded_by_sine (modulus (x -. c_one) *. (i_to_c (power_ 2 k)))
+
+
+
+  
+val lemma bounded_sine (x: complex)
+      requires{real_ x}
+      ensures{modulus (sin x) <=. modulus x }
+
+use complex_operations.Int_dec_parts
+  
+let lemma non_c_zero_sin (x: complex)
+      requires{real_ x}
+      requires{c_zero <. dec_part x}
+      ensures{sin (pi*.x) <> c_zero}
+  = mod_sin_plus_pi (dec_part x) (int_part_int x)
+  
+let lemma non_c_zero_sin_bounded_mod (x: complex)
+      requires{real_ x}
+      requires{ c_zero <. modulus x <.c_one}
+      ensures{sin (pi*.x) <> c_zero}
+  = non_c_zero_sin x
+  
+let lemma non_ang_zero_bounded_mod (x: complex)
+      requires{real_ x}
+      requires{ c_zero <. modulus x <. c_one}
+      ensures{real_to_ang x <> ang_zero}
+  = non_c_zero_sin_bounded_mod x
+  
+let lemma non_ang_zero_int_to_ang (k n: int)
+      requires{mod k (power_ 2 n) <> 0}
+      ensures{int_to_ang k n <> ang_zero}
+  = non_ang_zero_bounded_mod  (i_to_c k*. pow_inv_2 n)
+  
+let lemma modulus_ang_exp (a:angle)
+      ensures{modulus (ang_exp a) = c_one}
+  =()
+  
+end         
+
+
+module Rotations
+         use Angle
+     use complex.Complex
+use int.Int
+     use exponentiation.Power_
+     use Real_to_complex_trig
+use Trigo_form
+  
+let lemma sin_pos (x: complex)
+      requires{c_zero <. x <. pi }
+      ensures{ c_zero <. sin x}
+  = non_null_sine x
+
+      
+      use complex_operations.FromInt
+      use exponentiation.Complex_Exponentiation
+      
+lemma sin_pos_leq : forall x: complex. c_zero <=. x <=. pi -> c_zero <=. sin x
+                                         
+lemma sin_quarter_pi : sin (pi /. (i_to_c 4)) = (squarert_two /. ttwo)
+lemma sin_pi : sin pi = -. c_zero
+  
+
+
+let lemma cos_inv (x: complex)
+      requires{real_ x}
+      ensures{cos (-. x) = cos x}
+  =()
+  
+let lemma sin_inv (x: complex)
+      requires{real_ x}
+      ensures{sin ( -. x) = -. sin x}
+  =()
+
+
+let lemma cos_ang_mult_plus_one (x: complex) (i:int)
+      requires{real_ x}
+      ensures{cos (x *. i_to_c i) = cos (x *. (i_to_c (i-1))) *. cos x -. sin (x *. i_to_c (i-1)) *. sin x }
+  = cos_add (x *. i_to_c (i-1)) x
+
+let lemma cos_ang_mult_minus_one (x: complex) (i:int)
+      requires{real_ x}
+  ensures{cos (x*. i_to_c  (i-1)) = cos (x *.  i_to_c i) *. cos x +. sin (x *. i_to_c i) *. sin x }
+  = cos_add (x *. i_to_c i) (-.x)
+
+let lemma sin_ang_mult_plus_one (x: complex) (i:int)
+      requires{real_ x}
+  ensures{sin (x *. i_to_c i) = sin (x *. i_to_c (i-1)) *. cos x +. cos (x *. i_to_c (i-1)) *. sin x }
+  = sin_add (x *. i_to_c (i-1)) x
+
+let lemma sin_ang_mult_minus_one (x: complex) (i:int)
+      requires{real_ x}
+  ensures{sin (x *. i_to_c (i-1)) = sin (x *. i_to_c i) *. cos x -. cos (x *. i_to_c i) *. sin x }
+  = sin_add (x *. i_to_c i) (-.x)
+
+let lemma cos_ang_mult_inv (x: complex) (i:int)
+      requires{real_ x}
+  ensures{cos (x *. i_to_c (-i)) = cos (x *. i_to_c i)}
+  =()
+
+let lemma sin_ang_mult_inv (x: complex) (i:int)
+      requires{real_ x}
+  ensures{sin (x *. i_to_c (-i)) = -. sin (x *. i_to_c i)}
+  =()
+
+let lemma modulus_one_over_pow_n (k n:int)
+      requires{0<=n}
+      requires{0<= k < power_ 2 n}
+      ensures{modulus (square_rt (i_to_c k) /. (square_rt (i_to_c k)+.square_rt (i_to_c (power_ 2 n - k)))) +.
+                        ( modulus (square_rt (i_to_c (power_ 2 n - k)) /.  (square_rt (i_to_c k)+.square_rt (i_to_c (power_ 2 n - k))))) = c_one}
+  =()
+
+         use exponentiation.Complex_exp
+
+
+                                   
+let lemma get_cos (x: complex) (r i: complex)
+      requires{real_ x}
+      requires{real_ r}
+      requires{real_ i}
+      requires{modulus (r) +. modulus (i) = c_one}
+      requires{exp (im *. x) = r +. im *. i}
+      ensures{cos x = r}
+  =()
+
+let lemma get_sin (x: complex) (r i: complex)
+      requires{real_ x}
+      requires{real_ r}
+      requires{real_ i}
+      requires{modulus (r) +. modulus (i) = c_one}
+      requires{exp (im *. x) = r +. im *. i}
+      ensures{sin x = i}
+  =()
+
+
+let lemma unic_ang_meas (x x':complex)
+      requires{real_ x}
+      requires{real_ x'}
+        requires{c_zero <=. x <. c_one}
+        requires{c_zero <=. x' <. c_one}
+        requires{real_to_ang x = real_to_ang x'}
+        ensures{ x =  x'}
+=()
+
+
+
+(* let function cos_ang (theta:angle)
+ *            = cos (ttwo *. pi *. ang_meas theta )
+ * 
+ * let function sin_ang (theta:angle)
+ *            = cos (two *. pi *. ang_meas theta ) *)
+
+  
+val function arg (x:complex):complex
+               requires{modulus x = c_one}
+               ensures{exp (result *. im)  = x}
+           ensures{real_ result}
+           ensures{cos result = t_real_part x}
+           ensures{sin result = t_im_part x}
+
+
+
+
+
+           
+         end

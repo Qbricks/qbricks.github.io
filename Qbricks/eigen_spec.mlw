@@ -1,0 +1,207 @@
+module Eigen_vectors
+         use export qbricks.Circuit
+         use   exponentiation.Int_Exponentiation
+         use   binary.Bit_vector
+         use   qdata.Bv_to_ket
+         use   matrices.Matrice              
+         use   complex.Complex
+         use   qdata.Qreg
+         use   matrices.Matrix_scalar
+         use   matrices.Kronecker_product
+         use  qdata.Ket_basis
+         use export binary.Bit_vector_inversions
+         use export qdata.Kronecker_Qbit
+         use export complex_operations.FromInt
+         use export kets.Superpositions
+         use exponentiation.Int_Exponentiation
+         use export measure.Measure
+         use export p_set.IndexestoSet
+         use export p_int.P_minmax
+         use export p_set.Choose_filter
+         use export complex_operations.Simpl_op
+         use export unit_circle.Trigo_form
+         use export unit_circle.Real_to_complex_trig
+         use export unit_circle.Ang_sum
+
+let  predicate eigen (c:circuit) (x: matrix complex)(o:angle)
+   ensures{result  -> is_a_ket_l x (width c)}
+   ensures{result -> path_sem c x = (ang_exp o) *.. x}
+  =  sem c x  ((ang_exp o) *.. x)
+
+let lemma eigen_ket_l (c:circuit) (x: matrix complex)(o:angle)
+      requires{ eigen c x o}
+      ensures{ is_a_ket_l x (width c )}
+  =()
+
+let lemma set_eigen (c:circuit) (x: matrix complex)(o:angle)
+      requires{ eigen c x o}
+      ensures{path_sem c x = (ang_exp o) *.. x}
+  =()
+
+let lemma get_eigen (c:circuit) (x: matrix complex)(o:angle)
+      requires{ is_a_ket_l x (width c )}
+      requires{path_sem c x = (ang_exp o) *.. x}
+      ensures{ eigen c x o}
+  =()
+
+let lemma is_a_ket_l_eigen  (c:circuit) (x: matrix complex)
+      requires{exists o. eigen c x o}
+      ensures{is_a_ket_l x (width c)}
+  =()
+  
+let lemma eigen_scal (c:circuit) (a:angle) (ghost x: matrix complex) (ghost o: angle)
+      requires{eigen c x o}
+      ensures{eigen c (ang_exp a *.. x) o}
+  = path_sem_scal_ c x  (ang_exp o *.. x) (ang_exp a) 
+  
+let function eigen_comp  (c c':circuit) (ghost x:matrix complex)(ghost o o': angle) : circuit
+     requires{width c = width c'}
+     requires{eigen c x  o}
+     requires{eigen c' x  o'}
+     ensures{width result = width c}
+     ensures{eigen result   x (ang_add o o') }
+  =
+  eigen_scal c' o x o';
+  path_sem_comp c c' x  (ang_exp o *..x) ((ang_exp (ang_add o o'))*..x) ;
+ sequence c c'
+
+let function eigen_square  (c:circuit) (ghost x:matrix complex) (ghost o:angle)  :circuit
+     requires{eigen c x  o}
+     ensures{width result = width c}
+     ensures{eigen result x (ang_add o o) }
+     ensures{result =sequence c c}
+  = 
+  eigen_comp c c x  o o
+
+  
+let rec function pow_pow_2 (c:circuit) (p:int) (ghost x:matrix complex) (ghost o:angle) : circuit
+     requires{0<= p}                                                                             
+     requires{eigen c x  o}
+     ensures{width result = width c}
+     ensures{eigen  result x (ang_mult_int o  (power 2 p))}
+     variant{p}
+  = if (p = 0)
+    then c
+    else begin
+        power_plus_one 2 (p-1);
+        eigen_square (pow_pow_2 c (p-1) x o) x (ang_mult_int o  (power 2 (p-1)));
+        end
+
+let function control_eigen (circ: circuit) (ghost y:matrix complex) (ghost o:angle)(c ft n:int)
+             : circuit
+                 requires{0<= c <ft}
+                 requires{ n = ft + (width circ)}
+                 requires{eigen circ y o}
+                 ensures{width result =   n}
+                 ensures{forall x: matrix complex. is_a_ket_l x ft -> is_a_ket_basis_elt x ->
+                                   getbv (ket_to_bv x) c  = 0 -> path_sem result (kronecker x y) =  (kronecker x y)}
+                 ensures{forall x: matrix complex. is_a_ket_l x ft -> is_a_ket_basis_elt x ->
+                                   getbv (ket_to_bv x) c  = 1 -> path_sem result (kronecker x y) =  (kronecker x (ang_exp o *.. y))}
+                 ensures{forall x: bitvec. length x = ft ->
+                                   path_sem result (kronecker (bv_to_ket x) y) =  (kronecker (bv_to_ket x) (ang_exp (ang_mult_int o (getbv x c)) *.. y))}
+  =   cont_kron_pat_right circ c ft  n  y ;
+      cont circ c ft n
+
+  let function control_eigen_scal (circ: circuit) (ghost y:matrix complex) (c ft n:int)(ghost o o':angle)
+               : circuit
+                   requires{0<= c <ft}
+                   requires{ n = ft + (width circ)}
+                   requires{n>=0}
+                   requires{eigen circ y o'}
+                   ensures{width result =  ft + (width circ)}
+                   ensures{result = cont circ c ft n}
+                   ensures{forall x:bitvec.length x = ft-> path_sem result (kronecker (ang_exp o *..  bv_to_ket x) y)
+                             = (kronecker (ang_exp (ang_add o (ang_mult_int   o' (getbv x c))) *..  (bv_to_ket x)) y)}
+    =  control_eigen circ (ang_exp o *.. y) o' c ft n
+
+let rec function control_eigen_seq_test (fcirc : int -> circuit)  (fc: int-> int)(ft bound s n:int)
+                     requires{forall i. 0<= i < bound -> 0<= fc i <  ft}
+                     requires{0< bound <= ft}
+                     requires{s>=0}
+                     requires{ n = ft + s}
+                     requires{0<= n}
+                     requires{forall i. width (fcirc i) = s}
+                     ensures{width result = ft + s}
+                     variant{bound}
+  =
+  if bound = 1 then cont (fcirc 0)  (fc 0) ft (ft +s)
+  else sequence (control_eigen_seq_test fcirc fc ft (bound -1) s n)
+  (cont (fcirc (bound -1)) (fc (bound -1))  ft n )
+     
+let rec function control_eigen_seq_pre (fcirc : int -> circuit) (ghost y: matrix complex) (ghost fk: int -> angle)  (fc: int-> int)(ft bound s n:int) (ghost x:bitvec)
+                 : circuit
+                     requires{forall i. 0<= i < bound -> 0<= fc i <  ft}
+                     requires{0< bound <= ft}
+                     requires{s>=0}
+                     requires{ n = ft + s}
+                     requires{0<= n}
+                     requires{forall i. 0<= i < bound -> eigen (fcirc i) y  (fk i)}
+                     requires{forall i. width (fcirc i) = s}
+                     requires{ is_a_ket_l y s}
+                     requires{length x = ft}
+                     ensures{width result = ft + s}
+                     ensures{path_sem result   (kronecker (bv_to_ket x) y) =
+                                          (kronecker (ang_exp (ang_sum (fun i -> ang_mult_int (fk i) (getbv x (fc i))) 0 bound)
+                                           *..  (bv_to_ket x))  y)}
+                     ensures{result = control_eigen_seq_test fcirc fc ft bound s n}
+                     variant{bound}
+  = if bound = 1 then
+      begin
+      ang_sum_cardone (fun i ->  ang_mult_int (fk i)  (getbv x (fc i))) 0 bound;
+      control_eigen (fcirc 0) y (fk 0)  (fc 0) ft (ft +s);
+      end
+    else
+      let res_pre =  (control_eigen_seq_pre fcirc y fk  fc ft (bound-1) s n x) in
+      begin
+      ang_sum_right_extension (fun i ->  ang_mult_int (fk i)  (getbv x (fc i))) 0 bound;
+      path_sem_comp res_pre (control_eigen_scal (fcirc  (bound -1))  y (fc (bound -1))  ft n 
+                          (ang_sum (fun i ->  ang_mult_int (fk i)  (getbv x (fc i))) 0 (bound-1)) (fk (bound-1)))
+        (kronecker (bv_to_ket x) y)
+        (kronecker (ang_exp (ang_sum (fun i -> ang_mult_int (fk i) (getbv x (fc i))) 0 (bound-1))
+         *..  (bv_to_ket x))  y)
+        (kronecker (ang_exp (ang_sum (fun i -> ang_mult_int (fk i) (getbv x (fc i))) 0 bound)
+         *..  (bv_to_ket x))  y) ;
+              sequence  res_pre (control_eigen_scal (fcirc  (bound -1))  y (fc (bound -1))  ft n 
+                           (ang_sum (fun i ->  ang_mult_int (fk i)  (getbv x (fc i))) 0 (bound-1)) (fk (bound-1)) );
+      end
+
+let   function control_eigen_seq (fcirc : int -> circuit) (ghost y: matrix complex) (ghost fk: int -> angle)  (fc: int-> int)(ft bound s n:int) 
+                 : circuit
+                     requires{forall i. 0<= i < bound -> 0<= fc i <  ft}
+                     requires{0< bound <= ft}
+                     requires{s>=0}
+                     requires{ n = ft + s}
+                     requires{0<= n}
+                     requires{forall i. 0<= i < bound -> eigen (fcirc i) y  (fk i)}
+                     requires{forall i. width (fcirc i) = s}
+                     requires{ is_a_ket_l y s}
+                     ensures{forall x:bitvec. length x = ft -> result = control_eigen_seq_pre fcirc y fk fc ft bound s n x}
+                     ensures{width result = ft + s}
+                     ensures{forall x:bitvec. length x = ft -> path_sem result (kronecker (bv_to_ket x) y) = 
+                                          (kronecker (ang_exp (ang_sum (fun i -> ang_mult_int (fk i) (getbv x (fc i))) 0 bound)
+                                           *..  (bv_to_ket x))  y)}
+  = assert{forall x: bitvec.  length x = ft -> control_eigen_seq_test fcirc fc ft bound s n =  control_eigen_seq_pre fcirc y fk fc ft bound s n x};
+  control_eigen_seq_test fcirc fc ft bound s n
+
+  use complex_operations.FromInt
+let   function control_eigen_seq_real (fcirc : int -> circuit) (ghost y: matrix complex) (ghost fk: int -> complex)  (fc: int-> int)(ft bound s n:int) 
+                 : circuit
+                     requires{forall i. 0<= i < bound -> 0<= fc i <  ft}
+                     requires{0< bound <= ft}
+                     requires{s>=0}
+                     requires{ n = ft + s}
+                     requires{0<= n}
+                     requires{forall i. 0<= i < bound -> real_ (fk i)}
+                     requires{forall i. 0<= i < bound -> eigen (fcirc i) y  (real_to_ang (fk i))}
+                     requires{forall i. width (fcirc i) = s}
+                     requires{ is_a_ket_l y s}
+                     ensures{width result = ft + s}
+                     ensures{forall x:bitvec. length x = ft -> path_sem result (kronecker (bv_to_ket x) y) =
+                                          (kronecker (ang_exp (ang_sum (fun i -> real_to_ang ((fk i) *. i_to_c (getbv x (fc i)))) 0 bound)
+                                                      *..  (bv_to_ket x))  y)}
+  = control_eigen_seq fcirc y (fun k -> if real_ (fk k) then real_to_ang (fk k) else ang_zero) fc ft bound s n
+      
+
+   
+end
+

@@ -1,0 +1,834 @@
+
+module Pps
+
+         use binary.Bit_vector
+         use unit_circle.Angle
+         use matrices.Matrice
+         use matrices.Matrix_scalar
+         use complex.Complex
+         use qdata.Bv_to_ket
+         use binary.Bit_vector_decomp
+         use qdata.Ket_basis
+         use qdata.Qreg
+         use int.Int
+         use exponentiation.Complex_exp
+         use qdata.Sqrt_two
+         use exponentiation.Power_
+         use complex_operations.Indic
+         use complex_operations.Base_type
+         use  int.EuclideanDivision
+     
+type pps =
+  {h_width: int;
+   h_range: int;
+   h_basis_ket: (int-> int) -> (int-> int) -> (int-> int);
+   h_angle: (int-> int) -> (int-> int) -> angle}
+    invariant{0<=h_width}
+    invariant{0<= h_range}
+    invariant{forall x y: int->int. (forall i:int. 0<= i < h_width -> 0<= x i < 2) ->
+                          (forall i:int. 0<= i < h_range -> 0<= y i < 2) ->
+                          forall i:int. 0<= i < h_width -> 0<= h_basis_ket x y i <2}
+    invariant{ forall x x' y y' : int->int.  (forall i:int. 0<= i < h_width -> x i = x' i) -> 
+                                  (forall i:int. 0<= i < h_range -> y i = y' i) -> forall  i:int. 0<= i < h_width ->
+                                                                                             h_basis_ket x y i = h_basis_ket x' y' i } 
+    invariant{ forall x x' y y' : int->int.  (forall i:int. 0<= i < h_width -> x i = x' i) -> 
+                                  (forall i:int. 0<= i < h_range -> y i = y' i)  ->
+                                  h_angle x y  = h_angle x' y' } 
+    by {h_width =0;h_range =0; h_basis_ket = (fun x y i -> 0); h_angle = (fun x y  -> ang_zero)}
+
+
+let function build_pps (w r:int) (k : (int-> int) -> (int-> int) -> (int-> int)) (a:(int-> int) -> (int-> int) -> angle)
+               requires{0<= w}
+               requires{0<= r}
+               requires{forall x y: int->int. (forall i:int. 0<= i < w -> 0<= x i < 2) ->
+                                    (forall i:int. 0<= i < r -> 0<= y i < 2) ->
+                                    forall i:int. 0<= i < w -> 0<= k x y i <2}
+               requires{ forall x x' y y' : int->int.  (forall i:int. 0<= i < w -> x i = x' i) -> 
+                                            (forall i:int. 0<= i < r -> y i = y' i) -> forall  i:int. 0<= i < w ->
+                                                                                                 k x y i = k x' y' i } 
+               requires{ forall x x' y y' : int->int.  (forall i:int. 0<= i < w -> x i = x' i) -> 
+                                            (forall i:int. 0<= i < r -> y i = y' i)  ->
+                                            a x y  = a x' y' } 
+               ensures{h_width result = w}
+               ensures{h_range result = r}
+               ensures{forall x y:bitvec. forall i:int. length x = w -> length y = r -> 0<= i < w ->
+                                                   h_basis_ket result (getbv x) (getbv y) i = mod (k (getbv x) (getbv y) i) 2}
+               ensures{forall x y:bitvec. length x = w -> length y = r ->
+                                  h_angle result (getbv x) (getbv y)  = a (getbv x) (getbv y)}
+  = {h_width =w;h_range =r; h_basis_ket = (fun x y i ->   mod (k (fun i -> if 0<= i < w then x i else 0)
+                                                                 (fun i -> if 0<= i < r then y i else 0) i) 2);
+     h_angle = (fun x y -> a (fun i -> if 0<= i < w then x i else 0)
+                             (fun i -> if 0<= i < r then y i else 0))}
+
+let function build_pps_bv  (w r:int) (k: bitvec -> bitvec ->  bitvec) (a: bitvec -> bitvec -> angle):pps
+                                                                                                       requires{0<= w}
+                                                                                                       requires{0<= r}
+                                                                                                       requires{forall x y. length x = w -> length y = r -> length (k x y) = w}
+                                                                                                       ensures{h_width result = w}
+                                                                                                       ensures{h_range result = r}
+                                                                                                       ensures{forall x y:bitvec. forall i:int. length x = w -> length y = r -> 0<= i < w ->
+                                                                                                                                           h_basis_ket result (getbv x) (getbv y) i = getbv (k x y) i }
+                                                                                                       ensures{forall x y:bitvec. length x = w -> length y = r ->
+                                                                                                                          h_angle result (getbv x) (getbv y)  = a x y}
+  =  (build_pps w r (fun x y -> getbv (k (make_bv (fun i -> mod (x i) 2) w) (make_bv (fun i -> mod (y i) 2) r)))
+        (fun x y -> a (make_bv (fun i -> mod (x i) 2) w) (make_bv (fun i -> mod (y i) 2) r)))
+   
+let function h_basis_ket_bv (h:pps) (x y: bitvec): bitvec
+                                                     requires{length x = h_width h}
+                                                     requires{length y = h_range h}
+                                                     ensures{length result = h_width h}
+                                                     ensures{forall i. 0 <= i < h_width h -> getbv result i = h_basis_ket h (getbv x) (getbv y) i}
+  = make_bv (fun k -> h_basis_ket h (getbv x) (getbv y) k) (h_width h)
+  
+let function h_angle_bv (h:pps) (x y: bitvec): angle
+                                                 requires{length x = h_width h}
+                                                 requires{length y = h_range h}
+  = h_angle h (getbv x) (getbv y) 
+  
+let lemma pps_ket_bound (h:pps)(x y: int -> int) (i:int)
+      requires{0<= i < h_width h}
+      requires{forall i:int. 0<= i < h_width h -> 0<= x i < 2}
+      requires{forall i:int. 0<= i < h_range h -> 0<= y i < 2}
+      ensures{0<= h_basis_ket h x y i <2}
+  =()
+  
+let lemma low_pps_ket_bound (h:pps)(x y: int -> int) (i:int)
+      requires{0<= i < h_width h}
+      requires{forall i:int. 0<= i < h_width h -> 0<= x i < 2}
+      requires{forall i:int. 0<= i < h_range h -> 0<= y i < 2}
+      ensures{0<= h_basis_ket h x y i}
+  =()
+  
+let lemma high_pps_ket_bound (h:pps)(x y: int -> int) (i:int)
+      requires{0<= i < h_width h}
+      requires{forall i:int. 0<= i < h_width h -> 0<= x i < 2}
+      requires{forall i:int. 0<= i < h_range h -> 0<= y i < 2}
+      ensures{h_basis_ket h x y i <2}
+  =()
+  
+let function pps_apply_basis (h:pps)(x : bitvec):matrix complex
+                                                   requires{length x = h_width h}
+                                                   ensures{is_a_ket_l result (h_width h)}
+                                                   ensures{forall i:int. 0<= i < power_ 2 (h_width h) -> get_ket result i = pow_inv_sqrt_2 (h_range h) *. sum (n_bvs (h_range h)) (fun y -> ang_exp ( h_angle h (getbv x) (getbv y))
+                                                                                                                                                                                            *. indic (bv_to_int (make_bv ( h_basis_ket h (getbv x) (getbv y) )(h_width h)) ) i) }
+  = pow_inv_sqrt_2 (h_range h) *.. ket_sum_l (n_bvs (h_range h)) (fun y -> ang_exp ( h_angle h (getbv x) (getbv y)) *.. bv_to_ket ((make_bv ( h_basis_ket h (getbv x) (getbv y) )) (h_width h))) (h_width h)
+                                     use qdata.Kronecker_Qbit
+
+let lemma pps_apply_basis_decomp  (h:pps)(x : bitvec)
+      requires{length x = h_width h}
+      ensures{pps_apply_basis h x = ket_sum_l (n_bvs (h_width h)) (fun z -> pow_inv_sqrt_2 (h_range h) *. sum (n_bvs (h_range h)) (fun y -> ang_exp ( h_angle h (getbv x) (getbv y))
+                                                                                                                                            *. indic ( h_basis_ket_bv h x y ) z)
+                                                                            *.. ket (h_width h) (bv_to_int z)) (h_width h)}
+  =()
+  
+let lemma pps_apply_basis_ket_l (h:pps)(x : bitvec) (l:int)
+      requires{length x = l}
+      requires{l = h_width h}
+      ensures{is_a_ket_l (pps_apply_basis h x) l}
+  = ()
+  
+let lemma pps_apply_basis_ket_length (h:pps)(x : bitvec) (l:int)
+      requires{length x = l}
+      requires{l = h_width h}
+      ensures{ket_length (pps_apply_basis h x) =  l}
+  = ()
+  
+let lemma pps_apply_basis_bv (h:pps)(x : bitvec)
+      requires{length x = h_width h}
+      ensures{pps_apply_basis h x = pow_inv_sqrt_2 (h_range h) *.. ket_sum_l (n_bvs (h_range h)) (fun y -> ang_exp ( h_angle_bv h x y) *.. bv_to_ket  ( h_basis_ket_bv h x y)) (h_width h)}
+  =()
+
+let lemma pps_apply_basis_value (h:pps)(x : bitvec)
+      requires{length x = h_width h}
+      ensures{forall i:int. 0<= i < power_ 2 (h_width h) -> get_ket (pps_apply_basis h x) i = pow_inv_sqrt_2 (h_range h) *.
+                                                                                                sum (n_bvs (h_range h)) (fun y -> ang_exp ( h_angle_bv h x y)
+                                                                                                                                  *. indic ( h_basis_ket_bv h x y) (int_to_bv i (h_width h))) }
+  = ()
+  
+let function pps_apply (h:pps)(x : matrix complex):matrix complex
+                                                     requires{is_a_ket_l x (h_width h)}
+                                                     ensures{is_a_ket_l result (h_width h)}
+  =  ket_sum_l (n_bvs (h_width h)) (fun y -> if length y = h_width h then  get_ket x (bv_to_int y) *..  pps_apply_basis h y else x) (h_width h)
+
+let lemma get_pps_apply (h:pps)(x : matrix complex)
+      requires{is_a_ket_l x (h_width h)}
+      ensures{pps_apply h x =   ket_sum_l (n_bvs (h_width h)) (fun y ->   get_ket x (bv_to_int y) *..  pps_apply_basis h y ) (h_width h)}
+  =()
+
+let lemma rewrite_pps_apply_basis (h:pps)(x : matrix complex)
+      requires{is_a_ket_l x (h_width h)}
+      requires{is_a_ket_basis_elt x}
+      ensures{pps_apply h x = pps_apply_basis h (ket_to_bv x)}
+  =  ()
+
+let lemma rewrite_pps_apply_basis_rev (h:pps)(x : bitvec)
+      requires{length x =  (h_width h)}
+      ensures{pps_apply_basis h x =pps_apply h (bv_to_ket x)}
+  =  ()
+
+let lemma pps_apply_decomp (h:pps) (x:matrix complex)
+      requires{is_a_ket_l x  (h_width h)}
+      ensures{pps_apply h x =  ket_sum_l (n_bvs (h_width h)) (fun z -> get_ket x (bv_to_int z)
+                                                                       *.. pps_apply h  (bv_to_ket z)) (h_width h)}
+  =()
+  
+let lemma pps_apply_scal (h:pps) (x:matrix complex) (a:complex)
+      requires{is_a_ket_l x  (h_width h)}
+      ensures{pps_apply h (a*..x) = a*.. pps_apply h x}
+  =()
+  
+let lemma pps_apply_add (h:pps) (x y:matrix complex) (l:int)
+      requires{is_a_ket_l x  (h_width h)}
+      requires{is_a_ket_l y  (h_width h)}
+      requires{l = h_width h}
+      ensures{pps_apply h (add_ket_l x y l) = add_ket_l (pps_apply h x) (pps_apply h y) l}
+  =()
+
+     use  set.FsetComprehension
+  
+let rec lemma pps_apply_sum (h:pps) (s: set 'a) (f :'a -> matrix complex) (l:int)
+          requires{1<= cardinal s}
+          requires{forall e. mem e s -> is_a_ket_l (f e)  (h_width h)}
+          requires{l = h_width h}
+          ensures{pps_apply h (ket_sum_l s f l) = ket_sum_l s (fun e -> pps_apply h (f e) ) l }
+          variant{cardinal s}
+  = if cardinal s = 1 then ()
+    else
+      begin
+        assert{2<= cardinal s};
+        ket_sum_l_plus_one (remove (choose s) s) (choose s) f l;
+        pps_apply_sum h (remove (choose s) s) f  l;
+      end
+
+let constant pps_id  : pps
+  ={h_width  = 1;
+    h_range   = 0;
+    h_basis_ket = (fun x y i -> x i);
+    h_angle  = (fun x y  ->  ang_zero)}
+     ensures{h_width result  = 1}
+     ensures{h_range result  = 0}
+     ensures{forall x y: int-> int. forall i:int. h_basis_ket result x y i = x i}
+     ensures{forall x y: int-> int.  h_angle result x y  = ang_zero}
+
+let constant pps_swap  : pps
+  ={h_width  = 2;
+    h_range   = 0;
+    h_basis_ket = (fun x y i -> if x 0 = x 1 then x i else x (1-i));
+    h_angle  = (fun x y  ->  ang_zero)}
+     ensures{h_width result  = 2}
+     ensures{h_range result  = 0}
+     ensures{forall x y: int-> int.  forall i:int. h_basis_ket result x y i = if x 0 = x 1 then x i else x (1-i)}
+     ensures{forall x y: int-> int.  h_angle result x y  = ang_zero}
+  
+let function pps_phase (k:int) : pps
+                                   ensures{h_width result  = 1}
+                                   ensures{h_range result  = 0}
+                                   ensures{forall x y: int-> int. forall i:int. h_basis_ket result x y i = x i}
+                                   ensures{forall x y: int-> int.  h_angle result x y  = if 0<= k then int_to_ang 1 k else  int_to_ang (-1) (-k)  }
+  ={h_width  = 1;
+    h_range   = 0;
+    h_basis_ket = (fun x y i ->  x  i);
+    h_angle  = (fun x y  ->  if 0<= k then int_to_ang 1 k else  int_to_ang (-1) (-k))}
+
+let function pps_rz (k:int) : pps
+                                ensures{h_width result  = 1}
+                                ensures{h_range result  = 0}
+                                ensures{forall x y: int-> int. forall i:int. h_basis_ket result x y i = x i}
+                                ensures{forall x y: int-> int.  h_angle result x y  = if x 0 = 0 then ang_zero else if 0<= k then int_to_ang 1 k else ( int_to_ang (-1) (-k) )}
+  ={h_width  = 1;
+    h_range   = 0;
+    h_basis_ket = (fun x y i ->  x  i);
+    h_angle  = (fun x y  ->  if x 0 = 0 then ang_zero else if 0<= k then int_to_ang 1 k else  int_to_ang (-1) (-k))}
+  
+let function pps_hadamard  : pps
+  ={h_width  = 1;
+    h_range   = 1;
+    h_basis_ket = (fun x y i -> y  i);
+    h_angle  = (fun x y  ->  if x 0 = y 0  = 1 then ang_minus_one else ang_zero)}
+     ensures{h_width result  = 1}
+     ensures{h_range result  = 1}
+     ensures{forall x y: int-> int. forall i:int. h_basis_ket result x y i = y i}
+     ensures{forall x y: int-> int.  h_angle result x y  = if x 0 = y 0  = 1 then ang_minus_one else ang_zero}
+
+     use  int.EuclideanDivision
+
+let function pps_cnot  : pps
+  ={h_width  = 2;
+    h_range   = 0;
+    h_basis_ket = (fun x y i ->  if i = 0 then  x i else mod ( x 0 + x i) 2);
+    h_angle  = (fun x y  ->   ang_zero)}
+     ensures{h_width result  = 2}
+     ensures{h_range result  = 0}
+     ensures{forall x y: int-> int. forall i:int. h_basis_ket result x y i =  if i = 0 then  x i else mod ( x 0 +   x i) 2}
+     ensures{forall x y: int-> int.  h_angle result x y  =  ang_zero}
+
+let lemma pps_id_apply_basis (x:bitvec)
+      requires{length x = 1}
+      ensures{pps_apply_basis (pps_id) x = bv_to_ket x}
+  =()
+
+let lemma pps_swap_apply_basis (x:bitvec)
+      requires{length x = 2}
+      ensures{pps_apply_basis (pps_swap) x = ket 2 (
+                                                 if bv_to_int x = 0 then  0 else
+                                                   if bv_to_int x = 1 then  2 else
+                                                     if bv_to_int x = 2 then  1 else 3)}
+  =
+  assert{getbv x 0 = if 0<= bv_to_int x  < 2 then  0 else 1};
+  assert{getbv x 1 =  mod (bv_to_int x) 2}
+  
+let lemma pps_cnot_apply_basis (x:bitvec)
+      requires{length x = 2}
+      ensures{pps_apply_basis (pps_cnot) x = ket 2 (
+                                                 if bv_to_int x = 0 then  0 else
+                                                   if bv_to_int x = 1 then  1 else
+                                                     if bv_to_int x = 2 then  3 else 2)}
+  =   assert{getbv x 0 = if 0<= bv_to_int x  < 2 then  0 else 1};
+      assert{getbv x 1 =  mod (bv_to_int x) 2}
+      
+let lemma pps_phase_apply_basis (k:int)(x:bitvec)
+      requires{length x = 1}
+      ensures{pps_apply_basis (pps_phase k) x =  (if 0<= k then ang_exp (int_to_ang 1 k) else  ang_exp (int_to_ang (-1) (-k))) *.. bv_to_ket x}
+  =()
+  
+let lemma pps_rz_apply_basis (k:int)(x:bitvec)
+      requires{length x = 1}
+      ensures{pps_apply_basis (pps_rz k) x = if getbv x 0 = 0 then bv_to_ket x
+                                             else  (if 0<= k then ang_exp (int_to_ang 1 k) else  ang_exp (int_to_ang (-1) (-k))) *.. bv_to_ket x}
+  =()
+
+let lemma pps_hadamard_apply_basis (k:int)(x:bitvec)
+      requires{length x = 1}
+      ensures{pps_apply_basis (pps_hadamard) x = if getbv x 0 = 0 then pow_inv_sqrt_2 1 *.. add_ket_l (ket 1 0) (ket 1 1) 1
+                                                 else pow_inv_sqrt_2 1 *.. add_ket_l (ket 1 0) (-. c_one *.. (ket 1 1)) 1}
+  =()
+  
+let function pps_seq (h1 h2:pps)
+               requires{h_width h1 = h_width h2}
+               ensures{h_width result  = h_width h1}
+               ensures{h_range result  = h_range h1 + h_range h2}
+               ensures{forall x y: int-> int. forall i:int. h_basis_ket result x y i = h_basis_ket h2 (h_basis_ket h1 x y) (fun k -> y (k + h_range h1)) i}
+               ensures{forall x y: int-> int.  h_angle result x y  = ang_add (h_angle h1 x y) (h_angle h2 (h_basis_ket h1 x y) (fun k -> y (k + h_range h1)))}
+  = {h_width  = h_width h1;
+     h_range   = h_range h1 + h_range h2;
+     h_basis_ket = (fun x y i -> h_basis_ket h2 (h_basis_ket h1 x y) (fun k -> y (k + h_range h1)) i);
+     h_angle  = (fun x y  ->  ang_add (h_angle h1 x y) (h_angle h2 (h_basis_ket h1 x y) (fun k -> y (k + h_range h1))))}
+
+      use binary.Bv_concat
+  
+let lemma h_basis_ket_bv_seq (h1 h2:pps) (x y:bitvec)
+      requires{h_width h1 = h_width h2}
+      requires{length x = h_width h1}
+      requires{length y = h_range h1 + h_range h2}
+      ensures{h_basis_ket_bv (pps_seq h1 h2) x y = h_basis_ket_bv h2 (h_basis_ket_bv h1 x (hpart y (h_range h1))) (tpart y (h_range h1))}
+  =()
+
+let lemma h_angle_bv_seq (h1 h2:pps) (x y:bitvec)
+      requires{h_width h1 = h_width h2}
+      requires{length x = h_width h1}
+      requires{length y = h_range h1 + h_range h2}
+      ensures{h_angle_bv (pps_seq h1 h2) x y = ang_add (h_angle_bv h1 x (hpart y (h_range h1))) (h_angle_bv h2 (h_basis_ket_bv h1 x (hpart y (h_range h1))) (tpart y (h_range h1)))}
+  =()
+  
+let function pps_par (h1 h2:pps)
+               ensures{h_width result  = h_width h1 + h_width h2}
+               ensures{h_range result  = h_range h1 + h_range h2}
+               ensures{forall x y: int-> int. forall i:int. h_basis_ket result x y i =
+                                                         if i < h_width h1 then h_basis_ket h1 x y i
+                                                         else h_basis_ket h2 (fun k -> x (k+ h_width h1)) (fun k -> y (k+ h_range h1))  (i - h_width h1)}
+               ensures{forall x y: int-> int.  h_angle result x y  = ang_add (h_angle h1 x y) (h_angle h2 (fun k -> x (k+ h_width h1)) (fun k -> y (k + h_range h1)))}
+  = {h_width  = h_width h1+ h_width h2;
+     h_range   = h_range h1 + h_range h2;
+     h_basis_ket = (fun x y i -> if i < h_width h1 then h_basis_ket h1 x y i
+                                 else h_basis_ket h2 (fun k -> x (k+ h_width h1)) (fun k -> y (k+ h_range h1))  (i - h_width h1));
+     h_angle  = (fun x y  ->  ang_add (h_angle h1 x y) (h_angle h2 (fun k -> x (k+ h_width h1)) (fun k -> y (k + h_range h1))))}
+
+let lemma h_basis_ket_bv_par (h1 h2:pps) (x y:bitvec)
+      requires{length x = h_width h1 + h_width h2}
+      requires{length y = h_range h1 + h_range h2}
+      ensures{h_basis_ket_bv (pps_par h1 h2) x y = concat (h_basis_ket_bv h1   (hpart x (h_width h1)) (hpart y (h_range h1)))
+                                                     (h_basis_ket_bv h2   (tpart x (h_width h1)) (tpart y (h_range h1)))}
+  =()
+
+let lemma h_angle_bv_par (h1 h2:pps) (x y:bitvec)
+      requires{length x = h_width h1 + h_width h2}
+      requires{length y = h_range h1 + h_range h2}
+      ensures{h_angle_bv (pps_par h1 h2) x y = ang_add (h_angle_bv h1 (hpart x (h_width h1)) (hpart y (h_range h1))) (h_angle_bv h2 (tpart x (h_width h1))  (tpart y (h_range h1)) )}
+  =()
+
+     use matrices.Kronecker_product
+  
+let lemma kron_to_ket_l (x:matrix complex) (l:int)
+      requires{0<=l}
+      requires{is_a_ket_l (kronecker x (ket 1 0)) (l+1)}
+      ensures{is_a_ket_l x l}
+  =
+  assert{columns (kronecker x (ket 1 0)) = 1};
+  assert{rows (kronecker x (ket 1 0)) = power_ 2 (l+1)};
+  kronecker_columns x (ket 1 0);
+  kronecker_rows x (ket 1 0);
+  set_is_a_ket_l x l
+  
+let function pps_anc (h1 :pps)
+               requires{1<= h_width h1 }
+               ensures{h_width result  = h_width h1 - 1}
+               ensures{h_range result  = h_range h1 }
+               ensures{forall x y: int-> int. forall i:int. h_basis_ket result x y i =
+                                                         h_basis_ket h1 (fun k -> if k = h_width h1 -1 then 0 else x k) y i}
+               ensures{forall x y: int-> int.  h_angle result x y  = h_angle h1 (fun k -> if k = h_width h1 -1 then 0 else x k) y}
+  = {h_width  = h_width h1 -1;
+     h_range   = h_range h1 ;
+     h_basis_ket = (fun x y i -> h_basis_ket h1 (fun k -> if k = h_width h1 -1 then 0 else x k) y i);
+     h_angle  = (fun x y  ->  h_angle h1 (fun k -> if k = h_width h1 -1 then 0 else x k) y)}
+
+let lemma h_basis_ket_bv_anc (h :pps) (x y:bitvec)
+      requires{1<= h_width h }
+      requires{length x = h_width h -1}
+      requires{length y = h_range h}
+      ensures{h_basis_ket_bv (pps_anc h) x y = hpart (h_basis_ket_bv h (concat x (make_bv (fun _ -> 0) 1)) y) (h_width h -1)}
+  =()
+
+let lemma h_basis_ket_bv_anc_ (h :pps) (x y:bitvec)(l:int)
+      requires{1<= h_width h }
+      requires{getbv x (h_width h -1) = 0}
+      requires{length x = h_width h}
+      requires{l = h_width h -1}
+      requires{length y = h_range h}
+      ensures{h_basis_ket_bv (pps_anc h) (hpart x l) y = hpart (h_basis_ket_bv h x y) (h_width h -1)}
+  =()
+
+let lemma h_angle_bv_anc (h :pps) (x y:bitvec)
+      requires{1<= h_width h }
+      requires{length x = h_width h -1}
+      requires{length y = h_range h}
+      ensures{h_angle_bv (pps_anc h) x y = h_angle_bv h (concat x (make_bv (fun _ -> 0) 1)) y}
+  =()
+
+let lemma h_angle_bv_anc_ (h :pps) (x y:bitvec) (l:int)
+      requires{1<= h_width h }
+      requires{getbv x (h_width h -1) = 0}
+      requires{length x = h_width h }
+      requires{l = h_width h -1}
+      requires{length y = h_range h}
+      ensures{h_angle_bv (pps_anc h) (hpart x l) y = h_angle_bv h x y}
+  =()
+     
+     use qdata.Kronecker_Qbit
+     use qdata.Bv_mat_sum
+     use matrices.Kronecker_product
+     use kronecker_comm.Kronecker_comm  
+     use kronecker_comm.Kronecker_distr  
+
+     predicate pps_apply_equiv (h1 h2:pps)
+   = h_width h1 = h_width h2 &&
+     forall x: matrix complex. is_a_ket_l x (h_width h1) ->
+               pps_apply h1 x = pps_apply h2 x 
+
+let lemma set_pps_apply_equiv (h1 h2:pps)
+      requires{h_width h1 = h_width h2}
+      requires{forall x: bitvec. length x =  h_width h1 ->
+                         pps_apply_basis h1 x = pps_apply_basis h2 x}
+      ensures{pps_apply_equiv h1 h2}
+  =()
+
+let lemma set_pps_apply_equiv_sim (h1 h2:pps)
+      requires{h_width h1 = h_width h2}
+      requires{h_range h1 = h_range h2}
+      requires{forall x y : int->int. forall i. 
+                                 (forall j . 0<= j <  (h_width h1) -> 0<= x j <2) ->
+                            (forall j . 0<= j <  (h_range h1) -> 0<= y j <2) ->
+                            0<=i< h_width h1 ->
+                            h_basis_ket h1 x y i = h_basis_ket h2 x y i}
+      requires{forall x y : int->int.
+                                 (forall j . 0<= j <  (h_width h1) -> 0<= x j <2) ->
+                            (forall j . 0<= j <  (h_range h1) -> 0<= y j <2) ->
+                            h_angle h1 x y = h_angle h2 x y}
+      ensures{pps_apply_equiv h1 h2}
+  =()
+
+let lemma get_pps_apply_equiv (h1 h2:pps) (x:matrix complex)
+      requires{h_width h1 = h_width h2}
+      requires{pps_apply_equiv h1 h2}
+      requires{ is_a_ket_l x  (h_width h1)}
+      ensures{pps_apply h1 x = pps_apply h2 x}
+  =()
+
+let lemma get_pps_apply_basis_equiv (h1 h2:pps) (x:bitvec)
+      requires{h_width h1 = h_width h2}
+      requires{pps_apply_equiv h1 h2}
+      requires{length x =  (h_width h1)}
+      ensures{pps_apply_basis h1 x = pps_apply_basis h2 x}
+  =()
+
+let lemma reflexive_pps_apply_equiv (h:pps)
+      ensures{pps_apply_equiv h h}
+  = set_pps_apply_equiv h h
+  
+let lemma commut_pps_apply_equiv (h h':pps)
+      requires{pps_apply_equiv h h'}
+      ensures{pps_apply_equiv h' h}
+  = set_pps_apply_equiv h' h
+  
+let lemma transitive_pps_apply_equiv (h h' h'':pps)
+      requires{pps_apply_equiv h h'}
+      requires{pps_apply_equiv h' h''}
+      ensures{pps_apply_equiv h h''}
+  = set_pps_apply_equiv h h''
+  
+let lemma pps_apply_basis_seq (h1 h2:pps)(x : bitvec)
+      requires{length x  = h_width h1}
+      requires{h_width h1 = h_width h2}
+      ensures{pps_apply_basis (pps_seq h1 h2) x = pps_apply h2 (pps_apply_basis h1 x)}
+  =  
+  assert{pps_apply h2 (pps_apply_basis h1 x) = ket_sum_l (n_bvs (h_range h1 ))
+                                                 ( fun y -> (pow_inv_sqrt_2 (h_range h1)
+                                                             *.  ang_exp (h_angle_bv h1  x y)
+                                                             *.. (pow_inv_sqrt_2 (h_range h2 ) *.. (ket_sum_l (n_bvs (h_range h2 ))
+                                                                                                      (fun y1 -> ang_exp (h_angle_bv h2  (h_basis_ket_bv h1  x y)  y1) *.. 
+                                                                                                                   bv_to_ket (( h_basis_ket_bv h2 (h_basis_ket_bv h1  x y) y1)) ) (h_width h1))))) (h_width h1)}
+
+let lemma pps_apply_seq (h1 h2:pps)(x : matrix complex)
+      requires{h_width h1 = h_width h2}
+      requires{is_a_ket_l x  (h_width h1)}
+      ensures{pps_apply (pps_seq h1 h2) x = pps_apply h2 (pps_apply h1 x)}
+  =  ()
+   
+let lemma pps_seq_pred (h1 h2 h3:pps)
+      requires{h_width h1 = h_width h2 = h_width h3}
+      requires{h_range h3  = h_range h1 + h_range h2}
+      requires{forall x y : int->int. forall i:int.
+                                               (forall j . 0<= j <  (h_width h3) -> 0<= x j <2) ->
+                                               (forall j . 0<= j <  (h_range h3) -> 0<= y j <2) ->
+                                               0<=i< h_width h3 ->
+                                               h_basis_ket h3 x y i = h_basis_ket h2 (h_basis_ket h1 x y) (fun k -> y (k + h_range h1)) i}
+      requires{forall x y: int-> int.
+                                 (forall j . 0<= j <  (h_width h3) -> 0<= x j <2) ->
+                           (forall j . 0<= j <  (h_range h3) -> 0<= y j <2) ->
+                           h_angle h3 x y  = ang_add (h_angle h1 x y)  (h_angle h2 (h_basis_ket h1 x y) (fun k -> y (k + h_range h1)))}
+      ensures{forall x. is_a_ket_l x (h_width h3) ->  pps_apply h3 x = pps_apply h2 (pps_apply h1 x)}
+  = set_pps_apply_equiv_sim h3 (pps_seq h1 h2)
+
+
+  
+let lemma pps_apply_basis_par (h1 h2:pps)(x : bitvec)
+      requires{length x  = h_width h1 + h_width h2}
+      ensures{pps_apply_basis (pps_par h1 h2) x = kronecker (pps_apply_basis h1 (hpart x (h_width h1)))  (pps_apply_basis h2 (tpart x (h_width h1))) }
+  =  assert{pps_apply_basis (pps_par h1 h2) x =
+              (pow_inv_sqrt_2 (h_range (pps_par h1 h2))
+               *.. ket_sum_l (n_bvs (h_range (pps_par h1 h2)))
+                     (fun (y:bitvec) ->
+                       ang_exp (ang_add (h_angle_bv h1 (hpart x (h_width h1)) (hpart y (h_range h1))) (h_angle_bv h2 (tpart x (h_width h1))  (tpart y (h_range h1))))
+                       *.. bv_to_ket (concat (h_basis_ket_bv h1   (hpart x (h_width h1)) (hpart y (h_range h1)))
+                                        (h_basis_ket_bv h2   (tpart x (h_width h1)) (tpart y (h_range h1)))))
+                     (h_width (pps_par h1 h2)))}
+
+
+let lemma pps_apply_par (h1 h2:pps)(x y : matrix complex)
+      requires{is_a_ket_l x  (h_width h1)}
+      requires{is_a_ket_l y  (h_width h2)}
+      ensures{pps_apply (pps_par h1 h2) (kronecker x y) = kronecker (pps_apply h1 x)  (pps_apply h2 y)}
+  =
+  ()
+
+let lemma pps_par_pred (h1 h2 h3:pps)
+      requires{h_width h3 = h_width h1 + h_width h2}
+      requires{h_range h3  = h_range h1 + h_range h2}
+      requires{forall x y : int->int. forall i:int.
+                                               (forall j . 0<= j <  (h_width h3) -> 0<= x j <2) ->
+                                               (forall j . 0<= j <  (h_range h3) -> 0<= y j <2) ->
+                                               0<=i< h_width h3 ->
+                                               h_basis_ket h3 x y i =
+                                                 if i < h_width h1 then h_basis_ket h1 x y i
+                                                 else h_basis_ket h2 (fun k -> x (k+ h_width h1)) (fun k -> y (k+ h_range h1))  (i - h_width h1)}
+      requires{forall x y: int-> int.        
+                                 (forall j . 0<= j <  (h_width h3) -> 0<= x j <2) ->
+                           (forall j . 0<= j <  (h_range h3) -> 0<= y j <2) ->
+                           h_angle h3 x y  = ang_add (h_angle h1 x y) (h_angle h2 (fun k -> x (k+ h_width h1)) (fun k -> y (k + h_range h1)))}
+      ensures{forall x y. is_a_ket_l x (h_width h1) ->is_a_ket_l y (h_width h2) ->  pps_apply h3 (kronecker x y) = kronecker (pps_apply h1 x)  (pps_apply h2 y)}
+  = set_pps_apply_equiv_sim h3 (pps_par h1 h2)
+      
+      use p_set.Choose_filter
+  
+let lemma pps_apply_basis_anc (h:pps)(x : bitvec) (y:matrix complex)
+      requires{1<= h_width h}
+      requires{length x = h_width h}
+      requires{getbv x (h_width h -1) = 0}
+      requires{pps_apply_basis h x = kronecker y (ket 1 0)}
+      requires{is_a_ket_l y (h_width h -1)}
+      ensures{pps_apply_basis (pps_anc h) (hpart x (h_width h -1)) = y}
+  =
+  assert{(pow_inv_sqrt_2 (h_range h)
+          *.. add_ket_l
+                (ket_sum_l
+                   (my_filter (n_bvs (h_range h))
+                      (fun (x1:bitvec) ->
+                        (getbv (h_basis_ket_bv h x x1) @ (h_width h - 1)) = 0))
+                   (fun (y1:bitvec) ->
+                     ang_exp (h_angle_bv h x y1)
+                     *.. bv_to_ket
+                           (concat (hpart (h_basis_ket_bv h x y1) (h_width h - 1))
+                              (tpart (h_basis_ket_bv h x y1) (h_width h - 1))))
+                   (h_width h))
+                (ket_sum_l
+                   (my_filter (n_bvs (h_range h))
+                      (fun (x1:bitvec) ->
+                        (getbv (h_basis_ket_bv h x x1) @ (h_width h - 1)) = 1))
+                   (fun (y1:bitvec) ->
+                     ang_exp (h_angle_bv h x y1)
+                     *.. bv_to_ket
+                           (concat (hpart (h_basis_ket_bv h x y1) (h_width h - 1))
+                              (tpart (h_basis_ket_bv h x y1) (h_width h - 1))))
+                   (h_width h))
+                (h_width h))
+         = kronecker y (ket 1 0)};
+  assert{add_ket_l
+           (kronecker (pow_inv_sqrt_2 (h_range h)*.. ket_sum_l
+                                                       (my_filter (n_bvs (h_range h))
+                                                          (fun (x1:bitvec) ->
+                                                            (getbv (h_basis_ket_bv h x x1) @ (h_width h - 1)) = 0))
+                                                       (fun (y1:bitvec) ->
+                                                         ang_exp (h_angle_bv h x y1)
+                                                         *.. bv_to_ket
+                                                               (hpart (h_basis_ket_bv h x y1) (h_width h - 1)))(h_width h - 1))
+              (ket 1 0))
+           (kronecker (pow_inv_sqrt_2 (h_range h) *.. ket_sum_l
+                                                        (my_filter (n_bvs (h_range h))
+                                                           (fun (x1:bitvec) ->
+                                                             (getbv (h_basis_ket_bv h x x1) @ (h_width h - 1)) = 1))
+                                                        (fun (y1:bitvec) ->
+                                                          ang_exp (h_angle_bv h x y1)
+                                                          *.. bv_to_ket
+                                                                (hpart (h_basis_ket_bv h x y1) (h_width h - 1))) (h_width h - 1))
+              (ket 1 1)) (h_width h)
+         = kronecker y (ket 1 0)};
+  assert{kronecker (pps_apply_basis (pps_anc h) (hpart x (h_width h -1))) (ket 1 0) = kronecker y (ket 1 0)}
+  
+let lemma pps_apply_basis_anc_ (h:pps)(x : bitvec) (y:matrix complex)
+      requires{1<= h_width h}
+      requires{length x = h_width h -1}
+      requires{pps_apply_basis h  (concat x (make_bv (fun _ -> 0) 1)) = kronecker y (ket 1 0)}
+      requires{is_a_ket_l y (h_width h -1)}
+      ensures{pps_apply_basis (pps_anc h) x = y}
+  = pps_apply_basis_anc h (concat x (make_bv (fun _ -> 0) 1)) y
+
+let lemma pps_apply_anc (h :pps)(path_sem_target : matrix complex ->matrix complex)(x : matrix complex)
+      requires{1<= h_width h}
+      requires{is_a_ket_l x (h_width h -1)}
+      requires{forall x:matrix complex. is_a_ket_l x (h_width h -1 ) ->  pps_apply h (kronecker x (ket 1 0)) =  (kronecker (path_sem_target x) (ket 1 0))}
+      requires{is_a_ket_l x (h_width h -1)}
+      ensures{pps_apply (pps_anc h) x = (path_sem_target x)}
+  =  ()
+
+let rec function pps_anc_gen (h:pps) (k:int)
+      requires{1<= h_width h}
+      variant{k}
+  = if k = 1 then pps_anc h else pps_anc (pps_anc_gen h (k-1))
+   
+let lemma pps_apply_equiv_seq (h1 h1' h2 h2':pps)
+      requires{pps_apply_equiv h1 h1'}
+      requires{pps_apply_equiv h2 h2'}
+      requires{h_width h1 = h_width h2}
+      ensures{pps_apply_equiv (pps_seq h1 h2) (pps_seq h1' h2')}
+  =()
+
+let lemma pps_apply_equiv_par (h1 h1' h2 h2':pps)
+      requires{pps_apply_equiv h1 h1'}
+      requires{pps_apply_equiv h2 h2'}
+      ensures{pps_apply_equiv (pps_par h1 h2) (pps_par h1' h2')}
+  =()
+  
+let lemma pps_apply_equiv_anc (h h':pps)
+      requires{1<= h_width h}
+      requires{pps_apply_equiv h h'}
+      requires{exists path_sem_target. forall y. length y =  (h_width h -1) -> pps_apply_basis h  (concat y (make_bv (fun _ -> 0) 1)) = kronecker (path_sem_target y) (ket 1 0)}
+      ensures{pps_apply_equiv (pps_anc h) (pps_anc h')}
+  =()
+  
+let lemma pps_anc_pred (h1 h2:pps)(path_sem_target: bitvec-> matrix complex)
+      requires{1<= h_width h1 }
+      requires{forall y. length y =  (h_width h1 -1) -> pps_apply_basis h1  (concat y (make_bv (fun _ -> 0) 1)) = kronecker (path_sem_target y) (ket 1 0)}
+      requires{h_width h2 = h_width h1 -1}
+      requires{h_range h2  = h_range h1}
+      requires{forall x y : int->int. forall i:int.
+                                               (forall j . 0<= j <  (h_width h2) -> 0<= x j <2) ->
+                                               (forall j . 0<= j <  (h_range h2) -> 0<= y j <2) ->
+                                               0<=i< h_width h2 ->
+                                               h_basis_ket h2 x y i = h_basis_ket h1 (fun k -> if k = h_width h1 -1 then 0 else x k) y i}
+      requires{forall x y: int-> int.        
+                                 (forall j . 0<= j <  (h_width h2) -> 0<= x j <2) ->
+                           (forall j . 0<= j <  (h_range h2) -> 0<= y j <2) ->
+                           h_angle h2 x y  = h_angle h1 (fun k -> if k = h_width h1 -1 then 0 else x k) y}
+      ensures{forall x. length x = (h_width h2) ->  pps_apply_basis h2 x = path_sem_target x}
+  = set_pps_apply_equiv_sim h2 (pps_anc h1)
+
+let lemma pps_anc_pred_ (h1 h2:pps)
+      requires{1<= h_width h1 }
+      requires{exists path_sem_target. forall y. length y =  (h_width h1 -1) -> pps_apply_basis h1  (concat y (make_bv (fun _ -> 0) 1)) = kronecker (path_sem_target y) (ket 1 0)}
+      requires{h_width h2 = h_width h1 -1}
+      requires{h_range h2  = h_range h1}
+      requires{forall x y : int->int. forall i:int.
+                                               (forall j . 0<= j <  (h_width h2) -> 0<= x j <2) ->
+                                               (forall j . 0<= j <  (h_range h2) -> 0<= y j <2) ->
+                                               0<=i< h_width h2 ->
+                                               h_basis_ket h2 x y i = h_basis_ket h1 (fun k -> if k = h_width h1 -1 then 0 else x k) y i}
+      requires{forall x y: int-> int.        
+                                 (forall j . 0<= j <  (h_width h2) -> 0<= x j <2) ->
+                           (forall j . 0<= j <  (h_range h2) -> 0<= y j <2) ->
+                           h_angle h2 x y  = h_angle h1 (fun k -> if k = h_width h1 -1 then 0 else x k) y}
+      ensures{forall x. length x = (h_width h2) ->  pps_apply_basis h1 (concat x (make_bv (fun _ -> 0) 1)) = kronecker (pps_apply_basis h2 x ) (ket 1 0)}
+  = set_pps_apply_equiv_sim h2 (pps_anc h1)
+
+      use matrices.Matrix_sums
+  
+let function pps_to_mat (h:pps)
+               ensures{result = pow_inv_sqrt_2 (h_range h) *.. mat_sum_dim (n_bvs (h_width h)) (fun x -> mat_sum_dim (n_bvs (h_range h)) (fun y ->   
+                                                                                                             (make_f (power_ 2 (h_width h)) (power_ 2 (h_width h)) (fun i j -> if i = bv_to_int (h_basis_ket_bv h x y) && j = bv_to_int x then ang_exp (h_angle_bv h x y) else c_zero ))) (power_ 2 (h_width h)) (power_ 2 (h_width h))) (power_ 2 (h_width h)) (power_ 2 (h_width h))}
+               ensures{result = pow_inv_sqrt_2 (h_range h) *.. mat_sum (n_bvs (h_width h)) (fun x -> mat_sum (n_bvs (h_range h)) (fun y ->   
+                                                                                                         (make_f (power_ 2 (h_width h)) (power_ 2 (h_width h)) (fun i j -> if i = bv_to_int (h_basis_ket_bv h x y) && j = bv_to_int x then ang_exp (h_angle_bv h x y) else c_zero ))))}
+               ensures{rows result = power_ 2 (h_width h)}
+               ensures{columns result = power_ 2 (h_width h)}
+               ensures{forall x: bitvec. length x = (h_width h)  -> mat_mult result (bv_to_ket x) = pps_apply_basis h x}
+               ensures{forall x: matrix complex. is_a_ket_l x  (h_width h)  -> mat_mult result x = pps_apply h x}
+  = pow_inv_sqrt_2 (h_range h) *.. mat_sum_dim (n_bvs (h_width h)) (fun x -> mat_sum_dim (n_bvs (h_range h)) (fun y -> if length x = h_width h && length y = h_range h then  
+                                                                                                                         (make_f (power_ 2 (h_width h)) (power_ 2 (h_width h)) (fun i j -> if i = bv_to_int (h_basis_ket_bv h x y) && j = bv_to_int x then ang_exp (h_angle_bv h x y) else c_zero )) else (make_f (power_ 2 (h_width h)) (power_ 2 (h_width h)) (fun i j -> c_zero))) (power_ 2 (h_width h)) (power_ 2 (h_width h)) ) (power_ 2 (h_width h)) (power_ 2 (h_width h)) 
+  
+end
+
+module Mats_for_sem
+         use complex.Complex
+         use  exponentiation.Complex_Exponentiation
+         use  exponentiation.Power_
+         use complex_operations.Indic
+         use  complex.Complex
+         use  int.EuclideanDivision
+         use  int.Int         
+         use  binary.Bit_vector
+         use   unit_circle.Angle
+         use  matrices.Matrice
+         use  matrices.Matrix_product
+         use  qdata.Bv_to_ket
+         use  qdata.Qreg
+         use  qdata.Sqrt_two
+         use  matrices.Matrix_scalar
+         use  binary.Bit_vector_decomp
+         use  Pps
+         use  qdata.Kronecker_Qbit
+     
+let function sem_id_mat()
+               ensures{rows result = power_ 2 1}
+               ensures{columns result = power_ 2 1}
+               ensures{forall x. length x = 1 -> mat_mult result (bv_to_ket x) =  (bv_to_ket x)}
+               ensures{forall x. length x = 1 -> mat_mult result (bv_to_ket x) =  pps_apply_basis (pps_id) x}
+  = make_f 2 2 indic
+
+let function sem_rz_mat (k:int) : matrix complex
+                                    ensures{rows result = power_ 2 1}
+                                    ensures{columns result = power_ 2 1}
+                                    ensures{0<= k -> forall x. length x = 1 -> mat_mult result (bv_to_ket x) =  if  (bv_to_int x = 0) then bv_to_ket x else ang_exp (int_to_ang 1 k) *.. bv_to_ket x }
+                                    ensures{k<= 0 -> forall x. length x = 1 -> mat_mult result (bv_to_ket x) =  if (bv_to_int x = 0) then bv_to_ket x else ang_exp (int_to_ang (-1) (-k)) *.. bv_to_ket x }
+                                    ensures{ forall x. length x = 1 -> mat_mult result (bv_to_ket x) =  pps_apply_basis (pps_rz k) x }
+  =  make_f 2 2 (fun i j -> if i = j then if i = 0 then c_one else if 0<= k then ang_exp(int_to_ang 1 k) else ang_exp ( int_to_ang (-1) (-k) )  else c_zero)
+
+let function sem_phase_mat (k:int) : matrix complex
+                                       ensures{rows result = power_ 2 1}
+                                       ensures{columns result = power_ 2 1}
+                                       ensures{0<= k -> forall x. length x = 1 -> mat_mult result (bv_to_ket x) =   ang_exp (int_to_ang 1 k) *.. bv_to_ket x }
+                                       ensures{k<= 0 -> forall x. length x = 1 -> mat_mult result (bv_to_ket x) =   ang_exp (int_to_ang (-1) (-k)) *.. bv_to_ket x }
+                                       ensures{ forall x. length x = 1 -> mat_mult result (bv_to_ket x) =  pps_apply_basis (pps_phase k) x }
+  =  make_f 2 2 (fun i j -> if i = j then  if 0<= k then ang_exp(int_to_ang 1 k) else ang_exp ( int_to_ang (-1) (-k) ) else c_zero)
+
+let function sem_hadamard_mat() : matrix complex
+                                    ensures{rows result = power_ 2 1}
+                                    ensures{columns result = power_ 2 1}
+                                    ensures{ mat_mult result (ket 1 0) =   pow_inv_sqrt_2 1 *.. add_ket_l (ket 1 0) (ket 1 1) 1 }
+                                    ensures{ mat_mult result (ket 1 1) =   pow_inv_sqrt_2 1 *.. add_ket_l (ket 1 0) (-. c_one *..(ket 1 1)) 1 }
+                                    ensures{ forall x. length x = 1 -> mat_mult result (bv_to_ket x) =  pps_apply_basis pps_hadamard x }
+  = make_f 2 2  (fun i j -> cpower (-. c_one) (i*j)  *. pow_inv_sqrt_2 1)
+  
+let function cnot_func(x:bitvec):bitvec
+                                   requires{length x =2}
+                                   ensures{length result = 2}
+                                   ensures{bv_to_int x = 0 -> result = int_to_bv 0 2}
+                                   ensures{bv_to_int x = 1 -> result = int_to_bv 1 2}
+                                   ensures{bv_to_int x = 2 -> result = int_to_bv 3 2}
+                                   ensures{bv_to_int x = 3 -> result = int_to_bv 2 2}
+  =
+  assert{getbv x 0 = div (bv_to_int x)2};
+  assert{getbv x 1 = mod (bv_to_int x)2};
+  if getbv x 0 = 0 then x else  make_bv (fun i -> if i = 0 then getbv x i else (1- getbv x i ))2
+
+let lemma invol_cnot_func (x:bitvec)
+      requires{length x =2}
+      ensures{cnot_func (cnot_func x) = x}
+  =()
+  
+let function cnot_func_int(i:int):int
+                                    ensures{0<= result < 4}
+                                    ensures{i = 0 -> result = 0}
+                                    ensures{i = 1 -> result = 1}
+                                    ensures{i = 2 -> result = 3}
+                                    ensures{i = 3 -> result = 2}
+                                    ensures{0<= i < 4 -> result = if div i 2 = 0  then i else 3 -mod i 2}
+  =
+  bv_to_int (cnot_func (int_to_bv i 2))
+
+let lemma invol_cnot_func_int (i:int)
+      requires{0<= i < 4}
+      ensures{cnot_func_int (cnot_func_int i) = i}
+  =()
+
+let function sem_cnot_mat() : matrix complex
+                                ensures{rows result = power_ 2 2}
+                                ensures{columns result = power_ 2 2}
+                                ensures{result = make_f 4 4  (fun i j -> if j =  (if div i 2 = 0  then i else 3 -mod i 2) then c_one else c_zero)}
+                                ensures{forall x. length x = 2 -> mat_mult result (bv_to_ket x) = bv_to_ket (if getbv x 0 = 0  then x else  int_to_bv (if bv_to_int x = 2 then 3 else 2) 2)}
+                                ensures{forall x. length x = 2 -> mat_mult result (bv_to_ket x) = bv_to_ket (if getbv x 0 = 0  then x else  make_bv (fun i ->
+                                                                                                                                                if i = 0 then getbv x i else (1- getbv x i ))2)}
+                                ensures{forall i. 0<= i < power_ 2 2 ->  mat_mult result (ket 2 i) =   ket 2 (if i = 0 then 0 else if i = 1 then 1 else if i=2 then 3 else 2 )}
+                                ensures{ forall x. length x = 2 -> mat_mult result (bv_to_ket x) =  bv_to_ket  (cnot_func x) }
+                                ensures{ forall x. length x = 2 -> mat_mult result (bv_to_ket x) =  pps_apply_basis pps_cnot x }
+  = make_f 4 4  (fun i j -> if j = cnot_func_int i then c_one else c_zero)
+
+let function swap_func(x:bitvec):bitvec
+                                   requires{length x =2}
+                                   ensures{length result = 2}
+                                   ensures{bv_to_int x = 0 -> result = int_to_bv 0 2}
+                                   ensures{bv_to_int x = 1 -> result = int_to_bv 2 2}
+                                   ensures{bv_to_int x = 2 -> result = int_to_bv 1 2}
+                                   ensures{bv_to_int x = 3 -> result = int_to_bv 3 2}
+  =
+  assert{getbv x 0 = div (bv_to_int x)2};
+  assert{getbv x 1 = mod (bv_to_int x)2};
+  make_bv (fun i ->  getbv x  (1-  i )) 2
+
+let lemma invol_swap_func (x:bitvec)
+      requires{length x =2}
+      ensures{swap_func (swap_func x) = x}
+  =()
+  
+let function swap_func_int(i:int):int
+                                    ensures{0<= result < 4}
+                                    ensures{i = 0 -> result = 0}
+                                    ensures{i = 1 -> result = 2}
+                                    ensures{i = 2 -> result = 1}
+                                    ensures{i = 3 -> result = 3}
+                                    ensures{0<= i < 4 -> result = if div i 2 = mod i 2  then i else 3 - i }
+  =
+  bv_to_int (swap_func (int_to_bv i 2))
+
+let lemma invol_swap_func_int (i:int)
+      requires{0<= i < 4}
+      ensures{swap_func_int (swap_func_int i) = i}
+  =()
+  
+let function sem_swap_mat() : matrix complex
+                                ensures{rows result = power_ 2 2}
+                                ensures{columns result = power_ 2 2}
+                                ensures{result = make_f 4 4  (fun i j -> indic j (if i = 0  then i else if i = 1  then 2 else if i = 2  then 1 else 3))}
+                                ensures{forall x. length x = 2 -> mat_mult result (bv_to_ket x) = bv_to_ket (  make_bv (fun i ->  getbv x (1-i) )2)}
+                                ensures{ forall x. length x = 2 -> mat_mult result (bv_to_ket x) =  bv_to_ket  (swap_func x) }
+                                ensures{forall i. 0<= i < power_ 2 2 ->  mat_mult result (ket 2 i) =   ket 2 (if i = 0 then 0 else if i = 1 then 2 else if i =2 then 1 else 3 )}
+                                ensures{ forall x. length x = 2 -> mat_mult result (bv_to_ket x) =  pps_apply_basis pps_swap x }
+  = make_f 4 4  (fun i j -> indic j (swap_func_int i ))
+end 
+     

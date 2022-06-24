@@ -1,0 +1,2312 @@
+ module Binary_Op
+           use  arit.Div_Mod
+           use  exponentiation.Int_Exponentiation
+           use  int.Int
+           use  int.EuclideanDivision
+           use  ref.Ref
+
+predicate binary (t: int->int) 
+= forall k : int. 0<= t k <2 
+
+ let lemma set_binary (t: int->int)
+       requires{forall k : int. 0<= t k <2 }
+       ensures{binary t}
+   =()
+                             
+ let lemma get_binary (t: int->int)
+       requires{binary t}
+       ensures{forall k : int. 0<= t k <2 }
+   =()
+      
+use functions.Shift
+
+  let ghost function head_bit(i  k:int) : int  
+                                            requires{k> 0}
+                                            requires{0<= i < power 2 k}
+                                            ensures{0<= result <= 1}
+    = div i (power 2 (k-1))  
+    
+   let ghost function tail_bits (i  k:int) : int
+                                               requires{k> 0}
+                                               requires{0<= i < power 2 k}
+                                               ensures{0<= result <= power 2 (k-1)}
+     = mod i (power 2 (k-1))
+   
+   let ghost function ht_to_int (hi ti k:int):int
+                                                requires{0<k}
+                                                requires{0<= hi < 2}
+                                                requires{0<= ti < power 2 (k-1)}
+     = hi * (power 2 (k-1)) + ti
+     
+   let lemma  head_tail_inv (i k:int)
+         requires{k> 0}
+         requires{0<= i < power 2 k}
+         ensures{ht_to_int (head_bit i k) (tail_bits i k) k = i}
+     =()
+     
+   let lemma  ht_to_int_head (i ti k:int)
+         requires{k> 0}
+         requires{0<=i< power 2 k}
+         requires{0<= ti < power 2 (k-1)}
+         ensures{head_bit (ht_to_int (head_bit i k) ti k) k  = head_bit i k}
+     = decomp i (power 2 (k-1))
+   
+   let lemma  ht_to_int_tail (hi i k:int)
+         requires{k> 0}
+         requires{0<=i< power 2 k}
+         requires{0<= hi < 2}
+         ensures{tail_bits (ht_to_int hi (tail_bits i k)  k) k = tail_bits i k}
+     =decomp i (power 2 (k-1))
+
+let lemma concat_fun_bin_i  (f g: int -> int)(i k:int)
+       requires{binary f}
+       requires{binary g}
+       ensures{0<= concat_fun f g i k < 2}
+       =()
+
+     let lemma shift_bin_i  (f : int -> int)(i k:int)
+       requires{binary f}
+       ensures{0<= shift f  i k < 2}
+       =()
+
+     let lemma concat_fun_bin  (f g: int -> int)(i :int)
+       requires{binary f}
+       requires{binary g}
+       ensures{binary (concat_fun f g i)}
+       =()
+
+            let lemma mod_func_bin (f: int -> int)(k i:int)
+                  requires{k > 0}
+              requires{binary f}
+              ensures{binary (mod_func f k)}
+              =()
+
+     let lemma shift_bin  (f : int -> int)(i :int)
+       requires{binary f}
+       ensures{binary (shift f  i)}
+       =()
+
+     let lemma binary_comp  (f g : int -> int)
+       requires{binary f}
+       ensures{binary (fun x -> f (g x))}
+       =()
+
+let lemma set_is_all_binary (t: int->int) 
+      requires{forall k : int. 0<= t k <2 }
+      ensures{binary t}
+  =()
+
+  let  function nary_length (i n : int) : int
+                                                requires{1 < n}
+                                                requires{0<=i}
+                                                ensures{0 < i -> (power n (result-1) <= i < power n result )}
+                                                ensures{i < n -> result = 1}
+                                                ensures{result >= 1}
+                                                ensures{i = mod i (power n result)}
+  = assert{forall j:int. 0<j -> div i (power n j) <= i};
+    assert{forall j:int. 0<j -> i >=  (power n (j+1)) ->  div i (power n (j+1)) <= div i (power n j)};
+    if i < n then 1 else(
+      let j = ref 0 in let kp
+                         = ref i in                                              
+                       while i >= (power n (!j+1)) do
+                         invariant{!j >= 0}
+                           invariant{!kp = div i (power n !j)}
+                           invariant{i >=  (power n !j)}
+                           variant{ !kp}
+                           j := !j+1;
+                         kp := div i (power n !j);
+                       done; (!j+1))  
+      
+  let  function binary_length (i : int) : int
+                                                  requires{0<=i}
+                                                  ensures{0 < i -> (power 2 (result-1) <= i < power 2 result )}
+                                                  ensures{i < 2 -> result = 1}
+                                                  ensures{result >= 1}
+                                                  ensures{i = mod i (power 2 result)}
+    = nary_length i 2
+    
+   let lemma set_binary_length (i k:int)
+         requires{0<=i}
+         requires{0<= k}
+         requires{0 < i -> (power 2 (k-1) <= i < power 2 k )}
+         requires{i <2 -> k =1}
+         ensures{k  = binary_length i }
+     = assert{forall k':int. k'= binary_length i  -> (k' <= k /\ k<= k')}
+     
+   let lemma set_binary_length_b (i k:int)
+         requires{0<=i}
+         requires{0<k}
+         requires{ i < power 2 k }
+         ensures{binary_length i <= k}
+     = if i = 0 then ()
+       else
+         assert{power 2 (binary_length i -1) <= i < power 2 (binary_length i)}
+ end  
+
+module Bit_vector
+         use  complex.Complex
+         use  int.Int
+         use  exponentiation.Int_Exponentiation
+         use int.EuclideanDivision
+         use  p_set.IndexestoSet
+         use  functions.MapInjection
+         use  Binary_Op
+         use  p_int.Int_comp
+         use  set.FsetComprehension
+     
+type bitvec = {
+    value: int -> int;
+    length: int}
+                invariant { 0 <= length}
+                invariant{forall i:int. 0<= i < length ->  0<= value i <2 }
+                invariant{forall i:int. not (0<= i < length) ->   value i =0 }
+                predicate bvlength (f: int->int) (i:int)= forall k:int. 0<= k < i -> 0 <= f k < 2  
+                                                        
+let lemma binary_mult (a b:int)
+      ensures{mod (a * b) 2 = mod a 2 * mod b 2}
+  = if  mod a 2 = 0 then 
+      if  mod b 2 = 0 then ()
+      else ()
+    else
+      if  mod b 2 = 0 then ()
+      else ()
+  
+let function getbv (a: bitvec) : int -> int
+                                   ensures  {binary result}
+                                   ensures  {forall i:int. result i = a.value  i }
+= a.value
+
+let function to_bool (i:int): bool
+                                requires{0<=i < 2}
+           = if i = 0 then false else true
+
+let lemma getbv_bound (bv: bitvec) (i: int)
+      ensures  { 0<= getbv bv i <2 }
+  =()
+
+let lemma getbv_eq (bvx bvy: bitvec)(i:int)
+      requires{bvx = bvy}
+      ensures{getbv bvx i = getbv bvy i}
+  =()
+
+let lemma getbv_eq_gen (bvx bvy: bitvec)(i j:int)
+      requires{bvx = bvy}
+      requires{i = j}
+      ensures{getbv bvx i = getbv bvy j}
+  = getbv_eq bvx bvy i
+  
+let ghost function setbv (bv: int-> int) (i j:int)                                                    
+                     ensures{forall k:int. k<> i -> result k = bv k}                                          
+                     ensures{ result i = j}
+  = fun k -> if k = i then j else (bv k)
+
+let ghost function setbv_int (bv1 bv2: int-> int) (i j:int)                                                    
+                     ensures{forall k:int. i < k <= j -> result k = bv2 (k-i)}                                          
+                     ensures{forall k:int. k <= i -> result k = bv1 k}                                          
+                     ensures{forall k:int. j < k -> result k = bv1 k}                                          
+  = fun k -> if  i < k <= j then bv2 (k-i) else bv1 k
+
+let lemma set_bvlength (bv: bitvec) (i:int)
+      requires{forall k:int. 1<=k<i -> 0 <= getbv bv k < 2}
+      ensures{bvlength (getbv bv) i}
+  =()
+
+let lemma null_product_bitvec (x:bitvec) (n:int)
+      requires{n = length x}
+      requires{forall i. 0<= i < n -> getbv x i = 1}
+      ensures{ind_iproduct (getbv x) 0 n = 1}
+  =()
+
+use p_set.Choose_filter
+  
+let lemma non_null_product_bitvec (x:bitvec) (n:int)
+      requires{n = length x}
+      requires{not (forall i. 0<= i < n -> getbv x i = 1)}
+      ensures{ind_iproduct (getbv x) 0 n = 0}
+  = let m = choose (my_filter   (to_fset 0 n) (fun i -> getbv x i = 0))
+          ensures{0<= result < n}
+          ensures{getbv x result =0}
+    in
+    begin
+    ind_iproduct_trans (getbv x) 0 m n;
+    assert{ind_iproduct (getbv x)  m n = 0};
+    end
+
+let  lemma null_product_bitvec_inv (x:bitvec) (n:int)
+      requires{n = length x}
+      requires{forall i. 0<= i < n-> getbv x i = 0}
+      ensures{ind_iproduct (fun i -> 1- getbv x i) 0 n = 1}
+  = let rec lemma inter (k)
+              requires{0<=k <=n}
+              ensures{ind_iproduct (fun i -> 1- getbv x i) 0 k = 1}
+              variant{k}
+              = if k = 0 then ()
+              else
+                begin
+                  inter (k-1);
+                  ind_iproduct_right_extension (fun i -> 1- getbv x i) 0 k;
+                end
+          in inter n
+        
+let lemma non_null_product_bitvec_inv (x:bitvec) (n:int)
+      requires{n = length x}
+      requires{not (forall i. 0<= i < n-> getbv x i = 0)}
+      ensures{ind_iproduct (fun i -> 1- getbv x i) 0 n = 0}
+  =
+  let m = choose (my_filter   (to_fset 0 n) (fun i -> getbv x i = 1))
+        ensures{mem result (to_fset 0 n)}
+        ensures{0<= result < n}
+        ensures{getbv x result = 1 }
+  in
+    begin
+    ind_iproduct_trans (fun i -> 1- getbv x i) 0 m n;
+    assert{ind_iproduct (fun i -> 1- getbv x i)  m n = 0};
+    end
+
+let lemma null_product_bitvec_rev (x:bitvec) (n:int)
+      requires{n = length x}
+      requires{ind_iproduct (getbv x) 0 n = 1}
+      ensures{forall i. 0<= i < n-> getbv x i = 1}
+  =()
+
+let lemma non_null_product_bitvec_rev (x:bitvec) (n:int)
+      requires{n = length x}
+      requires{ind_iproduct (getbv x) 0 n = 0}
+      ensures{not (forall i. 0<= i < n-> getbv x i = 1)}
+  =()
+
+let lemma null_product_bitvec_inv_rev (x:bitvec) (n:int)
+      requires{n = length x}
+      requires{ind_iproduct (fun i -> 1- getbv x i) 0 n = 1}
+      ensures{forall i. 0<= i < n-> getbv x i = 0}
+    = let rec lemma inter (k)
+              requires{0 <= k <=n}
+              ensures{forall i. 0<= i < k-> getbv x i = 0}
+              variant{k}
+               = if k = 0 then()
+              else
+                begin
+                  inter (k-1);
+                  ind_iproduct_right_extension (fun i -> 1- getbv x i) 0 k;
+                end
+          in inter n
+
+let rec lemma inter (x:bitvec) (n:int) (k:int) 
+          requires{n = length x}
+          requires{ind_iproduct (fun i -> 1- getbv x i) 0 n = 0}
+          requires{0 <= k <=n}
+          requires{forall i. 0<= i < n-> getbv x i = 0}
+          ensures{ind_iproduct (fun i -> 1- getbv x i) 0 k = 1}
+          variant{k}
+          = if k = 0 then()
+          else
+            begin
+              assert{0<k};
+              inter x n (k-1);
+              ind_iproduct_right_extension (fun i -> 1- getbv x i) 0 k;
+            end
+           
+let lemma non_null_product_bitvec_inv_rev (x:bitvec) (n:int)
+      requires{n = length x}
+      requires{ind_iproduct (fun i -> 1- getbv x i) 0 n = 0}
+      ensures{not (forall i. 0<= i < n-> getbv x i = 0)}
+  = ()
+
+let lemma set_flength (f: int->int) (i:int)
+      requires{forall k : int. 0<= k <i-> 0<= f k <2 }
+      ensures{bvlength f i}
+  =()
+  
+let lemma get_bvlength (f:int->int) (i:int)
+      requires{bvlength f i}
+      ensures{forall k : int. 0<= k <i-> 0<= f k <2 }
+  =()
+  
+let lemma set_bv_to (f: int->int) (i:int)
+      requires{0 < i}
+      requires{forall j:int. 0<= j< i -> 0<= f j <= 1}
+      ensures{bvlength f  i}
+  =()
+
+let lemma set_in_range_val (bv:  bitvec) (i:int)
+      requires{0<= i < length bv}
+      ensures{0<= getbv bv i <2}
+  =()
+  
+let lemma bvlengthm (bv: bitvec)(i:int)
+      requires{0<= i < length bv}
+      ensures{bvlength (getbv bv) i}
+  =()
+
+let predicate in_range (bv: bitvec) (r : int)
+  =  0 <= r < length bv
+
+let lemma binary_bv ( bv: bitvec) (i:int)
+      requires{in_range bv i}
+      ensures{0<= getbv bv i <= 1}
+  = get_bvlength (getbv bv) i
+      
+      axiom equal_bv : forall m n : bitvec.( m =  n <-> ( (length m = length n)
+                                                          /\ forall i :int. in_range m i   -> getbv m  i  = getbv n i ))
+  
+let lemma set_equal_bv (bv bv':bitvec)
+      requires{length bv = length bv'}
+      requires{forall i:int. 0<= i < length bv ->   getbv bv i = getbv bv' i}
+      ensures{bv =  bv'}
+  =()
+
+let lemma get_equal_bv (bv bv':bitvec)
+      requires{bv = bv'}
+      ensures{length bv = length bv'}
+      ensures{forall i:int.  0<= i < length bv -> getbv bv i = getbv bv' i}
+  =()
+  
+let function make_bv (f:int->int) (s:int): (bitvec)
+                                             requires{forall i:int. 0<=i < s -> 0<= f i < 2}
+                                             requires{s>=0}
+                                             ensures{length result = s}
+                                             ensures{forall i:int.  0<=i < s ->  getbv result i =  f i}
+                                             ensures{forall i:int. not ( 0<=i < s) ->  getbv result i = 0}
+  = {value = (fun i -> (if 0<=i < s  then f i else 0)); length = s}
+  
+let  function make_bv_m (f:int->int) (s:int): (bitvec)
+                                                     requires{s>=0}
+                                                     ensures{length result = s}
+                                                     ensures{forall i:int. bvlength (getbv result) i}
+                                                     ensures{forall k:int.  0<=k < s ->  getbv result k = mod (f k) 2}
+                                                     ensures{forall k:int. not (0<=k < s) ->  getbv result k = 0}
+  = make_bv (fun k -> mod (f k) 2) s
+
+let constant bitvec_null : bitvec
+  = make_bv (fun i ->0) 0
+  
+let lemma assert_make_bv_no_bound (f:int->int) (s i:int)
+      requires{forall i:int. 0<=i < s -> 0<= f i < 2}
+      requires{1<= i<=s}
+      ensures{getbv (make_bv f 0) i = 0}
+  =()
+  
+let lemma make_bv_length (f:int->int) (s :int)
+      requires{forall i:int. 0<=i < s -> 0<= f i < 2}
+      requires{s>=0}
+      ensures{length (make_bv f s) = s}
+  =()
+  
+let lemma assert_make_bv (f:int->int) (s i:int)
+      requires{forall i:int. 0<=i < s -> 0<= f i < 2}
+      requires{0<= s }
+      ensures{getbv (make_bv f s) i = if 0<=i < s then f i else 0}
+  =()  
+
+let lemma assert_make_m (f:int->int) (s i:int)
+      requires{s>=0}
+      ensures{getbv (make_bv_m f s) i = if 0<=i < s then mod (f i) 2 else 0}
+  =()
+
+let lemma make_bv_eq (f f':int->int) (n n':int)
+  requires{n >=0}
+  requires{n = n'}
+  requires{forall i:int. 0<= i < n -> f i = f' i}
+  requires{forall i:int. 0<= i < n -> 0<= f i < 2 }
+  ensures{make_bv f n = make_bv f' n'}
+  =()
+  
+let lemma assert_make_bv_b (f:int->int) (s i:int)
+      requires{forall i:int. 0<=i < s -> 0<= f i < 2}
+      requires{ 0<=i < s}
+      ensures{getbv (make_bv f s) i =  f i }
+  =()  
+
+let lemma assert_make_m_b (f:int->int) (s i:int)
+      requires{ 0<=i < s}
+      requires{s>=0}
+      ensures{getbv (make_bv_m f s) i =  mod (f i) 2 }
+  =()
+  
+let lemma make_m_bv_length (f:int->int) (s i :int)
+      requires{s >=0}
+      ensures{bvlength (getbv (make_bv_m f s)) i}
+  =()
+
+let lemma make_m_length (f:int->int) (s :int)
+      requires{s>=0}
+      ensures{length (make_bv_m f s) = s}
+  =()
+  
+let lemma set_equal_bv_make (f g:int -> int)(s:int)
+      requires{forall i:int. 0<= f i < 2}
+      requires{s>= 0}
+      requires{forall i:int.  f i = g i}
+      ensures{make_bv f s = make_bv g s}
+  = set_equal_bv (make_bv f s) (make_bv g s)
+
+let lemma set_equal_bv_make_ (f g:int -> int)(s:int)
+      requires{s>= 0}
+      requires{forall i:int. 0<= i < s -> 0<= f i < 2}
+      requires{forall i:int.  0<= i < s -> f i = g i}
+      ensures{make_bv f s = make_bv g s}
+  = set_equal_bv (make_bv f s) (make_bv g s)
+
+let lemma set_equal_bv_m_make (f g:int -> int)(s:int)
+      requires{s>= 0}
+      requires{forall i:int.  mod  (f i) 2 = mod (g i) 2}
+      ensures{make_bv_m f s = make_bv_m g s}
+  = set_equal_bv (make_bv_m f s) (make_bv_m g s)
+
+let lemma make_bv_itself (x: bitvec) (n:int)
+      requires{length x = n}
+  ensures{ make_bv (fun i -> getbv x i) n = x}
+  =()
+  
+  
+let ghost function head (bv: bitvec):int
+                                       requires{length bv >= 1}
+                                       ensures{0<= result <=1}
+  = getbv bv 0
+
+let function makes_bv  (f:int->int) (s:int): (bitvec)
+                                             requires{s>=0}
+                                             ensures{length result = s}
+                                             ensures{forall i:int.  0<=i < s ->  0<= f i < 2 -> getbv result i =  f i}
+                                             ensures{(forall i:int. 0<=i < s -> 0<= f i < 2) -> result = make_bv f s}
+                                             ensures{forall i:int. not ( 0<=i < s) ->  getbv result i = 0}
+           = make_bv (fun i -> if 0<= f i < 2 then f i else 0) s
+
+let lemma assert_makes_bv_c (f:int->int) (s i:int)
+      requires{forall i:int. 0<=i < s -> 0<= f i < 2}
+      requires{0<= s }
+      ensures{getbv (makes_bv f s) i = if 0<=i < s then f i else 0}
+  =()  
+           
+let lemma assert_makes_bv_b (f:int->int) (s i:int)
+      requires{forall i:int. 0<=i < s -> 0<= f i < 2}
+      requires{0<= s }
+      requires{ 0<=i < s}
+      ensures{getbv (makes_bv f s) i =  f i }
+  =()  
+           
+let lemma assert_makes_bv (f:int->int) (s i:int)
+      requires{forall i:int. 0<=i < s -> 0<= f i < 2}
+      requires{0<= s }
+      ensures{getbv (makes_bv f s) i = if 0<=i < s && 0 <= f i then f i else 0}
+  =()  
+
+let lemma makes_bv_length (f:int->int) (s :int)
+      requires{s>=0}
+      ensures{length (makes_bv f s) = s}
+  =()
+  
+let ghost function tail (bv: bitvec)
+                   :bitvec                                                
+                      requires{length bv >= 1}
+                      ensures{length result = length bv -1}
+                      ensures{forall i:int. in_range result i -> getbv result i = getbv bv (i+1)}
+  = make_bv (fun i -> (getbv bv (i + 1))) (length bv -1)
+  
+let function concat_l (bv: bitvec)(i :int)
+                   :bitvec
+                      ensures{length result = length bv +1}
+                      ensures{getbv result 0 = i}
+                      ensures{forall j: int. in_range bv  j -> getbv result (j+1) = getbv bv j}
+                      requires{0<= i <= 1}
+  = make_bv (fun k-> if (k=0) then i else (getbv bv (k-1))) (length bv +1)
+
+
+let lemma concat_l_value (bv: bitvec)(i k:int)
+      requires{0<= i < 2}
+      ensures{getbv (concat_l bv i) k =
+                if k = 0 then i
+                else (if 0< k <= length bv +1
+                      then  (getbv bv (k-1))
+                      else 0)}
+  =()
+  
+  
+let lemma concat_l_value_b (bv: bitvec)(i k:int)
+      requires{0<= k < length bv +1}
+      requires{0<= i < 2}
+      ensures{getbv (concat_l bv i) k =
+                if k = 0 then i
+                else (getbv bv (k-1))}
+  =()
+  
+let lemma concat_ht (bv:bitvec)
+      requires{length bv >= 1}
+      ensures{bv =  concat_l  (tail bv) (head bv)}
+  =
+  set_equal_bv bv  (concat_l  (tail bv) (head bv))
+  
+let lemma concat_ht_union (bv:bitvec)
+      requires{length bv >= 2}
+      ensures{ bv <>  (concat_l  (tail bv) 0) -> bv = (concat_l  (tail bv) 1)}
+  =
+  concat_ht bv
+  
+let  function bv_to_int (bv: bitvec): int
+                                        ensures{result = ind_isum (fun k -> (getbv bv k) * (power 2 ((length bv -1) -k))) 0 (length bv) }
+                                        ensures{0<= result}                 
+  = assert{ind_isum (fun k ->  (getbv bv k) * (power 2 ((length bv -1)-k))) 0 (length bv ) =
+             ind_isum (fun k -> if in_range bv k then (getbv bv k) * (power 2 ((length bv -1)-k))   else 1) 0 (length bv ) };
+    ind_isum (fun k -> if in_range bv k then (getbv bv k) * (power 2 ((length bv -1)-k))   else 1) 0 (length bv ) 
+    
+let lemma bv_to_int_eq (bv1 bv2: bitvec)
+      requires{bv1 = bv2}
+      ensures{bv_to_int bv1 = bv_to_int bv2}
+  =()
+
+let lemma bv_to_int_sum (bv: bitvec)
+      ensures{bv_to_int bv = ind_isum (fun k -> (getbv bv k) * (power 2 ((length bv -1) -k))) 0 (length bv)}
+  =()
+
+let lemma bv_to_int_sum_inv (bv: bitvec)
+      ensures{bv_to_int bv = ind_isum (fun k -> (getbv bv ((length bv -1) -k)) * (power 2 k)) 0 (length bv)}
+  =()
+
+let lemma bv_to_int_sum_opp (bv: bitvec)
+      ensures{- bv_to_int bv = ind_isum (fun k -> (- getbv bv k) * (power 2 ((length bv -1) -k))) 0 (length bv)}
+  =
+if (length bv = 0) then ()
+else  ind_isum_scal (fun k -> if 0<= k < length bv then (getbv bv k) * (power 2 ((length bv -1) -k)) else 0) 0 (length bv) (-1)
+  
+let lemma bv_to_int_onebit (bv: bitvec)
+      requires{length bv = 1}
+      ensures{bv_to_int bv = getbv bv 0}
+  =()
+  
+let lemma ind_isum_bv_rev (bv:bitvec) (i:int)
+      requires{0<= i <= (length bv)}
+      ensures{ind_isum (fun l ->  (getbv bv l) * power 2 ((length bv -1) -l)) i (length bv) 
+              = ind_isum  (fun l -> (getbv bv ((length bv -1) -l)) * power 2 l) 0 ((length bv)-i)}
+  = set_bijective (fun l -> ((length bv -1) -l))  (to_fset 0 ((length bv)-i)) (to_fset  i (length bv));
+    ind_isum_map 0 ((length bv )-i) i (length bv)  (fun l -> ((length bv - 1) -l))
+      (fun l ->  if 0<= l < (length bv) then (getbv bv l) * power 2 ((length bv -1) -l) else 0)
+
+let lemma ind_isum_bin_rev (f: int->int) (n i:int)
+      requires{0<= i < n}
+      requires{binary f}
+      ensures{ind_isum (fun l ->  f l * power 2 (n-1 -l)) i n 
+              = ind_isum  (fun l -> (f (n-1 -l)) * power 2 l) 0 (n-i)}
+  = ()
+  
+let lemma ind_isum_bin_rev_z (f: int->int) (n :int)
+      requires{0<=n}
+      requires{binary f}
+      ensures{ind_isum (fun l ->  f l * power 2 (n-1 -l)) 0 n 
+              = ind_isum  (fun l -> (f (n-1 -l)) * power 2 l) 0 n}
+  =  ()
+  
+let lemma bv_to_int_sum_rev (bv: bitvec)
+      ensures{ind_isum (fun k -> (getbv bv (length bv -1 - k)) * (power 2 k)) 0 (length bv) = bv_to_int bv}
+  = bv_to_int_sum bv;
+    ind_isum_bv_rev bv 0
+    
+let lemma ind_isum_bv_bound_growing (bv:bitvec) (i:int)
+      requires{0< i < (length bv)}
+      ensures{ind_isum (fun l ->  (getbv bv l) * power 2 l) 0 i  < power 2 i}
+  = power_decomp_ i;
+    ind_isum_bound_eq (fun l -> if 0<= l < i then  (getbv bv l) * power 2 l else 1) (fun k -> if 0<= k <i then power 2 k else 1) 0 i
+    
+let lemma ind_isum_bv_bound (bv:bitvec) (i:int)
+      requires{0<= i < (length bv)}
+      ensures{ind_isum (fun l ->  (getbv bv l) * power 2 ((length bv-1) -l)) i (length bv) < power 2 ((length bv) -i)}
+  = ind_isum_bv_rev bv i;
+    ind_isum_bound_eq (fun l ->  if 0<= l then  (getbv bv ((length bv -1) -l)) * power 2 l else 0)
+      (fun l -> if 0<= l then power 2 l else 0) 0  ((length bv)-i) ;
+    power_decomp_ ((length bv)-i);
+    comp_trans_equal_strict (ind_isum (fun l ->  if 0<= l then  (getbv bv ((length bv-1) -l)) * power 2 l else 0) 0 ((length bv) -i))
+      (ind_isum (fun l ->  if 0<= l then  power 2 l else 0) 0 ((length bv) -i))
+      (power 2 ((length bv) -i))
+
+let lemma ind_isum_bin_bound (f: int -> int) (n i:int)
+      requires{0<= i < n}
+      requires{binary f}
+      ensures{ind_isum (fun l ->  f l * power 2 (n-1 -l)) i n < power 2 (n -i)}
+  = ind_isum_bv_bound (make_bv f n) i
+
+let lemma bv_to_int_bound (bv: bitvec)
+      requires{length bv >=1}
+      ensures{bv_to_int bv < power 2 (length bv)}
+  = ind_isum_bv_bound bv 0
+
+end
+     
+module Bit_vector_decomp
+         use  complex.Complex
+         use  int.Int
+         use  int.EuclideanDivision
+         use  Bit_vector
+         use  p_set.IndexestoSet
+         use  functions.MapInjection
+         use  Binary_Op
+         use  arit.Div_Mod
+         use  exponentiation.Int_Exponentiation
+         use  p_int.Int_comp
+         use  set.FsetComprehension
+         use  matrices.Matrice
+         use  matrices.Matrix_addition
+         use  matrices.Matrix_sums
+         use  matrices.Kronecker_product
+         use  p_set.Fset_comp
+         use  complex_operations.Base_type
+         use  complex.Constant
+         use  complex_operations.Inv_func
+         use  complex_operations.Indic
+
+let lemma ind_isum_mod_div (bv: bitvec) (i:int)
+      requires{0 <= i < length bv}
+      ensures {mod (ind_isum (fun k -> (getbv bv k) * power 2 ((length bv-1)-k) ) 0 ((length bv))) (power 2 ((length bv)-i))
+               = (ind_isum (fun k -> (getbv bv k) * power 2 ((length bv-1)-k)) i ((length bv))) }
+      ensures {div (ind_isum (fun k -> (getbv bv k) * power 2 ((length bv-1)-k) ) 0 ((length bv))) (power 2 ((length bv)-i))
+               = ind_isum (fun k -> (getbv bv k) * power 2 (i-1-k)) 0 i }
+  = if (i = 0) then ()
+    else
+      begin
+        let value = (ind_isum (fun k -> if 0<= k < ((length bv)) then (getbv bv k) * power 2 ((length bv-1)-k) else 0 ) 0 ((length bv)))
+        in let mod_value = (ind_isum (fun k -> if (i) <= k < ((length bv)) then (getbv bv k) * power 2 ((length bv-1)-k)else 0) (i) ((length bv)))
+           in let div_value = ind_isum (fun k -> if 0 <= k < i then (getbv bv k) * power 2 (i-1-k) else 0) 0 i 
+              in begin
+                  ind_isum_pos  (fun k -> if 0<= k < ((length bv)) then (getbv bv k) * power 2 ((length bv-1)-k) else 0 ) 0 ((length bv));
+                  ind_isum_pos  (fun k -> if 0<= k < ((length bv)) then (getbv bv k) * power 2 ((length bv-1)-k) else 0 ) (i) ((length bv));
+                  ind_isum_pos  (fun k -> if 0<= k < (i) then (getbv bv k) * power 2 (i-1-k) else 0 ) 0 (i);
+                  ind_isum_trans (fun k -> if 0<= k< length bv  then (getbv bv k) * power 2 ((length bv-1)-k)else 0) 0 (i) ((length bv));
+                  ind_isum_scal  (fun k -> if 0 <= k < i then (getbv bv k) * power 2 (i-1-k) else 0) 0 (i) (power 2 ((length bv)-i));
+                  ind_isum_bv_bound bv i;
+                  unicity_div_mod value (power 2 ((length bv)-i))    div_value mod_value
+                end
+      end
+  
+let lemma mod_ind_isum (f: int -> int) (i l :int)
+      requires{0<=i <=l}
+      requires{binary f}
+      ensures{mod (ind_isum (fun k -> f k * power 2 (l-1 - k)) 0 l) (power 2 i)
+              = (ind_isum (fun k -> f k * power 2 (l-1 - k))) (l -i) l}
+  =
+  ()
+  
+let lemma mod_ind_isum_z (f: int -> int) (i l :int)
+      requires{0<=i <=l}
+      requires{binary f}
+      ensures{mod (ind_isum (fun k -> f k * power 2 (l-1- k)) 0 l) (power 2 i)
+              = ind_isum (fun k -> f (k + l-i) * power 2 (i - 1 -k)) 0 i}
+            =()
+
+let lemma div_ind_isum (f: int -> int)(i l :int)
+      requires{0<=i <=l}
+      requires{binary f}
+      ensures{div (ind_isum (fun k -> f k * power 2 (l-1 - k)) 0 l) (power 2 i)
+              = ind_isum (fun k -> f k * power 2 (l-1 - k -i)) 0 (l -i)}
+  = ()
+  
+let lemma ind_isum_mod (bv: bitvec) (i:int)
+      requires{0 <= i < length bv}
+      ensures{(mod (ind_isum (fun l -> getbv bv l * power 2 (i -l)) 0 (i+1)) 2 = getbv bv i )}
+  =   ()
+
+use exponentiation.Power_
+    
+let lemma mod_ind_isum_ (f: int -> int) (i l :int)
+      requires{0<=i <=l}
+      requires{binary f}
+      ensures{mod (ind_isum (fun k -> f k * power_  2 (l-1 - k)) 0 l) (power_  2 i)
+              = (ind_isum (fun k -> f k * power_  2 (l-1 - k))) (l -i) l}
+  =
+  ()
+  
+let lemma mod_ind_isum_z_ (f: int -> int) (i l :int)
+      requires{0<=i <=l}
+      requires{binary f}
+      ensures{mod (ind_isum (fun k -> f k * power_  2 (l-1- k)) 0 l) (power_  2 i)
+              = ind_isum (fun k -> f (k + l-i) * power_  2 (i - 1 -k)) 0 i}
+            =()
+
+let lemma div_ind_isum_ (f: int -> int)(i l :int)
+      requires{0<=i <=l}
+      requires{binary f}
+      ensures{div (ind_isum (fun k -> f k * power_  2 (l-1 - k)) 0 l) (power_  2 i)
+              = ind_isum (fun k -> f k * power_  2 (l-1 - k -i)) 0 (l -i)}
+  = ()
+  
+let lemma ind_isum_mod_ (bv: bitvec) (i:int)
+      requires{0 <= i < length bv}
+      ensures{(mod (ind_isum (fun l -> getbv bv l * power_  2 (i -l)) 0 (i+1)) 2 = getbv bv i )}
+  =   ()
+
+let lemma bv_to_int_kth_pre (bv:bitvec)(k:int)
+      requires{0<= k < length bv-1}
+      ensures{getbv bv k = mod (div (ind_isum (fun l -> getbv bv l * power 2 (length bv -1 -l)) 0 (length bv)) (power 2 (length bv - k -1)) ) 2 }
+      ensures{getbv bv k = div (mod (ind_isum (fun l -> getbv bv l * power 2 (length bv -1 -l)) 0 (length bv)) (power 2 (length bv - k)) ) (power 2 (length bv - k -1))  }
+  = ()
+ 
+let  function int_to_bv (i n: int): bitvec
+                                          requires{n>=0}
+                                          ensures{length result = n}
+            ensures{result = make_bv (fun k ->  div (mod i (power 2 (n-k))) (power 2 (n-k-1))) n}
+  = make_bv (fun k ->  if 0<= k < n then div (mod i (power 2 (n-k))) (power 2 (n-k-1)) else 0) n
+
+let rec lemma int_to_bv_sum_pre (i n k: int)
+          requires{n>=k>=0}
+          requires{0<=i < power 2 n}
+          ensures{mod i (power 2 k) = ind_isum (fun l ->getbv (int_to_bv i n) l * (power 2 (n-l-1))) (n-k) n}
+      variant{k}
+  = if k = 0 then ()
+    else begin
+        assert{ (mod (mod i (power 2 (k-1)) ) (power 2 k)) = mod i (power 2 (k-1))};
+        int_to_bv_sum_pre i n (k-1)
+      end
+
+let lemma int_to_bv_sum (i n:int)
+      requires{n>=0}
+      requires{0<= i < power 2 n}
+      ensures{i = ind_isum (fun k ->getbv (int_to_bv i n) k * (power 2 (n-1-k))) 0 n}
+=() 
+
+   use exponentiation.Power_
+
+let lemma int_to_bv_sum_rev (i n:int)
+      requires{n>=0}
+      requires{0<= i < power 2 n}
+      ensures{ind_isum (fun k ->getbv (int_to_bv i n) k * (power_ 2 (n-k-1))) 0 n = i}
+=() 
+
+let lemma int_to_bv_mod_div (i n: int)
+      requires{n>=0}
+      requires{0<=i < power 2 n}
+      ensures{(int_to_bv i n) = make_bv (fun k ->(mod (div i (power 2 (n - k -1)) ) 2)) n}
+              =()
+  
+let lemma mod_isum (i k n : int)
+      requires{n>=0}
+      requires{0<=i < power 2 n}
+      requires{0<= k < n}
+      ensures{mod i (power 2 k) = ind_isum (fun l -> (getbv (int_to_bv i n) l) * power 2 ((n-1)-l)) (n-k) n }
+=()
+
+let lemma mod_isum_z (i k n : int)
+      requires{n>=0}
+      requires{0<=i < power 2 n}
+      requires{0<= k < n}
+      ensures{mod i (power 2 k) = ind_isum (fun l -> (getbv (int_to_bv i n) (l+(n-k))) * power 2 (k -l -1)) 0 k }
+=()
+
+let lemma div_isum (i k n : int)
+      requires{n>=0}
+      requires{0<=i < power 2 n}
+      requires{0<= k < n}
+      ensures{div i (power 2 k) = ind_isum (fun l -> (getbv (int_to_bv i n) l) * power 2 ((n-1)-k-l)) 0 (n-k) }
+=()
+
+let lemma int_to_bv_div_mod (i  k n : int)
+      requires{n>=0}
+      requires{0<=i < power 2 n}
+      requires{0<= k < n}
+      ensures{int_to_bv i n = make_bv (fun k ->  div (mod i (power 2 (n-k))) (power 2 (n-k-1))) n}
+=()
+  
+let lemma int_to_bv_value (i n k: int)
+      requires{n>0}
+      requires{0<=i < power 2 n}
+      requires{0 <= k < n}
+      ensures{getbv (int_to_bv i n) k = mod (div i (power 2 (n-k-1))) 2}
+  =
+  ()
+  
+let lemma int_to_bv_value_zero (i n : int)
+      requires{0<n}
+      requires{0<=i < power 2 n}
+      ensures{getbv (int_to_bv i n) 0 = if i < power 2 (n-1) then 0 else 1}
+  =
+  ()
+
+let lemma int_to_bv_mod_div_ (i n: int)
+      requires{n>=0}
+      requires{0<=i < power_  2 n}
+      ensures{(int_to_bv i n) = make_bv (fun k ->(mod (div i (power_  2 (n - k -1)) ) 2)) n}
+              =()
+  
+let lemma mod_isum_ (i k n : int)
+      requires{n>=0}
+      requires{0<=i < power_  2 n}
+      requires{0<= k < n}
+      ensures{mod i (power_  2 k) = ind_isum (fun l -> (getbv (int_to_bv i n) l) * power_  2 ((n-1)-l)) (n-k) n }
+=()
+
+let lemma mod_isum_z_ (i k n : int)
+      requires{n>=0}
+      requires{0<=i < power_  2 n}
+      requires{0<= k < n}
+      ensures{mod i (power_  2 k) = ind_isum (fun l -> (getbv (int_to_bv i n) (l+(n-k))) * power_  2 (k -l -1)) 0 k }
+=()
+
+let lemma div_isum_ (i k n : int)
+      requires{n>=0}
+      requires{0<=i < power_  2 n}
+      requires{0<= k < n}
+      ensures{div i (power_  2 k) = ind_isum (fun l -> (getbv (int_to_bv i n) l) * power_  2 ((n-1)-k-l)) 0 (n-k) }
+=()
+
+let lemma int_to_bv_div_mod_ (i  k n : int)
+      requires{n>=0}
+      requires{0<=i < power_  2 n}
+      requires{0<= k < n}
+      ensures{int_to_bv i n = make_bv (fun k ->  div (mod i (power_  2 (n-k))) (power_  2 (n-k-1))) n}
+=()
+  
+let lemma int_to_bv_value_ (i n k: int)
+      requires{n>0}
+      requires{0<=i < power_  2 n}
+      requires{0 <= k < n}
+      ensures{getbv (int_to_bv i n) k = mod (div i (power_  2 (n-k-1))) 2}
+  =
+  ()
+  
+let lemma int_to_bv_value_zero_ (i n : int)
+      requires{0<n}
+      requires{0<=i < power_  2 n}
+      ensures{getbv (int_to_bv i n) 0 = if i < power_ 2 (n-1) then 0 else 1}
+  =
+  ()
+  
+let lemma int_to_bv_zero ( n : int)
+      ensures{forall k:int. 0<=k <  n -> getbv (int_to_bv 0 n) k =  0}
+  =()
+  
+let lemma int_to_sum (i n: int)
+                     requires{n>0}
+                     requires{0<=i < power 2 n}
+                     ensures{i = ind_isum (fun k -> getbv (int_to_bv i n) k * (power 2 (n-k -1))) 0 n }
+  =()
+
+let lemma int_to_bv_transl  (i k n t:int)
+      requires{0<= i < power 2 n}
+      requires{0<= k  < n -t }
+      requires{0< t  <= n }
+      ensures{getbv (int_to_bv (mod i (power_ 2 (n-t))) (n-t)) k = getbv (int_to_bv i n) (k+t)}
+  =
+  ()
+
+let lemma int_to_bv_transl_div  (i k  n n' t:int)
+      requires{0<= i < power 2 n}
+      requires{0<= k  < t }
+      requires{n' = t}
+      requires{0< t  <= n }
+      ensures{getbv (int_to_bv (div i (power_ 2 (n-t))) n') k = getbv (int_to_bv i n) k}
+  =
+  ()
+
+let lemma product_int_to_bv_inv (n i:int)
+      requires{0<=n}
+      requires{0<= i < power 2 n}
+      ensures{ind_iproduct (fun j -> 1- getbv (int_to_bv i n) j) 0 n = if i = 0 then 1 else 0}
+  =()
+  
+let  function bin_to_int (f: int->int) (n:int): int
+                                                  requires{0<=n}
+                                                  requires{binary f}
+                                                  ensures{result = ind_isum (fun k -> (f k) * (power 2 ((n -1) -k))) 0 n }
+                                             ensures{0<= result}                 
+  = bv_to_int (make_bv f n)
+
+let rec  function int_to_bin (i n: int): int->int
+                                          requires{n>=0}
+                                          requires{0<=i < power 2 n}
+                                          ensures{i = ind_isum (fun k ->  result k * (power_ 2 (n-1-k))) 0 n }
+                                          ensures{binary result }
+                                          ensures{forall k:int. 0 <= k < n -> result k =   mod (div i (power_ 2 (n-k-1))) 2}
+                                          variant{n}
+  = getbv (int_to_bv i n)  
+  
+let lemma int_to_bv_tail (i n:int)
+      requires{n > 1}
+      requires{0<= i < power 2 n}
+      ensures{ (int_to_bv (tail_bits i n) (n-1)) =  (tail (int_to_bv i n))}
+  =
+  set_equal_bv (int_to_bv (tail_bits i n) (n-1)) (tail (int_to_bv i n))
+  
+let lemma bound_sum_dec (bv:bitvec) (i:int)
+      requires{1<= i <= length bv}
+      ensures{ind_isum (fun l ->   getbv bv l * (power 2 ((length bv)-l)) ) i ((length bv)+1) < power 2 (length bv -i +1)}
+  =
+  ind_isum_map_bij   1 (length bv - i +2) i ((length bv)+1) (fun l -> length bv -l+1)
+    (fun l -> if 1<= l <= length bv then  getbv bv l * (power 2 ((length bv)-l)) else 0);
+  power_decomp_minus_one (length bv - i+2);
+  ind_isum_bound_eq (fun l -> if 1 <= l <= length bv  then
+                                (getbv bv (length bv - l +1)) * power 2 (l-1) else 0)
+    (fun l -> if 1<= l <= length bv  then power 2 (l-1) else 0) 1  (length bv - i +2);
+  comp_trans_equal_strict (ind_isum (fun l -> if 1<= l <= length bv  then
+                                                (getbv bv l) * power 2 (length bv - l) else 0) i ((length bv)+1))
+    (ind_isum (fun l -> if 1<= l <= length bv then power 2 (l-1) else 0) 1 ((length bv -i)+2))
+    (power 2 (length bv -i +1))
+  
+let lemma bv_to_int_to_bv (i n: int)
+      requires{n>=0}
+      requires{0<=i < power 2 n}
+      ensures{bv_to_int (int_to_bv i n) = i}
+  =
+  if n = 0 then ()
+else   int_to_sum i n
+
+let lemma bv_to_int_to_bv_ (i n: int)
+      requires{n>=0}
+      requires{0<=i < power_ 2 n}
+      ensures{bv_to_int (int_to_bv i n) = i}
+  =
+  if n = 0 then ()
+else   int_to_sum i n
+
+let   lemma tail_bits_sum (i n:int)
+        requires{1<n}
+        requires {0<= i}
+        requires{0<= i < power 2 n}
+        ensures {tail_bits i n = ind_isum  (fun l -> getbv (int_to_bv i n) l  * power 2 (n -1-l)) 1 n}
+  = ()
+
+let lemma int_to_bv_to_int (bv: bitvec)
+      requires{1<= length bv}
+      ensures{ (int_to_bv (bv_to_int bv ) (length bv))  = bv}
+  = bound_sum_dec bv 1;
+    set_equal_bv (int_to_bv (bv_to_int bv ) (length bv)) bv
+
+let lemma int_to_bv_to_int_ (bv: bitvec) (l:int)
+      requires{0 <= l}
+      requires{length bv = l}
+      ensures{ (int_to_bv (bv_to_int bv ) l)  = bv}
+  = if 0< l then int_to_bv_to_int bv
+else ()
+
+let lemma concat_to_int (bv: bitvec)(i :int)
+      requires{0<= i <= 1}
+      ensures{bv_to_int (concat_l bv i)  =  (bv_to_int bv) + (i * power 2 (length bv))}
+  =
+  bv_to_int_sum bv;
+  bv_to_int_sum (concat_l bv i);
+  set_bijective (fun k -> k-1) (to_fset  2 (length bv +2))  (to_fset 1 (length bv +1)) ;
+  ind_isum_map  2 (length bv + 2) 1 (length bv + 1) (fun k -> k-1) (fun k -> if 0<= k <= length bv then  (getbv bv k) * power 2 (length bv -k)  else 0);
+  assert{ind_isum (fun k -> (getbv bv k) * power 2 (length bv -k)) 1 (length bv +1) =
+           ind_isum (fun k -> (getbv (concat_l bv i) k) * power 2 (length (concat_l bv i) -k)) 2 (length bv +2)};
+  ind_isum_plus_one (fun k -> if 0<= k <= length bv +1 then (getbv (concat_l bv i) k) * power 2 (length (concat_l bv i) -k)else 0) 1 (length bv +2)
+  
+let rec lemma bounded_to_int (bv: bitvec)
+          variant{ length bv}
+          ensures{bv_to_int bv < power 2 (length bv)}
+  = if ( length bv =0) then ()
+    else
+      begin
+        concat_to_int (tail bv) (head bv);
+        bounded_to_int (tail bv);
+      end
+
+let lemma int_to_bv_to_int_value (bv: bitvec)(i:int)
+      requires{1<= length bv}
+      ensures{getbv (int_to_bv (bv_to_int bv ) (length bv))  i = if 0<= i < length bv then getbv bv i else 0}
+  = ()
+
+let lemma int_to_bv_to_int_gen (bv: bitvec) (n:int)
+      requires{1<= length bv}
+      requires{n= length bv}
+      ensures{ (int_to_bv (bv_to_int bv ) n) = bv}
+  = int_to_bv_to_int bv
+  
+let   lemma bv_to_int_mod (bv: bitvec)( k :int)
+        requires{0<=k< (length bv)}
+        ensures {mod (bv_to_int bv) (power 2 ((length bv)-k)) = ind_isum  (fun l -> (getbv bv l) * power 2 ((length bv)-1 -l)) k (length bv)}
+  = if (k =0) then ()
+    else  ()
+
+let   lemma bv_to_int_mod_rev (bv: bitvec)( k :int)
+        requires{0<=k< (length bv)}
+        ensures {ind_isum  (fun l -> (getbv bv l) * power 2 ((length bv)-1 -l)) k (length bv) = mod (bv_to_int bv) (power 2 ((length bv)-k))   }
+  = bv_to_int_mod bv k
+  
+let lemma bv_to_int_mod_gen ( k n:int)
+      requires{0<=k< n}
+      ensures {forall bv:bitvec. length bv = n ->
+                         mod (bv_to_int bv) (power 2 ((length bv)-k)) = ind_isum  (fun l -> (getbv bv l) * power 2 ((length bv) -1 -l)) k (length bv)}
+  = ()
+
+let lemma to_int_head_tail (bv: bitvec)( n:int)
+      requires{length bv >=  1}
+      ensures{bv_to_int bv  =  (bv_to_int (tail bv)) + ((head bv) * power 2 (length bv -1))}
+      ensures{ (bv_to_int (tail bv)) = mod  (bv_to_int bv) (power 2 (length bv-1))}
+  =
+  concat_to_int (tail bv) (head bv)  ;
+  unicity_div_mod (bv_to_int bv) (power 2 (length bv-1)) (head bv) (bv_to_int (tail bv))
+
+    use  functions.Logic
+
+let rec function my_map (f: 'a -> 'b) (u: set 'a) : set 'b
+                                                      variant{cardinal u}
+                                                      ensures{result = map f u}
+  = if cardinal u = 0 then empty
+    else add (f(choose u)) (my_map f (remove (choose u) u)) 
+  
+let lemma my_map_to_map  (f: 'a -> 'b) (u: set 'a)
+      ensures{my_map f u = map f u}
+  =()
+
+let lemma map_to_my_map  (f: 'a -> 'b) (u: set 'a)
+      ensures{map f u = my_map f u}
+  =()
+
+let function mapz_pre  (n:int) (s: set bitvec) : set bitvec
+      requires{1<=n}
+      requires{forall f: bitvec.  mem f s <-> (length f = n-1)}
+      ensures{mem (make_bv (fun _ -> 0) n) result}
+      ensures{forall e. mem e result-> getbv e 0 = 0}
+      ensures{forall e. mem e result-> exists bv. mem bv s /\ e = concat_l bv 0}
+      ensures{forall e. mem e result-> length e = n}
+      ensures{forall e. length e = n -> getbv e 0 = 0 -> mem e result}
+= (my_map  (fun bv ->   concat_l bv 0) s)
+
+let function mapo_pre (n:int) (s: set bitvec): set bitvec
+                              requires{1<=n}
+                              requires{forall f: bitvec.  mem f s <-> (length f = n-1)}
+                              ensures{mem (make_bv (fun _ -> 1) n) result}
+                              ensures{forall e. mem e result-> getbv e 0 = 1}
+                     ensures{forall e. mem e result-> exists bv. mem bv s /\ e = concat_l bv 1}
+                     ensures{forall e. mem e result-> length e = n}
+                     ensures{forall e. length e = n -> getbv e 0 = 1 -> mem e result}
+= (my_map  (fun bv ->   concat_l bv 1) s)
+
+  let rec function n_bvs  (n:int): set (bitvec)
+                                         requires{0<=n}
+                                         variant{n}
+                                         ensures{1<= n -> forall s.(forall f. mem f s <-> (length f = n-1))-> result = union (mapz_pre n s) (mapo_pre n s)}
+                                         ensures{forall f: bitvec.  mem f result -> (length f = n)}
+                                         ensures{forall f: bitvec.  mem f result <-> (length f = n)}
+                                         ensures{cardinal result > 0}
+  = if(n=0) then to_set (make_bv (fun i -> 0) 0)
+    else
+      let res = n_bvs (n-1)
+                  ensures{forall f: bitvec.  mem f result <-> (length f = n-1)}
+      in
+      let  mapz    = mapz_pre n res
+                     ensures{forall e. mem e result-> getbv e 0 = 0}
+                     ensures{forall e. mem e result-> exists bv. mem bv res /\ e = concat_l bv 0}
+                     ensures{forall e. mem e result-> length e = n}
+                     ensures{forall e. length e = n -> getbv e 0 = 0 -> mem e result}
+        in
+        let  mapo  = mapo_pre n res
+                     ensures{forall e. mem e result-> getbv e 0 = 1}
+                     ensures{forall e. mem e result-> exists bv. mem bv res /\ e = concat_l bv 1}
+                     ensures{forall e. mem e result-> length e = n}
+                     ensures{forall e. length e = n -> getbv e 0 = 1 -> mem e result}
+        in
+        begin
+          assert{forall f: bitvec.  mem f res <-> (length f = n-1)};
+          union mapz   mapo
+          end
+
+  let lemma in_n_bvs (x: bitvec) (n:int)
+        requires{0<=n}
+        requires{length x = n}
+    ensures{mem x (n_bvs n)}
+    =()
+
+  let lemma get_in_n_bvs (x: bitvec) (n:int)
+        requires{0<=n}
+    requires{mem x (n_bvs n)}
+        ensures{length x = n}
+    =()
+
+        
+let function mapz (n:int) : set bitvec
+                              requires{1<=n}
+                              ensures{result = (my_map  (fun bv ->   concat_l bv 0) (n_bvs (n-1)))}
+                              ensures{0<cardinal result}
+                     ensures{forall e. mem e result-> getbv e 0 = 0}
+                     ensures{forall e. mem e result-> exists bv. mem bv (n_bvs (n-1)) /\ e = concat_l bv 0}
+                     ensures{forall e. mem e result-> length e = n}
+                     ensures{forall e. length e = n -> getbv e 0 = 0 -> mem e result}
+= mapz_pre n (n_bvs (n-1))
+
+let function mapo (n:int) : set bitvec
+                              requires{1<=n}
+                              ensures{result = (my_map  (fun bv ->   concat_l bv 1) (n_bvs (n-1)))}
+                              ensures{0<cardinal result}
+                     ensures{forall e. mem e result-> getbv e 0 = 1}
+                     ensures{forall e. mem e result-> exists bv. mem bv (n_bvs (n-1)) /\ e = concat_l bv 1}
+                     ensures{forall e. mem e result-> length e = n}
+                     ensures{forall e. length e = n -> getbv e 0 = 1 -> mem e result}
+= mapo_pre n (n_bvs (n-1))
+  
+let lemma n_bvs_node (n:int)
+      requires{0<n}
+      ensures{inter (mapz n) (mapo n) = empty}
+      ensures{union (mapz n) (mapo n) = (n_bvs n)}
+  =     set_empty (inter (mapz n) (mapo n));
+        set_equal (union (mapz n) (mapo n))  (n_bvs n)
+
+use complex.Complex
+(* let function empty_bv():bitvec
+ *                ensures{length result = 0}
+ *            ensures{forall x: bitvec. length x = 0 -> x = result}
+ *  = make_bv(fun _ -> 0) 0 *)
+        
+let function n_bvsz(): set bitvec
+              ensures{forall x: bitvec. length x = 0   -> mem x result}
+              ensures{forall x: bitvec. mem x result   -> x = make_bv (fun _ -> 0) 0}
+              ensures{ result    = to_set (make_bv (fun _ -> 0) 0)}
+                         ensures{choose result = make_bv (fun _ -> 0) 0}
+           ensures{forall f: bitvec -> (matrix complex). mat_sum result f = f (make_bv (fun _ -> 0) 0)}
+ = n_bvs 0
+        
+let function  n_bvso() : set bitvec
+              ensures{forall x: bitvec. length x = 1   -> mem x result}
+              ensures{forall x: bitvec. mem x result   -> length x  = 1}
+              ensures{ result    = add (make_bv (fun _ -> 0) 1) (to_set  (make_bv (fun _ -> 1) 1))}
+              ensures{forall f: bitvec -> matrix complex. constant_size result f ->
+                                                      mat_sum result f = add_mat (f (make_bv (fun _ -> 0) 1)) (f (make_bv (fun _ -> 1) 1))}
+ = n_bvs 1
+        
+let lemma injective_node (n:int)
+      requires{0<=n}
+      ensures{p_injective (fun bv -> concat_l bv 0) (n_bvs n)}
+      ensures{p_injective (fun bv -> concat_l bv 1) (n_bvs n)}
+  =
+  set_injective (fun bv -> concat_l bv 0) (n_bvs n);
+  set_injective (fun bv -> concat_l bv 1) (n_bvs n)
+  
+let lemma mat_sum_n_bvs_pos (n:int)(f: bitvec -> matrix complex)
+      requires{0<n}
+      requires{constant_size (n_bvs n) f}
+      ensures{mat_sum (n_bvs n) f = add_mat (mat_sum (n_bvs (n-1)) (fun bv -> f (concat_l bv 0)))
+                                      (mat_sum (n_bvs (n-1)) (fun bv -> f (concat_l bv 1)))}
+  =
+  if n = 1 then ()
+  else begin
+      n_bvs_node n;
+      injective_node (n-1);
+      mat_sum_disjoint_transitivity  (n_bvs n) (mapz  n) (mapo  n) f;
+  map_mat_sum f (n_bvs (n-1)) (fun bv -> (concat_l bv 0));
+  map_mat_sum f (n_bvs (n-1)) (fun bv -> (concat_l bv 1))
+    end
+  
+let lemma mat_sum_n_bvs_null (f: bitvec -> matrix complex)
+      ensures{mat_sum (n_bvs 0) f =  f (make_bv (const 0) 0)}
+  = ()
+  
+let lemma mat_sum_n_bvs_null_eq (f: bitvec -> matrix complex) (x:matrix complex)
+      requires{x = f (make_bv (const 0) 0)}
+      ensures{mat_sum (n_bvs 0) f =  x}
+  = ()
+  
+let lemma get_n_bvs (bv:bitvec)
+      ensures{mem bv (n_bvs (length bv))}
+  =()
+  
+let lemma get_n_bvs_gen (bv:bitvec) (l: int)
+      requires{l= length bv}
+      ensures{mem bv (n_bvs l)}
+  =()
+
+let lemma set_n_bvs (bv:bitvec)
+      requires{mem bv (n_bvs (length bv))}
+      ensures{forall i:int. not (0<= i < length bv) -> getbv bv i = 0}
+  =()
+
+let lemma int_to_bv_n_bvs (i n: int)
+      requires{n>=0}
+      requires{0<=i < power 2 n}
+      ensures{mem (int_to_bv i n) (n_bvs n)}
+  =
+  get_n_bvs_gen (int_to_bv i n) n
+  
+let lemma n_bvs_def_pos (n:int)
+      requires{0<n}
+      ensures{n_bvs n = 
+                union (map  (fun bv ->   concat_l bv 0) (n_bvs (n-1)))
+                  (map  (fun bv ->   concat_l bv 1 ) (n_bvs (n-1)))}
+  =()
+  
+let lemma map_n_bvs (n:int)
+      requires{0<n}
+      ensures{to_fset 0 (power 2 n) = map bv_to_int (n_bvs n)}
+  =
+  set_equal (to_fset 0 (power 2 n)) (map bv_to_int (n_bvs n))
+
+let lemma ind_sum_bv (f: int -> complex) (n:int)
+      requires{1<=n}
+      ensures{ind_sum f 0 (power_ 2 n) = sum (n_bvs n) (fun k -> f (bv_to_int k))}
+  =
+  ind_sum_to_sum f 0 (power_ 2 n);
+  map_sum_eq (to_fset 0 (power 2 n)) (fun i -> int_to_bv i n) (fun k -> f (bv_to_int k))
+    
+    use  ref.Ref
+
+let ghost function first_div  (bv1 bv2: bitvec):int
+                                                  requires{length bv1 = length bv2}
+                                                  requires{ bv1 <>  bv2}
+                                                  ensures{forall j:int. 0<= j < result -> getbv bv1 j = getbv bv2 j }
+                                                  ensures{result < length bv1 -> getbv bv1 result <> getbv bv2 result}
+                                                  ensures{0<= result < length bv1 }
+  = let  value = ref (length bv1 ) in 
+    let  count = ref 0 in
+    let  count_s = ref 0 in
+    while (!count < length bv1 && (!value = length bv1)) do
+      variant{length bv1  - !count}
+        invariant{0<= !count}
+        invariant{0<= !value}
+        invariant{(!count = !count_s /\ !value = length bv1 ) \/ (!count_s = !value = !count-1 /\ getbv bv1 !value <> getbv bv2 !value)}
+        invariant{forall j:int. 0<= j < !count_s -> getbv bv1 j = getbv bv2 j }
+        invariant{exists j:int. !count_s <= j < length bv1 /\  getbv bv1 j <> getbv bv2 j }
+        if (getbv bv1  !count = getbv bv2 !count) then
+          begin
+            (count:= !count +1);
+            (count_s:= !count);
+          end
+        else
+          begin
+            value:= !count;
+            (count:= !count +1);
+          end;
+    done;
+    assert{!value = !count_s};
+    assert{getbv bv1 !value <> getbv bv2 !value};
+    !value    
+    
+let lemma injective_concat (i n:int)
+      requires{0<=n}
+      requires{0<= i <= 1}
+      ensures{p_injective (fun bv -> concat_l bv i) (n_bvs n)}
+  = set_injective  (fun bv -> concat_l bv i) (n_bvs n)
+  
+let lemma inf_first_div  (bv1 bv2: bitvec) (i:int)
+      requires{length bv1 = length bv2}
+      requires{ bv1 <>  bv2}
+      ensures{forall j:int. 1<= j ->  getbv bv1 j <> getbv bv2 j ->  first_div bv1 bv2 <= j}
+  =()
+  
+let lemma first_div_diff  (bv1 bv2: bitvec) (i:int)
+      requires{length bv1 = length bv2}
+      requires{ bv1 <>  bv2}
+      ensures{getbv bv1 (first_div bv1 bv2) <> getbv bv2 (first_div bv1 bv2)}
+  =()
+  
+let lemma exists_first_div (bv1 bv2: bitvec)
+      requires{length bv1 = length bv2}
+      requires{ bv1 <>  bv2}
+      ensures{exists i. 0<= i < length bv1 /\ i = first_div bv1 bv2}
+  = ()
+
+let lemma set_diff_length (bv1 bv2: bitvec)
+      requires{length bv1 <> length bv2}
+      ensures{ bv1 <>  bv2}
+  = ()
+
+let lemma set_diff_val (bv1 bv2: bitvec) (i:int)
+      requires{length bv1 = length bv2}
+      requires{ 0<= i < length bv1}
+      requires{getbv bv1 i <>  getbv bv2 i}
+      ensures{bv1 <> bv2}
+  = ()
+  
+let lemma kth_decomp  (bv :bitvec )(k :int)
+      requires{0<=k < length bv   }
+      ensures{bv_to_int bv = ind_isum (fun l -> if l < length bv then getbv bv l * (power 2 ((length bv)-1-l)) else 0) 0 k
+                             + getbv bv k * (power 2 ((length bv)-1-k))
+                             + ind_isum (fun l -> if l < length bv then  getbv bv l * (power 2 ((length bv)-1-l)) else 0) (k+1) (length bv)}  
+      ensures{bv_to_int bv = ind_isum (fun l ->  getbv bv l * (power 2 ((length bv)-1-l)) ) 0 k
+                             + getbv bv k * (power 2 ((length bv)-1-k))
+                             + ind_isum (fun l ->   getbv bv l * (power 2 ((length bv)-1-l)) ) (k+1) (length bv)}  
+  = bv_to_int_sum bv;
+    ind_isum_trans (fun l -> if l < length bv then getbv bv l * (power 2 ((length bv)-1-l)) else 0) 0 k (length bv);
+    ind_isum_plus_one (fun l -> if l < length bv then getbv bv l * (power 2 ((length bv)-1-l)) else 0)  k (length bv)
+
+let lemma int_to_bv_prod(i j n:int)
+      requires{n>0}
+      requires{0<= i < power 2 n}
+      requires{0<= j < power 2 n}
+      ensures{ind_product (fun k -> indic (getbv (int_to_bv i n) k)(getbv (int_to_bv j n) k))  0 n = indic i j}
+  = if (i<> j) then
+      begin
+        exists_first_div (int_to_bv i n) (int_to_bv j n);
+        ind_product_zero_elt (fun k -> indic (getbv (int_to_bv i n) k)(getbv (int_to_bv j n) k)) 0 n  (first_div (int_to_bv i n) (int_to_bv j n));
+      end
+    else
+      begin
+        assert{forall k. 0<= k < n -> (indic (getbv (int_to_bv i n) k)(getbv (int_to_bv j n) k)) = c_one};
+        ind_product_const_c_one (fun k -> indic (getbv (int_to_bv i n) k)(getbv (int_to_bv j n) k)) 0 n  ;
+      end
+
+let lemma int_to_bv_prod_gen(i  n:int)
+      requires{n>0}
+      requires{0<= i < power 2 n}
+      ensures{forall j: int. 0<= j < power 2 n -> ind_product (fun k -> indic (getbv (int_to_bv i n) k)(getbv (int_to_bv j n) k))  0 n = indic i j}
+  = ()
+  
+let lemma kth_decomp_bound_zero (bv :bitvec )(k :int)
+      requires{0<=k < length bv   }
+      requires{getbv bv k = 0   }
+      ensures{ ind_isum (fun l -> getbv bv l * (power 2 ((length bv)-1-l)) ) 0 k <= bv_to_int bv}
+      ensures{bv_to_int bv <  ind_isum (fun l ->  getbv bv l * (power 2 ((length bv)-1-l)) ) 0 k + power 2 (length bv -k -1)}
+  = kth_decomp bv k
+  
+let lemma kth_decomp_bound_one (bv :bitvec )(k :int)
+      requires{0<=k < length bv   }
+      requires{getbv bv k = 1   }
+      ensures{ ind_isum (fun l ->  getbv bv l * (power 2 ((length bv)-1-l))) 0 k + power 2 (length bv -k-1) <= bv_to_int bv}
+      ensures{bv_to_int bv <  ind_isum (fun l ->  getbv bv l * (power 2 ((length bv)-l-1))) 0 k + power 2 (length bv -k)}
+  =
+  kth_decomp bv k
+
+let lemma bv_to_int_length_2 (x:bitvec)
+      requires{length x = 2}
+  ensures{getbv x 0 = div (bv_to_int x) 2}
+  ensures{getbv x 1 = mod (bv_to_int x) 2}
+  =()
+
+let lemma bv_to_int_length_2_gen() 
+  ensures{forall x: bitvec. length x = 2 -> getbv x 0 = div (bv_to_int x) 2}
+  ensures{forall x: bitvec. length x = 2 -> getbv x 1 = mod (bv_to_int x) 2}
+  =()
+
+ end
+     
+module Bv_int_op
+         use  complex.Complex
+         use  int.Int
+         use  Bit_vector_decomp
+         use  Bit_vector
+         use  functions.MapInjection
+         use  p_set.Fset_comp
+         use  exponentiation.Int_Exponentiation
+         use  complex.Constant
+         use  complex_operations.Inv_func
+         use  p_set.IndexestoSet
+         use  matrices.Matrice
+         use  set.FsetComprehension
+         use  matrices.Matrix_sums
+         use  matrices.Kronecker_product
+
+let lemma pre_injective_bv_to_int (bv1 bv2 : bitvec)
+      requires{length bv1 = length bv2}
+      requires{ bv1 <>  bv2 }
+      ensures{bv_to_int bv1 <> bv_to_int bv2}
+  =
+  if (getbv bv1 (first_div bv1 bv2) = 0) then
+    begin
+      assert{(getbv bv2 (first_div bv1 bv2) = 1)};
+      kth_decomp_bound_zero bv1 (first_div bv1 bv2);
+      kth_decomp_bound_one bv2 (first_div bv1 bv2);
+    end
+  else 
+    begin
+      assert{(getbv bv1 (first_div bv1 bv2) = 1)};
+      assert{(getbv bv2 (first_div bv1 bv2) = 0)};
+      kth_decomp_bound_one bv1 (first_div bv1 bv2);
+      kth_decomp_bound_zero bv2 (first_div bv1 bv2);
+    end
+  
+let lemma injective_bv_to_int  (n:int)
+      requires{0<=n}
+      ensures{p_injective  bv_to_int (n_bvs n) }
+  =
+  set_injective  bv_to_int  (n_bvs n)
+  
+let lemma bijective_to_int  (n:int)
+      requires{0<n}
+      ensures{p_bijective  bv_to_int (n_bvs n) (to_fset 0 (power 2 n))}
+  =
+  set_bij_inv  bv_to_int (fun i -> if 0<= i < power 2 n then int_to_bv i n else make_bv (const 0) 1 ) (n_bvs n) ;
+  map_n_bvs n
+
+let lemma injective_int_to_bv  (n:int)
+      requires{0<=n}
+      ensures{p_injective  (fun i -> int_to_bv i n) (to_fset 0 (power 2 n)) }
+  =
+  set_injective   (fun i -> int_to_bv i n) (to_fset 0 (power 2 n))  
+
+  
+let rec lemma n_bvs_card  (n:int)
+      requires{0<=n}
+      ensures{cardinal (n_bvs n) = power 2 n}
+  = bijective_image bv_to_int   (n_bvs n) (to_fset 0 (power 2 n))
+  
+let lemma concat_first_term_zero (e:bitvec)(i:int)
+      requires{0<= i}
+      requires{mem e (map (fun bv -> concat_l bv 0) (n_bvs i))}
+      ensures{getbv e 0 = 0}
+  = map_antec (fun bv -> concat_l bv 0) (n_bvs i) e
+  
+let lemma concat_first_term_one (e:bitvec)(i:int)
+      requires{0<= i}
+      requires{mem e (map (fun bv -> concat_l bv 1) (n_bvs i))}
+      ensures{getbv  e 0 = 1}
+  = map_antec (fun bv -> concat_l bv 1) (n_bvs i) e
+
+      use complex_operations.Base_type
+use exponentiation.Complex_Exponentiation
+use exponentiation.Power_
+
+  
+let lemma bv_sum_to_int_sum (n:int) (f: int -> complex) (g: bitvec -> complex)
+      requires{0<=n}
+      requires{forall x:bitvec. length x = n -> g x = f (bv_to_int x)}
+      ensures{sum (n_bvs n) g = sum (to_fset 0 (power 2 n)) f}
+  = map_sum_eq  (n_bvs n) bv_to_int f
+  
+let  lemma sum_concat (f: (bitvec) -> matrix complex) (i r c:int)
+       requires{i > 0}
+       requires{forall bv:bitvec. rows (f bv) = r}
+       requires{forall bv:bitvec. columns (f bv) = c}
+       ensures{mat_sum (n_bvs i) (fun bv -> add_mat (f (concat_l bv 0))  (f (concat_l bv 1))) =
+                 mat_sum (n_bvs (i+1)) f}
+  = mat_sum_n_bvs_pos (i+1) f
+
+let  lemma geometric_series_bv (a q: complex) (n:int)
+       requires{n>=1}
+       requires{q <> c_one}
+          ensures{sum (n_bvs n) (fun i -> a*. (cpower q (bv_to_int i))) = a*. (c_one -. cpower q (power_ 2 n))/. (c_one -. q)}
+  =
+  bv_sum_to_int_sum n (fun i -> a*. (cpower q i)) (fun i -> a*. (cpower q (bv_to_int i)));
+  geometric_series a q (power 2 n)
+
+
+(* let rec lemma geometric_series (a q: complex) (n:int)
+ *           requires{1<=n}
+ *           requires{c_one <> q}
+ *           ensures{sum (to_fset 0 n) (fun i -> a*. (cpower q i)) = a*. (c_one -. cpower q n)/. (c_one -. q)}
+ *       variant{n}
+ *   = if n = 1 then ()
+ *     else
+ *       begin
+ *       geometric_series  a q (n-1);
+ *       sum_add (to_fset 0 (n-1)) (fun i -> a*. (cpower q i)) (n-1);
+ *       assert{sum (to_fset 0 n) (fun i -> a*. (cpower q i)) =
+ *                a*. (c_one -. cpower q (n-1))/. (c_one -. q) +. a*. cpower q (n-1)}; 
+ *       assert{a*. cpower q (n-1) = a*. ((c_one-.q) *.cpower q (n-1))  /.(c_one -.q) };
+ *       assert{(c_one-.q) *.cpower q (n-1) = cpower q (n-1) -. cpower q n};
+ *       end *)
+
+  
+let lemma geometric_series_bv_init_one (q : complex) (n:int)
+          requires{n>=1}
+       requires{q <> c_one}
+          ensures{sum (n_bvs n) (fun i ->  (cpower q (bv_to_int i))) = (c_one -. cpower q (power_ 2 n))/. (c_one -. q)}
+  = geometric_series_bv c_one q n
+
+ end
+     
+module Bit_vector_inversions
+         use  complex.Complex
+         use  int.Int
+         use  int.EuclideanDivision
+         use  Bit_vector
+         use  Bit_vector_decomp
+         use  p_set.IndexestoSet
+         use  functions.MapInjection
+         use  Binary_Op
+         use  arit.Div_Mod
+         use  exponentiation.Int_Exponentiation
+         use  p_int.Int_comp
+         use  set.FsetComprehension
+         use  matrices.Matrice
+         use  matrices.Matrix_addition
+         use  matrices.Matrix_sums
+         use  matrices.Kronecker_product
+         use  p_set.Fset_comp
+         use  complex_operations.Base_type
+         use  complex.Constant
+         use  complex_operations.Inv_func
+
+let  function bv_inversion (bv:bitvec):bitvec
+                                              ensures{length result = length bv}
+                                              ensures{forall k. in_range result k -> getbv result k = getbv bv (length bv - k -1)}
+  = make_bv (fun k -> getbv bv (length bv - k -1)) (length bv)
+  
+let lemma bv_inversion_value(bv:bitvec) (i:int)
+      ensures{getbv (bv_inversion bv) i = getbv bv (length bv - i -1) }
+  =()
+
+let lemma bv_inversion_invol  (bv:bitvec)
+      ensures{bv_inversion (bv_inversion bv) = bv}
+  =()
+  
+let function int_bit_inversion (i n:int):int
+                                                 requires{0< n}
+                                                 requires{0<= i < power 2 n}
+                                                 ensures{0<= result < power 2 n}
+  = bv_to_int (bv_inversion (int_to_bv i n))
+
+use exponentiation.Power_  
+  
+let function int_bit_inversion_ext (i n:int):int
+                                               requires{0< n}
+                                               requires{0<= i <= power_ 2 n}
+                                               ensures{0<= result <= power_ 2 n}
+           ensures{i = power_ 2 n -> result =  power_ 2 n }
+  = if i = power_ 2 n then i else
+    bv_to_int (bv_inversion (int_to_bv i n))
+
+let lemma int_bit_inversion_invol  (i n:int)
+      requires{0< n}
+      requires{0<= i < power 2 n}
+      ensures{int_bit_inversion (int_bit_inversion i n) n = i}
+  =()  
+
+let lemma int_bit_inversion_inj  (i  j n:int)
+      requires{0< n}
+      requires{0<= i < power 2 n}
+      requires{0<= j < power 2 n}
+      requires{i <> j}
+      ensures{int_bit_inversion i n <> int_bit_inversion j n }
+  =()  
+
+let lemma int_bit_inversion_ext_invol  (i n:int)
+      requires{0< n}
+      requires{0<= i <= power 2 n}
+      ensures{int_bit_inversion_ext (int_bit_inversion_ext i n) n = i}
+  =()  
+
+let lemma int_bit_inversion_onebit (i :int)
+      requires{0<= i < 2}
+      ensures{int_bit_inversion i 1 = i}
+  =
+  ()
+  
+let lemma int_bit_inversion_zero (i n:int)
+      requires{0< n}
+      requires{0= i }
+      ensures{int_bit_inversion i n = 0}
+  =
+  ()
+
+  
+let lemma bv_to_int_sum_inversion (bv:bitvec)
+      requires{length bv > 0}
+      ensures{int_bit_inversion (bv_to_int bv) (length bv) = ind_isum (fun k -> (getbv bv (length bv - k -1)) * power 2  ((length bv) -1 -k)) 0  (length bv )  }
+  =
+  bv_to_int_sum (bv_inversion bv);
+  int_to_bv_to_int bv
+
+let lemma bv_to_int_sum_inversion_inc (bv:bitvec)
+      requires{length bv > 0}
+      ensures{int_bit_inversion (bv_to_int bv) (length bv) = ind_isum (fun k -> getbv bv k * power 2  k) 0  (length bv)  }
+  =
+  bv_to_int_sum_inversion bv;
+  ind_isum_map_auto_bij 0 (length bv ) (fun k -> length bv - k-1) (fun k -> if 0 <= k < length bv then getbv bv k * power 2  k else 0)
+
+let lemma inversion_to_int_comm (bv:bitvec)
+      requires{length bv > 0}
+      ensures{int_to_bv (int_bit_inversion (bv_to_int bv ) (length bv))  (length bv) = bv_inversion bv}
+  = set_n_bvs bv;
+    set_equal_bv (int_to_bv (int_bit_inversion (bv_to_int bv ) (length bv))  (length bv)) (bv_inversion bv)
+    
+let lemma bv_inversion_sum (i n:int)
+      requires{0< n}
+      requires{0<= i < power 2 n}
+      ensures{int_bit_inversion i n = ind_isum (fun k -> (getbv (int_to_bv i n) (n - k -1)) * power 2  (n -1-k)) 0  n  }
+  = bv_to_int_sum_inversion (int_to_bv i n)
+
+(* let lemma int_bit_inversion_add (i j n:int)
+ *       requires{0< n}
+ *       requires{0<= i < power_ 2 n}
+ *       requires{0<= j < power_ 2 n}
+ *       ensures{int_bit_inversion (mod i + j) n =
+ *                 mod (power_ 2 n) (int_bit_inversion i n + int_bit_inversion j n)} *)
+  
+let lemma bv_to_int_inversion_sum (bv:bitvec)
+      ensures{bv_to_int (bv_inversion bv) = ind_isum (fun k -> (getbv bv (length bv - k -1)) * power 2  ((length bv)-1 -k)) 0  (length bv )  }
+  = bv_to_int_sum (bv_inversion bv)
+
+let lemma bv_to_int_bit_inversion (bv:bitvec)
+      requires{length bv > 0}
+      ensures{bv_to_int (bv_inversion (bv)) = int_bit_inversion (bv_to_int bv) (length bv)}
+  = bv_to_int_sum_inversion bv;
+    bv_to_int_sum (bv_inversion bv)
+
+let lemma bv_to_int_inversion_sum_inc (bv:bitvec)
+      requires{length bv > 0}
+      ensures{bv_to_int (bv_inversion bv) = ind_isum (fun k -> getbv bv k * power 2  k) 0  (length bv )}
+  =  bv_to_int_sum_inversion_inc bv
+   
+let lemma bv_m_to_int_bit_inversion (f:int->int)(n:int)
+      requires{0< n}
+      ensures{bv_to_int (bv_inversion (make_bv_m f n)) = int_bit_inversion (bv_to_int (make_bv_m f n)) n}
+  = bv_to_int_bit_inversion (make_bv_m f n)
+  
+let lemma int_bit_inversion_tail_bits (i n:int)
+      requires{1< n}
+      requires{0<= i < power 2 n}
+      ensures{int_bit_inversion (tail_bits i n) (n-1) = ind_isum (fun k -> getbv (int_to_bv i n) (n-k) * power 2 (n -k-1)) 1 n}
+  =  bv_inversion_sum (tail_bits i n) (n-1);
+     int_to_bv_tail i n
+     
+let lemma tail_bits_int_bit_inversion (bv:int->int)( n:int)     
+      requires{1< n}
+      ensures{tail_bits (int_bit_inversion (bv_to_int (make_bv_m bv n )) n) n = ind_isum (fun k -> (mod (bv (n-1-k)) 2  * power 2 (n -k-1))) 1 n}
+  =  int_bit_inversion_tail_bits (bv_to_int (make_bv_m bv n )) n
+
+let lemma int_bit_inversion_ht (i n:int)
+      requires{1< n}
+      requires{0<= i < power 2 n}
+      ensures{int_bit_inversion i n = 2* int_bit_inversion (tail_bits i n) (n-1) + head_bit i n }
+  =   int_bit_inversion_tail_bits i n;
+      bv_inversion_sum i n;
+      ind_isum_scal (fun k -> if  0<= k < n then getbv (int_to_bv i n)  (n-k) * power 2 (n-k-1) else 0)  1 n 2
+
+let lemma bv_inversion_ht (f:int->int) (n:int)
+      requires{1 <n}
+      ensures{bv_to_int (bv_inversion (make_bv_m  f n)) = (head (make_bv_m  f n) ) + (2 * (bv_to_int (bv_inversion  (tail (make_bv_m f n)) )))}
+  = int_bit_inversion_ht (bv_to_int (make_bv_m  f n)) n
+
+let lemma bv_inversion_ht_bv (bv:bitvec)
+      requires{1 < length bv}
+      ensures{bv_to_int (bv_inversion bv) = (head bv ) + (2 * (bv_to_int (bv_inversion  (tail bv) )))}
+  = bv_inversion_ht (getbv bv) (length bv)
+
+let lemma bv_to_int_ht (f:int->int) (n:int)
+      requires{1 <n}
+      ensures{bv_to_int (make_bv_m  f n) = power 2 (n-1) *  (head (make_bv_m f n)) + (bv_to_int (tail (make_bv_m f n)))}
+  =()
+
+let lemma bv_inversion_mult_ht (fx fy:int->int) (n:int)
+      requires{1 <n}
+      ensures{(bv_to_int (make_bv_m  fx n) *  bv_to_int (bv_inversion (make_bv_m  fy n)))
+              = ( (head (make_bv_m  fy n) * bv_to_int (make_bv_m  fx n) )  +  ((bv_to_int (tail (make_bv_m fx n))) * (2 * (bv_to_int (bv_inversion  (tail (make_bv_m fy n)) )))))
+                + (power 2 n * ( (head (make_bv_m fx n)) * (bv_to_int (bv_inversion  (tail (make_bv_m fy n)) ))))}
+  = bv_inversion_ht fy n;
+    bv_to_int_ht fx n
+
+let lemma bv_inversion_mult_ht_bv (bvx bvy:bitvec) 
+      requires{1 < length bvx}
+      requires{length bvx = length bvy}
+      ensures{(bv_to_int bvx *  bv_to_int (bv_inversion bvy))
+              = ( (head bvy * bv_to_int bvx )  +  ((bv_to_int (tail bvx)) * (2 * (bv_to_int (bv_inversion  (tail bvy) )))))
+                + (power 2 (length bvx) * ( (head bvx) * (bv_to_int (bv_inversion  (tail bvy) ))))}
+  = bv_inversion_mult_ht (getbv bvx) (getbv bvy) (length bvx)
+
+end
+
+module Bv_concat
+use complex.Complex
+         use  int.Int
+         use  Bit_vector
+         use  Bit_vector_decomp
+         use  Binary_Op     
+         use  exponentiation.Int_Exponentiation
+     
+let function concat (bv1 bv2: bitvec): bitvec
+                                         ensures{length result = length bv1 +length bv2}
+                                         ensures{forall i:int. 0<= i < length bv1 -> getbv result i = getbv bv1 i}
+                                         ensures{forall i:int. length result <= i  -> getbv result i = getbv bv1 i}
+                                         ensures{forall i:int.  length bv1
+                                                          <= i < length result -> getbv result i = getbv bv2 (i-length bv1)}
+  =
+  set_flength (fun i -> if (length bv1 <= i < (length bv1 +length bv2)) then getbv bv2 (i- length bv1) else getbv bv1 i) (length bv1 +length bv2);
+  make_bv  (fun i -> if (length bv1 <= i < (length bv1 +length bv2)) then getbv bv2 (i- length bv1) else getbv bv1 i) (length bv1 +length bv2)
+
+let lemma concat_length (bv1 bv2: bitvec)
+      ensures{length (concat bv1 bv2) = length bv1 +length bv2}
+  =()
+  
+let  function hpart (bv: bitvec)(m:int): bitvec
+                                           requires{0<=m}
+                                           ensures{ length result = m}
+                                           ensures{length bv = m -> result = bv}
+                                           ensures{forall k. 0<= k< m -> getbv result k =  getbv bv k}
+                                           ensures{forall k. not 0<= k< m -> getbv result k =  0}
+  =  make_bv (getbv bv) m
+
+let lemma hpart_value (bv: bitvec)(m i:int)
+      requires{0<=m}
+      ensures{ getbv (hpart bv m) i =  if 0<= i < m then getbv bv i else 0 }
+  = ()
+
+let lemma hpart_value_b (bv: bitvec)(m i:int)
+      requires{0<=i<m}
+      ensures{ getbv (hpart bv m) i =   getbv bv i }
+  = ()
+
+let  function tpart (bv: bitvec)(m:int): bitvec
+                                           requires{0<=m}
+                                           ensures{length bv >= m -> length result =  (length bv) - m}
+                                           ensures{length bv < m -> length result =  0}
+                                           ensures{forall k:int. 0<= k < length result -> getbv result k = getbv bv (k+m)}
+  =
+  if length bv >= m
+  then  make_bv (fun k -> getbv bv (k+m)) ((length bv) - m)
+  else  make_bv (fun k -> getbv bv (k+m)) 0        
+
+let function bv_tail (bv: bitvec)(m:int): bitvec
+       requires{0<= m<= length bv-m}
+       ensures{length result =   m}
+       ensures{forall k:int. 0<= k < length result -> getbv result k = getbv bv (k+ (length bv-m))}
+  = tpart bv (length bv-m)
+
+let function last (bv:bitvec)
+           requires{length bv >=1}
+           = getbv bv (length bv -1)
+  
+let function bv_head (bv: bitvec)(m:int): bitvec
+       requires{0<= m<= length bv}
+       ensures{length result =  length bv-m}
+       ensures{forall k:int. 0<= k < length result -> getbv result k = getbv bv k}
+  = hpart bv (length bv-m)
+  
+let  function htpart (bv: bitvec)(k n:int): bitvec
+                                                requires{0<=k}
+                                                requires{0<=n}
+                                                ensures{length result =  n}
+                                                ensures{forall i:int. 0<= i < n -> getbv result i = getbv bv (k+i)}
+  =
+  make_bv (fun i -> getbv bv (k+i)) n
+
+let lemma tpart_value (bv: bitvec)(m i:int)
+      requires{0<=m}
+      ensures{ getbv (tpart bv m) i =  if 0<= i < (length bv) - m then getbv bv (i+m) else 0 }
+  = ()
+  
+let lemma tpart_value_b (bv: bitvec)(m i:int)
+      requires{0<=m}
+      requires{0<= i < (length bv) - m}
+      ensures{ getbv (tpart bv m) i =  getbv bv (i+m) }
+  = ()
+  
+let lemma  tpart_length (bv: bitvec)(m:int)
+      requires{0<=m <= length bv}
+      ensures{length (tpart bv m) = (length bv) - m}
+  =()
+  
+let lemma htpart_value (bv: bitvec)(k n i:int)
+                                                requires{0<=k}
+                                                requires{0<=n}
+      ensures{ getbv (htpart bv k n) i =  if 0<= i < n  then getbv bv (k+i) else 0}
+  = ()
+  
+let lemma htpart_value_b (bv: bitvec)(k n i:int)
+                                                requires{0<=k}
+                                                requires{0<=n}
+                                                requires{0<= i < n }
+                                                ensures{ getbv (htpart bv k n) i =  getbv bv (k+i) }
+  = ()
+
+use p_int.Int_comp
+  
+let lemma htpart_product_  (x: bitvec)(k n n':int)
+      requires{0<=k<n}
+      requires{n' = n-k}
+      ensures{ind_iproduct (getbv (htpart x k n')) 0 (n-k) = ind_iproduct (getbv x) k n}
+  =()
+
+let lemma htpart_product_one  (x: bitvec)(k n n' :int)
+      requires{0<=k<n}
+      requires{length x = n}
+      requires{n' = n-k}
+      requires{ind_iproduct (getbv x) 0 n = 1}
+      ensures{ind_iproduct (getbv (htpart x k n')) 0 (n-k) = 1}
+  = null_product_bitvec_rev x n;
+    null_product_bitvec (htpart x k n') (n-k)
+    
+
+
+
+(* let lemma null_product_bitvec_rev (x:bitvec) (n:int)
+ *       requires{n = length x}
+ *       requires{ind_iproduct (getbv x) 0 n = 1}
+ *       ensures{forall i. 0<= i < n-> getbv x i = 1}
+ *   =()
+ * 
+ * let lemma non_null_product_bitvec_rev (x:bitvec) (n:int)
+ *       requires{n = length x}
+ *       requires{ind_iproduct (getbv x) 0 n = 0}
+ *       ensures{not (forall i. 0<= i < n-> getbv x i = 1)}
+ *   =()
+ * 
+ * let lemma null_product_bitvec_inv_rev (x:bitvec) (n:int)
+ *       requires{n = length x}
+ *       requires{ind_iproduct (fun i -> 1- getbv x i) 0 n = 1}
+ *       ensures{forall i. 0<= i < n-> getbv x i = 0}
+ *     = let rec lemma inter (k)
+ *               requires{0 <= k <=n}
+ *               ensures{forall i. 0<= i < k-> getbv x i = 0}
+ *               variant{k}
+ *                = if k = 0 then()
+ *               else
+ *                 begin
+ *                   inter (k-1);
+ *                   ind_iproduct_right_extension (fun i -> 1- getbv x i) 0 k;
+ *                 end
+ *           in inter n *)
+
+  
+let lemma htpart_product_zero  (x: bitvec)(k n n' :int)
+      requires{0<=k<n}
+      requires{length x = n}
+      requires{n' = n-k}
+      requires{exists j. k<= j < n /\ not (getbv x j= 1) }
+      ensures{ind_iproduct (getbv (htpart x k n')) 0 (n-k) = 0}
+  = non_null_product_bitvec_rev x n;
+    non_null_product_bitvec (htpart x k n') (n-k)
+    
+
+let lemma htpart_product  (x: bitvec)(k n n' :int)
+      requires{0<=k<n}
+      requires{length x = n}
+      requires{n' = n-k}
+      ensures{ind_iproduct (getbv (htpart x k n')) 0 (n-k) = if forall j. k<= j < n -> getbv x j= 1 then 1 else 0}
+  =()
+  
+let lemma htpart_length (bv: bitvec)(k n:int)
+                                                requires{0<=k}
+                                                requires{0<=n}
+      ensures{ length (htpart bv k n)  =   n}
+  = ()  
+  
+let lemma  tpart_length_gen (bv: bitvec)(m l:int)
+      requires{0<=m <= length bv}
+      requires{l = length bv - m}
+      ensures{length (tpart bv m) = l}
+  =()
+  
+let lemma concat_value_left (bv1 bv2: bitvec) (i:int)
+      requires{0 <= i < length bv1}
+      ensures{getbv (concat bv1 bv2) i = getbv bv1 i}
+  =()
+  
+let lemma concat_value (bv1 bv2: bitvec) (i:int)
+      ensures{getbv (concat bv1 bv2) i =   if
+                                           (length bv1 <= i < (length bv1 +length bv2))
+                                         then
+                                           getbv bv2 (i- length bv1)
+                                         else
+                                           if 0<= i< length bv1
+                                           then getbv bv1 i
+                                           else 0}
+  =()
+    
+let lemma concat_value_right (bv1 bv2: bitvec) (i:int)
+      requires{ length bv1 <= i < length bv1 + length bv2}
+      ensures{getbv (concat bv1 bv2) i = getbv bv2 (i- length bv1)}
+  =()
+
+let lemma concat_value_out (bv1 bv2: bitvec) (i:int)
+      requires{length bv1 + length bv2 <i}
+      ensures{getbv (concat bv1 bv2) i = getbv bv1 i}
+  =()
+
+let lemma concat_value_tpart (bv1 bv2: bitvec) (i:int)
+      requires{ length bv1 <= i < length bv2}
+      ensures{getbv (concat bv1 (tpart bv2  (length bv1))) i = getbv bv2 i}
+  = concat_value_right bv1 bv2 i
+  
+let lemma concat_value_ht (bv1 bv2 bv3 bv4: bitvec) (i:int)
+      requires{0<= i< length bv3}
+      requires{0 <= i < length bv1 -> getbv bv1 i = getbv bv4 i}
+      requires{ length bv1 <= i -> getbv bv3 i = getbv bv4 i}
+      requires{bv2 = tpart bv3  (length bv1)}
+      ensures{getbv (concat  bv1   bv2) i = getbv bv4 i}
+  =  if i < length bv1 then concat_value_left bv1 bv2 i
+     else concat_value_tpart bv1 bv3 i
+
+let lemma concat_ht (bv1 bv2 bv3 bv4: bitvec) 
+      requires{forall i. 0 <= i < length bv1 -> getbv bv1 i = getbv bv4 i}
+      requires{forall i.  length bv1 <= i -> getbv bv3 i = getbv bv4 i}
+      requires{length bv4 = length bv1 + length bv2}
+      requires{length bv3 >= length bv1 + length bv2}
+      requires{bv2 = tpart bv3  (length bv1)}
+      ensures{ (concat  bv1   bv2)  = bv4 }
+  =  set_equal_bv (concat  bv1   bv2) bv4
+
+let lemma set_concat (bv1 bv2 bv4: bitvec) 
+      requires{forall i. 0 <= i < length bv1 -> getbv bv1 i = getbv bv4 i}
+      requires{forall i.  length bv1 <= i -> getbv bv2 (i - length bv1) = getbv bv4 i}
+      requires{length bv4 = length bv1 + length bv2}
+      ensures{ (concat  bv1   bv2) = bv4 }
+  =  set_equal_bv (concat  bv1   bv2) bv4
+   
+let lemma concat_m (bv1 bv2: bitvec) (i1 i2 : int)
+      requires{i1>0}
+      requires{i2>0}
+      requires{length bv1 = i1}
+      requires{length bv2 = i2}
+      ensures{concat (make_bv_m (getbv bv1) i1) (make_bv_m (getbv bv2) i2) = make_bv_m (getbv (concat bv1 bv2)) (i1+i2)}
+  =()
+  
+let lemma concat_comm (bv1 bv2: bitvec)
+      ensures{ (hpart (concat bv1 bv2) (length bv1)) = bv1}
+      ensures{ (tpart (concat bv1 bv2)  (length bv1)) = bv2}
+  = set_equal_bv (hpart (concat bv1 bv2) (length bv1)) bv1;
+    set_equal_bv (tpart (concat bv1 bv2) (length bv1)) bv2
+    
+let lemma concat_and_rec (bv: bitvec) (i:int)
+      requires{0<= i <= length bv}
+      ensures{ (concat (hpart bv i) (tpart bv i)) =  bv}
+  = set_equal_bv (concat (hpart bv i) (tpart bv i))  bv
+  
+let ghost function concat_int_bv (bv: bitvec) (i n:int): (bitvec)
+                                                           requires{n>0}
+                                                           requires{0<= i < power 2 n}
+  =
+  concat bv (int_to_bv i n)
+
+let lemma concat_int_to_bv_value (bv: bitvec) (i n j:int)
+      requires{n>0}
+      requires{0<= i < power 2 n}
+      requires{0<= j < length (concat_int_bv bv i n)}
+      ensures{ j < (length bv) -> getbv (concat_int_bv bv i n) j = getbv bv j}
+  =
+  if (  length bv < j) then
+    begin
+      bv_to_int_to_bv i n;
+    end
+  else ()  
+
+         use  p_int.Int_comp
+  
+let lemma bv_to_int_concat (bvx bvy: bitvec)
+      ensures{bv_to_int (concat bvx bvy) = (power 2 (length bvy) * bv_to_int bvx) + (bv_to_int bvy)}
+  = bv_to_int_sum (concat bvx bvy);
+    bv_to_int_sum bvx;
+    bv_to_int_sum bvy;
+    ind_isum_trans (fun k -> if 0 <= k < (length (concat bvx bvy) ) then (getbv (concat bvx bvy) k) * (power 2 ((length (concat bvx bvy)) -1-k)) else 1)         
+      0 (length bvx) (length (concat bvx bvy))
+
+      use functions.Shift
+
+let lemma concat_fin (f1 f2: int->int) (l1 l2:int)
+      requires{l1 >= 0}
+      requires{l2 >= 0}
+      requires{binary f1}
+      requires{binary f2}
+      ensures{make_bv (concat_fun f1 f2 l1) (l1+l2) = concat (make_bv f1 l1) (make_bv f2 l2)}
+  = set_equal_bv (make_bv (concat_fun f1 f2 l1) (l1+l2)) (concat (make_bv f1 l1) (make_bv f2 l2))
+    
+let lemma bin_to_int_concat (f1 f2: int->int) (l1 l2:int)
+      requires{l1 >= 0}
+      requires{l2 >= 0}
+      requires{binary f1}
+      requires{binary f2}
+      ensures{bin_to_int (concat_fun f1 f2 l1 ) (l1 + l2) = (power 2 l2 * bin_to_int f1 l1) + (bin_to_int f2 l2)}
+  =  bv_to_int_concat (make_bv f1 l1) (make_bv f2 l2)
+       
+      use  set.Fset
+      use  p_set.Fset_comp
+      use  complex.Pairs
+      use  complex.Constant
+      use  complex_operations.Inv_func
+      use  set.FsetComprehension
+      use  functions.MapInjection
+    
+let lemma bijective_concat (i j:int)
+      requires{0<=i}
+      requires{0<=j}
+      ensures{p_bijective (fun o -> concat (fir o) (sec o)) (cartesian_product (n_bvs i) (n_bvs j)) (n_bvs (i+j))}
+      ensures{p_bijective (fun x -> (hpart x i, tpart x i)) (n_bvs (i+j))  (cartesian_product (n_bvs i) (n_bvs j))}
+  =
+  let guarded_f = (fun o -> if mem o (cartesian_product (n_bvs i) (n_bvs j)) then  concat (fir o) (sec o) else (make_bv (const 0) (i+j))) in
+  let guarded_g = (fun x -> if length x = (i+j) then (hpart x i, tpart x i) else ((make_bv (const 0) i),(make_bv (const 0) j)) ) in
+  begin
+    set_equal (map guarded_f (cartesian_product (n_bvs i) (n_bvs j))) (n_bvs (i+j));
+    assert{ (map (fun o -> if mem o (cartesian_product (n_bvs i) (n_bvs j)) then
+                             concat (fir o) (sec o)
+                           else (make_bv (const 0) (i+j))) (cartesian_product (n_bvs i) (n_bvs j))) =
+              map (fun o -> concat (fir o) (sec o)) (cartesian_product (n_bvs i) (n_bvs j) )};
+    set_bij_inv guarded_f guarded_g (cartesian_product (n_bvs i) (n_bvs j));
+    bijective_eq_gen guarded_f (cartesian_product (n_bvs i) (n_bvs j)) (n_bvs (i + j));
+    bijective_eq_gen guarded_g  (n_bvs (i + j))  (cartesian_product (n_bvs i) (n_bvs j)) ;
+  end
+
+use int.EuclideanDivision
+use arit.Div_Mod
+let lemma bv_to_int_hpart (bv:bitvec) (l:int)
+      requires{0<= l <= length bv}
+      ensures{bv_to_int (hpart bv l) = div (bv_to_int bv) (power 2 (length bv - l))}
+  =()
+  
+let lemma bv_to_int_tpart (bv:bitvec) (l:int)
+      requires{0<= l <= length bv}
+      ensures{bv_to_int (tpart bv l) = mod (bv_to_int bv) (power 2  (length bv - l))}
+  =()
+
+  use exponentiation.Power_
+let lemma bv_to_int_hpart_rev (bv:bitvec) (l q:int)
+      requires{q= length bv - l}
+      requires{0<= l <= length bv}
+      ensures{div (bv_to_int bv) (power_ 2 q) =bv_to_int (hpart bv l)}
+  =()
+  
+let lemma bv_to_int_tpart_rev (bv:bitvec) (l q:int)
+      requires{q= (length bv - l)}
+      requires{0<= l <= length bv}
+      ensures{mod (bv_to_int bv) (power_ 2 q) = bv_to_int (tpart bv l) }
+  =()
+
+     use fsum.Iterations
+  
+(* let function iter_concat concat (f: int -> bitvec) i j
+ *   = iterate concat i j *)
+end
+
+     
+module Bv_op
+         use complex.Complex
+         use  int.Int
+                  use  int.EuclideanDivision
+         use Bit_vector
+         use  Bit_vector_decomp
+         use  exponentiation.Int_Exponentiation
+         use  arit.Div_Mod
+         use  p_int.Int_comp
+         use  Binary_Op
+     
+let  ghost function bin_and (i j: int)  :
+                      int
+                        requires{ 0<= i <2  }
+                        requires{ 0 <= j <2}
+                        ensures{ 0 <= result <2}
+                        ensures{result  = 1 <-> i  =1 /\ j = 1 }
+                        ensures{result  = 0 <-> i  =0 \/ j = 0 }
+  =     if i  = 1 && j = 1 then 1 else 0
+
+let ghost function bin_andv (bv1 bv2: bitvec): bitvec
+                                                 requires{length bv1 = length bv2}
+                                                 ensures{length result = length bv1 }
+                                                 ensures{result =     make_bv (fun i ->  bin_and (getbv bv1 i) (getbv bv2 i) ) (length bv1)}
+                                                 ensures{bvlength (getbv result) (length bv1) }
+                                                 ensures{forall i. 0<= i < length result ->
+                                                         getbv result i = if getbv bv1 i  = 1 && getbv bv2 i = 1 then 1 else 0}
+  =
+  get_bvlength (getbv bv1) (length bv1) ;
+  get_bvlength (getbv bv2) (length bv1) ;
+  set_flength (fun i -> if 0<= i <  (length bv1) then bin_and (getbv bv1 i) (getbv bv2 i) else 0)  (length bv1);
+  make_bv_length (fun i -> if 0<= i <  (length bv1) then bin_and (getbv bv1 i) (getbv bv2 i) else 0) (length bv1);
+  set_flength  (fun i -> if 0<= i <  (length bv1) then bin_and (getbv bv1 i) (getbv bv2 i) else 0)  (length bv1);
+  make_bv (fun i -> if 0<= i <  (length bv1) then bin_and (getbv bv1 i) (getbv bv2 i) else 0) (length bv1) 
+
+let lemma bin_andv_values (bv1 bv2: bitvec) (k:int)
+      requires{length bv1 = length bv2}
+      requires{0<= k < length bv1}
+      ensures{getbv (bin_andv bv1 bv2) k =   bin_and (getbv bv1 k) (getbv bv2 k) }
+  =()
+  
+let ghost function int_bin_and_seq (i j n:int): bitvec
+                                                  requires{n > 0}                                                         
+                                                  requires{0<= i< power 2 n}
+                                                  requires{0<= j< power 2 n}
+                                                  ensures{forall k. 0<= k < n-> getbv result k = bin_and (getbv (int_to_bv i n) k)
+                                                                                                    (getbv (int_to_bv j n) k)}
+                                                  ensures{bvlength (getbv result) n}
+  = bin_andv (int_to_bv i n) (int_to_bv j n)
+  
+let lemma int_bin_and_seq_inst (i j n k:int)
+      requires{n > 0}                                                         
+      requires{0<= i< power 2 n}
+      requires{0<= j< power 2 n}
+      requires{0 <= k < n}
+      ensures{getbv (int_bin_and_seq i j n )  k = bin_and (getbv (int_to_bv i n) k) (getbv  (int_to_bv j n) k)}
+  = ()
+  
+let lemma int_bin_and_seq_zero (i j n:int)
+      requires{n > 0}                                                         
+      requires{0<= i< power 2 n}
+      requires{0<= j< power 2 n}
+      requires{0 <> i ->  j = 0}
+      ensures{forall k:int . 0 <= k < n ->  getbv (int_bin_and_seq i j n) k = 0}
+  =
+  if (i = 0) then int_to_bv_zero n 
+  else  int_to_bv_zero n 
+  
+let rec ghost function popcount (t:int->int) (i:int) (j:int) : int
+                                                                 requires{i<=j}
+                                                                 requires{forall k:int. i<= k < (j+1) -> 0<= t k < 2 }
+                                                                 ensures {result = ind_isum t i (j+1)}
+                                                                 ensures {0<= result}
+                                                                 variant { j - i }               = 
+  if j = i then t i
+  else  t i  + (popcount t (i+1) j)
+
+let function and_bin (t1 t2:int->int) (i:int)
+           requires{binary t1}
+           requires{binary t2}
+           = t1 i * t2 i
+  
+let lemma positive_popcount (t:int->int) (i:int) (j:int) 
+      requires{i<=j}
+      requires{forall k:int. i<= k < (j+1) -> 0<= t k < 2 }
+      ensures{0<= popcount t i j}
+  =()
+  
+let  lemma popcount_right_extension (t : int->int) (i j : int)
+       requires { i < j }
+      requires{forall k:int. i<= k < (j+1) -> 0<= t k < 2 }
+       ensures  { popcount t i j =  popcount t i (j-1) + (t j) }
+  = ()
+
+let  lemma popcount_left_extension (t : int->int) (i j : int)
+       requires { i < j }
+      requires{forall k:int. i<= k < (j+1) -> 0<= t k < 2 }
+       ensures  { popcount t i j =  popcount t (i+1) j + (t i) }
+  = ()
+
+let rec lemma popcount_zero (t:int->int) (i:int) (j:int) 
+          requires{forall k:int. i<= k <= j -> t k = 0}
+          requires{i <= j}
+          ensures{ popcount t i j = 0}
+          variant{j - i}
+  = if (i = j) then ()
+    else begin
+        popcount_right_extension t i j;
+        popcount_zero t i (j-1);
+      end
+  
+let  lemma popcount_one (t:int->int) (i:int) (j:int) 
+      requires{forall k:int. i<= k < (j+1) -> 0<= t k < 2 }
+       requires{j = i }
+       ensures{ popcount t i j =  t i}
+  = ()
+  
+let lemma popcount_right_extension_comm (t : int->int) (i j : int)
+      requires { i < j }
+      requires{forall k:int. i<= k < (j+1) -> 0<= t k < 2 }
+      ensures  {  popcount t i (j-1) + (t j) = popcount t i j  }
+  = ()
+
+let rec lemma popcount_eq (t t':int->int) (i:int) (j:int) 
+          requires{forall k:int. i<= k <= j -> t k = t' k}
+          requires{i <= j}
+      requires{forall k:int. i<= k < (j+1) -> 0<= t k < 2 }
+          ensures{popcount t i j = popcount t' i j}
+          variant{j - i}
+  = if (i = j) then ()
+    else
+      begin
+        popcount_eq t t' i (j-1);
+        popcount_right_extension t i j;
+        popcount_right_extension t' i j;
+      end
+end
+     
+module Binary_inversion_op
+         use  Bit_vector_decomp
+                  use  int.EuclideanDivision
+         use  arit.Div_Mod
+         use  Bit_vector     
+         use  Bit_vector_inversions
+         use  int.Int
+         use  exponentiation.Int_Exponentiation
+         use  p_int.Int_comp
+         use  Binary_Op
+
+let lemma head_bv_to_int_inversion (f: int->int) (n:int)
+      requires{n>0}
+      ensures{mod (bv_to_int (bv_inversion   (make_bv_m  f n))) 2 = mod (f 0) 2}
+      ensures{ind_isum (fun k ->  mod (f (n - k-1)) 2 * power  2 (n -2 - k)) 0  (n-1)   =  div (bv_to_int (bv_inversion   (make_bv_m  f n))) 2}
+  = bv_to_int_inversion_sum (make_bv_m  f n);
+      div_ind_isum (fun k -> mod (f(n-k-1)) 2) 1 n;
+      mod_ind_isum (fun k -> mod (f(n-k-1)) 2) 1 n
+
+      
+let lemma cond_mod_sum  (bvx: int->int) (n:int)
+      requires{n > 0} 
+      ensures{ind_isum (fun k ->  mod (bvx k) 2 * power 2 (n-1-k)) 1  n = mod (bv_to_int (make_bv_m  bvx n) ) (power 2 (n-1))}
+  = if n = 1 then ()
+    else
+      mod_ind_isum   (fun k ->  mod (bvx k) 2)  (n-1) n
+
+let lemma cond_mod_sum_gen  (n: int)
+      requires{n > 0} 
+      ensures{forall f: int->int. ind_isum (fun k ->  mod (f k) 2 * power 2 (n-1-k)) 1  n = mod (bv_to_int (make_bv_m  f n) ) (power 2 (n-1))}
+      ensures{forall f: int->int. mod (bv_to_int (make_bv_m  f n) ) (power 2 (n-1)) =  ind_isum (fun k ->  mod (f k) 2 * power 2 (n-1-k)) 1 n }
+  = ()
+
+let lemma cond_mod_sum_inversion  (f: int->int) (n:int)
+      requires{n > 0} 
+      ensures{ind_isum (fun k ->  mod (f (n-k-1)) 2 * power 2 (n-1-k)) 1  n = mod (bv_to_int (bv_inversion (make_bv_m  f n))) (power 2 (n-1))}
+      ensures{ mod (bv_to_int (bv_inversion (make_bv_m  f n))) (power 2 (n-1)) = ind_isum (fun k ->  mod (f (n-k-1)) 2 * power 2 (n-1-k)) 1  n}
+  =
+bv_to_int_inversion_sum (make_bv_m  f n);
+      div_ind_isum (fun k -> mod (f(n-k-1)) 2) (n-1) n;
+      mod_ind_isum (fun k -> mod (f(n-k-1)) 2) (n-1) n
+
+let lemma cond_mod_sum_inversion_gen  (n: int)
+      requires{n > 0} 
+      ensures{forall f: int->int. ind_isum (fun k ->  mod (f (n-k-1)) 2 * power 2 (n-1-k)) 1 n = mod (bv_to_int (bv_inversion (make_bv_m  f n)) ) (power 2 (n-1))}
+      ensures{forall f: int->int. mod (bv_to_int (bv_inversion (make_bv_m  f n)) ) (power 2 (n-1)) =  ind_isum (fun k ->  mod (f (n-k-1)) 2 * power 2 (n-1-k)) 1 n }
+  = ()
+  
+let lemma ht_inv_decomp_mod (x y n:int)
+      requires{n>0}
+      requires{0<= x < power 2 n}
+      requires{0<= y < power 2 n}
+      ensures{mod y 2 * x + (mod x (power 2 (n-1)) * div y 2 * 2) + (power 2 (n-1) * div x (power 2 (n-1)) * div y 2 * 2) = x * y}
+  = decomp x (power 2 (n-1));
+    decomp y 2;
+    mult_add_distr (mod x (power 2 (n-1))) (div x (power 2 (n-1))) (mod y 2) (div y 2) 
+
+let lemma ht_inv_decomp_mod_rev (x y n:int)
+      requires{n>0}
+      requires{0<= x < power 2 n}
+      requires{0<= y < power 2 n}
+      ensures{x * y = mod y 2 * x + (mod x (power 2 (n-1)) * div y 2 * 2) + (power 2 (n-1) * div x (power 2 (n-1)) * div y 2 * 2)}
+  = ht_inv_decomp_mod x y n
+
+let lemma ht_inv_decomp_mod_bv_gen (n:int)
+      requires{n>0}
+      ensures{forall bvx bvy: int->int.
+                                   (bv_to_int (make_bv_m bvx n)) * (bv_to_int (bv_inversion   (make_bv_m  bvy n))) =
+                                     mod (bv_to_int (bv_inversion   (make_bv_m  bvy n))) 2 * (bv_to_int (make_bv_m bvx n))
+                                     + (mod (bv_to_int (make_bv_m bvx n)) (power 2 (n-1)) * div (bv_to_int (bv_inversion   (make_bv_m  bvy n))) 2 * 2)
+                                     + (power 2 (n-1) * div (bv_to_int (make_bv_m bvx n)) (power 2 (n-1)) * div (bv_to_int (bv_inversion   (make_bv_m  bvy n))) 2 * 2)}
+  = ()
+end
+      
+module Bv_to_int_ext
+         use  Bit_vector     
+         use  int.Int
+use exponentiation.Power_
+use p_int.Int_comp  
+let lemma bv_to_int_zero  (x:bitvec) (n:int)
+      requires{n>0}
+      requires{length x = n}
+      requires{forall i. 0<= i < n -> getbv x i = 0}
+      ensures{bv_to_int x = 0}
+  =()
+
+let  lemma bv_to_int_all_one  (x:bitvec) (n:int)
+      requires{n>0}
+      requires{length x = n}
+      requires{forall i. 0<= i < n -> getbv x i = 1}
+      ensures{bv_to_int x = power_ 2 n -1}
+  = let rec lemma inter (k)
+      requires{0<k <= n}
+      ensures{ind_isum (fun k -> getbv x  (n-1-k) * power_ 2 k)  0 k = power_ 2 k -1}
+          variant{k}
+      =
+      if k = 1 then()
+      else
+        begin
+          assert{1<k};
+          inter (k-1);
+        end
+      in inter n
+
+  
+let lemma bv_to_int_zero_gen   (n:int)
+      requires{n>0}
+      ensures{forall x: bitvec. length x = n -> (forall i. 0<= i < n -> getbv x i = 0) -> bv_to_int x = 0}
+  =()
+
+let lemma bv_to_int_zero_gen_rev  (n:int)
+      requires{n>0}
+      ensures{forall x: bitvec. length x = n ->  bv_to_int x = 0 -> (forall i. 0<= i < n -> getbv x i = 0)}
+  =()
+
+let lemma bv_to_int_all_one_gen   (n:int)
+      requires{n>0}
+      ensures{forall x: bitvec. length x = n ->  (forall i. 0<= i < n -> getbv x i = 1) -> bv_to_int x = power_ 2 n -1}
+  =()
+
+use Bv_int_op
+  
+let lemma bv_to_int_all_one_gen_rev  (n:int)
+      requires{n>0}
+      ensures{forall x: bitvec.  length x = n -> bv_to_int x = power_ 2 n -1 -> (forall i. 0<= i < n -> getbv x i = 1)}
+  =
+  assert{forall x: bitvec.  length x = n -> bv_to_int x = power_ 2 n -1 ->bv_to_int x = bv_to_int (make_bv (fun _ -> 1) n)};
+  injective_bv_to_int n;
+  assert{forall x: bitvec.  length x = n -> bv_to_int x = power_ 2 n -1 -> x = make_bv (fun _ -> 1) n}
+ end                 
+
+
+          

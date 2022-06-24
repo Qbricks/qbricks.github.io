@@ -1,0 +1,169 @@
+module Phase_estim
+         use export eigen_spec.Eigen_vectors
+         use exponentiation.Int_Exponentiation
+         use   binary.Bit_vector
+         use  set.Fset
+         use qft.Qft
+         use exponentiation.Complex_Exponentiation
+         use qbricks.Circuit_macros
+         use complex_operations.Base_type
+     
+let ghost function black_box_coeff  (theta:complex) (y :bitvec)
+    requires{real_ theta}
+    ensures{forall x. forall k. 0<k -> length x = k ->length y = k -> result *. int_qft_coeff (bv_to_int y) (- bv_to_int x) k =
+         cpower (ang_exp (real_to_ang (theta -. (i_to_c  (bv_to_int x)  *. pow_inv_2 k))))     (bv_to_int y)  }
+  = ang_exp (real_to_ang (theta *. i_to_c  (bv_to_int y)))
+
+let  function cascade_cont_pow  (circ  :circuit) (ft : int)  (ghost y:matrix complex) (ghost theta :complex):circuit 
+                requires{1 <= ft}
+                requires{real_ theta}
+                requires{eigen circ y (real_to_ang theta)}
+                requires{is_a_ket_l y (width circ)}
+                ensures{width result = ft + (width circ)}
+                ensures{forall x:bitvec.length x = ft -> path_sem result   (kronecker (bv_to_ket x) y) = 
+                                (kronecker (black_box_coeff  theta x *..  (bv_to_ket x))  y)}
+                ensures{ path_sem result (kronecker  ( pow_inv_sqrt_2 ft *.. ket_sum_l  (n_bvs ft) (fun x ->   (bv_to_ket x)) ft) y)
+                         =  (kronecker (pow_inv_sqrt_2 ft *..   ket_sum_l (n_bvs ft)
+                                                                 (fun x -> black_box_coeff  theta x *..  (bv_to_ket x)) ft) y)}
+  = ang_sum_bv_to_int_mult  ft;
+    control_eigen_seq_real (fun i -> pow_pow_2 circ (if  ft-i-1  >= 0 then  ft-i-1  else 0) y  (real_to_ang theta))
+      y (fun i ->  theta *. i_to_c (power_ 2 (ft-i-1)))  (fun i ->  i) ft ft (width circ) (ft + (width circ))   
+  
+let  function apply_black_box (circ:circuit) (k n:int)(ghost y:matrix complex) (ghost theta:complex)
+               requires{n= k+ width circ}
+               requires{real_ theta}
+               requires{0 < k < n}
+               requires{is_a_ket_l y (n-k)}
+                requires{eigen circ y (real_to_ang theta)}
+                ensures{width result = n}
+                ensures{ path_sem result  (kronecker (ket k 0) y) =  (kronecker (pow_inv_sqrt_2 k *..   ket_sum_l (n_bvs k)
+                        (fun x -> black_box_coeff  theta x *..  (bv_to_ket x)) k) y)}
+  = sum_ket_zero k;
+    place_kron_left (repeat_had k) n (ket k 0) (pow_inv_sqrt_2 k *..  ket_sum_l  (n_bvs k) (fun e ->   (bv_to_ket e)) k) y;
+  path_sem_comp (    place (repeat_had k) 0 n) (cascade_cont_pow circ k y theta)
+      (kronecker (ket k 0) y)
+      (kronecker  ( pow_inv_sqrt_2 k *.. ket_sum_l  (n_bvs k) (fun x ->   (bv_to_ket x)) k) y)
+      (kronecker (pow_inv_sqrt_2 k *..   ket_sum_l (n_bvs k)
+                                           (fun x -> black_box_coeff  theta x *..  (bv_to_ket x)) k) y);
+    sequence (place (repeat_had k) 0 n) (cascade_cont_pow circ k y theta) 
+
+let function phase_estimation (circ:circuit) (k n:int)(ghost y:matrix complex) (ghost theta:complex)
+                requires{n= k+ width circ}
+                requires{real_ theta}
+               requires{0 < k < n}
+               requires{is_a_ket_l y (n-k)}
+                requires{eigen circ y (real_to_ang theta)}
+                ensures{path_sem result  (kronecker (ket k 0) y) = kronecker (pow_inv_2 k *.. ket_sum_l (n_bvs k) (fun y ->  ket_sum_l (n_bvs k)
+                                 (fun x -> ( black_box_coeff   theta y *. int_qft_coeff (bv_to_int y) (- bv_to_int x) k ) *..  (bv_to_ket x)) k) k)y}
+                ensures{width result = n}
+  =  place_kron_left (qft_rev_ k) n
+       (pow_inv_sqrt_2 k *..   ket_sum_l (n_bvs k)
+                                 (fun x -> black_box_coeff  theta x *..  (bv_to_ket x)) k) 
+       (pow_inv_2 k *.. ket_sum_l (n_bvs k) (fun y ->  ket_sum_l (n_bvs k)
+                                                         (fun x -> ( black_box_coeff   theta y *. int_qft_coeff (bv_to_int y) (- bv_to_int x)  k ) *..  (bv_to_ket x)) k) k) y;
+     path_sem_comp (apply_black_box circ k n y theta)(place (qft_rev_ k) 0 n)  (kronecker (ket k 0) y)
+       (kronecker (pow_inv_sqrt_2 k *..   ket_sum_l (n_bvs k)
+                                            (fun x -> black_box_coeff  theta x *..  (bv_to_ket x)) k) y)
+       (kronecker (pow_inv_2 k *.. ket_sum_l (n_bvs k) (fun y ->  ket_sum_l (n_bvs k)
+                                                                    (fun x -> ( black_box_coeff   theta y *. int_qft_coeff (bv_to_int y) (- bv_to_int x)  k ) *..  (bv_to_ket x)) k) k)y);
+     sequence (apply_black_box circ k n y theta)(place (qft_rev_ k) 0 n)                  
+  
+let ghost function pe_measure (circ:circuit) (k i n:int)( y:matrix complex) ( theta:complex):complex
+               requires{n= k+ width circ}
+               requires{real_ theta}
+                requires{1 <= k<n}
+                requires{is_a_ket_l y (n-k)}
+                requires{eigen circ y (real_to_ang theta)}
+                requires{0<=i < power_ 2 k}
+                ensures{result = pow_inv_2 (2*k) *. cpower (modulus (ind_sum
+                               (fun y -> (cpower (ang_exp (real_to_ang (theta  -.  (i_to_c i*. pow_inv_2 k)))) y)) 0 (power_ 2 k))) 2}
+                ensures{result =  proba_measure (discard (pow_inv_2 k *.. ket_sum_l (n_bvs k) (fun y ->  ket_sum_l (n_bvs k)
+                               (fun x -> ( black_box_coeff   theta y *. int_qft_coeff (bv_to_int y) (- bv_to_int x)  k ) *..  (bv_to_ket x)) k) k) y
+                                (path_sem (phase_estimation circ k n y theta) (kronecker (ket k 0) y)) k n) i k}
+  =  top_proba_measure_from_scal_ind_sum (path_sem (phase_estimation circ k n y theta) (kronecker (ket k 0) y)) i k
+      (fun y x -> (black_box_coeff theta y *. int_qft_coeff (bv_to_int y) (- bv_to_int x)  k))
+      (pow_inv_2 k ) (pow_inv_2 (2*k))
+      (pow_inv_2 k *.. ket_sum_l (n_bvs k) (fun y ->  ket_sum_l (n_bvs k)
+                                                        (fun x -> ( black_box_coeff   theta y *. int_qft_coeff (bv_to_int y) (- bv_to_int x)  k ) *..  (bv_to_ket x)) k) k) y
+  
+let ghost function best_appr ( theta:complex)  (k :int)
+               requires{0<=k}
+               requires{real_ theta}
+               requires{c_zero <=. theta <=. c_one}
+               ensures{0<= result <= power_ 2 k}
+               ensures{mem result (to_fset 0 (power_ 2 k +1))}
+  ensures{modulus (theta  -.  (i_to_c result*. pow_inv_2 k)) <=. pow_inv_2 (k+1)}
+  = appr theta (power_ 2 k);
+  choose_filter (to_fset 0 (power_ 2 k +1)) (fun x -> modulus ( theta  -.  (i_to_c x *. pow_inv_2 k)) <=. pow_inv_2 (k+1))
+    
+let ghost function delta   ( theta:complex)  (k  :int)
+               requires{0<k}
+               requires{real_ theta}
+               requires{c_zero <. theta <=. c_one}
+               ensures{real_to_ang result = real_to_ang(theta  -.  (i_to_c  (best_appr theta k )  *. pow_inv_2 k))}
+             ensures{real_ result}
+             ensures{ modulus result <=. pow_inv_2 (k+1)}
+               ensures{result <. c_one}
+    = theta  -.  (i_to_c   (best_appr theta k)   *. pow_inv_2 k)
+     
+let lemma geom_sum_rewrite (psi:complex) (b  :int)
+      requires{1<= b}
+      requires{real_ psi}
+      requires{c_zero <. modulus psi <. c_one}
+      ensures{cpower (modulus (ind_sum  (fun y -> (cpower (ang_exp (real_to_ang psi)) y)) 0 b)) 2
+              = ((cpower (modulus ( sin (pi *.  psi *. i_to_c b))) 2)
+                 /. (cpower (modulus ( sin (pi *. psi))) 2))}
+  = ind_geometric_series  (ang_exp (real_to_ang psi)) b;
+    assert{cpower (modulus (ind_sum  (fun y -> (cpower (ang_exp (real_to_ang psi)) y)) 0 b)) 2
+            = cpower (modulus ( (c_one-. cpower (ang_exp (real_to_ang psi )) b)/. (c_one -. (ang_exp (real_to_ang psi))))) 2};
+    square_frac_modulus (c_one-. cpower (ang_exp (real_to_ang psi)) b) (c_one -. (ang_exp (real_to_ang psi)));
+    assert{cpower (modulus (ind_sum  (fun y -> (cpower (ang_exp (real_to_ang psi)) y)) 0 b)) 2
+           = cpower (modulus  (c_one-. cpower (ang_exp (real_to_ang psi )) b))2 /. cpower (modulus (c_one -. (ang_exp (real_to_ang psi)))) 2};
+    square_modulus_c_one_minus psi;
+    square_modulus_c_one_minus ( psi *. i_to_c b);
+    extract_2_sq_modulus (sin (pi *.  psi *. i_to_c b)) ( sin (pi *. psi)) (i_to_c 4)
+
+let lemma geom_sum_bound (psi:complex) (b  :int)
+      requires{1<= b}
+      requires{real_ psi}
+      requires{c_zero <=. modulus  psi  <=. c_one/. (ttwo *. i_to_c b)}
+ensures{( cpower (i_to_c b) 2) *. (  i_to_c 4/. cpower pi 2)
+             <=. cpower (modulus (ind_sum  (fun y -> (cpower (ang_exp (real_to_ang psi)) y)) 0 b)) 2}
+ensures{ i_to_c 4/. cpower pi 2
+             <=. (c_one/. cpower (i_to_c b) 2) *.  cpower (modulus (ind_sum  (fun y -> (cpower (ang_exp (real_to_ang psi)) y)) 0 b)) 2}
+  = if psi == c_zero then ind_sum_constant_from_z    (fun y -> (cpower (ang_exp (real_to_ang psi)) y)) c_one b
+    else begin
+        transitive_inf_inv_r c_zero (modulus psi) (ttwo *. i_to_c b);
+        geom_sum_rewrite psi b;
+        bounded_sine (pi*. modulus psi)  ;
+        growing_cpower_2 (modulus (sin (pi*. psi)))  (modulus(pi*. psi));
+        lower_inv_ (cpower (modulus ( sin (pi *.  (psi *. i_to_c b)))) 2)
+          (cpower (modulus ( sin (pi *. psi))) 2)
+          (cpower (modulus ( pi *. psi)) 2);
+        assert{cpower (modulus ( sin (pi *.  (psi *. i_to_c b)))) 2 /. cpower (modulus  (pi *. psi)) 2
+               <=. cpower (modulus (ind_sum  (fun y -> (cpower (ang_exp (real_to_ang psi)) y)) 0 b)) 2};
+        bounded_by_sine ( psi *. i_to_c b) ;
+        lower_over_cons (cpower (modulus (psi *. (ttwo *. i_to_c b)))2)
+ (cpower (modulus (sin(pi *. (psi *. i_to_c b))) )2)  (cpower (modulus  (pi *. psi)) 2);
+    transitive_infeq
+      (cpower (modulus (psi *. (ttwo *. i_to_c b))) 2 /. cpower (modulus  (pi *. psi)) 2)
+  (cpower (modulus ( sin (pi *.  (psi *. i_to_c b)))) 2 /. cpower (modulus  (pi *. psi)) 2)
+  (cpower (modulus (ind_sum  (fun y -> (cpower (ang_exp (real_to_ang psi)) y)) 0 b)) 2);
+cpower_two_modulus_div_simpl (ttwo *. i_to_c b) pi psi    end
+  
+let  ghost function qpe_meas (circ:circuit) (k n:int)(y:matrix complex) ( theta:complex): complex
+                requires{n= k+ width circ}
+                requires{real_ theta}
+                requires{1 <= k<n}
+                requires{is_a_ket_l y (n-k)}
+                requires{eigen circ y (real_to_ang theta)}
+                requires{c_zero <. theta <. c_one}
+                ensures{delta theta k = c_zero -> result =   c_one}
+                ensures{c_zero <. delta theta k ->  i_to_c 4 /. cpower pi 2 <=. result}            
+  = if delta theta k == c_zero then
+      ind_sum_constant_from_z  (fun y -> (cpower (ang_exp (real_to_ang (delta theta k))) y)) c_one  (power_ 2 k)
+    else geom_sum_bound (delta theta k) (power_ 2 k);
+    assert{(real_to_ang (delta theta k)) = real_to_ang (theta  -.  (i_to_c   (best_appr theta k)  *. pow_inv_2 k))};
+    pe_measure circ k (mod (best_appr theta k) (power_ 2 k)) n  y theta
+end
+

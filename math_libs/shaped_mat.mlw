@@ -1,0 +1,139 @@
+module Diag_mat
+         use  binary.Binary_Op
+         use  complex_operations.Base_type 
+         use  matrices.Matrice
+         use  matrices.Matrix_equality
+         use  ref.Ref
+         use  complex_operations.Indic
+         use  p_int.Int_comp
+         use  int.Int
+         use  p_set.IndexestoSet
+         use  matrices.Matrix_product
+         use  complex.Constant
+         use  exponentiation.Int_Exponentiation
+         use  arit.Div_Mod
+         use  complex.Complex
+
+let ghost function diag_mat (n:int) (f:int -> complex)
+                     requires{n>0}
+                     ensures{forall i j:int. 0<= i < n && 0<= j <n -> i <> j -> get result i j = c_zero}
+                     ensures{forall i j:int. 0<= i < n && 0<= j <n -> i = j -> get result i j = f i}
+  = make_f n n (fun i j ->  f i *. indic i j)
+
+let lemma diag_mat_values (n:int) (f:int -> complex) (i j :int)
+      requires{0<= i < n}
+      requires{0<= j < n}
+      ensures{get (diag_mat n f) i j = f i *. indic i j}
+  = ()
+
+let lemma diag_mat_eq (f g :  int-> complex)(n:int)
+      requires{n>0}
+      requires{forall i. 0<= i < n -> f i = g i}
+      ensures{diag_mat n f = diag_mat n g}
+  = set_equal_mat (diag_mat n f) (diag_mat n g)
+  
+let lemma mat_mult_diag (m:matrix complex) (f:int -> complex)
+      ensures{mat_mult m (diag_mat (columns m) f)  = make_f (rows m) (columns m) (fun i j -> get m i j *. f j)}
+  = mat_mult_values_quant m (diag_mat (columns m) f);
+    assert{forall i j:int. valid_index m i j -> ind_sum (fun k -> get m i k *. f j *. indic j k) 0 (columns m) =  get m i j *. f j};
+    set_equal_mat (make_f (rows m) (columns m) (fun i j -> get m i j *. f j))  (mat_mult m (diag_mat (columns m) f))
+    
+let lemma diag_mult_mat (m:matrix complex) (f:int -> complex)
+      ensures{mat_mult  (diag_mat (rows m) f) m = make_f (rows m) (columns m) (fun i j -> get m i j *. f i)}
+  = mat_mult_values_quant (diag_mat (rows m) f) m;
+    assert{forall i j:int. valid_index m i j -> ind_sum (fun k -> f i *. get m k j *. indic  i k) 0 (rows m) =  get m i j *. f i};
+    set_equal_mat (make_f (rows m) (columns m) (fun i j -> get m i j *. f i))  (mat_mult (diag_mat (rows m) f) m)
+    
+let lemma diag_mult_diag  (f g:int -> complex) (n:int)
+      requires{n > 0}
+      ensures{mat_mult  (diag_mat n f) (diag_mat n g) = diag_mat n (fun i  -> f i *. g i)}
+  = mat_mult_diag (diag_mat n f) g;
+    set_equal_mat (make_f n n (fun i j -> (get (diag_mat n f) i j) *. g j)) (diag_mat n (fun i  -> f i *. g i))
+
+let lemma ind_product_re (f:int-> int-> complex)(i j n:int)
+      requires{i < j}
+      ensures{forall k:int. 0<= k < n -> ind_product (fun i -> f i k) i (j+1)
+                                         = ind_product (fun i -> f i k) i j *. f j k}
+  =()
+  
+let rec lemma int_mat_diag_prod (f:int-> int-> complex)(i j n:int)
+          requires{n > 0}
+          requires{i<=j}
+          ensures{int_mat_prod (fun k -> diag_mat n (f k)) i j = diag_mat n (fun k -> ind_product (fun l -> f l k) i (j+1))}
+          variant{j-i}
+  = if (j - i =0) then (int_mat_prod_zero (fun k -> diag_mat n (f k)) i j)
+    else begin
+        int_mat_diag_prod f i (j-1) n;
+        int_mat_prod_plus_one (fun k -> diag_mat n (f k)) i j;
+        diag_mult_diag (fun k -> ind_product (fun i -> f i k) i j)  (f j) n;
+        ind_product_re f i j n;
+      end
+
+let ghost function diag_two_mat (n:int) (f:int -> int ->int -> complex):matrix complex
+                                                                    requires{n>=2}
+                                                                    ensures{rows result = power 2 n}
+                                                                    ensures{columns result = power 2 n}
+                                                                    ensures{result = make_f (power 2 n) (power 2 n) (fun i j -> (indic (tail_bits i n) (tail_bits j n)
+                                                                                                                                 *. f (head_bit i n) (head_bit j n)(tail_bits i n)))}
+  = make_f (power 2 n) (power 2 n) (fun i j -> if 0<=i < power 2 n && 0<= j < power 2 n
+                                               then indic (tail_bits i n) (tail_bits j n) *. f (head_bit i n) (head_bit j n)(tail_bits i n)
+                                               else c_zero)
+
+let ghost function two_bloc_diag_mat (n:int) (f:int -> int ->int -> complex):matrix complex
+                                                                         requires{n>=2}
+                                                                         ensures{rows result = power 2 n}
+                                                                         ensures{columns result = power 2 n}
+                                                                         ensures{result = make_f (power 2 n) (power 2 n) (fun i j -> indic (head_bit i n) (head_bit j n)
+                                                                                                                                     *. f (head_bit i n) (tail_bits i n)(tail_bits j n))}
+  = make_f (power 2 n) (power 2 n) (fun i j -> if 0<=i < power 2 n && 0<= j < power 2 n
+                                               then indic (head_bit i n) (head_bit j n)
+                                                    *. f (head_bit i n) (tail_bits i n)(tail_bits j n)
+                                               else c_zero)
+  
+let lemma two_bloc_diag_two_val (n:int)(f g :int->int->int-> complex)(i j:int)
+      requires{0<= i < power 2 n}
+      requires{0<= j < power 2 n}
+      requires{n>=2}
+      ensures{get (mat_mult (two_bloc_diag_mat n f) (diag_two_mat n g)) i j =
+                (f (head_bit i n) (tail_bits i n)(tail_bits j n))
+                *.(g (head_bit i n) (head_bit j n)(tail_bits j n))}
+  = let pval = (head_bit i n)* (power 2 (n-1))+ (tail_bits j n) in
+    begin
+      mat_mult_values (two_bloc_diag_mat n f) (diag_two_mat n g) i j;
+      unicity_div_mod pval (power 2 (n-1)) (head_bit i n)  (tail_bits j n);
+      assert{ (head_bit i n) = (head_bit pval n)};
+      assert{ (tail_bits j n) = (tail_bits pval n)};
+      assert{forall k. 0<= k < power 2 n -> get (two_bloc_diag_mat n f) i k =
+                                              indic (head_bit pval n) (head_bit k n)
+                                              *. f (head_bit pval n) (tail_bits i n)(tail_bits k n)};
+      assert{forall k. 0<= k < power 2 n -> get (diag_two_mat n g) k j =
+                                              (indic (tail_bits k n) (tail_bits pval n)
+                                               *. g (head_bit k n) (head_bit j n)(tail_bits k n))};
+      assert{forall k. 0<= k < power 2 n -> indic k pval
+                                            = indic (head_bit pval n) (head_bit k n) *.
+                                                indic (tail_bits k n) (tail_bits pval n)};
+      assert{get (mat_mult (two_bloc_diag_mat n f) (diag_two_mat n g))i j
+             = ind_sum (fun k -> (indic k pval) *.
+                                   f (head_bit k n) (tail_bits i n)(tail_bits j n) *.
+                                     g (head_bit k n) (head_bit j n)(tail_bits k n)) 0 (power 2 n)};
+      ind_sum_indic_t (fun k ->  if 0<= k < power 2 n then   f (head_bit  k n) (tail_bits i n)(tail_bits j n) *.
+                                                               g (head_bit k n) (head_bit j n)(tail_bits k n) else c_zero) 0 (power 2 n) pval;
+      assert{(fun k ->  if 0<= k < power 2 n then   f (head_bit  k n) (tail_bits i n)(tail_bits j n) *.
+                                                      g (head_bit k n) (head_bit j n)(tail_bits k n)
+                        else c_zero)  pval=
+               (f (head_bit i n) (tail_bits i n)(tail_bits j n))
+               *.(g (head_bit i n) (head_bit j n)(tail_bits j n))};
+    end
+
+let lemma two_bloc_diag_two (n:int)(f g :int->int->int-> complex)
+      requires{n>=2}
+      ensures{mat_mult (two_bloc_diag_mat n f) (diag_two_mat n g) =
+                make_f (power 2 n) (power 2 n) (fun i j  -> (f (head_bit i n) (tail_bits i n)(tail_bits j n))
+                                                            *.(g (head_bit i n) (head_bit j n)(tail_bits j n)))}
+  = ()
+
+let lemma two_bloc_mult_diag  (n:int)(f  :int->int->int-> complex) (g: int-> complex)
+      requires{n>=2}
+      ensures{mat_mult (two_bloc_diag_mat n f) (diag_mat  (power 2 n) g) = two_bloc_diag_mat n (fun hi ti tj ->  f hi ti tj *. g (ht_to_int hi tj n))}
+  = mat_mult_diag (two_bloc_diag_mat n f) g  
+end
