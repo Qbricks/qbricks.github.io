@@ -7,7 +7,7 @@
 
 
 
-# Welcome to Qbricks 
+# Welcome to Qbricks
 
 
 Qbricks is open-source environment for automated formal verification of  quantum programs. It enables the writing of quantum circuit building programs, specified with their I/O functions and/or their resource requirements. Thanks to a characterization of quantum circuits as _paramatrized path-sums_, 
