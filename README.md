@@ -94,3 +94,65 @@ Contact: christophe.chareton@cea.fr
 - [Qbricks, a framework for formal verification in quantum
 computing](https://github.com/Qbricks/qbricks.github.io/files/6415909/Qbricks_Planqc.7.pdf)  _PlanQC, January 2020_ [video](https://www.youtube.com/watch?v=_6EhDf5IDuw&ab_channel=ACMSIGPLAN)
 - [Toward_certified_quantum_programming_](https://github.com/Qbricks/qbricks.github.io/files/6415879/Toward_certified_quantum_programming_This_work_was_supported_by_the_French_National_Research_Agency__ANR___project_SoftQPro__ANR_17_CE25_0009.3.1.pdf)  _IWQC, November,2018_  (2nd International Workshop on Quantum Compilation).(link)
+
+# Installation
+
+## Installation with Docker
+
+**Please note that all the following tools are external tools, please refer to their webpage for more information.**
+
+### Licence
+
+- Docker: [licence](https://www.docker.com/legal/docker-software-end-user-license-agreement/)
+
+- CVC3: [licence](https://cs.nyu.edu/acsys/cvc3/doc/LICENSE.html)
+
+- CVC4: [licence](https://github.com/CVC4/CVC4-archived/blob/master/COPYING)
+
+- Z3: [licence](https://github.com/Z3Prover/z3/blob/master/LICENSE.txt)
+
+- Alt-Ergo: [licence](https://ocamlpro.github.io/alt-ergo/About/license.html)
+
+- Why3: [licence](https://gitlab.inria.fr/why3/why3/-/blob/master/LICENSE)
+
+### Installation
+
+1. [Docker installation](https://docs.docker.com/engine/install/)
+
+2. [Post-installation steps for Linux](https://docs.docker.com/engine/install/linux-postinstall/)
+
+3. Build Docker image `make build`
+
+4. Build container `make container`
+
+5. Start container `make start`
+
+### How to use it
+
+#### Example: open `shor.mlw` with Why3-ide
+
+1. `cd Case_studies`
+
+2. `make ide_shor`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
