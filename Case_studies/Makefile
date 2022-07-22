@@ -3,9 +3,6 @@ DIRS?= --library=../math_libs --library=../Qbricks --library=../Case_studies
 ide_deutsch-jozsa:
 	why3 ide $(DIRS) deutsch-jozsa.mlw
 
-ide_dj_oracle:
-	why3 ide $(DIRS) dj_oracle.mlw
-
 ide_grover:
 	why3 ide $(DIRS) grover.mlw
 
