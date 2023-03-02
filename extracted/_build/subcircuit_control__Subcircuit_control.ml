@@ -122,14 +122,14 @@ let rec control_atom (circ: Wired_circuits__Circuit_c.wired_circuit)
     Subcircuit_control__Cont_del.cont_zz co k' n
   | Wired_circuits__Circuit_c.Cnot (co1,
     t1,
-    n1) ->
+    _) ->
     Subcircuit_control__Cont_del.toffoli_decomp co
     (Z.add k' co1)
     (Z.add k' t1)
     n
   | Wired_circuits__Circuit_c.Swap (t1,
     t2,
-    n1) ->
+    _) ->
     Subcircuit_control__Cont_del.fredkin_decomp co
     (Z.add k' t1)
     (Z.add k' t2)

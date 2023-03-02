@@ -746,7 +746,7 @@ let lemma neutral_seq_right (c d :wired_circuit)
 
 let lemma neutral_seq_had ()
       ensures{neutral_circ (Sequence Hadamard Hadamard)}
-  = NC.neutral_seq_had
+  = NC.neutral_seq_had()
 
 let lemma neutral_seq_cnot (co t n : int)
       requires{0<= t<n}
@@ -761,7 +761,7 @@ let lemma neutral_seq_rx (k:int)
   
 let lemma neutral_seq_rx_minus (k:int)
       ensures{neutral_circ (Sequence (Rx (-k)) (Rx k))}
-  = NC.neutral_seq_rx_minus
+  = NC.neutral_seq_rx_minus k
   
 let lemma neutral_seq_ry (k:int)
       ensures{neutral_circ (Sequence (Ry k) (Ry (-k)))}

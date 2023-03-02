@@ -66,13 +66,13 @@ module To_OqenQASM_2
     | Sequence d e -> SEQUENCE (qbricks_to_openqasm d) (qbricks_to_openqasm e)
     | Place c1 p _ ->
        match c1 with
-       |  Cnot co1 ta1 n1 -> CX (i_to_s (co1 + p)) (i_to_s (ta1 + p)) 
+       |  Cnot co1 ta1 _ -> CX (i_to_s (co1 + p)) (i_to_s (ta1 + p)) 
        |  Bricks_Cnot  -> CX (i_to_s p) (i_to_s (1 + p))
-       |  Swap ta1 ta2 n1 -> SWAP (i_to_s (ta1 + p)) (i_to_s (ta2 + p)) 
+       |  Swap ta1 ta2 _ -> SWAP (i_to_s (ta1 + p)) (i_to_s (ta2 + p)) 
        |  Bricks_Swap -> SWAP (i_to_s p) (i_to_s (1 + p)) 
        | _ ->   PLACE (qbricks_to_openqasm c1) (i_to_s p)
 end
-     | Cont c1 co t n ->
+     | Cont c1 co t _ ->
         match c1 with
         | Phase k -> CRZ (i_to_s co) (i_to_s t) (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
         | Skip -> PLACE ID (i_to_s t)
@@ -88,7 +88,7 @@ end
         | Z -> CZ (i_to_s co) (i_to_s t)
         | Bricks_Cnot -> CCX (i_to_s 0) (i_to_s (1 + t)) (i_to_s (2 + t))
         | Cnot co1 ta1 _ -> CCX (i_to_s co) (i_to_s (co1 + t)) (i_to_s (t + ta1))
-        | Swap ta1 ta2 n1 -> SEQUENCE (SEQUENCE (CCX (i_to_s co) (i_to_s (ta1 + t)) (i_to_s(ta2 + t))) (CCX (i_to_s co) (i_to_s(ta2 + t))  (i_to_s (ta1 + t)))) (CCX (i_to_s co) (i_to_s (ta1 + t)) (i_to_s(ta2 + t)))   
+        | Swap ta1 ta2 _ -> SEQUENCE (SEQUENCE (CCX (i_to_s co) (i_to_s (ta1 + t)) (i_to_s(ta2 + t))) (CCX (i_to_s co) (i_to_s(ta2 + t))  (i_to_s (ta1 + t)))) (CCX (i_to_s co) (i_to_s (ta1 + t)) (i_to_s(ta2 + t)))   
         |  Bricks_Swap ->  SEQUENCE (SEQUENCE (CCX (i_to_s co) (i_to_s t) (i_to_s(t+1))) (CCX (i_to_s co) (i_to_s(t+1))  (i_to_s t))) (CCX (i_to_s co) (i_to_s t) (i_to_s(t+1)))   
         | _ -> ID
 end

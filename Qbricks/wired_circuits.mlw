@@ -913,9 +913,9 @@ let  function ancilla (c:circuit) (l :int)
                 ensures{forall x y: int->int. ang_ind result x y  = ang_ind c (fun k -> if  k < width c- l then x k else 0) y}
   =
   let ghost function (path_sem_target_basis  : matrix complex -> matrix complex) = fun x -> any matrix complex
-                                                                                              ensures{ (is_a_ket_l x (width c - l) /\ is_a_ket_basis_elt x ) -> is_a_ket_l result (width c -l) /\ path_sem c (kronecker x (ket l 0)) =  (kronecker result (ket l 0))}
+          ensures{ (not (is_a_ket_l x (width c - l) /\ is_a_ket_basis_elt x )) \/ (is_a_ket_l result (width c -l) /\ path_sem c (kronecker x (ket l 0)) =  (kronecker result (ket l 0)))}
   in  let ghost function (path_sem_target  : matrix complex -> matrix complex) = fun x -> any matrix complex
-                                                                                            ensures{ (is_a_ket_l x (width c - l)) -> result = ket_sum_l (n_bvs (width c - l)) (fun y -> get_ket x (bv_to_int y) *.. path_sem_target_basis (bv_to_ket y))(width c - l)}
+          ensures{ not (is_a_ket_l x (width c - l)) \/ result = ket_sum_l (n_bvs (width c - l)) (fun y -> get_ket x (bv_to_int y) *.. path_sem_target_basis (bv_to_ket y))(width c - l)}
       in assert{forall x:matrix complex. is_a_ket_l x (width c -l) ->  pps_apply (circ_to_pps c) (kronecker x (ket l 0)) =  (kronecker (path_sem_target x) (ket l 0))};
          ancilla_pre c l
 

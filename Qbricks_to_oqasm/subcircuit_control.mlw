@@ -399,8 +399,8 @@ module Subcircuit_control
     | X -> cont_xx co k' n
     | Y -> cont_yy co k' n
     | Z -> cont_zz co k' n
-    | Cnot co1 t1 n1 -> toffoli_decomp co (k'+co1) (k'+t1) n
-    | Swap t1 t2 n1 -> fredkin_decomp co (k'+t1) (k'+t2) n
+    | Cnot co1 t1 _ -> toffoli_decomp co (k'+co1) (k'+t1) n
+    | Swap t1 t2 _ -> fredkin_decomp co (k'+t1) (k'+t2) n
     | Bricks_Cnot -> toffoli_decomp co k' (k'+1) n
     | Bricks_Swap -> fredkin_decomp co k' (k'+1)  n 
     | _ -> circ

@@ -205,8 +205,8 @@ let rec function qft_rev (n:int)
     else
       begin
         assert{cont_size *  ind_isum  (fun j -> j )  0 n +n = cont_size *  ind_isum  (fun j -> j )  1 n + n};
-        ind_isum_bound_eq (fun j -> j ) (fun j -> (n-1)) 2 n;
-        ind_isum_func_const (n-1) (fun j -> (n-1)) 2 n ;
+        ind_isum_bound_eq (fun j -> j ) (fun _ -> (n-1)) 2 n;
+        ind_isum_func_const (n-1) (fun _ -> (n-1)) 2 n ;
         
         (qft_rev_be n) -- (permutation_circuit n (fun i -> n-1-i))
       end

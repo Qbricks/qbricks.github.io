@@ -116,7 +116,7 @@ let lemma yy_invol (x y :matrix complex)
       requires{is_a_ket_l x 1}
       requires{is_a_ket_basis_elt x}
       ensures{path_sem (to_qc (Y)) x = y -> path_sem (to_qc (Y)) y = x}
-  = neutral_seq_yy 
+  = neutral_seq_yy()
 
 let lemma swap_invol  (t1 t2 n : int)(x y :matrix complex)
       requires{is_a_ket_l x n}

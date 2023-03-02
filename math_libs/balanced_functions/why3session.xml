@@ -69,7 +69,7 @@
      <goal name="get_balanced_bin_zero&#39;vc.0.0.0.0" expl="postcondition" proved="true">
      <transf name="split_all_full" proved="true" >
       <goal name="get_balanced_bin_zero&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
-      <proof prover="9"><result status="valid" time="1.18" steps="526770"/></proof>
+      <proof prover="9"><result status="valid" time="1.50" steps="526770"/></proof>
       </goal>
      </transf>
      </goal>
@@ -282,7 +282,7 @@
               <proof prover="9"><result status="valid" time="1.42" steps="475188"/></proof>
               </goal>
               <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0.1.0.0.1.0.1.1" proved="true">
-              <proof prover="9"><result status="valid" time="1.01" steps="470234"/></proof>
+              <proof prover="9"><result status="valid" time="1.40" steps="470234"/></proof>
               </goal>
              </transf>
              </goal>
@@ -311,7 +311,7 @@
   <goal name="exclu_constant_balanced&#39;vc.1" expl="assertion" proved="true">
   <transf name="replace" proved="true" arg1="(my_filter (n_bvs n) (fun (x:bitvec) -&gt; (f @ x) = 1))" arg2="(n_bvs n)">
    <goal name="exclu_constant_balanced&#39;vc.1.0" expl="assertion" proved="true">
-   <proof prover="9"><result status="valid" time="1.13" steps="464447"/></proof>
+   <proof prover="9"><result status="valid" time="1.41" steps="464447"/></proof>
    </goal>
    <goal name="exclu_constant_balanced&#39;vc.1.1" expl="equality hypothesis" proved="true">
    <transf name="apply" proved="true" arg1="set_equal">
@@ -648,7 +648,7 @@
   <goal name="balanced_sum&#39;vc.5" expl="precondition" proved="true">
   <transf name="compute_specified" proved="true" >
    <goal name="balanced_sum&#39;vc.5.0" expl="precondition" proved="true">
-   <proof prover="0"><result status="valid" time="0.41"/></proof>
+   <proof prover="0"><result status="valid" time="0.63"/></proof>
    </goal>
   </transf>
   </goal>
@@ -1109,7 +1109,7 @@
         <proof prover="9"><result status="valid" time="1.57" steps="558199"/></proof>
         </goal>
         <goal name="ind_constant_sum&#39;vc.7.0.1.1.1.0.1" expl="equality hypothesis" proved="true">
-        <proof prover="9"><result status="valid" time="0.80" steps="513368"/></proof>
+        <proof prover="9"><result status="valid" time="1.20" steps="513368"/></proof>
         </goal>
        </transf>
        </goal>
@@ -1201,7 +1201,7 @@
       <goal name="bc_sum&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
       <transf name="rewrite" proved="true" arg1="constant_sum1">
        <goal name="bc_sum&#39;vc.0.0.0.0.0.0" expl="postcondition" proved="true">
-       <proof prover="9"><result status="valid" time="3.94" steps="1200424"/></proof>
+       <proof prover="9"><result status="valid" time="4.71" steps="1200424"/></proof>
        </goal>
        <goal name="bc_sum&#39;vc.0.0.0.0.0.1" expl="rewrite premises" proved="true">
        <proof prover="9"><result status="valid" time="0.89" steps="413893"/></proof>

@@ -84,7 +84,7 @@ let rec qbricks_to_openqasm (c: Wired_circuits__Circuit_c.wired_circuit) :
     begin match c1 with
     | Wired_circuits__Circuit_c.Cnot (co1,
       ta1,
-      n1) ->
+      _) ->
       CX (Draw_circuits__Draw.i_to_s (Z.add co1 p),
       Draw_circuits__Draw.i_to_s (Z.add ta1 p))
     | Wired_circuits__Circuit_c.Bricks_Cnot ->
@@ -92,7 +92,7 @@ let rec qbricks_to_openqasm (c: Wired_circuits__Circuit_c.wired_circuit) :
       Draw_circuits__Draw.i_to_s (Z.add Z.one p))
     | Wired_circuits__Circuit_c.Swap (ta1,
       ta2,
-      n1) ->
+      _) ->
       SWAP (Draw_circuits__Draw.i_to_s (Z.add ta1 p),
       Draw_circuits__Draw.i_to_s (Z.add ta2 p))
     | Wired_circuits__Circuit_c.Bricks_Swap ->
@@ -103,7 +103,7 @@ let rec qbricks_to_openqasm (c: Wired_circuits__Circuit_c.wired_circuit) :
   | Wired_circuits__Circuit_c.Cont (c1,
     co,
     t,
-    n) ->
+    _) ->
     begin match c1 with
     | Wired_circuits__Circuit_c.Phase k ->
       CRZ (Draw_circuits__Draw.i_to_s co,
@@ -165,7 +165,7 @@ let rec qbricks_to_openqasm (c: Wired_circuits__Circuit_c.wired_circuit) :
       Draw_circuits__Draw.i_to_s (Z.add t ta1))
     | Wired_circuits__Circuit_c.Swap (ta1,
       ta2,
-      n1) ->
+      _) ->
       SEQUENCE (SEQUENCE (CCX (Draw_circuits__Draw.i_to_s co,
                           Draw_circuits__Draw.i_to_s (Z.add ta1 t),
                           Draw_circuits__Draw.i_to_s (Z.add ta2 t)),
