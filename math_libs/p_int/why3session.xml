@@ -422,7 +422,7 @@
  <goal name="ind_iproduct_to_iproduct&#39;vc" expl="VC for ind_iproduct_to_iproduct" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="ind_iproduct_to_iproduct&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="10"><result status="valid" time="1.12" steps="577844"/></proof>
+  <proof prover="10"><result status="valid" time="1.39" steps="577844"/></proof>
   </goal>
  </transf>
  </goal>
@@ -1607,7 +1607,7 @@
    <goal name="appr_pre&#39;vc.8.0" proved="true">
    <transf name="compute_specified" proved="true" >
     <goal name="appr_pre&#39;vc.8.0.0" proved="true">
-    <proof prover="10"><result status="valid" time="1.14" steps="440161"/></proof>
+    <proof prover="10"><result status="valid" time="1.41" steps="440161"/></proof>
     </goal>
    </transf>
    </goal>
@@ -1631,7 +1631,7 @@
       <proof prover="10"><result status="valid" time="0.62" steps="230515"/></proof>
       </goal>
       <goal name="appr_pre&#39;vc.10.0.1.0.1" expl="equality hypothesis" proved="true">
-      <proof prover="8"><result status="valid" time="1.96" steps="26447"/></proof>
+      <proof prover="8"><result status="valid" time="2.28" steps="26447"/></proof>
       </goal>
      </transf>
      </goal>
@@ -1653,7 +1653,7 @@
   <goal name="appr_pre&#39;vc.14" expl="postcondition" proved="true">
   <transf name="instantiate" proved="true" arg1="Ensures1" arg2="(mintheta +&#39; 1)">
    <goal name="appr_pre&#39;vc.14.0" expl="postcondition" proved="true">
-   <proof prover="10"><result status="valid" time="3.59" steps="1314064"/></proof>
+   <proof prover="10"><result status="valid" time="4.15" steps="1314064"/></proof>
    </goal>
   </transf>
   </goal>
@@ -1717,7 +1717,7 @@
     <proof prover="10"><result status="valid" time="0.26" steps="196088"/></proof>
     </goal>
     <goal name="appr_pre&#39;vc.18.0.1" expl="assertion" proved="true">
-    <proof prover="10"><result status="valid" time="2.93" steps="997032"/></proof>
+    <proof prover="10"><result status="valid" time="3.40" steps="997032"/></proof>
     </goal>
    </transf>
    </goal>
@@ -1824,7 +1824,7 @@
    <transf name="assert" proved="true" arg1="((theta -. (i_to_c mintheta /. i_to_c n)) +. ((i_to_c majtheta /. i_to_c n) -. theta) &lt;=. c_one /. i_to_c (n ))
 ">
     <goal name="appr_pre&#39;vc.28.0.0" expl="asserted formula" proved="true">
-    <proof prover="10"><result status="valid" time="3.28" steps="1271442"/></proof>
+    <proof prover="10"><result status="valid" time="3.95" steps="1271442"/></proof>
     </goal>
     <goal name="appr_pre&#39;vc.28.0.1" expl="assertion" proved="true">
     <transf name="case" proved="true" arg1="((c_one /. i_to_c (n *&#39; 2)) &lt;.((i_to_c majtheta /. i_to_c n) -. theta) )">
@@ -1926,7 +1926,7 @@
           <goal name="appr_pre&#39;vc.30.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
           <transf name="exists" proved="true" arg1="0">
            <goal name="appr_pre&#39;vc.30.1.0.0.0.0.0.0.0.0" proved="true">
-           <proof prover="10"><result status="valid" time="2.38" steps="892786"/></proof>
+           <proof prover="10"><result status="valid" time="2.93" steps="892786"/></proof>
            </goal>
           </transf>
           </goal>
@@ -1961,7 +1961,7 @@
           <goal name="appr_pre&#39;vc.30.1.1.0.0.0.0.0.0" expl="apply premises" proved="true">
           <transf name="exists" proved="true" arg1="n">
            <goal name="appr_pre&#39;vc.30.1.1.0.0.0.0.0.0.0" proved="true">
-           <proof prover="10"><result status="valid" time="2.04" steps="744451"/></proof>
+           <proof prover="10"><result status="valid" time="2.39" steps="744451"/></proof>
            </goal>
           </transf>
           </goal>

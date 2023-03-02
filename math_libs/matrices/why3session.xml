@@ -556,7 +556,7 @@
   <proof prover="10"><result status="valid" time="0.66" steps="260915"/></proof>
   </goal>
   <goal name="identity&#39;vc.1" expl="precondition" proved="true">
-  <proof prover="10"><result status="valid" time="0.20" steps="234099"/></proof>
+  <proof prover="10"><result status="valid" time="0.33" steps="234099"/></proof>
   </goal>
   <goal name="identity&#39;vc.2" expl="postcondition" proved="true">
   <proof prover="10"><result status="valid" time="0.28" steps="239506"/></proof>
@@ -1195,7 +1195,7 @@
    <proof prover="9"><result status="valid" time="0.94" steps="16059"/></proof>
    </goal>
    <goal name="kronecker_assoc_use&#39;vc.0.2" expl="apply premises" proved="true">
-   <proof prover="9"><result status="valid" time="3.79" steps="60815"/></proof>
+   <proof prover="9"><result status="valid" time="3.79" steps="60819"/></proof>
    </goal>
   </transf>
   </goal>
@@ -1348,10 +1348,10 @@
  <goal name="neutral&#39;vc" expl="VC for neutral" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="neutral&#39;vc.0" expl="assertion" proved="true">
-  <proof prover="7"><result status="valid" time="2.77" steps="4173768"/></proof>
+  <proof prover="7"><result status="valid" time="2.77" steps="4165921"/></proof>
   </goal>
   <goal name="neutral&#39;vc.1" expl="assertion" proved="true">
-  <proof prover="7"><result status="valid" time="2.79" steps="4173171"/></proof>
+  <proof prover="7"><result status="valid" time="2.79" steps="4165212"/></proof>
   </goal>
   <goal name="neutral&#39;vc.2" expl="postcondition" proved="true">
   <transf name="assert" proved="true" arg1="(assoc kronecker)">
@@ -1530,112 +1530,34 @@
            <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
            <transf name="compute_specified" proved="true" >
             <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
-            <transf name="eliminate_if" proved="true" >
-             <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0" proved="true">
-             <transf name="split_vc" proved="true" >
-              <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
-              <proof prover="10"><result status="valid" time="0.63" steps="263106"/></proof>
-              </goal>
-              <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.1" expl="apply premises" proved="true">
-              <transf name="rewrite" proved="true" arg1="assert_make_r" arg2="in" arg3="H1">
-               <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.1.0" expl="apply premises" proved="true">
-               <transf name="rewrite" proved="true" arg1="assert_make_r" arg2="in" arg3="H2">
-                <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.1.0.0" expl="apply premises" proved="true">
-                <transf name="rewrite" proved="true" arg1="assert_make_c" arg2="in" arg3="H2">
-                 <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
-                 <transf name="rewrite" proved="true" arg1="assert_make_c" arg2="in" arg3="H1">
-                  <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.1.0.0.0.0" expl="apply premises" proved="true">
-                  <proof prover="9"><result status="valid" time="0.14" steps="3183"/></proof>
-                  </goal>
-                  <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.1.0.0.0.1" expl="rewrite premises" proved="true">
-                  <proof prover="10"><result status="valid" time="0.77" steps="277223"/></proof>
-                  </goal>
-                  <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.1.0.0.0.2" expl="rewrite premises" proved="true">
-                  <proof prover="10"><result status="valid" time="0.78" steps="277223"/></proof>
-                  </goal>
-                 </transf>
-                 </goal>
-                 <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.1.0.0.1" expl="rewrite premises" proved="true">
-                 <proof prover="10"><result status="valid" time="0.61" steps="277632"/></proof>
-                 </goal>
-                 <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.1.0.0.2" expl="rewrite premises" proved="true">
-                 <proof prover="10"><result status="valid" time="0.78" steps="277632"/></proof>
-                 </goal>
-                </transf>
+            <transf name="case" proved="true" arg1="(i=j)">
+             <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0" expl="true case (apply premises)" proved="true">
+             <proof prover="9"><result status="valid" time="4.52" steps="76479"/></proof>
+             </goal>
+             <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.1" expl="false case (apply premises)" proved="true">
+             <transf name="split_all_full" proved="true" >
+              <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.1.0" expl="false case (apply premises)" proved="true">
+              <transf name="rewrite" proved="true" arg1="make_f&#39;spec1">
+               <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.1.0.0" expl="false case (apply premises)" proved="true">
+               <transf name="rewrite" proved="true" arg1="make_f&#39;spec2">
+                <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.1.0.0.0" expl="false case (apply premises)" proved="true">
+                <proof prover="7"><result status="valid" time="0.17" steps="1109750"/></proof>
                 </goal>
-                <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.1.0.1" expl="rewrite premises" proved="true">
-                <proof prover="10"><result status="valid" time="0.76" steps="277807"/></proof>
+                <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.1.0.0.1" expl="rewrite premises" proved="true">
+                <proof prover="10"><result status="valid" time="0.46" steps="238266"/></proof>
                 </goal>
-                <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.1.0.2" expl="rewrite premises" proved="true">
-                <proof prover="10"><result status="valid" time="0.76" steps="277807"/></proof>
+                <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.1.0.0.2" expl="rewrite premises" proved="true">
+                <proof prover="10"><result status="valid" time="0.43" steps="238266"/></proof>
                 </goal>
                </transf>
                </goal>
-               <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.1.1" expl="rewrite premises" proved="true">
-               <proof prover="10"><result status="valid" time="0.82" steps="278129"/></proof>
+               <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.1.0.1" expl="rewrite premises" proved="true">
+               <proof prover="10"><result status="valid" time="0.44" steps="238266"/></proof>
                </goal>
-               <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.1.2" expl="rewrite premises" proved="true">
-               <proof prover="10"><result status="valid" time="0.80" steps="278129"/></proof>
-               </goal>
-              </transf>
-              </goal>
-              <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.2" expl="apply premises" proved="true">
-              <proof prover="9"><result status="valid" time="3.09" steps="32768"/></proof>
-              </goal>
-              <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.3" expl="apply premises" proved="true">
-              <proof prover="10"><result status="valid" time="0.66" steps="263199"/></proof>
-              </goal>
-              <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.4" expl="apply premises" proved="true">
-              <proof prover="7"><result status="valid" time="0.17" steps="650916"/></proof>
-              </goal>
-              <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.5" expl="apply premises" proved="true">
-              <proof prover="10"><result status="valid" time="0.66" steps="263199"/></proof>
-              </goal>
-              <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.6" expl="apply premises" proved="true">
-              <transf name="rewrite" proved="true" arg1="assert_make_r" arg2="in" arg3="H1">
-               <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.6.0" expl="apply premises" proved="true">
-               <transf name="rewrite" proved="true" arg1="assert_make_c" arg2="in" arg3="H1">
-                <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.6.0.0" expl="apply premises" proved="true">
-                <transf name="rewrite" proved="true" arg1="assert_make_c" arg2="in" arg3="H2">
-                 <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.6.0.0.0" expl="apply premises" proved="true">
-                 <transf name="rewrite" proved="true" arg1="assert_make_r" arg2="in" arg3="H2">
-                  <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.6.0.0.0.0" expl="apply premises" proved="true">
-                  <proof prover="10"><result status="valid" time="0.22" steps="189641"/></proof>
-                  </goal>
-                  <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.6.0.0.0.1" expl="rewrite premises" proved="true">
-                  <proof prover="10"><result status="valid" time="0.30" steps="250974"/></proof>
-                  </goal>
-                  <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.6.0.0.0.2" expl="rewrite premises" proved="true">
-                  <proof prover="10"><result status="valid" time="0.32" steps="250974"/></proof>
-                  </goal>
-                 </transf>
-                 </goal>
-                 <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.6.0.0.1" expl="rewrite premises" proved="true">
-                 <proof prover="10"><result status="valid" time="0.31" steps="250922"/></proof>
-                 </goal>
-                 <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.6.0.0.2" expl="rewrite premises" proved="true">
-                 <proof prover="10"><result status="valid" time="0.30" steps="250922"/></proof>
-                 </goal>
-                </transf>
-                </goal>
-                <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.6.0.1" expl="rewrite premises" proved="true">
-                <proof prover="10"><result status="valid" time="0.64" steps="277830"/></proof>
-                </goal>
-                <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.6.0.2" expl="rewrite premises" proved="true">
-                <proof prover="10"><result status="valid" time="0.63" steps="277830"/></proof>
-                </goal>
-               </transf>
-               </goal>
-               <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.6.1" expl="rewrite premises" proved="true">
-               <proof prover="10"><result status="valid" time="0.63" steps="278131"/></proof>
-               </goal>
-               <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.6.2" expl="rewrite premises" proved="true">
-               <proof prover="10"><result status="valid" time="0.81" steps="278131"/></proof>
+               <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.1.0.2" expl="rewrite premises" proved="true">
+               <proof prover="10"><result status="valid" time="0.44" steps="238266"/></proof>
                </goal>
               </transf>
-              </goal>
-              <goal name="kron_id&#39;vc.0.2.0.0.0.0.0.0.0.0.0.0.7" expl="apply premises" proved="true">
-              <proof prover="10"><result status="valid" time="0.49" steps="263279"/></proof>
               </goal>
              </transf>
              </goal>
@@ -2079,7 +2001,7 @@
   <goal name="int_mat_prod&#39;vc.2" expl="precondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="int_mat_prod&#39;vc.2.0" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.80" steps="488171"/></proof>
+   <proof prover="10"><result status="valid" time="1.49" steps="488171"/></proof>
    </goal>
    <goal name="int_mat_prod&#39;vc.2.1" expl="precondition" proved="true">
    <proof prover="10"><result status="valid" time="0.74" steps="241028"/></proof>
@@ -3378,7 +3300,7 @@
           <goal name="scal_mat_mut&#39;vc.0.2.0.0.0.0.0.0.0" expl="apply premises" proved="true">
           <transf name="apply" proved="true" arg1="ind_sum_eq">
            <goal name="scal_mat_mut&#39;vc.0.2.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
-           <proof prover="10"><result status="valid" time="1.89" steps="528889"/></proof>
+           <proof prover="10"><result status="valid" time="1.58" steps="528889"/></proof>
            </goal>
           </transf>
           </goal>
@@ -3956,7 +3878,7 @@
   <proof prover="10"><result status="valid" time="0.37" steps="214865"/></proof>
   </goal>
   <goal name="distr_r_substr&#39;vc.3" expl="precondition" proved="true">
-  <proof prover="10"><result status="valid" time="0.39" steps="200294"/></proof>
+  <proof prover="10"><result status="valid" time="0.25" steps="200294"/></proof>
   </goal>
   <goal name="distr_r_substr&#39;vc.4" expl="postcondition" proved="true">
   <proof prover="10"><result status="valid" time="0.62" steps="231174"/></proof>
@@ -5328,7 +5250,7 @@
         <goal name="mat_sum_comp_pre&#39;vc.0.4.0.0.0.0.0" expl="apply premises" proved="true">
         <transf name="rewrite" proved="true" arg1="mat_sum_to_sum_pre">
          <goal name="mat_sum_comp_pre&#39;vc.0.4.0.0.0.0.0.0" expl="apply premises" proved="true">
-         <proof prover="7"><result status="valid" time="0.20" steps="907778"/></proof>
+         <proof prover="7"><result status="valid" time="0.20" steps="908141"/></proof>
          </goal>
          <goal name="mat_sum_comp_pre&#39;vc.0.4.0.0.0.0.0.1" expl="rewrite premises" proved="true">
          <proof prover="10"><result status="valid" time="0.36" steps="272481"/></proof>
@@ -5347,7 +5269,7 @@
         <goal name="mat_sum_comp_pre&#39;vc.0.4.0.0.0.0.1" expl="apply premises" proved="true">
         <transf name="rewrite" proved="true" arg1="mat_sum_to_sum_pre">
          <goal name="mat_sum_comp_pre&#39;vc.0.4.0.0.0.0.1.0" expl="apply premises" proved="true">
-         <proof prover="7"><result status="valid" time="0.19" steps="907778"/></proof>
+         <proof prover="7"><result status="valid" time="0.19" steps="908141"/></proof>
          </goal>
          <goal name="mat_sum_comp_pre&#39;vc.0.4.0.0.0.0.1.1" expl="rewrite premises" proved="true">
          <proof prover="10"><result status="valid" time="0.31" steps="272481"/></proof>
@@ -5861,7 +5783,7 @@
         <goal name="mat_sum_to_sum_fun&#39;vc.0.0.0.0.1.0.0" expl="apply premises" proved="true">
         <transf name="split_vc" proved="true" >
          <goal name="mat_sum_to_sum_fun&#39;vc.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="0.76" steps="396665"/></proof>
+         <proof prover="10"><result status="valid" time="0.94" steps="396665"/></proof>
          </goal>
         </transf>
         </goal>
@@ -5984,7 +5906,7 @@
       <goal name="mat_sum_to_sum_double_pre&#39;vc.0.0.1.0.0" expl="apply premises" proved="true">
       <transf name="split_vc" proved="true" >
        <goal name="mat_sum_to_sum_double_pre&#39;vc.0.0.1.0.0.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="0.76" steps="403647"/></proof>
+       <proof prover="10"><result status="valid" time="0.94" steps="403647"/></proof>
        </goal>
       </transf>
       </goal>
@@ -6034,14 +5956,14 @@
     <goal name="mat_sum_to_sum_double_pre&#39;vc.0.1.0" expl="apply premises" proved="true">
     <transf name="split_vc" proved="true" >
      <goal name="mat_sum_to_sum_double_pre&#39;vc.0.1.0.0" expl="apply premises" proved="true">
-     <proof prover="7"><result status="valid" time="0.27" steps="1187352"/></proof>
+     <proof prover="7"><result status="valid" time="0.27" steps="1187011"/></proof>
      </goal>
     </transf>
     </goal>
     <goal name="mat_sum_to_sum_double_pre&#39;vc.0.1.1" expl="apply premises" proved="true">
     <transf name="split_vc" proved="true" >
      <goal name="mat_sum_to_sum_double_pre&#39;vc.0.1.1.0" expl="apply premises" proved="true">
-     <proof prover="7"><result status="valid" time="0.27" steps="1187058"/></proof>
+     <proof prover="7"><result status="valid" time="0.27" steps="1186699"/></proof>
      </goal>
     </transf>
     </goal>
@@ -6104,7 +6026,7 @@
      </transf>
      </goal>
      <goal name="mat_sum_to_sum_double_pre&#39;vc.0.7.1.1" expl="apply premises" proved="true">
-     <proof prover="7"><result status="valid" time="0.27" steps="1200083"/></proof>
+     <proof prover="7"><result status="valid" time="0.27" steps="1200139"/></proof>
      </goal>
     </transf>
     </goal>
@@ -6145,7 +6067,7 @@
      </transf>
      </goal>
      <goal name="mat_sum_to_sum_double_pre&#39;vc.0.8.1.1" expl="apply premises" proved="true">
-     <proof prover="7"><result status="valid" time="0.27" steps="1203465"/></proof>
+     <proof prover="7"><result status="valid" time="0.27" steps="1202257"/></proof>
      </goal>
     </transf>
     </goal>
@@ -6168,7 +6090,7 @@
         <proof prover="10"><result status="valid" time="1.07" steps="444198"/></proof>
         </goal>
         <goal name="mat_sum_to_sum_double_pre&#39;vc.0.9.0.0.0.0.2" expl="rewrite premises" proved="true">
-        <proof prover="10"><result status="valid" time="0.48" steps="422474"/></proof>
+        <proof prover="10"><result status="valid" time="0.63" steps="422474"/></proof>
         </goal>
         <goal name="mat_sum_to_sum_double_pre&#39;vc.0.9.0.0.0.0.3" expl="rewrite premises" proved="true">
         <proof prover="10"><result status="valid" time="1.28" steps="462813"/></proof>
@@ -6241,7 +6163,7 @@
        </transf>
        </goal>
        <goal name="mat_sum_to_sum_double_pre&#39;vc.0.9.3.0.1.1" expl="apply premises" proved="true">
-       <proof prover="7"><result status="valid" time="0.28" steps="1254089"/></proof>
+       <proof prover="7"><result status="valid" time="0.28" steps="1252834"/></proof>
        </goal>
       </transf>
       </goal>
@@ -6281,7 +6203,7 @@
        </transf>
        </goal>
        <goal name="mat_sum_to_sum_double_pre&#39;vc.0.9.3.1.1.1" expl="apply premises" proved="true">
-       <proof prover="7"><result status="valid" time="0.26" steps="1254103"/></proof>
+       <proof prover="7"><result status="valid" time="0.26" steps="1252870"/></proof>
        </goal>
       </transf>
       </goal>
@@ -6325,7 +6247,7 @@
        </transf>
        </goal>
        <goal name="mat_sum_to_sum_double_pre&#39;vc.0.9.4.0.1.1" expl="apply premises" proved="true">
-       <proof prover="7"><result status="valid" time="0.25" steps="1254103"/></proof>
+       <proof prover="7"><result status="valid" time="0.25" steps="1252870"/></proof>
        </goal>
       </transf>
       </goal>
@@ -6365,7 +6287,7 @@
        </transf>
        </goal>
        <goal name="mat_sum_to_sum_double_pre&#39;vc.0.9.4.1.1.1" expl="apply premises" proved="true">
-       <proof prover="7"><result status="valid" time="0.28" steps="1254089"/></proof>
+       <proof prover="7"><result status="valid" time="0.28" steps="1252834"/></proof>
        </goal>
       </transf>
       </goal>
@@ -6409,7 +6331,7 @@
   <goal name="mat_mult_sum_out_l&#39;vc.6" expl="postcondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="mat_mult_sum_out_l&#39;vc.6.0" expl="postcondition" proved="true">
-   <proof prover="10"><result status="valid" time="0.56" steps="309834"/></proof>
+   <proof prover="10"><result status="valid" time="0.72" steps="309834"/></proof>
    </goal>
    <goal name="mat_mult_sum_out_l&#39;vc.6.1" expl="postcondition" proved="true">
    <transf name="eliminate_let" proved="true" >
@@ -6487,7 +6409,7 @@
                    <proof prover="10"><result status="valid" time="0.33" steps="293482"/></proof>
                    </goal>
                    <goal name="mat_mult_sum_out_l&#39;vc.6.1.0.0.0.0.0.0.0.3.0.0.1.0.0.0.0.1" expl="rewrite premises" proved="true">
-                   <proof prover="10"><result status="valid" time="0.54" steps="311173"/></proof>
+                   <proof prover="10"><result status="valid" time="0.72" steps="311173"/></proof>
                    </goal>
                   </transf>
                   </goal>
@@ -7777,7 +7699,7 @@
   </transf>
   </goal>
   <goal name="mat_sum_const&#39;vc.4" expl="precondition" proved="true">
-  <proof prover="10"><result status="valid" time="0.58" steps="320332"/></proof>
+  <proof prover="10"><result status="valid" time="0.74" steps="320332"/></proof>
   </goal>
   <goal name="mat_sum_const&#39;vc.5" expl="variant decrease" proved="true">
   <transf name="split_vc" proved="true" >
@@ -7965,7 +7887,7 @@
         <goal name="mat_sum_scalar_right&#39;vc.0.8.0.0.0.0.0" expl="apply premises" proved="true">
         <transf name="split_vc" proved="true" >
          <goal name="mat_sum_scalar_right&#39;vc.0.8.0.0.0.0.0.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.02" steps="432013"/></proof>
+         <proof prover="10"><result status="valid" time="1.23" steps="432013"/></proof>
          </goal>
         </transf>
         </goal>
@@ -8570,7 +8492,7 @@
       <goal name="map_mat_sum&#39;vc.0.10.0.0.1" expl="apply premises" proved="true">
       <transf name="compute_specified" proved="true" >
        <goal name="map_mat_sum&#39;vc.0.10.0.0.1.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="3.39" steps="989047"/></proof>
+       <proof prover="10"><result status="valid" time="2.71" steps="989047"/></proof>
        </goal>
       </transf>
       </goal>
@@ -8592,7 +8514,7 @@
       <goal name="map_mat_sum&#39;vc.0.11.0.0.1" expl="apply premises" proved="true">
       <transf name="compute_specified" proved="true" >
        <goal name="map_mat_sum&#39;vc.0.11.0.0.1.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="3.51" steps="1006109"/></proof>
+       <proof prover="10"><result status="valid" time="2.72" steps="1006109"/></proof>
        </goal>
       </transf>
       </goal>
@@ -8603,7 +8525,7 @@
    </transf>
    </goal>
    <goal name="map_mat_sum&#39;vc.0.12" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="0.97" steps="391049"/></proof>
+   <proof prover="10"><result status="valid" time="0.74" steps="391049"/></proof>
    </goal>
    <goal name="map_mat_sum&#39;vc.0.13" expl="assertion" proved="true">
    <proof prover="10"><result status="valid" time="0.40" steps="339225"/></proof>
@@ -8614,15 +8536,15 @@
     <proof prover="10"><result status="valid" time="0.83" steps="357387"/></proof>
     </goal>
     <goal name="map_mat_sum&#39;vc.0.14.1" expl="variant decrease" proved="true">
-    <proof prover="10"><result status="valid" time="1.09" steps="378338"/></proof>
+    <proof prover="10"><result status="valid" time="0.86" steps="378338"/></proof>
     </goal>
    </transf>
    </goal>
    <goal name="map_mat_sum&#39;vc.0.15" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.10" steps="378314"/></proof>
+   <proof prover="10"><result status="valid" time="0.87" steps="378314"/></proof>
    </goal>
    <goal name="map_mat_sum&#39;vc.0.16" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="3.59" steps="1022923"/></proof>
+   <proof prover="10"><result status="valid" time="2.83" steps="1022923"/></proof>
    </goal>
    <goal name="map_mat_sum&#39;vc.0.17" expl="precondition" proved="true">
    <proof prover="10"><result status="valid" time="1.12" steps="381155"/></proof>
@@ -8645,7 +8567,7 @@
        <goal name="map_mat_sum&#39;vc.0.18.0.0.0.1" expl="apply premises" proved="true">
        <transf name="split_vc" proved="true" >
         <goal name="map_mat_sum&#39;vc.0.18.0.0.0.1.0" expl="apply premises" proved="true">
-        <proof prover="10"><result status="valid" time="1.28" steps="421198"/></proof>
+        <proof prover="10"><result status="valid" time="1.00" steps="421198"/></proof>
         </goal>
        </transf>
        </goal>
@@ -8661,14 +8583,14 @@
          <proof prover="10"><result status="valid" time="0.41" steps="339316"/></proof>
          </goal>
          <goal name="map_mat_sum&#39;vc.0.18.0.0.1.0.0.1" expl="equality hypothesis" proved="true">
-         <proof prover="10"><result status="valid" time="1.16" steps="379688"/></proof>
+         <proof prover="10"><result status="valid" time="0.91" steps="379688"/></proof>
          </goal>
         </transf>
         </goal>
        </transf>
        </goal>
        <goal name="map_mat_sum&#39;vc.0.18.0.0.1.1" expl="rewrite premises" proved="true">
-       <proof prover="10"><result status="valid" time="0.88" steps="373852"/></proof>
+       <proof prover="10"><result status="valid" time="0.69" steps="373852"/></proof>
        </goal>
       </transf>
       </goal>
@@ -8702,7 +8624,7 @@
             <goal name="map_mat_sum&#39;vc.0.18.1.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
             <transf name="rewrite" proved="true" arg1="H5">
              <goal name="map_mat_sum&#39;vc.0.18.1.1.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
-             <proof prover="10"><result status="valid" time="3.33" steps="869987"/></proof>
+             <proof prover="10"><result status="valid" time="2.65" steps="869987"/></proof>
              </goal>
             </transf>
             </goal>
@@ -8795,7 +8717,7 @@
     <goal name="mat_sum_id&#39;vc.0.1.1" expl="apply premises" proved="true">
     <transf name="split_vc" proved="true" >
      <goal name="mat_sum_id&#39;vc.0.1.1.0" expl="apply premises" proved="true">
-     <proof prover="10"><result status="valid" time="1.40" steps="463673"/></proof>
+     <proof prover="10"><result status="valid" time="1.14" steps="463673"/></proof>
      </goal>
     </transf>
     </goal>
@@ -8816,14 +8738,14 @@
       <goal name="mat_sum_id&#39;vc.0.3.0.1.0" expl="apply premises" proved="true">
       <transf name="split_vc" proved="true" >
        <goal name="mat_sum_id&#39;vc.0.3.0.1.0.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="1.41" steps="470475"/></proof>
+       <proof prover="10"><result status="valid" time="1.15" steps="470475"/></proof>
        </goal>
       </transf>
       </goal>
       <goal name="mat_sum_id&#39;vc.0.3.0.1.1" expl="apply premises" proved="true">
       <transf name="split_vc" proved="true" >
        <goal name="mat_sum_id&#39;vc.0.3.0.1.1.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="1.40" steps="470482"/></proof>
+       <proof prover="10"><result status="valid" time="1.13" steps="470482"/></proof>
        </goal>
       </transf>
       </goal>
@@ -8869,7 +8791,7 @@
   <goal name="nonn_mat_subset&#39;vc.3" expl="postcondition" proved="true">
   <transf name="apply" proved="true" arg1="set_subset">
    <goal name="nonn_mat_subset&#39;vc.3.0" expl="apply premises" proved="true">
-   <proof prover="10"><result status="valid" time="0.84" steps="339195"/></proof>
+   <proof prover="10"><result status="valid" time="0.64" steps="339195"/></proof>
    </goal>
   </transf>
   </goal>
@@ -8881,14 +8803,14 @@
    <goal name="nonn_mat_subset&#39;vc.5.0" expl="apply premises" proved="true">
    <transf name="split_vc" proved="true" >
     <goal name="nonn_mat_subset&#39;vc.5.0.0" expl="apply premises" proved="true">
-    <proof prover="10"><result status="valid" time="1.12" steps="363064"/></proof>
+    <proof prover="10"><result status="valid" time="0.89" steps="363064"/></proof>
     </goal>
    </transf>
    </goal>
    <goal name="nonn_mat_subset&#39;vc.5.1" expl="apply premises" proved="true">
    <transf name="split_vc" proved="true" >
     <goal name="nonn_mat_subset&#39;vc.5.1.0" expl="apply premises" proved="true">
-    <proof prover="10"><result status="valid" time="1.06" steps="363100"/></proof>
+    <proof prover="10"><result status="valid" time="0.85" steps="363100"/></proof>
     </goal>
    </transf>
    </goal>
@@ -8899,7 +8821,7 @@
    <goal name="nonn_mat_subset&#39;vc.6.0" expl="asserted formula" proved="true">
    <transf name="assert" proved="true" arg1="(forall e . mem e result -&gt; mem e s)">
     <goal name="nonn_mat_subset&#39;vc.6.0.0" expl="asserted formula" proved="true">
-    <proof prover="10"><result status="valid" time="0.80" steps="341282"/></proof>
+    <proof prover="10"><result status="valid" time="0.58" steps="341282"/></proof>
     </goal>
     <goal name="nonn_mat_subset&#39;vc.6.0.1" expl="asserted formula" proved="true">
     <transf name="split_vc" proved="true" >
@@ -8916,7 +8838,7 @@
     <proof prover="10"><result status="valid" time="0.36" steps="322978"/></proof>
     </goal>
     <goal name="nonn_mat_subset&#39;vc.6.1.1" expl="apply premises" proved="true">
-    <proof prover="10"><result status="valid" time="0.89" steps="348348"/></proof>
+    <proof prover="10"><result status="valid" time="0.66" steps="348348"/></proof>
     </goal>
    </transf>
    </goal>
@@ -8937,10 +8859,10 @@
      <goal name="nonn_mat_subset&#39;vc.7.1.0.1" expl="apply premises" proved="true">
      <transf name="assert" proved="true" arg1="(mem (choose result) s)">
       <goal name="nonn_mat_subset&#39;vc.7.1.0.1.0" expl="asserted formula" proved="true">
-      <proof prover="10"><result status="valid" time="1.10" steps="361444"/></proof>
+      <proof prover="10"><result status="valid" time="0.86" steps="361444"/></proof>
       </goal>
       <goal name="nonn_mat_subset&#39;vc.7.1.0.1.1" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="0.88" steps="349248"/></proof>
+      <proof prover="10"><result status="valid" time="0.68" steps="349248"/></proof>
       </goal>
      </transf>
      </goal>
@@ -9074,7 +8996,7 @@
   <proof prover="10"><result status="valid" time="0.34" steps="310165"/></proof>
   </goal>
   <goal name="nonn_mat_sum_cardzero&#39;vc.8" expl="precondition" proved="true">
-  <proof prover="10"><result status="valid" time="0.99" steps="351815"/></proof>
+  <proof prover="10"><result status="valid" time="0.78" steps="351815"/></proof>
   </goal>
   <goal name="nonn_mat_sum_cardzero&#39;vc.9" expl="precondition" proved="true">
   <proof prover="10"><result status="valid" time="0.97" steps="350488"/></proof>
@@ -9098,7 +9020,7 @@
    <proof prover="10"><result status="valid" time="1.09" steps="372441"/></proof>
    </goal>
    <goal name="nonn_mat_sum_cardone&#39;vc.0.1" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.27" steps="408145"/></proof>
+   <proof prover="10"><result status="valid" time="1.02" steps="408145"/></proof>
    </goal>
    <goal name="nonn_mat_sum_cardone&#39;vc.0.2" expl="precondition" proved="true">
    <transf name="split_vc" proved="true" >
@@ -9111,7 +9033,7 @@
    </transf>
    </goal>
    <goal name="nonn_mat_sum_cardone&#39;vc.0.3" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.05" steps="348590"/></proof>
+   <proof prover="10"><result status="valid" time="0.79" steps="348590"/></proof>
    </goal>
    <goal name="nonn_mat_sum_cardone&#39;vc.0.4" expl="precondition" proved="true">
    <transf name="assert" proved="true" arg1="(is_empty  (nonn_mat_subset f s) )">
@@ -9128,7 +9050,7 @@
          <goal name="nonn_mat_sum_cardone&#39;vc.0.4.0.0.0.0.0.0" expl="true case (apply premises)" proved="true">
          <transf name="rewrite" proved="true" arg1="nonn_mat_subset&#39;def" arg2="in" arg3="h1">
           <goal name="nonn_mat_sum_cardone&#39;vc.0.4.0.0.0.0.0.0.0" expl="true case (apply premises)" proved="true">
-          <proof prover="10"><result status="valid" time="1.25" steps="402893"/></proof>
+          <proof prover="10"><result status="valid" time="0.95" steps="402893"/></proof>
           </goal>
           <goal name="nonn_mat_sum_cardone&#39;vc.0.4.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
           <proof prover="10"><result status="valid" time="1.15" steps="401933"/></proof>
@@ -9166,7 +9088,7 @@
     </transf>
     </goal>
     <goal name="nonn_mat_sum_cardone&#39;vc.0.4.1" expl="precondition" proved="true">
-    <proof prover="10"><result status="valid" time="0.94" steps="333929"/></proof>
+    <proof prover="10"><result status="valid" time="0.67" steps="333929"/></proof>
     </goal>
    </transf>
    </goal>
@@ -9174,7 +9096,7 @@
    <proof prover="10"><result status="valid" time="0.90" steps="335569"/></proof>
    </goal>
    <goal name="nonn_mat_sum_cardone&#39;vc.0.6" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="0.90" steps="335655"/></proof>
+   <proof prover="10"><result status="valid" time="0.69" steps="335655"/></proof>
    </goal>
    <goal name="nonn_mat_sum_cardone&#39;vc.0.7" expl="precondition" proved="true">
    <proof prover="10"><result status="valid" time="0.34" steps="315201"/></proof>
@@ -9201,12 +9123,12 @@
     <proof prover="10"><result status="valid" time="0.98" steps="355452"/></proof>
     </goal>
     <goal name="nonn_mat_sum_cardone&#39;vc.0.11.1" expl="precondition" proved="true">
-    <proof prover="10"><result status="valid" time="0.81" steps="333515"/></proof>
+    <proof prover="10"><result status="valid" time="0.58" steps="333515"/></proof>
     </goal>
    </transf>
    </goal>
    <goal name="nonn_mat_sum_cardone&#39;vc.0.12" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="0.87" steps="335437"/></proof>
+   <proof prover="10"><result status="valid" time="0.64" steps="335437"/></proof>
    </goal>
    <goal name="nonn_mat_sum_cardone&#39;vc.0.13" expl="precondition" proved="true">
    <proof prover="10"><result status="valid" time="0.35" steps="315102"/></proof>
@@ -9241,7 +9163,7 @@
           <proof prover="10"><result status="valid" time="0.56" steps="368193"/></proof>
           </goal>
           <goal name="nonn_mat_sum_cardone&#39;vc.0.14.1.0.0.0.0.0.4" expl="rewrite premises" proved="true">
-          <proof prover="10"><result status="valid" time="0.95" steps="389361"/></proof>
+          <proof prover="10"><result status="valid" time="0.75" steps="389361"/></proof>
           </goal>
           <goal name="nonn_mat_sum_cardone&#39;vc.0.14.1.0.0.0.0.0.5" expl="rewrite premises" proved="true">
           <proof prover="10"><result status="valid" time="0.96" steps="389356"/></proof>
@@ -9264,7 +9186,7 @@
           <goal name="nonn_mat_sum_cardone&#39;vc.0.14.1.0.0.1.0.0.0" expl="false case (postcondition)" proved="true">
           <transf name="rewrite" proved="true" arg1="H">
            <goal name="nonn_mat_sum_cardone&#39;vc.0.14.1.0.0.1.0.0.0.0" expl="false case (postcondition)" proved="true">
-           <proof prover="10"><result status="valid" time="0.99" steps="389489"/></proof>
+           <proof prover="10"><result status="valid" time="0.78" steps="389489"/></proof>
            </goal>
            <goal name="nonn_mat_sum_cardone&#39;vc.0.14.1.0.0.1.0.0.0.1" expl="rewrite premises" proved="true">
            <proof prover="10"><result status="valid" time="0.40" steps="368189"/></proof>
@@ -9362,10 +9284,10 @@
         <goal name="mat_sum_null_but_maybe_one_elt&#39;vc.0.4.0.0.2.0.0" expl="rewrite premises" proved="true">
         <transf name="apply" proved="true" arg1="get_null_mat">
          <goal name="mat_sum_null_but_maybe_one_elt&#39;vc.0.4.0.0.2.0.0.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="0.86" steps="332756"/></proof>
+         <proof prover="10"><result status="valid" time="0.65" steps="332756"/></proof>
          </goal>
          <goal name="mat_sum_null_but_maybe_one_elt&#39;vc.0.4.0.0.2.0.0.1" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.12" steps="357858"/></proof>
+         <proof prover="10"><result status="valid" time="0.86" steps="357858"/></proof>
          </goal>
         </transf>
         </goal>
@@ -9531,10 +9453,10 @@
      </transf>
      </goal>
      <goal name="nonn_mat_sum_plus_one&#39;vc.0.31.0.1" expl="rewrite premises" proved="true">
-     <proof prover="10"><result status="valid" time="1.17" steps="358851"/></proof>
+     <proof prover="10"><result status="valid" time="0.95" steps="358851"/></proof>
      </goal>
      <goal name="nonn_mat_sum_plus_one&#39;vc.0.31.0.2" expl="rewrite premises" proved="true">
-     <proof prover="10"><result status="valid" time="1.14" steps="358729"/></proof>
+     <proof prover="10"><result status="valid" time="0.91" steps="358729"/></proof>
      </goal>
     </transf>
     </goal>
@@ -9587,7 +9509,7 @@
      <goal name="nonn_mat_sum_plus_one&#39;vc.0.35.1.0" expl="precondition" proved="true">
      <transf name="rewrite" proved="true" arg1="nonn_mat_subset&#39;def" arg2="in" arg3="H">
       <goal name="nonn_mat_sum_plus_one&#39;vc.0.35.1.0.0" expl="precondition" proved="true">
-      <proof prover="10"><result status="valid" time="3.88" steps="1126437"/></proof>
+      <proof prover="10"><result status="valid" time="3.11" steps="1126437"/></proof>
       </goal>
       <goal name="nonn_mat_sum_plus_one&#39;vc.0.35.1.0.1" expl="rewrite premises" proved="true">
       <proof prover="10"><result status="valid" time="0.35" steps="318215"/></proof>
@@ -9638,7 +9560,7 @@
    <proof prover="10"><result status="valid" time="1.03" steps="358249"/></proof>
    </goal>
    <goal name="nonn_mat_sum_plus_one&#39;vc.0.42" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.06" steps="358070"/></proof>
+   <proof prover="10"><result status="valid" time="0.85" steps="358070"/></proof>
    </goal>
    <goal name="nonn_mat_sum_plus_one&#39;vc.0.43" expl="precondition" proved="true">
    <proof prover="10"><result status="valid" time="0.36" steps="316988"/></proof>
@@ -9670,10 +9592,10 @@
        <transf name="assert" proved="true" arg1="((fun (e1:a) -&gt;
      not equal (f @ e1) (make (s_rows s f) (s_columns s f) c_zero)) e)">
         <goal name="nonn_mat_sum_plus_one&#39;vc.0.47.1.0.1.0.0" expl="asserted formula" proved="true">
-        <proof prover="10"><result status="valid" time="1.18" steps="381699"/></proof>
+        <proof prover="10"><result status="valid" time="0.90" steps="381699"/></proof>
         </goal>
         <goal name="nonn_mat_sum_plus_one&#39;vc.0.47.1.0.1.0.1" expl="asserted formula" proved="true">
-        <proof prover="10"><result status="valid" time="1.77" steps="557621"/></proof>
+        <proof prover="10"><result status="valid" time="1.37" steps="557621"/></proof>
         </goal>
        </transf>
        </goal>
@@ -9694,7 +9616,7 @@
    <goal name="nonn_mat_sum_plus_one&#39;vc.0.48" expl="precondition" proved="true">
    <transf name="assert" proved="true" arg1="(mem e (remove (choose s) s))">
     <goal name="nonn_mat_sum_plus_one&#39;vc.0.48.0" expl="asserted formula" proved="true">
-    <proof prover="10"><result status="valid" time="1.35" steps="365779"/></proof>
+    <proof prover="10"><result status="valid" time="1.07" steps="365779"/></proof>
     </goal>
     <goal name="nonn_mat_sum_plus_one&#39;vc.0.48.1" expl="precondition" proved="true">
     <transf name="rewrite" proved="true" arg1="nonn_mat_subset&#39;def">
@@ -9734,7 +9656,7 @@
      not equal (f @ e1) (make (s_rows s f) (s_columns s f) c_zero))
    s))">
               <goal name="nonn_mat_sum_plus_one&#39;vc.0.48.1.0.0.0.0.0.0.1.0.0.0" expl="asserted formula" proved="true">
-              <proof prover="10"><result status="valid" time="2.48" steps="804262"/></proof>
+              <proof prover="10"><result status="valid" time="1.90" steps="804262"/></proof>
               </goal>
               <goal name="nonn_mat_sum_plus_one&#39;vc.0.48.1.0.0.0.0.0.0.1.0.0.1" expl="apply premises" proved="true">
               <transf name="assert" proved="true" arg1="(forall e :a. forall s : set1 a. mem e s -&gt; 0&lt; cardinal s)
@@ -9762,7 +9684,7 @@
              </transf>
              </goal>
              <goal name="nonn_mat_sum_plus_one&#39;vc.0.48.1.0.0.0.0.0.0.1.0.1" expl="apply premises" proved="true">
-             <proof prover="10"><result status="valid" time="2.50" steps="804262"/></proof>
+             <proof prover="10"><result status="valid" time="1.92" steps="804262"/></proof>
              </goal>
              <goal name="nonn_mat_sum_plus_one&#39;vc.0.48.1.0.0.0.0.0.0.1.0.2" expl="apply premises" proved="true">
              <transf name="apply" proved="true" arg1="H">
@@ -9775,7 +9697,7 @@
           </transf>
           </goal>
           <goal name="nonn_mat_sum_plus_one&#39;vc.0.48.1.0.0.0.0.0.1" expl="asserted formula" proved="true">
-          <proof prover="10"><result status="valid" time="1.69" steps="540720"/></proof>
+          <proof prover="10"><result status="valid" time="1.32" steps="540720"/></proof>
           </goal>
          </transf>
          </goal>
@@ -9792,12 +9714,12 @@
       </transf>
       </goal>
       <goal name="nonn_mat_sum_plus_one&#39;vc.0.48.1.0.1" expl="precondition" proved="true">
-      <proof prover="10"><result status="valid" time="1.77" steps="542703"/></proof>
+      <proof prover="10"><result status="valid" time="1.39" steps="542703"/></proof>
       </goal>
      </transf>
      </goal>
      <goal name="nonn_mat_sum_plus_one&#39;vc.0.48.1.1" expl="rewrite premises" proved="true">
-     <proof prover="10"><result status="valid" time="0.54" steps="317149"/></proof>
+     <proof prover="10"><result status="valid" time="0.37" steps="317149"/></proof>
      </goal>
     </transf>
     </goal>
@@ -9820,7 +9742,7 @@
       </transf>
       </goal>
       <goal name="nonn_mat_sum_plus_one&#39;vc.0.49.1.0.1" expl="equality hypothesis" proved="true">
-      <proof prover="10"><result status="valid" time="1.17" steps="406818"/></proof>
+      <proof prover="10"><result status="valid" time="0.93" steps="406818"/></proof>
       </goal>
      </transf>
      </goal>
@@ -9835,7 +9757,7 @@
  <goal name="nonn_mat_sum&#39;vc" expl="VC for nonn_mat_sum" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="nonn_mat_sum&#39;vc.0" expl="precondition" proved="true">
-  <proof prover="10"><result status="valid" time="0.58" steps="313587"/></proof>
+  <proof prover="10"><result status="valid" time="0.38" steps="313587"/></proof>
   </goal>
   <goal name="nonn_mat_sum&#39;vc.1" expl="precondition" proved="true">
   <proof prover="10"><result status="valid" time="0.35" steps="313592"/></proof>
@@ -9853,7 +9775,7 @@
   <proof prover="10"><result status="valid" time="0.34" steps="313636"/></proof>
   </goal>
   <goal name="nonn_mat_sum&#39;vc.6" expl="precondition" proved="true">
-  <proof prover="10"><result status="valid" time="1.04" steps="349625"/></proof>
+  <proof prover="10"><result status="valid" time="0.82" steps="349625"/></proof>
   </goal>
   <goal name="nonn_mat_sum&#39;vc.7" expl="precondition" proved="true">
   <proof prover="10"><result status="valid" time="1.02" steps="349782"/></proof>
@@ -9881,7 +9803,7 @@
   <proof prover="10"><result status="valid" time="0.97" steps="350021"/></proof>
   </goal>
   <goal name="nonn_mat_sum&#39;vc.13" expl="precondition" proved="true">
-  <proof prover="10"><result status="valid" time="0.97" steps="350206"/></proof>
+  <proof prover="10"><result status="valid" time="0.77" steps="350206"/></proof>
   </goal>
   <goal name="nonn_mat_sum&#39;vc.14" expl="precondition" proved="true">
   <proof prover="10"><result status="valid" time="0.35" steps="314901"/></proof>
@@ -9915,7 +9837,7 @@
     <goal name="mat_sum_map_map&#39;vc.1.0.0" expl="apply premises" proved="true">
     <transf name="compute_specified" proved="true" >
      <goal name="mat_sum_map_map&#39;vc.1.0.0.0" expl="apply premises" proved="true">
-     <proof prover="10"><result status="valid" time="1.48" steps="500798"/></proof>
+     <proof prover="10"><result status="valid" time="1.17" steps="500798"/></proof>
      </goal>
     </transf>
     </goal>
@@ -9926,7 +9848,7 @@
     <goal name="mat_sum_map_map&#39;vc.1.1.0" expl="apply premises" proved="true">
     <transf name="compute_specified" proved="true" >
      <goal name="mat_sum_map_map&#39;vc.1.1.0.0" expl="apply premises" proved="true">
-     <proof prover="10"><result status="valid" time="1.47" steps="500848"/></proof>
+     <proof prover="10"><result status="valid" time="1.18" steps="500848"/></proof>
      </goal>
     </transf>
     </goal>
@@ -9947,7 +9869,7 @@
     <goal name="mat_sum_map_map&#39;vc.4.0.0" expl="apply premises" proved="true">
     <transf name="compute_specified" proved="true" >
      <goal name="mat_sum_map_map&#39;vc.4.0.0.0" expl="apply premises" proved="true">
-     <proof prover="10"><result status="valid" time="1.61" steps="509661"/></proof>
+     <proof prover="10"><result status="valid" time="1.18" steps="509661"/></proof>
      </goal>
     </transf>
     </goal>
@@ -9958,7 +9880,7 @@
     <goal name="mat_sum_map_map&#39;vc.4.1.0" expl="apply premises" proved="true">
     <transf name="compute_specified" proved="true" >
      <goal name="mat_sum_map_map&#39;vc.4.1.0.0" expl="apply premises" proved="true">
-     <proof prover="10"><result status="valid" time="1.59" steps="509731"/></proof>
+     <proof prover="10"><result status="valid" time="1.18" steps="509731"/></proof>
      </goal>
     </transf>
     </goal>
@@ -9970,7 +9892,7 @@
   <proof prover="10"><result status="valid" time="0.67" steps="426851"/></proof>
   </goal>
   <goal name="mat_sum_map_map&#39;vc.6" expl="postcondition" proved="true">
-  <proof prover="10"><result status="valid" time="1.10" steps="449174"/></proof>
+  <proof prover="10"><result status="valid" time="0.83" steps="449174"/></proof>
   </goal>
  </transf>
  </goal>
@@ -9982,16 +9904,16 @@
    <proof prover="10"><result status="valid" time="0.32" steps="284405"/></proof>
    </goal>
    <goal name="mat_sum_disjoint_transitivity&#39;vc.0.1" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="0.75" steps="304948"/></proof>
+   <proof prover="10"><result status="valid" time="0.57" steps="304948"/></proof>
    </goal>
    <goal name="mat_sum_disjoint_transitivity&#39;vc.0.2" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="0.75" steps="304931"/></proof>
+   <proof prover="10"><result status="valid" time="0.57" steps="304931"/></proof>
    </goal>
    <goal name="mat_sum_disjoint_transitivity&#39;vc.0.3" expl="precondition" proved="true">
    <proof prover="10"><result status="valid" time="0.31" steps="284206"/></proof>
    </goal>
    <goal name="mat_sum_disjoint_transitivity&#39;vc.0.4" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="0.75" steps="304770"/></proof>
+   <proof prover="10"><result status="valid" time="0.56" steps="304770"/></proof>
    </goal>
    <goal name="mat_sum_disjoint_transitivity&#39;vc.0.5" expl="precondition" proved="true">
    <proof prover="10"><result status="valid" time="0.76" steps="304745"/></proof>
@@ -10012,13 +9934,13 @@
    <proof prover="10"><result status="valid" time="0.41" steps="349283"/></proof>
    </goal>
    <goal name="mat_sum_disjoint_transitivity&#39;vc.0.11" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.17" steps="388105"/></proof>
+   <proof prover="10"><result status="valid" time="0.88" steps="388105"/></proof>
    </goal>
    <goal name="mat_sum_disjoint_transitivity&#39;vc.0.12" expl="precondition" proved="true">
    <proof prover="10"><result status="valid" time="0.41" steps="349465"/></proof>
    </goal>
    <goal name="mat_sum_disjoint_transitivity&#39;vc.0.13" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.22" steps="388352"/></proof>
+   <proof prover="10"><result status="valid" time="0.90" steps="388352"/></proof>
    </goal>
    <goal name="mat_sum_disjoint_transitivity&#39;vc.0.14" expl="precondition" proved="true">
    <proof prover="10"><result status="valid" time="0.62" steps="383163"/></proof>
@@ -10033,16 +9955,16 @@
    <proof prover="10"><result status="valid" time="0.44" steps="383322"/></proof>
    </goal>
    <goal name="mat_sum_disjoint_transitivity&#39;vc.0.18" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.01" steps="404341"/></proof>
+   <proof prover="10"><result status="valid" time="0.74" steps="404341"/></proof>
    </goal>
    <goal name="mat_sum_disjoint_transitivity&#39;vc.0.19" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.01" steps="404363"/></proof>
+   <proof prover="10"><result status="valid" time="0.75" steps="404363"/></proof>
    </goal>
    <goal name="mat_sum_disjoint_transitivity&#39;vc.0.20" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.03" steps="403679"/></proof>
+   <proof prover="10"><result status="valid" time="0.73" steps="403679"/></proof>
    </goal>
    <goal name="mat_sum_disjoint_transitivity&#39;vc.0.21" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.05" steps="403696"/></proof>
+   <proof prover="10"><result status="valid" time="0.73" steps="403696"/></proof>
    </goal>
    <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22" expl="precondition" proved="true">
    <transf name="rewrite" proved="true" arg1="Ensures">
@@ -10065,7 +9987,7 @@
             <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.0.0.0.0.0" expl="precondition" proved="true">
             <transf name="destruct" proved="true" arg1="Hinst">
              <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.0.0.0.0.0.0" expl="destruct premise" proved="true">
-             <proof prover="10"><result status="valid" time="0.62" steps="382478"/></proof>
+             <proof prover="10"><result status="valid" time="0.42" steps="382478"/></proof>
              </goal>
              <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.0.0.0.0.0.1" expl="precondition" proved="true">
              <transf name="replace" proved="true" arg1="s" arg2="(union s1 s2)">
@@ -10091,20 +10013,20 @@
           <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
           <transf name="split_vc" proved="true" >
            <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.0.0.1.0" expl="rewrite premises" proved="true">
-           <proof prover="10"><result status="valid" time="1.30" steps="424738"/></proof>
+           <proof prover="10"><result status="valid" time="0.94" steps="424738"/></proof>
            </goal>
            <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.0.0.1.1" expl="rewrite premises" proved="true">
-           <proof prover="10"><result status="valid" time="1.26" steps="424898"/></proof>
+           <proof prover="10"><result status="valid" time="0.97" steps="424898"/></proof>
            </goal>
           </transf>
           </goal>
           <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
           <transf name="split_vc" proved="true" >
            <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.0.0.2.0" expl="rewrite premises" proved="true">
-           <proof prover="10"><result status="valid" time="1.29" steps="424738"/></proof>
+           <proof prover="10"><result status="valid" time="0.95" steps="424738"/></proof>
            </goal>
            <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.0.0.2.1" expl="rewrite premises" proved="true">
-           <proof prover="10"><result status="valid" time="1.29" steps="424898"/></proof>
+           <proof prover="10"><result status="valid" time="0.97" steps="424898"/></proof>
            </goal>
           </transf>
           </goal>
@@ -10113,7 +10035,7 @@
          <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.0.1" expl="rewrite premises" proved="true">
          <transf name="split_vc" proved="true" >
           <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.0.1.0" expl="rewrite premises" proved="true">
-          <proof prover="10"><result status="valid" time="1.28" steps="424738"/></proof>
+          <proof prover="10"><result status="valid" time="0.94" steps="424738"/></proof>
           </goal>
           <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.0.1.1" expl="rewrite premises" proved="true">
           <proof prover="10"><result status="valid" time="1.12" steps="424876"/></proof>
@@ -10123,10 +10045,10 @@
          <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.0.2" expl="rewrite premises" proved="true">
          <transf name="split_vc" proved="true" >
           <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.0.2.0" expl="rewrite premises" proved="true">
-          <proof prover="10"><result status="valid" time="1.29" steps="424738"/></proof>
+          <proof prover="10"><result status="valid" time="0.94" steps="424738"/></proof>
           </goal>
           <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.0.2.1" expl="rewrite premises" proved="true">
-          <proof prover="10"><result status="valid" time="1.34" steps="424876"/></proof>
+          <proof prover="10"><result status="valid" time="0.96" steps="424876"/></proof>
           </goal>
          </transf>
          </goal>
@@ -10135,20 +10057,20 @@
         <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.1" expl="rewrite premises" proved="true">
         <transf name="split_vc" proved="true" >
          <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.1.0" expl="rewrite premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.32" steps="424738"/></proof>
+         <proof prover="10"><result status="valid" time="0.96" steps="424738"/></proof>
          </goal>
          <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.1.1" expl="rewrite premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.32" steps="424885"/></proof>
+         <proof prover="10"><result status="valid" time="0.99" steps="424885"/></proof>
          </goal>
         </transf>
         </goal>
         <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.2" expl="rewrite premises" proved="true">
         <transf name="split_vc" proved="true" >
          <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.2.0" expl="rewrite premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.35" steps="424738"/></proof>
+         <proof prover="10"><result status="valid" time="0.97" steps="424738"/></proof>
          </goal>
          <goal name="mat_sum_disjoint_transitivity&#39;vc.0.22.0.0.0.0.2.1" expl="rewrite premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.35" steps="424885"/></proof>
+         <proof prover="10"><result status="valid" time="0.96" steps="424885"/></proof>
          </goal>
         </transf>
         </goal>
@@ -10175,7 +10097,7 @@
   <proof prover="10"><result status="valid" time="0.50" steps="317866"/></proof>
   </goal>
   <goal name="mat_sum_null&#39;vc.1" expl="precondition" proved="true">
-  <proof prover="10"><result status="valid" time="0.79" steps="336144"/></proof>
+  <proof prover="10"><result status="valid" time="0.58" steps="336144"/></proof>
   </goal>
   <goal name="mat_sum_null&#39;vc.2" expl="postcondition" proved="true">
   <transf name="rewrite" proved="true" arg1="mat_sum_to_sum">
@@ -10192,7 +10114,7 @@
         <goal name="mat_sum_null&#39;vc.2.0.0.0.0.0.0" expl="apply premises" proved="true">
         <transf name="rewrite" proved="true" arg1="Requires">
          <goal name="mat_sum_null&#39;vc.2.0.0.0.0.0.0.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="0.60" steps="381006"/></proof>
+         <proof prover="10"><result status="valid" time="0.44" steps="381006"/></proof>
          </goal>
          <goal name="mat_sum_null&#39;vc.2.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
          <proof prover="10"><result status="valid" time="0.47" steps="381008"/></proof>
@@ -10211,10 +10133,10 @@
     </transf>
     </goal>
     <goal name="mat_sum_null&#39;vc.2.0.1" expl="rewrite premises" proved="true">
-    <proof prover="10"><result status="valid" time="2.84" steps="830505"/></proof>
+    <proof prover="10"><result status="valid" time="2.23" steps="830505"/></proof>
     </goal>
     <goal name="mat_sum_null&#39;vc.2.0.2" expl="rewrite premises" proved="true">
-    <proof prover="10"><result status="valid" time="2.80" steps="830505"/></proof>
+    <proof prover="10"><result status="valid" time="2.25" steps="830505"/></proof>
     </goal>
    </transf>
    </goal>
@@ -10296,7 +10218,7 @@
      <goal name="mat_sum_null_b&#39;vc.3.3.1.1" expl="apply premises" proved="true">
      <transf name="instantiate" proved="true" arg1="columns_mat_sum" arg2="s,f,r">
       <goal name="mat_sum_null_b&#39;vc.3.3.1.1.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="3.15" steps="946625"/></proof>
+      <proof prover="10"><result status="valid" time="2.39" steps="946625"/></proof>
       </goal>
      </transf>
      </goal>
@@ -10316,7 +10238,7 @@
    <proof prover="10"><result status="valid" time="0.37" steps="327016"/></proof>
    </goal>
    <goal name="map_add_mat_sum_t&#39;vc.0.1" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.08" steps="367057"/></proof>
+   <proof prover="10"><result status="valid" time="0.85" steps="367057"/></proof>
    </goal>
    <goal name="map_add_mat_sum_t&#39;vc.0.2" expl="precondition" proved="true">
    <proof prover="10"><result status="valid" time="0.69" steps="349462"/></proof>
@@ -10336,7 +10258,7 @@
     <transf name="assert" proved="true" arg1="(mem ((injo @ e)) (map injo s))
 ">
      <goal name="map_add_mat_sum_t&#39;vc.0.6.0.0" expl="asserted formula" proved="true">
-     <proof prover="10"><result status="valid" time="1.07" steps="437268"/></proof>
+     <proof prover="10"><result status="valid" time="0.86" steps="437268"/></proof>
      </goal>
      <goal name="map_add_mat_sum_t&#39;vc.0.6.0.1" expl="asserted formula" proved="true">
      <proof prover="10"><result status="valid" time="1.06" steps="437295"/></proof>
@@ -10379,7 +10301,7 @@
    <goal name="map_add_mat_sum_t&#39;vc.0.9" expl="assertion" proved="true">
    <transf name="assert" proved="true" arg1="(mem ((injz @ e)) s&#39;)">
     <goal name="map_add_mat_sum_t&#39;vc.0.9.0" expl="asserted formula" proved="true">
-    <proof prover="10"><result status="valid" time="1.42" steps="462895"/></proof>
+    <proof prover="10"><result status="valid" time="1.12" steps="462895"/></proof>
     </goal>
     <goal name="map_add_mat_sum_t&#39;vc.0.9.1" expl="assertion" proved="true">
     <proof prover="10"><result status="valid" time="0.78" steps="389644"/></proof>
@@ -10390,7 +10312,7 @@
    <proof prover="10"><result status="valid" time="0.46" steps="368813"/></proof>
    </goal>
    <goal name="map_add_mat_sum_t&#39;vc.0.11" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.41" steps="464432"/></proof>
+   <proof prover="10"><result status="valid" time="1.11" steps="464432"/></proof>
    </goal>
    <goal name="map_add_mat_sum_t&#39;vc.0.12" expl="precondition" proved="true">
    <proof prover="10"><result status="valid" time="0.79" steps="392932"/></proof>
@@ -10406,7 +10328,7 @@
        <goal name="map_add_mat_sum_t&#39;vc.0.13.0.0.0.0" expl="apply premises" proved="true">
        <transf name="assert" proved="true" arg1="(mem  ( (injz @ e&#39;)) s&#39;)">
         <goal name="map_add_mat_sum_t&#39;vc.0.13.0.0.0.0.0" expl="asserted formula" proved="true">
-        <proof prover="10"><result status="valid" time="1.44" steps="464251"/></proof>
+        <proof prover="10"><result status="valid" time="1.10" steps="464251"/></proof>
         </goal>
         <goal name="map_add_mat_sum_t&#39;vc.0.13.0.0.0.0.1" expl="apply premises" proved="true">
         <proof prover="10"><result status="valid" time="0.79" steps="389747"/></proof>
@@ -10439,7 +10361,7 @@
        </transf>
        </goal>
        <goal name="map_add_mat_sum_t&#39;vc.0.13.1.0.0.1" expl="equality hypothesis" proved="true">
-       <proof prover="10"><result status="valid" time="1.01" steps="389722"/></proof>
+       <proof prover="10"><result status="valid" time="0.73" steps="389722"/></proof>
        </goal>
       </transf>
       </goal>
@@ -10460,7 +10382,7 @@
        <goal name="map_add_mat_sum_t&#39;vc.0.14.0.0.0.0" expl="apply premises" proved="true">
        <transf name="assert" proved="true" arg1="(mem  ( (injo @ e&#39;)) s&#39;)">
         <goal name="map_add_mat_sum_t&#39;vc.0.14.0.0.0.0.0" expl="asserted formula" proved="true">
-        <proof prover="10"><result status="valid" time="1.54" steps="488686"/></proof>
+        <proof prover="10"><result status="valid" time="1.22" steps="488686"/></proof>
         </goal>
         <goal name="map_add_mat_sum_t&#39;vc.0.14.0.0.0.0.1" expl="apply premises" proved="true">
         <proof prover="10"><result status="valid" time="0.85" steps="411915"/></proof>
@@ -10468,7 +10390,7 @@
        </transf>
        </goal>
        <goal name="map_add_mat_sum_t&#39;vc.0.14.0.0.0.1" expl="equality hypothesis" proved="true">
-       <proof prover="10"><result status="valid" time="1.00" steps="411890"/></proof>
+       <proof prover="10"><result status="valid" time="0.76" steps="411890"/></proof>
        </goal>
       </transf>
       </goal>
@@ -10485,15 +10407,15 @@
        <goal name="map_add_mat_sum_t&#39;vc.0.14.1.0.0.0" expl="apply premises" proved="true">
        <transf name="assert" proved="true" arg1="(mem  ( (injo @ e&#39;)) s&#39;)">
         <goal name="map_add_mat_sum_t&#39;vc.0.14.1.0.0.0.0" expl="asserted formula" proved="true">
-        <proof prover="10"><result status="valid" time="1.55" steps="488686"/></proof>
+        <proof prover="10"><result status="valid" time="1.16" steps="488686"/></proof>
         </goal>
         <goal name="map_add_mat_sum_t&#39;vc.0.14.1.0.0.0.1" expl="apply premises" proved="true">
-        <proof prover="10"><result status="valid" time="1.03" steps="411915"/></proof>
+        <proof prover="10"><result status="valid" time="0.77" steps="411915"/></proof>
         </goal>
        </transf>
        </goal>
        <goal name="map_add_mat_sum_t&#39;vc.0.14.1.0.0.1" expl="equality hypothesis" proved="true">
-       <proof prover="10"><result status="valid" time="1.01" steps="411890"/></proof>
+       <proof prover="10"><result status="valid" time="0.77" steps="411890"/></proof>
        </goal>
       </transf>
       </goal>
@@ -10513,7 +10435,7 @@
      <goal name="map_add_mat_sum_t&#39;vc.0.15.1.0" expl="apply premises" proved="true">
      <transf name="apply" proved="true" arg1="set_s_rows">
       <goal name="map_add_mat_sum_t&#39;vc.0.15.1.0.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="1.20" steps="431667"/></proof>
+      <proof prover="10"><result status="valid" time="0.97" steps="431667"/></proof>
       </goal>
       <goal name="map_add_mat_sum_t&#39;vc.0.15.1.0.1" expl="apply premises" proved="true">
       <transf name="compute_specified" proved="true" >
@@ -10531,7 +10453,7 @@
    <goal name="map_add_mat_sum_t&#39;vc.0.16" expl="precondition" proved="true">
    <transf name="apply" proved="true" arg1="set_s_columns">
     <goal name="map_add_mat_sum_t&#39;vc.0.16.0" expl="apply premises" proved="true">
-    <proof prover="10"><result status="valid" time="1.32" steps="431870"/></proof>
+    <proof prover="10"><result status="valid" time="0.99" steps="431870"/></proof>
     </goal>
     <goal name="map_add_mat_sum_t&#39;vc.0.16.1" expl="apply premises" proved="true">
     <transf name="apply" proved="true" arg1="goal_comm">
@@ -10545,7 +10467,7 @@
        <goal name="map_add_mat_sum_t&#39;vc.0.16.1.0.1.0" expl="apply premises" proved="true">
        <transf name="split_all_full" proved="true" >
         <goal name="map_add_mat_sum_t&#39;vc.0.16.1.0.1.0.0" expl="apply premises" proved="true">
-        <proof prover="10"><result status="valid" time="1.35" steps="491615"/></proof>
+        <proof prover="10"><result status="valid" time="1.07" steps="491615"/></proof>
         </goal>
        </transf>
        </goal>
@@ -10581,7 +10503,7 @@
      <goal name="map_add_mat_sum_t&#39;vc.0.19.1.0" expl="apply premises" proved="true">
      <transf name="compute_specified" proved="true" >
       <goal name="map_add_mat_sum_t&#39;vc.0.19.1.0.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="1.10" steps="417468"/></proof>
+      <proof prover="10"><result status="valid" time="0.79" steps="417468"/></proof>
       </goal>
      </transf>
      </goal>
@@ -10602,7 +10524,7 @@
      <goal name="map_add_mat_sum_t&#39;vc.0.22.0.0" expl="apply premises" proved="true">
      <transf name="compute_specified" proved="true" >
       <goal name="map_add_mat_sum_t&#39;vc.0.22.0.0.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="1.11" steps="420845"/></proof>
+      <proof prover="10"><result status="valid" time="0.81" steps="420845"/></proof>
       </goal>
      </transf>
      </goal>
@@ -10615,14 +10537,14 @@
       <goal name="map_add_mat_sum_t&#39;vc.0.22.1.0.0" expl="apply premises" proved="true">
       <transf name="compute_specified" proved="true" >
        <goal name="map_add_mat_sum_t&#39;vc.0.22.1.0.0.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="1.09" steps="420845"/></proof>
+       <proof prover="10"><result status="valid" time="0.81" steps="420845"/></proof>
        </goal>
       </transf>
       </goal>
       <goal name="map_add_mat_sum_t&#39;vc.0.22.1.0.1" expl="equality hypothesis" proved="true">
       <transf name="compute_specified" proved="true" >
        <goal name="map_add_mat_sum_t&#39;vc.0.22.1.0.1.0" expl="equality hypothesis" proved="true">
-       <proof prover="10"><result status="valid" time="1.11" steps="419854"/></proof>
+       <proof prover="10"><result status="valid" time="0.88" steps="419854"/></proof>
        </goal>
       </transf>
       </goal>
@@ -10645,10 +10567,10 @@
    <proof prover="10"><result status="valid" time="0.50" steps="398439"/></proof>
    </goal>
    <goal name="map_add_mat_sum_t&#39;vc.0.27" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.14" steps="437366"/></proof>
+   <proof prover="10"><result status="valid" time="0.89" steps="437366"/></proof>
    </goal>
    <goal name="map_add_mat_sum_t&#39;vc.0.28" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.15" steps="437428"/></proof>
+   <proof prover="10"><result status="valid" time="0.92" steps="437428"/></proof>
    </goal>
    <goal name="map_add_mat_sum_t&#39;vc.0.29" expl="postcondition" proved="true">
    <transf name="replace" proved="true" arg1="( mat_sum s (fun (e:a) -&gt; add_mat (f @ (injz @ e)) (f @ (injo @ e))))" arg2="(mat_sum s
@@ -10715,10 +10637,10 @@
          </transf>
          </goal>
          <goal name="map_add_mat_sum_t&#39;vc.0.29.1.1.0.0.0.1" expl="rewrite premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.10" steps="420828"/></proof>
+         <proof prover="10"><result status="valid" time="0.88" steps="420828"/></proof>
          </goal>
          <goal name="map_add_mat_sum_t&#39;vc.0.29.1.1.0.0.0.2" expl="rewrite premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.10" steps="420828"/></proof>
+         <proof prover="10"><result status="valid" time="0.84" steps="420828"/></proof>
          </goal>
         </transf>
         </goal>
@@ -10735,13 +10657,13 @@
          <goal name="map_add_mat_sum_t&#39;vc.0.29.1.1.1.0.0.0" expl="apply premises" proved="true">
          <transf name="rewrite" proved="true" arg1="add_columns">
           <goal name="map_add_mat_sum_t&#39;vc.0.29.1.1.1.0.0.0.0" expl="apply premises" proved="true">
-          <proof prover="10"><result status="valid" time="1.11" steps="420944"/></proof>
+          <proof prover="10"><result status="valid" time="0.85" steps="420944"/></proof>
           </goal>
           <goal name="map_add_mat_sum_t&#39;vc.0.29.1.1.1.0.0.0.1" expl="rewrite premises" proved="true">
           <proof prover="10"><result status="valid" time="0.90" steps="420828"/></proof>
           </goal>
           <goal name="map_add_mat_sum_t&#39;vc.0.29.1.1.1.0.0.0.2" expl="rewrite premises" proved="true">
-          <proof prover="10"><result status="valid" time="1.12" steps="420828"/></proof>
+          <proof prover="10"><result status="valid" time="0.88" steps="420828"/></proof>
           </goal>
          </transf>
          </goal>
@@ -10762,7 +10684,7 @@
      <goal name="map_add_mat_sum_t&#39;vc.0.29.1.2" expl="apply premises" proved="true">
      <transf name="split_vc" proved="true" >
       <goal name="map_add_mat_sum_t&#39;vc.0.29.1.2.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="1.54" steps="502435"/></proof>
+      <proof prover="10"><result status="valid" time="1.20" steps="502435"/></proof>
       </goal>
      </transf>
      </goal>
@@ -10785,7 +10707,7 @@
      <goal name="map_add_mat_sum&#39;vc.0.0.0.0" expl="apply premises" proved="true">
      <transf name="compute_specified" proved="true" >
       <goal name="map_add_mat_sum&#39;vc.0.0.0.0.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="1.21" steps="372976"/></proof>
+      <proof prover="10"><result status="valid" time="0.98" steps="372976"/></proof>
       </goal>
      </transf>
      </goal>
@@ -10796,7 +10718,7 @@
      <goal name="map_add_mat_sum&#39;vc.0.0.1.0" expl="apply premises" proved="true">
      <transf name="compute_specified" proved="true" >
       <goal name="map_add_mat_sum&#39;vc.0.0.1.0.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="1.26" steps="373054"/></proof>
+      <proof prover="10"><result status="valid" time="0.95" steps="373054"/></proof>
       </goal>
      </transf>
      </goal>
@@ -10817,21 +10739,21 @@
         <goal name="map_add_mat_sum&#39;vc.0.1.0.0.0.0.0" expl="apply premises" proved="true">
         <transf name="rewrite" proved="true" arg1="add_rows">
          <goal name="map_add_mat_sum&#39;vc.0.1.0.0.0.0.0.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="0.91" steps="348675"/></proof>
+         <proof prover="10"><result status="valid" time="0.67" steps="348675"/></proof>
          </goal>
          <goal name="map_add_mat_sum&#39;vc.0.1.0.0.0.0.0.1" expl="rewrite premises" proved="true">
-         <proof prover="10"><result status="valid" time="0.86" steps="349995"/></proof>
+         <proof prover="10"><result status="valid" time="0.66" steps="349995"/></proof>
          </goal>
          <goal name="map_add_mat_sum&#39;vc.0.1.0.0.0.0.0.2" expl="rewrite premises" proved="true">
-         <proof prover="10"><result status="valid" time="0.86" steps="349996"/></proof>
+         <proof prover="10"><result status="valid" time="0.64" steps="349996"/></proof>
          </goal>
         </transf>
         </goal>
         <goal name="map_add_mat_sum&#39;vc.0.1.0.0.0.0.1" expl="rewrite premises" proved="true">
-        <proof prover="10"><result status="valid" time="0.86" steps="349995"/></proof>
+        <proof prover="10"><result status="valid" time="0.63" steps="349995"/></proof>
         </goal>
         <goal name="map_add_mat_sum&#39;vc.0.1.0.0.0.0.2" expl="rewrite premises" proved="true">
-        <proof prover="10"><result status="valid" time="0.86" steps="349996"/></proof>
+        <proof prover="10"><result status="valid" time="0.64" steps="349996"/></proof>
         </goal>
        </transf>
        </goal>
@@ -10848,21 +10770,21 @@
         <goal name="map_add_mat_sum&#39;vc.0.1.0.1.0.0.0" expl="apply premises" proved="true">
         <transf name="rewrite" proved="true" arg1="add_columns">
          <goal name="map_add_mat_sum&#39;vc.0.1.0.1.0.0.0.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="0.87" steps="348674"/></proof>
+         <proof prover="10"><result status="valid" time="0.63" steps="348674"/></proof>
          </goal>
          <goal name="map_add_mat_sum&#39;vc.0.1.0.1.0.0.0.1" expl="rewrite premises" proved="true">
-         <proof prover="10"><result status="valid" time="0.88" steps="349995"/></proof>
+         <proof prover="10"><result status="valid" time="0.63" steps="349995"/></proof>
          </goal>
          <goal name="map_add_mat_sum&#39;vc.0.1.0.1.0.0.0.2" expl="rewrite premises" proved="true">
-         <proof prover="10"><result status="valid" time="0.91" steps="349996"/></proof>
+         <proof prover="10"><result status="valid" time="0.63" steps="349996"/></proof>
          </goal>
         </transf>
         </goal>
         <goal name="map_add_mat_sum&#39;vc.0.1.0.1.0.0.1" expl="rewrite premises" proved="true">
-        <proof prover="10"><result status="valid" time="0.86" steps="349995"/></proof>
+        <proof prover="10"><result status="valid" time="0.66" steps="349995"/></proof>
         </goal>
         <goal name="map_add_mat_sum&#39;vc.0.1.0.1.0.0.2" expl="rewrite premises" proved="true">
-        <proof prover="10"><result status="valid" time="0.88" steps="349996"/></proof>
+        <proof prover="10"><result status="valid" time="0.64" steps="349996"/></proof>
         </goal>
        </transf>
        </goal>
@@ -10875,7 +10797,7 @@
     <goal name="map_add_mat_sum&#39;vc.0.1.1" expl="apply premises" proved="true">
     <transf name="compute_specified" proved="true" >
      <goal name="map_add_mat_sum&#39;vc.0.1.1.0" expl="apply premises" proved="true">
-     <proof prover="10"><result status="valid" time="0.96" steps="336830"/></proof>
+     <proof prover="10"><result status="valid" time="0.74" steps="336830"/></proof>
      </goal>
     </transf>
     </goal>
@@ -10894,18 +10816,18 @@
         <goal name="map_add_mat_sum&#39;vc.0.2.0.0.0.0.0" expl="apply premises" proved="true">
         <transf name="rewrite" proved="true" arg1="add_rows">
          <goal name="map_add_mat_sum&#39;vc.0.2.0.0.0.0.0.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="0.86" steps="348761"/></proof>
+         <proof prover="10"><result status="valid" time="0.65" steps="348761"/></proof>
          </goal>
          <goal name="map_add_mat_sum&#39;vc.0.2.0.0.0.0.0.1" expl="rewrite premises" proved="true">
-         <proof prover="10"><result status="valid" time="0.85" steps="350081"/></proof>
+         <proof prover="10"><result status="valid" time="0.63" steps="350081"/></proof>
          </goal>
          <goal name="map_add_mat_sum&#39;vc.0.2.0.0.0.0.0.2" expl="rewrite premises" proved="true">
-         <proof prover="10"><result status="valid" time="0.87" steps="350082"/></proof>
+         <proof prover="10"><result status="valid" time="0.65" steps="350082"/></proof>
          </goal>
         </transf>
         </goal>
         <goal name="map_add_mat_sum&#39;vc.0.2.0.0.0.0.1" expl="rewrite premises" proved="true">
-        <proof prover="10"><result status="valid" time="0.86" steps="350081"/></proof>
+        <proof prover="10"><result status="valid" time="0.65" steps="350081"/></proof>
         </goal>
         <goal name="map_add_mat_sum&#39;vc.0.2.0.0.0.0.2" expl="rewrite premises" proved="true">
         <proof prover="10"><result status="valid" time="0.65" steps="350082"/></proof>
@@ -10925,18 +10847,18 @@
         <goal name="map_add_mat_sum&#39;vc.0.2.0.1.0.0.0" expl="apply premises" proved="true">
         <transf name="rewrite" proved="true" arg1="add_columns">
          <goal name="map_add_mat_sum&#39;vc.0.2.0.1.0.0.0.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="0.85" steps="348760"/></proof>
+         <proof prover="10"><result status="valid" time="0.63" steps="348760"/></proof>
          </goal>
          <goal name="map_add_mat_sum&#39;vc.0.2.0.1.0.0.0.1" expl="rewrite premises" proved="true">
          <proof prover="10"><result status="valid" time="0.85" steps="350081"/></proof>
          </goal>
          <goal name="map_add_mat_sum&#39;vc.0.2.0.1.0.0.0.2" expl="rewrite premises" proved="true">
-         <proof prover="10"><result status="valid" time="0.86" steps="350082"/></proof>
+         <proof prover="10"><result status="valid" time="0.66" steps="350082"/></proof>
          </goal>
         </transf>
         </goal>
         <goal name="map_add_mat_sum&#39;vc.0.2.0.1.0.0.1" expl="rewrite premises" proved="true">
-        <proof prover="10"><result status="valid" time="0.86" steps="350081"/></proof>
+        <proof prover="10"><result status="valid" time="0.66" steps="350081"/></proof>
         </goal>
         <goal name="map_add_mat_sum&#39;vc.0.2.0.1.0.0.2" expl="rewrite premises" proved="true">
         <proof prover="10"><result status="valid" time="0.67" steps="350082"/></proof>
@@ -10952,7 +10874,7 @@
     <goal name="map_add_mat_sum&#39;vc.0.2.1" expl="apply premises" proved="true">
     <transf name="compute_specified" proved="true" >
      <goal name="map_add_mat_sum&#39;vc.0.2.1.0" expl="apply premises" proved="true">
-     <proof prover="10"><result status="valid" time="0.99" steps="337043"/></proof>
+     <proof prover="10"><result status="valid" time="0.76" steps="337043"/></proof>
      </goal>
     </transf>
     </goal>
@@ -10971,7 +10893,7 @@
    <proof prover="10"><result status="valid" time="0.77" steps="329853"/></proof>
    </goal>
    <goal name="map_add_mat_sum&#39;vc.0.7" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.26" steps="426719"/></proof>
+   <proof prover="10"><result status="valid" time="1.02" steps="426719"/></proof>
    </goal>
    <goal name="map_add_mat_sum&#39;vc.0.8" expl="precondition" proved="true">
    <proof prover="10"><result status="valid" time="0.34" steps="294795"/></proof>
@@ -10981,7 +10903,7 @@
     <goal name="map_add_mat_sum&#39;vc.0.9.0" expl="apply premises" proved="true">
     <transf name="split_vc" proved="true" >
      <goal name="map_add_mat_sum&#39;vc.0.9.0.0" expl="apply premises" proved="true">
-     <proof prover="10"><result status="valid" time="1.46" steps="465196"/></proof>
+     <proof prover="10"><result status="valid" time="1.21" steps="465196"/></proof>
      </goal>
     </transf>
     </goal>
@@ -11009,14 +10931,14 @@
     <goal name="map_add_mat_sum&#39;vc.0.12.0" expl="apply premises" proved="true">
     <transf name="split_vc" proved="true" >
      <goal name="map_add_mat_sum&#39;vc.0.12.0.0" expl="apply premises" proved="true">
-     <proof prover="10"><result status="valid" time="1.82" steps="526358"/></proof>
+     <proof prover="10"><result status="valid" time="1.48" steps="526358"/></proof>
      </goal>
     </transf>
     </goal>
     <goal name="map_add_mat_sum&#39;vc.0.12.1" expl="apply premises" proved="true">
     <transf name="split_vc" proved="true" >
      <goal name="map_add_mat_sum&#39;vc.0.12.1.0" expl="apply premises" proved="true">
-     <proof prover="10"><result status="valid" time="1.80" steps="526373"/></proof>
+     <proof prover="10"><result status="valid" time="1.45" steps="526373"/></proof>
      </goal>
     </transf>
     </goal>
@@ -11026,7 +10948,7 @@
    <proof prover="10"><result status="valid" time="0.42" steps="348996"/></proof>
    </goal>
    <goal name="map_add_mat_sum&#39;vc.0.14" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.60" steps="483037"/></proof>
+   <proof prover="10"><result status="valid" time="1.21" steps="483037"/></proof>
    </goal>
    <goal name="map_add_mat_sum&#39;vc.0.15" expl="precondition" proved="true">
    <transf name="apply" proved="true" arg1="set_constant_size">
@@ -11046,7 +10968,7 @@
      <goal name="map_add_mat_sum&#39;vc.0.15.1.0" expl="apply premises" proved="true">
      <transf name="compute_specified" proved="true" >
       <goal name="map_add_mat_sum&#39;vc.0.15.1.0.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="1.13" steps="405898"/></proof>
+      <proof prover="10"><result status="valid" time="0.86" steps="405898"/></proof>
       </goal>
      </transf>
      </goal>
@@ -11069,7 +10991,7 @@
       <goal name="map_add_mat_sum&#39;vc.0.18.0.0.0" expl="apply premises" proved="true">
       <transf name="eliminate_definition" proved="true" >
        <goal name="map_add_mat_sum&#39;vc.0.18.0.0.0.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="1.46" steps="433262"/></proof>
+       <proof prover="10"><result status="valid" time="1.18" steps="433262"/></proof>
        </goal>
       </transf>
       </goal>
@@ -11084,7 +11006,7 @@
       <goal name="map_add_mat_sum&#39;vc.0.18.1.0.0" expl="apply premises" proved="true">
       <transf name="eliminate_definition" proved="true" >
        <goal name="map_add_mat_sum&#39;vc.0.18.1.0.0.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="1.49" steps="433310"/></proof>
+       <proof prover="10"><result status="valid" time="1.13" steps="433310"/></proof>
        </goal>
       </transf>
       </goal>
@@ -11101,12 +11023,12 @@
      <goal name="map_add_mat_sum&#39;vc.0.19.0.0" expl="apply premises" proved="true">
      <transf name="assert" proved="true" arg1="(mem e s&#39;)">
       <goal name="map_add_mat_sum&#39;vc.0.19.0.0.0" expl="asserted formula" proved="true">
-      <proof prover="10"><result status="valid" time="1.07" steps="400879"/></proof>
+      <proof prover="10"><result status="valid" time="0.80" steps="400879"/></proof>
       </goal>
       <goal name="map_add_mat_sum&#39;vc.0.19.0.0.1" expl="apply premises" proved="true">
       <transf name="eliminate_definition" proved="true" >
        <goal name="map_add_mat_sum&#39;vc.0.19.0.0.1.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="6.02" steps="1507880"/></proof>
+       <proof prover="10"><result status="valid" time="4.90" steps="1507880"/></proof>
        </goal>
       </transf>
       </goal>
@@ -11143,7 +11065,7 @@
       <goal name="map_add_mat_sum&#39;vc.0.21.1.0.0" expl="apply premises" proved="true">
       <transf name="eliminate_definition" proved="true" >
        <goal name="map_add_mat_sum&#39;vc.0.21.1.0.0.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="1.36" steps="433536"/></proof>
+       <proof prover="10"><result status="valid" time="1.12" steps="433536"/></proof>
        </goal>
       </transf>
       </goal>
@@ -11160,12 +11082,12 @@
      <goal name="map_add_mat_sum&#39;vc.0.22.0.0" expl="apply premises" proved="true">
      <transf name="assert" proved="true" arg1="(mem e s&#39;)">
       <goal name="map_add_mat_sum&#39;vc.0.22.0.0.0" expl="asserted formula" proved="true">
-      <proof prover="10"><result status="valid" time="0.98" steps="400950"/></proof>
+      <proof prover="10"><result status="valid" time="0.77" steps="400950"/></proof>
       </goal>
       <goal name="map_add_mat_sum&#39;vc.0.22.0.0.1" expl="apply premises" proved="true">
       <transf name="eliminate_definition" proved="true" >
        <goal name="map_add_mat_sum&#39;vc.0.22.0.0.1.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="6.27" steps="1507987"/></proof>
+       <proof prover="10"><result status="valid" time="4.68" steps="1507987"/></proof>
        </goal>
       </transf>
       </goal>
@@ -11309,21 +11231,21 @@
       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.0" expl="precondition" proved="true">
       <transf name="apply" proved="true" arg1="rows_mat_sum">
        <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.0.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="1.48" steps="600466"/></proof>
+       <proof prover="10"><result status="valid" time="1.20" steps="600466"/></proof>
        </goal>
        <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.0.1" expl="apply premises" proved="true">
        <transf name="apply" proved="true" arg1="set_constant_size">
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.0.1.0" expl="apply premises" proved="true">
         <transf name="split_vc" proved="true" >
          <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.0.1.0.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.57" steps="602185"/></proof>
+         <proof prover="10"><result status="valid" time="1.29" steps="602185"/></proof>
          </goal>
         </transf>
         </goal>
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.0.1.1" expl="apply premises" proved="true">
         <transf name="split_vc" proved="true" >
          <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.0.1.1.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.59" steps="602185"/></proof>
+         <proof prover="10"><result status="valid" time="1.29" steps="602185"/></proof>
          </goal>
         </transf>
         </goal>
@@ -11336,21 +11258,21 @@
          <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.0.2.0.0" expl="apply premises" proved="true">
          <transf name="apply" proved="true" arg1="rows_mat_sum">
           <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.0.2.0.0.0" expl="apply premises" proved="true">
-          <proof prover="10"><result status="valid" time="1.53" steps="600479"/></proof>
+          <proof prover="10"><result status="valid" time="1.26" steps="600479"/></proof>
           </goal>
           <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.0.2.0.0.1" expl="apply premises" proved="true">
           <transf name="apply" proved="true" arg1="set_constant_size">
            <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.0.2.0.0.1.0" expl="apply premises" proved="true">
            <transf name="split_vc" proved="true" >
             <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.0.2.0.0.1.0.0" expl="apply premises" proved="true">
-            <proof prover="10"><result status="valid" time="1.54" steps="602451"/></proof>
+            <proof prover="10"><result status="valid" time="1.25" steps="602451"/></proof>
             </goal>
            </transf>
            </goal>
            <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.0.2.0.0.1.1" expl="apply premises" proved="true">
            <transf name="split_vc" proved="true" >
             <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.0.2.0.0.1.1.0" expl="apply premises" proved="true">
-            <proof prover="10"><result status="valid" time="1.57" steps="602451"/></proof>
+            <proof prover="10"><result status="valid" time="1.27" steps="602451"/></proof>
             </goal>
            </transf>
            </goal>
@@ -11359,7 +11281,7 @@
           <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.0.2.0.0.2" expl="apply premises" proved="true">
           <transf name="split_vc" proved="true" >
            <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.0.2.0.0.2.0" expl="apply premises" proved="true">
-           <proof prover="10"><result status="valid" time="1.57" steps="602238"/></proof>
+           <proof prover="10"><result status="valid" time="1.28" steps="602238"/></proof>
            </goal>
           </transf>
           </goal>
@@ -11388,7 +11310,7 @@
       <proof prover="10"><result status="valid" time="0.77" steps="582374"/></proof>
       </goal>
       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.5.0.0.3" expl="precondition" proved="true">
-      <proof prover="10"><result status="valid" time="0.93" steps="574218"/></proof>
+      <proof prover="10"><result status="valid" time="0.71" steps="574218"/></proof>
       </goal>
      </transf>
      </goal>
@@ -11405,21 +11327,21 @@
       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.0" expl="precondition" proved="true">
       <transf name="apply" proved="true" arg1="columns_mat_sum">
        <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.0.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="1.50" steps="626133"/></proof>
+       <proof prover="10"><result status="valid" time="1.19" steps="626133"/></proof>
        </goal>
        <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.0.1" expl="apply premises" proved="true">
        <transf name="apply" proved="true" arg1="set_constant_size">
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.0.1.0" expl="apply premises" proved="true">
         <transf name="split_vc" proved="true" >
          <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.0.1.0.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.62" steps="627849"/></proof>
+         <proof prover="10"><result status="valid" time="1.25" steps="627849"/></proof>
          </goal>
         </transf>
         </goal>
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.0.1.1" expl="apply premises" proved="true">
         <transf name="split_vc" proved="true" >
          <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.0.1.1.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.64" steps="627849"/></proof>
+         <proof prover="10"><result status="valid" time="1.28" steps="627849"/></proof>
          </goal>
         </transf>
         </goal>
@@ -11432,28 +11354,28 @@
          <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.0.2.0.0" expl="apply premises" proved="true">
          <transf name="apply" proved="true" arg1="columns_mat_sum">
           <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.0.2.0.0.0" expl="apply premises" proved="true">
-          <proof prover="10"><result status="valid" time="1.57" steps="626146"/></proof>
+          <proof prover="10"><result status="valid" time="1.22" steps="626146"/></proof>
           </goal>
           <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.0.2.0.0.1" expl="apply premises" proved="true">
           <transf name="apply" proved="true" arg1="set_constant_size">
            <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.0.2.0.0.1.0" expl="apply premises" proved="true">
            <transf name="split_vc" proved="true" >
             <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.0.2.0.0.1.0.0" expl="apply premises" proved="true">
-            <proof prover="10"><result status="valid" time="1.65" steps="628115"/></proof>
+            <proof prover="10"><result status="valid" time="1.28" steps="628115"/></proof>
             </goal>
            </transf>
            </goal>
            <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.0.2.0.0.1.1" expl="apply premises" proved="true">
            <transf name="split_vc" proved="true" >
             <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.0.2.0.0.1.1.0" expl="apply premises" proved="true">
-            <proof prover="10"><result status="valid" time="1.66" steps="628115"/></proof>
+            <proof prover="10"><result status="valid" time="1.32" steps="628115"/></proof>
             </goal>
            </transf>
            </goal>
           </transf>
           </goal>
           <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.0.2.0.0.2" expl="apply premises" proved="true">
-          <proof prover="10"><result status="valid" time="1.65" steps="627956"/></proof>
+          <proof prover="10"><result status="valid" time="1.32" steps="627956"/></proof>
           </goal>
          </transf>
          </goal>
@@ -11469,7 +11391,7 @@
        <proof prover="10"><result status="valid" time="0.96" steps="599184"/></proof>
        </goal>
        <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.1.1" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="0.98" steps="601251"/></proof>
+       <proof prover="10"><result status="valid" time="0.78" steps="601251"/></proof>
        </goal>
        <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.1.2" expl="apply premises" proved="true">
        <proof prover="10"><result status="valid" time="0.96" steps="599366"/></proof>
@@ -11477,7 +11399,7 @@
       </transf>
       </goal>
       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.2" expl="precondition" proved="true">
-      <proof prover="10"><result status="valid" time="1.02" steps="607302"/></proof>
+      <proof prover="10"><result status="valid" time="0.80" steps="607302"/></proof>
       </goal>
       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.6.0.0.3" expl="precondition" proved="true">
       <proof prover="10"><result status="valid" time="0.95" steps="599180"/></proof>
@@ -11520,7 +11442,7 @@
        <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.9.0.0.0.0" expl="apply premises" proved="true">
        <transf name="split_vc" proved="true" >
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.9.0.0.0.0.0" expl="apply premises" proved="true">
-        <proof prover="10"><result status="valid" time="1.56" steps="635649"/></proof>
+        <proof prover="10"><result status="valid" time="1.30" steps="635649"/></proof>
         </goal>
        </transf>
        </goal>
@@ -11535,14 +11457,14 @@
      <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.9.1.0" expl="apply premises" proved="true">
      <transf name="split_vc" proved="true" >
       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.9.1.0.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="2.00" steps="658374"/></proof>
+      <proof prover="10"><result status="valid" time="1.62" steps="658374"/></proof>
       </goal>
      </transf>
      </goal>
      <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.9.1.1" expl="apply premises" proved="true">
      <transf name="split_vc" proved="true" >
       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.9.1.1.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="1.99" steps="658091"/></proof>
+      <proof prover="10"><result status="valid" time="1.60" steps="658091"/></proof>
       </goal>
      </transf>
      </goal>
@@ -11559,7 +11481,7 @@
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.9.2.0.0.0.0" expl="apply premises" proved="true">
         <transf name="apply" proved="true" arg1="rows_mat_sum">
          <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.9.2.0.0.0.0.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.60" steps="635666"/></proof>
+         <proof prover="10"><result status="valid" time="1.27" steps="635666"/></proof>
          </goal>
          <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.9.2.0.0.0.0.1" expl="apply premises" proved="true">
          <transf name="apply" proved="true" arg1="set_constant_size">
@@ -11573,7 +11495,7 @@
           <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.9.2.0.0.0.0.1.1" expl="apply premises" proved="true">
           <transf name="split_vc" proved="true" >
            <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.9.2.0.0.0.0.1.1.0" expl="apply premises" proved="true">
-           <proof prover="10"><result status="valid" time="1.66" steps="637359"/></proof>
+           <proof prover="10"><result status="valid" time="1.36" steps="637359"/></proof>
            </goal>
           </transf>
           </goal>
@@ -11582,14 +11504,14 @@
          <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.9.2.0.0.0.0.2" expl="apply premises" proved="true">
          <transf name="split_vc" proved="true" >
           <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.9.2.0.0.0.0.2.0" expl="apply premises" proved="true">
-          <proof prover="10"><result status="valid" time="1.63" steps="636076"/></proof>
+          <proof prover="10"><result status="valid" time="1.36" steps="636076"/></proof>
           </goal>
          </transf>
          </goal>
         </transf>
         </goal>
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.9.2.0.0.0.1" expl="apply premises" proved="true">
-        <proof prover="10"><result status="valid" time="1.00" steps="608554"/></proof>
+        <proof prover="10"><result status="valid" time="0.79" steps="608554"/></proof>
         </goal>
        </transf>
        </goal>
@@ -11606,7 +11528,7 @@
     <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.10.0" expl="apply premises" proved="true">
     <transf name="split_vc" proved="true" >
      <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.10.0.0" expl="apply premises" proved="true">
-     <proof prover="10"><result status="valid" time="2.09" steps="658887"/></proof>
+     <proof prover="10"><result status="valid" time="1.77" steps="658887"/></proof>
      </goal>
     </transf>
     </goal>
@@ -11633,7 +11555,7 @@
        <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.12.0.0.0.0" expl="apply premises" proved="true">
        <transf name="split_vc" proved="true" >
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.12.0.0.0.0.0" expl="apply premises" proved="true">
-        <proof prover="10"><result status="valid" time="1.55" steps="637542"/></proof>
+        <proof prover="10"><result status="valid" time="1.27" steps="637542"/></proof>
         </goal>
        </transf>
        </goal>
@@ -11648,14 +11570,14 @@
      <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.12.1.0" expl="apply premises" proved="true">
      <transf name="split_vc" proved="true" >
       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.12.1.0.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="2.01" steps="661096"/></proof>
+      <proof prover="10"><result status="valid" time="1.66" steps="661096"/></proof>
       </goal>
      </transf>
      </goal>
      <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.12.1.1" expl="apply premises" proved="true">
      <transf name="split_vc" proved="true" >
       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.12.1.1.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="2.03" steps="660926"/></proof>
+      <proof prover="10"><result status="valid" time="1.66" steps="660926"/></proof>
       </goal>
      </transf>
      </goal>
@@ -11672,14 +11594,14 @@
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.12.2.0.0.0.0" expl="apply premises" proved="true">
         <transf name="apply" proved="true" arg1="columns_mat_sum">
          <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.12.2.0.0.0.0.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.60" steps="637559"/></proof>
+         <proof prover="10"><result status="valid" time="1.30" steps="637559"/></proof>
          </goal>
          <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.12.2.0.0.0.0.1" expl="apply premises" proved="true">
          <transf name="apply" proved="true" arg1="set_constant_size">
           <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.12.2.0.0.0.0.1.0" expl="apply premises" proved="true">
           <transf name="split_vc" proved="true" >
            <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.12.2.0.0.0.0.1.0.0" expl="apply premises" proved="true">
-           <proof prover="10"><result status="valid" time="1.66" steps="639288"/></proof>
+           <proof prover="10"><result status="valid" time="1.39" steps="639288"/></proof>
            </goal>
           </transf>
           </goal>
@@ -11695,7 +11617,7 @@
          <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.12.2.0.0.0.0.2" expl="apply premises" proved="true">
          <transf name="split_vc" proved="true" >
           <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.12.2.0.0.0.0.2.0" expl="apply premises" proved="true">
-          <proof prover="10"><result status="valid" time="1.64" steps="637969"/></proof>
+          <proof prover="10"><result status="valid" time="1.34" steps="637969"/></proof>
           </goal>
          </transf>
          </goal>
@@ -11762,7 +11684,7 @@
         <proof prover="10"><result status="valid" time="0.98" steps="617928"/></proof>
         </goal>
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.13.1.0.0.0.3" expl="apply premises" proved="true">
-        <proof prover="10"><result status="valid" time="1.00" steps="609909"/></proof>
+        <proof prover="10"><result status="valid" time="0.74" steps="609909"/></proof>
         </goal>
        </transf>
        </goal>
@@ -11783,14 +11705,14 @@
       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.14.0.0.0" expl="precondition" proved="true">
       <transf name="apply" proved="true" arg1="columns_mat_sum">
        <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.14.0.0.0.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="1.72" steps="639985"/></proof>
+       <proof prover="10"><result status="valid" time="1.40" steps="639985"/></proof>
        </goal>
        <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.14.0.0.0.1" expl="apply premises" proved="true">
        <transf name="apply" proved="true" arg1="set_constant_size">
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.14.0.0.0.1.0" expl="apply premises" proved="true">
         <transf name="split_vc" proved="true" >
          <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.14.0.0.0.1.0.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.82" steps="641856"/></proof>
+         <proof prover="10"><result status="valid" time="1.48" steps="641856"/></proof>
          </goal>
         </transf>
         </goal>
@@ -12278,7 +12200,7 @@
       <proof prover="10"><result status="valid" time="1.75" steps="670849"/></proof>
       </goal>
       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.25.1.0.1" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="4.08" steps="1392492"/></proof>
+      <proof prover="10"><result status="valid" time="4.74" steps="1392492"/></proof>
       </goal>
      </transf>
      </goal>
@@ -12350,7 +12272,7 @@
           <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.26.2.0.0.0.0.1.1" expl="apply premises" proved="true">
           <transf name="split_vc" proved="true" >
            <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.26.2.0.0.0.0.1.1.0" expl="apply premises" proved="true">
-           <proof prover="10"><result status="valid" time="1.40" steps="651042"/></proof>
+           <proof prover="10"><result status="valid" time="1.66" steps="651042"/></proof>
            </goal>
           </transf>
           </goal>
@@ -12370,14 +12292,14 @@
              <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.26.2.0.0.0.0.2.0.0.1.0" expl="apply premises" proved="true">
              <transf name="split_vc" proved="true" >
               <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.26.2.0.0.0.0.2.0.0.1.0.0" expl="apply premises" proved="true">
-              <proof prover="10"><result status="valid" time="1.91" steps="685473"/></proof>
+              <proof prover="10"><result status="valid" time="2.26" steps="685473"/></proof>
               </goal>
              </transf>
              </goal>
              <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.26.2.0.0.0.0.2.0.0.1.1" expl="apply premises" proved="true">
              <transf name="split_vc" proved="true" >
               <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.26.2.0.0.0.0.2.0.0.1.1.0" expl="apply premises" proved="true">
-              <proof prover="10"><result status="valid" time="2.54" steps="1033761"/></proof>
+              <proof prover="10"><result status="valid" time="2.95" steps="1033761"/></proof>
               </goal>
              </transf>
              </goal>
@@ -12532,21 +12454,21 @@
                     <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.0.0.0.0.0.0.0.0.0.0.0.2.1.0.0" expl="apply premises" proved="true">
                     <transf name="split_vc" proved="true" >
                      <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.0.0.0.0.0.0.0.0.0.0.0.2.1.0.0.0" expl="apply premises" proved="true">
-                     <proof prover="10"><result status="valid" time="1.33" steps="652122"/></proof>
+                     <proof prover="10"><result status="valid" time="1.64" steps="652122"/></proof>
                      </goal>
                     </transf>
                     </goal>
                     <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.0.0.0.0.0.0.0.0.0.0.0.2.1.0.1" expl="apply premises" proved="true">
                     <transf name="split_vc" proved="true" >
                      <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.0.0.0.0.0.0.0.0.0.0.0.2.1.0.1.0" expl="apply premises" proved="true">
-                     <proof prover="10"><result status="valid" time="1.38" steps="652122"/></proof>
+                     <proof prover="10"><result status="valid" time="1.65" steps="652122"/></proof>
                      </goal>
                     </transf>
                     </goal>
                    </transf>
                    </goal>
                    <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.0.0.0.0.0.0.0.0.0.0.0.2.1.1" expl="apply premises" proved="true">
-                   <proof prover="10"><result status="valid" time="1.66" steps="684250"/></proof>
+                   <proof prover="10"><result status="valid" time="2.09" steps="684250"/></proof>
                    </goal>
                   </transf>
                   </goal>
@@ -12608,10 +12530,10 @@
                       <proof prover="10"><result status="valid" time="1.13" steps="710620"/></proof>
                       </goal>
                       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.0.0.0.0.0.0.0.0.0.0.0.4.1.0.0.0.1" expl="apply premises" proved="true">
-                      <proof prover="10"><result status="valid" time="1.93" steps="743352"/></proof>
+                      <proof prover="10"><result status="valid" time="1.63" steps="743352"/></proof>
                       </goal>
                       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.0.0.0.0.0.0.0.0.0.0.0.4.1.0.0.0.2" expl="apply premises" proved="true">
-                      <proof prover="10"><result status="valid" time="1.95" steps="743431"/></proof>
+                      <proof prover="10"><result status="valid" time="1.64" steps="743431"/></proof>
                       </goal>
                      </transf>
                      </goal>
@@ -12658,14 +12580,14 @@
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.0.1.0" expl="apply premises" proved="true">
         <transf name="split_vc" proved="true" >
          <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.0.1.0.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="2.21" steps="681946"/></proof>
+         <proof prover="10"><result status="valid" time="1.84" steps="681946"/></proof>
          </goal>
         </transf>
         </goal>
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.0.1.1" expl="apply premises" proved="true">
         <transf name="split_vc" proved="true" >
          <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.0.1.1.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="2.55" steps="825750"/></proof>
+         <proof prover="10"><result status="valid" time="2.18" steps="825750"/></proof>
          </goal>
         </transf>
         </goal>
@@ -12778,14 +12700,14 @@
        <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.1.0" expl="apply premises" proved="true">
        <transf name="split_vc" proved="true" >
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.1.0.0" expl="apply premises" proved="true">
-        <proof prover="10"><result status="valid" time="2.08" steps="680918"/></proof>
+        <proof prover="10"><result status="valid" time="1.66" steps="680918"/></proof>
         </goal>
        </transf>
        </goal>
        <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.1.1" expl="apply premises" proved="true">
        <transf name="split_vc" proved="true" >
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.1.1.0" expl="apply premises" proved="true">
-        <proof prover="10"><result status="valid" time="2.06" steps="680738"/></proof>
+        <proof prover="10"><result status="valid" time="1.73" steps="680738"/></proof>
         </goal>
        </transf>
        </goal>
@@ -12810,14 +12732,14 @@
           <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.3.0.1.0.0" expl="apply premises" proved="true">
           <transf name="split_vc" proved="true" >
            <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.3.0.1.0.0.0" expl="apply premises" proved="true">
-           <proof prover="10"><result status="valid" time="2.10" steps="680918"/></proof>
+           <proof prover="10"><result status="valid" time="1.67" steps="680918"/></proof>
            </goal>
           </transf>
           </goal>
           <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.3.0.1.0.1" expl="apply premises" proved="true">
           <transf name="split_vc" proved="true" >
            <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.3.0.1.0.1.0" expl="apply premises" proved="true">
-           <proof prover="10"><result status="valid" time="2.04" steps="680738"/></proof>
+           <proof prover="10"><result status="valid" time="1.63" steps="680738"/></proof>
            </goal>
           </transf>
           </goal>
@@ -12832,7 +12754,7 @@
             <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.3.0.1.1.0.0.0" expl="apply premises" proved="true">
             <transf name="apply" proved="true" arg1="rows_mat_sum">
              <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.3.0.1.1.0.0.0.0" expl="apply premises" proved="true">
-             <proof prover="10"><result status="valid" time="1.65" steps="651838"/></proof>
+             <proof prover="10"><result status="valid" time="1.27" steps="651838"/></proof>
              </goal>
              <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.3.0.1.1.0.0.0.1" expl="apply premises" proved="true">
              <transf name="instantiate" proved="true" arg1="set_constant_size_give" arg2="s2,(f (choose s1)),r,c">
@@ -12844,10 +12766,10 @@
                 <proof prover="10"><result status="valid" time="0.96" steps="712121"/></proof>
                 </goal>
                 <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.3.0.1.1.0.0.0.1.0.0.1" expl="apply premises" proved="true">
-                <proof prover="10"><result status="valid" time="1.93" steps="744901"/></proof>
+                <proof prover="10"><result status="valid" time="1.57" steps="744901"/></proof>
                 </goal>
                 <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.3.0.1.1.0.0.0.1.0.0.2" expl="apply premises" proved="true">
-                <proof prover="10"><result status="valid" time="1.97" steps="744980"/></proof>
+                <proof prover="10"><result status="valid" time="1.60" steps="744980"/></proof>
                 </goal>
                </transf>
                </goal>
@@ -12912,7 +12834,7 @@
             <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.3.1.1.0.0.0.0" expl="apply premises" proved="true">
             <transf name="apply" proved="true" arg1="Hinst">
              <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.3.1.1.0.0.0.0.0" expl="apply premises" proved="true">
-             <proof prover="9"><result status="valid" time="0.75" steps="23807"/></proof>
+             <proof prover="9"><result status="valid" time="0.75" steps="24284"/></proof>
              </goal>
             </transf>
             </goal>
@@ -12927,7 +12849,7 @@
             <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.3.1.1.0.1.0.0" expl="apply premises" proved="true">
             <transf name="apply" proved="true" arg1="Hinst">
              <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.27.1.1.3.1.1.0.1.0.0.0" expl="apply premises" proved="true">
-             <proof prover="9"><result status="valid" time="0.74" steps="23807"/></proof>
+             <proof prover="9"><result status="valid" time="0.74" steps="24284"/></proof>
              </goal>
             </transf>
             </goal>
@@ -13017,14 +12939,14 @@
      <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.28.1.0" expl="apply premises" proved="true">
      <transf name="split_vc" proved="true" >
       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.28.1.0.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="2.14" steps="676524"/></proof>
+      <proof prover="10"><result status="valid" time="1.67" steps="676524"/></proof>
       </goal>
      </transf>
      </goal>
      <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.28.1.1" expl="apply premises" proved="true">
      <transf name="split_vc" proved="true" >
       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.28.1.1.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="2.09" steps="676289"/></proof>
+      <proof prover="10"><result status="valid" time="1.65" steps="676289"/></proof>
       </goal>
      </transf>
      </goal>
@@ -13039,7 +12961,7 @@
        <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.28.2.0.0.0" proved="true">
        <transf name="split_vc" proved="true" >
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.28.2.0.0.0.0" expl="apply premises" proved="true">
-        <proof prover="10"><result status="valid" time="1.00" steps="620191"/></proof>
+        <proof prover="10"><result status="valid" time="0.79" steps="620191"/></proof>
         </goal>
         <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.28.2.0.0.0.1" expl="apply premises" proved="true">
         <proof prover="10"><result status="valid" time="0.80" steps="628060"/></proof>
@@ -13065,7 +12987,7 @@
       <proof prover="9"><result status="valid" time="0.07" steps="753"/></proof>
       </goal>
       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.29.0.0.1" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="2.04" steps="670777"/></proof>
+      <proof prover="10"><result status="valid" time="1.66" steps="670777"/></proof>
       </goal>
       <goal name="mat_sum_sum_cartesian_product_pre&#39;vc.0.29.0.0.2" expl="apply premises" proved="true">
       <proof prover="10"><result status="valid" time="1.78" steps="671618"/></proof>
@@ -13097,7 +13019,7 @@
    <goal name="ind_basis_mat&#39;vc.0.0" expl="assertion" proved="true">
    <transf name="assert" proved="true" arg1="(mem o (mat_indices (make_f r c (fun (k:int) (l:int) -&gt; indic_2 k i l j))))">
     <goal name="ind_basis_mat&#39;vc.0.0.0" expl="asserted formula" proved="true">
-    <proof prover="10"><result status="valid" time="1.20" steps="407187"/></proof>
+    <proof prover="10"><result status="valid" time="0.92" steps="407187"/></proof>
     </goal>
     <goal name="ind_basis_mat&#39;vc.0.0.1" expl="assertion" proved="true">
     <transf name="replace" proved="true" arg1="(match o with
@@ -13108,7 +13030,7 @@
          | _, y -&gt; y
          end )" arg2="(sec o)">
       <goal name="ind_basis_mat&#39;vc.0.0.1.0.0" expl="assertion" proved="true">
-      <proof prover="10"><result status="valid" time="1.19" steps="408972"/></proof>
+      <proof prover="10"><result status="valid" time="0.97" steps="408972"/></proof>
       </goal>
       <goal name="ind_basis_mat&#39;vc.0.0.1.0.1" expl="equality hypothesis" proved="true">
       <proof prover="10"><result status="valid" time="2.29" steps="794864"/></proof>
@@ -13183,7 +13105,7 @@
        | _, y -&gt; y
        end)" arg2="(sec e)">
                  <goal name="ind_basis_mat&#39;vc.0.1.0.0.0.0.0.0.0.0.1.0.0.0.0.0" expl="apply premises" proved="true">
-                 <proof prover="10"><result status="valid" time="2.70" steps="858607"/></proof>
+                 <proof prover="10"><result status="valid" time="2.31" steps="858607"/></proof>
                  </goal>
                  <goal name="ind_basis_mat&#39;vc.0.1.0.0.0.0.0.0.0.0.1.0.0.0.0.1" expl="equality hypothesis" proved="true">
                  <proof prover="10"><result status="valid" time="1.07" steps="410273"/></proof>
@@ -13191,7 +13113,7 @@
                 </transf>
                 </goal>
                 <goal name="ind_basis_mat&#39;vc.0.1.0.0.0.0.0.0.0.0.1.0.0.0.1" expl="equality hypothesis" proved="true">
-                <proof prover="10"><result status="valid" time="1.21" steps="410310"/></proof>
+                <proof prover="10"><result status="valid" time="0.97" steps="410310"/></proof>
                 </goal>
                </transf>
                </goal>
@@ -13234,7 +13156,7 @@
            <proof prover="10"><result status="valid" time="1.34" steps="492523"/></proof>
            </goal>
            <goal name="ind_basis_mat&#39;vc.0.1.0.0.0.1.1.0.0.1" expl="rewrite premises" proved="true">
-           <proof prover="10"><result status="valid" time="1.35" steps="414956"/></proof>
+           <proof prover="10"><result status="valid" time="1.03" steps="414956"/></proof>
            </goal>
           </transf>
           </goal>
@@ -13255,7 +13177,7 @@
          <proof prover="10"><result status="valid" time="1.01" steps="409479"/></proof>
          </goal>
          <goal name="ind_basis_mat&#39;vc.0.1.0.0.0.2.1.1" proved="true">
-         <proof prover="10"><result status="valid" time="1.24" steps="409537"/></proof>
+         <proof prover="10"><result status="valid" time="1.00" steps="409537"/></proof>
          </goal>
         </transf>
         </goal>
@@ -13290,7 +13212,7 @@
        <goal name="ind_basis_mat&#39;vc.0.1.1.0.0.0" expl="apply premises" proved="true">
        <transf name="split_vc" proved="true" >
         <goal name="ind_basis_mat&#39;vc.0.1.1.0.0.0.0" expl="apply premises" proved="true">
-        <proof prover="10"><result status="valid" time="1.14" steps="448110"/></proof>
+        <proof prover="10"><result status="valid" time="0.89" steps="448110"/></proof>
         </goal>
         <goal name="ind_basis_mat&#39;vc.0.1.1.0.0.0.1" expl="apply premises" proved="true">
         <proof prover="10"><result status="valid" time="1.36" steps="467079"/></proof>
@@ -13298,7 +13220,7 @@
        </transf>
        </goal>
        <goal name="ind_basis_mat&#39;vc.0.1.1.0.0.1" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="1.41" steps="467156"/></proof>
+       <proof prover="10"><result status="valid" time="1.16" steps="467156"/></proof>
        </goal>
       </transf>
       </goal>
@@ -13323,7 +13245,7 @@
          <proof prover="10"><result status="valid" time="0.88" steps="393418"/></proof>
          </goal>
          <goal name="ind_basis_mat&#39;vc.0.1.1.1.0.0.0.2" expl="rewrite premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.04" steps="393418"/></proof>
+         <proof prover="10"><result status="valid" time="0.79" steps="393418"/></proof>
          </goal>
         </transf>
         </goal>
@@ -13338,16 +13260,16 @@
    </transf>
    </goal>
    <goal name="ind_basis_mat&#39;vc.0.2" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="0.96" steps="391406"/></proof>
+   <proof prover="10"><result status="valid" time="0.75" steps="391406"/></proof>
    </goal>
    <goal name="ind_basis_mat&#39;vc.0.3" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="0.96" steps="391427"/></proof>
+   <proof prover="10"><result status="valid" time="0.73" steps="391427"/></proof>
    </goal>
    <goal name="ind_basis_mat&#39;vc.0.4" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="0.99" steps="391404"/></proof>
+   <proof prover="10"><result status="valid" time="0.76" steps="391404"/></proof>
    </goal>
    <goal name="ind_basis_mat&#39;vc.0.5" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="0.99" steps="391425"/></proof>
+   <proof prover="10"><result status="valid" time="0.74" steps="391425"/></proof>
    </goal>
    <goal name="ind_basis_mat&#39;vc.0.6" expl="precondition" proved="true">
    <transf name="exists" proved="true" arg1="(i,j)">
@@ -13356,7 +13278,7 @@
      <goal name="ind_basis_mat&#39;vc.0.6.0.0" proved="true">
      <transf name="apply" proved="true" arg1="Ensures2">
       <goal name="ind_basis_mat&#39;vc.0.6.0.0.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="1.46" steps="488499"/></proof>
+      <proof prover="10"><result status="valid" time="1.11" steps="488499"/></proof>
       </goal>
       <goal name="ind_basis_mat&#39;vc.0.6.0.0.1" expl="apply premises" proved="true">
       <transf name="compute_specified" proved="true" >
@@ -13365,7 +13287,7 @@
         <goal name="ind_basis_mat&#39;vc.0.6.0.0.1.0.0" expl="apply premises" proved="true">
         <transf name="compute_specified" proved="true" >
          <goal name="ind_basis_mat&#39;vc.0.6.0.0.1.0.0.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.40" steps="488202"/></proof>
+         <proof prover="10"><result status="valid" time="1.08" steps="488202"/></proof>
          </goal>
         </transf>
         </goal>
@@ -13443,7 +13365,7 @@
          <goal name="ind_basis_mat&#39;vc.0.11.0.0.0.0.1.0" expl="VC for ind_basis_mat" proved="true">
          <transf name="compute_hyp_specified" proved="true" arg1="in" arg2="h">
           <goal name="ind_basis_mat&#39;vc.0.11.0.0.0.0.1.0.0" expl="VC for ind_basis_mat" proved="true">
-          <proof prover="10"><result status="valid" time="1.73" steps="554839"/></proof>
+          <proof prover="10"><result status="valid" time="1.34" steps="554839"/></proof>
           </goal>
          </transf>
          </goal>
@@ -13470,7 +13392,7 @@
       <goal name="ind_basis_mat&#39;vc.0.11.1.0.0" expl="VC for ind_basis_mat" proved="true">
       <transf name="apply" proved="true" arg1="Hinst">
        <goal name="ind_basis_mat&#39;vc.0.11.1.0.0.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="1.44" steps="501632"/></proof>
+       <proof prover="10"><result status="valid" time="1.18" steps="501632"/></proof>
        </goal>
        <goal name="ind_basis_mat&#39;vc.0.11.1.0.0.1" expl="apply premises" proved="true">
        <transf name="compute_specified" proved="true" >
@@ -13479,15 +13401,15 @@
          <goal name="ind_basis_mat&#39;vc.0.11.1.0.0.1.0.0" expl="apply premises" proved="true">
          <transf name="compute_specified" proved="true" >
           <goal name="ind_basis_mat&#39;vc.0.11.1.0.0.1.0.0.0" expl="apply premises" proved="true">
-          <proof prover="10"><result status="valid" time="1.51" steps="503620"/></proof>
+          <proof prover="10"><result status="valid" time="1.14" steps="503620"/></proof>
           </goal>
          </transf>
          </goal>
          <goal name="ind_basis_mat&#39;vc.0.11.1.0.0.1.0.1" expl="rewrite premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.23" steps="479165"/></proof>
+         <proof prover="10"><result status="valid" time="0.93" steps="479165"/></proof>
          </goal>
          <goal name="ind_basis_mat&#39;vc.0.11.1.0.0.1.0.2" expl="rewrite premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.23" steps="479165"/></proof>
+         <proof prover="10"><result status="valid" time="0.93" steps="479165"/></proof>
          </goal>
         </transf>
         </goal>
@@ -13511,7 +13433,7 @@
    <proof prover="10"><result status="valid" time="1.14" steps="436959"/></proof>
    </goal>
    <goal name="ind_basis_mat&#39;vc.0.15" expl="postcondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.27" steps="440648"/></proof>
+   <proof prover="10"><result status="valid" time="1.02" steps="440648"/></proof>
    </goal>
    <goal name="ind_basis_mat&#39;vc.0.16" expl="postcondition" proved="true">
    <proof prover="10"><result status="valid" time="2.97" steps="994522"/></proof>
@@ -13521,7 +13443,7 @@
     <goal name="ind_basis_mat&#39;vc.0.17.0" expl="postcondition" proved="true">
     <transf name="compute_specified" proved="true" >
      <goal name="ind_basis_mat&#39;vc.0.17.0.0" expl="postcondition" proved="true">
-     <proof prover="10"><result status="valid" time="1.27" steps="440557"/></proof>
+     <proof prover="10"><result status="valid" time="1.01" steps="440557"/></proof>
      </goal>
     </transf>
     </goal>
@@ -13534,7 +13456,7 @@
  <goal name="ind_basis_mat_values&#39;vc" expl="VC for ind_basis_mat_values" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="ind_basis_mat_values&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="7"><result status="valid" time="0.21" steps="782491"/></proof>
+  <proof prover="7"><result status="valid" time="0.21" steps="782327"/></proof>
   </goal>
  </transf>
  </goal>
@@ -13591,7 +13513,7 @@
    <proof prover="10"><result status="valid" time="0.95" steps="413093"/></proof>
    </goal>
    <goal name="basis_mat&#39;vc.0.1" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="0.97" steps="413092"/></proof>
+   <proof prover="10"><result status="valid" time="0.75" steps="413092"/></proof>
    </goal>
   </transf>
   </goal>
@@ -13652,15 +13574,15 @@
          <proof prover="10"><result status="valid" time="3.37" steps="1089538"/></proof>
          </goal>
          <goal name="basis_mat&#39;vc.3.0.0.1.0.0.0.2" proved="true">
-         <proof prover="10"><result status="valid" time="4.01" steps="1089662"/></proof>
+         <proof prover="10"><result status="valid" time="2.96" steps="1089662"/></proof>
          </goal>
          <goal name="basis_mat&#39;vc.3.0.0.1.0.0.0.3" proved="true">
-         <proof prover="10"><result status="valid" time="3.94" steps="1089457"/></proof>
+         <proof prover="10"><result status="valid" time="2.95" steps="1089457"/></proof>
          </goal>
          <goal name="basis_mat&#39;vc.3.0.0.1.0.0.0.4" proved="true">
          <transf name="compute_hyp_specified" proved="true" arg1="in" arg2="Hinst">
           <goal name="basis_mat&#39;vc.3.0.0.1.0.0.0.4.0" proved="true">
-          <proof prover="10"><result status="valid" time="1.75" steps="552743"/></proof>
+          <proof prover="10"><result status="valid" time="1.36" steps="552743"/></proof>
           </goal>
          </transf>
          </goal>
@@ -13693,7 +13615,7 @@
           <goal name="basis_mat&#39;vc.3.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
           <transf name="split_vc" proved="true" >
            <goal name="basis_mat&#39;vc.3.1.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
-           <proof prover="10"><result status="valid" time="1.52" steps="540109"/></proof>
+           <proof prover="10"><result status="valid" time="1.18" steps="540109"/></proof>
            </goal>
            <goal name="basis_mat&#39;vc.3.1.0.0.0.0.0.0.0.1" expl="apply premises" proved="true">
            <proof prover="10"><result status="valid" time="1.33" steps="540091"/></proof>
@@ -13713,10 +13635,10 @@
            <goal name="basis_mat&#39;vc.3.1.0.0.0.0.1.0.0.0" proved="true">
            <transf name="apply" proved="true" arg1="set_equal_mat">
             <goal name="basis_mat&#39;vc.3.1.0.0.0.0.1.0.0.0.0" expl="apply premises" proved="true">
-            <proof prover="10"><result status="valid" time="3.22" steps="960059"/></proof>
+            <proof prover="10"><result status="valid" time="2.59" steps="960059"/></proof>
             </goal>
             <goal name="basis_mat&#39;vc.3.1.0.0.0.0.1.0.0.0.1" expl="apply premises" proved="true">
-            <proof prover="10"><result status="valid" time="3.69" steps="959980"/></proof>
+            <proof prover="10"><result status="valid" time="2.64" steps="959980"/></proof>
             </goal>
             <goal name="basis_mat&#39;vc.3.1.0.0.0.0.1.0.0.0.2" expl="apply premises" proved="true">
             <transf name="split_vc" proved="true" >
@@ -13783,7 +13705,7 @@
       <goal name="basis_mat&#39;vc.4.0.0.0.0" expl="apply premises" proved="true">
       <transf name="compute_specified" proved="true" >
        <goal name="basis_mat&#39;vc.4.0.0.0.0.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="4.10" steps="1064110"/></proof>
+       <proof prover="10"><result status="valid" time="3.02" steps="1064110"/></proof>
        </goal>
       </transf>
       </goal>
@@ -13820,7 +13742,7 @@
     <goal name="basis_mat&#39;vc.6.0.0" expl="apply premises" proved="true">
     <transf name="replace" proved="true" arg1="(p_id (choose result))" arg2="(choose result)">
      <goal name="basis_mat&#39;vc.6.0.0.0" expl="apply premises" proved="true">
-     <proof prover="10"><result status="valid" time="0.94" steps="536901"/></proof>
+     <proof prover="10"><result status="valid" time="0.71" steps="536901"/></proof>
      </goal>
      <goal name="basis_mat&#39;vc.6.0.0.1" expl="equality hypothesis" proved="true">
      <transf name="assert" proved="true" arg1="(exists i:int, j:int.
@@ -13839,7 +13761,7 @@
            <proof prover="0"><result status="valid" time="0.70"/></proof>
            </goal>
            <goal name="basis_mat&#39;vc.6.0.0.1.0.0.0.0.0.1" expl="apply premises" proved="true">
-           <proof prover="10"><result status="valid" time="4.33" steps="1096965"/></proof>
+           <proof prover="10"><result status="valid" time="3.45" steps="1096965"/></proof>
            </goal>
           </transf>
           </goal>
@@ -13872,7 +13794,7 @@
        <transf name="replace" proved="true" arg1="(map (fun (o:(int, int)) -&gt; ind_basis_mat (fir o) (sec o) r c)
    (cartesian_product (to_fset 0 r) (to_fset 0 c)))" arg2="result">
         <goal name="basis_mat&#39;vc.6.1.0.0.0.0.0" expl="destruct premise" proved="true">
-        <proof prover="0"><result status="valid" time="4.22"/></proof>
+        <proof prover="0"><result status="valid" time="3.68"/></proof>
         </goal>
         <goal name="basis_mat&#39;vc.6.1.0.0.0.0.1" expl="equality hypothesis" proved="true">
         <transf name="replace" proved="true" arg1="(fun (o:(int, int)) -&gt;
@@ -13882,10 +13804,10 @@
       | _, y -&gt; y
       end) r c)" arg2="(fun (o:(int, int)) -&gt; ind_basis_mat (fir o) (sec o) r c)" arg3="in" arg4="Ensures1">
          <goal name="basis_mat&#39;vc.6.1.0.0.0.0.1.0" expl="equality hypothesis" proved="true">
-         <proof prover="10"><result status="valid" time="2.02" steps="586174"/></proof>
+         <proof prover="10"><result status="valid" time="1.45" steps="586174"/></proof>
          </goal>
          <goal name="basis_mat&#39;vc.6.1.0.0.0.0.1.1" expl="equality hypothesis" proved="true">
-         <proof prover="10"><result status="valid" time="2.25" steps="654157"/></proof>
+         <proof prover="10"><result status="valid" time="1.61" steps="654157"/></proof>
          </goal>
         </transf>
         </goal>
@@ -13948,7 +13870,7 @@
       <proof prover="0"><result status="valid" time="3.82"/></proof>
       </goal>
       <goal name="basis_mat&#39;vc.7.1.0.0.1" expl="apply premises" proved="true">
-      <proof prover="0"><result status="valid" time="4.48"/></proof>
+      <proof prover="0"><result status="valid" time="3.73"/></proof>
       </goal>
      </transf>
      </goal>
@@ -13976,7 +13898,7 @@
      <proof prover="10"><result status="valid" time="1.53" steps="587060"/></proof>
      </goal>
      <goal name="basis_mat&#39;vc.8.0.0.1" expl="equality hypothesis" proved="true">
-     <proof prover="10"><result status="valid" time="1.90" steps="662629"/></proof>
+     <proof prover="10"><result status="valid" time="1.59" steps="662629"/></proof>
      </goal>
     </transf>
     </goal>
@@ -14032,10 +13954,10 @@
                    <proof prover="10"><result status="valid" time="1.98" steps="718042"/></proof>
                    </goal>
                    <goal name="basis_mat&#39;vc.8.0.1.0.0.0.0.0.0.0.0.0.0.0.0.1.0.1" expl="rewrite premises" proved="true">
-                   <proof prover="10"><result status="valid" time="4.12" steps="1149655"/></proof>
+                   <proof prover="10"><result status="valid" time="3.59" steps="1149655"/></proof>
                    </goal>
                    <goal name="basis_mat&#39;vc.8.0.1.0.0.0.0.0.0.0.0.0.0.0.0.1.0.2" expl="rewrite premises" proved="true">
-                   <proof prover="10"><result status="valid" time="4.15" steps="1149768"/></proof>
+                   <proof prover="10"><result status="valid" time="3.57" steps="1149768"/></proof>
                    </goal>
                    <goal name="basis_mat&#39;vc.8.0.1.0.0.0.0.0.0.0.0.0.0.0.0.1.0.3" expl="rewrite premises" proved="true">
                    <proof prover="10"><result status="valid" time="1.92" steps="722310"/></proof>
@@ -14066,15 +13988,15 @@
                 <proof prover="10"><result status="valid" time="4.05" steps="1143006"/></proof>
                 </goal>
                 <goal name="basis_mat&#39;vc.8.0.1.0.0.0.0.0.0.0.0.1.0.0.2" expl="rewrite premises" proved="true">
-                <proof prover="10"><result status="valid" time="4.10" steps="1143130"/></proof>
+                <proof prover="10"><result status="valid" time="3.56" steps="1143130"/></proof>
                 </goal>
                 <goal name="basis_mat&#39;vc.8.0.1.0.0.0.0.0.0.0.0.1.0.0.3" expl="rewrite premises" proved="true">
                 <transf name="apply" proved="true" arg1="set_valid_index">
                  <goal name="basis_mat&#39;vc.8.0.1.0.0.0.0.0.0.0.0.1.0.0.3.0" expl="apply premises" proved="true">
-                 <proof prover="10"><result status="valid" time="4.13" steps="1145251"/></proof>
+                 <proof prover="10"><result status="valid" time="3.58" steps="1145251"/></proof>
                  </goal>
                  <goal name="basis_mat&#39;vc.8.0.1.0.0.0.0.0.0.0.0.1.0.0.3.1" expl="apply premises" proved="true">
-                 <proof prover="10"><result status="valid" time="4.17" steps="1145305"/></proof>
+                 <proof prover="10"><result status="valid" time="3.64" steps="1145305"/></proof>
                  </goal>
                 </transf>
                 </goal>
@@ -14092,7 +14014,7 @@
            </transf>
            </goal>
            <goal name="basis_mat&#39;vc.8.0.1.0.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
-           <proof prover="10"><result status="valid" time="2.28" steps="746007"/></proof>
+           <proof prover="10"><result status="valid" time="1.84" steps="746007"/></proof>
            </goal>
           </transf>
           </goal>
@@ -14117,10 +14039,10 @@
  <goal name="basis_mat_indexes&#39;vc" expl="VC for basis_mat_indexes" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="basis_mat_indexes&#39;vc.0" expl="precondition" proved="true">
-  <proof prover="10"><result status="valid" time="1.19" steps="410779"/></proof>
+  <proof prover="10"><result status="valid" time="0.94" steps="410779"/></proof>
   </goal>
   <goal name="basis_mat_indexes&#39;vc.1" expl="precondition" proved="true">
-  <proof prover="10"><result status="valid" time="1.18" steps="410845"/></proof>
+  <proof prover="10"><result status="valid" time="0.94" steps="410845"/></proof>
   </goal>
   <goal name="basis_mat_indexes&#39;vc.2" expl="precondition" proved="true">
   <transf name="instantiate" proved="true" arg1="basis_mat&#39;spec" arg2="(rows m),(columns m)">
@@ -14239,7 +14161,7 @@
                   <goal name="basis_mat_indexes&#39;vc.4.0.1.1.0.0.1.0.0.0.0.0.0.0.0.0.0" expl="asserted formula" proved="true">
                   <transf name="compute_specified" proved="true" >
                    <goal name="basis_mat_indexes&#39;vc.4.0.1.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0" expl="asserted formula" proved="true">
-                   <proof prover="10"><result status="valid" time="1.82" steps="608442"/></proof>
+                   <proof prover="10"><result status="valid" time="1.52" steps="608442"/></proof>
                    </goal>
                   </transf>
                   </goal>
@@ -14370,7 +14292,7 @@
        <proof prover="10"><result status="valid" time="1.28" steps="508107"/></proof>
        </goal>
        <goal name="basis_mat_indexes&#39;vc.7.0.0.0.0.2" expl="rewrite premises" proved="true">
-       <proof prover="10"><result status="valid" time="3.30" steps="992279"/></proof>
+       <proof prover="10"><result status="valid" time="2.82" steps="992279"/></proof>
        </goal>
       </transf>
       </goal>
@@ -14399,10 +14321,10 @@
         </transf>
         </goal>
         <goal name="basis_mat_indexes&#39;vc.7.0.0.2.0.0.1" expl="rewrite premises" proved="true">
-        <proof prover="10"><result status="valid" time="3.57" steps="1053699"/></proof>
+        <proof prover="10"><result status="valid" time="3.05" steps="1053699"/></proof>
         </goal>
         <goal name="basis_mat_indexes&#39;vc.7.0.0.2.0.0.2" expl="rewrite premises" proved="true">
-        <proof prover="10"><result status="valid" time="3.59" steps="1049498"/></proof>
+        <proof prover="10"><result status="valid" time="3.01" steps="1049498"/></proof>
         </goal>
        </transf>
        </goal>
@@ -14413,10 +14335,10 @@
        <transf name="assert" proved="true" arg1="(mem result (mat_indices m))
 ">
         <goal name="basis_mat_indexes&#39;vc.7.0.0.2.0.2.0" expl="asserted formula" proved="true">
-        <proof prover="10"><result status="valid" time="1.55" steps="508833"/></proof>
+        <proof prover="10"><result status="valid" time="1.26" steps="508833"/></proof>
         </goal>
         <goal name="basis_mat_indexes&#39;vc.7.0.0.2.0.2.1" expl="rewrite premises" proved="true">
-        <proof prover="10"><result status="valid" time="3.61" steps="1082378"/></proof>
+        <proof prover="10"><result status="valid" time="3.11" steps="1082378"/></proof>
         </goal>
        </transf>
        </goal>
@@ -14437,7 +14359,7 @@
   </transf>
   </goal>
   <goal name="basis_mat_indexes&#39;vc.8" expl="postcondition" proved="true">
-  <proof prover="10"><result status="valid" time="3.38" steps="1012342"/></proof>
+  <proof prover="10"><result status="valid" time="2.92" steps="1012342"/></proof>
   </goal>
   <goal name="basis_mat_indexes&#39;vc.9" expl="postcondition" proved="true">
   <transf name="rewrite" proved="true" arg1="Ensures1">
@@ -14468,7 +14390,7 @@
  <goal name="get_basis_mat_indexes&#39;vc" expl="VC for get_basis_mat_indexes" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="get_basis_mat_indexes&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="9"><result status="valid" time="1.49" steps="21363"/></proof>
+  <proof prover="9"><result status="valid" time="1.24" steps="21363"/></proof>
   </goal>
   <goal name="get_basis_mat_indexes&#39;vc.1" expl="postcondition" proved="true">
   <transf name="apply" proved="true" arg1="set_equal_mat">
@@ -14668,7 +14590,7 @@
    <goal name="basis_projection&#39;vc.11.2" expl="apply premises" proved="true">
    <transf name="split_vc" proved="true" >
     <goal name="basis_projection&#39;vc.11.2.0" expl="apply premises" proved="true">
-    <proof prover="10"><result status="valid" time="2.95" steps="911344"/></proof>
+    <proof prover="10"><result status="valid" time="2.43" steps="911344"/></proof>
     </goal>
    </transf>
    </goal>
@@ -14738,7 +14660,7 @@
   <goal name="basis_projections&#39;vc.2" expl="precondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="basis_projections&#39;vc.2.0" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="0.87" steps="304306"/></proof>
+   <proof prover="10"><result status="valid" time="0.66" steps="304306"/></proof>
    </goal>
    <goal name="basis_projections&#39;vc.2.1" expl="precondition" proved="true">
    <proof prover="10"><result status="valid" time="0.71" steps="304305"/></proof>
@@ -14759,7 +14681,7 @@
       <goal name="basis_projections&#39;vc.4.0.0.0.0" expl="apply premises" proved="true">
       <transf name="compute_specified" proved="true" >
        <goal name="basis_projections&#39;vc.4.0.0.0.0.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="1.48" steps="474063"/></proof>
+       <proof prover="10"><result status="valid" time="1.19" steps="474063"/></proof>
        </goal>
       </transf>
       </goal>
@@ -14840,7 +14762,7 @@
             <goal name="basis_projections&#39;vc.5.0.0.0.0.0.0.1.0.1.0" expl="apply premises" proved="true">
             <transf name="compute_specified" proved="true" >
              <goal name="basis_projections&#39;vc.5.0.0.0.0.0.0.1.0.1.0.0" expl="apply premises" proved="true">
-             <proof prover="10"><result status="valid" time="3.78" steps="1107526"/></proof>
+             <proof prover="10"><result status="valid" time="3.18" steps="1107526"/></proof>
              </goal>
             </transf>
             </goal>
@@ -14914,7 +14836,7 @@
       <proof prover="10"><result status="valid" time="1.61" steps="527357"/></proof>
       </goal>
       <goal name="basis_projections&#39;vc.6.1.0.0.1" expl="postcondition" proved="true">
-      <proof prover="10"><result status="valid" time="3.81" steps="1138813"/></proof>
+      <proof prover="10"><result status="valid" time="3.10" steps="1138813"/></proof>
       </goal>
      </transf>
      </goal>
@@ -15100,7 +15022,7 @@
   <goal name="indexes_decomp&#39;vc.4" expl="precondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="indexes_decomp&#39;vc.4.0" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.07" steps="370628"/></proof>
+   <proof prover="10"><result status="valid" time="0.84" steps="370628"/></proof>
    </goal>
    <goal name="indexes_decomp&#39;vc.4.1" expl="precondition" proved="true">
    <proof prover="10"><result status="valid" time="0.83" steps="370636"/></proof>
@@ -15135,7 +15057,7 @@
     <goal name="indexes_decomp&#39;vc.6.1.0" expl="apply premises" proved="true">
     <transf name="split_vc" proved="true" >
      <goal name="indexes_decomp&#39;vc.6.1.0.0" expl="apply premises" proved="true">
-     <proof prover="10"><result status="valid" time="1.08" steps="370789"/></proof>
+     <proof prover="10"><result status="valid" time="0.84" steps="370789"/></proof>
      </goal>
     </transf>
     </goal>
@@ -15171,7 +15093,7 @@
       <goal name="rewrite_indexes_decomp&#39;vc.0.0.0.0.1" expl="postcondition" proved="true">
       <transf name="apply" proved="true" arg1="mat_sum_eq">
        <goal name="rewrite_indexes_decomp&#39;vc.0.0.0.0.1.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="0.89" steps="310144"/></proof>
+       <proof prover="10"><result status="valid" time="0.70" steps="310144"/></proof>
        </goal>
        <goal name="rewrite_indexes_decomp&#39;vc.0.0.0.0.1.1" expl="apply premises" proved="true">
        <transf name="apply" proved="true" arg1="set_constant_size">
@@ -15238,7 +15160,7 @@
         <goal name="rewrite_indexes_decomp&#39;vc.0.0.0.0.1.2.0" expl="apply premises" proved="true">
         <transf name="compute_specified" proved="true" >
          <goal name="rewrite_indexes_decomp&#39;vc.0.0.0.0.1.2.0.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.20" steps="414282"/></proof>
+         <proof prover="10"><result status="valid" time="0.96" steps="414282"/></proof>
          </goal>
         </transf>
         </goal>
@@ -15261,20 +15183,20 @@
   <goal name="indexes_decomp_pre&#39;vc.0" expl="precondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="indexes_decomp_pre&#39;vc.0.0" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.00" steps="348984"/></proof>
+   <proof prover="10"><result status="valid" time="0.78" steps="348984"/></proof>
    </goal>
    <goal name="indexes_decomp_pre&#39;vc.0.1" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.00" steps="348987"/></proof>
+   <proof prover="10"><result status="valid" time="0.77" steps="348987"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="indexes_decomp_pre&#39;vc.1" expl="precondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="indexes_decomp_pre&#39;vc.1.0" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="0.99" steps="349030"/></proof>
+   <proof prover="10"><result status="valid" time="0.78" steps="349030"/></proof>
    </goal>
    <goal name="indexes_decomp_pre&#39;vc.1.1" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="1.06" steps="349033"/></proof>
+   <proof prover="10"><result status="valid" time="0.80" steps="349033"/></proof>
    </goal>
   </transf>
   </goal>
@@ -15324,7 +15246,7 @@
      <goal name="indexes_decomp_pre&#39;vc.4.0.0.0" expl="postcondition" proved="true">
      <transf name="compute_specified" proved="true" >
       <goal name="indexes_decomp_pre&#39;vc.4.0.0.0.0" expl="postcondition" proved="true">
-      <proof prover="10"><result status="valid" time="2.80" steps="896971"/></proof>
+      <proof prover="10"><result status="valid" time="2.34" steps="896971"/></proof>
       </goal>
      </transf>
      </goal>
@@ -15403,7 +15325,7 @@
   <goal name="mat_to_indexes_decomp&#39;vc.0" expl="assertion" proved="true">
   <transf name="apply" proved="true" arg1="set_equal_mat">
    <goal name="mat_to_indexes_decomp&#39;vc.0.0" expl="apply premises" proved="true">
-   <proof prover="10"><result status="valid" time="0.94" steps="334599"/></proof>
+   <proof prover="10"><result status="valid" time="0.74" steps="334599"/></proof>
    </goal>
    <goal name="mat_to_indexes_decomp&#39;vc.0.1" expl="apply premises" proved="true">
    <proof prover="10"><result status="valid" time="0.80" steps="334509"/></proof>
@@ -15419,10 +15341,10 @@
       </transf>
       </goal>
       <goal name="mat_to_indexes_decomp&#39;vc.0.2.0.0.1" expl="rewrite premises" proved="true">
-      <proof prover="10"><result status="valid" time="0.79" steps="272742"/></proof>
+      <proof prover="10"><result status="valid" time="0.60" steps="272742"/></proof>
       </goal>
       <goal name="mat_to_indexes_decomp&#39;vc.0.2.0.0.2" expl="rewrite premises" proved="true">
-      <proof prover="10"><result status="valid" time="0.77" steps="272770"/></proof>
+      <proof prover="10"><result status="valid" time="0.58" steps="272770"/></proof>
       </goal>
      </transf>
      </goal>
@@ -15538,7 +15460,7 @@
       </transf>
       </goal>
       <goal name="mat_to_indexes_decomp&#39;vc.3.0.1.0.1" expl="equality hypothesis" proved="true">
-      <proof prover="10"><result status="valid" time="1.38" steps="490073"/></proof>
+      <proof prover="10"><result status="valid" time="1.12" steps="490073"/></proof>
       </goal>
      </transf>
      </goal>
@@ -15614,7 +15536,7 @@
        <proof prover="9"><result status="valid" time="1.21" steps="17998"/></proof>
        </goal>
        <goal name="mat_to_indexes_decomp&#39;vc.4.0.1.0.0.1" expl="equality hypothesis" proved="true">
-       <proof prover="10"><result status="valid" time="1.51" steps="492866"/></proof>
+       <proof prover="10"><result status="valid" time="1.17" steps="492866"/></proof>
        </goal>
       </transf>
       </goal>
@@ -15733,7 +15655,7 @@
           <goal name="mat_to_indexes_decomp&#39;vc.5.0.1.0.0.0.0.0.0" expl="apply premises" proved="true">
           <transf name="compute_specified" proved="true" >
            <goal name="mat_to_indexes_decomp&#39;vc.5.0.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
-           <proof prover="10"><result status="valid" time="3.70" steps="1079992"/></proof>
+           <proof prover="10"><result status="valid" time="2.89" steps="1079992"/></proof>
            </goal>
           </transf>
           </goal>
@@ -15767,7 +15689,7 @@
         <goal name="mat_to_indexes_decomp&#39;vc.5.0.1.0.0.0.1" expl="apply premises" proved="true">
         <transf name="compute_specified" proved="true" >
          <goal name="mat_to_indexes_decomp&#39;vc.5.0.1.0.0.0.1.0" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="1.67" steps="545885"/></proof>
+         <proof prover="10"><result status="valid" time="1.32" steps="545885"/></proof>
          </goal>
         </transf>
         </goal>
@@ -15945,7 +15867,7 @@
             <goal name="mat_to_indexes_decomp&#39;vc.5.0.1.2.0.0.0.0.0.0.0" expl="apply premises" proved="true">
             <transf name="compute_specified" proved="true" >
              <goal name="mat_to_indexes_decomp&#39;vc.5.0.1.2.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
-             <proof prover="10"><result status="valid" time="3.36" steps="981661"/></proof>
+             <proof prover="10"><result status="valid" time="2.63" steps="981661"/></proof>
              </goal>
             </transf>
             </goal>
@@ -15968,7 +15890,7 @@
             <goal name="mat_to_indexes_decomp&#39;vc.5.0.1.2.0.0.1.0.0.0.0" expl="apply premises" proved="true">
             <transf name="compute_specified" proved="true" >
              <goal name="mat_to_indexes_decomp&#39;vc.5.0.1.2.0.0.1.0.0.0.0.0" expl="apply premises" proved="true">
-             <proof prover="9"><result status="valid" time="1.30" steps="18110"/></proof>
+             <proof prover="9"><result status="valid" time="1.05" steps="18110"/></proof>
              </goal>
             </transf>
             </goal>
@@ -16033,7 +15955,7 @@
             <goal name="mat_to_indexes_decomp&#39;vc.5.0.1.3.0.0.1.0.0.0.0" expl="apply premises" proved="true">
             <transf name="compute_specified" proved="true" >
              <goal name="mat_to_indexes_decomp&#39;vc.5.0.1.3.0.0.1.0.0.0.0.0" expl="apply premises" proved="true">
-             <proof prover="9"><result status="valid" time="1.35" steps="18110"/></proof>
+             <proof prover="9"><result status="valid" time="1.01" steps="18110"/></proof>
              </goal>
             </transf>
             </goal>
@@ -16222,7 +16144,7 @@
        <goal name="basis_decomp&#39;vc.1.0.0.0.0.0" proved="true">
        <transf name="split_vc" proved="true" >
         <goal name="basis_decomp&#39;vc.1.0.0.0.0.0.0" proved="true">
-        <proof prover="10"><result status="valid" time="3.91" steps="1088257"/></proof>
+        <proof prover="10"><result status="valid" time="3.40" steps="1088257"/></proof>
         </goal>
         <goal name="basis_decomp&#39;vc.1.0.0.0.0.0.1" proved="true">
         <proof prover="10"><result status="valid" time="3.73" steps="1036801"/></proof>
@@ -16271,10 +16193,10 @@
              <goal name="basis_decomp&#39;vc.2.0.1.0.0.0.0.0.0.0.0.0" proved="true">
              <transf name="split_vc" proved="true" >
               <goal name="basis_decomp&#39;vc.2.0.1.0.0.0.0.0.0.0.0.0.0" proved="true">
-              <proof prover="10"><result status="valid" time="3.87" steps="1069218"/></proof>
+              <proof prover="10"><result status="valid" time="3.28" steps="1069218"/></proof>
               </goal>
               <goal name="basis_decomp&#39;vc.2.0.1.0.0.0.0.0.0.0.0.0.1" proved="true">
-              <proof prover="10"><result status="valid" time="3.63" steps="1012001"/></proof>
+              <proof prover="10"><result status="valid" time="3.09" steps="1012001"/></proof>
               </goal>
              </transf>
              </goal>
@@ -16285,7 +16207,7 @@
           </transf>
           </goal>
           <goal name="basis_decomp&#39;vc.2.0.1.0.0.0.0.0.1" expl="apply premises" proved="true">
-          <proof prover="10"><result status="valid" time="1.92" steps="624073"/></proof>
+          <proof prover="10"><result status="valid" time="1.54" steps="624073"/></proof>
           </goal>
          </transf>
          </goal>
@@ -16374,7 +16296,7 @@
    <proof prover="10"><result status="valid" time="0.67" steps="273033"/></proof>
    </goal>
    <goal name="indexes_basis_decomp_equal_pre&#39;vc.0.1" expl="precondition" proved="true">
-   <proof prover="10"><result status="valid" time="0.75" steps="271928"/></proof>
+   <proof prover="10"><result status="valid" time="0.56" steps="271928"/></proof>
    </goal>
    <goal name="indexes_basis_decomp_equal_pre&#39;vc.0.2" expl="precondition" proved="true">
    <transf name="eliminate_definition" proved="true" >
@@ -16385,7 +16307,7 @@
       <goal name="indexes_basis_decomp_equal_pre&#39;vc.0.2.0.0.0" expl="apply premises" proved="true">
       <transf name="exists" proved="true" arg1="(i,j)">
        <goal name="indexes_basis_decomp_equal_pre&#39;vc.0.2.0.0.0.0" proved="true">
-       <proof prover="10"><result status="valid" time="1.97" steps="661005"/></proof>
+       <proof prover="10"><result status="valid" time="1.65" steps="661005"/></proof>
        </goal>
       </transf>
       </goal>
@@ -16502,7 +16424,7 @@
         <proof prover="10"><result status="valid" time="1.63" steps="623998"/></proof>
         </goal>
         <goal name="indexes_basis_decomp_equal_pre&#39;vc.0.4.0.0.1.1.1" expl="rewrite premises" proved="true">
-        <proof prover="10"><result status="valid" time="0.90" steps="577563"/></proof>
+        <proof prover="10"><result status="valid" time="0.71" steps="577563"/></proof>
         </goal>
        </transf>
        </goal>
@@ -16520,7 +16442,7 @@
        <transf name="replace" proved="true" arg1="(s_rows (basis_projections m) (fun (y0:matrix complex) -&gt; p_id y0))" arg2="(rows m)
 ">
         <goal name="indexes_basis_decomp_equal_pre&#39;vc.0.4.0.0.3.1.0" expl="rewrite premises" proved="true">
-        <proof prover="10"><result status="valid" time="1.94" steps="623981"/></proof>
+        <proof prover="10"><result status="valid" time="1.63" steps="623981"/></proof>
         </goal>
         <goal name="indexes_basis_decomp_equal_pre&#39;vc.0.4.0.0.3.1.1" expl="equality hypothesis" proved="true">
         <transf name="apply" proved="true" arg1="set_s_rows">
@@ -16528,7 +16450,7 @@
          <proof prover="10"><result status="valid" time="0.87" steps="577523"/></proof>
          </goal>
          <goal name="indexes_basis_decomp_equal_pre&#39;vc.0.4.0.0.3.1.1.1" expl="apply premises" proved="true">
-         <proof prover="10"><result status="valid" time="4.76" steps="1266314"/></proof>
+         <proof prover="10"><result status="valid" time="3.86" steps="1266314"/></proof>
          </goal>
         </transf>
         </goal>
@@ -16545,7 +16467,7 @@
        <transf name="replace" proved="true" arg1="(s_columns (basis_projections m) (fun (y0:matrix complex) -&gt; p_id y0))" arg2="(columns m)
 ">
         <goal name="indexes_basis_decomp_equal_pre&#39;vc.0.4.0.0.4.1.0" expl="rewrite premises" proved="true">
-        <proof prover="10"><result status="valid" time="1.88" steps="623981"/></proof>
+        <proof prover="10"><result status="valid" time="1.58" steps="623981"/></proof>
         </goal>
         <goal name="indexes_basis_decomp_equal_pre&#39;vc.0.4.0.0.4.1.1" expl="equality hypothesis" proved="true">
         <transf name="apply" proved="true" arg1="set_s_columns">
@@ -16682,7 +16604,7 @@
    <goal name="product_mat_sum_r_pre&#39;vc.11.1" expl="apply premises" proved="true">
    <transf name="split_vc" proved="true" >
     <goal name="product_mat_sum_r_pre&#39;vc.11.1.0" expl="apply premises" proved="true">
-    <proof prover="10"><result status="valid" time="3.91" steps="1261074"/></proof>
+    <proof prover="10"><result status="valid" time="3.23" steps="1261074"/></proof>
     </goal>
    </transf>
    </goal>
@@ -16710,7 +16632,7 @@
       <goal name="product_mat_sum_r_pre&#39;vc.12.0.0.0.1" expl="apply premises" proved="true">
       <transf name="split_vc" proved="true" >
        <goal name="product_mat_sum_r_pre&#39;vc.12.0.0.0.1.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="4.28" steps="1368482"/></proof>
+       <proof prover="10"><result status="valid" time="3.57" steps="1368482"/></proof>
        </goal>
       </transf>
       </goal>
@@ -16764,7 +16686,7 @@
      <goal name="product_mat_sum_r_pre&#39;vc.13.0.0.1" expl="apply premises" proved="true">
      <transf name="compute_specified" proved="true" >
       <goal name="product_mat_sum_r_pre&#39;vc.13.0.0.1.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="3.89" steps="1189495"/></proof>
+      <proof prover="10"><result status="valid" time="3.29" steps="1189495"/></proof>
       </goal>
      </transf>
      </goal>
@@ -16968,7 +16890,7 @@
    <proof prover="10"><result status="valid" time="0.91" steps="340737"/></proof>
    </goal>
    <goal name="product_mat_sum_r_pre&#39;vc.28.1" expl="postcondition" proved="true">
-   <proof prover="10"><result status="valid" time="5.93" steps="1140198"/></proof>
+   <proof prover="10"><result status="valid" time="4.82" steps="1140198"/></proof>
    </goal>
   </transf>
   </goal>
@@ -16978,7 +16900,7 @@
    <proof prover="10"><result status="valid" time="0.92" steps="340916"/></proof>
    </goal>
    <goal name="product_mat_sum_r_pre&#39;vc.29.1" expl="postcondition" proved="true">
-   <proof prover="10"><result status="valid" time="5.88" steps="1145436"/></proof>
+   <proof prover="10"><result status="valid" time="4.82" steps="1145436"/></proof>
    </goal>
   </transf>
   </goal>
@@ -17086,7 +17008,7 @@
       <goal name="p_injective_proj&#39;vc.0.0.1.0.0" expl="apply premises" proved="true">
       <transf name="split_vc" proved="true" >
        <goal name="p_injective_proj&#39;vc.0.0.1.0.0.0" expl="apply premises" proved="true">
-       <proof prover="7"><result status="valid" time="0.49" steps="1484329"/></proof>
+       <proof prover="7"><result status="valid" time="0.49" steps="1485356"/></proof>
        </goal>
       </transf>
       </goal>
@@ -17097,7 +17019,7 @@
       <goal name="p_injective_proj&#39;vc.0.0.1.1.0" expl="apply premises" proved="true">
       <transf name="split_vc" proved="true" >
        <goal name="p_injective_proj&#39;vc.0.0.1.1.0.0" expl="apply premises" proved="true">
-       <proof prover="7"><result status="valid" time="0.47" steps="1487536"/></proof>
+       <proof prover="7"><result status="valid" time="0.47" steps="1488532"/></proof>
        </goal>
       </transf>
       </goal>
@@ -17119,15 +17041,15 @@
     <goal name="p_injective_proj&#39;vc.1.0.0" expl="asserted formula" proved="true">
     <transf name="apply" proved="true" arg1="set_equal_mat">
      <goal name="p_injective_proj&#39;vc.1.0.0.0" expl="apply premises" proved="true">
-     <proof prover="10"><result status="valid" time="3.54" steps="1004268"/></proof>
+     <proof prover="10"><result status="valid" time="2.75" steps="1004268"/></proof>
      </goal>
      <goal name="p_injective_proj&#39;vc.1.0.0.1" expl="apply premises" proved="true">
-     <proof prover="10"><result status="valid" time="3.50" steps="1000470"/></proof>
+     <proof prover="10"><result status="valid" time="2.66" steps="1000470"/></proof>
      </goal>
      <goal name="p_injective_proj&#39;vc.1.0.0.2" expl="apply premises" proved="true">
      <transf name="split_vc" proved="true" >
       <goal name="p_injective_proj&#39;vc.1.0.0.2.0" expl="apply premises" proved="true">
-      <proof prover="10"><result status="valid" time="3.44" steps="1017539"/></proof>
+      <proof prover="10"><result status="valid" time="2.77" steps="1017539"/></proof>
       </goal>
      </transf>
      </goal>
@@ -17160,21 +17082,21 @@
            <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
            <transf name="split_vc" proved="true" >
             <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
-            <proof prover="7"><result status="valid" time="0.51" steps="1554509"/></proof>
+            <proof prover="7"><result status="valid" time="0.51" steps="1561803"/></proof>
             </goal>
            </transf>
            </goal>
            <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.0.0.0.1" expl="apply premises" proved="true">
            <transf name="split_vc" proved="true" >
             <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.0.0.0.1.0" expl="apply premises" proved="true">
-            <proof prover="7"><result status="valid" time="0.51" steps="1544584"/></proof>
+            <proof prover="7"><result status="valid" time="0.51" steps="1556480"/></proof>
             </goal>
            </transf>
            </goal>
           </transf>
           </goal>
           <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.0.0.1" expl="asserted formula" proved="true">
-          <proof prover="10"><result status="valid" time="3.37" steps="956481"/></proof>
+          <proof prover="10"><result status="valid" time="2.61" steps="956481"/></proof>
           </goal>
          </transf>
          </goal>
@@ -17191,7 +17113,7 @@
               <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.0.1.0.0.0.0.0" expl="apply premises" proved="true">
               <transf name="split_all_full" proved="true" >
                <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.0.1.0.0.0.0.0.0" expl="apply premises" proved="true">
-               <proof prover="10"><result status="valid" time="3.83" steps="1006729"/></proof>
+               <proof prover="10"><result status="valid" time="3.00" steps="1006729"/></proof>
                </goal>
               </transf>
               </goal>
@@ -17206,7 +17128,7 @@
             <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.0.1.0.1.0" expl="apply premises" proved="true">
             <transf name="compute_specified" proved="true" >
              <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.0.1.0.1.0.0" expl="apply premises" proved="true">
-             <proof prover="7"><result status="valid" time="0.51" steps="1544126"/></proof>
+             <proof prover="7"><result status="valid" time="0.51" steps="1555671"/></proof>
              </goal>
             </transf>
             </goal>
@@ -17237,7 +17159,7 @@
             </transf>
             </goal>
             <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.0.1.1.0.1" expl="equality hypothesis" proved="true">
-            <proof prover="10"><result status="valid" time="1.45" steps="493232"/></proof>
+            <proof prover="10"><result status="valid" time="1.20" steps="493232"/></proof>
             </goal>
            </transf>
            </goal>
@@ -17262,7 +17184,7 @@
             <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.1.0.0.0.0" expl="apply premises" proved="true">
             <transf name="split_vc" proved="true" >
              <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.1.0.0.0.0.0" expl="apply premises" proved="true">
-             <proof prover="7"><result status="valid" time="0.49" steps="1554509"/></proof>
+             <proof prover="7"><result status="valid" time="0.49" steps="1561803"/></proof>
              </goal>
             </transf>
             </goal>
@@ -17300,14 +17222,14 @@
              <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.1.0.0.1.0.0" expl="apply premises" proved="true">
              <transf name="split_vc" proved="true" >
               <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.1.0.0.1.0.0.0" expl="apply premises" proved="true">
-              <proof prover="7"><result status="valid" time="0.49" steps="1556657"/></proof>
+              <proof prover="7"><result status="valid" time="0.49" steps="1563947"/></proof>
               </goal>
              </transf>
              </goal>
              <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.1.0.0.1.0.1" expl="apply premises" proved="true">
              <transf name="split_vc" proved="true" >
               <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.1.0.0.1.0.1.0" expl="apply premises" proved="true">
-              <proof prover="7"><result status="valid" time="0.50" steps="1546609"/></proof>
+              <proof prover="7"><result status="valid" time="0.50" steps="1558573"/></proof>
               </goal>
              </transf>
              </goal>
@@ -17324,7 +17246,7 @@
                <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.1.0.0.1.1.0.0.0" expl="apply premises" proved="true">
                <transf name="split_all_full" proved="true" >
                 <goal name="p_injective_proj&#39;vc.1.0.1.0.0.0.1.0.0.1.1.0.0.0.0" expl="apply premises" proved="true">
-                <proof prover="10"><result status="valid" time="3.91" steps="1024357"/></proof>
+                <proof prover="10"><result status="valid" time="3.22" steps="1024357"/></proof>
                 </goal>
                </transf>
                </goal>
@@ -17470,14 +17392,14 @@
    </transf>
    </goal>
    <goal name="p_injective_proj&#39;vc.1.1" expl="false case (assertion)" proved="true">
-   <proof prover="10"><result status="valid" time="1.89" steps="629920"/></proof>
+   <proof prover="10"><result status="valid" time="1.52" steps="629920"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="p_injective_proj&#39;vc.2" expl="assertion" proved="true">
   <transf name="case" proved="true" arg1="(fir o = fir o&#39;)">
    <goal name="p_injective_proj&#39;vc.2.0" expl="true case (assertion)" proved="true">
-   <proof prover="10"><result status="valid" time="1.43" steps="487814"/></proof>
+   <proof prover="10"><result status="valid" time="1.15" steps="487814"/></proof>
    </goal>
    <goal name="p_injective_proj&#39;vc.2.1" expl="false case (assertion)" proved="true">
    <proof prover="10"><result status="valid" time="1.34" steps="487857"/></proof>
@@ -17497,15 +17419,15 @@
       <transf name="replace" proved="true" arg1="(couple (fun (y1:int) (y2:int) -&gt; basis_projection m y1 y2)
    e&#39;)" arg2="(basis_projection m (fir e&#39;)(sec e&#39;))">
        <goal name="p_injective_proj&#39;vc.3.0.0.0.0.0" expl="apply premises" proved="true">
-       <proof prover="10"><result status="valid" time="1.71" steps="546227"/></proof>
+       <proof prover="10"><result status="valid" time="1.37" steps="546227"/></proof>
        </goal>
        <goal name="p_injective_proj&#39;vc.3.0.0.0.0.1" expl="equality hypothesis" proved="true">
-       <proof prover="10"><result status="valid" time="1.42" steps="488325"/></proof>
+       <proof prover="10"><result status="valid" time="1.15" steps="488325"/></proof>
        </goal>
       </transf>
       </goal>
       <goal name="p_injective_proj&#39;vc.3.0.0.0.1" expl="equality hypothesis" proved="true">
-      <proof prover="10"><result status="valid" time="1.45" steps="488325"/></proof>
+      <proof prover="10"><result status="valid" time="1.16" steps="488325"/></proof>
       </goal>
      </transf>
      </goal>
@@ -17651,7 +17573,7 @@
           <goal name="diag_mat_add&#39;vc.7.0.0.0.0.0.0.0.0" expl="precondition" proved="true">
           <transf name="compute_specified" proved="true" >
            <goal name="diag_mat_add&#39;vc.7.0.0.0.0.0.0.0.0.0" expl="precondition" proved="true">
-           <proof prover="10"><result status="valid" time="0.72" steps="265245"/></proof>
+           <proof prover="10"><result status="valid" time="0.54" steps="265245"/></proof>
            </goal>
           </transf>
           </goal>
@@ -17726,7 +17648,7 @@
    <proof prover="9"><result status="valid" time="2.82" steps="47996"/></proof>
    </goal>
    <goal name="diag_mat_subst&#39;vc.0.1" expl="apply premises" proved="true">
-   <proof prover="9"><result status="valid" time="2.82" steps="47965"/></proof>
+   <proof prover="9"><result status="valid" time="2.82" steps="47967"/></proof>
    </goal>
    <goal name="diag_mat_subst&#39;vc.0.2" expl="apply premises" proved="true">
    <transf name="split_vc" proved="true" >
@@ -17795,10 +17717,10 @@
      </transf>
      </goal>
      <goal name="diag_mat_subst&#39;vc.0.2.0.1" expl="rewrite premises" proved="true">
-     <proof prover="10"><result status="valid" time="1.71" steps="528549"/></proof>
+     <proof prover="10"><result status="valid" time="1.30" steps="528549"/></proof>
      </goal>
      <goal name="diag_mat_subst&#39;vc.0.2.0.2" expl="rewrite premises" proved="true">
-     <proof prover="10"><result status="valid" time="1.64" steps="528469"/></proof>
+     <proof prover="10"><result status="valid" time="1.31" steps="528469"/></proof>
      </goal>
      <goal name="diag_mat_subst&#39;vc.0.2.0.3" expl="rewrite premises" proved="true">
      <proof prover="10"><result status="valid" time="0.66" steps="261655"/></proof>
@@ -17932,12 +17854,12 @@
         <proof prover="10"><result status="valid" time="0.68" steps="261206"/></proof>
         </goal>
         <goal name="diag_mat_eq&#39;vc.0.2.0.0.0.0.2" expl="rewrite premises" proved="true">
-        <proof prover="10"><result status="valid" time="0.72" steps="261206"/></proof>
+        <proof prover="10"><result status="valid" time="0.53" steps="261206"/></proof>
         </goal>
        </transf>
        </goal>
        <goal name="diag_mat_eq&#39;vc.0.2.0.0.0.1" expl="rewrite premises" proved="true">
-       <proof prover="10"><result status="valid" time="0.71" steps="261215"/></proof>
+       <proof prover="10"><result status="valid" time="0.53" steps="261215"/></proof>
        </goal>
        <goal name="diag_mat_eq&#39;vc.0.2.0.0.0.2" expl="rewrite premises" proved="true">
        <proof prover="10"><result status="valid" time="0.67" steps="261215"/></proof>
@@ -18070,7 +17992,7 @@
        </transf>
        </goal>
        <goal name="id_mat_prod_r&#39;vc.0.2.0.0.0.1" expl="rewrite premises" proved="true">
-       <proof prover="10"><result status="valid" time="1.68" steps="538448"/></proof>
+       <proof prover="10"><result status="valid" time="1.38" steps="538448"/></proof>
        </goal>
        <goal name="id_mat_prod_r&#39;vc.0.2.0.0.0.2" expl="rewrite premises" proved="true">
        <proof prover="10"><result status="valid" time="1.61" steps="542613"/></proof>
