@@ -48,7 +48,10 @@ Contact: christophe.chareton@cea.fr
 # News 
 
 
-- **Our code is back** to open source [diffusion](https://github.com/Qbricks/qbricks.github.io), under License LGPL, 2.1,  _April 2022_ .
+- **New relase** _March 2023_ Qbricks_1 is online! Available on main branch in [diffusion](https://github.com/Qbricks/qbricks.github.io), under License LGPL, 2.1. As main novelties the release provides:
+  - LANGUAGE : new primitive constructs, containing (1) generic wiring and subcircuit control features (2) further gate constructors as primitives (Toffoli, Fredkin, X,Y,Z rotations, etc).
+   - COMPILATION : a fully formally verified circuit transformation process, targetting Oqasm compatibile circuit, and an oqasm output generating function. Works for circuit without ancilla qbits. 
+   - CASE STUDIES : new implementations of Shor algorithm, illutrating imperative QBricks styled programmation and the Oqasm extraction functionality.- **Our code is back** to open source [diffusion](https://github.com/Qbricks/qbricks.github.io), under License LGPL, 2.1,  _April 2022_ .
 - **Ongoing internship** _April 2022_ Welcome, Mohamed Bassiouny, working on automated circuit equivalence verification.
 - **Book chapter submission** _March 2022_ Our survey on formal methods in quantum computing was submitted, as a Book Chapter to appear in the " "Handbook of Formal Analysis and Verification in Cryptography" (CRC), see the [preprint](https://arxiv.org/abs/2109.06493).
 - **Ongoing PhD** _March 2022_ Welcome, Jérôme Ricciardi, working on mixed path-sums.
