@@ -25,7 +25,6 @@
 DIR="-L ./Case_studies/ -L ./Case_studies/Shor/ -L ./math_libs/ -L ./Qbricks/ -L ./Qbricks_to_oqasm/"
 DRV="-D to_string.drv -D ocaml64"
 
-
 # 1) from WhyML to OCaml
 
 why3_extract () {
@@ -55,14 +54,10 @@ why3_extract () {
   why3_extract  Qbricks_to_oqasm/ternary_gates_delete.mlw
   why3_extract  Qbricks_to_oqasm/transpilation.mlw
 
-
   why3_extract  Case_studies/qft.mlw
+  why3_extract  Case_studies/qft_test.mlw
   why3_extract  Case_studies/Shor/shor_type.mlw
   why3_extract  Case_studies/Shor/shor_inst.mlw
-  #  why3_extract  Case_studies/modular_adder.mlw
-  #  why3_extract  Case_studies/modular_multiplier.mlw
-  #  why3_extract  Case_studies/shor_circuit.mlw
-  # why3_extract   Case_studies/test.mlw
   why3_extract "Qbricks_to_oqasm/Examples/$1.mlw"
 
 cd extracted

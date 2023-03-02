@@ -102,19 +102,6 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64
 
 RUN apt-get -y install vim=2:8.1.0875-5+deb10u2 bash-completion=1:2.8-6 dbus-x11
 
-
-# Installation of QASM to CIRC (Atos)
-
-RUN pip install jupyter myqlm myqlm-simulators
-RUN apt-get install -y libmagickwand-dev
-RUN pip install myqlm-interop[all]
-RUN python -m qat.magics.install
-
-# Draw circuit with tikz
-
-RUN apt-get install -y texlive-full evince && \
-  rm -rf cvc* z* *.tar.gz
-
 USER opam
 
 CMD eval $(opam env) && why3 config detect &&\

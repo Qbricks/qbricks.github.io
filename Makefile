@@ -23,31 +23,31 @@
 DIRS?= -L ./Case_studies/ -L ./math_libs/ -L ./Qbricks/
 
 build: Dockerfile
-	docker build --tag wqbricks_why3_git .
+	docker build --tag image_qbricks .
 
 container1:
-	-docker container rm container1
+	-docker container rm ctr1
 	bash container1.sh
 
 container2:
-	-docker container rm container2
+	-docker container rm ctr2
 	bash container2.sh
 
 container3:
-	-docker container rm container3
+	-docker container rm ctr3
 	bash container3.sh
 
 start1:
-	@xhost +local:`docker inspect --format='{{ .Config.Hostname }}' container1` >> /dev/null
-	docker start --attach --interactive container1
+	@xhost +local:`docker inspect --format='{{ .Config.Hostname }}' ctr1` >> /dev/null
+	docker start --attach --interactive ctr1
 
 start2:
-	@xhost +local:`docker inspect --format='{{ .Config.Hostname }}' container2` >> /dev/null
-	docker start --attach --interactive container2
+	@xhost +local:`docker inspect --format='{{ .Config.Hostname }}' ctr2` >> /dev/null
+	docker start --attach --interactive ctr2
 
 start3:
-	@xhost +local:`docker inspect --format='{{ .Config.Hostname }}' container3` >> /dev/null
-	docker start --attach --interactive container3
+	@xhost +local:`docker inspect --format='{{ .Config.Hostname }}' ctr3` >> /dev/null
+	docker start --attach --interactive ctr3
 
 print:
 	bash ./run_test.sh
@@ -56,22 +56,10 @@ print:
 clean:
 	cd extracted; rm -f *.bak *.pdf *.byte *.txt exe.* *__*.ml *.qasm run_to_openqasm.ml
 
-doc:
-	bash ./gen_doc.sh
-
-clean_doc:
-	rm -rf doc_html/`{{Qbricks,math,Case_studies}}`/*
-
 run_to_openqasm:
 	./run_to_openqasm.sh To_openqasm_examples Test_oq2
 
-run_to_openqasm_Cont_qft_3:
-	./run_to_openqasm.sh Cont_qft_3 Cont_qft_3
-
 clean_run_to_openqasm: clean run_to_openqasm
-
-qasm_to_circ:
-	bash ./qasm_to_circ.sh
 
 run_qiskit:
 	python3 extracted/run_to_openqasm.py extracted/To_openqasm_examples

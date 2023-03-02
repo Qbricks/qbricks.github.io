@@ -26,17 +26,11 @@ _pwd="$(pwd)"
 
 docker create -ti -e DISPLAY=$DISPLAY \
  -v /tmp/.X11-unix:/tmp/.X11-unix \
- -v ${_pwd}/../wqbricks/Case_studies:/home/opam/wqbricks/Case_studies \
- -v ${_pwd}/../wqbricks/Qbricks:/home/opam/wqbricks/Qbricks \
- -v ${_pwd}/../wqbricks/math_libs:/home/opam/wqbricks/math_libs \
- -v ${_pwd}/../wqbricks/extracted:/home/opam/wqbricks/extracted \
- -v ${_pwd}/../wqbricks/mb_extracted:/home/opam/wqbricks/mb_extracted\
- -v ${_pwd}/../wqbricks/Transpilation:/home/opam/wqbricks/Transpilation \
- -v ${_pwd}/../wqbricks:/home/opam/wqbricks \
- -v ${_pwd}/../wqbricks-transpilation/Case_studies:/home/opam/wqbricks-transpilation/Case_studies \
- -v ${_pwd}/../wqbricks-transpilation/Qbricks:/home/opam/wqbricks-transpilation/Qbricks \
- -v ${_pwd}/../wqbricks-transpilation/math_libs:/home/opam/wqbricks-transpilation/math_libs \
- -v ${_pwd}/../wqbricks-transpilation/extracted:/home/opam/wqbricks-transpilation/extracted \
- -v ${_pwd}/../wqbricks-transpilation/mb_extracted:/home/opam/wqbricks-transpilation/mb_extracted\
- -v ${_pwd}/../wqbricks-transpilation:/home/opam/wqbricks-transpilation \
- --name="container3" wqbricks_why3_git
+ -v ${_pwd}/../qbricks.github.io/Case_studies:/home/opam/qbricks.github.io/Case_studies \
+ -v ${_pwd}/../qbricks.github.io/Qbricks:/home/opam/qbricks.github.io/Qbricks \
+ -v ${_pwd}/../qbricks.github.io/math_libs:/home/opam/qbricks.github.io/math_libs \
+ -v ${_pwd}/../qbricks.github.io/extracted:/home/opam/wqbqbricks.github.io/extracted \
+ -v ${_pwd}/../qbricks.github.io/mb_extracted:/home/opam/qbricks.github.io/mb_extracted\
+ -v ${_pwd}/../qbricks.github.io/Transpilation:/home/opam/qbricks.github.io/Transpilation \
+ -v ${_pwd}/../qbricks.github.io:/home/opam/qbricks.github.io \
+ --name="ctr3" image_qbricks
