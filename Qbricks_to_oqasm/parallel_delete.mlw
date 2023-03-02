@@ -1,0 +1,159 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+module Parallel_del
+
+  use int.Int
+  use wired_circuits.Circuit_c
+  use wired_circuits.Qbricks_prim
+  use reversion.Circuit_reverse
+  use commuting_lemmas.Ancilla_pre
+  use circuits_equiv_pre.Gate_decomp
+  use circuits_equiv_pre.Circuit_equivalence_impl
+     
+  
+  let rec predicate parallel_free (c: wired_circuit)
+    requires{correct c}
+  =
+    match  c with
+    | Parallel _ _ -> false
+    | Ancillas c1 _ -> parallel_free c1 
+    | Sequence c1 c2 -> parallel_free c1 && parallel_free c2
+    | Place c1 _ _ -> parallel_free c1
+    | Cont c1 _ _ _ -> parallel_free c1
+    | _ -> true
+    end
+
+ let lemma parallel_free_cont_rev (c1: wired_circuit) (co1 ta1 n1: int)
+    requires{correct c1}
+    requires{0 <= co1 < n1}
+    requires{0 <= ta1 <= n1 - (width_pre c1)}
+    requires{ta1 <= co1 -> ta1 + width_pre c1 <= co1}
+    ensures{parallel_free c1 -> parallel_free (Cont c1 co1 ta1 n1)}
+  = ()
+
+  let lemma parallel_free_cont (c1: wired_circuit) (co1 ta1 n1: int)
+    requires{correct c1}
+    requires{0 <= co1 < n1}
+    requires{0 <= ta1 <= n1 - (width_pre c1)}
+    requires{ta1 <= co1 -> ta1 + width_pre c1 <= co1}
+    ensures{parallel_free (Cont c1 co1 ta1 n1) -> parallel_free c1}
+  = ()
+
+  let lemma parallel_free_seq (c1 c2: wired_circuit)
+    requires{correct c1}
+    requires{correct c2}
+    requires{width_pre c1 = width_pre c2}
+    ensures{parallel_free (Sequence c1 c2) -> parallel_free c1 && parallel_free c2}
+  = ()
+
+  let lemma parallel_free_seq_rev (c1 c2: wired_circuit)
+    requires{correct c1}
+    requires{correct c2}
+    requires{width_pre c1 = width_pre c2}
+    ensures{parallel_free c1 && parallel_free c2 -> parallel_free (Sequence c1 c2)}
+  = ()
+
+  let lemma parallel_free_place (c: wired_circuit) (ta n: int)
+    requires{correct c}
+    requires{0 <= ta}
+    requires{width_pre c + ta <= n}
+    ensures{parallel_free (Place c ta n) -> parallel_free c}
+  = ()
+
+  let lemma parallel_free_place_rev (c: wired_circuit) (ta n: int)
+    requires{correct c}
+    requires{0 <= ta}
+    requires{width_pre c + ta <= n}
+    ensures{parallel_free c -> parallel_free (Place c ta n)}
+  = ()
+
+  let lemma parallel_free_cnot (co1 ta1 n1: int)
+    requires{0 <= co1 < n1}
+    requires{0<= ta1 < n1}
+    requires{ta1 <> co1}
+    ensures{parallel_free (Cnot co1 ta1 n1)}
+  = ()
+
+  let lemma parallel_free_ry (k: int)
+    ensures{parallel_free (Ry k)}
+  = ()
+     
+let lemma remove_parallel_free (a b: wired_circuit)
+    requires{correct a}
+    requires{correct b}
+      requires{parallel_free a}
+      requires{parallel_free b}
+      ensures{parallel_free (remove_parallel a b)}
+  =()
+
+  let lemma parallel_free_toffoli_decomp (co1 co2 ta n: int)
+    requires{0 <= co1 /\ co1 < n}
+    requires{0 <= co2 /\ co2 < n}
+    requires{0 <= ta /\ ta < n}
+    requires{not co1 = co2}
+    requires{not co1 = ta}
+    requires{not ta = co2}
+    ensures{parallel_free (toffoli_decomp co1 co2 ta n)}
+  = ()
+
+  let lemma parallel_free_fredkin_decomp (co1 ta1 ta2 n1: int)
+    requires{0 <= ta1 /\ ta1 < n1}
+    requires{0 <= ta2 /\ ta2 < n1}
+    requires{0 <= co1 /\ co1 < n1}
+    requires{not ta1 = ta2}
+    requires{not ta1 = co1}
+    requires{not co1 = ta2}
+    ensures{parallel_free (fredkin_decomp co1 ta1 ta2 n1)}
+  = ()
+
+  let lemma parallel_free_swap_decomp (ta1 ta2 n1: int)
+    requires{0 <= ta1 /\ ta1 < n1}
+    requires{0 <= ta2 /\ ta2 < n1}
+    requires{not ta1 = ta2}
+    ensures{parallel_free (swap_decomp ta1 ta2 n1)}
+  = ()
+     
+let lemma remove_parallel_ancilla_free (a b: wired_circuit)
+    requires{correct a}
+    requires{correct b}
+      requires{ancilla_free a}
+      requires{ancilla_free b}
+      ensures{ancilla_free (remove_parallel a b)}
+  =()
+     
+  let rec function parallel_del (c : wired_circuit) : wired_circuit
+    requires{correct c}
+    requires{ancilla_free c}
+    ensures{parallel_free result}
+    ensures{result <=> c}
+    ensures{correct result}
+    ensures{ancilla_free result}
+    variant{ c}
+  = match c with
+      | Place c1 t n -> Place (parallel_del c1) t n
+      | Cont c1 co t n -> Cont (parallel_del c1) co t n
+      | Sequence d e -> Sequence (parallel_del d)  (parallel_del e)
+      | Parallel d e -> remove_parallel (parallel_del d) (parallel_del e)
+      | _ -> c
+    end
+end

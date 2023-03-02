@@ -1,0 +1,313 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+
+module Pre_wire
+         use wired_circuits.Circuit_c
+         use wired_circuits.Qbricks_prim
+         use  complex.Complex
+         use  matrices.Matrix
+         use qdata.Qreg
+         use qdata.Ket_basis
+
+let lemma unwire_path_sem (c:circuit) (x:matrix complex)
+      requires{is_a_ket_l x (width c)}
+      ensures{path_sem c x = P.path_sem (unwire c) x}
+  =()
+  
+let lemma unwire_path_sem_basis (c:circuit) (x:matrix complex)
+      requires{is_a_ket_l x (width c)}
+      requires{is_a_ket_basis_elt x }
+      ensures{path_sem_basis c x = P.path_sem_basis (unwire c) x}
+  =()
+
+let lemma unwire_width (c:circuit) 
+      ensures{width c  = P.width (unwire c) }
+  =()
+  
+let rec function wire_pre (c: P.circuit_pre):circuit
+                                               requires{P.correct c}
+                                               ensures{width result = P.width_pre c}
+                                               ensures{forall x. is_a_ket_l x (width result)-> is_a_ket_basis_elt x ->
+                                                       path_sem_basis result x = P.path_sem_basis (P.to_qc c) x}
+                                               ensures{forall x. is_a_ket_l x (width result)-> path_sem result x = P.path_sem (P.to_qc c) x}
+                                               variant{ c}
+  = match ( c) with
+    P.Phase k -> phase k
+  | P.Rz k -> rzp k
+  | P.Hadamard -> hadamard
+  | P.Cnot -> bricks_cnot
+  | P.Swap -> bricks_swap
+  | P.Id -> skip
+  | P.Sequence d e -> (wire_pre d) -- (wire_pre e)                                   
+  | P.Parallel d e -> (wire_pre d)//(wire_pre e)
+  | P.Ancillas d l ->  ancilla (wire_pre d) l
+end
+
+let   function wire (c: P.circuit):circuit
+                                     ensures{width result = P.width c}
+                                     ensures{forall x. is_a_ket_l x (width result)-> is_a_ket_basis_elt x ->
+                                             path_sem_basis result x = P.path_sem_basis c x}
+                                     ensures{forall x. is_a_ket_l x (width result)-> path_sem result x = P.path_sem c x}
+  = wire_pre (P.pre c)
+  
+let lemma wire_path_sem (c:P.circuit) (x:matrix complex)
+      requires{is_a_ket_l x (P.width c)}
+      ensures{P.path_sem c x = path_sem (wire c) x}
+  =()
+  
+let lemma wire_path_sem_basis (c:P.circuit) (x:matrix complex)
+      requires{is_a_ket_l x (P.width c)}
+      requires{is_a_ket_basis_elt x }
+      ensures{P.path_sem_basis c x = path_sem_basis (wire c) x}
+  =()
+  
+let lemma wire_width (c:P.circuit) 
+      ensures{P.width c  = width (wire c) }
+  =()
+  
+let lemma unwire_embedding_path_sem (c:circuit) (x:matrix complex)
+      requires{is_a_ket_l x (width c)}
+      ensures{path_sem c x = path_sem (wire (unwire c)) x}
+  =()
+
+let lemma unwire_embedding_path_sem_basis (c:circuit) (x:matrix complex)
+      requires{is_a_ket_l x (width c)}
+      requires{is_a_ket_basis_elt x }
+      ensures{path_sem_basis c x = path_sem_basis (wire (unwire c)) x}
+  =()
+  
+let lemma to_qc_rev (c:circuit)
+      ensures{c = to_qc (pre c)}
+  =()
+  
+let lemma to_qc_pre (c:circuit)
+      ensures{to_qc (pre c) = c}
+  =()
+  
+let lemma pre_rev (c:wired_circuit)
+      requires{correct c}
+      ensures{c =  pre (to_qc c)}
+  =()
+  
+let lemma pre_to_qc (c:wired_circuit)
+      requires{correct c}
+      ensures{pre (to_qc c) = c}
+  =()
+
+     use  pps.Pps         
+
+let   lemma path_sem_apply (c: circuit) (x: matrix complex)
+        requires{is_a_ket_l x (width c)}
+        ensures{path_sem c x = pps_apply (circ_to_pps c) x}
+  =  ()
+   
+let   lemma apply_path_sem (c: circuit) (x: matrix complex)
+        requires{is_a_ket_l x (width c)}
+        ensures{pps_apply (circ_to_pps c) x = path_sem c x}
+  =  ()
+   
+let ghost predicate correct_path_sum (c:circuit) (p:pps)
+  = pps_apply_equiv (circ_to_pps c ) p
+
+let lemma set_correct_pps_basis  (c:  circuit) (h:pps)
+      requires{h_width h = width c}
+      requires{forall x: matrix complex. is_a_ket_l x (width c) -> is_a_ket_basis_elt x -> pps_apply h x =  path_sem_basis c x}
+      ensures{correct_path_sum c h}
+  =()  
+  
+let lemma set_correct_pps  (c:  circuit) (h:pps)
+      requires{h_width h = width c}
+      requires{forall x: matrix complex. is_a_ket_l x (width c) -> is_a_ket_basis_elt x -> pps_apply h x =  path_sem c x}
+      ensures{correct_path_sum c h}
+  = ()
+  
+let lemma get_correct_pps  (c:  circuit) (h:pps) (x: matrix complex)
+      requires{h_width h = width c}
+      requires{is_a_ket_l x (width c) }
+      requires{correct_path_sum c h}
+      ensures{pps_apply h x =  path_sem c x}
+  = ()
+
+let lemma unwire_correct (c:circuit) (h:pps)
+      requires{ correct_path_sum c h}
+      ensures{ P.correct_path_sum (unwire c) h}
+  =()
+
+let lemma unwire_correct_rev (c:circuit) (h:pps)
+      requires{ P.correct_path_sum (unwire c) h}
+      ensures{ correct_path_sum c h}
+  = ()
+  
+let lemma wire_correct (c:P.circuit) (h:pps)
+      requires{ P.correct_path_sum c h}
+      ensures{ correct_path_sum (wire c) h}
+  =()
+end
+
+
+module Wire_unwire
+
+         use wired_circuits.Circuit_c
+         use wired_circuits.Qbricks_prim
+         use Pre_wire         
+         use  int.Int
+
+let lemma unwire_ancillable (c:circuit) (l:int)
+      requires{0<=l}
+      requires{ancillable (pre c) l}
+      ensures{P.ancillable_pre (P.pre (unwire c)) l}
+  =()
+  
+let lemma wire_ancillable (c:P.circuit) (l:int)
+      requires{0<=l}
+      requires{P.ancillable_pre (P.pre c) l}
+      requires{ancillable (pre (wire c)) l}
+  =()
+  
+let lemma unwire_sequence (d e : circuit)
+      requires{width d = width e}
+      ensures{unwire (d--e) = P.sequence(unwire d)(unwire e)}
+  =()
+
+let lemma unwire_parallel (d e : circuit)
+      ensures{unwire (d//e) = P.parallel(unwire d)(unwire e)}
+  =()
+
+let lemma unwire_place  (c:circuit) (k n :int)
+      requires{0<=k}
+      requires{ width c+ k <=n}
+      ensures{unwire (place c k n) = P.place (unwire c ) k n}
+  =()
+  
+let lemma unwire_cont  (c:circuit) (co k n :int)
+      requires{0<= co < n}
+      requires{0<= k <= n - (width c)}
+      requires{k <= co -> k + width c <= co}
+      ensures{unwire (cont c co k n) = P.cont (unwire c ) co k n}
+  = ()
+
+let lemma unwire_ancilla  (c:circuit) (l :int)
+      requires{1<=l}
+      requires{l< width c}
+      requires{ancillable (pre c) l}
+      ensures{unwire (ancilla c l) = P.ancilla (unwire c ) l}
+  =()
+
+let lemma unwire_skip()
+      ensures{unwire skip = P.id}
+  =()
+
+let lemma unwire_hadamard()
+      ensures{unwire hadamard = P.hadamard}
+  =()
+
+let lemma unwire_s()
+      ensures{unwire s = P.rz 2}
+  =()
+
+let lemma unwire_t()
+      ensures{unwire t = P.rz 3}
+  =()
+
+let lemma unwire_xx()
+      ensures{unwire xx = P.xx}
+  =()
+
+let lemma unwire_yy()
+      ensures{unwire yy = P.yy}
+  =()
+
+let lemma unwire_zz()
+      ensures{unwire zz = P.zz}
+  =()
+
+let lemma unwire_phase(k:int)
+      ensures{unwire (phase k) = P.phase k}
+  =()
+
+let lemma unwire_rx(k:int)
+      ensures{unwire (rx k) = P.rx k}
+  =()
+
+let lemma unwire_ry(k:int)
+      ensures{unwire (ry k) = P.ry k}
+  =()
+
+let lemma unwire_rz(k:int)
+      ensures{unwire (rz k) = P.rz_ k}
+  =()
+
+let lemma unwire_rzp(k:int)
+      ensures{unwire (rzp k) = P.rz k}
+  =()
+
+let lemma unwire_cnot( c t n : int)
+      requires{0<= c<n}
+      requires{0<= t<n}
+      requires{t<>c}
+      ensures{unwire (cnot c t n) = P.place_cnot c t n}
+  =()
+
+let lemma unwire_swap(t1 t2 n : int)
+      requires{0<= t1<n}
+      requires{0<= t2<n}
+      requires{t2<>t1}
+      ensures{unwire (swap t1 t2 n) = P.swap_c t1 t2 n}
+  =()
+
+let lemma unwire_toffoli( c1 c2 t n : int)
+      requires{0<= c1<n}
+      requires{0<= c2<n}
+      requires{0<= t<n}
+      requires{t<>c1}
+      requires{t<>c2}
+      requires{c2<>c1}
+      ensures{unwire (toffoli c1 c2 t n) = P.place_toffoli c1 c2 t n}
+  =()
+
+let lemma unwire_fredkin(c t1 t2 n:int)
+      requires{0<= t1<n}
+      requires{0<= t2<n}
+      requires{0<= c<n}
+      requires{c<>t1}
+      requires{c<>t2}
+      requires{t2<>t1}
+      ensures{unwire (fredkin c t1 t2 n)= P.place_fredkin c t1 t2 n}
+  =()
+
+let lemma wire_sequence (d e : P.circuit)
+      requires{P.width d = P.width e}
+      ensures{wire (P.sequence d e) = (wire d) --(wire e)}
+  =()
+
+let lemma wire_parallel (d e : P.circuit)
+      ensures{wire (P.parallel d e) = (wire d)//(wire e)}
+  =()
+
+let lemma wire_ancilla  (c:P.circuit) (l :int)
+      requires{1<=l}
+      requires{l< P.width c}
+      requires{P.ancillable_pre (P.pre c) l}
+      ensures{wire (P.ancilla c l) = ancilla (wire c ) l}
+  =()
+end

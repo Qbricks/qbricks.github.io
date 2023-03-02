@@ -1,0 +1,152 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+module Place_toffoli
+         use cont_c.Cont
+         use derived_circuits_c.Place
+         use qdata.Qreg
+         use  int.MinMax
+         use  qbricks_c.Circuit_c
+         use  qbricks_c.Correct_circuit_c
+         use  qdata.Bv_to_ket
+         use int.Int
+         use   qdata.Ket_basis
+         use pps.Pps
+         use binary.Bit_vector
+
+let function place_xx ( t n:int)
+               requires{0<= t <n}
+               ensures{width result = n}
+               ensures{forall bv. length bv = n -> path_sem result (bv_to_ket bv) =  bv_to_ket (make_bv (fun i -> if i = t then (1- getbv bv i) else getbv bv i) n)}
+               ensures{forall bv. length bv = n -> is_a_ket_basis_elt (path_sem result (bv_to_ket bv))}
+               ensures{forall bv. length bv = n -> getbv (ket_to_bv  (path_sem result (bv_to_ket bv))) t = (1-getbv bv t)}
+               ensures{forall bv. forall i. length bv = n -> 0<= i < n  -> i <> t -> 
+                                                        getbv (ket_to_bv  (path_sem result (bv_to_ket bv))) i = getbv bv i}
+  =
+  place xx   t n
+
+let function place_cnot_ps (c t n:int)
+               requires{0<= c < n}
+               requires{0<= t < n}
+               requires{c<>t}
+               ensures{width result = n}
+               ensures{forall bv. length bv = n -> is_a_ket_basis_elt (path_sem result (bv_to_ket bv))}
+               ensures{forall bv. length bv = n -> getbv bv c = 0 -> path_sem result (bv_to_ket bv) = bv_to_ket bv}
+               ensures{forall bv. length bv = n -> getbv bv c = 1 -> path_sem result (bv_to_ket bv) = path_sem (place_xx t n) (bv_to_ket bv)}
+  =
+  assert{forall bv. length bv = n ->  path_sem (place_cnot c t n) (bv_to_ket bv)
+                                      = bv_to_ket (make_bv (fun i -> if i = t /\ getbv bv c = 1 then 1 - getbv bv i else getbv bv i) n)};
+  place_cnot c t n
+
+let function place_toffoli_tcc (c1 c2 t n:int)
+               requires{0<= t < c1 < c2  <n}
+               ensures{width result = n}
+               ensures{forall x. is_a_ket_l x n -> is_a_ket_basis_elt x -> path_sem result x = 
+                                                                             bv_to_ket (make_bv (fun i -> if i = t then (getbv (ket_to_bv x) c1 * getbv (ket_to_bv x) c2 * (1-getbv (ket_to_bv x) t))
+                                                                                                                        + (getbv (ket_to_bv x) t * (1- getbv (ket_to_bv x) c1* getbv (ket_to_bv x) c2))
+                                                                                                          else getbv (ket_to_bv x) i) n) }
+  =  cont (place_cnot_ps (c1 - t) 0 ((c1 - t)+1))  c2 t n
+   
+let function place_toffoli_ctc (c1 c2 t n:int)
+               requires{0<= c1 < t < c2  <n}
+               ensures{width result = n}
+               ensures{forall x. is_a_ket_l x n -> is_a_ket_basis_elt x -> path_sem result x = 
+                                                                             bv_to_ket (make_bv (fun i -> if i = t then (getbv (ket_to_bv x) c1 * getbv (ket_to_bv x) c2 * (1-getbv (ket_to_bv x) t))
+                                                                                                                        + (getbv (ket_to_bv x) t * (1- getbv (ket_to_bv x) c1* getbv (ket_to_bv x) c2))
+                                                                                                          else getbv (ket_to_bv x) i) n) }
+  = cont (place_cnot_ps 0 (t- c1) ((t-c1)+1)) c2 c1 n 
+
+let function place_toffoli_cct (c1 c2 t n:int)
+               requires{0<= c1 < c2 < t  <n}
+               ensures{width result = n}
+               ensures{forall x. is_a_ket_l x n -> is_a_ket_basis_elt x -> path_sem result x = 
+                                                                             bv_to_ket (make_bv (fun i -> if i = t then (getbv (ket_to_bv x) c1 * getbv (ket_to_bv x) c2 * (1-getbv (ket_to_bv x) t))
+                                                                                                                        + (getbv (ket_to_bv x) t * (1- getbv (ket_to_bv x) c1* getbv (ket_to_bv x) c2))
+                                                                                                          else getbv (ket_to_bv x) i) n) }
+  = cont (place_cnot_ps 0 (t-c2)((t-c2)+1)) c1 c2 n
+
+let function place_toffoli (c1 c2 t n:int)
+               requires{0<= c1 <n}
+               requires{0<= c2 <n}
+               requires{0<= t <n}
+               requires{c1<>c2}
+               requires{c1<>t}
+               requires{c2<>t}
+               ensures{width result = n}
+               ensures{forall x. is_a_ket_l x n -> is_a_ket_basis_elt x -> path_sem result x = 
+                                                                             bv_to_ket (make_bv (fun i -> if i = t then (getbv (ket_to_bv x) c1 * getbv (ket_to_bv x) c2 * (1-getbv (ket_to_bv x) t))
+                                                                                                                        + (getbv (ket_to_bv x) t * (1- getbv (ket_to_bv x) c1* getbv (ket_to_bv x) c2))
+                                                                                                          else getbv (ket_to_bv x) i) n) }
+               ensures{correct_path_sum result (pps_toffoli c1 c2 t n)}
+               ensures{forall bv. length bv = n -> is_a_ket_basis_elt (path_sem result (bv_to_ket bv))}
+               ensures{forall x. is_a_ket_l x n -> is_a_ket_basis_elt x -> getbv (ket_to_bv  (path_sem result x)) t =
+                                                                             getbv (ket_to_bv x) c1 * getbv (ket_to_bv x) c2 * (1-getbv (ket_to_bv x) t)
+                                                                             + (getbv (ket_to_bv x) t * (1- getbv (ket_to_bv x) c1* getbv (ket_to_bv x) c2))}
+               ensures{forall x. forall i. is_a_ket_l x n -> is_a_ket_basis_elt x  -> 0<= i < n  -> i <> t -> 
+                       getbv (ket_to_bv  (path_sem result x)) i = getbv (ket_to_bv x) i}
+  = let mincont = min c1 c2
+    in let maxcont = max c1 c2
+       in
+       if t < mincont then place_toffoli_tcc mincont maxcont t n
+       else if t < maxcont then place_toffoli_ctc mincont maxcont t n
+       else place_toffoli_cct mincont maxcont t n
+       
+let lemma bricks_toffoli_path ()
+      ensures{correct_path_sum toffoli (pps_toffoli 0 1 2 3 )}
+  = ()
+
+let function place_fredkin (c t1 t2 n:int)
+               requires{0<= t1 <n}
+               requires{0<= t2 <n}
+               requires{0<= c <n}
+               requires{t1<>t2}
+               requires{t1<>c}
+               requires{t2<>c}
+               ensures{forall bv. forall i. length bv = n -> getbv bv c = 0 ->  0<=i < n -> getbv (ket_to_bv  (path_sem result (bv_to_ket bv))) i = getbv bv i}
+               ensures{forall bv.  length bv = n -> getbv bv c = 1 ->  getbv (ket_to_bv  (path_sem result (bv_to_ket bv))) t1 = getbv bv t2}
+               ensures{forall bv.  length bv = n -> getbv bv c = 1 ->  getbv (ket_to_bv  (path_sem result (bv_to_ket bv))) t2 = getbv bv t1}
+               ensures{forall bv. forall i. length bv = n -> getbv bv c = 1 ->  0<= i < n  -> i <> t1 -> i <> t2 -> 
+                                                        getbv (ket_to_bv  (path_sem result (bv_to_ket bv))) i = getbv bv i}
+               ensures{forall bv. length bv = n -> is_a_ket_basis_elt (path_sem result (bv_to_ket bv))}
+               ensures{forall bv. length bv = n -> path_sem result (bv_to_ket bv) = bv_to_ket (make_bv  (fun  i -> if i = t1 then (getbv bv) c *  (getbv bv) t2 + (1-  (getbv bv) c) *  (getbv bv) t1
+                                                                                                                   else if i = t2 then  (getbv bv) c *  (getbv bv) t1 + (1-  (getbv bv) c) *  (getbv bv) t2
+                                                                                                                   else  (getbv bv) i) n)}
+               ensures{forall bv. length bv = n -> path_sem result (bv_to_ket bv) = bv_to_ket (make_bv  (h_basis_ket (pps_fredkin c t1 t2 n) (getbv bv) (fun _ ->0)) n)}
+               ensures{correct_path_sum result (pps_fredkin c t1 t2  n)}
+               ensures{width result = n}
+  = sequence (sequence (place_toffoli c t1 t2 n) (place_toffoli c t2 t1 n) )  (place_toffoli c t1 t2 n)
+  
+let lemma bricks_fredkin_path ()
+      ensures{correct_path_sum fredkin (pps_fredkin 0 1 2 3 )}
+  = ()
+
+      use derived_circuits_c.Qbit_permutations
+  
+let function swap_c ( t1 t2 n:int)  
+               requires{0<= t1 <n}
+               requires{0<= t2 <n}
+               requires{t1<>t2}
+               ensures{width result = n}
+               ensures{correct_path_sum result (pps_swap  t1 t2  n)}
+  = permute_atom t1 t2 n
+
+end

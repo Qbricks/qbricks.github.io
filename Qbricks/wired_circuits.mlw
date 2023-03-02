@@ -1,0 +1,988 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+
+module Circuit_c
+         use  int.Int
+         use binary.Binary_Op
+         use   qdata.Kronecker_Qbit
+         use pps.Pps         
+         use  unit_circle.Angle
+         use   matrices.Kronecker_product
+         use derived_circuits_c.Place as P
+         use cont_c.Cont as P
+         use wired_pps_c.Place_toffoli as P
+         use qdata.Qreg
+         use  qbricks_c.Circuit_c as P
+         use  qbricks_c.Correct_circuit_c as P
+
+type wired_circuit = 
+  Skip |  Phase int | Rx int | Ry int | Rz int | Rzp int | Hadamard  |  S | T | X | Y | Z 
+  | Bricks_Cnot | Bricks_Toffoli | Bricks_Fredkin| Bricks_Swap
+  | Swap int int int | Cnot int int int | Toffoli int int int int | Fredkin int int int int
+  | Place wired_circuit int int 
+  | Cont wired_circuit int int int
+  | Sequence wired_circuit wired_circuit
+  | Parallel wired_circuit wired_circuit
+  | Ancillas wired_circuit int
+
+let rec function width_pre_  (c:wired_circuit): int
+                                                  variant{c}
+  = match c with
+    Skip -> 1
+  | Bricks_Cnot -> 2
+  |  Bricks_Toffoli -> 3
+  |  Bricks_Fredkin -> 3
+  |  Bricks_Swap -> 2
+  | Swap _ _  n -> n
+  | Cnot _ _ n -> n
+  | Toffoli _ _ _  n -> n
+  | Fredkin  _ _ _  n -> n
+  | Place _ _ n -> n
+  | Cont _ _ _ n -> n
+  | Sequence d _ -> (width_pre_ d)
+  | Parallel d e -> width_pre_ d + width_pre_ e
+  | Ancillas d i -> width_pre_ d -i
+  |  _ -> 1
+end
+     
+let rec predicate build_correct_ (c:wired_circuit) 
+          variant{c}
+  =  match c with
+    Cnot c t n ->  0<= c <n&& 0<= t <n&& c<> t
+  | Swap t1 t2 n -> 0<= t1<n && 0<= t2 <n&& t1<> t2
+  | Toffoli c1 c2 t n ->  0<= c1<n && 0<= c2 <n&& 0<= t <n&& c1 <> t && c2 <> t && c1 <> c2
+  | Fredkin c1 c2 t n ->  0<= c1<n && 0<= c2<n && 0<= t <n&& c1 <> t && c2 <> t && c1 <> c2
+  | Place c t n ->  build_correct_ c && 0<=t<n && t+width_pre_ c <=n  
+  | Cont c co t n ->  build_correct_ c && 0<= co <n && 0<= t <= n - width_pre_ c && (  co<t || t + width_pre_ c <= co)    
+  | Sequence d e -> width_pre_ d = width_pre_ e && build_correct_ d  && build_correct_ e
+  | Parallel d e ->  build_correct_ d  && build_correct_ e
+  | Ancillas d i -> 1<=i && i+1 <= width_pre_ d && build_correct_ d
+  | _ -> true
+end
+     
+let rec function width_pre  (c:wired_circuit): int
+                                                 requires{build_correct_ c}
+                                                 variant{c}
+                                                 ensures{1<=result}
+                                                 ensures{result = width_pre_ c}
+  = match c with
+    Skip -> 1
+  | Bricks_Cnot -> 2
+  |  Bricks_Toffoli -> 3
+  |  Bricks_Fredkin -> 3
+  |  Bricks_Swap -> 2
+  | Swap _ _  n -> n
+  | Cnot _ _ n -> n
+  | Toffoli _ _ _  n -> n
+  | Fredkin  _ _ _  n -> n
+  | Place _ _ n -> n
+  | Cont _ _ _ n -> n
+  | Sequence d _ -> (width_pre d)
+  | Parallel d e -> width_pre d + width_pre e
+  | Ancillas d i -> width_pre d -i
+  |  _ -> 1
+end
+
+let rec predicate build_correct (c:wired_circuit) 
+          variant{c}
+          ensures{result <-> build_correct_ c}
+  =  match c with
+    Cnot c t n ->  0<= c <n&& 0<= t <n&& c<> t
+  | Swap t1 t2 n -> 0<= t1<n && 0<= t2 <n&& t1<> t2
+  | Toffoli c1 c2 t n ->  0<= c1<n && 0<= c2 <n&& 0<= t <n&& c1 <> t && c2 <> t && c1 <> c2
+  | Fredkin c1 c2 t n ->  0<= c1<n && 0<= c2<n && 0<= t <n&& c1 <> t && c2 <> t && c1 <> c2
+  | Place c t n ->  build_correct c && 0<=t<n && t+width_pre c <=n  
+  | Cont c co t n ->  build_correct c && 0<= co <n && 0<= t <= n - width_pre c && (  co<t || t + width_pre c <= co)    
+  | Sequence d e -> build_correct d  && build_correct e && width_pre d =  width_pre e
+  | Parallel d e ->  build_correct d  && build_correct e
+  | Ancillas d i ->  build_correct d && 1<=i && i+1 <= width_pre d 
+  | _ -> true
+end
+
+use p_int.P_minmax
+     
+let rec function depth_pre  (c:wired_circuit): int
+                                                 requires{build_correct c}
+                                                 variant{c}
+  = match c with
+    Skip -> 0
+  | Place c _ _ -> depth_pre c
+  | Cont c _ _ _ -> depth_pre c
+  | Sequence d e -> (depth_pre d) + depth_pre e
+  | Parallel d e -> max (depth_pre d) (depth_pre e)
+  | Ancillas d _ -> depth_pre d 
+  |  _ -> 1
+end
+
+use cont.Cont_size   
+
+let constant cont_size = cont_size
+                       
+let rec function ancillas_pre  (c:wired_circuit): int
+                                                    requires{build_correct c}
+                                                    variant{c}
+                                                    ensures{0<= result}
+  = match c with
+    Place c _ _ -> ancillas_pre c
+  | Cont c _ _ _ -> ancillas_pre c
+  | Sequence d e -> max  (ancillas_pre d) (ancillas_pre e)
+  | Parallel d e -> ancillas_pre d + ancillas_pre e
+  | Ancillas d i -> ancillas_pre d + i
+  |  _ -> 0
+end
+
+let rec predicate atomic (c:wired_circuit) : bool
+                                               variant{ c}
+  = match  c with
+    Phase _ -> true 
+  | Rx _ -> true 
+  | Ry _ -> true 
+  | Rz _ -> true 
+  | Rzp _ -> true 
+  | Hadamard -> true
+  | S -> true
+  | T -> true
+  | X -> true
+  | Y -> true
+  | Z -> true
+  |_ -> false
+end
+     
+let rec  function size_pre (c:wired_circuit) : int
+                                                 requires{build_correct c}
+                                                 variant{c}
+  = match c with
+    Skip -> 0
+  | Place  c _ _ -> size_pre c
+  | Cont c _ _ _  -> size_pre c * cont_size
+  | Sequence d e ->  size_pre d + size_pre e 
+  | Parallel d e ->  size_pre d + size_pre e
+  | Ancillas d _ -> size_pre d
+  | _ -> 1
+end
+     
+let rec function range_pre (c:wired_circuit) : int
+                                                 requires{build_correct c}
+                                                 variant{c}
+                                                 ensures{0<=result}
+  = match c with 
+    Skip -> 0
+  | Ry _ -> 2
+  | Rx _ -> 2
+  | Hadamard -> 1
+  | Place  c _ _ -> range_pre c 
+  | Cont c _ _ _  -> range_pre c 
+  | Sequence d e -> range_pre d + range_pre e
+  | Parallel d e -> range_pre d + range_pre e
+  | Ancillas d _ -> range_pre d 
+  | _ -> 0
+end
+
+use  qdata.Sqrt_two
+  use unit_circle.Real_to_complex_trig
+  use arit.Incr_abs
+     
+let  rec ghost function circ_to_pps_pre (c:wired_circuit) : pps
+                                                              requires{build_correct c}
+                                                              ensures{1<= h_width result}
+                                                              ensures{h_width result = width_pre c}
+                                                              ensures{h_range result = range_pre c}
+                                                              variant{c}
+  =   match c with
+    Skip -> pps_id 
+  | Phase k -> pps_phase k 
+  | Rx k -> pps_rx k
+  | Ry k -> pps_ry k
+  | Rz k -> pps_rz_b k
+  | Rzp k -> pps_rz k
+  | Hadamard -> pps_hadamard
+  | S -> pps_rz 2
+  | T -> pps_rz 3
+  | X -> pps_xx
+  | Y -> pps_yy
+  | Z -> pps_zz
+  | Bricks_Cnot -> pps_cnot 0 1 2 
+  | Bricks_Toffoli  -> pps_toffoli 0 1 2 3
+  | Bricks_Fredkin   -> pps_fredkin 0 1 2 3
+  | Bricks_Swap   -> pps_swap 0 1 2 
+  | Cnot c t n ->  pps_cnot c t n
+  | Swap t1 t2 n ->  pps_swap t1 t2 n
+  | Toffoli c1 c2 t n ->  pps_toffoli c1 c2 t n
+  | Fredkin c1 c2 t n -> pps_fredkin c1 c2 t n
+  | Place c t n ->
+     pps_place (circ_to_pps_pre c) t n  
+  | Cont c co t n -> pps_cont (circ_to_pps_pre c) co t n    
+  | Sequence d e -> pps_seq  (circ_to_pps_pre d)   (circ_to_pps_pre e )
+  | Parallel d e ->  pps_par  (circ_to_pps_pre d)   (circ_to_pps_pre e )
+  | Ancillas d i ->  pps_ancs  (circ_to_pps_pre d)   i
+end
+
+val ghost predicate ancillable (c:wired_circuit) (i: int)
+      ensures{result <->  exists path_sem_target. forall x. is_a_ket_l x (width_pre c - i) ->  pps_apply (circ_to_pps_pre c) (kronecker x (ket i 0))
+                                                                                               =  kronecker (path_sem_target x) (ket i 0)}
+  
+let rec ghost predicate correct (c:wired_circuit) 
+          variant{c}
+          ensures{result -> build_correct_ c}
+  =   match c with
+    Skip -> true 
+  | Phase _ -> true  
+  | Rx _ -> true  
+  | Ry _ -> true  
+  | Rz _ -> true  
+  | Rzp _ -> true  
+  | Hadamard -> true 
+  | S -> true 
+  | T -> true 
+  | X -> true 
+  | Y -> true 
+  | Z -> true 
+  | Bricks_Cnot -> true 
+  | Bricks_Toffoli  -> true 
+  | Bricks_Fredkin   -> true 
+  | Bricks_Swap   -> true 
+  | Cnot c t n ->  0<= c<n && 0<= t <n&& c<> t
+  | Swap t1 t2 n ->  0<= t1 <n && 0<= t2 <n&& t1<> t2
+  | Toffoli c1 c2 t n ->  0<= c1<n && 0<= c2 <n&& 0<= t<n && c1 <> t && c2 <> t && c1 <> c2
+  | Fredkin c1 c2 t n -> 0<= c1<n && 0<= c2 <n&& 0<= t<n && c1 <> t && c2 <> t && c1 <> c2
+  | Place c t n -> correct c &&0<=t<=n && t+width_pre c <=n  
+  | Cont c co t n ->correct c &&   0<= co <n && 0<= t <= n - width_pre c && (  co<t || t + width_pre c <= co)    
+  | Sequence d e -> correct d  && correct e && width_pre d = width_pre e
+  | Parallel d e ->  correct d  && correct e
+  | Ancillas d i ->  correct d &&1<=i && i+1 <= width_pre d && ancillable d i
+  | _ -> true
+end
+
+type circuit = {pre : wired_circuit}
+                 invariant {correct pre}
+                 by{pre = Hadamard}
+
+                 axiom injective_pre :   forall c c':circuit. c <> c' -> pre c <> pre c'
+
+let lemma build_correct_pre (c:circuit)
+      ensures{ build_correct_ (pre c)}
+  =()
+
+let rec  function to_qc (c:wired_circuit) : circuit
+                                              requires{correct c}
+  ={pre = c}
+
+let rec function range (c:circuit) : int
+                                       variant{pre c}
+                                       ensures{result =   range_pre (pre c)}
+                                       ensures{result =   h_range (circ_to_pps_pre(pre c))}
+                                       ensures{0<=result}
+  = match (pre c) with 
+    Skip -> 0
+  | Ry _ -> 2
+  | Rx _ -> 2
+  | Hadamard -> 1
+  | Place  c _ _ -> range (to_qc c) 
+  | Cont c _ _ _  -> range (to_qc c) 
+  | Sequence d e -> range (to_qc d)  + range (to_qc e) 
+  | Parallel d e -> range (to_qc d)  + range (to_qc e) 
+  | Ancillas d _ -> range (to_qc d) 
+  | _ -> 0
+end
+
+let rec  function size (c:circuit) : int
+                                       ensures{result =   size_pre (pre c)}
+                                       variant{pre c}
+  = match (pre c) with
+    Skip -> 0
+  | Place  c _ _ -> size_pre c
+  | Cont c _ _ _  -> size (to_qc c) * cont_size
+  | Sequence d e ->  size (to_qc d) + size (to_qc e) 
+  | Parallel d e ->  size (to_qc d) + size (to_qc e) 
+  | Ancillas d _ -> size_pre d
+  | _ -> 1
+end
+
+let rec function ancillas  (c:circuit): int
+                                          ensures{result =   ancillas_pre (pre c)}
+                                          variant{pre c}
+  = match (pre c ) with
+    Place c _ _ -> ancillas (to_qc c) 
+  | Cont c _ _ _ -> ancillas (to_qc c) 
+  | Sequence d e -> max  (ancillas (to_qc d) ) (ancillas (to_qc e) )
+  | Parallel d e -> ancillas (to_qc d)  + ancillas (to_qc e) 
+  | Ancillas d i -> ancillas (to_qc d)  + i
+  |  _ -> 0
+end
+
+let rec lemma ancillas_pos (c:circuit)
+          ensures{0<=ancillas c}
+          variant{pre c}
+  = match (pre c ) with
+    Place c _ _ -> ancillas_pos (to_qc c) 
+  | Cont c _ _ _ -> ancillas_pos (to_qc c) 
+  | Sequence d e -> begin  (ancillas_pos (to_qc d) ) ; (ancillas_pos (to_qc e) ) end
+  | Parallel d e -> begin  (ancillas_pos (to_qc d) ) ; (ancillas_pos (to_qc e) ) end
+  | Ancillas d _ -> ancillas_pos (to_qc d)  
+  |  _ -> ()
+end
+     
+let rec lemma size_pos (c:circuit)
+          ensures{0<=size c}
+          variant{pre c}
+  = match (pre c ) with
+    Place c _ _ -> size_pos (to_qc c) 
+  | Cont c _ _ _ -> size_pos (to_qc c) 
+  | Sequence d e -> begin  (size_pos (to_qc d) ) ; (size_pos (to_qc e) ) end
+  | Parallel d e -> begin  (size_pos (to_qc d) ) ; (size_pos (to_qc e) ) end
+  | Ancillas d _ -> size_pos (to_qc d)  
+  |  _ -> ()
+end
+     
+let rec function width  (c:circuit): int
+                                       variant{pre c}
+                                       ensures{1<=result}
+                                       ensures{result = width_pre (pre c)}
+  = match (pre c) with
+    Skip -> 1
+  | Bricks_Cnot -> 2
+  |  Bricks_Toffoli -> 3
+  |  Bricks_Fredkin -> 3
+  |  Bricks_Swap -> 2
+  | Swap _ _  n -> n
+  | Cnot _ _ n -> n
+  | Toffoli _ _ _  n -> n
+  | Fredkin  _ _ _  n -> n
+  | Place _ _ n -> n
+  | Cont _ _ _ n -> n
+  | Sequence d _ -> (width (to_qc d))
+  | Parallel d e -> width (to_qc d)  + width (to_qc e) 
+  | Ancillas d i -> width (to_qc d)  -i
+  |  _ -> 1
+end
+     
+let rec  function basis_ket (c:circuit) (x y : int-> int) (i:int): int
+                                                                     variant{pre c}
+                                                                     ensures{result = h_basis_ket (circ_to_pps_pre(pre c)) x y i}
+                                                                     ensures{ (forall i:int. 0<= i < width c -> 0<= x i < 2) ->
+                                                                              (forall i:int. 0<= i < range c -> 0<= y i < 2) ->
+                                                                              0<= i < width c -> 0<=result <2}
+  = match (pre c) with 
+    Skip -> x i
+   |Phase _ -> x i           
+   | Rx _ -> y 1 
+   | Ry _ -> y 1  
+   | Rz _ -> x i 
+   | Rzp _ -> x i 
+   | Hadamard -> y i
+   | S -> x i
+   | T -> x i
+   | X -> 1- x i
+   | Y -> 1 - x i
+   | Z -> x i
+   | Bricks_Cnot -> if i = 1  then x 0 *  (1 - x 1) + x 1 *  (1 - x 0) else x i
+   | Bricks_Toffoli  -> if i = 2 then x 0 * x 1 *  (1 - x 2) + x 2 *  (1 - (x 0 * x 1)) else x i
+   | Bricks_Fredkin   ->
+      if i = 1 then x 0 * x 2 + (1- x 0) * x 1
+      else if i = 2 then x 0 * x 1 + (1- x 0) * x 2
+      else x i
+   | Bricks_Swap   -> if i = 0 then x 1 else if i = 1 then x 0 else  x i
+   | Cnot c t _ ->  if i = t  then x c *  (1 - x t) + x t *  (1 - x c) else x i
+   | Toffoli c1 c2 t _ -> if i = t then x c1 * x c2 *  (1 - x t) + x t *  (1 - (x c1 * x c2)) else x i
+   | Fredkin c t1 t2 _ ->
+      if i = t1 then x c * x t2 + (1- x c) * x t1
+      else if i = t2 then x c * x t1 + (1- x c) * x t2
+      else x i
+   | Place  c k _ -> if k<= i < k + width (to_qc c) then (basis_ket (to_qc c)) (fun j -> x (j+k)) y (i-k)
+                     else x i
+   | Cont c co t _  -> if x co = 1 && t <= i < t + width (to_qc c) then (basis_ket (to_qc c)) (fun j -> x (j+t)) y (i-t)
+                       else x i
+   | Swap t1 t2 _  -> if i = t1 then x t2 else if i = t2 then x t1 else  x i 
+   | Sequence d e ->  (basis_ket (to_qc e)) (basis_ket (to_qc d) x y) (fun k -> y (k+ range (to_qc d))) i
+   | Parallel d e ->  if i < width (to_qc d)  then (basis_ket (to_qc d)) x y i
+                      else (basis_ket (to_qc e))  (fun k -> x (k+ width (to_qc d))) (fun k -> y (k+ range (to_qc d)))  (i- width (to_qc d))
+   | Ancillas d l -> (basis_ket (to_qc d)) (fun k -> if k < width (to_qc d) -l then x k  else 0) y i
+end
+
+let lemma basis_ket_invariant (c:circuit) 
+      ensures{ forall x x' y y' : int->int.  (forall i:int. 0<= i < width c -> x i = x' i) -> 
+                                  (forall i:int. 0<= i < range c -> y i = y' i) -> forall  i:int. 0<= i < width c ->
+                                                                                             basis_ket c x y i = basis_ket c x' y' i } 
+  = ()
+
+let lemma binary_l_basis_ket (c:circuit) (x y : int-> int) (w : int)
+      requires{binary_l x (width c)}
+      requires{binary_l y (range c)}
+      requires{width c = w}
+      ensures{binary_l (fun i -> basis_ket c x y i) w} 
+  = ()
+
+let rec ghost function ang_ind (c:circuit) (x y : int-> int): angle
+                                                                ensures{result = h_angle (circ_to_pps_pre(pre c)) x y}
+                                                                variant{ c}      = match  (pre c) with
+    Skip -> 0 /./0
+   |Phase k ->    1 /./ k            
+   | Rx k -> (x 0 * y 0 /./1) +.+  (y 0 * y 1 /./1) +.+ ((1/./incr_abs k) -^ (y 0 -1) )
+   | Ry k -> (x 0 * y 0 /./1) +.+  (y 0 * y 1 /./1) +.+ ((1 /./ incr_abs k) -^ (y 0 -1)) +.+ ((y 1 - x 0) /./2)
+   | Rz k ->    1 /./ (incr_abs k) -^ (x 0 -1) 
+   | Rzp k ->  x 0  /./ k  
+   | Hadamard -> (x 0 *y 0) /./1
+   | S -> x 0 /./ 2
+   | T -> x 0 /./ 3 
+   | X -> 1 /./ 0
+   | Y -> 1/./ 2 -^ (x 0)
+   | Z -> x 0/./1
+   | Bricks_Cnot -> 1/./0
+   | Bricks_Toffoli  -> 1/./0
+   | Bricks_Fredkin   -> 1/./0
+   | Bricks_Swap   -> 1/./0
+   | Cnot _ _ _ ->  1/./0
+   | Toffoli _ _ _  _ ->  1/./0
+   | Fredkin _ _ _ _ ->  1/./0
+   | Place  c p _ -> (h_angle (circ_to_pps_pre c)) (fun j -> x (j+p)) y
+   | Cont c co t _  -> x co *.* (h_angle (circ_to_pps_pre c)) (fun j -> x (j+t)) y +.+ ((1- x co)*.*  ((arc_cos_ang (pow_inv_sqrt_2 (range (to_qc c)))) -^ (y 0)))
+   | Swap _ _ _  -> 1/./0
+   | Sequence d e ->  ((h_angle (circ_to_pps_pre d)) x y) +.+ ((h_angle (circ_to_pps_pre e)) (basis_ket (to_qc d) x y)  (fun k -> y (k+ range  (to_qc d))))
+   | Parallel d e ->  ((h_angle (circ_to_pps_pre d)) x y) +.+ ((h_angle (circ_to_pps_pre e))  (fun k -> x (k+ width  (to_qc d))) (fun k -> y (k+ range  (to_qc d))) )
+   | Ancillas d l -> (h_angle (circ_to_pps_pre d)) (fun k -> if k < width (to_qc d) -l   then x k else 0) y
+end
+
+let lemma ang_ind_invariant (c:circuit)
+      ensures{ forall x x' y y' : int->int.  (forall i:int. 0<= i < width c -> x i = x' i) -> 
+                                  (forall i:int. 0<= i < range c -> y i = y' i)  ->
+                                  ang_ind c x y  = ang_ind c x' y' } 
+  = ()
+  
+let rec  function unwire_pre (c:wired_circuit) : P.circuit
+                                                   requires{correct c}
+                                                   ensures{P.width result = width_pre c}
+                                                   ensures{P.correct_path_sum result (circ_to_pps_pre c)}
+                                                   ensures{forall x. is_a_ket_l x (width_pre c) -> P.path_sem result x = pps_apply (circ_to_pps_pre c) x}
+  = match  c with
+    Skip -> P.id
+  | Phase k -> P.phase k
+  | Rx k -> P.rx k
+  | Ry k -> P.ry k
+  | Rz k -> P.rz_ k
+  | Rzp k -> P.rz k
+  | Hadamard -> P.hadamard
+  | S -> P.rz 2 
+  | T -> P.rz 3
+  | X -> P.xx
+  | Y -> P.yy
+  | Z -> P.zz
+  | Bricks_Cnot -> P.cnot
+  | Bricks_Toffoli  -> P.toffoli
+  |  Bricks_Fredkin   -> P.fredkin
+  |  Bricks_Swap   -> P.swap
+  | Cnot c t n ->  P.place_cnot c t n
+  | Swap t1 t2 n ->  P.swap_c t1 t2 n
+  | Toffoli c1 c2 t n -> P.place_toffoli c1 c2 t n
+  | Fredkin c t1 t2 n ->  P.place_fredkin c t1 t2 n 
+  | Place  c p n ->
+     let  uc = unwire_pre c in
+     let  ucd = circ_to_pps_pre c in
+     P.place_pps   uc ucd p n;
+     P.place uc p n
+  | Cont c co t n  ->
+     let  uc = unwire_pre c in
+     let  ucd = circ_to_pps_pre c in
+     P.cont_pps   uc ucd co t n;
+     P.cont uc co t n
+  | Sequence d e ->
+     let  dd = unwire_pre d in
+     let  ee = unwire_pre e in
+     let  cd = circ_to_pps_pre d in
+     let  ce = circ_to_pps_pre e in
+     P.correct_seq dd ee cd ce
+       (pps_seq  cd ce);
+     P.sequence dd ee 
+  | Parallel d e ->
+     let  dd = unwire_pre d in
+     let  ee = unwire_pre e in
+     let  cd = circ_to_pps_pre d in
+     let  ce = circ_to_pps_pre e in
+     P.correct_par dd ee cd ce
+       (pps_par  cd ce);
+     P.parallel dd ee
+  | Ancillas d l ->
+     let  dd = unwire_pre d in
+     let  cd = circ_to_pps_pre d in
+     P.correct_ancilla dd cd (pps_ancs cd l) l;
+     P.ancilla dd l
+end
+     
+let ghost function circ_to_pps (c:circuit) : pps
+                                               ensures{1<= h_width result}
+                                               ensures{h_width result = width c}
+                                               ensures{h_range result = range c}
+                                               ensures{forall x y i. h_basis_ket result x y i = basis_ket c x y i}
+                                               ensures{forall x y . h_angle result x y  = ang_ind c x y }
+  =   circ_to_pps_pre  (pre c)
+    
+let function unwire (c:circuit) : P.circuit
+                                    ensures{forall x. is_a_ket_l x (width c) -> P.path_sem result x = pps_apply (circ_to_pps c) x}
+  = unwire_pre (pre c)
+  
+end
+     
+module Qbricks_prim
+         use Circuit_c
+         use  complex.Complex
+         use  int.Int
+         use binary.Bit_vector_decomp
+         use  binary.Bit_vector
+         use   qdata.Bv_to_ket
+         use   qdata.Ket_basis
+         use   qdata.Kronecker_Qbit
+         use  matrices.Matrix
+         use pps.Pps         
+         use  unit_circle.Angle
+         use   matrices.Kronecker_product
+         use qdata.Qreg
+         use qdata.Sqrt_two
+         use matrices.Matrix_scalar
+         use arit.Incr_abs
+         use p_int.P_minmax
+     
+let function phase (k:int) : circuit
+                               ensures{pre result = Phase k}
+                               ensures{ancillas  result = 0}
+                               ensures{size result = 1}
+                               ensures{range result = 0}
+                               ensures{width result = 1}
+                               ensures{forall x y: int->int. forall i:int. basis_ket result x y i = x i}
+                               ensures{forall x y: int->int. ang_ind result x y  =  1 /./ k}
+  = {pre = Phase k}
+  
+let constant skip : circuit
+  = {pre  = Skip}
+      ensures{pre result = Skip}
+      ensures{ancillas  result = 0}
+      ensures{size result = 0}
+      ensures{range result = 0}
+      ensures{width result = 1}
+      ensures{forall x y: int->int. forall i:int. basis_ket result x y i = x i}
+      ensures{forall x y: int->int. ang_ind result x y  =  1 /./ 0}
+      ensures{forall x y: int->int. forall k:int. ang_ind result x y  =  0 /./ k}
+
+let function rz  (k:int):circuit
+                           ensures{pre result = Rz k}
+                           ensures{ancillas  result = 0}
+                           ensures{size result = 1}
+                           ensures{range result = 0}
+                           ensures{width result = 1}
+                           ensures{forall x y: int->int. forall i:int. basis_ket result x y i = x i}
+                           ensures{forall x y: int->int. 0<= x 0 <2 ->k<0 ->  ang_ind result x y  = 1 /./ (k-1) -^ (x 0 -1) }
+                           ensures{forall x y: int->int. 0<= x 0 <2 -> 0<= k -> ang_ind result x y  = 1 /./ (k+1) -^ ( x 0 -1) }           
+                           ensures{forall x y: int->int. 0<= x 0 <2 ->ang_ind result x y  = 1 /./ (incr_abs k) -^ (x 0 -1) }
+  = {pre = Rz k}
+  
+let function rzp  (k:int):circuit
+                            ensures{pre result = Rzp k}
+                            ensures{ancillas  result = 0}
+                            ensures{size result = 1}
+                            ensures{range result = 0}
+                            ensures{width result = 1}
+                            ensures{forall x y: int->int. forall i:int. basis_ket result x y i = x i}
+                            ensures{forall x y: int->int. ang_ind result x y  = x 0  /./ k}           
+  = {pre = Rzp k}
+
+let function rx  (k:int):circuit
+                           ensures{pre result = Rx k}
+                           ensures{ancillas  result = 0}
+                           ensures{size result = 1}
+                           ensures{range result = 2}
+                           ensures{width result = 1}
+                           ensures{forall x y: int->int. forall i:int. basis_ket result x y i = y 1}
+                           ensures{forall x y: int->int. ang_ind result x y  = (x 0 * y 0 /./1) +.+  (y 0 * y 1 /./1) +.+ ((1/./incr_abs k) -^ (y 0 -1) )}           
+  = {pre = Rx k}
+
+let function ry  (k:int):circuit
+                           ensures{pre result = Ry k}
+                           ensures{ancillas  result = 0}
+                           ensures{size result = 1}
+                           ensures{range result = 2}
+                           ensures{width result = 1}
+                           ensures{forall x y: int->int. forall i:int. basis_ket result x y i = y 1}
+                           ensures{forall x y: int->int. ang_ind result x y  = (x 0 * y 0 /./1) +.+  (y 0 * y 1 /./1) +.+ ((1 /./ incr_abs k) -^ (y 0 -1)) +.+ ((y 1 - x 0) /./2)}           
+  = {pre = Ry k}
+
+let constant hadamard : circuit
+  = {pre = Hadamard}
+      ensures{pre result = Hadamard}
+      ensures{ancillas  result = 0}
+      ensures{size result = 1}
+      ensures{range result = 1}
+      ensures{width result = 1}
+      ensures{forall x y: int->int. forall i:int. basis_ket result x y i = y i}
+      ensures{forall x y: int->int.  ang_ind result x y  = (x 0 *y 0)/./1 }
+
+let constant s :circuit
+  = {pre = S}
+      ensures{pre result = S}
+      ensures{ancillas  result = 0}
+      ensures{size result = 1}
+      ensures{range result = 0}
+      ensures{width result = 1}
+      ensures{forall x y: int->int. forall i:int. basis_ket result x y i = x i}
+      ensures{forall x y: int->int. ang_ind result x y  = x 0  /./ 2}           
+
+let constant t :circuit
+  = {pre = T}
+      ensures{pre result = T}
+      ensures{ancillas  result = 0}
+      ensures{size result = 1}
+      ensures{range result = 0}
+      ensures{width result = 1}
+      ensures{forall x y: int->int. forall i:int. basis_ket result x y i = x i}
+      ensures{forall x y: int->int. ang_ind result x y  = x 0  /./ 3}           
+
+let constant xx :circuit
+  = {pre = X}
+      ensures{pre result = X}
+      ensures{ancillas  result = 0}
+      ensures{size result = 1}
+      ensures{range result = 0}
+      ensures{width result = 1}
+      ensures{forall x y: int->int. forall i:int. basis_ket result x y i = 1-x i}
+      ensures{forall x y: int->int. ang_ind result x y  = 1/./0}           
+  
+let constant yy :circuit
+  = {pre = Y}
+      ensures{pre result = Y}
+      ensures{ancillas  result = 0}
+      ensures{size result = 1}
+      ensures{range result = 0}
+      ensures{width result = 1}
+      ensures{forall x y: int->int. forall i:int. basis_ket result x y i = 1-x i}
+      ensures{forall x y: int->int. ang_ind result x y  = 1/./ 2 -^ (x 0)}           
+
+let constant zz :circuit
+  = {pre = Z}
+      ensures{pre result = Z}
+      ensures{ancillas  result = 0}
+      ensures{size result = 1}
+      ensures{range result = 0}
+      ensures{width result = 1}
+      ensures{forall x y: int->int. forall i:int. basis_ket result x y i = x i}
+      ensures{forall x y: int->int. ang_ind result x y  = x 0/./1}           
+  
+let constant bricks_cnot : circuit   = {pre = Bricks_Cnot}  
+                                         ensures{pre result = Bricks_Cnot}
+                                         ensures{ancillas  result = 0}
+                                         ensures{size result = 1}
+                                         ensures{range result = 0}
+                                         ensures{width result = 2}
+                                         ensures{forall x y : int->int. forall i: int. i <> 1 -> 
+                                                                                  basis_ket result x y i = x i}
+                                         ensures{forall x y : int->int. forall i: int. i = 1 -> 
+                                                                                  basis_ket result x y i =  x 0 *  (1 - x 1) +x 1 *  (1 - x 0)   }
+                                         ensures{forall x y: int->int.  ang_ind result x y  = 1/./0}
+
+let constant bricks_toffoli : circuit   = {pre = Bricks_Toffoli}  
+                                            ensures{pre result = Bricks_Toffoli}
+                                            ensures{ancillas  result = 0}
+                                            ensures{size result = 1}
+                                            ensures{range result = 0}
+                                            ensures{width result = 3}
+                                            ensures{forall x y : int->int. forall i: int. i <> 2 -> 
+                                                                                     basis_ket result x y i =  x i}
+                                            ensures{forall x y : int->int. forall i: int. i = 2 -> 
+                                                                                     basis_ket result x y i =  x 0 * x 1 *  (1 - x 2) +x 2 *  (1 - x 0 * x 1)}
+                                            ensures{forall x y: int->int.  ang_ind result x y  = 1/./0}
+                                        
+let constant bricks_fredkin : circuit   = {pre = Bricks_Fredkin}  
+                                            ensures{pre result = Bricks_Fredkin}
+                                            ensures{ancillas  result = 0}
+                                            ensures{size result = 1}
+                                            ensures{range result = 0}
+                                            ensures{width result = 3}
+                                            ensures{forall x y : int->int. forall i: int. i = 1 -> 
+                                                                                     basis_ket result x y i = x 0 * x 2 + (1- x 0) * x 1}
+                                            ensures{forall x y : int->int. forall i: int. i = 2 -> 
+                                                                                     basis_ket result x y i = x 0 * x 1 + (1- x 0) * x 2}
+                                            ensures{forall x y : int->int. forall i: int. i <> 1 -> i <> 2 -> 
+                                                                                     basis_ket result x y i = x i}
+                                            ensures{forall x y: int->int.  ang_ind result x y  = 1/./0}
+                                        
+let constant bricks_swap : circuit   = {pre = Bricks_Swap}  
+                                         ensures{pre result = Bricks_Swap}
+                                         ensures{ancillas  result = 0}
+                                         ensures{size result = 1}
+                                         ensures{range result = 0}
+                                         ensures{width result = 2}
+                                         ensures{forall x y : int->int. forall i: int. 
+                                                                                  basis_ket result x y i = if i = 0 then x 1 else if i = 1 then x 0 else  x i}
+                                         ensures{forall x y: int->int.  ang_ind result x y  = 1/./0}
+                                     
+let function cnot (co t n:int) : circuit
+                                   requires{0<= co<n}
+                                   requires{0<= t<n}
+                                   requires{t<>co}
+                                   ensures{pre result = Cnot co t n}
+                                   ensures{ancillas  result = 0}
+                                   ensures{size result = 1}
+                                   ensures{range result = 0}
+                                   ensures{width result = n}
+                                   ensures{forall x y : int->int. forall i: int. i <> t -> 
+                                                                            basis_ket result x y i =  x i}
+                                   ensures{forall x y : int->int. forall i: int. i = t  -> 
+                                                                            basis_ket result x y i =  x co *  (1 - x t) +x t *  (1 - x co) }
+                                   ensures{forall x y: int->int.  ang_ind result x y  = 1/./0}
+  = {pre = Cnot co t n}
+  
+let function toffoli (c1 c2 t n:int) : circuit     
+                                         requires{0<= c1<n}
+                                         requires{0<= c2<n}
+                                         requires{0<= t<n}
+                                         requires{t<>c1}
+                                         requires{t<>c2}
+                                         requires{c2<>c1}
+                                         ensures{pre result = Toffoli  c1 c2 t n}
+                                         ensures{ancillas  result = 0}
+                                         ensures{size result = 1}
+                                         ensures{range result = 0}
+                                         ensures{width result = n}
+                                         ensures{forall x y : int->int. forall i: int. i <> t -> 
+                                                                                  basis_ket result x y i =  x i}
+                                         ensures{forall x y : int->int. forall i: int. i = t  -> 
+                                                                                  basis_ket result x y i =  x c1 * x c2 *  (1 - x t) +x t *  (1 - x c1 * x c2) }
+                                         ensures{forall x y: int->int.  ang_ind result x y  = 1/./0}
+  = {pre = Toffoli c1 c2 t n}
+  
+let function fredkin (c t1 t2  n:int): circuit     
+                                         requires{0<= t1<n}
+                                         requires{0<= t2<n}
+                                         requires{0<= c<n}
+                                         requires{c<>t1}
+                                         requires{c<>t2}
+                                         requires{t2<>t1}
+                                         ensures{pre result = Fredkin  c t1 t2 n}
+                                         ensures{ancillas  result = 0}
+                                         ensures{size result = 1}
+                                         ensures{range result = 0}
+                                         ensures{width result = n}
+                                         ensures{forall x y : int->int. forall i: int. i = t1 -> 
+                                                                                  basis_ket result x y i = x c * x t2 + (1- x c) * x t1}
+                                         ensures{forall x y : int->int. forall i: int. i = t2 -> 
+                                                                                  basis_ket result x y i = x c * x t1 + (1- x c) * x t2}
+                                         ensures{forall x y : int->int. forall i: int. i <> t1 -> i <> t2 -> 
+                                                                                  basis_ket result x y i = x i}
+                                         ensures{forall x y: int->int.  ang_ind result x y  = 1/./0}
+  = {pre = Fredkin c t1 t2 n}
+
+let function swap (t1 t2  n:int): circuit     
+                                    requires{0<= t1<n}
+                                    requires{0<= t2<n}
+                                    requires{t1<>t2}
+                                    ensures{pre result = Swap   t1 t2 n}
+                                    ensures{ancillas  result = 0}
+                                    ensures{size result = 1}
+                                    ensures{range result = 0}
+                                    ensures{width result = n}
+                                    ensures{forall x y : int->int. forall i: int. i = t1 -> 
+                                                                             basis_ket result x y i =  x t2 }
+                                    ensures{forall x y : int->int. forall i: int. i = t2 -> 
+                                                                             basis_ket result x y i =  x t1 }
+                                    ensures{forall x y : int->int. forall i: int. i <> t1 -> i <> t2 -> 
+                                                                             basis_ket result x y i = x i}
+                                    ensures{forall x y: int->int.  ang_ind result x y  = 1/./0}
+  = {pre = Swap t1 t2 n}
+
+let function place (c:circuit) (k n :int)
+               requires{0<=k}
+               requires{ width c+ k <=n}
+               ensures{pre result = Place (pre c)  k n}
+               ensures{ancillas  result = ancillas c}
+               ensures{size result = size c}
+               ensures{width result = n}
+               ensures{range result = range c}
+               ensures{forall x y: int->int. forall i:int. basis_ket result x y i = if k<= i < k + width c then basis_ket c (fun j -> x (j+k)) y (i-k)
+                                                                                    else x i}
+               ensures{forall x y: int->int. ang_ind result x y  = ang_ind c (fun j -> x (j+k)) y}
+  = {pre  = Place (pre c) k n}
+
+      use unit_circle.Real_to_complex_trig
+
+let function cont (c:circuit) (co k n :int)
+               requires{0<= co < n}
+               requires{0<= k <= n - (width c)}
+               requires{k <= co -> k + width c <= co}
+               ensures{pre result = Cont (pre c) co k n}
+               ensures{width result = n}
+               ensures{ancillas  result = ancillas c}
+               ensures{size result = size c * cont_size}
+               ensures{range result = range c}
+               ensures{forall x y: int->int. forall i:int. basis_ket result x y i =
+                                                        if x co = 1 && k<= i < k + width c then basis_ket c (fun j -> x (j+k)) y (i-k)
+                                                        else x i}
+               ensures{forall x y: int->int. ang_ind result x y  =
+                                          x co *.* (ang_ind c) (fun j -> x (j+k)) y +.+
+                                            ((1- x co)*.*  ((arc_cos_ang (pow_inv_sqrt_2 (range c))) -^ (y 0)))}
+  = {pre  = Cont (pre c) co k n}
+
+let function (--) ( d e:circuit) 
+               requires{width d = width e}
+               ensures{pre result = Sequence (pre d) (pre e)}
+               ensures{ancillas  result = max (ancillas d)  (ancillas e) }
+               ensures{size result = size d + size e}
+               ensures{width result = width d}
+               ensures{range result = range d + range e}
+               ensures{forall x y: int->int. forall i:int. basis_ket result x y i =
+                                                        basis_ket e (basis_ket d x y) (fun k -> y (k+ range d)) i}
+               ensures{forall x y: int->int. ang_ind result x y  =
+                                          (ang_ind d x y) +.+ (ang_ind e (basis_ket d x y)  (fun k -> y (k+ range d)))}
+  = {pre  = Sequence (pre d) (pre e)}
+
+let lemma sequence_eq ( d d' e e':circuit) 
+      requires{width d = width e}
+      requires{d = d'}
+      requires{e = e'}
+      ensures{d--e = d' --e'}
+  =()
+
+let function (//)  ( d e:circuit) 
+               ensures{pre result = Parallel (pre d) (pre e)}
+               ensures{ancillas  result =  (ancillas d) + (ancillas e) }
+               ensures{size result = size d + size e}
+               ensures{width result = width d + width e}
+               ensures{range result = range d + range e}
+               ensures{forall x y: int->int. forall i:int. basis_ket result x y i =
+                                                        if i < width d  then basis_ket d x y i
+                                                        else basis_ket e  (fun k -> x (k+ width d)) (fun k -> y (k+ range d))  (i- width d)}
+               ensures{forall x y: int->int. ang_ind result x y  =
+                                          (ang_ind d x y) +.+ (ang_ind e  (fun k -> x (k+ width d)) (fun k -> y (k+ range d)) )}
+  = {pre  = Parallel (pre d) (pre e)}
+
+let ghost function path_sem_basis  (c: circuit)  (x:matrix complex): matrix complex
+                                                                       requires{is_a_ket_l x (width c)}
+                                                                       requires{is_a_ket_basis_elt x }
+                                                                       ensures{is_a_ket_l result (width c)}
+                                                                       ensures{result =   pps_apply_basis (circ_to_pps c) (ket_to_bv x)}
+  =  pow_inv_sqrt_2 (range c) *.. ket_sum_l (n_bvs (range c))
+                                    (fun y ->  ang_exp (ang_ind c (getbv (ket_to_bv x)) (getbv y)) *.. bv_to_ket (make_bv (basis_ket c   (getbv (ket_to_bv x)) (getbv y)) (width c))) (width c)
+
+let ghost  function path_sem (c: circuit) (x: matrix complex): matrix complex
+                                                                 requires{is_a_ket_l x (width c)}
+                                                                 ensures{is_a_ket_l result (width c)}
+                                                                 ensures{result = pps_apply (circ_to_pps c) x}
+  =  ket_sum_l  (n_bvs (width c)) (fun y -> if length y = width c then get_ket x (bv_to_int y) *.. path_sem_basis c (bv_to_ket y) else x) (width c)
+
+let function ancilla_pre (c:circuit) (l :int)
+               requires{1<=l}
+               requires{l< width c}
+               requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width c -l) ->  pps_apply (circ_to_pps c) (kronecker x (ket l 0)) =  (kronecker (path_sem_target x) (ket l 0))}
+               ensures{forall x:matrix complex. is_a_ket_l x (width c -l) ->  pps_apply (circ_to_pps c) (kronecker x (ket l 0)) =  (kronecker (path_sem result x) (ket l 0))}
+               ensures{pre result = Ancillas (pre  c) l}
+               ensures{ancillas  result =  ancillas c + l }
+               ensures{size result = size c}
+               ensures{width result = width c - l}
+               ensures{range result = range c}
+               ensures{forall x y: int->int. forall i:int. basis_ket result x y i = basis_ket c (fun k -> if  k < width c- l then x k else 0) y i}
+               ensures{forall x y: int->int. ang_ind result x y  = ang_ind c (fun k -> if  k < width c- l then x k else 0) y}
+  = {pre  = Ancillas (pre  c) l}
+
+let  function ancilla (c:circuit) (l :int)
+                requires{1<=l}
+                requires{l< width c}
+                requires{forall x:matrix complex. is_a_ket_l x (width c -l) ->  is_a_ket_basis_elt x -> exists y. path_sem c (kronecker x (ket l 0)) =  (kronecker y (ket l 0))}
+                ensures{forall x:matrix complex. is_a_ket_l x (width c -l) ->  path_sem c (kronecker x (ket l 0)) =  (kronecker (path_sem result x) (ket l 0))}
+                ensures{forall x y:matrix complex. is_a_ket_l x (width c -l) ->  path_sem c (kronecker x (ket l 0)) = kronecker y (ket l 0) -> path_sem result x = y}
+                ensures{pre result = Ancillas (pre  c) l}
+                ensures{ancillas  result =  ancillas c + l }
+                ensures{size result = size c}
+                ensures{width result = width c - l}
+                ensures{range result = range c}
+                ensures{forall x y: int->int. forall i:int. basis_ket result x y i = basis_ket c (fun k -> if  k < width c- l then x k else 0) y i}
+                ensures{forall x y: int->int. ang_ind result x y  = ang_ind c (fun k -> if  k < width c- l then x k else 0) y}
+  =
+  let ghost function (path_sem_target_basis  : matrix complex -> matrix complex) = fun x -> any matrix complex
+                                                                                              ensures{ (is_a_ket_l x (width c - l) /\ is_a_ket_basis_elt x ) -> is_a_ket_l result (width c -l) /\ path_sem c (kronecker x (ket l 0)) =  (kronecker result (ket l 0))}
+  in  let ghost function (path_sem_target  : matrix complex -> matrix complex) = fun x -> any matrix complex
+                                                                                            ensures{ (is_a_ket_l x (width c - l)) -> result = ket_sum_l (n_bvs (width c - l)) (fun y -> get_ket x (bv_to_int y) *.. path_sem_target_basis (bv_to_ket y))(width c - l)}
+      in assert{forall x:matrix complex. is_a_ket_l x (width c -l) ->  pps_apply (circ_to_pps c) (kronecker x (ket l 0)) =  (kronecker (path_sem_target x) (ket l 0))};
+         ancilla_pre c l
+
+let lemma set_ancilla_circ (x:wired_circuit) (c:circuit) (l :int)
+      requires{1<=l}
+      requires{l< width c}
+      requires{correct x}
+      requires{pre c = Ancillas x l}
+      ensures{c = ancilla (to_qc x) l}
+  =()
+  
+let lemma get_path_sem_basis (c : circuit) (x : matrix complex)
+      requires{is_a_ket_l x (width c)}
+      requires{is_a_ket_basis_elt x}
+      ensures{path_sem c x = path_sem_basis c x}
+  =()
+
+let lemma rewrite_path_sem_basis  (c: circuit)  (x:matrix complex)
+      requires{is_a_ket_l x (width c)}
+      requires{is_a_ket_basis_elt x }       
+      ensures{path_sem c x = pow_inv_sqrt_2 (range c) *.. ket_sum_l (n_bvs (range c))
+                                                            (fun y ->  ang_exp (ang_ind c (getbv (ket_to_bv x)) (getbv y)) *.. bv_to_ket (make_bv (basis_ket c   (getbv (ket_to_bv x)) (getbv y)) (width c))) (width c)}
+  =()
+  
+let lemma path_sem_basis_comp_ (d e: circuit) (x : matrix complex)
+      requires{is_a_ket_l x (width d)}
+      requires{is_a_ket_basis_elt x}
+      requires{width d = width e}
+      ensures{path_sem_basis ( d -- e) x = path_sem e (path_sem_basis d x)}
+  =()
+  
+let lemma path_sem_basis_kron (d e: circuit) (x x' y y': matrix complex)
+      requires{is_a_ket_l x (width d)}
+      requires{is_a_ket_l y  (width e)}
+      requires{is_a_ket_basis_elt x}
+      requires{is_a_ket_basis_elt y}
+      requires{path_sem_basis d x = x'}
+      requires{path_sem_basis e y = y'}
+      ensures{path_sem_basis ( d // e) (kronecker x y) = kronecker x' y'}
+  =()
+
+     use binary.Bv_concat
+  
+let lemma path_sem_basis_par (d e: circuit) (x : matrix complex)
+      requires{is_a_ket_l x (width d + width e)}
+      requires{is_a_ket_basis_elt x}
+      ensures{path_sem ( d // e) x = kronecker (path_sem d (bv_to_ket(hpart (ket_to_bv x) (width d))))
+                                       (path_sem e (bv_to_ket (tpart (ket_to_bv x) (width d)))) }
+  =()
+  
+let lemma path_sem_comp_ (d e: circuit) (x : matrix complex)
+      requires{is_a_ket_l x (width d)}
+      requires{width d = width e}
+      ensures{path_sem ( d -- e) x = path_sem e (path_sem d x)}
+  =()
+
+let lemma path_sem_kron (d e: circuit) (x x' y y': matrix complex)
+      requires{is_a_ket_l x (width d)}
+      requires{is_a_ket_l y  (width e)}
+      requires{path_sem d x = x'}
+      requires{path_sem e y = y'}
+      ensures{path_sem ( d // e) (kronecker x y) = kronecker x' y'}
+  =()
+
+let lemma path_sem_comp_rev (d e: circuit) (x : matrix complex)
+      requires{is_a_ket_l x (width d)}
+      requires{width d = width e}
+      ensures{path_sem e (path_sem d x) = path_sem ( d -- e) x }
+  =()
+end

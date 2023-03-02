@@ -1,0 +1,426 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+module Circuit
+
+         use unit_circle.Ang_sum
+         use wired_circuits.Circuit_c
+         use  qbricks.Circuit_semantics
+         use   binary.Bit_vector
+         use  binary.Int_to_bv
+         use  p_int.Int_comp
+         use  qft.Qft
+         use  int_expo.Int_Exponentiation
+         use  remarkable_fragments.Diag_circuits
+         use  qbricks.Circuit_macros
+         use wired_circuits.Qbricks_prim
+         use binary.Binary_Op
+         use int.Int
+         use qdata.Bv_to_ket
+         use complex.Complex
+         use unit_circle.Angle
+         use qdata.Qreg
+         use qdata.Kronecker_Qbit
+         use matrices.Kronecker_product
+         use matrices.Matrix
+         use ref.Ref
+         use arit.Divisors
+         use matrices.Matrix_scalar
+         use matrices.Matrix
+         use binary.Bit_vector_decomp
+         use int.EuclideanDivision
+         use reversion.Circuit_reverse
+         use arit.Div_Mod
+         use arit.Inverse
+         use extr_int.Ind_isum
+         use circuits_equiv.Neutral_circuit
+         use kets.Superpositions
+         use qdata.Sqrt_two
+         use qdata.Ket_basis
+         use qft.Rev_qft
+
+type shor_ = {composite:int; compos_log : int; picked : int}
+               invariant{0<compos_log /\  1< picked < composite /\power 2 (compos_log-1)<= composite < power 2 compos_log /\co_prime picked composite /\0< compos_log}
+               by{composite = 5; compos_log =3 ; picked =3}
+           
+ val constant s() : ref shor_
+let constant  bound= !(s()).composite   
+let constant  n  = !(s()).compos_log
+let constant  pick  = !(s()).picked
+
+                       
+let lemma bound_inf()
+      ensures{0< bound}
+      ensures{1< bound}
+  =()
+  
+let function pre_adder_const_  (y:bitvec): circuit
+    requires{length y = (n+1)}
+    ensures{width result = (n+1)}
+    ensures{forall x z. binary_l x (n+1) -> ang_ind result x z = ang_sum  (fun target ->
+                  ang_sum  (fun k ->   (getbv  y k  *  x  target  * power 2 ((n-k)+(n-target)) )/./ (n+1) ) (n-target) (n+1)) 0 (n+1)}
+    ensures{forall x z. length x = (n+1) ->ang_ind result (getbv x) (getbv z) =  (bv_to_int x* bv_to_int y)/./ (n+1)}
+    ensures{forall x z i. binary_l x (n+1) -> 0<= i < (n+1) -> basis_ket result x z i = x i}
+    ensures{range result = 0}
+    ensures{forall x : bitvec. length x =  (n+1) -> path_sem result (bv_to_ket x) = 
+                   int_qft_coeff    (bv_to_int y)  (bv_to_int x)  (n+1) *.. (bv_to_ket x)}
+    ensures{ancillas result = 0}
+  = let k = ref 0
+    in let c = ref (m_skip (n+1))
+       in while (!k <= n)  do
+            variant{n+1 - !k}
+              invariant{forall x z. binary_l x (n+1) -> ang_ind !c x z = ang_sum  (fun target ->
+                       ang_sum  (fun j ->   (getbv y j  * x  target  * power 2 ((n-j)+(n-target))) /./ (n+1) ) (n-target) (n+1))  0 (!k)}
+              invariant{forall x z i. binary_l x (n+1) -> 0<= i < (n+1) -> basis_ket !c x z i = x i}
+              invariant{range !c = 0}
+              invariant{width !c = (n+1)}
+              invariant{ancillas !c = 0}
+              invariant{0 <= !k <= n+1}
+            let i = ref (n - !k)
+                in let cl =  ref (m_skip (n+1))
+                   in while (!i < n + 1 ) do
+                        variant{n+1 - !i}
+                          invariant{forall x z. binary_l x (n+1) -> ang_ind !cl x z = ang_sum  (fun j ->  ( getbv y j  *  x  !k
+                                   * power 2 (n  - j + n- !k)) /./ (n+1) ) (n- !k) (!i)}
+                          invariant{forall x z i. 0<= i < (n+1) -> binary_l x (n+1) -> basis_ket !cl x z i = x i}
+                          invariant{range !cl = 0}
+                          invariant{width !cl = (n+1)}
+                          invariant{ancillas !cl = 0}
+                          invariant{n - !k <= !i <= n+1}
+                          i := !i+1;
+                        cl := seq_diag !cl    (prz (getbv y (!i-1) * (!k + !i - n)) !k  (n+1))
+                      done;
+                      c := seq_diag !c !cl;
+                      k := !k+1
+          done;
+          ang_sum_sum_bv_to_int_mult_gen (n+1);
+          return (!c)
+
+let function add_in_qft (added :int) :circuit
+                                        ensures{width result = n+1}
+                                        ensures{forall b. path_sem result (apply_qft (n+1) b) = (apply_qft (n+1)  (added+b))}
+                                        ensures{width result = n+1}
+                                        ensures{ancillas result = 0}
+  = pre_adder_const_  (int_to_bv (mod added (power 2 (n+1))) (n+1))
+  
+let function place_add_in_qft (added  k:int) :circuit
+                                                requires{0< k }
+                                                ensures{width result = n+1+k}
+                                                ensures{forall b. forall y.  is_a_ket_l y k ->
+                                                        path_sem result (kronecker (apply_qft (n+1) b) y) =  (kronecker (apply_qft (n+1)  (b+added)) y)}
+                                                ensures{width result = n+1+k}
+                                                ensures{ancillas result = 0}
+  =
+  place (add_in_qft added) 0 (n+1+k)
+  
+let function place_add_in_comput_basis (added size_reg:int) :circuit
+                                                               requires{n +1< size_reg}
+                                                               ensures{width result = size_reg}
+                                                               ensures{forall b. forall  z. 0<=b < power 2 (n+1)  -> is_a_ket_l z (size_reg-n-1) ->
+                                                                       path_sem result  (kronecker (ket (n+1) b) z) =  (kronecker (ket (n+1)  (mod (b+added) (power 2 (n+1)))) z)}
+                                                               ensures{width result = size_reg}
+                                                               ensures{ancillas result = 0}
+  =  apply_function_in_qft_basis_zero (place_add_in_qft  added  (size_reg -n-1)) (n+1)  size_reg (fun i -> mod (i + added) (power 2 (n+1)))
+
+let function div_bound (added value:int)
+               requires{0<= added < bound}
+               requires{ 0<= value < bound}
+               ensures{0 <= result <2}      
+               ensures{result = 0 ->  mod ((value + added) - bound) (power 2 (n + 1)) = (power 2 (n + 1)) + ((value + added) - bound)}
+               ensures{result = 0 -> power 2 n <= mod ((value + added) - bound) (power 2 (n + 1))  < power 2 (n + 1)}
+               ensures{result = 1 ->  mod (value + added) bound  =  ((value + added) - bound)}
+               ensures{result = 1 ->  mod ((value + added) - bound) (power 2 (n + 1)) =  ((value + added) - bound)}
+               ensures{result = 1 -> 0<= mod ((value + added) - bound) (power 2 (n + 1)) < power 2 n}
+  = let div_bound = div (value+added) bound in
+    if div_bound = 0 then unicity_div_mod ((value + added) - bound) (power 2 (n + 1))  (-1) (power 2 (n + 1) + ((value + added) - bound)) 
+    else
+      begin
+        unicity_div_mod (value + added)  bound  1 ((value + added) - bound);       
+        unicity_div_mod (value + added-bound)  (power 2 (n + 1))  0 ((value + added) - bound)
+      end;
+    div_bound   
+
+let lemma ket_l_two_n_plus_two(a b c: matrix complex)
+      requires{is_a_ket_l a n}
+      requires{is_a_ket_l b (n+1)}
+      requires{is_a_ket_l c 1}
+      ensures{is_a_ket_l (kronecker a(kronecker b c)) (2*n+2)}
+  = kronecker_ket_l b c (n+1) 1 ;
+    kronecker_ket_l a (kronecker b c) n  (n+2)
+
+let lemma ket_l_two_n_plus_four(a b c: matrix complex)
+      requires{is_a_ket_l a (n+1)}
+      requires{is_a_ket_l b (n+2)}
+      requires{is_a_ket_l c 1}
+      ensures{is_a_ket_l (kronecker a(kronecker b c)) (2*n+4)}
+  = kronecker_ket_l b c (n+2) 1 ;
+    kronecker_ket_l a (kronecker b c) (n+1)  (n+3)
+
+let function modular_adder  ( post:int)    
+               ensures{width result = n+2}
+               ensures{forall pre. path_sem result  (kronecker (apply_qft (n+1)   (mod pre bound)) (ket 1 0)) = (kronecker (apply_qft (n+1) (mod (pre+post)  bound)) (ket 1 0))}
+               ensures{ancilla_free result}
+  =     let mod_post = mod post bound
+                             ensures{0<= result < bound}
+        in let function modular_adder_    (pre   :int):circuit
+                                                         requires{0<= pre < bound}
+                                                         ensures{width result = n+2}
+                                                         ensures{path_sem result  (kronecker (apply_qft (n+1)   pre) (ket 1 0)) = (kronecker (apply_qft (n+1) (mod (pre + post)  bound)) (ket 1 0))}
+                                                         ensures{ancilla_free result}
+                                                         ensures{result =        (place_add_in_qft (mod_post-bound)  1)
+                                                                                 --       (apply_from_qft_zero_path (n+1) 1 (cnot 0 (n+1) (n+2)))
+                                                                                 --       (cont_last_qbit_kron_path (add_in_qft bound  ))
+                                                                                 -- (place_add_in_qft (- mod_post) 1)
+                                                                                 -- (apply_from_qft_zero_path (n+1) 1 (ind_neg_cnot 0 (n+1) (n+2)))
+                                                                                 -- (place_add_in_qft mod_post 1)}
+             = let ghost div_bound = div_bound mod_post  pre
+             in   let ghost reg_init = (kronecker (apply_qft (n+1)  pre) (ket 1 0))
+                                         ensures{is_a_ket_l result (n+2)}
+                  in let ghost reg = ref  (kronecker (apply_qft (n+1)  (pre+mod_post-bound)) (ket 1 0))
+                     in let  c = ref (place_add_in_qft (mod_post-bound)  1)
+                        in let ghost reg_new = ref  (kronecker (apply_qft (n+1)  (pre+mod_post-bound)) (ket 1 0))
+                           in 
+                           apply_qft_equiv (n+1) (pre+mod_post-bound) (mod (pre+mod_post-bound) (power 2 (n+1)));
+                           bound_mod ((pre + mod_post) - bound) (power 2 (n + 1));
+                           sem_ind_cnot_zero (n+2);
+                           reg_new :=  kronecker (apply_qft (n+1)  (pre+mod_post-bound)) (ket 1 (1- div_bound));
+                           ancilla_free_seq  !c (apply_from_qft_zero_path (n+1) 1 (cnot 0 (n+1) (n+2))) ;
+                           c:= path_seq (!c)  (apply_from_qft_zero_path (n+1) 1 (cnot 0 (n+1) (n+2))) reg_init !reg !reg_new (n+2);
+                           reg := !reg_new; 
+                           reg_new :=  (kronecker (apply_qft (n+1)  (mod(pre + mod_post )bound)) (ket 1 (1- div_bound)));
+                           ancilla_free_seq  !c (cont_last_qbit_kron_path (add_in_qft bound  ));
+                           c:= path_seq (!c) (cont_last_qbit_kron_path (add_in_qft bound  )) reg_init !reg !reg_new (n+2) ;
+                           reg := !reg_new; 
+                           reg_new :=  (kronecker (apply_qft (n+1)  (mod(pre + mod_post )bound - mod_post)) (ket 1 (1- div_bound)));
+                           ancilla_free_seq  !c (place_add_in_qft (- mod_post) 1);
+                           c:= path_seq (!c)   (place_add_in_qft (- mod_post) 1) reg_init !reg !reg_new (n+2);
+                           reg := !reg_new;
+                           sem_ind_neg_cnot_zero (n+1);
+                           reg_new :=  (kronecker (apply_qft (n+1)  (mod(pre + mod_post )bound - mod_post)) (ket 1 0));
+                           ancilla_free_seq  !c (apply_from_qft_zero_path (n+1) 1 (ind_neg_cnot 0 (n+1) (n+2)));
+                           c:= path_seq (!c)  (apply_from_qft_zero_path (n+1) 1 (ind_neg_cnot 0 (n+1) (n+2))) reg_init !reg !reg_new (n+2);
+                           reg := !reg_new;
+                           reg_new :=  (kronecker (apply_qft (n+1)  (mod(pre + mod_post )bound)) (ket 1 0));
+                           ancilla_free_seq  !c (place_add_in_qft mod_post 1);
+                           c:= path_seq (!c)  (place_add_in_qft mod_post 1) reg_init !reg !reg_new (n+2);
+                           reg := !reg_new; 
+                           return !c
+           in  modular_adder_ 0
+
+let function multiplier_qft_pre (p:int)  :circuit
+                                            ensures{forall b i . 0<= b < bound -> 0<= i <power 2 n -> path_sem result (kronecker (ket n i) (kronecker (ket (n+1)  b) (ket 1 0)))
+                                                                                                      = kronecker (ket n i)  (kronecker(kronecker (ket 1 0) (ket n (mod  (b+ (p * i)) bound))) (ket 1 0))}
+                                            ensures{width result = 2*n+2}
+                                            ensures{ancilla_free result}
+  =               let ghost function prov_added (b i j :int)
+                                       requires{0<= j <n+1}
+                                       requires{0<= b <bound}
+                                       requires{0<= i <power 2 n}
+                                       ensures{j = 0 -> result = b}
+                                       ensures{j= n -> result =  (b) + (p * i)}
+                    = (b) + p * (ind_isum   (fun k -> getbv (int_to_bv i n) k * power 2 (n-k-1)) 0 j)
+                  in
+                  assert{forall b i j. 0<= j < n -> 0<= b <bound -> 0<= i <power 2 n ->
+                         prov_added b i (j+1) =  prov_added b i j +  (p * getbv (int_to_bv i n) j * power 2 (n-j-1))};
+                  let ghost function reg_new_tail (b i j :int)
+                                       requires{0<= b <bound}
+                                       requires{0<= i <power 2 n}
+                                       requires{0<= j <n+1}
+                                       ensures{is_a_ket_l result (n+1+1)}
+                    = (kronecker  (apply_qft (n+1)  (mod(prov_added b i j )bound)) (ket 1 0))
+                  in
+                  assert{forall b i j. 0<= j < n -> 0<= b <bound -> 0<= i <power 2 n ->
+                         (getbv (int_to_bv i n) j) = 1 ->
+                         path_sem (modular_adder   (p * power 2 (n-j-1))) (reg_new_tail b i j )= reg_new_tail b i (j+1) };
+                  assert{forall b i j. 0<= j < n -> 0<= b <bound -> 0<= i <power 2 n ->
+                         (getbv (int_to_bv i n) j) = 0 -> reg_new_tail b i (j+1) = reg_new_tail b i j };
+                  let ghost function regs (b i k :int)
+                                       requires{0<= b <bound}
+                                       requires{0<= i <power 2 n}
+                                       ensures{k = 0 -> result = kronecker (ket n i) (kronecker (apply_qft (n+1)  b)(ket 1 0))}
+                                       ensures{k = n -> result = kronecker (ket n i)  (kronecker(apply_qft  (n+1) (mod  (b+ (p * i)) bound)) (ket 1 0))}
+                                       requires{0<= k <n+1}
+                                       ensures{is_a_ket_l result (2*n+2)}
+                                       requires{0<= i <power 2 n}
+                    =  kronecker (ket n i) (reg_new_tail b i k )
+                  in
+                  let ref j =  0
+                  in let ref c =  (m_skip (2*n+2))
+                     in while (j < n)  do
+                          invariant{width c = 2*n+2}
+                            invariant{ancilla_free c}
+                            invariant{forall b i . 0<= b <bound -> 0<= i <power 2 n ->
+                                      path_sem c (regs b i 0 ) = regs b i j }
+                            invariant{0<= j <=n}
+                            variant{n-j} 
+                            c :=   c -- (cont (modular_adder   (p * power 2 (n-j-1))) j n (2*n+2));
+                          j := j+1;
+                        done;
+                        c := apply_function_in_qft_basis_gen c  (n+1) n (2*n+2) ;
+                        assert{width c = (2*n+2)};
+                        assert{ forall i b. 0<= i <power 2 n -> 0<= b < bound ->   path_sem c (kronecker (ket n i) (kronecker (ket (n+1)  b)(ket 1 0)))=
+                                                                                     kronecker (ket n i)  (kronecker(kronecker (ket 1 0) (ket n (mod  (b+ (p * i)) bound))) (ket 1 0))};
+                        assert{ancilla_free c};
+                        c
+                        
+let function  cont_restricted_modular_multiplier(p:int):circuit 
+                                                          requires{0< p < bound}
+                                                          requires{co_prime p  bound}
+                                                          ensures{width result = 2*n+4}
+                                                          ensures{forall i. 0<= i < bound -> path_sem result (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 1)))
+                                                                                             = (kronecker  (ket (n+1) (mod (p * i) bound))  (kronecker(ket (n+2) 0)(ket 1 1)))}
+                                                          ensures{forall i.  bound<= i < power 2 n -> path_sem result (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 0)))
+                                                                                                      = (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 0)))}
+                                                          ensures{ancilla_free result}
+  =  let ghost function reg_init (i:int)
+                          requires{0<= i <power 2 n}
+                          ensures{is_a_ket_l result (2*n+2)}
+       =  (kronecker (ket n i ) (kronecker (ket (n+1)  0) (ket 1 0)))
+     in  let ref  c 
+           =   multiplier_qft_pre p 
+         in
+         swap_lists_kets  (n+1) n (2*n+2);
+         c :=   c -- (swap_lists 0 (n+1) n (2*n+2));
+         assert{forall i. 0<=i < power 2 n -> path_sem c (reg_init i) = kronecker (ket n (mod   (p * i ) bound))  (kronecker(kronecker (ket 1 0) (ket n i )) (ket 1 0))};
+         assert{ancilla_free c};
+         c:=  c -- (multiplier_qft_pre(mod (- (modular_inverse p bound )) bound))  ;
+         assert{forall i. 0<=i < bound -> path_sem c (reg_init i) = kronecker (ket n (mod   (p * i ) bound))  (kronecker(kronecker (ket 1 0) (ket n 0)) (ket 1 0))};
+         assert{ancilla_free c};
+         c:= cont_last_qbit_kron_path c;
+         assert{forall i. 0<=i < bound -> path_sem c (kronecker  (ket n i)  (kronecker(ket (n+2) 0)(ket 1 1)))
+                                          = (kronecker  (ket n (mod (p * i) bound))  (kronecker(ket (n+2) 0)(ket 1 1)))};
+         assert{forall i. bound<= i < power 2 n -> path_sem c (kronecker  (ket n i)  (kronecker(ket (n+2) 0)(ket 1 0)))
+                                                   = kronecker  (ket n i)  (kronecker(ket (n+2) 0)(ket 1 0))};
+         assert{width c = (2*n+3)};
+         assert{ancilla_free c};
+         c:= place c 1 (2*n+4);
+         c
+         
+let function modular_multiplier(p:int) :circuit
+                                          requires{0< p < bound}
+                                          requires{co_prime p  bound}
+                                          ensures{width result = n}
+                                          ensures{forall i. 0<= i < bound -> path_sem result    (ket n i) = (ket n (mod (p * i) bound))}
+                                          ensures{ forall i. bound<= i < power 2 n -> path_sem result    (ket n i) = (ket n i)}
+  =
+  let function modib (j:int)
+                 requires{0<= j < power 2 n}
+                 ensures{0<= result < power 2 (n+1)}
+                 ensures{bound <= j < power 2 n -> 0 <= result < power 2 n }
+                 ensures{0<= j < bound < power 2 n ->  power 2 n <= result < power 2 (n+1) }
+    = mod (j-bound) (power 2 (n+1))
+  in let function g  (j:int)
+                    requires{0<= j < power 2 n}
+                    ensures{0<= result <2}
+                    ensures{result = 0 <->   bound <= j}
+                    ensures{result = 1 <->  j < bound}
+                    ensures{result = (getbv (ket_to_bv (ket (n + 1) (modib  j)))  0)}
+       = div (modib j) (power 2 n)
+     in sem_ind_cnot_zero (n+2); 
+        let check_order 
+          = let ref check_  =  place_add_in_comput_basis  (-bound) (2*n+4)
+                                 ensures{forall i. 0<=i < power 2 n ->
+                                         path_sem result (kronecker  (ket (n+1) i)  (kronecker (ket (n+2) 0) (ket 1 0))) = kronecker  (ket (n+1) (modib i))  (kronecker (ket (n+2) 0) (ket 1 0))}
+            in
+            check_ :=  check_ -- (insert_qbits (   cnot 0 (n+1) (n+2)) (n+1) (n+2) (n+2));
+            assert{forall i. 0<=i < power 2 n ->
+                   path_sem check_ (kronecker  (ket (n+1) i)  (kronecker (ket (n+2) 0) (ket 1 0))) = kronecker  (ket (n+1) (modib i))  (kronecker (ket (n+2) 0) (ket 1 (g i)))};
+            assert{width check_ = 2*n+4};
+            assert{ancilla_free check_};
+            check_ :=  check_ -- (place_add_in_comput_basis   bound (2*n+4)) ;
+            assert{forall i. 0<=i < power 2 n ->
+                   path_sem check_ (kronecker  (ket (n+1) i)  (kronecker (ket (n+2) 0) (ket 1 0))) = kronecker  (ket (n+1) i)  (kronecker (ket (n+2) 0) (ket 1 (g i)))};
+            assert{width check_ = 2*n+4};
+            assert{ancilla_free check_};
+            check_
+              ensures{forall i. 0<=i < power 2 n ->
+                      path_sem result (kronecker  (ket (n+1) i)  (kronecker (ket (n+2) 0) (ket 1 0))) = kronecker  (ket (n+1) i)  (kronecker (ket (n+2) 0) (ket 1 (g i)))}
+              ensures{width result = 2*n+4}
+              ensures{ancilla_free result}
+        in let ghost function i_image (i:int )
+                                requires{0<= i <power 2 n}
+                                ensures{0<= result < power 2 n}
+             = if g i = 0 then i else mod (p * i) bound 
+           in let ref c =  check_order -- cont_restricted_modular_multiplier  p
+              in
+              assert{forall i. 0<=i < power 2 n ->
+                     path_sem c (kronecker  (ket (n+1) i)  (kronecker (ket (n+2) 0) (ket 1 0))) = kronecker  (ket (n+1) (i_image i))  (kronecker (ket (n+2) 0) (ket 1 (g i)))};
+              assert{width c = 2*n+4};
+              assert{ancilla_free c};                      
+              c:=  c -- (reverse check_order);
+              assert{forall i. 0<=i < power 2 n ->
+                     path_sem c (kronecker  (ket (n+1) i)  (kronecker (ket (n+2) 0) (ket 1 0))) = kronecker  (ket (n+1) (i_image i))  (kronecker (ket (n+2) 0) (ket 1 0))};
+              assert{width c = 2*n+4};
+              assert{ancilla_free c};
+              c := with_permutation c (fun i -> if i< 1 then i + (2*n+4)-1 else  i - 1) ;
+              assert{forall i. 0<=i < power 2 n ->
+                     path_sem c (kronecker (kronecker  (ket n i)   (ket (n+3) 0) ) (ket 1 0)) = (kronecker (kronecker  (ket n (i_image i))  ( ket (n+3) 0)) (ket 1 0)) };
+              assert{width c = 2*n+4};
+              assert{ancilla_free c};                      
+              c:= ancilla c (n+4);
+              c
+
+let ghost function reg_final
+  = pow_inv_2 (2*n) *.. ket_sum_l (n_bvs (2*n))(fun i -> ket_sum_l (n_bvs (2*n))(fun j ->
+                                                             (kronecker (int_qft_coeff (bv_to_int i) (- bv_to_int j)  (2*n)
+                                                                         *.. ket (2*n) (bv_to_int j)) (ket n (mod (power pick (bv_to_int i)) bound))))(3*n)) (3*n)
+                          ensures{result = pow_inv_2 (2*n) *.. ket_sum_l (n_bvs (2*n))(fun i -> ket_sum_l (n_bvs (2*n))(fun j ->
+                                                                                                    (kronecker (int_qft_coeff (bv_to_int i) (- bv_to_int j)  (2*n)
+                                                                                                                *.. ket (2*n) (bv_to_int j)) (ket n (mod (power pick (bv_to_int i)) bound))))(3*n)) (3*n)}
+                          ensures{is_a_ket_l result (3*n)}
+  
+let  shor_circuit 
+  = sum_ket_zero (2*n);
+    place_kron_left (repeat_had (2*n)) (3*n) (ket (2*n) 0) (superposition_state (2*n)) (ket n 1);
+    let reg_sup = kronecker  (superposition_state (2*n)) (ket n 1)
+    in let  create_superposition =  place (repeat_had (2*n)) 0 (3*n)
+       in let ghost function regs (k :int) (x:bitvec)
+                            requires{0<= k <= 2*n}
+                            ensures{length x = 2* n -> is_a_ket_l result (3*n)}
+                            ensures{length x = 2* n -> k = 0 -> result = kronecker (bv_to_ket x) (ket n 1)}
+                            ensures{length x = 2* n -> k = 2*n -> result = kronecker (bv_to_ket x)(ket n (mod  (power  pick  (bv_to_int x)) bound))}                           
+         = kronecker (bv_to_ket x) (ket n (mod  (power  pick  (ind_isum (fun l -> getbv x l * power 2 (2*n-l-1)) 0 k)) bound))
+       in
+       let reg_controlled = pow_inv_sqrt_2 (2*n) *.. ket_sum_l (n_bvs (2*n)) (regs (2*n)) (3*n)
+
+       in             let ref  k = 0
+                      in let ref  c = m_skip (3*n)
+                         in while (k < 2* n)  do
+                              invariant{width c = 3*n}
+                                invariant{forall x. length x = 2* n -> path_sem c (regs 0 x) = regs k x}
+                                invariant{0<= k <=2*n}
+                                variant{2*n-k}
+                                co_prime_pow pick bound (power 2 (((2 * n) - k) - 1)) ;
+                              antirefl_co_prime bound;
+                              co_prime_to_mod (power pick (power 2 (((2 * n) - k) - 1))) bound;
+                              c :=  c --  (cont (modular_multiplier (mod (power pick (power 2 (((2 * n) - k) - 1)))bound))   k (2*n) (3*n))  ;
+                              k := k+1
+                            done;
+                            c := path_seq create_superposition c (kronecker (ket (2*n) 0) (ket n 1)) reg_sup reg_controlled (3*n);
+                            c := path_seq c (place (qft_rev (2*n)) 0 (3*n)) (kronecker (ket (2*n) 0) (ket n 1)) reg_controlled reg_final (3*n);
+                            c
+                              ensures{width result = 3*n}
+                              ensures{path_sem result (kronecker (ket (2*n) 0) (ket n 1)) = reg_final}
+end
+
+
+         

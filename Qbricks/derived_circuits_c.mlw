@@ -1,214 +1,460 @@
-module Reverse
-         use export qbricks_c.Circuit_elem_c
-use qdata.Qreg
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+module Place
+
+         use  qbricks_c.Circuit_c
+         use  qbricks_c.Correct_circuit_c           
+         use  matrices.Matrix
+         use  qdata.Qreg
+         use  qdata.Bv_to_ket
+         use int_expo.Int_Exponentiation
+         use int.Int
+         use unit_circle.Angle
+         use complex.Complex
+         use   qdata.Ket_basis
+         use pps.Pps
+         use matrices.Kronecker_product
+         use matrices.Matrix_scalar
+         use  qdata.Sqrt_two
      
-let rec predicate ancilla_free (c:circuit_c)
-          ensures{result <-> (ancillas_c c = 0)}
-      variant{pre c}
-  = match pre c with
-    Sequence d e -> ancilla_free (to_qc d) && ancilla_free (to_qc e)
-  | Parallel d e -> ancilla_free (to_qc d) && ancilla_free (to_qc e)
-  | Phase _ -> true
-  | Rz _ -> true
-  | Hadamard  -> true
-  | Cnot  -> true
-  | Swap  -> true
-  | Id  -> true
-  | Ancilla _ -> false
-end
+let rec function ids (n:int): circuit
+                                requires{1<= n}
+                                variant{n}
+                                ensures{width result = n}
+                                ensures{size result = 0}
+                                ensures{ancillas result = 0}           
+                                ensures{range result = 0}
+                                ensures{forall x y: int->int. forall i:int. basis_ket result x y i = x i}
+                                ensures{forall x y: int->int.  ang_ind result x y  = ang_zero}
+                                ensures{forall x: matrix complex. is_a_ket_l x n -> is_a_ket_basis_elt x -> path_sem result x = x}
+                                ensures{forall x: matrix complex. is_a_ket_l x n -> path_sem result x = x}
+  = if n = 1 then id
+    else parallel (ids (n-1)) id
 
-let rec function reverse_c (c:circuit_c)
-                   requires{ancillas_c c = 0}
-                   ensures{width_c result = width_c c}
-                   ensures{size_c result = size_c c}
-                   ensures{ancillas_c result = 0}
-                   ensures{forall x y: matrix complex. is_a_ket_l x (width_c c) -> is_a_ket_l y (width_c c) -> (path_sem_c c x = y <-> path_sem_c result y = x)}      
-      variant{pre c}
-  = match pre c with
-    Id -> id_c
-  | Swap -> swap_c
-  | Cnot -> cnot_c
-  | Phase k -> phase_c (-k)
-  | Rz k -> rz_c (-k)
-  | Hadamard  -> hadamard_c             
-  |  Sequence d e -> sequence_c (reverse_c (to_qc e)) (reverse_c (to_qc d))
-  | Parallel d e -> parallel_c (reverse_c (to_qc d)) (reverse_c (to_qc e)) 
-  | Ancilla c -> to_qc c
-end
-end
-     
-     module Place
-               
-         use qbricks_c.Circuit_elem_c
-use qdata.Qreg
-
-     let rec function ids_c (n:int): circuit_c
-                              requires{1<= n}
-                              variant{n}
-                              ensures{width_c result = n}
-                              ensures{size_c result = 0}
-                              ensures{ancillas_c result = 0}           
-                              ensures{range_c result = 0}
-                              ensures{forall x y: int->int. forall i:int. basis_ket_c result x y i = x i}
-                              ensures{forall x y: int->int.  ang_ind_c result x y  = ang_zero}
-                              ensures{forall x: matrix complex. is_a_ket_l x n -> is_a_ket_basis_elt x -> path_sem_c result x = x}
-                              ensures{forall x: matrix complex. is_a_ket_l x n -> path_sem_c result x = x}
-  = if n = 1 then id_c
-    else parallel_c (ids_c (n-1)) id_c
-
-let function place_zero (c:circuit_c) ( n:int)  : circuit_c
-                 requires{ width_c c <=n}                 
-                 ensures{ancillas_c result = ancillas_c c}
-                 ensures{size_c result = size_c c}
-                 ensures{range_c result = range_c c}
-                 ensures{width_c result = n}
-                 ensures{forall x y: int->int. forall i:int. 0<=i<n -> basis_ket_c result x y i =
-                                                          if 0<= i <  width_c c then basis_ket_c c x y i
-                                                          else x i}
-                 ensures{forall x y: int->int.  ang_ind_c result x y  = ang_ind_c c x y}
-               ensures{result = if n = width_c c then c else parallel_c c (ids_c (n-width_c c))}
-  = if n =width_c c then c 
-                 else parallel_c c (ids_c (n-width_c c))             
+let function place_zero (c:circuit) ( n:int)  : circuit
+                                                  requires{ width c <=n}                 
+                                                  ensures{ancillas result = ancillas c}
+                                                  ensures{size result = size c}
+                                                  ensures{range result = range c}
+                                                  ensures{width result = n}
+                                                  ensures{forall x y: int->int. forall i:int. 0<=i<n -> basis_ket result x y i =
+                                                                                                          if 0<= i <  width c then basis_ket c x y i
+                                                                                                          else x i}
+                                                  ensures{forall x y: int->int.  ang_ind result x y  = ang_ind c x y}
+                                                  ensures{result = if n = width c then c else parallel c (ids (n-width c))}
+  = if n =width c then c 
+    else parallel c (ids (n-width c))             
   
-let function place_c  (c:circuit_c) (k n:int)  : circuit_c
-                 requires{0<=k}
-                 requires{ width_c c+ k <=n}
-                 ensures{ancillas_c result = ancillas_c c}
-                 ensures{size_c result = size_c c}
-                 ensures{range_c result = range_c c}
-                 ensures{width_c result = n}
-                 ensures{forall x y: int->int. forall i:int. 0<=i < n -> basis_ket_c result x y i =
-                                                          if k<= i < k + width_c c then basis_ket_c c (fun j -> x (j+k)) y (i-k)
-                                                          else x i}
-                 ensures{forall x y: int->int.  ang_ind_c result x y  = ang_ind_c c (fun j -> x (j+k)) y}
-                 ensures{result = if k = 0 /\ n =k+width_c c then c
-                                  else if k = 0 then  parallel_c c (ids_c (n-k-width_c c))
-                                  else if  n =k+width_c c then parallel_c (ids_c k) c 
-                                    else parallel_c (ids_c k) (parallel_c c (ids_c (n-k-width_c c)))}
-           =  if k = 0 then (place_zero c n)
-                else parallel_c (ids_c k) (place_zero c (n-k))
-            
-let lemma place_kron_c (c:circuit_c) (k n: int) (x y y' z: matrix complex)
-                 requires{0<k}
-                 requires{ width_c c+ k< n}
-                 requires{is_a_ket_l x k}
-                 requires{is_a_ket_l y (width_c c)}
-                 requires{is_a_ket_l z (n- (width_c c) -k)}
-                 requires{path_sem_c c y = y'}
-                 ensures{path_sem_c (place_c c k n) (kronecker x (kronecker y z))  = kronecker x (kronecker y' z)}
+let function place  (c:circuit) (k n:int)  : circuit
+                  requires{0<=k}
+                  requires{ width c+ k <=n}
+                  ensures{ancillas result = ancillas c}
+                  ensures{size result = size c}
+                  ensures{range result = range c}
+                  ensures{width result = n}
+                  ensures{forall x y: int->int. forall i:int. 0<=i < n -> basis_ket result x y i =
+                                                                            if k<= i < k + width c then basis_ket c (fun j -> x (j+k)) y (i-k)
+                                                                            else x i}
+                  ensures{forall x y: int->int.  ang_ind result x y  = ang_ind c (fun j -> x (j+k)) y}
+                  ensures{result = if k = 0 /\ n =k+width c then c
+                                   else if k = 0 then  parallel c (ids (n-k-width c))
+                                   else if  n =k+width c then parallel (ids k) c 
+                                   else parallel (ids k) (parallel c (ids (n-k-width c)))}
+  =  if k = 0 then (place_zero c n)
+     else parallel (ids k) (place_zero c (n-k))
+
+use kronecker_comm.Ket_zero
+   
+let lemma place_circ_to_pps (c:circuit) (k n:int)  
+      requires{0<=k}
+      requires{ width c+ k <=n}
+      ensures{correct_path_sum (place c k n) (pps_place (circ_to_pps c) k n)}
   =()
-                 
-let lemma place_kron_left_c (c:circuit_c) (n: int) (y y' z: matrix complex)
-                 requires{width_c c<n}
-                 requires{is_a_ket_l y (width_c c)}
-                 requires{is_a_ket_l z (n- (width_c c))}
-                 requires{path_sem_c c y = y'}
-                 ensures{path_sem_c (place_c c 0 n) (kronecker y z) =  (kronecker y' z)}
+
+let lemma pps_apply_equiv_by_circ (c:circuit) (h h':pps)
+      requires{correct_path_sum c h}
+      requires{correct_path_sum c h'}
+      ensures{pps_apply_equiv h h'}
   =()
+
+let lemma place_pps (c:circuit) (h:pps)(k n:int)  
+      requires{0<=k}
+      requires{ width c+ k <=n}
+      requires{correct_path_sum c h}
+      ensures{correct_path_sum (place c k n) (pps_place h k n)}
+  = pps_apply_equiv_place h (circ_to_pps c) k n k n
   
-let lemma place_kron_right_c (c:circuit_c) (k n: int) 
+let lemma place_kron (c:circuit) (k n: int) (x y y' z: matrix complex)
       requires{0<k}
-      requires{n= width_c c +k}
-      ensures{forall y  x : matrix complex. is_a_ket_l x k ->is_a_ket_l y (n-k) ->
-                            path_sem_c (place_c c k n) (kronecker x y)   = kronecker x  (path_sem_c c y)}
-=()
-
-   use binary.Bit_vector
-use binary.Bv_concat
-
-let lemma place_zero_kron_c (c:circuit_c) ( n: int) (x:bitvec)
-      requires{width_c c <= n}
-      requires{length x = n}
-      ensures{path_sem_c (place_zero c  n) (bv_to_ket x) =
-                if n = width_c c then path_sem_c c (bv_to_ket x)
-                else kronecker  (path_sem_c c (bv_to_ket (hpart x (width_c c))))  (bv_to_ket (tpart x (width_c c)))}
-=()      
-
-let lemma place_kron_gen_c (c:circuit_c) (k n: int) (x:bitvec)
-                 requires{0<=k}
-                 requires{ width_c c+ k <=n}
-                 requires{length x = n}
-                 ensures{path_sem_c (place_c c k n) (bv_to_ket x)=
-                if k = 0 then
-                   if n = width_c c then path_sem_c c (bv_to_ket x)
-                   else kronecker  (path_sem_c c (bv_to_ket (hpart x (width_c c))))  (bv_to_ket (tpart x (width_c c)))
-                else if n = k+width_c c then kronecker  (bv_to_ket (hpart x k)) (path_sem_c c (bv_to_ket (tpart x k)))
-                else kronecker (bv_to_ket (hpart x k)) (kronecker (path_sem_c c (bv_to_ket (htpart x k (width_c c)))) (bv_to_ket (tpart x (width_c c + k))))}
+      requires{ width c+ k< n}
+      requires{is_a_ket_l x k}
+      requires{is_a_ket_l y (width c)}
+      requires{is_a_ket_l z (n- (width c) -k)}
+      requires{path_sem c y = y'}
+      ensures{path_sem (place c k n) (kronecker x (kronecker y z))  = kronecker x (kronecker y' z)}
   =()
   
-let lemma place_zero_place_c (c:circuit_c) (k n n': int) (x:bitvec)
-                 requires{0<=k}
-                 requires{ width_c c+ k <=n}
-                 requires{n<= n'}
-                 requires{length x = n'}
-                 ensures{path_sem_c (place_zero (place_c c k n) n') (bv_to_ket x) =
-                           path_sem_c (place_c c k n') (bv_to_ket x)}
+let lemma place_kron_left (c:circuit) (n: int) (y y' z: matrix complex)
+      requires{width c<n}
+      requires{is_a_ket_l y (width c)}
+      requires{is_a_ket_l z (n- (width c))}
+      requires{path_sem c y = y'}
+      ensures{path_sem (place c 0 n) (kronecker y z) =  (kronecker y' z)}
+  =()
+  
+let lemma place_kron_right (c:circuit) (k n: int) 
+      requires{0<k}
+      requires{n= width c +k}
+      ensures{forall y  x : matrix complex. is_a_ket_l x k ->is_a_ket_l y (n-k) ->
+                            path_sem (place c k n) (kronecker x y)   = kronecker x  (path_sem c y)}
   =()
 
-let lemma place_place_c (c:circuit_c) (k k' n n': int) (x:bitvec)
-                 requires{0<=k}
-                 requires{ width_c c+ k <=n}
-                 requires{0<=k'}
-                 requires{ n+ k' <=n'}
-                 requires{length x = n'}
-                 ensures{path_sem_c (place_c (place_c c k n) k' n') (bv_to_ket x) =
-                           path_sem_c (place_c c (k+k') n') (bv_to_ket x)}
+let lemma place_kron_right_sem (c:circuit) (k n: int) 
+      requires{0<k}
+      requires{n= width c +k}
+      ensures{forall y  x z : matrix complex. is_a_ket_l x k ->is_a_ket_l y (n-k) -> sem c y z ->
+                              sem (place c k n) (kronecker x y)   (kronecker x  z)}
   =()
-
-let lemma place_get_ket_c (c:circuit_c) (k n: int) (x y: bitvec)
-                 requires{0<=k}
-                 requires{ width_c c+ k<= n}
-                 requires{length x = n}
-                 requires{length y = n}
-                 requires{hpart x k = hpart y k}
-                 requires{tpart x (k + width_c c) = tpart y (k + width_c c)}
-                 ensures{get_ket (path_sem_c (place_c c k n) (bv_to_ket x)) (bv_to_int y)
-                         = get_ket (path_sem_c c (bv_to_ket (make_bv (fun i -> getbv x (i+k))(width_c c))))
-                             (bv_to_int (make_bv (fun i -> getbv y (i+k))(width_c c)))}
-  =()
-
-let lemma place_get_ket_hpart_null_c (c:circuit_c) (k n: int) (x y: bitvec)
-                 requires{0<=k}
-                 requires{ width_c c+ k<= n}
-                 requires{length x = n}
-                 requires{length y = n}
-                 requires{hpart x k <> hpart y k}
-                 ensures{get_ket (path_sem_c (place_c c k n) (bv_to_ket x)) (bv_to_int y) = c_zero}
-  =()
-
-let lemma place_get_ket_tpart_null_c (c:circuit_c) (k n: int) (x y: bitvec)
-                 requires{0<=k}
-                 requires{ width_c c+ k<= n}
-                 requires{length x = n}
-                 requires{length y = n}
-                 requires{tpart x (k + width_c c) <> tpart y (k + width_c c)}
-                 ensures{get_ket (path_sem_c (place_c c k n) (bv_to_ket x)) (bv_to_int y) = c_zero}
-  =()
-
-let function place_hadamard_c   (k n:int)  : circuit_c
-                 requires{0<= k <n}
-                 ensures{range_c result = 1}
-                 ensures{width_c result = n}
-                 ensures{forall x y: int->int. forall i:int. 0<=i<n ->basis_ket_c result x y i = if i = k then y 0 else x i}
-                 ensures{forall x y: int->int.  ang_ind_c result x y  = if x k = y 0  = 1 then ang_minus_one else ang_zero}
-                 ensures{forall x y: int->int. forall m:int. m>= 1 ->  ang_ind_c result x y  = if x k = y 0  = 1 then int_to_ang (x k * y 0 * power_ 2 (m-1)) m else ang_zero}
-= place_c hadamard_c k n
-
-end
      
+     use binary.Bit_vector
+     use binary.Bv_concat
+
+let lemma place_zero_kron (c:circuit) ( n: int) (x:bitvec)
+      requires{width c <= n}
+      requires{length x = n}
+      ensures{path_sem (place_zero c  n) (bv_to_ket x) =
+                if n = width c then path_sem c (bv_to_ket x)
+                else kronecker  (path_sem c (bv_to_ket (hpart x (width c))))  (bv_to_ket (tpart x (width c)))}
+  =()      
+
+let lemma place_kron_gen (c:circuit) (k n: int) (x:bitvec)
+      requires{0<=k}
+      requires{ width c+ k <=n}
+      requires{length x = n}
+      ensures{path_sem (place c k n) (bv_to_ket x)=
+                if k = 0 then
+                  if n = width c then path_sem c (bv_to_ket x)
+                  else kronecker  (path_sem c (bv_to_ket (hpart x (width c))))  (bv_to_ket (tpart x (width c)))
+                else if n = k+width c then kronecker  (bv_to_ket (hpart x k)) (path_sem c (bv_to_ket (tpart x k)))
+                else kronecker (bv_to_ket (hpart x k)) (kronecker (path_sem c (bv_to_ket (htpart x k (width c)))) (bv_to_ket (tpart x (width c + k))))}
+  =()
+
+let lemma place_kronecker (c:circuit) (k n: int) (x:bitvec)
+      requires{0<=k}
+      requires{ width c+ k <=n}
+      requires{length x = n}
+      ensures{path_sem (place c k n) (bv_to_ket x)=
+                kronecker (bv_to_ket (hpart x k)) (kronecker (path_sem c (bv_to_ket (htpart x k (width c)))) (bv_to_ket (tpart x (width c + k))))}
+  =()
+
+let lemma place_kron_gen_ (c:circuit) (k n: int) 
+      requires{0<k}
+      requires{ width c+ k< n}
+      ensures{forall x y y' z. is_a_ket_l x k -> is_a_ket_l y (width c)->
+              is_a_ket_l z (n- (width c) -k) -> sem c y  y' -> sem (place c k n) (kronecker x (kronecker y z)) (kronecker x (kronecker y' z))}
+  =()
+  
+let lemma place_zero_place (c:circuit) (k n n': int) (x:bitvec)
+      requires{0<=k}
+      requires{ width c+ k <=n}
+      requires{n<= n'}
+      requires{length x = n'}
+      ensures{path_sem (place_zero (place c k n) n') (bv_to_ket x) =
+                path_sem (place c k n') (bv_to_ket x)}
+  =()
+
+let lemma place_place (c:circuit) (k k' n n': int) (x:bitvec)
+      requires{0<=k}
+      requires{ width c+ k <=n}
+      requires{0<=k'}
+      requires{ n+ k' <=n'}
+      requires{length x = n'}
+      ensures{path_sem (place (place c k n) k' n') (bv_to_ket x) =
+                path_sem (place c (k+k') n') (bv_to_ket x)}
+  =()
+
+let lemma place_get_ket (c:circuit) (k n: int) (x y: bitvec)
+      requires{0<=k}
+      requires{ width c+ k<= n}
+      requires{length x = n}
+      requires{length y = n}
+      requires{hpart x k = hpart y k}
+      requires{tpart x (k + width c) = tpart y (k + width c)}
+      ensures{get_ket (path_sem (place c k n) (bv_to_ket x)) (bv_to_int y)
+              = get_ket (path_sem c (bv_to_ket (make_bv (fun i -> getbv x (i+k))(width c))))
+                  (bv_to_int (make_bv (fun i -> getbv y (i+k))(width c)))}
+  =()
+
+let lemma place_get_ket_hpart_null (c:circuit) (k n: int) (x y: bitvec)
+      requires{0<=k}
+      requires{ width c+ k<= n}
+      requires{length x = n}
+      requires{length y = n}
+      requires{hpart x k <> hpart y k}
+      ensures{get_ket (path_sem (place c k n) (bv_to_ket x)) (bv_to_int y) = c_zero}
+  =()
+
+let lemma place_get_ket_tpart_null (c:circuit) (k n: int) (x y: bitvec)
+      requires{0<=k}
+      requires{ width c+ k<= n}
+      requires{length x = n}
+      requires{length y = n}
+      requires{tpart x (k + width c) <> tpart y (k + width c)}
+      ensures{get_ket (path_sem (place c k n) (bv_to_ket x)) (bv_to_int y) = c_zero}
+  =()
+
+let function place_hadamard   (k n:int)  : circuit
+                                             requires{0<= k <n}
+                                             ensures{range result = 1}
+                                             ensures{width result = n}
+                                             ensures{size result =1}
+                                             ensures{ancillas result =0}
+                                             ensures{forall x y: int->int. forall i:int. 0<=i<n ->basis_ket result x y i = if i = k then y 0 else x i}
+                                             ensures{forall x y: int->int.  ang_ind result x y  =  (x k * y 0) /./ 1}
+                                             ensures{forall x y: int->int. forall m:int. 1<= m ->  ang_ind result x y  = (x k * y 0*power 2 (m-1)) /./ m }
+  = place  hadamard  k n
+
+let function place_hadamard_bv (k n:int)  
+               requires{0<= k <n}
+               ensures{range result = 1}
+               ensures{width result = n}
+               ensures{size result =1}
+               ensures{ancillas result =0}
+               ensures{forall x y: int->int. forall i:int. 0<=i<n ->basis_ket result x y i = if i = k then y 0 else x i}
+               ensures{forall x y: int->int.  ang_ind result x y  =  (x k * y 0) /./ 1}
+               ensures{forall x y: int->int.   ang_ind result x y  = (x k * y 0*power 2 (n-1)) /./ n }
+               ensures{correct_path_sum_bv result 1 (fun x y -> make_bv (fun i -> if i = k then getbv y 0 else getbv x i) n)
+                         (fun x y -> (getbv x k * getbv y 0 * power 2 (n-1)) /./ n )}
+  = place_hadamard k n
+let constant cont_size : int
+  =100
+     ensures{0<result}
+
+     use kets.Superpositions
+     use arit.Incr_abs
+  
+let function rz_  (k:int):circuit
+                            ensures{pre result = Sequence (Phase  (- incr_abs k)) (Rz k)}
+                            ensures{correct_path_sum result (pps_rz_b k)}
+                            ensures{ancillas  result = 0}
+                            ensures{size result = 2}
+                            ensures{range result = 0}
+                            ensures{width result = 1}
+                            ensures{path_sem result (qbit_zero()) =  ang_exp (-1/./ incr_abs k)*..qbit_zero()}
+                            ensures{path_sem result (qbit_one()) =  ang_exp (1/./(incr_abs k))*..qbit_one()}
+                            ensures{forall x y: int->int. forall i:int. basis_ket result x y i = x i}
+                            ensures{forall x y: int->int. 0<= x 0 <2 -> ang_ind result x y  = 1 /./ (incr_abs k) -^ ( x 0 -1) }           
+  =
+  seq_pps (phase (-(incr_abs k))) (rz k) (pps_phase  (-(incr_abs k))) (pps_rz k)  (pps_rz_b k)
+  
+let function rx  (k:int):circuit
+                           ensures{ result = sequence hadamard (sequence  (rz_ k) hadamard)}
+                           ensures{pre result = Sequence Hadamard (Sequence (Sequence (Phase (- (incr_abs k))) (Rz k)) Hadamard)}
+                           ensures{correct_path_sum result (pps_rx k)}
+                           ensures{width result =1}
+  =
+  seq_pps  hadamard (seq_pps (rz_ k) hadamard (pps_rz_b k) pps_hadamard (pps_seq (pps_rz_b k) pps_hadamard))
+    pps_hadamard (pps_seq (pps_rz_b k) pps_hadamard) (pps_rx k)
+  
+let constant zz : circuit= rz 1
+                             ensures{correct_path_sum result pps_zz}
+                             ensures{width result =1}
+                         
+let lemma path_sem_zz_zero (x:matrix complex)
+      requires{x = qbit_zero()}
+      ensures{path_sem zz x = qbit_zero()}
+  = set_path_sem_by_correct_pps zz pps_zz (qbit_zero())
+
+let lemma path_sem_zz_one (x:matrix complex)
+      requires{x = qbit_one()}
+      ensures{path_sem zz x = -. c_one *.. qbit_one()}
+  = set_path_sem_by_correct_pps zz pps_zz (qbit_one())
+
+let lemma path_sem_zz_plus (x:matrix complex)
+      requires{x = qbit_plus()}
+      ensures{path_sem zz x = qbit_minus()}
+  =
+  path_sem_scal_add zz (qbit_zero()) (qbit_one())(qbit_zero()) (-.c_one *.. qbit_one()) (pow_inv_sqrt_2 1) 
+  
+let lemma path_sem_zz_minus (x:matrix complex)
+      requires{x = qbit_minus()}
+      ensures{path_sem zz x = qbit_plus()}
+  = path_sem_scal_add zz (qbit_zero()) (-.c_one *.. qbit_one())(qbit_zero()) (qbit_one()) (pow_inv_sqrt_2 1) 
+  
+let constant xx =
+  path_sem_comp hadamard zz (qbit_zero()) (qbit_plus()) (qbit_minus());
+  path_sem_comp (sequence  hadamard  zz)  hadamard (qbit_zero()) (qbit_minus()) (qbit_one());
+  path_sem_comp hadamard zz (qbit_one()) (qbit_minus()) (qbit_plus());
+  path_sem_comp (sequence  hadamard  zz)  hadamard (qbit_one()) (qbit_plus()) (qbit_zero());
+  sequence  (sequence  hadamard  zz)  hadamard  
+    ensures{correct_path_sum result pps_xx}
+    ensures{width result =1}
+
+let ghost function path_sem_xx (x:matrix complex)
+                     requires{is_a_ket_l x 1}
+                     ensures{result = add_ket_l (get_ket x 1 *.. (qbit_zero())) (get_ket x 0 *.. (qbit_one())) 1}
+  = path_sem xx x
+
+let lemma path_sem_xx_add_rev (a b: complex)
+      ensures{path_sem_xx (add_ket_l (a *.. (qbit_zero())) (b *.. (qbit_one())) 1)
+              = add_ket_l (b *.. (qbit_zero())) (a *.. (qbit_one())) 1}
+  = ()
+
+let lemma path_sem_xx_z ()
+      ensures{path_sem_xx (qbit_zero()) = qbit_one()}
+  = ()
+
+let lemma path_sem_xx_o ()
+      ensures{path_sem_xx (qbit_one()) = qbit_zero()}
+  = ()
+
+let lemma path_sem_xx_invol (x:matrix complex)
+      requires{is_a_ket_l x 1}
+      ensures{path_sem_xx (path_sem_xx x) = x}
+  = ket_decomp_ x 1
+
+      use qdata.Kronecker_Qbit  
+
+let ghost function path_sem_cnot_basis_left (x y:matrix complex)
+                     requires{is_a_ket_l x 1}
+                     requires{is_a_ket_l y 1}
+                     requires{is_a_ket_basis_elt x}
+                     requires{is_a_ket_basis_elt y}
+                     ensures{result = if x = qbit_zero() then kronecker x y else kronecker x (path_sem_xx y)}
+                     ensures{x = qbit_zero() -> result = kronecker x y}
+                     ensures{x = qbit_one() -> result = kronecker x (path_sem_xx y)}
+  =
+  assert{forall z t.
+         is_a_ket_l z 1
+         -> is_a_ket_l t 1
+         -> is_a_ket_basis_elt z
+         -> is_a_ket_basis_elt t
+         -> ket 2 (ket_to_int(kronecker z t)) = kronecker z t};
+  assert{not x = qbit_zero() -> x = qbit_one()};
+  assert{bv_to_int (ket_to_bv  (kronecker x y)) = 2*ket_to_int x  + ket_to_int y};
+  path_sem cnot (kronecker x y)
+
+let ghost function path_sem_cnot (x y:matrix complex)
+                     requires{is_a_ket_l x 1}
+                     requires{is_a_ket_l y 1}
+                     requires{is_a_ket_basis_elt x}
+                     ensures{result = if x = qbit_zero() then kronecker x y else kronecker x (path_sem_xx y)}
+                     ensures{x = qbit_zero() -> result = kronecker x y}
+                     ensures{x = qbit_one() -> result = kronecker x (path_sem_xx y)}
+  =
+  path_sem cnot (kronecker x y)
+
+let ghost function path_sem_swap (x y:matrix complex)
+                     requires{is_a_ket_l x 1}
+                     requires{is_a_ket_l y 1}
+                     ensures{result = kronecker  y x}
+  = path_sem swap (kronecker x y)
+  
+let constant yy  : circuit=
+  seq_pps  xx (rz_ 1) pps_xx (pps_rz_b 1)   pps_yy
+    ensures{correct_path_sum result pps_yy}
+    ensures{width result =1}
+  
+let function ry  (k:int):circuit
+                           ensures{result = sequence (sequence  (rz (-2)) ( (rx k))) (rz 2)}
+                           ensures{pre result = Sequence (Sequence  (Rz (-2)) (pre (rx k))) (Rz 2)}
+                           ensures{correct_path_sum result (pps_ry k)}
+                           ensures{width result =1}
+  =
+  seq_pps  
+    (seq_pps (rz (-2))  (rx k) (pps_rz (-2))  (pps_rx k) (pps_seq  (pps_rz (-2))  (pps_rx(k))))
+    (rz 2) (pps_seq  (pps_rz (-2))  (pps_rx(k))) (pps_rz 2) (pps_ry(k))
+end
+
 module Qbit_permutations
 
-         use qbricks_c.Circuit_elem_c
-         use qdata.Qreg
+         use  Place  
+         use  qbricks_c.Circuit_c
+         use  qdata.Bv_to_ket
+         use int.Int
+         use unit_circle.Angle
+         use complex.Complex
+         use   qdata.Ket_basis
+         use pps.Pps
+         use matrices.Kronecker_product
+         use functions.MapInjection
          use p_set.IndexestoSet
-         use export functions.MapInjection
-     
-let rec predicate qbit_permutes (c:circuit_c)
-      variant{pre c}
-      ensures{result -> size_c c =0}
-      ensures{result -> ancillas_c c =0}
-      ensures{result -> range_c c =0}
-      ensures{result -> forall x y: int-> int. ang_ind_c c x y =ang_zero}
+         use binary.Bit_vector_decomp
+         use binary.Int_to_bv
+
+let  function c_inverse_pre (f: int -> int) (n :  int)  (i:int)
+                requires{p_bijective f (to_fset 0 n) (to_fset 0 n) }
+                requires{0<= i < n}
+                ensures{0<= result <n}
+                ensures{f result = i}
+  = let rec function inner (j:int)
+                       variant{ n-j}
+                       requires{0<=j < n}
+                       requires{exists b. j<= b < n && f b = i}
+                       ensures{0<= result < n}
+                       ensures{f result = i}
+      = if f j= i then  j
+        else inner  (j+1)
+    in inner 0
+
+let  function c_inverse (f: int -> int) (n :  int) 
+                requires{p_bijective f (to_fset 0 n) (to_fset 0 n) }
+                ensures{forall b. 0<= b < n -> 0<= (result b) <n}
+                ensures{forall b.  0<= b < n -> f  (result b) = b}
+                ensures{p_bijective result (to_fset 0 n) (to_fset 0 n)}
+                ensures{forall b.  0<= b < n ->  result (f b) = b}
+                ensures{forall b. 0<= b < n ->  (result b) = inv_func_int f n b}
+  =
+  fun x -> if 0<= x <n then c_inverse_pre f n x else x
+
+let lemma unic_inverse_c (f f': int-> int)(n:int) 
+      requires{p_bijective f  (to_fset 0 n) (to_fset 0 n)}
+      requires{forall a. 0<= a < n -> f' (f a) = a}
+      ensures{forall b. 0<=b < n ->   f' b = c_inverse f n b}
+  =   get_injective f (to_fset 0 n) 
+    
+let function c_inv_func_int (f: int -> int) (n :  int) 
+               requires{p_bijective f (to_fset 0 n) (to_fset 0 n)}
+               ensures{forall b. 0<= b < n ->  result b = inv_func_int f n b}
+               ensures{p_bijective result (to_fset 0 n) (to_fset 0 n)}
+               ensures{forall a. 0<= a <n -> 0<= result a <n}
+               ensures{forall a. 0<= a <n -> f (result  a) = a}
+               ensures{forall a. 0<= a <n -> result (f  a) = a}
+               ensures{forall a b. 0<= a < n -> 0<= b < n -> f a = b -> result b = a}
+  = c_inverse f  n
+
+let lemma unic_inverse_c_int (f f': int-> int)(n:int) 
+      requires{p_bijective f  (to_fset 0 n) (to_fset 0 n)}
+      requires{forall a. 0<= a < n -> f' (f a) = a}
+      ensures{forall b. 0<=b < n ->  c_inv_func_int f n b = f' b}
+  =   unic_inverse_c f f' n
+    
+let rec predicate qbit_permutes (c:circuit)
+          variant{pre c}
+          ensures{result -> size c =0}
+          ensures{result -> ancillas c =0}
+          ensures{result -> range c =0}
+          ensures{result -> forall x y: int-> int. ang_ind c x y =ang_zero}
   = match pre c with
     Sequence d e -> (qbit_permutes (to_qc d) && qbit_permutes (to_qc e))
   | Parallel d e -> (qbit_permutes (to_qc d) && qbit_permutes (to_qc e))
@@ -218,477 +464,372 @@ let rec predicate qbit_permutes (c:circuit_c)
   | Rz _ -> false
   | Hadamard  -> false
   | Cnot  -> false
-  | Ancilla _ -> false
+  | Ancillas _ _ -> false
 end
 
-let rec function qbit_permutation (c:circuit_c):int->int
-                   requires{qbit_permutes c}
-                   ensures{forall x y: int-> int. forall i:int. 0<=i < width_c c -> basis_ket_c c x y i = x (result i)}
-      ensures{p_bijective result (to_fset 0 (width_c c)) (to_fset 0 (width_c c))}
-      variant{pre c}
+let rec function qbit_permutation (c:circuit):int->int
+                                                     requires{qbit_permutes c}
+                                                     ensures{forall x y: int-> int. forall i:int. 0<=i < width c -> basis_ket c x y i = x (result i)}
+                                                     ensures{p_bijective result (to_fset 0 (width c)) (to_fset 0 (width c))}
+                                                     variant{pre c}
   = match pre c with
     Sequence d e ->
-     assert{width_c c = width_c (to_qc d) = width_c (to_qc e)};
+     assert{width c = width (to_qc d) = width (to_qc e)};
      let comp_func (f g:int -> int)
-                          ensures{forall i. result i = f (g i)}
-                      = fun i -> f (g i)
-                    in comp_func (qbit_permutation  (to_qc d)) (qbit_permutation  (to_qc e)) 
-  | Parallel d e ->      assert{width_c c = width_c (to_qc d) + width_c (to_qc e)};
+           ensures{forall i. result i = f (g i)}
+       = fun i -> f (g i)
+     in comp_func (qbit_permutation  (to_qc d)) (qbit_permutation  (to_qc e)) 
+  | Parallel d e ->      assert{width c = width (to_qc d) + width (to_qc e)};
                          let concat_func (f g:int -> int)
-                          ensures{forall i. result i = if i < width_c (to_qc d) then f i else (g (i- width_c (to_qc d))) + (width_c (to_qc d))}
-                      = fun i -> if i < width_c (to_qc d) then f i else (g (i- width_c (to_qc d))) + (width_c (to_qc d))
-                    in concat_func (qbit_permutation  (to_qc d)) (qbit_permutation  (to_qc e)) 
+                               ensures{forall i. result i = if i < width (to_qc d) then f i else (g (i- width (to_qc d))) + (width (to_qc d))}
+                           = fun i -> if i < width (to_qc d) then f i else (g (i- width (to_qc d))) + (width (to_qc d))
+                         in concat_func (qbit_permutation  (to_qc d)) (qbit_permutation  (to_qc e)) 
   | Swap  -> (fun i -> if i = 0 then 1 else if i = 1 then 0 else i)
   | _  -> (fun i-> i)
- end
+end
+     
+use  p_set.Fset_comp
 
-              use  set.FsetComprehension
-
-let lemma in_to_fset_qp (c:circuit_c) (i:int)
+let lemma in_to_fset_qp (c:circuit) (i:int)
       requires{qbit_permutes c}
-      requires{0<= i < width_c c}
-      ensures{mem (qbit_permutation c i) (to_fset 0  (width_c c))}
+      requires{0<= i < width c}
+      ensures{mem (qbit_permutation c i) (to_fset 0  (width c))}
   =()
   
-let lemma bound_qp (c:circuit_c)  (i:int)
+let lemma bound_qp (c:circuit)  (i:int)
       requires{qbit_permutes c}
-      requires{0<= i < width_c c}
-  ensures{0<= qbit_permutation c i < width_c c}
+      requires{0<= i < width c}
+      ensures{0<= qbit_permutation c i < width c}
   =()
   
-let function qbit_permute_sequence (d e:circuit_c):circuit_c
-                                                     requires{width_c d = width_c e}
-  requires{qbit_permutes d}
-  requires{qbit_permutes e}
-  ensures{qbit_permutes result}
-  ensures{forall i:int. qbit_permutation result i = qbit_permutation  d (qbit_permutation  e i)}
-  ensures{width_c result = width_c d}
-  = sequence_c d e
+let function qbit_permute_sequence (d e:circuit):circuit
+                                                   requires{width d = width e}
+                                                   requires{qbit_permutes d}
+                                                   requires{qbit_permutes e}
+                                                   ensures{qbit_permutes result}
+                                                   ensures{forall i:int. qbit_permutation result i = qbit_permutation  d (qbit_permutation  e i)}
+                                                   ensures{width result = width d}
+  = sequence d e
 
-let function qbit_permute_parallel (d e:circuit_c):circuit_c
-                                                     requires{qbit_permutes d}
-  requires{qbit_permutes e}
-  ensures{qbit_permutes result}
-  ensures{forall i:int. qbit_permutation result i
-                   = if i < width_c d then qbit_permutation d i else (qbit_permutation e (i-width_c d)) + width_c d}
-  ensures{width_c result = width_c d + width_c e}
-           = parallel_c d e
+let function qbit_permute_parallel (d e:circuit):circuit
+                                                   requires{qbit_permutes d}
+                                                   requires{qbit_permutes e}
+                                                   ensures{qbit_permutes result}
+                                                   ensures{forall i:int. qbit_permutation result i
+                                                                    = if i < width d then qbit_permutation d i else (qbit_permutation e (i-width d)) + width d}
+                                                   ensures{width result = width d + width e}
+  = parallel d e
 
-let rec function ids_permute (n:int): circuit_c
-                              requires{1<= n}
-                              variant{n}
-                              ensures{width_c result = n}
-                              ensures{qbit_permutes result}
-                              ensures{forall i:int. qbit_permutation result  i =  i}
-  = if n = 1 then id_c
-    else qbit_permute_parallel (ids_permute (n-1)) id_c
+let rec function ids_permute (n:int): circuit
+                                        requires{1<= n}
+                                        variant{n}
+                                        ensures{result = ids n}
+                                        ensures{width result = n}
+                                        ensures{qbit_permutes result}
+                                        ensures{forall i:int. qbit_permutation result  i =  i}
+  = if n = 1 then id
+    else qbit_permute_parallel (ids_permute (n-1)) id
 
-let function permute_place  (c:circuit_c) (k n:int)  : circuit_c
-                 requires{0<=k}
-                 requires{ width_c c+ k <=n}
-                 requires{qbit_permutes c}
-                 ensures{width_c result = n}
-                 ensures{qbit_permutes result}
-                 ensures{forall i:int. 0<= i < n -> qbit_permutation result  i =
-                                                      if k<= i < k+ width_c c then qbit_permutation c  (i-k) + k else i}
-           = let place_zero()
-                 ensures{width_c result = n-k}
-                 ensures{qbit_permutes result}
-                 ensures{forall i:int. 0<= i < n-k -> qbit_permutation result  i = if i < width_c c then  qbit_permutation c  i else i}
-               = if n =k+width_c c then c 
-                 else qbit_permute_parallel c (ids_permute (n-k-width_c c))
-             in if k = 0 then (place_zero())
-                else qbit_permute_parallel (ids_permute k) (place_zero())
+let function permute_place  (c:circuit) (k n:int)  : circuit
+                                                       requires{0<=k}
+                                                       requires{ width c+ k <=n}
+                                                       requires{qbit_permutes c}
+                                                       ensures{width result = n}
+                                                       ensures{qbit_permutes result}
+                                                       ensures{forall i:int. 0<= i < n -> qbit_permutation result  i =
+                                                                                            if k<= i < k+ width c then qbit_permutation c  (i-k) + k else i}
+  = let place_zero()
+          ensures{width result = n-k}
+          ensures{qbit_permutes result}
+          ensures{forall i:int. 0<= i < n-k -> qbit_permutation result  i = if i < width c then  qbit_permutation c  i else i}
+      = if n =k+width c then c 
+        else qbit_permute_parallel c (ids_permute (n-k-width c))
+    in if k = 0 then (place_zero())
+       else qbit_permute_parallel (ids_permute k) (place_zero())
 
-let function permute_plus_one   (k n:int)  : circuit_c
-                 requires{0<=k}
-                 requires{k+2<=n}
-                 ensures{width_c result = n}
-                 ensures{qbit_permutes result}
-                 ensures{forall i:int. 0<=i <n -> qbit_permutation result  i =  if i = k then k+1 else if i = k+1 then k else i}
-= permute_place swap_c k n
+let function permute_plus_one   (k n:int)  : circuit
+                                               requires{0<=k}
+                                               requires{k+2<=n}
+                                               ensures{width result = n}
+                                               ensures{qbit_permutes result}
+                                               ensures{forall i:int. 0<=i <n -> qbit_permutation result  i =  if i = k then k+1 else if i = k+1 then k else i}
+  = permute_place  swap k n
 
-let rec function up_to_image (k fk n:int):circuit_c
-                 requires{0<=k<=fk}
-                 requires{fk<n}
-                 ensures{width_c result = n}
-                 ensures{qbit_permutes result}
-                 ensures{forall i:int. 0<=i <n -> qbit_permutation result  i =  if i = k then fk else if k < i<= fk then i-1 else i}
-                 variant{fk-k}
-      = if k = fk then ids_permute n
-        else qbit_permute_sequence (up_to_image (k+1) fk n)  (permute_plus_one k n) 
+let rec function up_to_image (k fk n:int):circuit
+                                            requires{0<=k<=fk}
+                                            requires{fk<n}
+                                            ensures{width result = n}
+                                            ensures{qbit_permutes result}
+                                            ensures{forall i:int. 0<=i <n -> qbit_permutation result  i =  if i = k then fk else if k < i<= fk then i-1 else i}
+                                            variant{fk-k}
+  = if k = fk then ids_permute n
+    else qbit_permute_sequence (up_to_image (k+1) fk n)  (permute_plus_one k n) 
 
-let rec function down_to_image (k fk n:int):circuit_c
-                 requires{0<=fk<=k}
-                 requires{k<n}
-                 ensures{width_c result = n}
-                 ensures{qbit_permutes result}
-                 ensures{forall i:int. 0<=i <n -> qbit_permutation result  i =  if i = k then fk else if fk <= i<= k then i+1 else i}
-                 variant{k-fk}
-      = if k = fk then ids_permute n
-        else qbit_permute_sequence  (down_to_image (k-1) fk n)  (permute_plus_one (k-1) n)
+let rec function down_to_image (k fk n:int):circuit
+                                              requires{0<=fk<=k}
+                                              requires{k<n}
+                                              ensures{width result = n}
+                                              ensures{qbit_permutes result}
+                                              ensures{forall i:int. 0<=i <n -> qbit_permutation result  i =  if i = k then fk else if fk <= i<= k then i+1 else i}
+                                              variant{k-fk}
+  = if k = fk then ids_permute n
+    else qbit_permute_sequence  (down_to_image (k-1) fk n)  (permute_plus_one (k-1) n)
 
-let function permute_up(k fk n:int):circuit_c
-                 requires{0<=k<=fk<n}
-                 requires{fk<n}
-                 ensures{width_c result = n}
-                 ensures{qbit_permutes result}
-                 ensures{forall i:int. 0<=i <n -> qbit_permutation result  i =  if i = k then fk else if i = fk then k else i}
+let function permute_up(k fk n:int):circuit
+                                      requires{0<=k<=fk<n}
+                                      requires{fk<n}
+                                      ensures{width result = n}
+                                      ensures{qbit_permutes result}
+                                      ensures{forall i:int. 0<=i <n -> qbit_permutation result  i =  if i = k then fk else if i = fk then k else i}
   = if k = fk then ids_permute n else
-  qbit_permute_sequence  (down_to_image (fk-1) k n) (up_to_image k fk n)
+      qbit_permute_sequence  (down_to_image (fk-1) k n) (up_to_image k fk n)
 
-let function permute_atom(k fk n:int):circuit_c
-                 requires{0<=k<n}
-                 requires{0<=fk<n}
-                 ensures{width_c result = n}
-                 ensures{qbit_permutes result}
-                 ensures{qbit_permutation result  k = fk}
-                 ensures{qbit_permutation result   fk = k}
-                 ensures{forall i:int. 0<=i <n -> i<>k -> i <> fk -> qbit_permutation result  i =  i}
+let function permute_atom (k fk n:int):circuit
+                                         requires{0<=k<n}
+                                         requires{0<=fk<n}
+                                         ensures{width result = n}
+                                         ensures{qbit_permutes result}
+                                         ensures{qbit_permutation result  k = fk}
+                                         ensures{qbit_permutation result   fk = k}
+                                         ensures{forall i:int. 0<=i <n -> i<>k -> i <> fk -> qbit_permutation result  i =  i}
   = if k <= fk then permute_up k fk n else permute_up fk k n
 
-use complex_operations.Inv_func
-  use binary.Bit_vector
+   use binary.Bit_vector
+   use  qdata.Qreg  
 
-let  function permutation_circuit (n:int) (f:int->int): circuit_c
+let rec function permutation_circuit_pre (k:int)(n:int) (f:int->int)
+                   requires{0<n}
+                   requires{p_bijective f (to_fset 0 n) (to_fset 0 n)}
+                   requires{0<= k < n}
+                   ensures{width result = n}
+                   ensures{qbit_permutes result}
+                   ensures{forall i. k<=i <n -> qbit_permutation result  (c_inv_func_int f  n i) =   i}
+                   ensures{forall i. 0<=i <k -> 0<=qbit_permutation result  (c_inv_func_int f  n i) <k}
+                   variant{n-k}
+  = if k = n-1 then permute_atom (c_inv_func_int f n (n-1)) (n-1) n
+    else 
+      let o =  permutation_circuit_pre (k+1) n f in
+      qbit_permute_sequence 
+        (permute_atom  k (qbit_permutation (o) (c_inv_func_int f n k)) n) (o)
+      
+let  function permutation_circuit (n:int) (f:int->int): circuit
                                                           requires{0<n}
                                                           requires{p_bijective f (to_fset 0 n) (to_fset 0 n)}
-                                                          ensures{width_c result = n}
+                                                          ensures{width result = n}
                                                           ensures{qbit_permutes result}
                                                           ensures{forall i:int. 0<=i <n -> qbit_permutation result  i =  f i}
-                                                          ensures{forall i:int. 0<=i <n -> qbit_permutation result  (inv_func f (to_fset 0 n) (to_fset 0 n) i) =   i}
-                                                          ensures{forall x:bitvec. length x = n -> path_sem_c  result (bv_to_ket x)=
+                                                          ensures{forall i:int. 0<=i <n -> qbit_permutation result  (c_inv_func_int f n i) =   i}
+                                                          ensures{forall x:bitvec. length x = n -> path_sem  result (bv_to_ket x)=
                                                                                                      bv_to_ket (make_bv (fun i -> getbv x (f i)) n)}
-  = let rec function permutation_circuit_pre (k:int)
-                       requires{0<= k < n}
-                       ensures{width_c result = n}
-                       ensures{qbit_permutes result}
-                       ensures{forall i. k<=i <n -> qbit_permutation result  (inv_func f  (to_fset 0 n) (to_fset 0 n) i) =   i}
-                       ensures{forall i. 0<=i <k -> 0<=qbit_permutation result  (inv_func f  (to_fset 0 n) (to_fset 0 n) i) <k}
-                       variant{n-k}
-      = if k = n-1 then permute_atom (inv_func f (to_fset 0 n) (to_fset 0 n) (n-1)) (n-1) n
-        else
-          let pre
-            = permutation_circuit_pre (k+1)
-                          ensures{forall i. k +1 <=i <n -> qbit_permutation result  (inv_func f  (to_fset 0 n) (to_fset 0 n) i) =   i}
-                       ensures{forall i. 0<=i <k +1 -> 0<=qbit_permutation result  (inv_func f  (to_fset 0 n) (to_fset 0 n) i) <k+1}
-          in
-          qbit_permute_sequence 
-            (permute_atom  (qbit_permutation (pre) (inv_func f (to_fset 0 n) (to_fset 0 n)k)) k n) (pre)
-    in permutation_circuit_pre 0
-
-let function with_permutation (c: circuit_c) (f:int->int)
-               requires{p_bijective f (to_fset 0 (width_c c)) (to_fset 0 (width_c c))}
-               ensures{size_c result = size_c c}
-               ensures{ancillas_c result = ancillas_c c}
-               ensures{width_c result = width_c c}
-                ensures{range_c result = range_c c}
-                ensures{forall x y: int->int. ang_ind_c result x y = ang_ind_c c (fun i -> x (f i)) y}
-                ensures{forall x y: int->int. forall i:int. 0 <= i < width_c c -> basis_ket_c result x y i
-                                                                                  = basis_ket_c c (fun i -> x (f i)) y ((inv_f f (to_fset 0 (width_c c)) (to_fset 0 (width_c c))) i)}
-                ensures{forall x y: int->int. forall i:int. 0 <= i < width_c c -> basis_ket_c result (fun i -> x (inv_f f  (to_fset 0 (width_c c))  (to_fset 0 (width_c c)) i))
-                                                                                    y i
-                                                                                  = basis_ket_c c x y (inv_f f  (to_fset 0 (width_c c))  (to_fset 0 (width_c c)) i)}
+                                                          ensures{forall x y i.  0<= i < n -> basis_ket result x y i =  x (f i)}
+                                                          ensures{forall x y.  ang_ind result x y  =  ang_zero}
+                                                          ensures{width result = n}
+                                                          ensures{range result = 0}
+  = permutation_circuit_pre 0 n f
+  
+let function with_permutation (c: circuit) (f:int->int)
+               requires{p_bijective f (to_fset 0 (width c)) (to_fset 0 (width c))}
+               ensures{size result = size c}
+               ensures{ancillas result = ancillas c}
+               ensures{width result = width c}
+               ensures{range result = range c}
+               ensures{forall x y: int->int. ang_ind result x y = ang_ind c (fun i -> x (f i)) y}
+               ensures{forall x y: int->int. forall i:int. 0 <= i < width c -> basis_ket result x y i
+                                                                               = basis_ket c (fun i -> x (f i)) y ((c_inv_func_int f  (width c)) i)}
+               ensures{forall x y: int->int. forall i:int. 0 <= i < width c -> basis_ket result (fun i -> x (c_inv_func_int f   (width c) i))
+                                                                                 y i
+                                                                               = basis_ket c x y (c_inv_func_int f   (width c) i)}
+               ensures{result = sequence (sequence (permutation_circuit (width c) f) c) (permutation_circuit (width c) (c_inv_func_int f  (width c)))}
   = let permut_apply()
-               ensures{size_c result = size_c c}
-               ensures{ancillas_c result = ancillas_c c}
-                ensures{width_c result = width_c c}
-                ensures{range_c result = range_c c}
-                ensures{forall x y: int->int. ang_ind_c result x y = ang_ind_c c (fun i -> x (f i)) y}
-                ensures{forall x y: int->int. forall i:int. 0 <= i < width_c c -> basis_ket_c result x y i
-                                                                                  = basis_ket_c c (fun i -> x (f i)) y i}
-      = sequence_c (permutation_circuit (width_c c) f) c
-      in sequence_c (permut_apply()) (permutation_circuit (width_c c) (inv_f f (to_fset 0 (width_c c)) (to_fset 0 (width_c c))))
-           
-use binary.Bit_vector       
-       
-let lemma with_permutation_get_ket(c:circuit_c) (f:int->int) (x y:bitvec)
-      requires{length x = width_c c}
-      requires{length y = width_c c}
-      requires{p_bijective f (to_fset 0 (width_c c)) (to_fset 0 (width_c c))}
-                 ensures{get_ket (path_sem_c (with_permutation c f) (bv_to_ket x)) (bv_to_int y)
-                         = get_ket (path_sem_c c (bv_to_ket (make_bv (fun i -> getbv x (f i)) (width_c c))))
-                             (bv_to_int (make_bv (fun i -> getbv y (f  i)) (width_c c)))}
+          ensures{size result = size c}
+          ensures{ancillas result = ancillas c}
+          ensures{width result = width c}
+          ensures{range result = range c}
+          ensures{forall x y: int->int. ang_ind result x y = ang_ind c (fun i -> x (f i)) y}
+          ensures{forall x y: int->int. forall i:int. 0 <= i < width c -> basis_ket result x y i
+                                                                          = basis_ket c (fun i -> x (f i)) y i}
+          ensures{result = sequence (permutation_circuit (width c) f) c}
+      = sequence (permutation_circuit (width c) f) c
+    in sequence (permut_apply()) (permutation_circuit (width c) (c_inv_func_int f  (width c)))
+
+let function c_swap_int ( t1 t2 n :  int)
+               requires{0<=t1<n}
+               requires{0<=t2<n}
+               ensures{forall a. a = t1  ->  result a = t2}
+               ensures{forall a. a = t2  ->  result a = t1}
+               ensures{forall a. a <> t1 -> a <> t2 -> result a = a}
+               ensures{p_bijective result (to_fset 0 n) (to_fset 0 n)}
+               ensures{forall i. 0<= i < n ->c_inv_func_int result n i = result i}
+  =  fun i -> if i = t1 then t2 else if i = t2 then t1 else i
+            
+let function with_int_swap (c: circuit)  (t1 t2:int)
+               requires{0<= t1 < width c}
+               requires{0<= t2 < width c}
+               ensures{size result = size c}
+               ensures{ancillas result = ancillas c}
+               ensures{width result = width c}
+               ensures{range result = range c}
+               ensures{forall x y: int->int. ang_ind result x y = ang_ind c (fun i -> x (if i = t1 then t2 else if i = t2 then t1 else i)) y}
+               ensures{forall x y: int->int. forall i:int. i = t1 -> basis_ket result x y i
+                                                                     = basis_ket c (fun i -> x (if i = t1 then t2 else if i = t2 then t1 else i)) y t2}
+               ensures{forall x y: int->int. forall i:int. i = t2 -> basis_ket result x y i
+                                                                     = basis_ket c (fun i -> x (if i = t1 then t2 else if i = t2 then t1 else i)) y t1}
+               ensures{forall x y: int->int. forall i:int. 0 <= i < width c -> i<> t1 -> i<> t2-> basis_ket result x y i
+                                                                                                  = basis_ket c (fun i -> x (if i = t1 then t2 else if i = t2 then t1 else i)) y  i}
+  = with_permutation c (c_swap_int t1 t2 (width c))
+  
+let lemma permutation_circuit_equiv (n: int) (f f':int->int)
+      requires{0<n}
+      requires{p_bijective f (to_fset 0 n) (to_fset 0 n)}
+      requires{forall x. 0 <= x < n -> f x = f' x}
+      ensures{forall x. is_a_ket_l x n -> path_sem (permutation_circuit n f) x = path_sem (permutation_circuit n f') x}
+  =
+  set_bijective f' (to_fset 0 n) (to_fset 0 n)
+
+    use matrices.Matrix
+    use int_expo.Int_Exponentiation    
+
+let lemma with_permutation_get_ket(c:circuit) (f:int->int) (x y:bitvec)
+      requires{length x = width c}
+      requires{length y = width c}
+      requires{p_bijective f (to_fset 0 (width c)) (to_fset 0 (width c))}
+      ensures{get_ket (path_sem (with_permutation c f) (bv_to_ket x)) (bv_to_int y)
+              = get_ket (path_sem c (bv_to_ket (make_bv (fun i -> getbv x (f i)) (width c))))
+                  (bv_to_int (make_bv (fun i -> getbv y (f  i)) (width c)))}
   =()
-              
-       
-let lemma with_permutation_kronecker (c :circuit_c) (im_c im_d ant_c ant_d: matrix complex) (k n:int)
-      requires{width_c c = n}
+  
+let lemma with_permutation_get_ket_(c:circuit) (f:int->int) (x :matrix complex) (i:int)
+      requires{is_a_ket_l x  (width c)}
+      requires{is_a_ket_basis_elt x }
+      requires{0<=i < power 2 (width c)}
+      requires{p_bijective f (to_fset 0 (width c)) (to_fset 0 (width c))}
+      ensures{get_ket (path_sem (with_permutation c f) x) i
+              = get_ket (path_sem c (bv_to_ket (make_bv (fun j -> getbv (ket_to_bv x) (f j)) (width c))))
+                  (bv_to_int (make_bv (fun j -> getbv (int_to_bv i  (width c)) (f  j)) (width c)))}
+  = with_permutation_get_ket c f (ket_to_bv x) (int_to_bv i (width c))
+  
+let lemma with_permutation_kronecker (c :circuit) (im im_d ant ant_d: matrix complex) (k n:int)
+      requires{width c = n}
       requires{0<=k < n}
-      requires{is_a_ket_l im_c k}
+      requires{is_a_ket_l im k}
       requires{is_a_ket_l im_d (n -k)}
-      requires{is_a_ket_l ant_c k}
+      requires{is_a_ket_l ant k}
       requires{is_a_ket_l ant_d (n-k)}
-      requires{is_a_ket_basis_elt ant_c }
+      requires{is_a_ket_basis_elt ant }
       requires{is_a_ket_basis_elt ant_d }
-      requires{path_sem_c c  (kronecker ant_c ant_d) = kronecker im_c im_d}
-      ensures{path_sem_c (with_permutation c (fun i -> if i< k then i + n-k else  i - k)) (kronecker ant_d ant_c) = kronecker  im_d im_c }
+      requires{path_sem c  (kronecker ant ant_d) = kronecker im im_d}
+      ensures{path_sem (with_permutation c (fun i -> if i< k then i + n-k else  i - k)) (kronecker ant_d ant) = kronecker  im_d im }
   =set_bijective_auto (fun (i:int) -> if i < k then (i + n) - k else i - k) (to_fset 0 n);
-  assert{width_c (with_permutation c (fun i -> if i< k then i + n-k else  i - k)) = n};
-    set_equal_ket_l (path_sem_c (with_permutation c (fun i -> if i< k then i + n-k else  i - k)) (kronecker ant_d ant_c)) (kronecker  im_d im_c)
+   assert{width (with_permutation c (fun i -> if i< k then i + n-k else  i - k)) = n};
+   set_equal_ket_l (path_sem (with_permutation c (fun i -> if i< k then i + n-k else  i - k)) (kronecker ant_d ant)) (kronecker  im_d im)
 
-
-let lemma with_permutation_kronecker_gen (c :circuit_c)  (k n:int)
-      requires{width_c c = n}
+let lemma with_permutation_kronecker_gen (c :circuit)  (k n:int)
+      requires{width c = n}
       requires{0<=k < n}
-      ensures{forall im_c im_d ant_c ant_d: matrix complex.
-                                            is_a_ket_l ant_c k -> is_a_ket_l ant_d (n-k) ->
-                                            is_a_ket_l im_c k -> is_a_ket_l im_d (n-k) ->
-                                            is_a_ket_basis_elt ant_c  -> is_a_ket_basis_elt ant_d ->
-                                            path_sem_c c  (kronecker ant_c ant_d) = kronecker im_c im_d -> 
-                                            path_sem_c (with_permutation c (fun i -> if i< k then i + n-k else  i - k)) (kronecker ant_d ant_c) = kronecker  im_d im_c }
+      ensures{forall im im_d ant ant_d: matrix complex.
+                                        is_a_ket_l ant k -> is_a_ket_l ant_d (n-k) ->
+                                        is_a_ket_l im k -> is_a_ket_l im_d (n-k) ->
+                                        is_a_ket_basis_elt ant  -> is_a_ket_basis_elt ant_d ->
+                                        path_sem c  (kronecker ant ant_d) = kronecker im im_d -> 
+                                        path_sem (with_permutation c (fun i -> if i< k then i + n-k else  i - k)) (kronecker ant_d ant) = kronecker  im_d im }
   = ()
 
-end
-     
-     
-module Cont
-
-         use qbricks_c.Circuit_elem_c
-         use binary.Bit_vector
-         use Place     
-         use Qbit_permutations     
-
-val constant cont_size_c : int
-                           ensures{0<result}
-
-val function cont_zero_c (c:circuit_c):circuit_c
-                           ensures{size_c result <= size_c c * cont_size_c}
-                           ensures{ancillas_c result = ancillas_c c}
-                           ensures{range_c result = range_c c}
-                           ensures{width_c result = width_c c +1}
-                           ensures{forall bv . length bv = width_c c +1 -> getbv bv 0  = 0 -> path_sem_c result  (bv_to_ket bv) = (bv_to_ket bv)}
-                           ensures{forall bv. length bv = width_c c +1  -> getbv bv 0  = 1 -> path_sem_c  result  (bv_to_ket bv) =  (path_sem_c (place_c c  1 (width_c c +1)) (bv_to_ket bv))}
-
-
-let lemma cont_zero_path_sem_kron_c    (c:circuit_c) (x:bitvec)
-      requires{length x = width_c c}
-      ensures{path_sem_c (cont_zero_c c) (kronecker (ket 1 0) (bv_to_ket x)) = kronecker (ket 1 0) (bv_to_ket x)}
-      ensures{path_sem_c (cont_zero_c c) (kronecker (ket 1 1) (bv_to_ket x)) = kronecker (ket 1 1) (path_sem_c c (bv_to_ket x))}
+let lemma permutation_three_blocks(n1 n2 n3 n:int)(x y z:bitvec)
+      requires{length x = n1}
+      requires{length y = n2}
+      requires{length z = n3}
+      requires{0<=n1}
+      requires{0<=n2}
+      requires{0<=n3}
+      requires{0<n}
+      requires{n = n1 +n2+n3}
+      ensures{path_sem (permutation_circuit  (n)(fun j -> if j < n1 then j else if j < n1 + n3 then j + n2 else j-n3))
+                (kronecker (kronecker (bv_to_ket x) (bv_to_ket y))(bv_to_ket z) ) = (kronecker (kronecker (bv_to_ket x) (bv_to_ket z))(bv_to_ket y) )}
   =()
   
-let function cont_last_qbit_c (c:circuit_c):circuit_c
-                           ensures{size_c result <= size_c c * cont_size_c}
-                           ensures{ancillas_c result = ancillas_c c}
-                           ensures{range_c result = range_c c}
-                           ensures{width_c result = width_c c +1}
-                           ensures{forall bv . length bv = width_c c  ->  path_sem_c result  (kronecker (bv_to_ket bv) (ket 1 0)) = (kronecker (bv_to_ket bv) (ket 1 0))}
-                           ensures{forall bv. length bv = width_c c   ->  path_sem_c result  (kronecker (bv_to_ket bv) (ket 1 1)) =
-                                                                                                         kronecker (path_sem_c c (bv_to_ket bv)) (ket 1 1)}
-                           ensures{forall bv . length bv = width_c c +1 -> getbv bv (width_c c)  = 0 -> path_sem_c result  (bv_to_ket bv) = (bv_to_ket bv)}
-                           ensures{forall bv. length bv = width_c c +1  -> getbv bv  (width_c c)  = 1 -> path_sem_c result  (bv_to_ket bv) =
-                                                                                                         (path_sem_c (place_c c 0 (width_c c +1)) (bv_to_ket bv))}
-  =with_permutation_kronecker_gen (cont_zero_c c)  1 (width_c c +1) ;
-   assert{with_permutation (cont_zero_c c) (fun i -> if i<1 then i + width_c c else  i - 1)
-          = with_permutation (cont_zero_c c) (fun i -> if i< 1 then (i + (width_c c +1))-1 else  i - 1)};
-   with_permutation (cont_zero_c c) (fun i -> if i<1 then i + width_c c else  i - 1)
+let function insert_qbits (c :circuit)  (k n i:int):circuit
+         requires{width c = n}
+         requires{0<=k < n}
+         requires{0<i}
+         ensures{ancillas result = ancillas c}
+         ensures{width result = n +i }
+         ensures{size result = size c }
+         ensures{range result = range c} 
+         ensures{forall x y: int->int. ang_ind result x y = ang_ind c (fun j -> x (if j < k then j else if j < n then j + i else j-n+k)) y}         
+         ensures{forall x y: int->int. forall j:int. 0 <= j < k ->
+                                                basis_ket result x y j = 
+                                                  basis_ket c (fun ii -> x (if ii < k then ii else if ii < n then ii + i else ii-n+k))
+                                                    y j}
+         ensures{forall x y: int->int. forall j:int.  k+i <= j < n+i ->
+                                                basis_ket result x y j = 
+                                                  basis_ket c (fun ii -> x (if ii < k then ii else if ii < n then ii + i else ii-n+k))
+                                                    y (j-i)}
+         ensures{forall x y: int->int. forall j:int. k <= j < k+i ->
+                                                basis_ket result x y j =  x j}
+  =
+  set_bijective_auto (fun j -> if j < k then j else if j < n then j + i else j-n+k) (to_fset 0 (n+i));
+  assert{width (with_permutation (parallel c (ids i)) (fun j -> if j < k then j else if j < n then j + i else j-n+k)) = n +i};
+  unic_inverse_c_int (fun j -> if j < k then j else if j < n then j + i else j-n+k)
+    (fun j -> if j < k then j else if j < k+i then j + n-k else j-i)  ( (n+i)) ;
+  with_permutation (parallel c (ids i)) (fun j -> if j < k then j else if j < n then j + i else j-n+k)
 
+let function insert_qbits_gen (c :circuit)  (k n i:int):circuit
+      requires{width c = n}
+      requires{0<=k < n}
+      requires{0<=i}
+      ensures{ancillas result = ancillas c}
+      ensures{width result = n +i }
+      ensures{size result = size c }
+      ensures{range result = range c} 
+      ensures{forall x y: int->int. ang_ind result x y = ang_ind c (fun j -> x (if j < k then j else if j < n then j + i else j-n+k)) y}      
+      ensures{forall x y: int->int. forall j:int. 0 <= j < k ->
+                                             basis_ket result x y j = 
+                                               basis_ket c (fun ii -> x (if ii < k then ii else if ii < n then ii + i else ii-n+k))
+                                                 y j}
+      ensures{forall x y: int->int. forall j:int.  k+i <= j < n+i ->
+                                             basis_ket result x y j = 
+                                               basis_ket c (fun ii -> x (if ii < k then ii else if ii < n then ii + i else ii-n+k))
+                                                 y (j-i)}
+      ensures{forall x y: int->int. forall j:int. k <= j < k+i ->
+                                             basis_ket result x y j =  x j}
+  =
+  if 0 < i then insert_qbits c k n i
+  else c
+
+         use binary.Bv_concat
   
-  let function cont_zero_gen_c (c:circuit_c) (k n:int):circuit_c
-                 requires{1<= k <= n - (width_c c)}
-                 ensures{size_c result <= size_c c * cont_size_c}
-                           ensures{ancillas_c result = ancillas_c c}
-                           ensures{range_c result = range_c c}
-                           ensures{width_c result = n}
-                           ensures{forall bv . length bv = n -> getbv bv 0  = 0 -> path_sem_c result  (bv_to_ket bv) = (bv_to_ket bv)}
-                           ensures{forall bv. length bv = n  -> getbv bv 0  = 1 -> path_sem_c result  (bv_to_ket bv) =  (path_sem_c (place_c c  k n) (bv_to_ket bv))}
-             =  cont_zero_c (place_c c (k-1) (n-1)) 
-                 
-  let function cont_before_c (c:circuit_c) (co k n:int):circuit_c
-                 requires{0<= co < n}
-                 requires{0<= k <= n - (width_c c)}
-                 requires{co < k}
-                 ensures{size_c result <= size_c c * cont_size_c}
-                           ensures{ancillas_c result = ancillas_c c}
-                           ensures{range_c result = range_c c}
-                           ensures{width_c result = n}
-                           ensures{forall bv . length bv = n -> getbv bv co  = 0 -> path_sem_c result  (bv_to_ket bv) = (bv_to_ket bv)}
-                           ensures{forall bv. length bv = n  -> getbv bv co  = 1 -> path_sem_c result  (bv_to_ket bv) =  (path_sem_c (place_c c  k n) (bv_to_ket bv))}
-    =
-    assert{forall bv . length bv = n ->  getbv bv co  = 1 -> path_sem_c (place_c  (cont_zero_gen_c c  (k-co) (n-co)) co n) (bv_to_ket bv)
-    =  path_sem_c (place_c  (place_c c (k-co)(n-co)) co n) (bv_to_ket bv)};
-    place_c  (cont_zero_gen_c c  (k-co) (n-co)) co n 
-
-  let function cont_last_gen_c (c:circuit_c) (k co:int):circuit_c
-                 requires{0<= k <= co - (width_c c)}
-                 ensures{size_c result <= size_c c * cont_size_c}
-                           ensures{ancillas_c result = ancillas_c c}
-                           ensures{range_c result = range_c c}
-                           ensures{width_c result = co+1}
-                           ensures{forall bv . length bv = co+1 -> getbv bv co  = 0 -> path_sem_c result  (bv_to_ket bv) = (bv_to_ket bv)}
-                           ensures{forall bv. length bv = co+1  -> getbv bv co  = 1 -> path_sem_c result  (bv_to_ket bv) =  (path_sem_c (place_c c  k (co+1)) (bv_to_ket bv))}
-             =  cont_last_qbit_c (place_c c k co) 
-    
-  let function cont_after_c (c:circuit_c) (co k n:int):circuit_c
-                                                         requires{0<= co < n}
-                                                         requires{0<=k}
-                 requires{k + width_c c<=co}
-                 ensures{size_c result <= size_c c * cont_size_c}
-                           ensures{ancillas_c result = ancillas_c c}
-                           ensures{range_c result = range_c c}
-                           ensures{width_c result = n}
-                           ensures{forall bv . length bv = n -> getbv bv co  = 0 -> path_sem_c result  (bv_to_ket bv) = (bv_to_ket bv)}
-                           ensures{forall bv. length bv = n  -> getbv bv co  = 1 -> path_sem_c result  (bv_to_ket bv) =  (path_sem_c (place_c c  k n) (bv_to_ket bv))}
-    =    assert{forall bv . length bv = n ->  getbv bv co  = 1 -> path_sem_c (place_c  (cont_last_gen_c c k co) 0 n) (bv_to_ket bv)
-                                                                  =  path_sem_c (place_c  (place_c c k co) 0 n) (bv_to_ket bv)};
-    place_c (cont_last_gen_c c k co) 0 n
-
-let function cont_c  (c:circuit_c) (co k  n:int) : circuit_c
-                 requires{0<= co < n}
-                 requires{0<= k <= n - (width_c c)}
-                 requires{k <= co -> k + width_c c <= co}
-                 ensures{size_c result <= size_c c * cont_size_c}
-                 ensures{ancillas_c result = ancillas_c c}
-                 ensures{range_c result = range_c c}
-                 ensures{width_c result = n}
-                 ensures{forall bv . length bv = n -> getbv bv co  = 0 -> path_sem_c result  (bv_to_ket bv) = (bv_to_ket bv)}
-                 ensures{forall bv. length bv = n  -> getbv bv co  = 1 -> path_sem_c result  (bv_to_ket bv) =  (path_sem_c (place_c c  k n) (bv_to_ket bv))}
-= if co < k then cont_before_c c co k n else cont_after_c c co k n 
-
-let lemma size_cont_c (c:circuit_c) (co k  n s:int)
-                 requires{0<= co < n}
-                 requires{0<= k <= n - (width_c c)}
-                 requires{k <= co -> k + width_c c <= co}
-                 requires{size_c c <= s}
-             ensures{size_c (cont_c c co k n) <= cont_size_c * s}
-             =()
-     
-let lemma path_cont_c  (c:circuit_c) (co k  n:int)
-                 requires{0<= co < n}
-                 requires{0<= k <= n - (width_c c)}
-                 requires{k <= co -> k + width_c c <= co}
-                   ensures{forall bv. length bv = n -> getbv bv co  = 0 -> path_sem_c (cont_c c co k n)  (bv_to_ket bv) = (bv_to_ket bv)}
-                   ensures{forall bv. length bv = n  -> getbv bv co  = 1 -> path_sem_c (cont_c c co k n) (bv_to_ket bv) =  (path_sem_c (place_c c k n) (bv_to_ket bv))}
-  = () 
-
-use qdata.Qreg
-  
-let lemma path_cont_ketz_c  (c:circuit_c) (co k  n:int) (x:matrix complex)
-                 requires{0<= co < n}
-                 requires{0<= k <= n - (width_c c)}
-                 requires{k <= co -> k + width_c c <= co}
-                 requires{is_a_ket_l x n}
-                 requires{is_a_ket_basis_elt x}
-                 requires{getbv (ket_to_bv x) co = 0}
-                 ensures{path_sem_c (cont_c c co k n)  x = x}
-  = path_cont_c c co k n
-
-let lemma path_cont_keto_c  (c:circuit_c) (co k  n:int) (x:matrix complex)
-                 requires{0<= co < n}
-                 requires{0<= k <= n - (width_c c)}
-                 requires{k <= co -> k + width_c c <= co}
-                 requires{is_a_ket_l x n}
-                 requires{is_a_ket_basis_elt x}
-                 requires{getbv (ket_to_bv x) co = 1}
-                 ensures{path_sem_c (cont_c c co k n) x =  (path_sem_c (place_c c k n) x)}
-  = path_cont_c c co k n
-
-let lemma path_cont_ketz_gen_c  (c:circuit_c) (co k  n:int) 
-                 requires{0<= co < n}
-                 requires{0<= k <= n - (width_c c)}
-                 requires{k <= co -> k + width_c c <= co}
-                 ensures{forall x: matrix complex. is_a_ket_l x n -> is_a_ket_basis_elt x ->getbv  (ket_to_bv x) co = 0 ->path_sem_c (cont_c c co k n)  x = x}
-  = ()
-
-let lemma path_cont_keto_gen_c  (c:circuit_c) (co k  n:int) 
-                 requires{0<= co < n}
-                 requires{0<= k <= n - (width_c c)}
-                 requires{k <= co -> k + width_c c <= co}
-                 ensures{forall x: matrix complex. is_a_ket_l x n -> is_a_ket_basis_elt x ->getbv  (ket_to_bv x) co = 1 ->
-                                   path_sem_c (cont_c c co k n) x =  (path_sem_c (place_c c k n) x)}
-  = () 
-
-let lemma cont_kron_left_bv_to_ket_c (c:circuit_c) (  n: int) (x : matrix complex)
-      requires{0<=  width_c c = n-1}
-      requires{is_a_ket_l x  (width_c c)}
-      ensures{forall y: bitvec. length y = 1 -> getbv y 0 = 0 -> path_sem_c (cont_c c (n-1) 0 n) (kronecker x (bv_to_ket y)) =   (kronecker x (bv_to_ket y))}
-      ensures{forall y: bitvec. length y = 1 -> getbv y 0 = 1 -> path_sem_c (cont_c c (n-1) 0 n) (kronecker x (bv_to_ket y)) =   (kronecker (path_sem_c c x) (bv_to_ket y))}
-  =   ()
-
-let lemma place_kron_left_path_c (c:circuit_c) (  n: int)
-      requires{width_c c < n}
-      ensures{forall x y: matrix complex. is_a_ket_l x (width_c c) -> is_a_ket_l y (n- width_c c) -> path_sem_c (place_c c 0 n) (kronecker x y) = kronecker (path_sem_c c x) y}
-=()
-
-let lemma cont_kron_pat_right_c (c:circuit_c) (co k  n:int) (y :matrix complex)
-                 requires{0<= co < k }
-                 requires{ n = k + (width_c c)}
-                 requires{is_a_ket_l y (width_c c)}
-                 ensures{forall x: matrix complex. is_a_ket_basis_elt x  -> is_a_ket_l x k ->
-                                       getbv (ket_to_bv x) co  = 0 -> path_sem_c (cont_c c co k n) (kronecker x y) =  kronecker x y}
-                 ensures{forall x: matrix complex. is_a_ket_basis_elt x  -> is_a_ket_l x k ->
-                                   getbv (ket_to_bv x) co  = 1 -> path_sem_c (cont_c c co k n) (kronecker x y) =  kronecker x (path_sem_c c y)}
-=()
-
-let lemma cont_kron_pat_right_gen_c (circ:circuit_c) (c k  n:int) 
-                 requires{0<= c < k }
-                 requires{ n = k + (width_c circ)}
-                 ensures{forall y: matrix complex. forall x: bitvec.  is_a_ket_l y (width_c circ) -> length x = k ->
-                                       getbv x c  = 0 -> path_sem_c (cont_c circ c k n) (kronecker (bv_to_ket x) y) =  kronecker (bv_to_ket x) y}
-                 ensures{forall y: matrix complex. forall x: bitvec.  is_a_ket_l y (width_c circ) -> length x = k ->
-                                   getbv x c  = 1 -> path_sem_c (cont_c circ c k n) (kronecker (bv_to_ket x) y) =  kronecker (bv_to_ket x) (path_sem_c circ y)}
-=()
-
+let lemma insert_qbits_path_sem (c :circuit)  (k n i:int)(x:bitvec) (im im_d: matrix complex)
+      requires{width c = n}
+      requires{0<=k < n}
+      requires{0<i}
+      requires{length x = n+i}
+      requires{is_a_ket_l im k}
+      requires{is_a_ket_l im_d (n-k)}
+      requires{path_sem c   (bv_to_ket (concat (hpart x k) (tpart x (k+i)))) = (kronecker im im_d)}
+      ensures{path_sem (insert_qbits c k n i) (bv_to_ket x) = kronecker im (kronecker (bv_to_ket (htpart x k i)) im_d)}
+  =
+  set_bijective_auto (fun j -> if j < k then j else if j < n then j + i else j-n+k) (to_fset 0 (n+i));
+  set_bijective_auto (fun j -> if j < k then j else if j < k+i then j + n-k else j-i) (to_fset 0 (n+i));
+  unic_inverse (fun j -> if j < k then j else if j < n then j + i else j-n+k)
+    (fun j -> if j < k then j else if j < k+i then j + n-k else j-i)  (to_fset 0 (n+i))  (to_fset 0 (n+i));
+  path_sem_comp  (permutation_circuit (width (parallel c (ids i)))
+                    (fun (j:int) ->
+                      if j < k then j else if j < n then j + i else (j - n) + k))  
+    (parallel c (ids i)) 
+    (bv_to_ket x)
+    (bv_to_ket (concat (hpart x k) (concat (tpart x (k+i)) (htpart x k i) )))
+    (kronecker im (kronecker  im_d  (bv_to_ket (htpart x k i))));
+  path_sem_comp (sequence (permutation_circuit (width (parallel c (ids i)))
+                             (fun (j:int) ->
+                               if j < k then j else if j < n then j + i else (j - n) + k))  
+                   (parallel c (ids i)) )
+    (permutation_circuit (width (parallel c (ids i)))
+       (c_inv_func_int
+          (fun (j:int) ->
+            if j < k then j else if j < n then j + i else (j - n) + k)
+          (width (parallel c (ids i)))))
+    (bv_to_ket x)
+    (kronecker im (kronecker  im_d  (bv_to_ket (htpart x k i))))
+    (kronecker im (kronecker (bv_to_ket (htpart x k i)) im_d))
 end
-     
-module Derived_circuits
 
-use Reverse
-use Place
-use Qbit_permutations
-use Cont
-
-clone qbricks.Circuit with type circuit = circuit_c,
-val size = size_c,
-val ancillas = ancillas_c,
-val path_sem_basis = path_sem_basis_c,
-val path_sem = path_sem_c,
-val circ_to_pps = circ_to_pps_c,
-val width = width_c,
-val range = range_c,
-val basis_ket = basis_ket_c,
-val ang_ind = ang_ind_c,
-val id = id_c,
-val cnot = cnot_c,
-val swap = swap_c,
-val hadamard = hadamard_c,
-val phase = phase_c,
-val rz = rz_c,
-val sequence = sequence_c,
-val parallel = parallel_c,
-val ancilla = ancilla_c,
-val  ids = ids_c,
-val  place = place_c, 
-val  place_kron = place_kron_c,  
-val  place_kron_left = place_kron_left_c,  
-val  place_kron_right = place_kron_right_c,
-val place_kron_gen = place_kron_gen_c,
-val  place_get_ket = place_get_ket_c,
-val  place_get_ket_hpart_null = place_get_ket_hpart_null_c, 
-val  place_get_ket_tpart_null = place_get_ket_tpart_null_c,
-val  place_place = place_place_c,
-val  place_hadamard = place_hadamard_c,
-val qbit_permutes = qbit_permutes,
-val  qbit_permutation = qbit_permutation,
-val  permute_atom = permute_atom,
-val   permutation_circuit = permutation_circuit, 
-val  with_permutation = with_permutation,
-val  with_permutation_get_ket = with_permutation_get_ket, 
-val  with_permutation_kronecker = with_permutation_kronecker, 
-val  cont_size = cont_size_c, 
-val  cont_zero = cont_zero_c, 
-val  cont_zero_path_sem_kron = cont_zero_path_sem_kron_c,
-val  cont_last_qbit = cont_last_qbit_c,
-val  cont = cont_c,
-val  size_cont = size_cont_c,  
-val  path_cont = path_cont_c, 
-val  path_cont_ketz = path_cont_ketz_c,   
-val  path_cont_keto = path_cont_keto_c,
-val  path_cont_ketz_gen = path_cont_ketz_gen_c,   
-val  path_cont_keto_gen = path_cont_keto_gen_c,
-val  cont_kron_left_bv_to_ket = cont_kron_left_bv_to_ket_c, 
-val  place_kron_left_path = place_kron_left_path_c,
-val  cont_kron_pat_right =  cont_kron_pat_right_c,
-val  cont_kron_pat_right_gen = cont_kron_pat_right_gen_c 
-
-end

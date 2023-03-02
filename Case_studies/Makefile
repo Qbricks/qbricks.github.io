@@ -1,27 +1,27 @@
 DIRS?= --library=../math_libs --library=../Qbricks --library=../Case_studies
 
-ide_deutsch-jozsa:
-	why3 ide $(DIRS) deutsch-jozsa.mlw
+.PHONY: run ide
 
-ide_grover:
-	why3 ide $(DIRS) grover.mlw
+ide_jerome:
+	why3 ide $(DIRS) jerome_toffoli.mlw
 
-ide_modular_adder:
-	why3 ide $(DIRS) modular_adder.mlw
+ide_qft_test:
+	why3 ide $(DIRS) qft_test.mlw
 
-ide_modular_multiplier:
-	why3 ide $(DIRS) modular_multiplier.mlw
+ide_translation:
+	why3 ide $(DIRS) translation.mlw
 
-ide_qft:
-	why3 ide $(DIRS) qft.mlw
+ide_translation_grover:
+	why3 ide $(DIRS) translation_grover.mlw
 
-ide_qpe:
-	why3 ide $(DIRS) qpe.mlw
+ide_translation_grovercz:
+	why3 ide $(DIRS) translation_grovercz.mlw
 
-ide_shor_circuit:
-	why3 ide $(DIRS) shor_circuit.mlw
+ide_test:
+	why3 ide $(DIRS) test.mlw
 
-ide_shor:
-	why3 ide $(DIRS) shor.mlw
+prove_test:
+	why3 prove $(DIRS) test.mlw
 
-
+prove_no_anc_shor_circ:
+	why3 prove $(DIRS) Shor/no_anc_shor_circ.mlw

@@ -1,6 +1,27 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
 
 module Iterations
-         use  set.Fset
          use  int.Int
 
 function op 'im 'im: 'im 
@@ -15,7 +36,7 @@ predicate op_assoc  (op : 'im -> 'im -> 'im)= forall a b c: 'im. op (op a  b)  c
 predicate op_neutral_left_comm  (op : 'im -> 'im -> 'im)  (neutral: 'im)= forall a : 'im . (forall b: 'im.  op a  b  = b) ->  a = neutral
 predicate commut  (op : 'im -> 'im -> 'im) = forall a b : 'im.  (op a b)  =  (op b  a)
 predicate assoc  (op : 'im -> 'im -> 'im) = forall a b  c: 'im.  op (op a b) c = op a (op b  c)
-predicate opposite_n (op po : 'im -> 'im -> 'im) (neutral: 'im) = forall a: 'im. po a  a = neutral 
+predicate opposite_n (op po : 'im -> 'im -> 'im) (neutral: 'im) = forall a: 'im. po a (op neutral a)  = neutral 
 predicate inverse   (op po : 'im -> 'im -> 'im)(inver :  'im -> 'im) = forall a b : 'im. po a  b = op a  (inver b)                                                  
 predicate opposite (op po : 'im -> 'im -> 'im)= forall a b: 'im. op (po a  b) b = a
 predicate opposite_com (op po : 'im -> 'im -> 'im)= forall a b: 'im. po (op a  b) b = a
@@ -59,9 +80,12 @@ val function neutral_elt (op   : 'im -> 'im -> 'im): 'im
 predicate inverse_tuple (op po  : 'im -> 'im -> 'im)(neutral: 'im)
   = opposite_n op po neutral /\ opposite op po /\ opposite_com op po 
   
-val function iterate (op  : 'im -> 'im -> 'im) (s: set 'a) (t : 'a -> 'im) : 'im
+let rec function iterate (op  : 'im -> 'im -> 'im) (s: set 'a) (f : 'a -> 'im) : 'im
                                                                                requires{commut op}
                                                                                requires{is_empty s -> iterable op}
+                                                                              variant{cardinal s} 
+                                                                              =if (cardinal s) = 0 then neutral_elt op 
+                                                                              else  op ( iterate  op (remove (choose s) s) f) (f (choose s))
 
 axiom Iterate_def_empty :
                forall op: 'im -> 'im -> 'im.forall s: set 'a. forall f : 'a -> 'im.  commut op -> iterable op -> is_empty s -> iterate op  (empty: set 'a) f = (neutral_elt op)
@@ -120,11 +144,9 @@ end
 
 module Set_iter
          use  Iterations
-         use  set.FsetComprehension
-         use  functions.MapInjection
          use  p_set.Fset_comp
          use  p_set.IndexestoSet
-         use  complex.Pairs
+         use pairs.Pairs
          use  complex.Constant
          use  p_set.Card_one_set
      
@@ -364,9 +386,7 @@ end
 
 module Int_iter
          use  Iterations
-         use  set.Fset
          use  p_set.Fset_comp
-         use  set.FsetComprehension
          use  int.Int
          use  p_set.IndexestoSet
          use  Set_iter
@@ -544,7 +564,6 @@ let rec lemma int_iterate_left_right (op  : 'im -> 'im -> 'im) (f : int -> 'im) 
     let t_kv = (h-k+l) in
     let t_kvp =  (h-k+l+1) in
     let fun_c = (fun a -> f (h-(a+1)+ l)) in
-    
     begin
       int_iterate_right_extension op f l k;
       int_iterate_to_iterate op fun_c t_kvp h ;
@@ -607,15 +626,12 @@ end
 
 module Int_int_iter
          use  Iterations
-         use  set.Fset
          use  p_set.Fset_comp
-         use  set.FsetComprehension
          use  int.Int
          use  p_set.IndexestoSet
          use  Set_iter
-         use  complex.Pairs
+         use pairs.Pairs
          use  Int_iter
-         use  functions.MapInjection
 
 let lemma int_int_iterate_def_empty (op  : 'im -> 'im -> 'im)(f :int ->int -> 'im) (i j k l :int) 
       requires{j <= i}
@@ -698,20 +714,17 @@ let lemma int_iterate_commute (op  : 'im -> 'im -> 'im) (f:int -> int -> 'im)(i 
       requires{k <=l}
       ensures{  int_iterate op  (fun a -> int_iterate op (f a) k l ) i j
                 = int_iterate op  (fun a -> int_iterate op (fun b -> f b a) i j ) k l}
-  = 
-  int_iterate_to_int_int_iterate op f i j k l;
+  =   int_iterate_to_int_int_iterate op f i j k l;
   int_iterate_to_int_int_iterate op (fun a b ->  (f b a ))  k l i j;
   int_int_iterate_commute op  f i j k l;
   ()
-
 end
 
 module Fset_iter_Pos
          use  Iterations
-         use  set.FsetComprehension
-         use  Set_iter
-         use export p_set.Card_one_set
-
+         use  p_set.Fset_comp
+         use Set_iter
+     
 let ghost function nonn_part (op  : 'im -> 'im -> 'im)  (s: set 'a) (t:  'a -> 'im) 
                      ensures{forall e: 'a. mem e result <-> mem e s /\ not (neutral op (t e))}
   = filter (fun e -> not (neutral op (t e))) s
@@ -752,18 +765,14 @@ let lemma iterate_nullity_partition (op  : 'im -> 'im -> 'im) (s: set 'a) (t:  '
   assert{iterate op s t = op (iterate op (nonn_part op s t) t)  (iterate op (n_part op s t) t)};
   iterate_neutral op (n_part op s t) t;
   assert{iterate op (n_part op s t) t = (neutral_elt op)}
-
 end
 
 module Comp_func         
          use  complex.Constant
          use  Iterations
-         use  set.Fset
          use  Int_iter
          use  int.Int
-         use  p_set.IndexestoSet
-         use  functions.MapInjection
-     
+         
 let function comp_func (f g: 'a -> 'a): ('a -> 'a)
   = fun a -> f (g a)
            

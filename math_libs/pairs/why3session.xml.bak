@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="6">
+<prover id="1" name="CVC4" version="1.7" timelimit="5" steplimit="0" memlimit="1000"/>
+<file format="whyml" proved="true">
+<path name=".."/><path name="pairs.mlw"/>
+<theory name="Pairs" proved="true">
+ <goal name="get_fir&#39;vc" expl="VC for get_fir" proved="true">
+ <proof prover="1"><result status="valid" time="0.01" steps="1019"/></proof>
+ </goal>
+ <goal name="get_sec&#39;vc" expl="VC for get_sec" proved="true">
+ <proof prover="1"><result status="valid" time="0.01" steps="1106"/></proof>
+ </goal>
+ <goal name="set_pair&#39;vc" expl="VC for set_pair" proved="true">
+ <proof prover="1"><result status="valid" time="0.01" steps="1193"/></proof>
+ </goal>
+</theory>
+</file>
+</why3session>

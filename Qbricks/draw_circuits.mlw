@@ -1,0 +1,123 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+module Draw
+
+         use wired_circuits.Circuit_c
+         use string.OCaml as S
+         use int.Int
+         use int_to_string.Int_to_string  
+
+let function (^) (a b:string): string
+  = S.concat a b
+
+let function i_to_s (i:int) : string
+  = if i< 0 then "("^int_to_string i^")" else int_to_string i
+  
+let rec  function circ_to_string_pre_ (c:wired_circuit) : string
+                                                            variant{ c}
+  = match  c with
+    Skip -> "SKIP"
+  | Phase k -> "Ph_"  ^ (i_to_s k) 
+  | Rx k -> "Rx_"  ^ (i_to_s k) 
+  | Ry k -> "Ry_"  ^ (i_to_s k) 
+  | Rz k -> "Rz_"  ^ (i_to_s k) 
+  | Rzp k -> "Rzp_"  ^ (i_to_s k) 
+  | Hadamard -> "HAD"
+  | S -> "S"
+  | T -> "T"
+  | X -> "X"
+  | Y -> "Y"
+  | Z -> "Z"
+  | Bricks_Cnot -> "Bricks_Cnot"
+  | Bricks_Toffoli  -> "Bricks_Toffoli"
+  | Bricks_Fredkin   -> "Bricks_fredkin"
+  | Bricks_Swap   -> "Bricks_swap"
+  | Cnot c t _ ->  "Cnot"  ^ (i_to_s c)^" "^ (i_to_s t) 
+  | Toffoli c1 c2 t _ ->  "Toffoli"  ^ (i_to_s c1)^","^ (i_to_s c2)^" "^ (i_to_s t) 
+  | Fredkin c t1 t2 _ ->   "Fredkin"  ^ (i_to_s c)^" "^ (i_to_s t1)^" "^ (i_to_s t2) 
+  | Swap  t1 t2 _ ->   "Swap "  ^ (i_to_s t1)^" "^ (i_to_s t2) 
+  | Place  c p _ -> "PLACE "^ (circ_to_string_pre_  c) ^" at " ^ (i_to_s p) 
+  | Cont c co t _  -> "WITH_CONT "^(i_to_s co) ^ ": " ^  "PLACE "^ (circ_to_string_pre_  c) ^" at " ^ (i_to_s t) 
+  | Sequence d e ->    (circ_to_string_pre_  d) ^ ";\n" ^  (circ_to_string_pre_  e)
+  | Parallel d e ->  "PAR(" ^ (circ_to_string_pre_  d) ^ "," ^ (circ_to_string_pre_  e) ^")"
+  | Ancillas d _ -> "ANC("^ (circ_to_string_pre_  d) ^")"
+end
+
+let   function circ_to_string_pre (c:wired_circuit) : string
+  = circ_to_string_pre_ c ^ "\n"
+  
+let   function circ_to_string (c:circuit) : string
+  = circ_to_string_pre (pre c)
+
+let constant indent  : string
+  = "    "
+
+let rec  function circ_to_tikz_pre (c:wired_circuit) : string
+                                                         requires{build_correct c}
+                                                         variant{ c}
+  = match  c with
+    Skip -> ""
+  | Phase k ->  "\\node[draw,rectangle,fill=white] at (0, 0){$\\textit{Ph}_{"^i_to_s k^"}$};\n"  
+  | Rx k ->  "\\node[draw,rectangle,fill=white]  at (0, 0){$\\textit{Rx}_{"^i_to_s k^"}$};\n"
+  | Ry k ->  "\\node[draw,rectangle,fill=white]  at (0, 0){$\\textit{Ry}_{"^i_to_s k^"}$};\n"
+  | Rz k ->  "\\node[draw,rectangle,fill=white]  at (0, 0){$\\textit{Rz}_{"^i_to_s k^"}$};\n"
+  | Rzp k ->  "\\node[draw,rectangle,fill=white]  at (0, 0){$\\textit{Rzp}_{"^i_to_s k^"}$};\n"
+  | Hadamard ->  "\\node[draw,rectangle,fill=white] at (0, 0) {$\\textit{H}$};\n"
+  | S ->  "\\node[draw,rectangle,fill=white]  at (0, 0){$\\textit{S}$};\n"
+  | T ->  "\\node[draw,rectangle,fill=white]  at (0, 0){$\\textit{T}$};\n"
+  | X ->  "\\node[draw,rectangle,fill=white]  at (0, 0){$\\textit{X}$};\n"
+  | Y ->  "\\node[draw,rectangle,fill=white]  at (0, 0){$\\textit{Y}$};\n"
+  | Z ->  "\\node[draw,rectangle,fill=white]  at (0, 0){$\\textit{Z}$};\n"
+  | Bricks_Cnot ->  "\\node(c) at (0, 0){$\\bullet$};\n\\node(t) at (0, -1){$\\oplus$};\n\\draw (c)to (t);\n"
+  | Bricks_Toffoli  -> "\\node(c1) at (0, 0){$\\bullet$};\n\\node(c2) at (0, -1){$\\bullet$};\n\\node(t) at (0, -2){$\\oplus$};\n\\draw (c1)to (t);\n"
+  | Bricks_Fredkin   -> "\\node(c) at (0, 0){$\\bullet$};\n\\node(t1) at (0, -1){$\\times$};\n\\node(t2) at (0, -2){$\\times$};\n\\draw (c)to (t2);\n"
+  | Bricks_Swap   -> "\\node(t1) at (0, 0){$\\times$};\n\\node(t2) at (0, -1){$\\times$};\n\\draw (t1) to (t2);\n"
+  | Cnot c t _ ->   "\\node(c) at (0, -"^i_to_s c ^"){$\\bullet$};\n\\node(t) at (0, -"^i_to_s t ^"){$\\oplus$};\n\\draw (c)to (t);\n"
+  | Toffoli c1 c2 t _ ->  "\\node(c1) at (0, -"^i_to_s c1 ^"){$\\bullet$};\n\\node(c2) at (0, -"^i_to_s c2 ^"){$\\bullet$};\n\\node(t) at (0, -"^i_to_s t ^"){$\\oplus$};\n\\draw (c1)to (t);\n"
+  | Fredkin c t1 t2 _ ->  "\\node(c) at (0, -"^i_to_s c ^"){$\\bullet$};\n\\node(t1) at (0, -"^i_to_s t1 ^"){$\\times$};\n\\node(t2) at (0, -"^i_to_s t2 ^"){$\\times$};\n\\draw (c)to (t2);\n" 
+  | Swap  t1 t2 _ ->    "\\node(t1) at (0, -"^i_to_s t1 ^"){$\\times$};\n\\node(t2) at (0, -"^i_to_s t2 ^"){$\\times$};\n\\draw (t1.center) to (t2.center);\n"
+  | Place  c p _ -> "\\begin{scope}[yshift= -"^ i_to_s p^" cm]\n"^ circ_to_tikz_pre c^"\\end{scope}"^ if not (atomic c) then "\n\\node(rect)[draw, minimum width ="^ i_to_s (depth_pre c)^"cm, minimum height ="^ i_to_s (width_pre c)^" cm ]at(0,-"^ i_to_s (width_pre c) ^"/2+1/2-"^ i_to_s p ^"){};\n"else "\n"
+  | Cont c co t _  -> if atomic c then
+                        "\\node(rect)[ minimum width ="^ i_to_s (depth_pre c)^"cm, minimum height ="^ i_to_s (width_pre c)^"cm  ]at(0,-"^ i_to_s (width_pre c)^"/2 +1/2 -"^ i_to_s t^ "){};\n\\node(c) at (0, -"^i_to_s co ^"){$\\bullet$};\n\\draw (rect.center) to (c.center);\n\\begin{scope}[yshift= -"^ i_to_s t^"cm]\n"^ circ_to_tikz_pre c^"\\end{scope}\n"
+                      else
+                        "\\node(rect)[draw, minimum width ="^ i_to_s (depth_pre c)^"cm, minimum height ="^ i_to_s (width_pre c)^"cm  ]at(0,-"^ i_to_s (width_pre c)^"/2 +1/2 -"^ i_to_s t^ "){};\n\\node(c) at (0, -"^i_to_s co ^"){$\\bullet$};\n\\draw (rect) to (c.center);\n\\begin{scope}[yshift= -"^ i_to_s t^"cm]\n"^ circ_to_tikz_pre c^"\\end{scope}\n"
+  | Sequence d e ->    (circ_to_tikz_pre  d) ^"\\hspace{"^ i_to_s (depth_pre d)^"cm}\n"^ circ_to_tikz_pre e^"\n"^"\\hspace{-"^ i_to_s (depth_pre d)^"cm}\n"
+  | Parallel d e -> (circ_to_tikz_pre  d) ^"\\begin{scope}[yshift= -"^ i_to_s (width_pre d)^"cm]\n"^ circ_to_tikz_pre e^"\\end{scope}\n"
+  | Ancillas d l -> "\\foreach  \\i in {1,...,"^i_to_s l ^"}){\n\\draw[ultra thick](-0.5,"^i_to_s (width_pre d) ^"-\\i-.3) to (-0.5,"^i_to_s (width_pre d) ^"-\\i+.3);\n\\draw[ultra thick]("^i_to_s (depth_pre d) ^"-0.5,"^i_to_s (width_pre d) ^"-\\i-.3) to ("^i_to_s (depth_pre d) ^"-0.5,"^i_to_s (width_pre d) ^"-\\i+.3);\n\\draw(-0.5,"^i_to_s (width_pre d) ^"-\\i) to("^i_to_s (depth_pre d) ^"-0.5,-\\i);n}"^(circ_to_tikz_pre  d)^"\n"
+end
+
+let constant tikz_start:string =
+  "\\documentclass[tikz, border=1mm]{standalone}\n\\begin{document}\n\\begin{figure}[\\width = \\textwidth]\n\\begin{tikzpicture}\n"
+  
+let constant tikz_end:string =
+  "\\end{tikzpicture}\n\\end{figure}\n\\end{document}\n"
+  
+let  function circ_to_tikz_ (c:wired_circuit) : string
+                                                  requires{build_correct c}
+  = tikz_start ^"\\foreach  \\i in {-"^i_to_s (width_pre c -1) ^",...,0}{\n\\draw(-.5,\\i)to("^i_to_s (depth_pre c)^"-.5,\\i);\n}\n"^circ_to_tikz_pre ( c) ^ tikz_end
+
+let  function circ_to_tikz (c:circuit) : string
+                                           requires{build_correct (pre c)}
+  = circ_to_tikz_ (pre c)
+
+end

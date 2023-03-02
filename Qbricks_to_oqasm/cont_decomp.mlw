@@ -1,0 +1,205 @@
+module Cont_del_implem
+
+  use int.Int
+  use wired_circuits.Circuit_c
+  use wired_circuits.Qbricks_prim
+  use qbricks.Circuit_macros
+  use reversion.Circuit_reverse
+  use circuits_equiv_pre.Gate_decomp
+  use circuits_equiv_pre.Circuit_equivalence_impl
+  use commuting_lemmas.Ancilla_pre
+  use commuting_lemmas.Cont_depth_pre
+  use parallel_delete.Parallel_del
+  use atomic_place.Atomic_place
+  use ternary_gates_delete.Ternary_gates_del     
+
+  val function cont_hadamard (co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    ensures{correct result }
+    ensures{ancilla_free result}
+    ensures{atomic_place result}
+    ensures{ternary_gates_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont Hadamard co1 ta1 n1}
+
+  val function cont_ry (k co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    ensures{correct result }
+    ensures{atomic_place result}
+    ensures{ternary_gates_free result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont (Ry k) co1 ta1 n1}
+  
+  use binary.Binary_Op
+  use arit.Incr_abs
+  use unit_circle.Angle
+  
+  val function cont_rz (k co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    ensures{correct result }
+    ensures{ternary_gates_free result}
+    ensures{atomic_place result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont (Rz k) co1 ta1 n1}
+    
+  val function cont_phase (k co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    ensures{correct result }
+    ensures{atomic_place result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{ternary_gates_free result}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont (Phase k) co1 ta1 n1}
+  
+  val function cont_rzp (k co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    ensures{correct result }
+    ensures{atomic_place result}
+    ensures{ternary_gates_free result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont (Rzp k) co1 ta1 n1}
+
+  val function cont_rx (k co1 ta1 n1: int) : wired_circuit
+    requires{0 <= co1 < n1}
+    requires{0 <= ta1 /\ ta1 <= n1 - 1}
+    requires{ta1 <= co1 -> ta1 + 1 <= co1}
+    ensures{correct result }
+    ensures{atomic_place result}
+    ensures{ternary_gates_free result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont (Rx k) co1 ta1 n1}
+     
+  val function toffoli_decomp (co1 co2 ta1 n1: int) : wired_circuit
+    requires{0 <= co1 < n1}
+    requires{0 <= co2 < n1}
+    requires{0 <= ta1 < n1}
+    requires{co1 <> co2}
+    requires{co1 <> ta1}
+    requires{ta1 <> co2}
+    ensures{atomic_place result}
+    ensures{correct result }
+    ensures{ternary_gates_free result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Toffoli co1 co2 ta1 n1}
+    
+  val function fredkin_decomp (co1 ta1 ta2 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= ta2 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> ta2}
+    requires{ta1 <> co1}
+    requires{co1 <> ta2}
+    ensures{atomic_place result}
+    ensures{ternary_gates_free result}
+    ensures{correct result }
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Fredkin co1 ta1 ta2 n1}
+ 
+  val function cont_s (co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    ensures{correct result }
+    ensures{atomic_place result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{ternary_gates_free result}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont S co1 ta1 n1}
+  
+  val function cont_t (co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    ensures{correct result }
+    ensures{atomic_place result}
+    ensures{ancilla_free result}
+    ensures{ternary_gates_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont T co1 ta1 n1}
+  
+  val function cont_zz (co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    ensures{correct result }
+    ensures{atomic_place result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{ternary_gates_free result}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont Z co1 ta1 n1}
+  
+  val function cont_xx (co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    requires{ta1 <= co1 -> (ta1 + 1) <= co1}
+    ensures{atomic_place result}
+    ensures{correct result }
+    ensures{ancilla_free result}
+    ensures{ternary_gates_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont X co1 ta1 n1}
+  
+  val function cont_yy (co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    requires{ta1 <= co1 -> (ta1 + 1) <= co1}
+    ensures{correct result }
+    ensures{atomic_place result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{ternary_gates_free result}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont Y co1 ta1 n1}
+
+  let lemma width_cont (c1: wired_circuit) (co1 ta1 n1: int)
+        requires{correct c1}
+        requires{0 <= co1 < n1}
+    requires{0 <= ta1 <= n1 - (width_pre c1)}
+    requires{ta1 <= co1 -> ta1 + width_pre c1 <= co1}
+    ensures{width_pre (Cont c1 co1 ta1 n1) = n1}
+  = ()
+
+end     

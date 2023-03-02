@@ -1,0 +1,166 @@
+module Debug_sim
+    use ref.Ref
+    use int.Int 
+    use list.List
+    use matrices.Matrix
+
+
+    use wired_circuits.Circuit_c
+
+    use qbricks.Circuit_semantics     (* place had *)
+    use angle_list.Angle_list
+    use wired_circuits.Qbricks_prim   (* for -- *)
+    use qbricks.Circuit_macros        (* for m_skip *)
+    
+    use remarkable_fragments.Diag_circuits
+    use int_to_string.Int_to_string
+    use string.OCaml as S
+
+
+
+    (** functions to create strings **)
+
+    let function (^) (a b:string): string
+      = S.concat a b
+    
+    let function i_to_s (i:int) : string
+      = if i < 0 then "("^int_to_string i^")" else int_to_string i
+    
+    let function b_to_s (i:int) : string
+      = if i = 1 then "true" else "false"
+
+    let function i_to_s_spaced (i:int) : string
+      = if i < 0 then "("^int_to_string i^")" else "( "^int_to_string i^")"
+
+    let str_pair ( ip:(int, int) ): string 
+    = "(" ^ (i_to_s (fir ip))  ^ ";" ^ (i_to_s (sec ip)) ^ ")"
+    
+
+    let str_intint (x : int->int) (len: int): string 
+    =
+
+        let out_str = ref "[" in 
+
+        for i=0 to (len -1) do
+            let sl = x i  in 
+            out_str := (!out_str)  ^ " " ^ (i_to_s (sl ));
+        done;
+        out_str := (!out_str)  ^ " ]" ;
+        return !out_str
+
+    let rec str_angle_list (al: angle_list) : string
+        variant { angle_list_len al} 
+        = 
+        match al.a_list with
+        | Nil      -> ""
+        | Cons x r ->   (str_pair x) ^ ", " ^ (str_angle_list {a_list= r ;max_sec =al.max_sec}) 
+        end 
+
+    let rec str_list (l: list (int,int))    : string
+    variant { Llength.length l} 
+    = 
+        match l with
+        | Nil      -> ""
+        | Cons x r -> (str_pair x) ^ " " ^ (str_list r) 
+        end 
+
+
+    let str_list_pp (l: list (int,int))    : string
+    = "{" ^ (str_list l) ^ "}"
+    
+    let str_angle_list_pp (al: angle_list) : string
+    = "{" ^ (str_angle_list al) ^ "}"
+    
+    let str_matrix ( mat : matrix (list (int,int))  ): string
+    =   let xl =  mat.rows in
+        let yl = mat.columns in
+        
+        let out_str = ref "" in 
+        for i=0 to xl-1 do 
+            for j=0 to (yl-1) do 
+                let curr =  get mat i j  in 
+                out_str := (!out_str) ^ "   " ^ "{ " ^(str_list curr)^ "}" ;
+            done;
+            out_str := (!out_str) ^ "\n"
+        done;
+        return !out_str
+
+    (* end string creation functions *)
+
+    (* debug area *)
+    
+    let rec function print_str_circ (c:circuit)  :  string
+    variant{ (pre c)  }
+    = 
+    match  (pre c) with
+      Skip ->  "Skip"
+    | Phase k ->  "  (phase_"^ (i_to_s k) ^ ")"
+    | Rx k -> "(rx_"^ (i_to_s k) ^ ")"
+    | Ry k -> "(ry_"^ (i_to_s k) ^ ")"
+    | Rz k ->   "(rz_"^ (i_to_s k) ^ ")"
+    | Rzp k ->  "(rzp_"^ (i_to_s k) ^ ")"
+    | Hadamard -> "H"
+    | S -> " S "
+    | T ->  " T "
+    | X -> " X "
+    | Y -> " Y "
+    | Z -> " Z "
+    | Bricks_Cnot -> " BCNOT "
+    | Bricks_Toffoli -> " Btof "
+    | Bricks_Fredkin -> " BFred "
+    | Bricks_Swap -> " BSWAP "
+    | Cnot _ _ _  -> "Cnot"
+    | Toffoli _ _ _  _ ->  " tof  "
+    | Fredkin _ _ _ _ ->  " fred "
+    | Place  c _ _ -> print_str_circ (to_qc c) 
+    | Cont c _ _ _ ->  "cont->" ^print_str_circ (to_qc c) 
+    | Swap _ _ _-> " Swap "
+    | Sequence d e ->   (print_str_circ (to_qc d)) ^ "--"^ (print_str_circ  (to_qc e))
+    | Parallel d e -> (print_str_circ (to_qc d)) ^ "  \n  \n "^ (print_str_circ  (to_qc e))
+    |  Ancillas _ _ -> "  Anc  "
+    end
+
+    let rec write_circ_str (c:circuit) : string
+        (* requires {cont_depth c = 0} *)
+        variant{ (pre c)  }
+    =
+    match  (pre c) with
+      Skip ->  " skip "
+    | Phase k ->  "  (phase_"^ (i_to_s k) ^ ")"
+    | Rx k -> "(rx "^ (i_to_s k) ^ ")"
+    | Ry k -> "(ry "^ (i_to_s k) ^ ")"
+    | Rz k -> "(rz "^ (i_to_s k) ^ ")"
+
+
+    | Rzp k ->  "(rzp "^ (i_to_s k) ^ ")"
+    | Hadamard -> "hadamard"
+    | S -> " s "
+    | T ->  " t "
+    | X -> " xx "
+    | Y -> " yy "
+    | Z -> " zz "
+    | Bricks_Cnot -> " bricks_cnot "
+    | Bricks_Toffoli -> " bricks_toffoli "
+    | Bricks_Fredkin -> " bricks_fredkin "
+    | Bricks_Swap -> " bricks_swap "
+    | Cnot co t n  -> "(cnot "  ^ (i_to_s co) ^ " " ^  (i_to_s t) ^" " ^  (i_to_s n) ^ ")"
+    | Toffoli c1 c2 t n ->  " ( toffoli " ^ (i_to_s c1) ^ " " ^(i_to_s c2) ^ " " ^  (i_to_s t) ^" " ^  (i_to_s n) ^ ")"
+    | Fredkin c t1 t2 n ->  " ( fredkin " ^ (i_to_s c) ^ " " ^(i_to_s t1) ^ " " ^  (i_to_s t2) ^" " ^  (i_to_s n) ^ ")"
+    | Place  c k n ->  " ( place (" ^ write_circ_str (to_qc c) ^ ") " ^(i_to_s k) ^" " ^  (i_to_s n) ^ ")"
+    | Cont c _ _ _ ->  "( WHY-CONT!!?" ^ write_circ_str (to_qc c) ^ ")"
+    | Swap x y n-> "(swap " ^ (i_to_s x) ^ " " ^  (i_to_s y) ^" " ^  (i_to_s n) ^ ")"
+    | Sequence d e ->   (write_circ_str (to_qc d)) ^ "--"^ (write_circ_str  (to_qc e))
+    | Parallel d e -> (write_circ_str (to_qc d)) ^ " // "^ (write_circ_str  (to_qc e))
+    |  Ancillas c l -> "  ( ancilla ( " ^ (write_circ_str (to_qc c))  ^ ") " ^  (i_to_s l) ^ ")"
+    (* | _ ->  "  unknown  " *)
+    end
+
+    let rec function print_str_circ_f (c:circuit)  :  string
+    variant{ (pre c)  }
+    = "width:"^ (i_to_s (width c)) ^  "   range:"^ (i_to_s (range c)) ^  "   size:"^ (i_to_s (size c))^ "\n" ^print_str_circ c
+
+
+
+         
+
+end

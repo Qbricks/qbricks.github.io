@@ -1,31 +1,50 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
 module Circuit_c
-         use export complex.Complex
-         use export int.Int
-         use complex.Pairs
-         use binary.Bit_vector_decomp
-         use int.EuclideanDivision
-         use functions.Shift
-         use binary.Binary_Op
-         use export exponentiation.Complex_Exponentiation
-         use  export exponentiation.Power_
+         use  complex.Complex
+         use  int.Int
+         use  binary.Bit_vector_decomp
+         use  binary.Binary_Op
+         use   int_expo.Int_Exponentiation
          use  binary.Bit_vector
-         use  export qdata.Bv_to_ket
-         use  export qdata.Ket_basis
-         use  export qdata.Kronecker_Qbit
-         use export matrices.Matrice
-         use pps.Pps         
-         use export unit_circle.Angle
-         use binary.Bv_concat       
+         use   qdata.Bv_to_ket
+         use   qdata.Ket_basis
+         use   qdata.Kronecker_Qbit
+         use  matrices.Matrix
+         use  pps.Pps         
+         use  unit_circle.Angle
          use pps.Mats_for_sem
-     use  matrices.Matrix_product
-     use  export matrices.Kronecker_product
-     use  qdata.Qreg
+         use  matrices.Matrix_product
+         use   matrices.Kronecker_product
+         use  qdata.Qreg
+         use complex.Assert_equal
+         use binary.Int_to_bv
      
 type circuit_pre = 
   Phase int | Rz int | Hadamard | Cnot | Swap | Id
   | Sequence circuit_pre circuit_pre
   | Parallel circuit_pre circuit_pre
-  | Ancilla circuit_pre
+  | Ancillas circuit_pre int
   
 let rec function width_pre  (c:circuit_pre): int
                                                variant{c}
@@ -34,7 +53,7 @@ let rec function width_pre  (c:circuit_pre): int
   | Swap -> 2
   | Sequence d _ -> (width_pre d)
   | Parallel d e -> width_pre d + width_pre e
-  | Ancilla d -> width_pre d -1
+  | Ancillas d i -> width_pre d -i
   |  _ -> 1
 end
      
@@ -43,66 +62,121 @@ let rec predicate build_correct (c:circuit_pre)
   =  match c with
     Sequence d e -> (width_pre d) = (width_pre e) && (build_correct d && build_correct e)
   | Parallel d e -> (build_correct d && build_correct e)
-  | Ancilla d  -> (2 <= width_pre d && build_correct d)
+  | Ancillas d i  -> (1<=i && i+1 <= width_pre d && build_correct d)
+  | _ -> true
+end
+
+let  rec ghost function circ_to_pps_pre (c:circuit_pre) : pps
+                                                            requires{build_correct c}
+                                                            variant{ c}
+                                                            ensures{h_width result = width_pre c}
+                                                            ensures{1<= h_width result}
+  = match c with
+    Sequence d e ->   pps_seq (circ_to_pps_pre d) (circ_to_pps_pre e) 
+  | Parallel d e -> pps_par (circ_to_pps_pre d) (circ_to_pps_pre e)
+  | Ancillas d i -> pps_ancs (circ_to_pps_pre d) i
+  |  Phase k -> pps_phase k
+  | Rz k -> pps_rz k
+  | Hadamard -> pps_hadamard
+  | Cnot -> pps_cnot 0 1 2
+  | Id -> pps_id
+  | Swap -> pps_swap 0 1 2
+end
+
+val ghost predicate ancillable_pre (c:circuit_pre) (i: int)
+      ensures{result <->  exists path_sem_target. forall x. is_a_ket_l x (width_pre c - i) ->  pps_apply (circ_to_pps_pre c) (kronecker x (ket i 0))
+                                                                                               =  kronecker (path_sem_target x) (ket i 0)}
+  
+let rec ghost predicate correct (c:circuit_pre) 
+          variant{c}
+          ensures{result -> build_correct c}
+  =  match c with
+    Sequence d e -> (width_pre d) = (width_pre e) && correct d && correct e
+  | Parallel d e -> (correct d && correct e)
+  | Ancillas d i  -> 1<=i && i+1 <= width_pre d && correct d && ancillable_pre d i
   | _ -> true
 end
      
-type circuit_c = {pre : circuit_pre}
-                   invariant {build_correct pre}
-                   by{pre = Hadamard}
+type circuit = {pre : circuit_pre}
+                 invariant {correct pre}
+                 by{pre = Hadamard}
 
-                   axiom injective_pre :   forall c c':circuit_c. c <> c' -> pre c <> pre c'                        
-               
-let function to_qc (c:circuit_pre): circuit_c
-                                      requires{build_correct c}
+                 axiom injective_pre :   forall c c':circuit. c <> c' -> pre c <> pre c'
+             
+let function to_qc (c:circuit_pre): circuit
+                                      requires{correct c}
                                       ensures{pre result = c}
   = {pre = c}
+
+      use string.OCaml as S
+      use int_to_string.Int_to_string  
   
-let lemma to_qc_rev (c:circuit_c)
+let function (^) (a b:string): string
+  = S.concat a b
+
+let rec  function circ_to_string_ (c:circuit) : string
+                                                  variant{pre c}
+  = match pre c with
+    Sequence d e ->    (circ_to_string_  (to_qc d)) ^ ";" ^  (circ_to_string_  (to_qc e))
+  | Parallel d e ->  "PAR(" ^ (circ_to_string_  (to_qc d)) ^ "," ^ (circ_to_string_  (to_qc e)) ^")"
+  | Ancillas d _ -> "ANC("^ (circ_to_string_  (to_qc d)) ^")"
+  |  Phase k -> "(Ph_"  ^ (int_to_string k) ^")"
+  |  Rz k -> "(Rz_"  ^ (int_to_string k)  ^")"
+  | Hadamard -> "HAD"
+  | Cnot -> "CNOT"
+  | Id -> "ID"
+  | Swap -> "SWAP"
+end
+
+let   function circ_to_string (c:circuit) : string
+  = circ_to_string_ c ^ "\n"
+
+let lemma to_qc_rev (c:circuit)
       ensures{c = to_qc (pre c)}
   =()
   
-let lemma to_qc_pre (c:circuit_c)
+let lemma to_qc_pre (c:circuit)
       ensures{to_qc (pre c) = c}
   =()
   
 let lemma pre_rev (c:circuit_pre)
-      requires{build_correct c}
+      requires{correct c}
       ensures{c =  pre (to_qc c)}
   =()
   
 let lemma pre_to_qc (c:circuit_pre)
-      requires{build_correct c}
+      requires{correct c}
       ensures{pre (to_qc c) = c}
   =()
-  
-let rec function circ_to_pps_c (c:circuit_c) : pps
-                                            variant{pre c}
-               ensures{h_width result = width_pre c.pre}
-               ensures{1<= h_width result}
+
+let  rec ghost function circ_to_pps (c:circuit) : pps
+                                                    variant{pre c}
+                                                    ensures{result = circ_to_pps_pre (pre c)}
+                                                    ensures{h_width result = width_pre c.pre}
+                                                    ensures{1<= h_width result}
   = match pre c with
-    Phase k -> pps_phase k
+    Sequence d e ->   pps_seq (circ_to_pps (to_qc d)) (circ_to_pps (to_qc e)) 
+  | Parallel d e -> pps_par (circ_to_pps (to_qc d)) (circ_to_pps (to_qc e))
+  | Ancillas d i -> pps_ancs (circ_to_pps (to_qc d)) i
+  |  Phase k -> pps_phase k
   | Rz k -> pps_rz k
   | Hadamard -> pps_hadamard
-  | Cnot -> pps_cnot
+  | Cnot -> pps_cnot 0 1 2
   | Id -> pps_id
-  | Swap -> pps_swap
-  | Sequence d e ->   pps_seq (circ_to_pps_c (to_qc d)) (circ_to_pps_c (to_qc e)) 
-  | Parallel d e -> pps_par (circ_to_pps_c (to_qc d)) (circ_to_pps_c (to_qc e))
-  | Ancilla d  -> pps_anc (circ_to_pps_c (to_qc d))
+  | Swap -> pps_swap 0 1 2
 end
 
-let  function width_c (c:circuit_c) : int
-                                             ensures{1<=result}
-                 ensures{result = width_pre c.pre}
-= h_width (circ_to_pps_c c)
+let  function width (c:circuit) : int
+                                    ensures{1<=result}
+                                    ensures{result = h_width (circ_to_pps c)}
+  = width_pre c.pre
 
-let rec function mat_sem_c (c:circuit_c) : matrix complex
-               ensures{rows result = power_ 2 (width_pre c.pre)}
-               ensures{columns result = power_ 2 (width_pre c.pre)}
-               ensures{forall x. length x = width_pre c.pre -> mat_mult result (bv_to_ket x) = pps_apply_basis  (circ_to_pps_c c) x}
-               ensures{forall x. is_a_ket_l x (width_pre c.pre) -> mat_mult result x = pps_apply  (circ_to_pps_c c) x}
-               variant{pre c}
+let rec ghost function mat_sem (c:circuit) : matrix complex
+                                               ensures{rows result = power 2 (width_pre c.pre)}
+                                               ensures{columns result = power 2 (width_pre c.pre)}
+                                               ensures{forall x. length x = width_pre c.pre -> mat_mult result (bv_to_ket x) = pps_apply_basis  (circ_to_pps c) x}
+                                               ensures{forall x. is_a_ket_l x (width_pre c.pre) -> mat_mult result x = pps_apply  (circ_to_pps c) x}
+                                               variant{pre c}
   = match pre c with
     Phase k -> sem_phase_mat k
   | Rz k -> sem_rz_mat k
@@ -110,811 +184,967 @@ let rec function mat_sem_c (c:circuit_c) : matrix complex
   | Cnot -> sem_cnot_mat()
   | Id -> sem_id_mat()
   | Swap -> sem_swap_mat()
-  | Sequence d e ->   mat_mult   (mat_sem_c (to_qc e)) (mat_sem_c (to_qc d)) 
-  | Parallel d e ->   kronecker  (mat_sem_c (to_qc d)) (mat_sem_c (to_qc e)) 
-  | Ancilla d  -> pps_to_mat (pps_anc (circ_to_pps_c (to_qc d)))
+  | Sequence d e ->   mat_mult   (mat_sem (to_qc e)) (mat_sem (to_qc d)) 
+  | Parallel d e ->   kronecker  (mat_sem (to_qc d)) (mat_sem (to_qc e)) 
+  | Ancillas d i -> pps_to_mat (pps_ancs (circ_to_pps (to_qc d)) i)
 end
      
-let lemma pps_to_mat_mat_sem_c (c:circuit_c)
-  ensures{mat_sem_c c = pps_to_mat (circ_to_pps_c c)}
-  = mat_mult_ket_injec_eq_left (mat_sem_c c) (pps_to_mat (circ_to_pps_c c)) (width_c c)
+let lemma pps_to_mat_mat_sem (c:circuit)
+      ensures{mat_sem c = pps_to_mat (circ_to_pps c)}
+  = mat_mult_ket_injec_eq_left (mat_sem c) (pps_to_mat (circ_to_pps c)) (width c)
   
-let lemma sem_correction_gen (c:circuit_c) (x: matrix complex)
-      requires{is_a_ket_l x (width_c c)}
-      ensures{mat_mult (mat_sem_c c) x  = pps_apply (circ_to_pps_c c) x}
+let lemma sem_correction_gen (c:circuit) (x: matrix complex)
+      requires{is_a_ket_l x (width c)}
+      ensures{mat_mult (mat_sem c) x  = pps_apply (circ_to_pps c) x}
   =()
 
-let lemma sem_correction_gen_rev (c:circuit_c) (x: matrix complex)
-      requires{is_a_ket_l x (width_c c)}
-      ensures{ pps_apply (circ_to_pps_c c) x = mat_mult (mat_sem_c c) x}
+let lemma sem_correction_gen_rev (c:circuit) (x: matrix complex)
+      requires{is_a_ket_l x (width c)}
+      ensures{ pps_apply (circ_to_pps c) x = mat_mult (mat_sem c) x}
   =()
   
-let rec function size_c  (c:circuit_c): int
-                                            ensures{0<= result}
-                                            variant{pre c}
+let rec function size  (c:circuit): int
+                                      ensures{0<= result}
+                                      variant{pre c}
   = match (pre c) with
-  | Sequence d e -> size_c (to_qc d) + size_c (to_qc e)
-  | Parallel d e -> size_c (to_qc d) + size_c (to_qc e)
-  | Ancilla d -> size_c (to_qc d)
+  | Sequence d e -> size (to_qc d) + size (to_qc e)
+  | Parallel d e -> size (to_qc d) + size (to_qc e)
+  | Ancillas d _ -> size (to_qc d)
   |  Id -> 0
   |  Swap -> 0
   |  _ -> 1
 end
-
-use p_int.P_minmax
      
-let rec function ancillas_c  (c:circuit_c): int
-                                            ensures{0<= result}
-                                            variant{pre c}
+use  p_int.P_minmax
+     
+let rec function ancillas  (c:circuit): int
+                                          ensures{0<= result}
+                                          variant{pre c}
   = match (pre c) with
-  | Sequence d e -> max (ancillas_c (to_qc d)) (ancillas_c (to_qc e))
-  | Parallel d e -> ancillas_c (to_qc d) + ancillas_c (to_qc e)
-  | Ancilla d -> ancillas_c (to_qc d) + 1
+  | Sequence d e -> max (ancillas (to_qc d)) (ancillas (to_qc e))
+  | Parallel d e -> ancillas (to_qc d) + ancillas (to_qc e)
+  | Ancillas d i -> ancillas (to_qc d) + i
   |  _ -> 0
 end
      
-use matrices.Kronecker_product
-  use qdata.Sqrt_two
+use  qdata.Sqrt_two
 
-let function range_c (c: circuit_c) : int
-                                    ensures{0<=result}
-  = h_range (circ_to_pps_c c)
+let ghost function range (c: circuit) : int
+                                          ensures{0<=result}
+  = h_range (circ_to_pps c)
   
-let function basis_ket_c   (c:circuit_c) (x y: int-> int) (i:int)  :int
-      ensures{(forall i:int. 0<= i < width_c c -> 0<= x i < 2) ->
-              (forall i:int. 0<= i < range_c c -> 0<= y i < 2) ->
-               0<= i < width_c c -> 0<= result <2}
-    = h_basis_ket (circ_to_pps_c c) x y i
+let ghost function basis_ket   (c:circuit) (x y: int-> int) (i:int)  :int
+                                                                        ensures{(forall i:int. 0<= i < width c -> 0<= x i < 2) ->
+                                                                                (forall i:int. 0<= i < range c -> 0<= y i < 2) ->
+                                                                                0<= i < width c -> 0<= result <2}
+  = h_basis_ket (circ_to_pps c) x y i
 
-let function ang_ind_c   (c:circuit_c) (x y: int-> int) :angle
-     = h_angle (circ_to_pps_c c) x y
-     
-let function phase_c (k:int) : circuit_c
-                                 ensures{pre result = Phase k}
-                                   ensures{circ_to_pps_c result = pps_phase k}
-                               ensures{ancillas_c  result = 0}
-                               ensures{size_c result = 1}
-                               ensures{range_c result = 0}
-                               ensures{width_c result = 1}
-                               ensures{forall x y: int->int. forall i:int. basis_ket_c result x y i = x i}
-                               ensures{0<= k -> forall x y: int->int. ang_ind_c result x y  = int_to_ang 1 k}
-                               ensures{ k <0 -> forall x y: int->int. ang_ind_c result x y  = int_to_ang (-1) (-k)}
+let lemma binary_basis_ket (c: circuit) (w:int) (x y :int->int)
+      requires{w = width c}
+      requires{binary_l x w}
+      requires{binary_l y (range c)}
+      ensures{binary_l (basis_ket c x y) w}
+  =()
+  
+let lemma basis_ket_invariant (c:circuit) 
+      ensures{ forall x x' y y' : int->int.  (forall i:int. 0<= i < width c -> x i = x' i) -> 
+                                  (forall i:int. 0<= i < range c -> y i = y' i) -> forall  i:int. 0<= i < width c ->
+                                                                                             basis_ket c x y i = basis_ket c x' y' i } 
+  = ()
+  
+let ghost function ang_ind   (c:circuit) (x y: int-> int) :angle
+  = h_angle (circ_to_pps c) x y
+
+let lemma ang_ind_invariant (c:circuit)
+      ensures{ forall x x' y y' : int->int.  (forall i:int. 0<= i < width c -> x i = x' i) -> 
+                                  (forall i:int. 0<= i < range c -> y i = y' i)  ->
+                                  ang_ind c x y  = ang_ind c x' y' } 
+  = ()
+  
+let function phase (k:int) : circuit
+                               ensures{pre result = Phase k}
+                               ensures{circ_to_pps result = pps_phase k}
+                               ensures{ancillas  result = 0}
+                               ensures{size result = 1}
+                               ensures{range result = 0}
+                               ensures{width result = 1}
+                               ensures{forall x y: int->int. forall i:int. basis_ket result x y i = x i}
+                               ensures{forall x y: int->int. ang_ind result x y  = 1 /./ k}
   = {pre = Phase k}
   
-let function rz_c  (k:int):circuit_c
-                               ensures{pre result = Rz k}
-                               ensures{circ_to_pps_c result = pps_rz k}
-                           ensures{ancillas_c  result = 0}
-                           ensures{size_c result = 1}
-                           ensures{range_c result = 0}
-                           ensures{width_c result = 1}
-                           ensures{forall x y: int->int. forall i:int. basis_ket_c result x y i = x i}
-                           ensures{0<= k -> forall x y: int->int. ang_ind_c result x y  = if x 0 = 0 then ang_zero else int_to_ang 1 k}           
-                           ensures{k <0 -> forall x y: int->int. ang_ind_c result x y  = if x 0 = 0 then ang_zero else int_to_ang (-1) (-k)}           
+let function rz  (k:int):circuit
+                           ensures{pre result = Rz k}
+                           ensures{circ_to_pps result = pps_rz k}
+                           ensures{ancillas  result = 0}
+                           ensures{size result = 1}
+                           ensures{range result = 0}
+                           ensures{width result = 1}
+                           ensures{forall x y: int->int. forall i:int. basis_ket result x y i = x i}
+                           ensures{forall x y: int->int. ang_ind result x y  =  x 0 /./  k}           
   = {pre = Rz k}
   
-let constant hadamard_c  : circuit_c   = {pre = Hadamard}
-                               ensures{pre result = Hadamard}
-                               ensures{circ_to_pps_c result = pps_hadamard}
-                           ensures{ancillas_c  result = 0}
-                           ensures{size_c result = 1}
-                           ensures{range_c result = 1}
-                           ensures{width_c result = 1}
-                           ensures{forall x y: int->int. forall i:int. basis_ket_c result x y i = y i}
-                           ensures{forall x y: int->int.  ang_ind_c result x y  = if x 0 = y 0  = 1 then ang_minus_one else ang_zero}
-  
-let constant cnot_c : circuit_c   = {pre = Cnot}  
-                          ensures{pre result = Cnot}
-                               ensures{circ_to_pps_c result = pps_cnot}
-                      ensures{ancillas_c  result = 0}
-                      ensures{size_c result = 1}
-                      ensures{range_c result = 0}
-                      ensures{width_c result = 2}
-                      ensures{forall x y : int->int. forall i: int.
-                                                               basis_ket_c result x y i =  if i = 0 then  x i else mod (( x 0) + ( x i)) 2}
-                      ensures{forall x y: int->int.  ang_ind_c result x y  = ang_zero}
-  
-let constant id_c : circuit_c   = {pre = Id}  
-                        ensures{pre result = Id}
-                               ensures{circ_to_pps_c result = pps_id}
-                     ensures{ancillas_c  result = 0}
-                     ensures{size_c result = 0}
-                     ensures{range_c result = 0}
-                     ensures{width_c result = 1}
-                     ensures{forall x y: int->int. forall i:int. basis_ket_c result x y i = x i}
-                     ensures{forall x y: int->int.  ang_ind_c result x y  = ang_zero}
-  
-let constant swap_c : circuit_c   = {pre = Swap}  
-                        ensures{pre result = Swap}
-                               ensures{circ_to_pps_c result = pps_swap}
-                       ensures{ancillas_c  result = 0}
-                       ensures{size_c result = 0}
-                       ensures{range_c result = 0}
-                       ensures{width_c result = 2}
-                       ensures{forall x y: int->int.  basis_ket_c result x y 0 = x 1}
-                       ensures{forall x y: int->int.  basis_ket_c result x y 1 = x 0}
-                       ensures{forall x y: int->int.  ang_ind_c result x y  = ang_zero}
+let constant hadamard  : circuit   = {pre = Hadamard}
+                                       ensures{pre result = Hadamard}
+                                       ensures{circ_to_pps result = pps_hadamard}
+                                       ensures{ancillas  result = 0}
+                                       ensures{size result = 1}
+                                       ensures{range result = 1}
+                                       ensures{width result = 1}
+                                       ensures{forall x y: int->int. forall i:int. basis_ket result x y i = y i}
+                                       ensures{forall x y: int->int.  ang_ind result x y  = (x 0 *y 0) /./1 }
+                                   
+let constant cnot : circuit   = {pre = Cnot}  
+                                  ensures{pre result = Cnot}
+                                  ensures{circ_to_pps result = pps_cnot 0 1 2}
+                                  ensures{ancillas  result = 0}
+                                  ensures{size result = 1}
+                                  ensures{range result = 0}
+                                  ensures{width result = 2}
+                                  ensures{forall x y : int->int. forall i: int. i<> 1 -> basis_ket result x y i = x i}
+                                  ensures{forall x y : int->int. forall i: int. i= 1 -> basis_ket result x y i = x 0 * (1-x i) + x i * (1-x 0) }
+                                  ensures{forall x y: int->int.  ang_ind result x y  = ang_zero}
+                              
+let constant id : circuit   = {pre = Id}  
+                                ensures{pre result = Id}
+                                ensures{circ_to_pps result = pps_id}
+                                ensures{ancillas  result = 0}
+                                ensures{size result = 0}
+                                ensures{range result = 0}
+                                ensures{width result = 1}
+                                ensures{forall x y: int->int. forall i:int. basis_ket result x y i = x i}
+                                ensures{forall x y: int->int.  ang_ind result x y  = ang_zero}
+                            
+let constant swap : circuit   
+  = to_qc Swap
+      ensures{pre result = Swap}
+      ensures{circ_to_pps result = pps_swap 0 1 2}
+      ensures{ancillas  result = 0}
+      ensures{size result = 0}
+      ensures{range result = 0}
+      ensures{width result = 2}
+      ensures{forall x y: int->int.    basis_ket result x y 0 = x 1}
+      ensures{forall x y: int->int. basis_ket result x y 1 = x 0}
+      ensures{forall x y: int->int. forall i. 0<= i < 2 -> basis_ket result x y i = x (1-i)}
+      ensures{forall x y: int->int.  ang_ind result x y  = ang_zero}
 
-let function sequence_c (d e: circuit_c): circuit_c 
-     requires{width_c d = width_c e}
-     ensures{pre result = Sequence (pre d) (pre e)}
-     ensures{result = to_qc (Sequence (pre d) (pre e))}
-                               ensures{circ_to_pps_c result = pps_seq (circ_to_pps_c d ) (circ_to_pps_c e)}
+let function sequence (d e: circuit): circuit 
+                                        requires{width d = width e}
+                                        ensures{pre result = Sequence (pre d) (pre e)}
+                                        ensures{result = to_qc (Sequence (pre d) (pre e))}
+                                        ensures{circ_to_pps result = pps_seq (circ_to_pps d ) (circ_to_pps e)}
   = {pre = Sequence (pre d) (pre e)}
+  
+let function ancilla  (d : circuit) (i:int): circuit 
+                                               requires{1<=i}
+                                               requires{i+1<= width d}
+                                               requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width d -i) ->  is_a_ket_basis_elt x->
+                                                                                         pps_apply (circ_to_pps d) (kronecker x (ket i 0)) =  (kronecker (path_sem_target x) (ket i 0))}
+                                               ensures{pre result =  Ancillas (pre d) i}
+                                               ensures{result = to_qc (Ancillas (pre d) i)}
+                                               ensures{circ_to_pps result = pps_ancs (circ_to_pps d) i}
+  = {pre = Ancillas (pre d) i}
+  
+let lemma ancilla_pre_cond (d :circuit)(e:circuit_pre)(i:int)
+      requires{pre d = Ancillas e i}
+      ensures{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width d ) ->
+                                               pps_apply (circ_to_pps_pre e) (kronecker x (ket i 0)) =  (kronecker (path_sem_target x) (ket i 0))}
+  =()
 
-let function ancilla_c  (d : circuit_c): circuit_c 
-     requires{2<= width_c d}
-         requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width_c d -1) ->  pps_apply (circ_to_pps_c d) (kronecker x (ket 1 0)) =  (kronecker (path_sem_target x) (ket 1 0))}
-         ensures{pre result =  Ancilla (pre d) }
-     ensures{result = to_qc (Ancilla (pre d) )}
-         ensures{circ_to_pps_c result = pps_anc (circ_to_pps_c d) }
-  = {pre = Ancilla (pre d) }
-    
-let function parallel_c (d e: circuit_c): circuit_c 
-                                            ensures{pre result =  Parallel (pre d) (pre e)}
-                                            ensures{result = to_qc (Parallel (pre d) (pre e))}
-                                            ensures{circ_to_pps_c result = pps_par (circ_to_pps_c d ) (circ_to_pps_c e)}
+  
+let function parallel (d e: circuit): circuit 
+                                        ensures{pre result =  Parallel (pre d) (pre e)}
+                                        ensures{result = to_qc (Parallel (pre d) (pre e))}
+                                        ensures{circ_to_pps result = pps_par (circ_to_pps d ) (circ_to_pps e)}
   = {pre = Parallel (pre d) (pre e)}
 
-use matrices.Matrix_scalar
+      use  matrices.Matrix_scalar
 
-let lemma circ_to_pps_width_c (c:circuit_c)
-  ensures{h_width (circ_to_pps_c c) = width_c c}
+let lemma circ_to_pps_width (c:circuit)
+      ensures{h_width (circ_to_pps c) = width c}
   =()
 
-let lemma circ_to_pps_range_c (c:circuit_c)
-  ensures{h_range (circ_to_pps_c c) = range_c c}
+let lemma circ_to_pps_range (c:circuit)
+      ensures{h_range (circ_to_pps c) = range c}
   =()
 
-let lemma circ_to_pps_basis_ket_c (c:circuit_c) (x y: int-> int) (i:int)
-  ensures{h_basis_ket (circ_to_pps_c c) x y i = basis_ket_c c x y i}
+let lemma circ_to_pps_basis_ket (c:circuit) (x y: int-> int) (i:int)
+      ensures{h_basis_ket (circ_to_pps c) x y i = basis_ket c x y i}
   =()
 
-let lemma circ_to_pps_basis_ket_gen_c (c:circuit_c) (x y: int-> int) 
-  ensures{h_basis_ket (circ_to_pps_c c) x y  = basis_ket_c c x y }
+let lemma circ_to_pps_basis_ket_gen (c:circuit) (x y: int-> int) 
+      ensures{h_basis_ket (circ_to_pps c) x y  = basis_ket c x y }
   =()
 
-let lemma circ_to_pps_angle_c (c:circuit_c) (x y: int-> int) 
-  ensures{h_angle (circ_to_pps_c c) x y  = ang_ind_c c x y }
+let lemma circ_to_pps_angle (c:circuit) (x y: int-> int) 
+      ensures{h_angle (circ_to_pps c) x y  = ang_ind c x y }
   =()
   
-let  function path_sem_basis_c  (c: circuit_c)  (x:matrix complex): matrix complex
-                                                                  requires{is_a_ket_l x (width_c c)}
-                                                                  requires{is_a_ket_basis_elt x }
-                                                                  ensures{is_a_ket_l result (width_c c)}
-                                                                  ensures{result =   pps_apply_basis (circ_to_pps_c c) (ket_to_bv x)}
-  =  pow_inv_sqrt_2 (range_c c) *.. ket_sum_l (n_bvs (range_c c))
-                                    (fun y ->  ang_exp (ang_ind_c c (getbv (ket_to_bv x)) (getbv y)) *.. bv_to_ket (make_bv (basis_ket_c c   (getbv (ket_to_bv x)) (getbv y)) (width_c c))) (width_c c)
+let ghost function path_sem_basis  (c: circuit)  (x:matrix complex): matrix complex
+                                                                       requires{is_a_ket_l x (width c)}
+                                                                       requires{is_a_ket_basis_elt x }
+                                                                       ensures{is_a_ket_l result (width c)}
+                                                                       ensures{result =   pps_apply_basis (circ_to_pps c) (ket_to_bv x)}
+  =  pow_inv_sqrt_2 (range c) *.. ket_sum_l (n_bvs (range c))
+                                    (fun y ->  ang_exp (ang_ind c (getbv (ket_to_bv x)) (getbv y)) *.. bv_to_ket (make_bv (basis_ket c   (getbv (ket_to_bv x)) (getbv y)) (width c))) (width c)
    
-let   function path_sem_c (c: circuit_c) (x: matrix complex): matrix complex
-                                                            requires{is_a_ket_l x (width_c c)}
-                                                            ensures{is_a_ket_l result (width_c c)}
-                                                            ensures{result = pps_apply (circ_to_pps_c c) x}
-  =  ket_sum_l  (n_bvs (width_c c)) (fun y -> if length y = width_c c then get_ket x (bv_to_int y) *.. path_sem_basis_c c (bv_to_ket y) else x) (width_c c)
+let ghost  function path_sem (c: circuit) (x: matrix complex): matrix complex
+                                                                 requires{is_a_ket_l x (width c)}
+                                                                 ensures{is_a_ket_l result (width c)}
+                                                                 ensures{result = pps_apply (circ_to_pps c) x}
+  =  ket_sum_l  (n_bvs (width c)) (fun y -> if length y = width c then get_ket x (bv_to_int y) *.. path_sem_basis c (bv_to_ket y) else x) (width c)
 
-let lemma mat_sem_to_path_c (c:circuit_c) (x: matrix complex)
-      requires{is_a_ket_l x (width_c c)}
-      ensures{ mat_mult (mat_sem_c c) x = path_sem_c c x}
+let lemma mat_sem_to_path (c:circuit) (x: matrix complex)
+      requires{is_a_ket_l x (width c)}
+      ensures{ mat_mult (mat_sem c) x = path_sem c x}
   =()
 
-let lemma path_sem_to_mat_c (c:circuit_c) (x: matrix complex)
-      requires{is_a_ket_l x (width_c c)}
-      ensures{ path_sem_c c x = mat_mult (mat_sem_c c) x }
+let lemma path_sem_to_mat (c:circuit) (x: matrix complex)
+      requires{is_a_ket_l x (width c)}
+      ensures{ path_sem c x = mat_mult (mat_sem c) x }
   =()
 
-let  lemma path_sem_basis_apply_c  (c: circuit_c)  (x:matrix complex)
-       requires{is_a_ket_l x (width_c c)}
-       requires{is_a_ket_basis_elt x }
-       ensures{path_sem_basis_c c x =  pps_apply_basis (circ_to_pps_c c) (ket_to_bv x)}
-  =  ()
-   
-let  lemma apply_path_sem_basis_c  (c: circuit_c)  (x:matrix complex)
-       requires{is_a_ket_l x (width_c c)}
-       requires{is_a_ket_basis_elt x }
-       ensures{pps_apply_basis (circ_to_pps_c c) (ket_to_bv x) = path_sem_basis_c c x}
-  =  ()
-   
-let   lemma path_sem_apply_c (c: circuit_c) (x: matrix complex)
-        requires{is_a_ket_l x (width_c c)}
-        ensures{path_sem_c c x = pps_apply (circ_to_pps_c c) x}
-  =  ()
-   
-let   lemma apply_path_sem_c (c: circuit_c) (x: matrix complex)
-        requires{is_a_ket_l x (width_c c)}
-        ensures{pps_apply (circ_to_pps_c c) x = path_sem_c c x}
-  =  ()
-   
-let lemma set_mat_sem_c_path_sem_c (c:circuit_c) (x:matrix complex)
-requires{rows x = power_ 2 (width_c c)}
-requires{columns x = power_ 2 (width_c c)}
-requires{forall ket: matrix complex. is_a_ket_l ket (width_c c) -> is_a_ket_basis_elt ket -> mat_mult x ket = path_sem_c c ket}
-ensures{x = mat_sem_c c}
-  = mat_mult_ket_injec_eq_left (mat_sem_c c) x (width_c c)
+let ghost predicate sem (c: circuit) (x y: matrix complex) 
+  = is_a_ket_l x (width c) && y == path_sem c x
 
-let lemma path_sem_basis_ket_l_c (c: circuit_c)  (x:matrix complex) (l:int)
-      requires{is_a_ket_l x (width_c c)}
-      requires{l = width_c c}
+let lemma path_sem_to_sem (c:circuit)(x y: matrix complex)
+      requires{is_a_ket_l x (width c)}
+      requires{path_sem c x = y}
+      ensures{sem c x y}
+  =()
+  
+let lemma sem_to_path_sem (c:circuit)(x y: matrix complex)
+      requires{sem c x y}
+      ensures{path_sem c x = y}
+  =()
+
+let  lemma path_sem_basis_apply  (c: circuit)  (x:matrix complex)
+       requires{is_a_ket_l x (width c)}
+       requires{is_a_ket_basis_elt x }
+       ensures{path_sem_basis c x =  pps_apply_basis (circ_to_pps c) (ket_to_bv x)}
+  =  ()
+
+let  lemma path_sem_basis_value  (c: circuit)  (x:matrix complex)
+       requires{is_a_ket_l x (width c)}
+       requires{is_a_ket_basis_elt x }
+       ensures{path_sem_basis c x =    pow_inv_sqrt_2 (range c) *.. ket_sum_l (n_bvs (range c))
+                                                                      (fun y ->  ang_exp (ang_ind c (getbv (ket_to_bv x)) (getbv y)) *.. bv_to_ket (make_bv (basis_ket c   (getbv (ket_to_bv x)) (getbv y)) (width c))) (width c)}
+  =()
+  
+let  lemma path_sem_value_for_basis  (c: circuit)  (x:matrix complex)
+       requires{is_a_ket_l x (width c)}
+       requires{is_a_ket_basis_elt x }
+       ensures{path_sem c x =    pow_inv_sqrt_2 (range c) *.. ket_sum_l (n_bvs (range c))
+                                                                (fun y ->  ang_exp (ang_ind c (getbv (ket_to_bv x)) (getbv y)) *.. bv_to_ket (make_bv (basis_ket c   (getbv (ket_to_bv x)) (getbv y)) (width c))) (width c)}
+  =()
+  
+let  lemma apply_path_sem_basis  (c: circuit)  (x:matrix complex)
+       requires{is_a_ket_l x (width c)}
+       requires{is_a_ket_basis_elt x }
+       ensures{pps_apply_basis (circ_to_pps c) (ket_to_bv x) = path_sem_basis c x}
+  =  ()
+   
+let   lemma path_sem_apply (c: circuit) (x: matrix complex)
+        requires{is_a_ket_l x (width c)}
+        ensures{path_sem c x = pps_apply (circ_to_pps c) x}
+  =  ()
+   
+let   lemma apply_path_sem (c: circuit) (x: matrix complex)
+        requires{is_a_ket_l x (width c)}
+        ensures{pps_apply (circ_to_pps c) x = path_sem c x}
+  =  ()
+
+let lemma ancilla_pre_cond_path_sem (d :circuit)(e:circuit_pre)(i:int)
+      requires{pre d = Ancillas e i}
+      ensures{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width d ) ->
+                                               path_sem (to_qc e)  (kronecker x (ket i 0)) =  (kronecker (path_sem_target x) (ket i 0))}
+  =()
+
+let lemma ancilla_pre_path_sem (d :circuit)(e:circuit_pre)(i:int)
+      requires{pre d = Ancillas e i}
+      ensures{forall x:matrix complex. is_a_ket_l x (width d ) ->
+                       path_sem (to_qc e)  (kronecker x (ket i 0)) =  (kronecker (path_sem d x) (ket i 0))}
+  =()
+  
+let lemma pre_ancilla (d :circuit)(e:circuit)(i:int)
+      requires{pre d = Ancillas (pre e) i}
+      ensures{d = ancilla e i}
+  =()
+  
+let lemma set_mat_sem_path_sem (c:circuit) (x:matrix complex)
+      requires{rows x = power 2 (width c)}
+      requires{columns x = power 2 (width c)}
+      requires{forall ket: matrix complex. is_a_ket_l ket (width c) -> is_a_ket_basis_elt ket -> mat_mult x ket = path_sem c ket}
+      ensures{x = mat_sem c}
+  = mat_mult_ket_injec_eq_left (mat_sem c) x (width c)
+
+let lemma path_sem_basis_ket_l (c: circuit)  (x:matrix complex) (l:int)
+      requires{is_a_ket_l x (width c)}
+      requires{l = width c}
       requires{is_a_ket_basis_elt x }
-      ensures{is_a_ket_l (path_sem_basis_c c x) l}
+      ensures{is_a_ket_l (path_sem_basis c x) l}
   =()
 
-let lemma path_sem_ket_l_c (c: circuit_c)  (x:matrix complex) (l:int)
-      requires{is_a_ket_l x (width_c c)}
-      requires{l = width_c c}
-      ensures{is_a_ket_l (path_sem_c c x) l}
-=()
-   
-let lemma path_sem_ket_c (c: circuit_c)  (x:matrix complex) 
-      requires{is_a_ket_l x (width_c c)}
-      ensures{is_a_ket (path_sem_c c x) }
-=()
-   
-let lemma path_sem_ket_length_c (c: circuit_c)  (x:matrix complex) (l:int)
-      requires{is_a_ket_l x (width_c c)}
-      requires{l = width_c c}
-      ensures{ket_length (path_sem_c c x) =  l}
-=()
-   
-let lemma path_sem_to_ket_l_c (c: circuit_c) (x y: matrix complex)
-                 requires{is_a_ket_l x (width_c c)}
-                 requires{path_sem_c c x = y}
-                 ensures{is_a_ket_l y (width_c c)}
+let lemma path_sem_ket_l (c: circuit)  (x:matrix complex) (l:int)
+      requires{is_a_ket_l x (width c)}
+      requires{l = width c}
+      ensures{is_a_ket_l (path_sem c x) l}
+  =()
+  
+let lemma path_sem_ket (c: circuit)  (x:matrix complex) 
+      requires{is_a_ket_l x (width c)}
+      ensures{is_a_ket (path_sem c x) }
+  =()
+  
+let lemma path_sem_ket_length (c: circuit)  (x:matrix complex) (l:int)
+      requires{is_a_ket_l x (width c)}
+      requires{l = width c}
+      ensures{ket_length (path_sem c x) =  l}
+  =()
+  
+let lemma path_sem_to_ket_l (c: circuit) (x y: matrix complex)
+      requires{is_a_ket_l x (width c)}
+      requires{path_sem c x = y}
+      ensures{is_a_ket_l y (width c)}
   =  ()
    
-let   lemma get_path_sem_c (c: circuit_c) (x: matrix complex)
-        requires{is_a_ket_l x (width_c c)}
-        ensures{path_sem_c c x  = ket_sum_l  (n_bvs (width_c c)) (fun y -> get_ket x (bv_to_int y) *.. path_sem_basis_c c (bv_to_ket y)) (width_c c)}
+let   lemma get_path_sem (c: circuit) (x: matrix complex)
+        requires{is_a_ket_l x (width c)}
+        ensures{path_sem c x  = ket_sum_l  (n_bvs (width c)) (fun y -> get_ket x (bv_to_int y) *.. path_sem_basis c (bv_to_ket y)) (width c)}
   =  ()
    
-let   lemma get_path_sem_basis_c (c: circuit_c) (x: matrix complex)
-        requires{is_a_ket_l x (width_c c)}
+let   lemma get_path_sem_basis (c: circuit) (x: matrix complex)
+        requires{is_a_ket_l x (width c)}
         requires{is_a_ket_basis_elt x }
-        ensures{path_sem_c c x  =  path_sem_basis_c c x}
+        ensures{path_sem c x  =  path_sem_basis c x}
   =()
 
-let lemma circ_to_pps_parallel_c (d e: circuit_c) 
-      ensures{circ_to_pps_c (parallel_c d e) = pps_par (circ_to_pps_c d) (circ_to_pps_c e)}
+let   lemma set_path_sem_basis (c: circuit) (x: matrix complex)
+        requires{is_a_ket_l x (width c)}
+        requires{is_a_ket_basis_elt x }
+        ensures{path_sem_basis c x  =  path_sem c x}
   =()
 
-let lemma parallel_width_c (d e: circuit_c) 
-      ensures{width_c (parallel_c d e) = width_c d + width_c e}
+let lemma circ_to_pps_parallel (d e: circuit) 
+      ensures{circ_to_pps (parallel d e) = pps_par (circ_to_pps d) (circ_to_pps e)}
   =()
 
-let lemma parallel_range_c (d e: circuit_c) 
-      ensures{range_c (parallel_c d e) = range_c d + range_c e}
+let lemma parallel_width (d e: circuit) 
+      ensures{width (parallel d e) = width d + width e}
   =()
 
-let lemma parallel_size_c (d e: circuit_c) 
-      ensures{size_c (parallel_c d e) = size_c d + size_c e}
+let lemma parallel_range (d e: circuit) 
+      ensures{range (parallel d e) = range d + range e}
   =()
 
-let lemma parallel_ancilla_c (d e: circuit_c) 
-      ensures{ancillas_c (parallel_c d e) = ancillas_c d + ancillas_c e}
+let lemma parallel_size (d e: circuit) 
+      ensures{size (parallel d e) = size d + size e}
   =()
 
-let lemma parallel_basis_ket_c (d e: circuit_c)  (x y : int-> int) (i:int)
-      ensures{basis_ket_c (parallel_c d e) x y i = if i < width_c d  then basis_ket_c d x y i
-                                               else basis_ket_c e  (fun k -> x (k+ width_c d)) (fun k -> y (k+ range_c d))  (i- width_c d)}
+let lemma parallel_ancilla (d e: circuit) 
+      ensures{ancillas (parallel d e) = ancillas d + ancillas e}
   =()
 
-let lemma parallel_angle_c (d e: circuit_c)  (x y : int-> int) 
-      ensures{ang_ind_c (parallel_c d e) x y  = ang_add (ang_ind_c d x y)  (ang_ind_c e  (fun k -> x (k+ width_c d)) (fun k -> y (k+ range_c d)) ) }
+let lemma parallel_basis_ket (d e: circuit)  (x y : int-> int) (i:int)
+      ensures{basis_ket (parallel d e) x y i = if i < width d  then basis_ket d x y i
+                                               else basis_ket e  (fun k -> x (k+ width d)) (fun k -> y (k+ range d))  (i- width d)}
   =()
 
-let lemma circ_to_pps_sequence_c (d e: circuit_c) 
-      requires{width_c d = width_c e }
-      ensures{circ_to_pps_c (sequence_c d e) = pps_seq (circ_to_pps_c d) (circ_to_pps_c e)}
+let lemma parallel_angle (d e: circuit)  (x y : int-> int) 
+      ensures{ang_ind (parallel d e) x y  =  (ang_ind d x y) +.+ (ang_ind e  (fun k -> x (k+ width d)) (fun k -> y (k+ range d)) ) }
   =()
 
-let lemma sequence_width_c (d e: circuit_c) 
-      requires{width_c d = width_c e }
-      ensures{width_c (sequence_c d e) = width_c d}
+let lemma circ_to_pps_sequence (d e: circuit) 
+      requires{width d = width e }
+      ensures{circ_to_pps (sequence d e) = pps_seq (circ_to_pps d) (circ_to_pps e)}
   =()
 
-let lemma sequence_size_c (d e: circuit_c) 
-      requires{width_c d = width_c e }
-      ensures{size_c (sequence_c d e) = size_c d + size_c e}
+let lemma sequence_width (d e: circuit) 
+      requires{width d = width e }
+      ensures{width (sequence d e) = width d}
   =()
 
-let lemma sequence_ancillas_c (d e: circuit_c) 
-      requires{width_c d = width_c e }
-      ensures{ancillas_c  (sequence_c d e) = max (ancillas_c d) (ancillas_c e)}
+let lemma sequence_size (d e: circuit) 
+      requires{width d = width e }
+      ensures{size (sequence d e) = size d + size e}
   =()
 
-let lemma sequence_range_c (d e: circuit_c) 
-      requires{width_c d = width_c e }
-      ensures{range_c (sequence_c d e) = range_c d + range_c e}
+let lemma sequence_ancillas (d e: circuit) 
+      requires{width d = width e }
+      ensures{ancillas  (sequence d e) = max (ancillas d) (ancillas e)}
   =()
 
-let lemma sequence_basis_ket_c (d e: circuit_c)  (x y : int-> int) (i:int)
-      requires{width_c d = width_c e }
-      ensures{basis_ket_c (sequence_c d e) x y i = basis_ket_c e (basis_ket_c d x y) (fun k -> y (k+ range_c d)) i}
+let lemma sequence_range (d e: circuit) 
+      requires{width d = width e }
+      ensures{range (sequence d e) = range d + range e}
   =()
 
-let lemma sequence_angle_c (d e: circuit_c)  (x y : int-> int) 
-      requires{width_c d = width_c e }
-      ensures{ang_ind_c (sequence_c d e) x y  = ang_add (ang_ind_c d x y) (ang_ind_c e (basis_ket_c d x y)  (fun k -> y (k+ range_c d)))}
-  =()
-           
-let lemma circ_to_pps_ancilla_c (c: circuit_c)
-      requires{2<= width_c c}
-      requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width_c c -1) ->  path_sem_c c (kronecker x (ket 1 0)) =  (kronecker (path_sem_target x) (ket 1 0))}
-      ensures{circ_to_pps_c (ancilla_c c) = pps_anc (circ_to_pps_c c) }
+let lemma sequence_basis_ket (d e: circuit)  (x y : int-> int) (i:int)
+      requires{width d = width e }
+      ensures{basis_ket (sequence d e) x y i = basis_ket e (basis_ket d x y) (fun k -> y (k+ range d)) i}
   =()
 
-let lemma ancilla_width_c (c: circuit_c) 
-      requires{2<= width_c c}
-      requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width_c c-1) ->  path_sem_c c (kronecker x (ket 1 0)) =  (kronecker (path_sem_target x) (ket 1 0))}
-      ensures{width_c (ancilla_c c) = width_c c-1}
-  =()
-
-let lemma ancilla_size_c (c: circuit_c) 
-      requires{2<= width_c c}
-      requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width_c c-1) ->  path_sem_c c (kronecker x (ket 1 0)) =  (kronecker (path_sem_target x) (ket 1 0))}
-      ensures{size_c (ancilla_c c) = size_c c}
-  =()
-
-let lemma ancilla_range_c (c: circuit_c) 
-      requires{2<= width_c c}
-      requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width_c c-1) ->  path_sem_c c (kronecker x (ket 1 0)) =  (kronecker (path_sem_target x) (ket 1 0))}
-      ensures{range_c (ancilla_c c) = range_c c}
-  =()
-
-let lemma ancilla_ancilla_c (c: circuit_c) 
-      requires{2<= width_c c}
-      requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width_c c-1) ->  path_sem_c c (kronecker x (ket 1 0)) =  (kronecker (path_sem_target x) (ket 1 0))}
-      ensures{ancillas_c (ancilla_c c) = ancillas_c c +1}
-  =()
-
-let lemma ancilla_basis_ket_c (c: circuit_c)  (x y : int-> int) (i:int)
-      requires{2<= width_c c}
-      requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width_c c -1) ->  path_sem_c c (kronecker x (ket 1 0)) =  (kronecker (path_sem_target x) (ket 1 0))}
-      ensures{basis_ket_c (ancilla_c c) x y i = basis_ket_c c (fun k -> if k = width_c c -1 then 0 else x k) y i}
-  =()
-
-let lemma ancilla_angle_c (c: circuit_c)  (x y : int-> int) 
-      requires{2<= width_c c}
-      requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width_c c -1) ->  path_sem_c c (kronecker x (ket 1 0)) =  (kronecker (path_sem_target x) (ket 1 0))}
-      ensures{ang_ind_c (ancilla_c c) x y  = ang_ind_c c (fun k -> if k = width_c c -1 then 0 else x k) y}
+let lemma sequence_angle (d e: circuit)  (x y : int-> int) 
+      requires{width d = width e }
+      ensures{ang_ind (sequence d e) x y  =  (ang_ind d x y) +.+ (ang_ind e (basis_ket d x y)  (fun k -> y (k+ range d)))}
   =()
   
-let lemma sequence_eq_c  (d d' e e': circuit_c) 
-      requires{width_c d = width_c e }
-      requires{d = d'}
-      requires{e = e'}
-      ensures{sequence_c d e = sequence_c d' e'}
+let lemma circ_to_pps_ancilla (c: circuit) (i:int)
+      requires{1<=i}
+      requires{i+1<= width c}
+      requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width c -i) ->  path_sem c (kronecker x (ket i 0)) =  (kronecker (path_sem_target x) (ket i 0))}
+      ensures{circ_to_pps (ancilla c i) = pps_ancs (circ_to_pps c) i}
   =()
 
-let lemma ancilla_eq_c  (c c': circuit_c) (path_sem_target :  matrix complex -> matrix complex)
-      requires{forall x:matrix complex. is_a_ket_l x (width_c c) ->  path_sem_c c (kronecker x (ket 1 0)) =  (kronecker (path_sem_target x) (ket 1 0))}
-      requires{width_c c = width_c c' }
+let lemma ancilla_width (c: circuit)  (i:int)
+      requires{1<=i}
+      requires{i+1<= width c}
+      requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width c-i) ->  path_sem c (kronecker x (ket i 0)) =  (kronecker (path_sem_target x) (ket i 0))}
+      ensures{width (ancilla c i) = width c-i}
+  =()
+
+let lemma ancilla_size (c: circuit) (i:int)
+      requires{1<=i}
+      requires{i+1<= width c}
+      requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width c-i) ->  path_sem c (kronecker x (ket i 0)) =  (kronecker (path_sem_target x) (ket i 0))}
+      ensures{size (ancilla c i) = size c}
+  =()
+
+let lemma ancilla_range (c: circuit) (i:int)
+      requires{1<=i}
+      requires{i+1<= width c}
+      requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width c-i) ->  path_sem c (kronecker x (ket i 0)) =  (kronecker (path_sem_target x) (ket i 0))}
+      ensures{range (ancilla c i) = range c}
+  =()
+
+let lemma ancilla_ancilla (c: circuit) (i:int)
+      requires{1<=i}
+      requires{i+1<= width c}
+      requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width c-i) ->  path_sem c (kronecker x (ket i 0)) =  (kronecker (path_sem_target x) (ket i 0))}
+      ensures{ancillas (ancilla c i) = ancillas c +i}
+  =()
+  
+let lemma ancilla_basis_ket (c: circuit)  (x y : int-> int) (l:int)(i:int)
+      requires{1<=i}
+      requires{i+1<= width c}
+      requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width c -i) ->  path_sem c (kronecker x (ket i 0)) =  (kronecker (path_sem_target x) (ket i 0))}
+      ensures{basis_ket (ancilla c i) x y l = basis_ket c (fun k -> if k < width c -i then  x k else 0) y l}
+  =()
+
+let lemma ancilla_angle (c: circuit)  (x y : int-> int) (i:int)
+      requires{1<=i}
+      requires{i+1<= width c}
+      requires{exists path_sem_target. forall x:matrix complex. is_a_ket_l x (width c -i) ->  path_sem c (kronecker x (ket i 0)) =  (kronecker (path_sem_target x) (ket i 0))}
+      ensures{ang_ind (ancilla c i) x y  = ang_ind c (fun k -> if k  < width c -i then  x k else 0) y}
+  =()
+  
+let lemma sequence_eq  (d d' e e': circuit) 
+      requires{width d = width e }
+      requires{d = d'}
+      requires{e = e'}
+      ensures{sequence d e = sequence d' e'}
+  =()
+
+let lemma ancilla_eq  (c c': circuit) (path_sem_target :  matrix complex -> matrix complex)
+      requires{forall x:matrix complex. is_a_ket_l x (width c) ->  path_sem c (kronecker x (ket 1 0)) =  (kronecker (path_sem_target x) (ket 1 0))}
+      requires{width c = width c' }
       requires{c = c'}
-      ensures{ancilla_c c = ancilla_c c'}
+      ensures{ancilla c = ancilla c'}
   =()
 
-let lemma parallel_eq_c  (d d' e e': circuit_c)  
+let lemma parallel_eq  (d d' e e': circuit)  
       requires{d = d'}
       requires{e = e'}
-      ensures{parallel_c d e = parallel_c d' e'}
+      ensures{parallel d e = parallel d' e'}
   =()
 
-let lemma path_sem_decomp_c (c: circuit_c)  (x:matrix complex)
-      requires{is_a_ket_l x  (width_c c)}
-      ensures{path_sem_c c x = ket_sum_l (n_bvs (width_c c)) (fun z -> get_ket x (bv_to_int z)
-                                                                   *.. path_sem_c c   (bv_to_ket z)) (width_c c)}
+let lemma path_sem_decomp (c: circuit)  (x:matrix complex)
+      requires{is_a_ket_l x  (width c)}
+      ensures{path_sem c x = ket_sum_l (n_bvs (width c)) (fun z -> get_ket x (bv_to_int z)
+                                                                   *.. path_sem c   (bv_to_ket z)) (width c)}
   =()
 
-     use  set.FsetComprehension
+     use  p_set.Fset_comp
 
-let lemma path_sem_scal__c (c : circuit_c) (x  y : matrix complex) (sc: complex)
-      requires{is_a_ket_l x (width_c c)}
-      requires{path_sem_c c x = y}
-      ensures{path_sem_c c (sc *.. x) = (sc *.. y)}
+let lemma path_sem_scal_ (c : circuit) (x  y : matrix complex) (sc: complex)
+      requires{is_a_ket_l x (width c)}
+      requires{path_sem c x = y}
+      ensures{path_sem c (sc *.. x) = (sc *.. y)}
   =()
   
-let lemma path_sem_scal_c (c : circuit_c) (x   : matrix complex) (sc: complex)
-      requires{is_a_ket_l x (width_c c)}
-      ensures{path_sem_c c (sc *.. x) = (sc *.. path_sem_c c x)}
+let lemma path_sem_scal (c : circuit) (x   : matrix complex) (sc: complex)
+      requires{is_a_ket_l x (width c)}
+      ensures{path_sem c (sc *.. x) = (sc *.. path_sem c x)}
   =()
   
-let lemma path_sem_scal_rev_c (c : circuit_c) (x   : matrix complex) (sc: complex)
-      requires{is_a_ket_l x (width_c c)}
-      ensures{ (sc *.. path_sem_c c x) = path_sem_c c (sc *.. x) }
+let lemma path_sem_scal_rev (c : circuit) (x   : matrix complex) (sc: complex)
+      requires{is_a_ket_l x (width c)}
+      ensures{ (sc *.. path_sem c x) = path_sem c (sc *.. x) }
   =()
   
-let lemma path_sem_add_c  (c : circuit_c)  (x x' y y': matrix complex)
-      requires{is_a_ket_l x (width_c c)}
-      requires{is_a_ket_l x' (width_c c)}
-      requires{path_sem_c c x =  y}
-      requires{path_sem_c c x' =  y'}
-      ensures{path_sem_c c (add_ket_l x x' (width_c c)) = (add_ket_l y y' (width_c c))}
+let lemma path_sem_add  (c : circuit)  (x x' y y': matrix complex)
+      requires{is_a_ket_l x (width c)}
+      requires{is_a_ket_l x' (width c)}
+      requires{path_sem c x =  y}
+      requires{path_sem c x' =  y'}
+      ensures{path_sem c (add_ket_l x x' (width c)) = (add_ket_l y y' (width c))}
   =()
+
+let lemma path_sem_add_  (c : circuit)  (x x' : matrix complex) (l:int)
+      requires{is_a_ket_l x (width c)}
+      requires{is_a_ket_l x' (width c)}
+      requires{l = width c}
+      ensures{path_sem c (add_ket_l x x' l) = (add_ket_l (path_sem c x) (path_sem c x') l)}
+  = path_sem_add c x x'  (path_sem c x) (path_sem c x')
   
-let lemma path_sem_scal_add_ket_l_c  (c : circuit_c)  (x x': matrix complex) (a a': complex) (n:int)
-      requires{width_c c = n}
+let lemma path_sem_scal_add_ket_l  (c : circuit)  (x x': matrix complex) (a a': complex) (n:int)
+      requires{width c = n}
       requires{is_a_ket_l x n}
       requires{is_a_ket_l x' n}
-      ensures{path_sem_c c (add_ket_l (a*..x ) (a' *.. x') n) =  add_ket_l (a*.. path_sem_c c x) (a'*.. path_sem_c c x') n}
+      ensures{path_sem c (add_ket_l (a*..x ) (a' *.. x') n) =  add_ket_l (a*.. path_sem c x) (a'*.. path_sem c x') n}
   =()
   
-let lemma path_sem_substr_c  (c : circuit_c)  (x x' y y': matrix complex)
-      requires{is_a_ket_l x (width_c c)}
-      requires{is_a_ket_l x' (width_c c)}
-      requires{path_sem_c c x =  y}
-      requires{path_sem_c c x' =  y'}
-      ensures{path_sem_c c (mat_substr x x') = (mat_substr y y')}
+let lemma path_sem_substr  (c : circuit)  (x x' y y': matrix complex)
+      requires{is_a_ket_l x (width c)}
+      requires{is_a_ket_l x' (width c)}
+      requires{path_sem c x =  y}
+      requires{path_sem c x' =  y'}
+      ensures{path_sem c (mat_substr x x') = (mat_substr y y')}
   =()
 
-let lemma path_sem_scal_add_c  (c : circuit_c)  (x x' y y': matrix complex)(scal: complex)
-      requires{is_a_ket_l x (width_c c)}
-      requires{is_a_ket_l x' (width_c c)}
-      requires{path_sem_c c x =  y}
-      requires{path_sem_c c x' =  y'}
-      ensures{path_sem_c c (scal*.. (add_ket_l x x' (width_c c))) = (scal*.. (add_ket_l  y y' (width_c c)))}
+let lemma path_sem_scal_add  (c : circuit)  (x x' y y': matrix complex)(scal: complex)
+      requires{is_a_ket_l x (width c)}
+      requires{is_a_ket_l x' (width c)}
+      requires{path_sem c x =  y}
+      requires{path_sem c x' =  y'}
+      ensures{path_sem c (scal*.. (add_ket_l x x' (width c))) = (scal*.. (add_ket_l  y y' (width c)))}
   =()
 
      use complex_operations.Indic
      use complex_operations.Base_type
   
-let lemma pat_sem_apply_basis_value (c:circuit_c)(x : bitvec)
-               requires{length x = width_c c }
-           ensures{forall i:int. 0<= i < power_ 2 (width_c c) -> get_ket (path_sem_c c (bv_to_ket x)) i = pow_inv_sqrt_2 (range_c c ) *.
-                          sum (n_bvs  (range_c c )) (fun y -> ang_exp (ang_ind_c c (getbv x) (getbv y))
-                                                            *. indic (make_bv (basis_ket_c c (getbv x) (getbv y)) (width_c c)) (int_to_bv i (width_c c))) }
+let lemma pat_sem_apply_basis_value (c:circuit)(x : bitvec)
+      requires{length x = width c }
+      ensures{forall i:int. 0<= i < power 2 (width c) -> get_ket (path_sem c (bv_to_ket x)) i = pow_inv_sqrt_2 (range c ) *.
+                                                                                                  sum (n_bvs  (range c )) (fun y -> ang_exp (ang_ind c (getbv x) (getbv y))
+                                                                                                                                    *. indic (make_bv (basis_ket c (getbv x) (getbv y)) (width c)) (int_to_bv i (width c))) }
   = ()
   
-let lemma path_sem_scal_substr_c  (c : circuit_c)  (x x' y y': matrix complex)(scal: complex)
-      requires{is_a_ket_l x (width_c c)}
-      requires{is_a_ket_l x' (width_c c)}
-      requires{path_sem_c c x =  y}
-      requires{path_sem_c c x' =  y'}
-      ensures{path_sem_c c (scal*.. (mat_substr x x')) = (scal*.. (mat_substr y y'))}
+let lemma path_sem_scal_substr  (c : circuit)  (x x' y y': matrix complex)(scal: complex)
+      requires{is_a_ket_l x (width c)}
+      requires{is_a_ket_l x' (width c)}
+      requires{path_sem c x =  y}
+      requires{path_sem c x' =  y'}
+      ensures{path_sem c (scal*.. (mat_substr x x')) = (scal*.. (mat_substr y y'))}
   =()
 
-let rec lemma path_sem_sum_c (c: circuit_c)  (s: set 'a) (f : 'a -> matrix complex) (g : 'a -> matrix complex) (n:int) 
-      requires{cardinal s >=1}
-      requires{n = width_c c}
-      requires{forall x: 'a. mem x s -> is_a_ket_l (f x) (width_c c)}
-      requires{forall x:'a. mem x s -> path_sem_c c (f x) = g x}
-      ensures{ path_sem_c c (ket_sum_l s f n) = (ket_sum_l s g n) }
-      variant{cardinal s}
+let rec lemma path_sem_sum (c: circuit)  (s: set 'a) (f : 'a -> matrix complex) (g : 'a -> matrix complex) (n:int) 
+          requires{cardinal s >=1}
+          requires{n = width c}
+          requires{forall x: 'a. mem x s -> is_a_ket_l (f x) (width c)}
+          requires{forall x:'a. mem x s -> path_sem c (f x) = g x}
+          ensures{ path_sem c (ket_sum_l s f n) = (ket_sum_l s g n) }
+          variant{cardinal s}
   = if cardinal s = 1 then ()
     else
       begin
         ket_sum_l_plus_one (remove (choose s) s) (choose s) f n;
         ket_sum_l_plus_one (remove (choose s) s) (choose s) g n;
-        path_sem_sum_c c (remove (choose s) s) f g n;
-        end
-      
-let lemma path_sem_sum_diag_c (c: circuit_c)  (s: set bitvec)  (f : bitvec  -> complex)  (l:int) 
+        path_sem_sum c (remove (choose s) s) f g n;
+      end
+  
+let lemma path_sem_sum_diag (c: circuit)  (s: set bitvec)  (f : bitvec  -> complex)  (l:int) 
       requires{ s = n_bvs l}
-      requires{l = width_c c}
-      ensures{ path_sem_c c (ket_sum_l_diag  f  l) = ket_sum_l s (fun x ->  f x *.. path_sem_c c (bv_to_ket x)) l }
+      requires{l = width c}
+      ensures{ path_sem c (ket_sum_l_diag  f  l) = ket_sum_l s (fun x ->  f x *.. path_sem c (bv_to_ket x)) l }
   = ()
   
-let lemma path_sem_sum__c (c: circuit_c)  (s: set 'a) (f : 'a -> matrix complex) (n:int) 
+let lemma path_sem_sum_ (c: circuit)  (s: set 'a) (f : 'a -> matrix complex) (n:int) 
       requires{cardinal s >=1}
-      requires{n = width_c c}
-      requires{forall x: 'a. mem x s -> is_a_ket_l (f x) (width_c c)}
-      ensures{ path_sem_c c (ket_sum_l s f n) = (ket_sum_l s (fun x -> path_sem_c c (f x)) n) }
+      requires{n = width c}
+      requires{forall x: 'a. mem x s -> is_a_ket_l (f x) (width c)}
+      ensures{ path_sem c (ket_sum_l s f n) = (ket_sum_l s (fun x -> path_sem c (f x)) n) }
   = ()
   
-let lemma path_sem_sum_gen_c (c: circuit_c)  (s: set 'a) (f g : 'a -> matrix complex) (n:int) 
+let lemma path_sem_sum_gen (c: circuit)  (s: set 'a) (f g : 'a -> matrix complex) (n:int) 
       requires{cardinal s >=1}
-      requires{n = width_c c}
-      requires{forall x: 'a. mem x s -> is_a_ket_l (f x) (width_c c)}
-      requires{forall x: 'a. mem x s -> path_sem_c c (f x)  = g x}
-      ensures{ path_sem_c c (ket_sum_l s f n) = (ket_sum_l s g n) }
+      requires{n = width c}
+      requires{forall x: 'a. mem x s -> is_a_ket_l (f x) (width c)}
+      requires{forall x: 'a. mem x s -> path_sem c (f x)  = g x}
+      ensures{ path_sem c (ket_sum_l s f n) = (ket_sum_l s g n) }
   = ()
   
-let lemma scal_path_sem_sum_gen_c (c: circuit_c)  (s: set 'a) (f g : 'a -> matrix complex) (n n':int) (a b: complex)
+let lemma scal_path_sem_sum_gen (c: circuit)  (s: set 'a) (f g : 'a -> matrix complex) (n n':int) (a b: complex)
       requires{cardinal s >=1}
-      requires{n = width_c c}
-      requires{forall x: 'a. mem x s -> is_a_ket_l (f x) (width_c c)}
-      requires{forall x: 'a. mem x s -> path_sem_c c (f x)  = g x}
+      requires{n = width c}
+      requires{forall x: 'a. mem x s -> is_a_ket_l (f x) (width c)}
+      requires{forall x: 'a. mem x s -> path_sem c (f x)  = g x}
       requires{a = b}
       requires{n = n'}
-      ensures{a*.. path_sem_c c (ket_sum_l s f n) = b*.. (ket_sum_l s g n') }
+      ensures{a*.. path_sem c (ket_sum_l s f n) = b*.. (ket_sum_l s g n') }
   = ()
   
-let lemma scal_path_sem_sum_c (c: circuit_c)  (s: set 'a) (f  : 'a -> matrix complex) (n :int) (a : complex)
+let lemma scal_path_sem_sum (c: circuit)  (s: set 'a) (f  : 'a -> matrix complex) (n :int) (a : complex)
       requires{cardinal s >=1}
-      requires{n = width_c c}
-      requires{forall x: 'a. mem x s -> is_a_ket_l (f x) (width_c c)}
-      ensures{a*.. path_sem_c c (ket_sum_l s f n) = a*.. (ket_sum_l s (fun x -> path_sem_c c  (f x)) n) }
+      requires{n = width c}
+      requires{forall x: 'a. mem x s -> is_a_ket_l (f x) (width c)}
+      ensures{a*.. path_sem c (ket_sum_l s f n) = a*.. (ket_sum_l s (fun x -> path_sem c  (f x)) n) }
   = ()
   
-let lemma path_sem_scal_sum_c (c: circuit_c)  (s: set 'a) (f  : 'a -> matrix complex) (n :int) (a : complex)
+let lemma path_sem_scal_sum (c: circuit)  (s: set 'a) (f  : 'a -> matrix complex) (n :int) (a : complex)
       requires{cardinal s >=1}
-      requires{n = width_c c}
-      requires{forall x: 'a. mem x s -> is_a_ket_l (f x) (width_c c)}
-      ensures{ path_sem_c c (a*.. ket_sum_l s f n) = a*.. (ket_sum_l s (fun x -> path_sem_c c  (f x)) n) }
+      requires{n = width c}
+      requires{forall x: 'a. mem x s -> is_a_ket_l (f x) (width c)}
+      ensures{ path_sem c (a*.. ket_sum_l s f n) = a*.. (ket_sum_l s (fun x -> path_sem c  (f x)) n) }
   = ()
   
-let lemma path_sem_comp_basis_c (d e: circuit_c) (x y : matrix complex)
-      requires{is_a_ket_l x (width_c d)}
+let lemma path_sem_comp_basis (d e: circuit) (x  : matrix complex)
+      requires{is_a_ket_l x (width d)}
       requires{is_a_ket_basis_elt x}
-      requires{width_c d = width_c e}
-      ensures{path_sem_basis_c (sequence_c d e) x = path_sem_c e (path_sem_basis_c d x)}
+      requires{width d = width e}
+      ensures{path_sem_basis (sequence d e) x = path_sem e (path_sem_basis d x)}
   =()
   
-let lemma path_sem_comp_pre_c (d e: circuit_c) (x y : matrix complex)
-      requires{is_a_ket_l x (width_c d)}
-      requires{width_c d = width_c e}
-      ensures{path_sem_c (sequence_c d e) x = path_sem_c e (path_sem_c d x)}
-=()
-
-let lemma path_sem_comp_c (d e: circuit_c) (x y z: matrix complex)
-      requires{is_a_ket_l x (width_c d)}
-  requires{path_sem_c d x = y}
-  requires{path_sem_c e y = z}
-      requires{width_c d = width_c e}
-  ensures{path_sem_c (sequence_c d e) x = z}
+let lemma path_sem_comp_pre (d e: circuit) (x  : matrix complex)
+      requires{is_a_ket_l x (width d)}
+      requires{width d = width e}
+      ensures{path_sem (sequence d e) x = path_sem e (path_sem d x)}
   =()
 
-let lemma path_sem_kron_basis_c (d e: circuit_c) (x x' y y': matrix complex)
-      requires{is_a_ket_l x (width_c d)}
-      requires{is_a_ket_l y  (width_c e)}
+let lemma path_sem_comp (d e: circuit) (x y z: matrix complex)
+      requires{is_a_ket_l x (width d)}
+      requires{path_sem d x = y}
+      requires{path_sem e y = z}
+      requires{width d = width e}
+      ensures{path_sem (sequence d e) x = z}
+  =()
+
+let lemma path_sem_comp_ (d e: circuit) (x : matrix complex)
+      requires{is_a_ket_l x (width d)}
+      requires{width d = width e}
+      ensures{path_sem (sequence d e) x = path_sem e (path_sem d x)}
+  =()
+  
+let lemma sem_comp (d e: circuit) (x y z: matrix complex)
+      requires{sem d x  y}
+      requires{sem e y  z}
+      requires{width d = width e}
+      ensures{sem (sequence d e) x  z}
+  =()
+  
+let lemma path_sem_kron_basis (d e: circuit) (x  y : matrix complex)
+      requires{is_a_ket_l x (width d)}
+      requires{is_a_ket_l y  (width e)}
       requires{is_a_ket_basis_elt x}
       requires{is_a_ket_basis_elt y}
-  ensures{path_sem_basis_c (parallel_c d e) (kronecker x y) = kronecker (path_sem_basis_c d x)  (path_sem_basis_c e y) }
+      ensures{path_sem_basis (parallel d e) (kronecker x y) = kronecker (path_sem_basis d x)  (path_sem_basis e y) }
   =()
   
-let lemma path_sem_kron_pre_c (d e: circuit_c) (x x' y y': matrix complex)
-      requires{is_a_ket_l x (width_c d)}
-      requires{is_a_ket_l y  (width_c e)}
-  ensures{path_sem_c (parallel_c d e) (kronecker x y) = kronecker (path_sem_c d x)  (path_sem_c e y) }
+let lemma path_sem_kron_pre (d e: circuit) (x  y : matrix complex)
+      requires{is_a_ket_l x (width d)}
+      requires{is_a_ket_l y  (width e)}
+      ensures{path_sem (parallel d e) (kronecker x y) = kronecker (path_sem d x)  (path_sem e y) }
+  =()
+
+let lemma path_sem_kron (d e: circuit) (x x' y y': matrix complex)
+      requires{is_a_ket_l x (width d)}
+      requires{is_a_ket_l y  (width e)}
+      requires{path_sem d x = x'}
+      requires{path_sem e y = y'}
+      ensures{path_sem (parallel d e) (kronecker x y) = kronecker x' y'}
+  =()
+
+let lemma path_sem_kron_ (d e: circuit) (x y : matrix complex)
+      requires{is_a_ket_l x (width d)}
+      requires{is_a_ket_l y  (width e)}
+      ensures{path_sem (parallel d e) (kronecker x y) = kronecker (path_sem d x ) (path_sem e y)}
   =()
   
-let lemma path_sem_kron_c (d e: circuit_c) (x x' y y': matrix complex)
-      requires{is_a_ket_l x (width_c d)}
-      requires{is_a_ket_l y  (width_c e)}
-  requires{path_sem_c d x = x'}
-  requires{path_sem_c e y = y'}
-  ensures{path_sem_c (parallel_c d e) (kronecker x y) = kronecker x' y'}
-  =()
-
-let lemma path_sem_kron_c_ (d e: circuit_c) (x  y : matrix complex)
-      requires{is_a_ket_l x (width_c d)}
-      requires{is_a_ket_l y  (width_c e)}
-  ensures{path_sem_c (parallel_c d e) (kronecker x y) = kronecker (path_sem_c d x ) (path_sem_c e y )}
-  =()
-
-let lemma path_sem_sequence_parallel_basis_c (a b d e:circuit_c)  (x:matrix complex)
-      requires{is_a_ket_l x (width_c a+width_c b)}
-      requires{width_c a = width_c d}
-      requires{width_c b = width_c e}
+let lemma path_sem_sequence_parallel_basis (a b d e:circuit)  (x:matrix complex)
+      requires{is_a_ket_l x (width a+width b)}
+      requires{width a = width d}
+      requires{width b = width e}
       requires{is_a_ket_basis_elt x}
-      ensures{path_sem_c (sequence_c (parallel_c a b) (parallel_c d e)) x = path_sem_c (parallel_c (sequence_c a d) (sequence_c b e)) x }
-=()
-
-let lemma path_sem_sequence_parallel_c (a b d e:circuit_c)  (x:matrix complex)
-      requires{is_a_ket_l x (width_c a+width_c b)}
-      requires{width_c a = width_c d}
-      requires{width_c b = width_c e}
-      ensures{path_sem_c (sequence_c (parallel_c a b) (parallel_c d e)) x = path_sem_c (parallel_c (sequence_c a d) (sequence_c b e)) x }
-=()
-  
-let lemma path_sem_id_basis_c (x:matrix complex)
-  requires{is_a_ket_l x 1}
-  requires{is_a_ket_basis_elt x}
-  ensures{path_sem_basis_c id_c x = x}
-  =()
-  
-let lemma path_sem_id_c (x:matrix complex)
-  requires{is_a_ket_l x 1}
-  ensures{path_sem_c id_c x = x}
-  =()
-  
-let lemma path_sem_phase_basis_c (x:matrix complex) (k:int)
-  requires{is_a_ket_l x 1}
-  requires{is_a_ket_basis_elt x}
-  ensures{path_sem_c (phase_c k) x = if 0<= k then ang_exp (int_to_ang 1 k) *.. x else ang_exp (int_to_ang (-1) (-k)) *.. x }
-  =()
-  
-let lemma path_sem_phase_basis_inv_c (x:matrix complex) (k:int)
-  requires{is_a_ket_l x 1}
-  requires{is_a_ket_basis_elt x}
-  ensures{path_sem_c (phase_c k) (path_sem_c (phase_c (-k))x) = x}
+      ensures{path_sem (sequence (parallel a b) (parallel d e)) x = path_sem (parallel (sequence a d) (sequence b e)) x }
   =()
 
-let lemma path_sem_phase_inv_c (x:matrix complex) (k:int)
-  requires{is_a_ket_l x 1}
-  ensures{path_sem_c (phase_c k) (path_sem_c (phase_c (-k))x) = x}
-  = ket_decomp_ x 1
-
-let lemma path_sem_rz_basis_c (x:matrix complex) (k:int)
-  requires{is_a_ket_l x 1}
-  requires{is_a_ket_basis_elt x}
-  ensures{path_sem_c (rz_c k) x = if ket_to_int x = 0 then x else if 0<= k then ang_exp (int_to_ang 1 k) *.. x else ang_exp (int_to_ang (-1) (-k)) *.. x }
-  =()
-
-let lemma path_sem_rz_basis_inv_c (x:matrix complex) (k:int)
-  requires{is_a_ket_l x 1}
-  requires{is_a_ket_basis_elt x}
-  ensures{path_sem_c (rz_c k) (path_sem_c (rz_c (-k))x) = x}
-  =()
-
-let lemma path_sem_rz_inv_c (x:matrix complex) (k:int)
-  requires{is_a_ket_l x 1}
-  ensures{path_sem_c (rz_c k) (path_sem_c (rz_c (-k))x) = x}
-  = ket_decomp_ x 1
-     
-use kets.Superpositions
-  
-let lemma path_sem_hadamard_zero_c (x:matrix complex)
-  requires{x = qbit_zero()}
-  ensures{path_sem_c hadamard_c x = qbit_plus()}
+let lemma path_sem_sequence_parallel (a b d e:circuit)  (x:matrix complex)
+      requires{is_a_ket_l x (width a+width b)}
+      requires{width a = width d}
+      requires{width b = width e}
+      ensures{path_sem (sequence (parallel a b) (parallel d e)) x = path_sem (parallel (sequence a d) (sequence b e)) x }
   =()
   
-let lemma path_sem_hadamard_one_c (x:matrix complex)
-  requires{x = qbit_one()}
-  ensures{path_sem_c hadamard_c x = qbit_minus()}
-  =()
-  
-let lemma path_sem_hadamard_plus_c (x:matrix complex)
-  requires{x = qbit_plus()}
-  ensures{path_sem_c hadamard_c x = qbit_zero()}
-  =()
-  
-let lemma path_sem_hadamard_minus_c (x:matrix complex)
-  requires{x = qbit_minus()}
-  ensures{path_sem_c hadamard_c x = qbit_one()}
-  =()
-
-let lemma path_sem_cnot_basis_c (x:matrix complex)
-  requires{is_a_ket_l x 2}
-  requires{is_a_ket_basis_elt x}
-  ensures{path_sem_c cnot_c x = if ket_to_int x = 0 then ket 2 0
-                              else  if ket_to_int x = 1 then ket 2 1
-                              else  if ket_to_int x = 2 then ket 2 3
-          else ket 2 2
-  }
-  =()
-
-let lemma path_sem_swap_basis_c (x:matrix complex)
-  requires{is_a_ket_l x 2}
-  requires{is_a_ket_basis_elt x}
-  ensures{path_sem_c swap_c x = if ket_to_int x = 0 then ket 2 0
-                              else  if ket_to_int x = 1 then ket 2 2
-                              else  if ket_to_int x = 2 then ket 2 1
-          else ket 2 3
-  }
-  =()
-
-let lemma hadamard_invol_c (x:matrix complex)
+let lemma path_sem_id_basis (x:matrix complex)
       requires{is_a_ket_l x 1}
-      ensures{path_sem_c hadamard_c (path_sem_c hadamard_c x) = x}
+      requires{is_a_ket_basis_elt x}
+      ensures{path_sem_basis id x = x}
   =()
   
-let function ancilla_g_c (c: circuit_c) ( ghost path_sem_target :  matrix complex -> matrix complex):circuit_c 
-       requires{2<= width_c c}
-       requires{forall x:matrix complex. is_a_ket_l x (width_c c -1 ) ->  path_sem_c c (kronecker x (ket 1 0)) =  (kronecker (path_sem_target x) (ket 1 0))}
-       ensures{ancillas_c result =  ancillas_c c+1}
-       ensures{size_c result = size_c c}
-       ensures{range_c result = range_c c}
-       ensures{width_c result = width_c c-1 }
-       ensures{forall x y : int->int. forall i: int.
-                                                basis_ket_c result x y i =
-                                                  basis_ket_c c (fun k -> if k = width_c c -1 then 0 else x k) y i}
-       ensures{forall x y : int->int. ang_ind_c result x y  = ang_ind_c c (fun k -> if k = width_c c -1 then 0 else x k) y}
-       ensures{forall x: matrix complex. is_a_ket_l x (width_c result) -> kronecker (path_sem_c result x) (ket 1 0)  = path_sem_c c (kronecker x (ket 1 0))}
-       ensures{forall x: matrix complex. is_a_ket_l x (width_c result) -> path_sem_c result x = path_sem_target x}
-  =  ancilla_c c
-       
-     use complex_operations.Indic
-
-let lemma mat_sem_seq_c (d e : circuit_c)
-      requires{width_c d = width_c e}
-      ensures{mat_sem_c (sequence_c d e) = mat_mult (mat_sem_c e) (mat_sem_c d)}
+let lemma path_sem_id (x:matrix complex)
+      requires{is_a_ket_l x 1}
+      ensures{path_sem id x = x}
   =()
   
-let lemma mat_sem_par_c (d e : circuit_c)
-      ensures{mat_sem_c (parallel_c d e) = kronecker  (mat_sem_c d) (mat_sem_c e)}
+let lemma path_sem_phase_basis (x:matrix complex) (k:int)
+      requires{is_a_ket_l x 1}
+      requires{is_a_ket_basis_elt x}
+      ensures{path_sem (phase k) x = ang_exp (1/./k) *.. x }
   =()
   
-let lemma mat_sem_anc_c (c  : circuit_c) (mat_sem_target: matrix complex)
-      requires{2<= width_c c}
-      requires{rows mat_sem_target = power_ 2 (width_c c -1)}
-      requires{columns mat_sem_target = power_ 2 (width_c c -1)}
-      requires{2<= width_c c}
-      requires{ forall x. is_a_ket_l x (width_c c -1 ) -> mat_mult  (mat_sem_c c) (kronecker x (ket 1 0)) =  (kronecker (mat_mult mat_sem_target x) (ket 1 0))}
-      ensures{mat_sem_c (ancilla_c c) = mat_sem_target}
+let lemma path_sem_phase_basis_inv (x:matrix complex) (k:int)
+      requires{is_a_ket_l x 1}
+      requires{is_a_ket_basis_elt x}
+      ensures{path_sem (phase k) (path_sem (phase (-k))x) = x}
   =()
 
-let lemma mat_sem_anc__c (c  : circuit_c) (mat_sem_target: matrix complex)
-      requires{rows (mat_sem_target) = power_ 2 (width_c c -1)}
-      requires{columns (mat_sem_target) = power_ 2 (width_c c -1)}
-      requires{2<= width_c c}
-      requires{ forall x. is_a_ket_l x (width_c c -1 ) -> is_a_ket_basis_elt x ->
-                mat_mult  (mat_sem_c c) (kronecker x (ket 1 0)) =  (kronecker (mat_mult mat_sem_target x) (ket 1 0))}
-      ensures{mat_sem_c (ancilla_c c) = mat_sem_target}
-  =mat_sem_anc_c c mat_sem_target
+let lemma path_sem_phase_inv (x:matrix complex) (k:int)
+      requires{is_a_ket_l x 1}
+      ensures{path_sem (phase k) (path_sem (phase (-k))x) = x}
+  = ket_decomp_ x 1
 
-let lemma mat_sem_id_c ()
-      ensures{mat_sem_c id_c = make_f 2 2 indic}
+let lemma path_sem_rz_basis (x:matrix complex) (k:int)
+      requires{is_a_ket_l x 1}
+      requires{is_a_ket_basis_elt x}
+      ensures{path_sem (rz k) x = ang_exp (getbv (ket_to_bv x) 0/./k) *.. x }
+  =()
+
+let lemma path_sem_rz_basis_inv (x:matrix complex) (k:int)
+      requires{is_a_ket_l x 1}
+      requires{is_a_ket_basis_elt x}
+      ensures{path_sem (rz k) (path_sem (rz (-k))x) = x}
+  =()
+
+let lemma path_sem_rz_inv (x:matrix complex) (k:int)
+      requires{is_a_ket_l x 1}
+      ensures{path_sem (rz k) (path_sem (rz (-k))x) = x}
+  = ket_decomp_ x 1
+      
+      use kets.Superpositions
+  
+let lemma path_sem_hadamard_zero (x:matrix complex)
+      requires{x = qbit_zero()}
+      ensures{path_sem hadamard x = qbit_plus()}
   =()
   
-let predicate  correct_path_sum_basis_c  (c: circuit_c)   (h:pps) (x:bitvec)
-   =  (length x = h_width h = width_c c && mat_mult (mat_sem_c c) (bv_to_ket x) ==  pps_apply_basis h x)
-
-val predicate correct_path_sum_c  (c:  circuit_c) (h:pps)
-   ensures{result <->
-    h_width h = width_c c && forall x: matrix complex. is_a_ket_l x (width_c c) -> pps_apply h x =  mat_mult (mat_sem_c c) x}
+let lemma path_sem_hadamard_one (x:matrix complex)
+      requires{x = qbit_one()}
+      ensures{path_sem hadamard x = qbit_minus()}
+  =()
   
-let lemma set_correct_path_sum_c  (c:  circuit_c) (h:pps)
-      requires{h_width h = width_c c}
-      requires{forall x: matrix complex. is_a_ket_l x (width_c c) -> pps_apply h x =  mat_mult (mat_sem_c c) x}
-      ensures{correct_path_sum_c c h}
+let lemma path_sem_hadamard_plus (x:matrix complex)
+      requires{x = qbit_plus()}
+      ensures{path_sem hadamard x = qbit_zero()}
+  =()
+  
+let lemma path_sem_hadamard_minus (x:matrix complex)
+      requires{x = qbit_minus()}
+      ensures{path_sem hadamard x = qbit_one()}
+  =()
+
+let lemma path_sem_cnot_basis (x:matrix complex)
+      requires{is_a_ket_l x 2}
+      requires{is_a_ket_basis_elt x}
+      ensures{path_sem cnot x = if ket_to_int x = 0 then ket 2 0
+                                else  if ket_to_int x = 1 then ket 2 1
+                                else  if ket_to_int x = 2 then ket 2 3
+                                else ket 2 2
+      }
+  =()
+
+let lemma path_sem_swap_basis (x:matrix complex)
+      requires{is_a_ket_l x 2}
+      requires{is_a_ket_basis_elt x}
+      ensures{path_sem swap x = if ket_to_int x = 0 then ket 2 0
+                                else  if ket_to_int x = 1 then ket 2 2
+                                else  if ket_to_int x = 2 then ket 2 1
+                                else ket 2 3}
+  =()
+
+let lemma hadamard_invol (x:matrix complex)
+      requires{is_a_ket_l x 1}
+      ensures{path_sem hadamard (path_sem hadamard x) = x}
+  =()
+  
+let function ancilla_g (c: circuit) (i:int) ( ghost path_sem_target :  matrix complex -> matrix complex):circuit
+                                                                                                           requires{1<=i}
+                                                                                                           requires{i+1<= width c} 
+                                                                                                           requires{forall x:matrix complex. is_a_ket_l x (width c -i ) ->  path_sem c (kronecker x (ket i 0)) =  (kronecker (path_sem_target x) (ket i 0))}
+                                                                                                           ensures{ancillas result =  ancillas c+i}
+                                                                                                           ensures{size result = size c}
+                                                                                                           ensures{range result = range c}
+                                                                                                           ensures{width result = width c-i }
+                                                                                                           ensures{forall x y : int->int. forall ii: int.
+                                                                                                                                                     basis_ket result x y ii =
+                                                                                                                                                       basis_ket c (fun k -> if k < width c -i then x k else 0) y ii}
+                                                                                                           ensures{forall x y : int->int. ang_ind result x y  = ang_ind c (fun k -> if k < width c -i then x k else 0) y}
+                                                                                                           ensures{forall x: matrix complex. is_a_ket_l x (width result) -> kronecker (path_sem result x) (ket i 0)  = path_sem c (kronecker x (ket i 0))}
+                                                                                                           ensures{forall x: matrix complex. is_a_ket_l x (width result) -> path_sem result x = path_sem_target x}
+  =  ancilla c i
+   
+let function ancilla_spec (c: circuit) (i:int) ( ghost path_sem_target :  bitvec -> matrix complex):circuit
+                                                                                                      requires{1<=i}
+                                                                                                      requires{i+1<= width c} 
+                                                                                                      requires{forall x:bitvec. length x = (width c -i ) ->  path_sem c (kronecker (bv_to_ket x) (ket i 0)) =  (kronecker (path_sem_target x) (ket i 0))}
+                                                                                                      ensures{ancillas result =  ancillas c+i}
+                                                                                                      ensures{size result = size c}
+                                                                                                      ensures{range result = range c}
+                                                                                                      ensures{width result = width c-i }
+                                                                                                      ensures{forall x y : int->int. forall ii: int.
+                                                                                                                                                basis_ket result x y ii =
+                                                                                                                                                  basis_ket c (fun k -> if k < width c -i then x k else 0) y ii}
+                                                                                                      ensures{forall x y : int->int. ang_ind result x y  = ang_ind c (fun k -> if k < width c -i then x k else 0) y}
+                                                                                                      ensures{forall x: matrix complex. is_a_ket_l x (width result) -> kronecker (path_sem result x) (ket i 0)  = path_sem c (kronecker x (ket i 0))}
+                                                                                                      ensures{forall z: matrix complex. is_a_ket_l z (width result) ->
+                                                                                                                        path_sem result z = ket_sum_l (n_bvs (width c - i))  (fun x -> get_ket z (bv_to_int x) *.. path_sem_target x) (width c - i) }
+  =  ancilla_g c i (fun  z -> if is_a_ket_l z (width c - i) then
+                                ket_sum_l (n_bvs (width c - i))  (fun x -> get_ket z (bv_to_int x) *.. path_sem_target x) (width c - i)
+                              else kronecker_neutral)
+
+let lemma mat_sem_seq (d e : circuit)
+      requires{width d = width e}
+      ensures{mat_sem (sequence d e) = mat_mult (mat_sem e) (mat_sem d)}
+  =()
+  
+let lemma mat_sem_par (d e : circuit)
+      ensures{mat_sem (parallel d e) = kronecker  (mat_sem d) (mat_sem e)}
+  =()
+  
+let lemma mat_sem_anc (c  : circuit) (mat_sem_target: matrix complex)(i:int)
+      requires{1<=i}
+      requires{i+1<= width c}
+      requires{rows mat_sem_target = power 2 (width c -i)}
+      requires{columns mat_sem_target = power 2 (width c -i)}
+      requires{ forall x. is_a_ket_l x (width c -i ) -> mat_mult  (mat_sem c) (kronecker x (ket i 0)) =  (kronecker (mat_mult mat_sem_target x) (ket i 0))}
+      ensures{mat_sem (ancilla c i) = mat_sem_target}
+  = mat_mult_ket_injec_eq_left (mat_sem (ancilla c i)) mat_sem_target  (width c -i)
+  
+let lemma mat_sem_anc_ (c  : circuit) (mat_sem_target: matrix complex)(i:int)
+      requires{1<=i}
+      requires{rows (mat_sem_target) = power 2 (width c -i)}
+      requires{columns (mat_sem_target) = power 2 (width c -i)}
+      requires{i+1<= width c}
+      requires{ forall x. is_a_ket_l x (width c -i ) -> is_a_ket_basis_elt x ->
+                mat_mult  (mat_sem c) (kronecker x (ket i 0)) =  (kronecker (mat_mult mat_sem_target x) (ket i 0))}
+      ensures{mat_sem (ancilla c i) = mat_sem_target}
+  =  mat_sem_anc c mat_sem_target i
+
+let lemma mat_sem_id ()
+      ensures{mat_sem id = make_f 2 2 indic}
+  =()
+
+let  ghost predicate  correct_path_sum_basis  (c: circuit)   (h:pps) (x:bitvec)
+  =  (length x = h_width h = width c && mat_mult (mat_sem c) (bv_to_ket x) ==  pps_apply_basis h x)
+
+end
+
+     
+module Correct_circuit_c
+
+         use  complex.Complex
+         use  Circuit_c
+         use  unit_circle.Angle
+         use  binary.Bit_vector
+         use  matrices.Matrix
+         use  pps.Pps         
+         use  matrices.Matrix_product
+         use   qdata.Ket_basis
+         use int.Int
+         use  qdata.Sqrt_two
+         use  binary.Bit_vector_decomp
+         use  qdata.Qreg
+         use  p_int.P_minmax
+         
+         predicate correct_path_sum_  (c:  circuit) (h:pps)
+  = h_width h = width c &&  forall x: matrix complex. is_a_ket_l x (width c) -> pps_apply h x =  mat_mult (mat_sem c) x
+
+let ghost predicate correct_path_sum  (c:  circuit) (h:pps)
+  = correct_path_sum_ c h
+
+let lemma set_correct_path_sum  (c:  circuit) (h:pps)
+      requires{h_width h = width c}
+      requires{forall x: matrix complex. is_a_ket_l x (width c) -> pps_apply h x =  mat_mult (mat_sem c) x}
+      ensures{correct_path_sum c h}
   =()  
   
-let lemma get_correct_path_sum_c  (c:  circuit_c) (h:pps) (x: matrix complex)
-      requires{h_width h = width_c c}
-      requires{is_a_ket_l x (width_c c) }
-      requires{correct_path_sum_c c h}
-    ensures{pps_apply h x =  mat_mult (mat_sem_c c) x}
+let lemma get_correct_path_sum  (c:  circuit) (h:pps) (x: matrix complex)
+      requires{h_width h = width c}
+      requires{is_a_ket_l x (width c) }
+      requires{correct_path_sum c h}
+      ensures{pps_apply h x =  mat_mult (mat_sem c) x}
   =()
 
-let lemma set_correct_path_sum_basis_c  (c:  circuit_c) (h:pps)
-      requires{h_width h = width_c c}
-      requires{forall x: matrix complex. is_a_ket_l x (width_c c) -> is_a_ket_basis_elt x -> pps_apply h x =  mat_mult (mat_sem_c c) x}
-      ensures{correct_path_sum_c c h}
-  =set_correct_path_sum_c c h
+let lemma get_correct_path_sum_path  (c:  circuit) (h:pps) (x: matrix complex)
+      requires{h_width h = width c}
+      requires{is_a_ket_l x (width c) }
+      requires{correct_path_sum c h}
+      ensures{pps_apply h x =  path_sem c x}
+  = get_correct_path_sum c h x
 
-let lemma set_correct_pps_c  (c:  circuit_c) (h:pps)
-      requires{h_width h = width_c c}
-      requires{forall x: matrix complex. is_a_ket_l x (width_c c) -> is_a_ket_basis_elt x -> pps_apply h x =  path_sem_basis_c c x}
-      ensures{correct_path_sum_c c h}
+let lemma set_correct_path_sum_basis  (c:  circuit) (h:pps)
+      requires{h_width h = width c}
+      requires{forall x: matrix complex. is_a_ket_l x (width c) -> is_a_ket_basis_elt x -> pps_apply h x =  mat_mult (mat_sem c) x}
+      ensures{correct_path_sum c h}
+  =set_correct_path_sum c h
+
+let lemma set_correct_pps  (c:  circuit) (h:pps)
+      requires{h_width h = width c}
+      requires{forall x: matrix complex. is_a_ket_l x (width c) -> is_a_ket_basis_elt x -> pps_apply h x =  path_sem_basis c x}
+      ensures{correct_path_sum c h}
   =()  
-    
-let   lemma correct_seq_c (  c c': circuit_c)  ( h h' h'': pps)
-          requires{correct_path_sum_c c h}
-          requires{correct_path_sum_c c' h'}
-          requires{width_c c = width_c c'}
-          requires{h_width h'' = width_c c }
-          requires{h_range h'' = h_range h + h_range h'}
-          requires{forall x y: int->int. (forall j. 0 <= j < h_width h'' -> 0<= x j <2)->
-                               (forall j. 0 <= j < h_range h'' -> 0<= y j <2)->
-                               h_angle h'' x y = ang_add (h_angle h x y) (h_angle h' (h_basis_ket h x y) (fun k ->  y (k  + h_range h)))}
-          requires{forall x y: int->int. forall i:int.  (forall j. 0 <= j < h_width h'' -> 0<= x j <2)->
-                                                  (forall j. 0 <= j < h_range h'' -> 0<= y j <2)->
-                                                  0<= i < h_width h'' ->
-                                                  h_basis_ket h'' x y i =  h_basis_ket h' (h_basis_ket h x y) (fun k ->  y (k  + h_range h)) i}
-          ensures{correct_path_sum_c (sequence_c c c') h''}
+  
+let lemma set_correct_pps_  (c:  circuit) (h:pps)
+      requires{h_width h = width c}
+      requires{forall x: matrix complex. is_a_ket_l x (width c) -> is_a_ket_basis_elt x -> pps_apply h x =  path_sem c x}
+      ensures{correct_path_sum c h}
+  = set_correct_pps c h
+  
+let   lemma correct_seq (  c c': circuit)  ( h h' h'': pps)
+        requires{correct_path_sum c h}
+        requires{correct_path_sum c' h'}
+        requires{width c = width c'}
+        requires{h_width h'' = width c }
+        requires{h_range h'' = h_range h + h_range h'}
+        requires{forall x y: int->int. (forall j. 0 <= j < h_width h'' -> 0<= x j <2)->
+                             (forall j. 0 <= j < h_range h'' -> 0<= y j <2)->
+                             h_angle h'' x y =  (h_angle h x y) +.+ (h_angle h' (h_basis_ket h x y) (fun k ->  y (k  + h_range h)))}
+        requires{forall x y: int->int. forall i:int.  (forall j. 0 <= j < h_width h'' -> 0<= x j <2)->
+                                                (forall j. 0 <= j < h_range h'' -> 0<= y j <2)->
+                                                0<= i < h_width h'' ->
+                                                h_basis_ket h'' x y i =  h_basis_ket h' (h_basis_ket h x y) (fun k ->  y (k  + h_range h)) i}
+        ensures{correct_path_sum (sequence c c') h''}
   = pps_seq_pred h h' h''
 
-let function  seq_pps_c (  c c': circuit_c)  (ghost h h' h'': pps)
-          requires{correct_path_sum_c c h}
-          requires{correct_path_sum_c c' h'}
-          requires{width_c c = width_c c'}
-          requires{h_width h'' = width_c c }
-          requires{h_range h'' = h_range h + h_range h'}
-          requires{forall x y: int->int. (forall j. 0 <= j < h_width h'' -> 0<= x j <2)->
-                               (forall j. 0 <= j < h_range h'' -> 0<= y j <2)->
-                               h_angle h'' x y = ang_add (h_angle h x y) (h_angle h' (h_basis_ket h x y) (fun k ->  y (k  + h_range h)))}
-          requires{forall x y: int->int. forall i:int.  (forall j. 0 <= j < h_width h'' -> 0<= x j <2)->
-                                                  (forall j. 0 <= j < h_range h'' -> 0<= y j <2)->
-                                                  0<= i < h_width h'' ->
-                                                  h_basis_ket h'' x y i =  h_basis_ket h' (h_basis_ket h x y) (fun k ->  y (k  + h_range h)) i}
-          ensures{width_c result = width_c c}
-          ensures{size_c result = size_c c + size_c c'}
-          ensures{ancillas_c result = max (ancillas_c c) (ancillas_c c')}
-          ensures{correct_path_sum_c result h''}
+let function  seq_pps (  c c': circuit)  (ghost h h' h'': pps)
+                requires{correct_path_sum c h}
+                requires{correct_path_sum c' h'}
+                requires{width c = width c'}
+                requires{h_width h'' = width c }
+                requires{h_range h'' = h_range h + h_range h'}
+                requires{forall x y: int->int. (forall j. 0 <= j < h_width h'' -> 0<= x j <2)->
+                                     (forall j. 0 <= j < h_range h'' -> 0<= y j <2)->
+                                     h_angle h'' x y = (h_angle h x y) +.+ (h_angle h' (h_basis_ket h x y) (fun k ->  y (k  + h_range h)))}
+                requires{forall x y: int->int. forall i:int.  (forall j. 0 <= j < h_width h'' -> 0<= x j <2)->
+                                                        (forall j. 0 <= j < h_range h'' -> 0<= y j <2)->
+                                                        0<= i < h_width h'' ->
+                                                        h_basis_ket h'' x y i =  h_basis_ket h' (h_basis_ket h x y) (fun k ->  y (k  + h_range h)) i}
+                ensures{width result = width c}
+                ensures{size result = size c + size c'}
+                ensures{ancillas result = max (ancillas c) (ancillas c')}
+                ensures{correct_path_sum result h''}
+                ensures{result =   sequence c c'}
   =
-correct_seq_c c c' h h' h'';
-  sequence_c c c'
-      
-use qdata.Ket_basis_concat
+  correct_seq c c' h h' h'';
+  sequence c c'
   
-let     lemma correct_par_c (  c c': circuit_c)  ( h h' h'': pps)
-          requires{correct_path_sum_c c h}
-          requires{correct_path_sum_c c' h'}
-          requires{h_width h'' = width_c c + width_c c'}
+let     lemma correct_par (  c c': circuit)  ( h h' h'': pps)
+          requires{correct_path_sum c h}
+          requires{correct_path_sum c' h'}
+          requires{h_width h'' = width c + width c'}
           requires{h_range h'' = h_range h + h_range h'}
           requires{forall x y: int->int.
                                     (forall j. 0 <= j < h_width h'' -> 0<= x j <2)->
                                (forall j. 0 <= j < h_range h'' -> 0<= y j <2)->
-                               h_angle h'' x y = ang_add (h_angle h x y) (h_angle h'  (fun k ->  x (k  + h_width h)) (fun k ->  y (k  + h_range h)))}
+                               h_angle h'' x y =  (h_angle h x y) +.+ (h_angle h'  (fun k ->  x (k  + h_width h)) (fun k ->  y (k  + h_range h)))}
           requires{forall x y: int->int. forall i:int.  (forall j. 0 <= j < h_width h'' -> 0<= x j <2)->
                                                   (forall j. 0 <= j < h_range h'' -> 0<= y j <2)->
                                                   0<= i < h_width h ->
@@ -923,347 +1153,320 @@ let     lemma correct_par_c (  c c': circuit_c)  ( h h' h'': pps)
                                                   (forall j. 0 <= j < h_range h'' -> 0<= y j <2)->
                                                   h_width h <= i < h_width h'' ->
                                                   h_basis_ket h'' x y i = h_basis_ket h' (fun k ->  x (k  + h_width h)) (fun k ->  y (k  + h_range h)) (i- h_width h)} 
-          ensures{correct_path_sum_c (parallel_c c c') h''}
+          ensures{correct_path_sum (parallel c c') h''}
   = pps_par_pred h h' h''
-                                     
-let lemma correct_ancilla_c(c : circuit_c)  ( h h' : pps)
-      requires{2<=width_c c}
-      requires{correct_path_sum_c c h}
-          requires{exists path_sem_target.
-                   forall x:matrix complex. is_a_ket_l x (width_c c -1) ->  path_sem_c c (kronecker x (ket 1 0)) =  (kronecker (path_sem_target x) (ket 1 0))}
-          requires{h_width h' = width_c c -1}
-          requires{h_range h' = h_range h}
-          requires{forall x y : int->int. forall i: int.
-                                                    (forall j. 0 <= j < h_width h' -> 0<= x j <2)->
-                                                    (forall j. 0 <= j < h_range h' -> 0<= y j <2)->
-                                                    h_basis_ket h' x y i =
-                                                    h_basis_ket h (fun k -> if k = width_c c -1 then 0 else x k) y i}
-          requires{forall x y : int->int. h_angle h' x y  = h_angle h (fun k -> if k = width_c c -1 then 0 else x k) y}
-          ensures{correct_path_sum_c (ancilla_c c ) h'}
+
+let function  sequence_ghost_pps (  c c': circuit)  (ghost h h' h'': pps) :circuit
+                                                                             requires{correct_path_sum c h}
+                                                                             requires{correct_path_sum c' h'}
+                                                                             requires{width c = width c'}
+                                                                             requires{h_width h'' = width c }
+                                                                             requires{h_range h'' = h_range h + h_range h'}
+                                                                             requires{forall x y: int->int. (forall j. 0 <= j < h_width h'' -> 0<= x j <2)->
+                                                                                                  (forall j. 0 <= j < h_range h'' -> 0<= y j <2)->
+                                                                                                  h_angle h'' x y =  (h_angle h x y) +.+ (h_angle h' (h_basis_ket h x y) (fun k ->  y (k  + h_range h)))}
+                                                                             requires{forall x y: int->int. forall i:int.  (forall j. 0 <= j < h_width h'' -> 0<= x j <2)->
+                                                                                                                     (forall j. 0 <= j < h_range h'' -> 0<= y j <2)->
+                                                                                                                     0<= i < h_width h'' ->
+                                                                                                                     h_basis_ket h'' x y i =  h_basis_ket h' (h_basis_ket h x y) (fun k ->  y (k  + h_range h)) i}
+                                                                             ensures{width result = width c}
+                                                                             ensures{size result = size c + size c'}
+                                                                             ensures{ancillas result = max (ancillas c) (ancillas c')}
+                                                                             ensures{correct_path_sum result h''}
+                                                                             ensures{result =   sequence c c'}
+  = correct_seq c c' h h' h'';
+    sequence c c'
+
+      use qdata.Kronecker_Qbit
+      use qdata.Bv_to_ket
+      use matrices.Kronecker_product
+      use matrices.Matrix_scalar
+    
+let function parallel_ghost_pps (c c': circuit)  (ghost h h' h'': pps):circuit
+                                                                         requires{correct_path_sum c h}
+                                                                         requires{correct_path_sum c' h'}
+                                                                         requires{h_width h'' = width c + width c'}
+                                                                         requires{h_range h'' = h_range h + h_range h'}
+                                                                         requires{forall x y: int->int.
+                                                                                                   (forall j. 0 <= j < h_width h'' -> 0<= x j <2)->
+                                                                                              (forall j. 0 <= j < h_range h'' -> 0<= y j <2)->
+                                                                                              h_angle h'' x y =  (h_angle h x y) +.+ (h_angle h'  (fun k ->  x (k  + h_width h)) (fun k ->  y (k  + h_range h)))}
+                                                                         requires{forall x y: int->int. forall i:int.  (forall j. 0 <= j < h_width h'' -> 0<= x j <2)->
+                                                                                                                 (forall j. 0 <= j < h_range h'' -> 0<= y j <2)->
+                                                                                                                 0<= i < h_width h ->
+                                                                                                                 h_basis_ket h'' x y i = h_basis_ket h x y i} 
+                                                                         requires{forall x y: int->int. forall i:int.  (forall j. 0 <= j < h_width h'' -> 0<= x j <2)->
+                                                                                                                 (forall j. 0 <= j < h_range h'' -> 0<= y j <2)->
+                                                                                                                 h_width h <= i < h_width h'' ->
+                                                                                                                 h_basis_ket h'' x y i = h_basis_ket h' (fun k ->  x (k  + h_width h)) (fun k ->  y (k  + h_range h)) (i- h_width h)} 
+                                                                         ensures{correct_path_sum result h''}
+                                                                         ensures{width result = width c + width c'}
+                                                                         ensures{size result = size c + size c'}
+                                                                         ensures{ancillas result =  (ancillas c) + (ancillas c')}
+                                                                         ensures{result =   parallel c c'}
+  = correct_par c c' h h' h'';
+    parallel c c'
+    
+let lemma correct_ancilla(c : circuit)  ( h h' : pps)(i:int)
+      requires{1<=i}
+      requires{i+1<=width c}
+      requires{correct_path_sum c h}
+      requires{exists path_sem_target.
+               forall x:matrix complex. is_a_ket_l x (width c -i) ->  path_sem c (kronecker x (ket i 0)) =  (kronecker (path_sem_target x) (ket i 0))}
+      requires{h_width h' = width c -i}
+      requires{h_range h' = h_range h}
+      requires{forall x y : int->int. forall ii: int.
+                                                 (forall j. 0 <= j < h_width h' -> 0<= x j <2)->
+                                                 (forall j. 0 <= j < h_range h' -> 0<= y j <2)->
+                                                 h_basis_ket h' x y ii =
+                                                   h_basis_ket h (fun k -> if k < width c -i then x k else 0) y ii}
+      requires{forall x y : int->int. h_angle h' x y  = h_angle h (fun k -> if k < width c -i then x k else 0) y}
+      ensures{correct_path_sum (ancilla c i) h'}
   = 
-  mat_sem_anc__c c (pps_to_mat h')
+  mat_sem_anc_ c (pps_to_mat h') i
   
-let lemma set_correct_main_path_sum_c (c: circuit_c) (h:pps)
-      requires{h_width h = width_c c}
-      requires{h_range h = range_c c}
-      requires{forall x y. length x = width_c c -> length y = range_c c -> h_angle h (getbv x) (getbv y)  = ang_ind_c c (getbv x) (getbv y) }
-      requires{forall x y. forall i :int. 0<= i < width_c c -> length x = width_c c -> length y = range_c c ->
-                                     h_basis_ket h (getbv x) (getbv y) i  = basis_ket_c c (getbv x) (getbv y) i}
-      ensures{correct_path_sum_c c h}
+let lemma set_correct_main_path_sum (c: circuit) (h:pps)
+      requires{h_width h = width c}
+      requires{h_range h = range c}
+      requires{forall x y. length x = width c -> length y = range c -> h_angle h (getbv x) (getbv y)  = ang_ind c (getbv x) (getbv y) }
+      requires{forall x y. forall i :int. 0<= i < width c -> length x = width c -> length y = range c ->
+                                     h_basis_ket h (getbv x) (getbv y) i  = basis_ket c (getbv x) (getbv y) i}
+      ensures{correct_path_sum c h}
   =()  
 
-     predicate circuit_c_equiv (c c':circuit_c) = width_c c = width_c c' && forall x: bitvec. length x = width_c c -> path_sem_c c (bv_to_ket x) = path_sem_c c'  (bv_to_ket x)
-  
-let lemma path_to_mat_sem_c (c:circuit_c) (x y: matrix complex)
-      requires{is_a_ket_l x (width_c c)}
-      requires{path_sem_c c x = y}
-      ensures{mat_mult (mat_sem_c c) x = y}
+let lemma set_correct_circ_to_pps (c: circuit) 
+      ensures{correct_path_sum c (circ_to_pps c)}
+  =  set_correct_main_path_sum  c (circ_to_pps c)
+
+       predicate circuit_equiv (c c':circuit) = width c = width c' && forall x: bitvec. length x = width c -> path_sem c (bv_to_ket x) = path_sem c'  (bv_to_ket x)
+   
+let lemma path_to_mat_sem (c:circuit) (x y: matrix complex)
+      requires{is_a_ket_l x (width c)}
+      requires{path_sem c x = y}
+      ensures{mat_mult (mat_sem c) x = y}
   =()
   
-let lemma path_to_mat_sem_rev_c (c:circuit_c) (x y: matrix complex)
-      requires{is_a_ket_l x (width_c c)}
-      requires{path_sem_c c x = y}
-      ensures{y=mat_mult (mat_sem_c c) x}
+let lemma path_to_mat_sem_rev (c:circuit) (x y: matrix complex)
+      requires{is_a_ket_l x (width c)}
+      requires{path_sem c x = y}
+      ensures{y=mat_mult (mat_sem c) x}
   =()
   
-let lemma mat_to_path_sem_c (c:circuit_c) (x y: matrix complex)
-      requires{is_a_ket_l x (width_c c)}
-      requires{mat_mult (mat_sem_c c) x = y}
-      ensures{path_sem_c c x = y}
+let lemma mat_to_path_sem (c:circuit) (x y: matrix complex)
+      requires{is_a_ket_l x (width c)}
+      requires{mat_mult (mat_sem c) x = y}
+      ensures{path_sem c x = y}
   =()     
   
-let lemma path_to_mat_sem_exp_c (c:circuit_c) (x : matrix complex)
-      requires{is_a_ket_l x (width_c c)}
-      ensures{path_sem_c c x = mat_mult (mat_sem_c c) x }
+let lemma path_to_mat_sem_exp (c:circuit) (x : matrix complex)
+      requires{is_a_ket_l x (width c)}
+      ensures{path_sem c x = mat_mult (mat_sem c) x }
   =()     
   
-let lemma mat_to_path_sem_exp_c (c:circuit_c) (x y: matrix complex)
-      requires{is_a_ket_l x (width_c c)}
-      ensures{mat_mult (mat_sem_c c) x = path_sem_c c x}
+let lemma mat_to_path_sem_exp (c:circuit) (x : matrix complex)
+      requires{is_a_ket_l x (width c)}
+      ensures{mat_mult (mat_sem c) x = path_sem c x}
   =()     
   
-let lemma set_path_sem_by_correct_pps_c (c: circuit_c) (h:pps)(x:matrix complex)
-      requires{correct_path_sum_c c h}
-      requires{is_a_ket_l x (width_c c)}
+let lemma set_path_sem_by_correct_pps (c: circuit) (h:pps)(x:matrix complex)
+      requires{correct_path_sum c h}
+      requires{is_a_ket_l x (width c)}
       requires{is_a_ket_basis_elt x }
-      ensures{path_sem_c c x  = pps_apply h x}
+      ensures{path_sem c x  = pps_apply h x}
+  = ()
+
+let lemma set_path_sem_by_main_pps (c: circuit) (x:bitvec)
+      requires{length x = width c}
+      ensures{path_sem c (bv_to_ket x)  = pow_inv_sqrt_2 (range c) *.. ket_sum_l (n_bvs (range c)) (fun y -> ang_exp (ang_ind c (getbv x) (getbv y)) *.. bv_to_ket (make_bv (basis_ket c (getbv x) (getbv y)) (width c))) (width c)}
+  = set_path_sem_by_correct_pps c (circ_to_pps c) (bv_to_ket x)
+  
+let lemma set_path_sem_by_correct_pps_gen (c: circuit) (h:pps)
+      requires{correct_path_sum c h}
+      ensures{forall x. is_a_ket_l x (width c) ->  is_a_ket_basis_elt x  -> path_sem c x  = pps_apply h x}
   = ()
   
-let lemma set_path_sem_by_correct_pps_gen_c (c: circuit_c) (h:pps)
-      requires{correct_path_sum_c c h}
-      ensures{forall x. is_a_ket_l x (width_c c) ->  is_a_ket_basis_elt x  -> path_sem_c c x  = pps_apply h x}
-  = ()
-  
-let lemma set_correct_path_sum_sim_c  (c: circuit_c)  (h h':pps) 
+let lemma set_correct_path_sum_sim  (c: circuit)  (h h':pps) 
       requires{h_range h = h_range h'}
       requires{h_width h = h_width h'}
       requires{forall x y :bitvec.
-                           length x = width_c c -> length y = h_range h -> h_angle h (getbv x) (getbv y)  = h_angle h' (getbv x) (getbv y)}
-      requires{forall x y :bitvec.  forall i:int. length x = width_c c -> length y = h_range h -> 0<= i < width_c c ->
+                           length x = width c -> length y = h_range h -> h_angle h (getbv x) (getbv y)  = h_angle h' (getbv x) (getbv y)}
+      requires{forall x y :bitvec.  forall i:int. length x = width c -> length y = h_range h -> 0<= i < width c ->
                                              h_basis_ket h (getbv x) (getbv y) i = h_basis_ket h' (getbv x) (getbv y) i}
-      requires{correct_path_sum_c c h}
-      ensures{correct_path_sum_c c h'}
-  = set_path_sem_by_correct_pps_gen_c  c h'
+      requires{correct_path_sum c h}
+      ensures{correct_path_sum c h'}
+  = set_path_sem_by_correct_pps_gen  c h'
 
-let lemma path_sum_equiv_c  (c: circuit_c)  (h h': pps) 
+let lemma set_correct_path_sum_by_main_sim  (c: circuit)  (h :pps) 
+      requires{h_range h = range c}
+      requires{h_width h = width c}
+      requires{forall x y :bitvec.
+                           length x = width c -> length y = h_range h -> h_angle h (getbv x) (getbv y)  = ang_ind c (getbv x) (getbv y)}
+      requires{forall x y :bitvec.  forall i:int. length x = width c -> length y = h_range h -> 0<= i < width c ->
+                                             h_basis_ket h (getbv x) (getbv y) i = basis_ket c (getbv x) (getbv y) i}
+      ensures{correct_path_sum c h}
+  = set_correct_path_sum_sim  c (circ_to_pps c) h
+
+let lemma path_sum_equiv  (c: circuit)  (h h': pps) 
       requires{h_range h>=0}
       requires{h_range h = h_range h'}
       requires{h_width h = h_width h'}
-      requires{forall x y :bitvec. length x = width_c c -> length y = h_range h -> h_angle h (getbv x) (getbv y) = h_angle h' (getbv x) (getbv y)}
-      requires{forall x y :bitvec. forall i:int. 0<= i < width_c c -> length x = width_c c -> length y = h_range h -> h_basis_ket h (getbv x) (getbv y) = h_basis_ket h' (getbv x) (getbv y)}
-      ensures{correct_path_sum_c c h <-> correct_path_sum_c c h'}
-  = if correct_path_sum_c c h then set_correct_path_sum_sim_c c h h'
-    else if  correct_path_sum_c c h' then set_correct_path_sum_sim_c c h' h
+      requires{forall x y :bitvec. length x = width c -> length y = h_range h -> h_angle h (getbv x) (getbv y) = h_angle h' (getbv x) (getbv y)}
+      requires{forall x y :bitvec. forall i:int. 0<= i < width c -> length x = width c -> length y = h_range h -> h_basis_ket h (getbv x) (getbv y) i = h_basis_ket h' (getbv x) (getbv y) i}
+      ensures{correct_path_sum c h <-> correct_path_sum c h'}
+  = if correct_path_sum c h then set_correct_path_sum_sim c h h'
+    else if  correct_path_sum c h' then set_correct_path_sum_sim c h' h
     else ()
 
-let lemma correct_to_path_sem_c (c:circuit_c) (h:pps)
-      requires{correct_path_sum_c c h}
-      ensures{forall x: matrix complex. is_a_ket_l x (width_c c) -> pps_apply h x = path_sem_c c x}
+let lemma path_sum_pps_apply_equiv  (c: circuit)  (h h': pps) 
+      requires{pps_apply_equiv h h'}
+      requires{correct_path_sum c h}
+      ensures{correct_path_sum c h'}
+  = ()
+  
+let lemma path_sum_pps_apply_equiv_ref  (c: circuit)  (h : pps) 
+      requires{pps_apply_equiv h (circ_to_pps c)}
+      ensures{correct_path_sum c h}
+  = ()
+
+let lemma path_sum_pps_apply_equiv_rev  (c: circuit)  (h h': pps) 
+      requires{correct_path_sum c h}
+      requires{correct_path_sum c h'}
+      ensures{pps_apply_equiv h h'}
+  = ()
+  
+let lemma path_sum_pps_apply_equiv_ref_rev  (c: circuit)  (h : pps) 
+      requires{correct_path_sum c h}
+      ensures{pps_apply_equiv h (circ_to_pps c)}
+  = ()
+  
+let lemma correct_to_path_sem (c:circuit) (h:pps)
+      requires{correct_path_sum c h}
+      ensures{forall x: matrix complex. is_a_ket_l x (width c) -> pps_apply h x = path_sem c x}
   =()
 
-let lemma correct_to_mat_sem_c (c:circuit_c) (h:pps)
-      requires{correct_path_sum_c c h}
-      ensures{forall x: matrix complex. is_a_ket_l x (width_c c) -> pps_apply h x =  mat_mult (mat_sem_c c) x}
+let lemma correct_to_mat_sem (c:circuit) (h:pps)
+      requires{correct_path_sum c h}
+      ensures{forall x: matrix complex. is_a_ket_l x (width c) -> pps_apply h x =  mat_mult (mat_sem c) x}
   =()
 
-let lemma swap_invol_c_basis (x:matrix complex)      
+let lemma swap_invol_basis (x:matrix complex)      
       requires{is_a_ket_l x 2}
       requires{is_a_ket_basis_elt x }
-      ensures{path_sem_c swap_c (path_sem_c swap_c x) = x}
+      ensures{path_sem swap (path_sem swap x) = x}
   = assert{x = ket 2 (ket_to_int x)};
-    path_sem_swap_basis_c (ket 2 0);
-    path_sem_swap_basis_c (ket 2 1);
-    path_sem_swap_basis_c (ket 2 2);
-    path_sem_swap_basis_c (ket 2 3);
-       assert{path_sem_c swap_c (ket 2 0) = ket 2 0};
-       assert{path_sem_c swap_c (ket 2 1) = ket 2 2};
-       assert{path_sem_c swap_c (ket 2 2) = ket 2 1};
-       assert{path_sem_c swap_c (ket 2 3) = ket 2 3};
-       if  ket_to_int x =   0 then ()
-       else if ket_to_int x =  1 then ()
-       else if ket_to_int x =  2 then ()
-       else assert{ ket_to_int x =  3}
+    path_sem_swap_basis (ket 2 0);
+    path_sem_swap_basis (ket 2 1);
+    path_sem_swap_basis (ket 2 2);
+    path_sem_swap_basis (ket 2 3);
+    assert{path_sem swap (ket 2 0) = ket 2 0};
+    assert{path_sem swap (ket 2 1) = ket 2 2};
+    assert{path_sem swap (ket 2 2) = ket 2 1};
+    assert{path_sem swap (ket 2 3) = ket 2 3};
+    if  ket_to_int x =   0 then ()
+    else if ket_to_int x =  1 then ()
+    else if ket_to_int x =  2 then ()
+    else assert{ ket_to_int x =  3}
 
-let lemma cnot_invol_c_basis (x:matrix complex)
+let lemma cnot_invol_basis (x:matrix complex)
       requires{is_a_ket_l x 2}
       requires{is_a_ket_basis_elt x }
-      ensures{path_sem_c cnot_c (path_sem_c cnot_c x) = x}
-      =assert{x = ket 2 (ket_to_int x)};
-       path_sem_cnot_basis_c (ket 2 0);
-       path_sem_cnot_basis_c (ket 2 1);
-       path_sem_cnot_basis_c (ket 2 2);
-       path_sem_cnot_basis_c (ket 2 3);
-       assert{path_sem_c cnot_c (ket 2 0) = ket 2 0};
-       assert{path_sem_c cnot_c (ket 2 1) = ket 2 1};
-       assert{path_sem_c cnot_c (ket 2 2) = ket 2 3};
-       assert{path_sem_c cnot_c (ket 2 3) = ket 2 2};
-       if  ket_to_int x =   0 then ()
-       else if ket_to_int x =  1 then ()
-       else if ket_to_int x =  2 then ()
-       else assert{ ket_to_int x =  3}
-      
-let lemma swap_invol_c (x:matrix complex)
+      ensures{path_sem cnot (path_sem cnot x) = x}
+  =assert{x = ket 2 (ket_to_int x)};
+   path_sem_cnot_basis (ket 2 0);
+   path_sem_cnot_basis (ket 2 1);
+   path_sem_cnot_basis (ket 2 2);
+   path_sem_cnot_basis (ket 2 3);
+   assert{path_sem cnot (ket 2 0) = ket 2 0};
+   assert{path_sem cnot (ket 2 1) = ket 2 1};
+   assert{path_sem cnot (ket 2 2) = ket 2 3};
+   assert{path_sem cnot (ket 2 3) = ket 2 2};
+   if  ket_to_int x =   0 then ()
+   else if ket_to_int x =  1 then ()
+   else if ket_to_int x =  2 then ()
+   else assert{ ket_to_int x =  3}
+   
+let lemma swap_invol (x:matrix complex)
       requires{is_a_ket_l x 2}
-      ensures{path_sem_c swap_c (path_sem_c swap_c x) = x}
+      ensures{path_sem swap (path_sem swap x) = x}
+  =
+  ket_decomp_ x 2
+
+let lemma cnot_invol (x:matrix complex)
+      requires{is_a_ket_l x 2}
+      ensures{path_sem cnot (path_sem cnot x) = x}
+  =
+  ket_decomp_ x 2
+  
+let lemma mat_sem_to_correct (c:circuit) (h:pps)
+      requires{h_width h = width c}
+      requires{forall x: matrix complex. is_a_ket_l x (width c) ->
+                         is_a_ket_basis_elt x -> pps_apply h x = mat_mult (mat_sem c) x}
+      ensures{correct_path_sum c h}
   =()
 
-let lemma cnot_invol_c (x:matrix complex)
-      requires{is_a_ket_l x 2}
-      ensures{path_sem_c cnot_c (path_sem_c cnot_c x) = x}
+let lemma path_sem_to_correct (c:circuit) (h:pps)
+      requires{h_width h = width c}
+      requires{forall x: matrix complex. is_a_ket_l x (width c) ->
+                         is_a_ket_basis_elt x -> pps_apply h x = path_sem c x}
+      ensures{correct_path_sum c h}
   =()
   
-let lemma mat_sem_to_correct_c (c:circuit_c) (h:pps)
-      requires{h_width h = width_c c}
-      requires{forall x: matrix complex. is_a_ket_l x (width_c c) ->
-                         is_a_ket_basis_elt x -> pps_apply h x = mat_mult (mat_sem_c c) x}
-      ensures{correct_path_sum_c c h}
+let lemma  correct_main_path_sum ( c: circuit)
+      ensures{correct_path_sum  c (circ_to_pps c)}
   =()
-
-let lemma path_sem_to_correct_c (c:circuit_c) (h:pps)
-      requires{h_width h = width_c c}
-      requires{forall x: matrix complex. is_a_ket_l x (width_c c) ->
-                         is_a_ket_basis_elt x -> pps_apply h x = path_sem_c c x}
-      ensures{correct_path_sum_c c h}
-  =()
-      
-let lemma  correct_main_path_sum_c ( c: circuit_c)
-      ensures{correct_path_sum_c  c (circ_to_pps_c c)}
-  =()
-           
-let predicate correct_path_sum_bv_c (c:circuit_c) (r:int) (k: bitvec -> bitvec ->  bitvec) (a: bitvec -> bitvec -> angle)
-  requires{forall x y. length x = width_c c -> length y = r -> length (k x y) = width_c c}
+  
+let ghost predicate correct_path_sum_bv (c:circuit) (r:int) (k: bitvec -> bitvec ->  bitvec) (a: bitvec -> bitvec -> angle)
+      requires{0<=r}
+      requires{forall x y. length x = width c -> length y = r -> length (k x y) = width c}
   = 
-correct_path_sum_c c (build_pps_bv  (width_c c) r k a)
-                
-                
-let lemma correct_path_sum_bv_main_c (c:circuit_c) (r:int) (k: bitvec -> bitvec ->  bitvec) (a: bitvec -> bitvec -> angle)
-  requires{forall x y. length x = width_c c -> length y = r -> length (k x y) = width_c c}
-  requires{forall x y. forall i. length x = width_c c -> length y = r -> 0<= i < width_c c ->
-                                            getbv (k x y) i = basis_ket_c c (getbv x) (getbv y) i}
-  requires{forall x y. length x = width_c c -> length y = r -> 
-                                            a x y = ang_ind_c c (getbv x) (getbv y) }
-  requires{r = range_c c}
-  ensures{correct_path_sum_bv_c c r k a}
+  correct_path_sum c (build_pps_bv  (width c) r k a)
+
+let lemma  correct_path_sum_to_bv (c:circuit) (r:int) (k: bitvec -> bitvec ->  bitvec) (a: bitvec -> bitvec -> angle)
+      requires{0<=r}
+      requires{forall x y. length x = width c -> length y = r -> length (k x y) = width c}
+      requires{correct_path_sum c (build_pps_bv  (width c) r k a)}
+      ensures{correct_path_sum_bv c r k a}
+  =()
+  
+let lemma  correct_path_sum_by_bv (c:circuit) (r:int) (k: bitvec -> bitvec ->  bitvec) (a: bitvec -> bitvec -> angle)
+      requires{forall x y. length x = width c -> length y = r -> length (k x y) = width c}
+      requires{0<=r}
+      requires{correct_path_sum_bv c r k a}
+      ensures{correct_path_sum c (build_pps_bv  (width c) r k a)}
+  =()
+  
+let lemma correct_path_sum_bv_main (c:circuit) (r:int) (k: bitvec -> bitvec ->  bitvec) (a: bitvec -> bitvec -> angle)
+      requires{0<=r}
+      requires{forall x y. length x = width c -> length y = r -> length (k x y) = width c}
+      requires{forall x y. forall i. length x = width c -> length y = r -> 0<= i < width c ->
+                                                getbv (k x y) i = basis_ket c (getbv x) (getbv y) i}
+      requires{forall x y. length x = width c -> length y = r -> 
+                                      a x y = ang_ind c (getbv x) (getbv y) }
+      requires{r = range c}
+      ensures{correct_path_sum_bv c r k a}
   = 
   ()
   
-let lemma correct_path_sum_bv_apply_c (c:circuit_c) (r:int) (k: bitvec -> bitvec ->  bitvec) (a: bitvec -> bitvec -> angle) (x:bitvec)
-  requires{forall x y. length x = width_c c -> length y = r -> length (k x y) = width_c c}
-  requires{length x = width_c c}
-  requires{correct_path_sum_bv_c c r k a}
-  ensures{path_sem_c c (bv_to_ket x) = pow_inv_sqrt_2 r *.. ket_sum_l (n_bvs r) (fun y -> ang_exp (a x y) *.. bv_to_ket (k x y)) (width_c c) }
+let lemma correct_path_sum_bv_apply (c:circuit) (r:int) (k: bitvec -> bitvec ->  bitvec) (a: bitvec -> bitvec -> angle) (x:bitvec)
+      requires{0<=r}
+      requires{forall x y. length x = width c -> length y = r -> length (k x y) = width c}
+      requires{length x = width c}
+      requires{correct_path_sum_bv c r k a}
+      ensures{path_sem c (bv_to_ket x) = pow_inv_sqrt_2 r *.. ket_sum_l (n_bvs r) (fun y -> ang_exp (a x y) *.. bv_to_ket (k x y)) (width c) }
   = ()
 
-  
-let function  seq_pps_bv_c (  c c': circuit_c)  (ghost r1 r2 r3:int) (ghost k1 k2 k3: bitvec -> bitvec ->  bitvec) (ghost a1 a2 a3: bitvec -> bitvec -> angle)
-                requires{forall x y. length x = width_c c -> length y = r1 -> length (k1 x y) = width_c c}
-                requires{forall x y. length x = width_c c -> length y = r2 -> length (k2 x y) = width_c c}
-                requires{forall x y. length x = width_c c -> length y = r3 -> length (k3 x y) = width_c c}
-                requires{width_c c = width_c c'}
-                requires{r3 = r1+r2}
-                requires{correct_path_sum_bv_c c r1 k1 a1}
-                requires{correct_path_sum_bv_c c r2 k2 a2}
-                requires{forall x y: bitvec. length x = width_c c -> length y = r3 ->
-                                     a3 x y = ang_add (a1 x (hpart y r1)) (a2 (k1 x (hpart y r1))(tpart y r1))}
-                requires{forall x y: bitvec. length x = width_c c -> length y = r3 ->
-                                     k3 x y =   (k2 (k1 x (hpart y r1))(tpart y r1))}
-                ensures{width_c result = width_c c}
-                ensures{size_c result = size_c c + size_c c'}
-                ensures{ancillas_c result = max (ancillas_c c) (ancillas_c c')}
-                ensures{correct_path_sum_bv_c result r3 k3 a3}
-  =
-correct_seq_c c c' (build_pps_bv  (width_c c) r1 k1 a1) (build_pps_bv  (width_c c) r2 k2 a2) (build_pps_bv  (width_c c) r3 k3 a3);
-  sequence_c c c'
-  
+let lemma  correct_path_sum_bv_sim (c:circuit) (r1 :int) (k1 : bitvec -> bitvec ->  bitvec) (a1 : bitvec -> bitvec -> angle)
+      (r2 :int) (k2 : bitvec -> bitvec ->  bitvec) (a2 : bitvec -> bitvec -> angle)
+      requires{0<=r1}
+      requires{r1 = r2}
+      requires{forall x y. length x = width c -> length y = r1 -> length (k1 x y) = width c}
+      requires{forall x y. length x = width c -> length y = r1 ->  k1 x y = k2 x y}
+      requires{forall x y. length x = width c -> length y = r1 ->  a1 x y = a2 x y}
+      requires{correct_path_sum_bv c r1 k1 a1}
+      ensures{correct_path_sum_bv  c r2 k2 a2}
+  =()
 end
+     
 
-module Circuit_elem_c
-
-clone export Circuit_c with axiom.
-clone qbricks.Circuit_elem with type circuit = circuit_c,
-val size = size_c,
-val ancillas = ancillas_c,
-val path_sem_basis = path_sem_basis_c,
-val path_sem = path_sem_c,
-val circ_to_pps = circ_to_pps_c,
-val width = width_c,
-val range = range_c,
-val basis_ket = basis_ket_c,
-val ang_ind = ang_ind_c,
-val id = id_c,
-val cnot = cnot_c,
-val swap = swap_c,
-val hadamard = hadamard_c,
-val phase = phase_c,
-val rz = rz_c,
-val sequence = sequence_c,
-val parallel = parallel_c,
-val ancilla = ancilla_c,
-val correct_path_sum_basis = correct_path_sum_basis_c,
-val correct_path_sum = correct_path_sum_c,
-val   correct_main_path_sum = correct_main_path_sum_c,
-val   path_sem_basis_apply = path_sem_basis_apply_c, 
-val   apply_path_sem_basis = apply_path_sem_basis_c, 
-val    path_sem_apply = path_sem_apply_c,
-val    apply_path_sem =  apply_path_sem_c,
-val  path_sem_ket_l = path_sem_ket_l_c,
-val  path_sem_ket_length = path_sem_ket_length_c,
-val    get_path_sem = get_path_sem_c,
-val    get_path_sem_basis = get_path_sem_basis_c,
-val  circ_to_pps_parallel = circ_to_pps_parallel_c,
-val  parallel_width = parallel_width_c,
-val  parallel_range = parallel_range_c,
-val  parallel_basis_ket = parallel_basis_ket_c,
-val  parallel_angle = parallel_angle_c,
-val  circ_to_pps_sequence = circ_to_pps_sequence_c,
-val  sequence_width = sequence_width_c,
-val  sequence_range = sequence_range_c,
-val  sequence_basis_ket = sequence_basis_ket_c,
-val  sequence_angle  = sequence_angle_c,
-val  circ_to_pps_ancilla = circ_to_pps_ancilla_c, 
-val  ancilla_width = ancilla_width_c,
-val  ancilla_range = ancilla_range_c,
-val  ancilla_basis_ket = ancilla_basis_ket_c,    
-val  ancilla_angle = ancilla_angle_c,
-val  sequence_eq = sequence_eq_c,
-val  ancilla_eq = ancilla_eq_c,
-val  parallel_eq =  parallel_eq_c,   
-val  path_sem_decomp =  path_sem_decomp_c,   
-val  path_sem_scal_ = path_sem_scal__c,
-val  path_sem_scal  = path_sem_scal_c,
-val  path_sem_scal_rev =  path_sem_scal_rev_c,   
-val  path_sem_add = path_sem_add_c,
-val  path_sem_scal_add_ket_l  = path_sem_scal_add_ket_l_c,    
-val  path_sem_substr = path_sem_substr_c,
-val  path_sem_scal_add = path_sem_scal_add_c,    
-val  path_sem_scal_substr = path_sem_scal_substr_c,    
-val  path_sem_sum = path_sem_sum_c,
-val  path_sem_sum_diag = path_sem_sum_diag_c,  
-val  path_sem_sum_ = path_sem_sum__c,
-val  path_sem_sum_gen = path_sem_sum_gen_c,    
-val  scal_path_sem_sum_gen = scal_path_sem_sum_gen_c,    
-val  scal_path_sem_sum = scal_path_sem_sum_c,
-val  path_sem_scal_sum = path_sem_scal_sum_c,
-val  path_sem_comp = path_sem_comp_c,
-val  path_sem_kron = path_sem_kron_c,
-val  ancilla_g = ancilla_g_c,
-val   correct_seq = correct_seq_c,
-val   correct_par = correct_par_c,
-val  correct_ancilla = correct_ancilla_c, 
-val  set_correct_main_path_sum = set_correct_main_path_sum_c,  
-val  set_path_sem_by_correct_pps = set_path_sem_by_correct_pps_c,  
-val  set_path_sem_by_correct_pps_gen = set_path_sem_by_correct_pps_gen_c,  
-val  set_correct_path_sum_sim = set_correct_path_sum_sim_c,
-val  path_sum_equiv = path_sum_equiv_c,
-val  correct_to_path_sem = correct_to_path_sem_c, 
-val  path_sem_to_correct = path_sem_to_correct_c,
-val set_correct_pps = set_correct_pps_c,
-val path_sem_sequence_parallel =  path_sem_sequence_parallel_c,
-val path_sem_id_basis =  path_sem_id_basis_c,
-val path_sem_id =  path_sem_id_c,
-val path_sem_phase_basis =  path_sem_phase_basis_c,  
-val path_sem_phase_basis_inv =   path_sem_phase_basis_inv_c,
-val path_sem_phase_inv  = path_sem_phase_inv_c,
-val path_sem_rz_basis  = path_sem_rz_basis_c,
-val path_sem_rz_basis_inv =  path_sem_rz_basis_inv_c,  
-val path_sem_rz_inv  =  path_sem_rz_inv_c,
-val path_sem_hadamard_zero =  path_sem_hadamard_zero_c,
-val path_sem_hadamard_one =  path_sem_hadamard_one_c,
-val path_sem_hadamard_plus =  path_sem_hadamard_plus_c,
-val path_sem_hadamard_minus =  path_sem_hadamard_minus_c,
-val path_sem_cnot_basis =  path_sem_cnot_basis_c,
-val path_sem_swap_basis =  path_sem_swap_basis_c,
-val hadamard_invol = hadamard_invol_c,
-val correct_path_sum_bv  = correct_path_sum_bv_c,  
-val  correct_path_sum_bv_main = correct_path_sum_bv_main_c,
-val  correct_path_sum_bv_apply = correct_path_sum_bv_apply_c,
-val   seq_pps_bv = seq_pps_bv_c
-end
-
-     module Mat_sem_c
-
-use Circuit_c
-         clone qbricks.Semantics with type circuit = circuit_c,
-val mat_sem = mat_sem_c,
-val size = size_c,
-val ancillas = ancillas_c,
-val path_sem_basis = path_sem_basis_c,
-val path_sem = path_sem_c,
-val circ_to_pps = circ_to_pps_c,
-val width = width_c,
-val range = range_c,
-val basis_ket = basis_ket_c,
-val ang_ind = ang_ind_c,
-val id = id_c,
-val cnot = cnot_c,
-val swap = swap_c,
-val hadamard = hadamard_c,
-val phase = phase_c,
-val rz = rz_c,
-val sequence = sequence_c,
-val parallel = parallel_c,
-val ancilla = ancilla_c
-
-end
 
 

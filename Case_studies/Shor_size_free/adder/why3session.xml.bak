@@ -1,0 +1,1747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="6">
+<prover id="0" name="Alt-Ergo" version="2.4.0" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="1" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="2" name="CVC4" version="1.7" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="3" name="Z3" version="4.8.6" alternative="counterexamples" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="5" name="CVC4" version="1.7" alternative="counterexamples" timelimit="5" steplimit="0" memlimit="1000"/>
+<file format="whyml" proved="true">
+<path name=".."/><path name="adder.mlw"/>
+<theory name="Adder" proved="true">
+ <goal name="cascade_adder_&#39;vc" expl="VC for cascade_adder_" proved="true">
+ <transf name="split_goal_right" proved="true" >
+  <goal name="cascade_adder_&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.93" steps="980127"/></proof>
+  </goal>
+  <goal name="cascade_adder_&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.27" steps="980177"/></proof>
+  </goal>
+  <goal name="cascade_adder_&#39;vc.2" expl="variant decrease" proved="true">
+  <proof prover="2"><result status="valid" time="1.38" steps="915333"/></proof>
+  </goal>
+  <goal name="cascade_adder_&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.12" steps="980829"/></proof>
+  </goal>
+  <goal name="cascade_adder_&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.17" steps="980641"/></proof>
+  </goal>
+  <goal name="cascade_adder_&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.33" steps="915338"/></proof>
+  </goal>
+  <goal name="cascade_adder_&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.25" steps="1012416"/></proof>
+  </goal>
+  <goal name="cascade_adder_&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.31" steps="948675"/></proof>
+  </goal>
+  <goal name="cascade_adder_&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.26" steps="948750"/></proof>
+  </goal>
+  <goal name="cascade_adder_&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.05" steps="1240577"/></proof>
+  </goal>
+  <goal name="cascade_adder_&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.12" steps="1013552"/></proof>
+  </goal>
+  <goal name="cascade_adder_&#39;vc.11" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="cascade_adder_&#39;vc.11.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="ang_sum_cardone">
+    <goal name="cascade_adder_&#39;vc.11.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures">
+     <goal name="cascade_adder_&#39;vc.11.0.0.0" expl="postcondition" proved="true">
+     <transf name="compute_specified" proved="true" >
+      <goal name="cascade_adder_&#39;vc.11.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="1"><result status="valid" time="3.90"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="cascade_adder_&#39;vc.11.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="2"><result status="valid" time="3.34" steps="1205581"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="cascade_adder_&#39;vc.11.0.1" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.33" steps="915216"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="cascade_adder_&#39;vc.11.1" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures">
+    <goal name="cascade_adder_&#39;vc.11.1.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="ang_sum_right_extension">
+     <goal name="cascade_adder_&#39;vc.11.1.0.0" expl="postcondition" proved="true">
+     <transf name="apply" proved="true" arg1="ang_add_eq">
+      <goal name="cascade_adder_&#39;vc.11.1.0.0.0" expl="apply premises" proved="true">
+      <transf name="replace" proved="true" arg1="(step +1-1)" arg2="(step -1+1)">
+       <goal name="cascade_adder_&#39;vc.11.1.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="Ensures11">
+        <goal name="cascade_adder_&#39;vc.11.1.0.0.0.0.0" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="1.42" steps="948919"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="cascade_adder_&#39;vc.11.1.0.0.0.1" expl="equality hypothesis" proved="true">
+       <proof prover="2"><result status="valid" time="1.22" steps="948940"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="cascade_adder_&#39;vc.11.1.0.0.1" expl="apply premises" proved="true">
+      <transf name="rewrite" proved="true" arg1="Ensures12">
+       <goal name="cascade_adder_&#39;vc.11.1.0.0.1.0" expl="apply premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="cascade_adder_&#39;vc.11.1.0.0.1.0.0" expl="apply premises" proved="true">
+        <proof prover="1"><result status="valid" time="4.95"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="cascade_adder_&#39;vc.11.1.0.0.1.1" expl="rewrite premises" proved="true">
+       <proof prover="1"><result status="valid" time="4.49"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="cascade_adder_&#39;vc.11.1.0.1" expl="rewrite premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.07" steps="1012364"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="cascade_adder_&#39;vc.11.1.1" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="2.09" steps="1012273"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cascade_adder_&#39;vc.12" expl="postcondition" proved="true">
+  <transf name="split_goal_right" proved="true" >
+   <goal name="cascade_adder_&#39;vc.12.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.51" steps="1012918"/></proof>
+   </goal>
+   <goal name="cascade_adder_&#39;vc.12.1" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.50" steps="1246798"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cascade_adder_&#39;vc.13" expl="postcondition" proved="true">
+  <transf name="split_goal_right" proved="true" >
+   <goal name="cascade_adder_&#39;vc.13.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.44" steps="948552"/></proof>
+   </goal>
+   <goal name="cascade_adder_&#39;vc.13.1" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.39" steps="949585"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cascade_adder_&#39;vc.14" expl="postcondition" proved="true">
+  <transf name="split_goal_right" proved="true" >
+   <goal name="cascade_adder_&#39;vc.14.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.38" steps="948559"/></proof>
+   </goal>
+   <goal name="cascade_adder_&#39;vc.14.1" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.24" steps="1015075"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cascade_adder_&#39;vc.15" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="cascade_adder_&#39;vc.15.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.22" steps="948451"/></proof>
+   </goal>
+   <goal name="cascade_adder_&#39;vc.15.1" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.41" steps="1239488"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ket_l_apply&#39;vc" expl="VC for ket_l_apply" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ket_l_apply&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.33" steps="1202871"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="pre_adder_const_&#39;vc" expl="VC for pre_adder_const_" proved="true">
+ <transf name="split_goal_right" proved="true" >
+  <goal name="pre_adder_const_&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.22" steps="909426"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.30" steps="909411"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.40" steps="909489"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.47" steps="971066"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.47" steps="909405"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.48" steps="909453"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.6" expl="variant decrease" proved="true">
+  <proof prover="2"><result status="valid" time="1.56" steps="950174"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.58" steps="1013597"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.63" steps="1014672"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.46" steps="950693"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.45" steps="950768"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.11" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.60" steps="1241456"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.12" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.62" steps="1241358"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.13" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="pre_adder_const_&#39;vc.13.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="ang_sum_cardone">
+    <goal name="pre_adder_const_&#39;vc.13.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures4">
+     <goal name="pre_adder_const_&#39;vc.13.0.0.0" expl="postcondition" proved="true">
+     <transf name="compute_specified" proved="true" >
+      <goal name="pre_adder_const_&#39;vc.13.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="2"><result status="valid" time="3.60" steps="1237294"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="pre_adder_const_&#39;vc.13.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="2"><result status="valid" time="1.53" steps="950065"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="pre_adder_const_&#39;vc.13.0.1" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.31" steps="950086"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="pre_adder_const_&#39;vc.13.1" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="ang_sum_right_extension">
+    <goal name="pre_adder_const_&#39;vc.13.1.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures">
+     <goal name="pre_adder_const_&#39;vc.13.1.0.0" expl="postcondition" proved="true">
+     <transf name="replace" proved="true" arg1="(k+1-1)" arg2="(k-1+1)">
+      <goal name="pre_adder_const_&#39;vc.13.1.0.0.0" expl="postcondition" proved="true">
+      <transf name="apply" proved="true" arg1="ang_add_eq">
+       <goal name="pre_adder_const_&#39;vc.13.1.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="Ensures11">
+        <goal name="pre_adder_const_&#39;vc.13.1.0.0.0.0.0" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="1.26" steps="950923"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="pre_adder_const_&#39;vc.13.1.0.0.0.1" expl="apply premises" proved="true">
+       <transf name="rewrite" proved="true" arg1="Ensures16">
+        <goal name="pre_adder_const_&#39;vc.13.1.0.0.0.1.0" expl="apply premises" proved="true">
+        <transf name="compute_specified" proved="true" >
+         <goal name="pre_adder_const_&#39;vc.13.1.0.0.0.1.0.0" expl="apply premises" proved="true">
+         <transf name="apply" proved="true" arg1="ang_sum_eq_gen">
+          <goal name="pre_adder_const_&#39;vc.13.1.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.36" steps="950939"/></proof>
+          </goal>
+          <goal name="pre_adder_const_&#39;vc.13.1.0.0.0.1.0.0.1" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.41" steps="950948"/></proof>
+          </goal>
+          <goal name="pre_adder_const_&#39;vc.13.1.0.0.0.1.0.0.2" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.36" steps="950930"/></proof>
+          </goal>
+          <goal name="pre_adder_const_&#39;vc.13.1.0.0.0.1.0.0.3" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="3.61" steps="1240985"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="pre_adder_const_&#39;vc.13.1.0.0.0.1.1" expl="rewrite premises" proved="true">
+        <proof prover="2"><result status="valid" time="1.56" steps="950923"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="pre_adder_const_&#39;vc.13.1.0.0.1" expl="equality hypothesis" proved="true">
+      <proof prover="2"><result status="valid" time="1.53" steps="950944"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="pre_adder_const_&#39;vc.13.1.0.1" expl="rewrite premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.49" steps="1014238"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="pre_adder_const_&#39;vc.13.1.1" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="2.52" steps="1014299"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.14" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="pre_adder_const_&#39;vc.14.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.72" steps="1235722"/></proof>
+   </goal>
+   <goal name="pre_adder_const_&#39;vc.14.1" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.77" steps="1243865"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.15" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.54" steps="952225"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.16" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.25" steps="1017674"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.17" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.25" steps="1245807"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.18" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.57" steps="987496"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.19" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.48" steps="987902"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.20" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.43" steps="988397"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.21" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="pre_adder_const_&#39;vc.21.0" expl="postcondition" proved="true">
+   <transf name="replace" proved="true" arg1="(n-1+1)" arg2="n" arg3="in" arg4="Ensures5">
+    <goal name="pre_adder_const_&#39;vc.21.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="Ensures5">
+     <goal name="pre_adder_const_&#39;vc.21.0.0.0" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="1.45" steps="988254"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="pre_adder_const_&#39;vc.21.0.1" expl="equality hypothesis" proved="true">
+    <proof prover="2"><result status="valid" time="1.38" steps="988274"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.22" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="pre_adder_const_&#39;vc.22.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures">
+    <goal name="pre_adder_const_&#39;vc.22.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures7">
+     <goal name="pre_adder_const_&#39;vc.22.0.0.0" expl="postcondition" proved="true">
+     <proof prover="2"><result status="valid" time="1.37" steps="988553"/></proof>
+     </goal>
+     <goal name="pre_adder_const_&#39;vc.22.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="2"><result status="valid" time="1.31" steps="988555"/></proof>
+     </goal>
+     <goal name="pre_adder_const_&#39;vc.22.0.0.2" expl="rewrite premises" proved="true">
+     <proof prover="2"><result status="valid" time="1.32" steps="988555"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="pre_adder_const_&#39;vc.22.0.1" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="3.18" steps="1279816"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.23" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="pre_adder_const_&#39;vc.23.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.32" steps="1277111"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.24" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.51" steps="988995"/></proof>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.25" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="pre_adder_const_&#39;vc.25.0" expl="postcondition" proved="true">
+   <transf name="apply" proved="true" arg1="path_sem_diag_apply">
+    <goal name="pre_adder_const_&#39;vc.25.0.0" expl="apply premises" proved="true">
+    <proof prover="2"><result status="valid" time="2.48" steps="1054201"/></proof>
+    </goal>
+    <goal name="pre_adder_const_&#39;vc.25.0.1" expl="apply premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.51" steps="988815"/></proof>
+    </goal>
+    <goal name="pre_adder_const_&#39;vc.25.0.2" expl="apply premises" proved="true">
+    <proof prover="2"><result status="valid" time="3.60" steps="1284686"/></proof>
+    </goal>
+    <goal name="pre_adder_const_&#39;vc.25.0.3" expl="apply premises" proved="true">
+    <proof prover="2"><result status="valid" time="3.27" steps="1283395"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="pre_adder_const_&#39;vc.26" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="pre_adder_const_&#39;vc.26.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.39" steps="988894"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="pre_adder_const_apply&#39;vc" expl="VC for pre_adder_const_apply" proved="true">
+ <transf name="split_goal_right" proved="true" >
+  <goal name="pre_adder_const_apply&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.37" steps="910633"/></proof>
+  </goal>
+  <goal name="pre_adder_const_apply&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.24" steps="972721"/></proof>
+  </goal>
+  <goal name="pre_adder_const_apply&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.35" steps="918264"/></proof>
+  </goal>
+  <goal name="pre_adder_const_apply&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.26" steps="918271"/></proof>
+  </goal>
+  <goal name="pre_adder_const_apply&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.19" steps="1015255"/></proof>
+  </goal>
+  <goal name="pre_adder_const_apply&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="pre_adder_const_apply&#39;vc.5.0" expl="postcondition" proved="true">
+   <transf name="replace" proved="true" arg1="result" arg2="(path_sem (pre_adder_const_ n (int_to_bv j n)) (apply_qft n i))
+">
+    <goal name="pre_adder_const_apply&#39;vc.5.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="apply_qft&#39;def">
+     <goal name="pre_adder_const_apply&#39;vc.5.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="apply_qft&#39;def">
+      <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="path_sem_scal">
+       <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="rewrite" proved="true" arg1="path_sem_sum_">
+        <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.0" expl="postcondition" proved="true">
+        <transf name="apply" proved="true" arg1="scalar_eq">
+         <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="apply" proved="true" arg1="ket_sum_eq">
+          <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="2.52" steps="1014018"/></proof>
+          </goal>
+          <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.36" steps="951778"/></proof>
+          </goal>
+          <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.0.0.2" expl="apply premises" proved="true">
+          <transf name="compute_specified" proved="true" >
+           <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.0.0.2.0" expl="apply premises" proved="true">
+           <transf name="split_vc" proved="true" >
+            <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.0.0.2.0.0" expl="apply premises" proved="true">
+            <transf name="rewrite" proved="true" arg1="path_sem_scal">
+             <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.0.0.2.0.0.0" expl="apply premises" proved="true">
+             <transf name="rewrite" proved="true" arg1="Ensures3">
+              <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.0.0.2.0.0.0.0" expl="apply premises" proved="true">
+              <transf name="rewrite" proved="true" arg1="scalar_assoc">
+               <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.0.0.2.0.0.0.0.0" expl="apply premises" proved="true">
+               <transf name="rewrite" proved="true" arg1="bv_to_int_to_bv">
+                <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.0.0.2.0.0.0.0.0.0" expl="apply premises" proved="true">
+                <proof prover="1"><result status="valid" time="3.00"/></proof>
+                </goal>
+                <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.0.0.2.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                <proof prover="2"><result status="valid" time="2.56" steps="1095775"/></proof>
+                </goal>
+                <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.0.0.2.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                <proof prover="2"><result status="valid" time="1.54" steps="1031273"/></proof>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.0.0.2.0.0.0.1" expl="rewrite premises" proved="true">
+              <proof prover="2"><result status="valid" time="3.58" steps="1334714"/></proof>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.0.0.2.0.0.1" expl="rewrite premises" proved="true">
+             <proof prover="2"><result status="valid" time="3.79" steps="1337677"/></proof>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="2"><result status="valid" time="3.87" steps="1304890"/></proof>
+        </goal>
+        <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+        <proof prover="2"><result status="valid" time="1.49" steps="951787"/></proof>
+        </goal>
+        <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+        <transf name="compute_specified" proved="true" >
+         <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.0.3.0" expl="rewrite premises" proved="true">
+         <proof prover="2"><result status="valid" time="3.62" steps="1339407"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="2"><result status="valid" time="3.94" steps="1316518"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="pre_adder_const_apply&#39;vc.5.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.35" steps="951782"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="pre_adder_const_apply&#39;vc.5.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="2"><result status="valid" time="1.55" steps="951782"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="pre_adder_const_apply&#39;vc.5.0.1" expl="equality hypothesis" proved="true">
+    <proof prover="2"><result status="valid" time="1.46" steps="951778"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="pre_adder_const_apply&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.35" steps="1015795"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="pre_adder_const_add&#39;vc" expl="VC for pre_adder_const_add" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="pre_adder_const_add&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="( path_sem (pre_adder_const_ n (int_to_bv j n)) (apply_qft n i))" arg2="( pre_adder_const_apply n i j)
+">
+   <goal name="pre_adder_const_add&#39;vc.0.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.21" steps="1192527"/></proof>
+   </goal>
+   <goal name="pre_adder_const_add&#39;vc.0.1" expl="equality hypothesis" proved="true">
+   <proof prover="2"><result status="valid" time="3.19" steps="1193332"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="add_in_qft&#39;vc" expl="VC for add_in_qft" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="add_in_qft&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.76" steps="1236162"/></proof>
+  </goal>
+  <goal name="add_in_qft&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.20" steps="972097"/></proof>
+  </goal>
+  <goal name="add_in_qft&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.29" steps="1239189"/></proof>
+  </goal>
+  <goal name="add_in_qft&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.40" steps="1236168"/></proof>
+  </goal>
+  <goal name="add_in_qft&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.20" steps="972443"/></proof>
+  </goal>
+  <goal name="add_in_qft&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.28" steps="982113"/></proof>
+  </goal>
+  <goal name="add_in_qft&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.52" steps="918816"/></proof>
+  </goal>
+  <goal name="add_in_qft&#39;vc.7" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.47" steps="952412"/></proof>
+  </goal>
+  <goal name="add_in_qft&#39;vc.8" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="add_in_qft&#39;vc.8.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result&#39;def">
+    <goal name="add_in_qft&#39;vc.8.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures10">
+     <goal name="add_in_qft&#39;vc.8.0.0.0" expl="postcondition" proved="true">
+     <transf name="apply" proved="true" arg1="apply_qft_equiv">
+      <goal name="add_in_qft&#39;vc.8.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.31" steps="1016577"/></proof>
+      </goal>
+      <goal name="add_in_qft&#39;vc.8.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="3"><result status="valid" time="0.60" steps="3002885"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="add_in_qft&#39;vc.9" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.52" steps="952465"/></proof>
+  </goal>
+  <goal name="add_in_qft&#39;vc.10" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.45" steps="952468"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="place_add_in_qft&#39;vc" expl="VC for place_add_in_qft" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="place_add_in_qft&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.31" steps="911564"/></proof>
+  </goal>
+  <goal name="place_add_in_qft&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.37" steps="911666"/></proof>
+  </goal>
+  <goal name="place_add_in_qft&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.33" steps="973453"/></proof>
+  </goal>
+  <goal name="place_add_in_qft&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.24" steps="919399"/></proof>
+  </goal>
+  <goal name="place_add_in_qft&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="2.17"/></proof>
+  </goal>
+  <goal name="place_add_in_qft&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.43" steps="919530"/></proof>
+  </goal>
+  <goal name="place_add_in_qft&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.48" steps="934396"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="place_substract_in_qft&#39;vc" expl="VC for place_substract_in_qft" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="place_substract_in_qft&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.18" steps="912059"/></proof>
+  </goal>
+  <goal name="place_substract_in_qft&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.24" steps="912065"/></proof>
+  </goal>
+  <goal name="place_substract_in_qft&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.32" steps="974300"/></proof>
+  </goal>
+  <goal name="place_substract_in_qft&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.16" steps="1001562"/></proof>
+  </goal>
+  <goal name="place_substract_in_qft&#39;vc.4" expl="postcondition" proved="true">
+  <transf name="split_all_full" proved="true" >
+   <goal name="place_substract_in_qft&#39;vc.4.0" expl="postcondition" proved="true">
+   <transf name="apply" proved="true" arg1="reverse&#39;spec">
+    <goal name="place_substract_in_qft&#39;vc.4.0.0" expl="apply premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.50" steps="1214266"/></proof>
+    </goal>
+    <goal name="place_substract_in_qft&#39;vc.4.0.1" expl="apply premises" proved="true">
+    <proof prover="0"><result status="valid" time="7.34" steps="274666"/></proof>
+    </goal>
+    <goal name="place_substract_in_qft&#39;vc.4.0.2" expl="apply premises" proved="true">
+    <proof prover="0"><result status="valid" time="7.25" steps="274726"/></proof>
+    </goal>
+    <goal name="place_substract_in_qft&#39;vc.4.0.3" expl="apply premises" proved="true">
+    <transf name="eliminate_definition" proved="true" >
+     <goal name="place_substract_in_qft&#39;vc.4.0.3.0" expl="apply premises" proved="true">
+     <transf name="rewrite" proved="true" arg1="result&#39;def">
+      <goal name="place_substract_in_qft&#39;vc.4.0.3.0.0" expl="apply premises" proved="true">
+      <transf name="rewrite" proved="true" arg1="path_sem_reverse_invol">
+       <goal name="place_substract_in_qft&#39;vc.4.0.3.0.0.0" expl="apply premises" proved="true">
+       <proof prover="2"><result status="valid" time="3.97" steps="1473538"/></proof>
+       </goal>
+       <goal name="place_substract_in_qft&#39;vc.4.0.3.0.0.1" expl="rewrite premises" proved="true">
+       <transf name="apply" proved="true" arg1="ket_l_apply" arg2="with" arg3="n">
+        <goal name="place_substract_in_qft&#39;vc.4.0.3.0.0.1.0" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="3.72" steps="1471351"/></proof>
+        </goal>
+        <goal name="place_substract_in_qft&#39;vc.4.0.3.0.0.1.1" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="1.85" steps="1213908"/></proof>
+        </goal>
+        <goal name="place_substract_in_qft&#39;vc.4.0.3.0.0.1.2" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="3.76" steps="1472213"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="place_substract_in_qft&#39;vc.4.0.3.0.0.2" expl="rewrite premises" proved="true">
+       <proof prover="2"><result status="valid" time="3.04" steps="1287080"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="place_substract_in_qft&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.15" steps="912555"/></proof>
+  </goal>
+  <goal name="place_substract_in_qft&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.22" steps="974674"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="place_add_in_comput_basis&#39;vc" expl="VC for place_add_in_comput_basis" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="place_add_in_comput_basis&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.32" steps="1236859"/></proof>
+  </goal>
+  <goal name="place_add_in_comput_basis&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.37" steps="920005"/></proof>
+  </goal>
+  <goal name="place_add_in_comput_basis&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.36" steps="919998"/></proof>
+  </goal>
+  <goal name="place_add_in_comput_basis&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.26" steps="982894"/></proof>
+  </goal>
+  <goal name="place_add_in_comput_basis&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.35" steps="920210"/></proof>
+  </goal>
+  <goal name="place_add_in_comput_basis&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.29" steps="920208"/></proof>
+  </goal>
+  <goal name="place_add_in_comput_basis&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.13" steps="1210187"/></proof>
+  </goal>
+  <goal name="place_add_in_comput_basis&#39;vc.7" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.32" steps="921246"/></proof>
+  </goal>
+  <goal name="place_add_in_comput_basis&#39;vc.8" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="(kronecker (ket (n + 1) (mod1 (b + added) (power 2 (n + 1)))) z)" arg2="(kronecker
+     (ket (n + 1) ((fun (i1:int) -&gt; mod1 (i1 + added) (power 2 (n + 1))) @ b))
+     z)
+">
+   <goal name="place_add_in_comput_basis&#39;vc.8.0" expl="postcondition" proved="true">
+   <transf name="apply" proved="true" arg1="Ensures2">
+    <goal name="place_add_in_comput_basis&#39;vc.8.0.0" expl="apply premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.27" steps="921295"/></proof>
+    </goal>
+    <goal name="place_add_in_comput_basis&#39;vc.8.0.1" expl="apply premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.29" steps="921293"/></proof>
+    </goal>
+    <goal name="place_add_in_comput_basis&#39;vc.8.0.2" expl="apply premises" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures9">
+     <goal name="place_add_in_comput_basis&#39;vc.8.0.2.0" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="3.25" steps="1219051"/></proof>
+     </goal>
+     <goal name="place_add_in_comput_basis&#39;vc.8.0.2.1" expl="rewrite premises" proved="true">
+     <proof prover="2"><result status="valid" time="1.31" steps="921286"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="place_add_in_comput_basis&#39;vc.8.1" expl="equality hypothesis" proved="true">
+   <proof prover="2"><result status="valid" time="3.26" steps="1215325"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="place_add_in_comput_basis&#39;vc.9" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.25" steps="921468"/></proof>
+  </goal>
+  <goal name="place_add_in_comput_basis&#39;vc.10" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.28" steps="936484"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="place_substract_in_comput_basis&#39;vc" expl="VC for place_substract_in_comput_basis" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="place_substract_in_comput_basis&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.30" steps="913387"/></proof>
+  </goal>
+  <goal name="place_substract_in_comput_basis&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.35" steps="913406"/></proof>
+  </goal>
+  <goal name="place_substract_in_comput_basis&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.30" steps="913709"/></proof>
+  </goal>
+  <goal name="place_substract_in_comput_basis&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="6.96" steps="258401"/></proof>
+  </goal>
+  <goal name="place_substract_in_comput_basis&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.62" steps="913917"/></proof>
+  </goal>
+  <goal name="place_substract_in_comput_basis&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.47" steps="913920"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="cont_add_in_qft&#39;vc" expl="VC for cont_add_in_qft" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="cont_add_in_qft&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.22" steps="914062"/></proof>
+  </goal>
+  <goal name="cont_add_in_qft&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.44" steps="1003728"/></proof>
+  </goal>
+  <goal name="cont_add_in_qft&#39;vc.2" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="Ensures1">
+   <goal name="cont_add_in_qft&#39;vc.2.0" expl="apply premises" proved="true">
+   <proof prover="1"><result status="valid" time="2.05"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cont_add_in_qft&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.09" steps="1203479"/></proof>
+  </goal>
+  <goal name="cont_add_in_qft&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.25" steps="914556"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="check_first_bit_is_one&#39;vc" expl="VC for check_first_bit_is_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="check_first_bit_is_one&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.92" steps="975560"/></proof>
+  </goal>
+  <goal name="check_first_bit_is_one&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.12" steps="984350"/></proof>
+  </goal>
+  <goal name="check_first_bit_is_one&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.34" steps="922373"/></proof>
+  </goal>
+  <goal name="check_first_bit_is_one&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.21" steps="984532"/></proof>
+  </goal>
+  <goal name="check_first_bit_is_one&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.31" steps="922769"/></proof>
+  </goal>
+  <goal name="check_first_bit_is_one&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="check_first_bit_is_one&#39;vc.5.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result&#39;def">
+    <goal name="check_first_bit_is_one&#39;vc.5.0.0" expl="postcondition" proved="true">
+    <transf name="replace" proved="true" arg1="((n + 2) - 1)" arg2="(n+1)" arg3="in" arg4="Ensures9">
+     <goal name="check_first_bit_is_one&#39;vc.5.0.0.0" expl="postcondition" proved="true">
+     <transf name="apply" proved="true" arg1="Ensures9">
+      <goal name="check_first_bit_is_one&#39;vc.5.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.31" steps="1147041"/></proof>
+      </goal>
+      <goal name="check_first_bit_is_one&#39;vc.5.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="1"><result status="valid" time="6.60"/></proof>
+      </goal>
+      <goal name="check_first_bit_is_one&#39;vc.5.0.0.0.2" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.41" steps="922739"/></proof>
+      </goal>
+      <goal name="check_first_bit_is_one&#39;vc.5.0.0.0.3" expl="apply premises" proved="true">
+      <transf name="rewrite" proved="true" arg1="ket_to_bv_ket">
+       <goal name="check_first_bit_is_one&#39;vc.5.0.0.0.3.0" expl="apply premises" proved="true">
+       <proof prover="1"><result status="valid" time="6.68"/></proof>
+       </goal>
+       <goal name="check_first_bit_is_one&#39;vc.5.0.0.0.3.1" expl="rewrite premises" proved="true">
+       <proof prover="2"><result status="valid" time="2.42" steps="985057"/></proof>
+       </goal>
+       <goal name="check_first_bit_is_one&#39;vc.5.0.0.0.3.2" expl="rewrite premises" proved="true">
+       <proof prover="2"><result status="valid" time="2.92" steps="1148939"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="check_first_bit_is_one&#39;vc.5.0.0.1" expl="equality hypothesis" proved="true">
+     <proof prover="2"><result status="valid" time="1.40" steps="922723"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_first_bit_is_one&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="check_first_bit_is_one&#39;vc.6.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result&#39;def">
+    <goal name="check_first_bit_is_one&#39;vc.6.0.0" expl="postcondition" proved="true">
+    <transf name="replace" proved="true" arg1="((n + 2) - 1)" arg2="(n+1)" arg3="in" arg4="Ensures11">
+     <goal name="check_first_bit_is_one&#39;vc.6.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures11">
+      <goal name="check_first_bit_is_one&#39;vc.6.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="2"><result status="valid" time="1.21" steps="922889"/></proof>
+      </goal>
+      <goal name="check_first_bit_is_one&#39;vc.6.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.37" steps="1149275"/></proof>
+      </goal>
+      <goal name="check_first_bit_is_one&#39;vc.6.0.0.0.2" expl="rewrite premises" proved="true">
+      <proof prover="1"><result status="valid" time="5.88"/></proof>
+      </goal>
+      <goal name="check_first_bit_is_one&#39;vc.6.0.0.0.3" expl="rewrite premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.45" steps="922870"/></proof>
+      </goal>
+      <goal name="check_first_bit_is_one&#39;vc.6.0.0.0.4" expl="rewrite premises" proved="true">
+      <transf name="rewrite" proved="true" arg1="ket_to_bv_ket">
+       <goal name="check_first_bit_is_one&#39;vc.6.0.0.0.4.0" expl="rewrite premises" proved="true">
+       <proof prover="1"><result status="valid" time="7.00"/></proof>
+       </goal>
+       <goal name="check_first_bit_is_one&#39;vc.6.0.0.0.4.1" expl="rewrite premises" proved="true">
+       <proof prover="2"><result status="valid" time="2.40" steps="985206"/></proof>
+       </goal>
+       <goal name="check_first_bit_is_one&#39;vc.6.0.0.0.4.2" expl="rewrite premises" proved="true">
+       <proof prover="2"><result status="valid" time="3.24" steps="1150167"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="check_first_bit_is_one&#39;vc.6.0.0.1" expl="equality hypothesis" proved="true">
+     <proof prover="2"><result status="valid" time="1.17" steps="922854"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_first_bit_is_one&#39;vc.7" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.42" steps="923052"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="uncheck_first_bit_is_zero&#39;vc" expl="VC for uncheck_first_bit_is_zero" proved="true">
+ <transf name="split_goal_right" proved="true" >
+  <goal name="uncheck_first_bit_is_zero&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.16" steps="976993"/></proof>
+  </goal>
+  <goal name="uncheck_first_bit_is_zero&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.21" steps="986001"/></proof>
+  </goal>
+  <goal name="uncheck_first_bit_is_zero&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.50" steps="923254"/></proof>
+  </goal>
+  <goal name="uncheck_first_bit_is_zero&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.49" steps="923531"/></proof>
+  </goal>
+  <goal name="uncheck_first_bit_is_zero&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.43" steps="923809"/></proof>
+  </goal>
+  <goal name="uncheck_first_bit_is_zero&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.36" steps="1209442"/></proof>
+  </goal>
+  <goal name="uncheck_first_bit_is_zero&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.32" steps="1212027"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="check_first_bit_is_one_from_qft&#39;vc" expl="VC for check_first_bit_is_one_from_qft" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="check_first_bit_is_one_from_qft&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.45" steps="915755"/></proof>
+  </goal>
+  <goal name="check_first_bit_is_one_from_qft&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.09" steps="977092"/></proof>
+  </goal>
+  <goal name="check_first_bit_is_one_from_qft&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.23" steps="916114"/></proof>
+  </goal>
+  <goal name="check_first_bit_is_one_from_qft&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.31" steps="916134"/></proof>
+  </goal>
+  <goal name="check_first_bit_is_one_from_qft&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.31" steps="916424"/></proof>
+  </goal>
+  <goal name="check_first_bit_is_one_from_qft&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="Ensures1">
+   <goal name="check_first_bit_is_one_from_qft&#39;vc.5.0" expl="apply premises" proved="true">
+   <proof prover="2"><result status="valid" time="3.05" steps="1205797"/></proof>
+   </goal>
+   <goal name="check_first_bit_is_one_from_qft&#39;vc.5.1" expl="apply premises" proved="true">
+   <proof prover="2"><result status="valid" time="1.26" steps="916453"/></proof>
+   </goal>
+   <goal name="check_first_bit_is_one_from_qft&#39;vc.5.2" expl="apply premises" proved="true">
+   <proof prover="2"><result status="valid" time="1.28" steps="916453"/></proof>
+   </goal>
+   <goal name="check_first_bit_is_one_from_qft&#39;vc.5.3" expl="apply premises" proved="true">
+   <proof prover="2"><result status="valid" time="3.51" steps="1201349"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_first_bit_is_one_from_qft&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="Ensures2">
+   <goal name="check_first_bit_is_one_from_qft&#39;vc.6.0" expl="apply premises" proved="true">
+   <proof prover="2"><result status="valid" time="3.59" steps="1216064"/></proof>
+   </goal>
+   <goal name="check_first_bit_is_one_from_qft&#39;vc.6.1" expl="apply premises" proved="true">
+   <proof prover="2"><result status="valid" time="1.41" steps="916568"/></proof>
+   </goal>
+   <goal name="check_first_bit_is_one_from_qft&#39;vc.6.2" expl="apply premises" proved="true">
+   <proof prover="2"><result status="valid" time="1.44" steps="916568"/></proof>
+   </goal>
+   <goal name="check_first_bit_is_one_from_qft&#39;vc.6.3" expl="apply premises" proved="true">
+   <proof prover="2"><result status="valid" time="3.26" steps="1206633"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="uncheck_first_bit_is_zero_from_qft&#39;vc" expl="VC for uncheck_first_bit_is_zero_from_qft" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="uncheck_first_bit_is_zero_from_qft&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.23" steps="916330"/></proof>
+  </goal>
+  <goal name="uncheck_first_bit_is_zero_from_qft&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.32" steps="977648"/></proof>
+  </goal>
+  <goal name="uncheck_first_bit_is_zero_from_qft&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.23" steps="916674"/></proof>
+  </goal>
+  <goal name="uncheck_first_bit_is_zero_from_qft&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.25" steps="916694"/></proof>
+  </goal>
+  <goal name="uncheck_first_bit_is_zero_from_qft&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.45" steps="916988"/></proof>
+  </goal>
+  <goal name="uncheck_first_bit_is_zero_from_qft&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="Ensures1">
+   <goal name="uncheck_first_bit_is_zero_from_qft&#39;vc.5.0" expl="apply premises" proved="true">
+   <proof prover="2"><result status="valid" time="3.48" steps="1206244"/></proof>
+   </goal>
+   <goal name="uncheck_first_bit_is_zero_from_qft&#39;vc.5.1" expl="apply premises" proved="true">
+   <proof prover="2"><result status="valid" time="1.48" steps="917017"/></proof>
+   </goal>
+   <goal name="uncheck_first_bit_is_zero_from_qft&#39;vc.5.2" expl="apply premises" proved="true">
+   <proof prover="2"><result status="valid" time="1.43" steps="917017"/></proof>
+   </goal>
+   <goal name="uncheck_first_bit_is_zero_from_qft&#39;vc.5.3" expl="apply premises" proved="true">
+   <proof prover="2"><result status="valid" time="3.51" steps="1202746"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="uncheck_first_bit_is_zero_from_qft&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="Ensures2">
+   <goal name="uncheck_first_bit_is_zero_from_qft&#39;vc.6.0" expl="apply premises" proved="true">
+   <proof prover="2"><result status="valid" time="3.58" steps="1216446"/></proof>
+   </goal>
+   <goal name="uncheck_first_bit_is_zero_from_qft&#39;vc.6.1" expl="apply premises" proved="true">
+   <proof prover="2"><result status="valid" time="1.22" steps="917143"/></proof>
+   </goal>
+   <goal name="uncheck_first_bit_is_zero_from_qft&#39;vc.6.2" expl="apply premises" proved="true">
+   <proof prover="2"><result status="valid" time="1.18" steps="917143"/></proof>
+   </goal>
+   <goal name="uncheck_first_bit_is_zero_from_qft&#39;vc.6.3" expl="apply premises" proved="true">
+   <proof prover="2"><result status="valid" time="3.43" steps="1205595"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="substract_and_check&#39;vc" expl="VC for substract_and_check" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="substract_and_check&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.48" steps="916951"/></proof>
+  </goal>
+  <goal name="substract_and_check&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.26" steps="917268"/></proof>
+  </goal>
+  <goal name="substract_and_check&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.22" steps="917274"/></proof>
+  </goal>
+  <goal name="substract_and_check&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.50" steps="979342"/></proof>
+  </goal>
+  <goal name="substract_and_check&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.50" steps="1096916"/></proof>
+  </goal>
+  <goal name="substract_and_check&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="substract_and_check&#39;vc.5.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result&#39;def">
+    <goal name="substract_and_check&#39;vc.5.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="path_sem_comp" arg2="with" arg3="(kronecker (apply_qft (n + 1) (value-bound)) (ket 1 0))">
+     <goal name="substract_and_check&#39;vc.5.0.0.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="ket_l_apply" arg2="with" arg3="n">
+      <goal name="substract_and_check&#39;vc.5.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.60" steps="1235095"/></proof>
+      </goal>
+      <goal name="substract_and_check&#39;vc.5.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.79" steps="1085174"/></proof>
+      </goal>
+      <goal name="substract_and_check&#39;vc.5.0.0.0.2" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.56" steps="1005354"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="substract_and_check&#39;vc.5.0.0.1" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="3.77" steps="1236138"/></proof>
+     </goal>
+     <goal name="substract_and_check&#39;vc.5.0.0.2" expl="apply premises" proved="true">
+     <transf name="replace" proved="true" arg1="(apply_qft (n + 1) (value - bound))" arg2="(apply_qft (n + 1) (mod1 (value - bound)(power 2 (n+1))))">
+      <goal name="substract_and_check&#39;vc.5.0.0.2.0" expl="apply premises" proved="true">
+      <transf name="apply" proved="true" arg1="Ensures12">
+       <goal name="substract_and_check&#39;vc.5.0.0.2.0.0" expl="apply premises" proved="true">
+       <transf name="split_all_full" proved="true" >
+        <goal name="substract_and_check&#39;vc.5.0.0.2.0.0.0" proved="true">
+        <transf name="replace" proved="true" arg1="(mod1 (value - bound) (power 2 (n + 1)))" arg2="((power 2 (n + 1) + value) - bound)">
+         <goal name="substract_and_check&#39;vc.5.0.0.2.0.0.0.0" proved="true">
+         <transf name="instantiate" proved="true" arg1="unicity_div_mod" arg2="(value-bound),(power 2 (n+1)),(-1),(power 2 (n+1) + value -bound)">
+          <goal name="substract_and_check&#39;vc.5.0.0.2.0.0.0.0.0" proved="true">
+          <proof prover="1"><result status="valid" time="7.73"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="substract_and_check&#39;vc.5.0.0.2.0.0.0.1" expl="equality hypothesis" proved="true">
+         <proof prover="1"><result status="valid" time="7.47"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="substract_and_check&#39;vc.5.0.0.2.0.0.1" proved="true">
+        <proof prover="2"><result status="valid" time="5.12" steps="1631251"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="substract_and_check&#39;vc.5.0.0.2.1" expl="equality hypothesis" proved="true">
+      <proof prover="2"><result status="valid" time="3.62" steps="1239310"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="substract_and_check&#39;vc.5.0.0.3" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.55" steps="1069731"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="substract_and_check&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="substract_and_check&#39;vc.6.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result&#39;def">
+    <goal name="substract_and_check&#39;vc.6.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="path_sem_comp" arg2="with" arg3="(kronecker (apply_qft (n + 1) (value-bound)) (ket 1 0))">
+     <goal name="substract_and_check&#39;vc.6.0.0.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="ket_l_apply" arg2="with" arg3="n">
+      <goal name="substract_and_check&#39;vc.6.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.80" steps="1235357"/></proof>
+      </goal>
+      <goal name="substract_and_check&#39;vc.6.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.85" steps="1085347"/></proof>
+      </goal>
+      <goal name="substract_and_check&#39;vc.6.0.0.0.2" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.60" steps="1005533"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="substract_and_check&#39;vc.6.0.0.1" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="3.45" steps="1236393"/></proof>
+     </goal>
+     <goal name="substract_and_check&#39;vc.6.0.0.2" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="3.41" steps="1236678"/></proof>
+     </goal>
+     <goal name="substract_and_check&#39;vc.6.0.0.3" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.74" steps="1069905"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="reduces_to_modulo_pre&#39;vc" expl="VC for reduces_to_modulo_pre" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="reduces_to_modulo_pre&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.51" steps="917816"/></proof>
+  </goal>
+  <goal name="reduces_to_modulo_pre&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.75" steps="1203560"/></proof>
+  </goal>
+  <goal name="reduces_to_modulo_pre&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.56" steps="917962"/></proof>
+  </goal>
+  <goal name="reduces_to_modulo_pre&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.25" steps="917975"/></proof>
+  </goal>
+  <goal name="reduces_to_modulo_pre&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.41" steps="980267"/></proof>
+  </goal>
+  <goal name="reduces_to_modulo_pre&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.89" steps="1097821"/></proof>
+  </goal>
+  <goal name="reduces_to_modulo_pre&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="reduces_to_modulo_pre&#39;vc.6.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result&#39;def">
+    <goal name="reduces_to_modulo_pre&#39;vc.6.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="path_sem_comp" arg2="with" arg3="((kronecker (apply_qft (n+1) ( (value- bound)  )) (ket 1 1)))">
+     <goal name="reduces_to_modulo_pre&#39;vc.6.0.0.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="ket_l_apply" arg2="with" arg3="n">
+      <goal name="reduces_to_modulo_pre&#39;vc.6.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.71" steps="1235952"/></proof>
+      </goal>
+      <goal name="reduces_to_modulo_pre&#39;vc.6.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.86" steps="1085765"/></proof>
+      </goal>
+      <goal name="reduces_to_modulo_pre&#39;vc.6.0.0.0.2" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.65" steps="1006229"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="reduces_to_modulo_pre&#39;vc.6.0.0.1" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="3.71" steps="1236866"/></proof>
+     </goal>
+     <goal name="reduces_to_modulo_pre&#39;vc.6.0.0.2" expl="apply premises" proved="true">
+     <proof prover="1"><result status="valid" time="6.17"/></proof>
+     </goal>
+     <goal name="reduces_to_modulo_pre&#39;vc.6.0.0.3" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.88" steps="1070322"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="reduces_to_modulo_pre&#39;vc.7" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="reduces_to_modulo_pre&#39;vc.7.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result&#39;def">
+    <goal name="reduces_to_modulo_pre&#39;vc.7.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="path_sem_comp" arg2="with" arg3="((kronecker (apply_qft (n+1) ( (value- bound)  )) (ket 1 0)))">
+     <goal name="reduces_to_modulo_pre&#39;vc.7.0.0.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="ket_l_apply" arg2="with" arg3="n">
+      <goal name="reduces_to_modulo_pre&#39;vc.7.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.85" steps="1236250"/></proof>
+      </goal>
+      <goal name="reduces_to_modulo_pre&#39;vc.7.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.99" steps="1085881"/></proof>
+      </goal>
+      <goal name="reduces_to_modulo_pre&#39;vc.7.0.0.0.2" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.67" steps="1006413"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="reduces_to_modulo_pre&#39;vc.7.0.0.1" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="3.80" steps="1237517"/></proof>
+     </goal>
+     <goal name="reduces_to_modulo_pre&#39;vc.7.0.0.2" expl="apply premises" proved="true">
+     <transf name="replace" proved="true" arg1="(mod1 value bound)" arg2="(value - bound)">
+      <goal name="reduces_to_modulo_pre&#39;vc.7.0.0.2.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.83" steps="1070890"/></proof>
+      </goal>
+      <goal name="reduces_to_modulo_pre&#39;vc.7.0.0.2.1" expl="equality hypothesis" proved="true">
+      <transf name="apply" proved="true" arg1="goal_comm">
+       <goal name="reduces_to_modulo_pre&#39;vc.7.0.0.2.1.0" expl="apply premises" proved="true">
+       <transf name="instantiate" proved="true" arg1="unicity_div_mod" arg2="value,bound,1,(value-bound)">
+        <goal name="reduces_to_modulo_pre&#39;vc.7.0.0.2.1.0.0" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="2.66" steps="1070806"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="reduces_to_modulo_pre&#39;vc.7.0.0.3" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.75" steps="1070448"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="add_modulo_pre&#39;vc" expl="VC for add_modulo_pre" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="add_modulo_pre&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.35" steps="918765"/></proof>
+  </goal>
+  <goal name="add_modulo_pre&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.30" steps="918778"/></proof>
+  </goal>
+  <goal name="add_modulo_pre&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.34" steps="919173"/></proof>
+  </goal>
+  <goal name="add_modulo_pre&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.35" steps="919179"/></proof>
+  </goal>
+  <goal name="add_modulo_pre&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.76" steps="981554"/></proof>
+  </goal>
+  <goal name="add_modulo_pre&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.14" steps="1098926"/></proof>
+  </goal>
+  <goal name="add_modulo_pre&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="add_modulo_pre&#39;vc.6.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result&#39;def">
+    <goal name="add_modulo_pre&#39;vc.6.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="path_sem_comp" arg2="with" arg3="( kronecker (apply_qft (n + 1) (mod1 (added + value) bound)) (ket 1 0))">
+     <goal name="add_modulo_pre&#39;vc.6.0.0.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="ket_l_apply" arg2="with" arg3="n">
+      <goal name="add_modulo_pre&#39;vc.6.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="4.08" steps="1237101"/></proof>
+      </goal>
+      <goal name="add_modulo_pre&#39;vc.6.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.11" steps="1086442"/></proof>
+      </goal>
+      <goal name="add_modulo_pre&#39;vc.6.0.0.0.2" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.81" steps="1007262"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="add_modulo_pre&#39;vc.6.0.0.1" expl="apply premises" proved="true">
+     <transf name="rewrite" proved="true" arg1="mod_inf">
+      <goal name="add_modulo_pre&#39;vc.6.0.0.1.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="4.07" steps="1238313"/></proof>
+      </goal>
+      <goal name="add_modulo_pre&#39;vc.6.0.0.1.1" expl="rewrite premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.89" steps="1071003"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="add_modulo_pre&#39;vc.6.0.0.2" expl="apply premises" proved="true">
+     <proof prover="1"><result status="valid" time="5.81"/></proof>
+     </goal>
+     <goal name="add_modulo_pre&#39;vc.6.0.0.3" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="3.08" steps="1071024"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="add_modulo_pre&#39;vc.7" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="add_modulo_pre&#39;vc.7.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result&#39;def">
+    <goal name="add_modulo_pre&#39;vc.7.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="path_sem_comp" arg2="with" arg3="(kronecker (apply_qft (n + 1) (added +value)) (ket 1 0))">
+     <goal name="add_modulo_pre&#39;vc.7.0.0.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="ket_l_apply" arg2="with" arg3="n">
+      <goal name="add_modulo_pre&#39;vc.7.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="4.18" steps="1239290"/></proof>
+      </goal>
+      <goal name="add_modulo_pre&#39;vc.7.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.27" steps="1086678"/></proof>
+      </goal>
+      <goal name="add_modulo_pre&#39;vc.7.0.0.0.2" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.85" steps="1007457"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="add_modulo_pre&#39;vc.7.0.0.1" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="4.20" steps="1240462"/></proof>
+     </goal>
+     <goal name="add_modulo_pre&#39;vc.7.0.0.2" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="4.16" steps="1243852"/></proof>
+     </goal>
+     <goal name="add_modulo_pre&#39;vc.7.0.0.3" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.94" steps="1071260"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="substract_and_uncheck&#39;vc" expl="VC for substract_and_uncheck" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="substract_and_uncheck&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.64" steps="919812"/></proof>
+  </goal>
+  <goal name="substract_and_uncheck&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.39" steps="920129"/></proof>
+  </goal>
+  <goal name="substract_and_uncheck&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.67" steps="920135"/></proof>
+  </goal>
+  <goal name="substract_and_uncheck&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.68" steps="985769"/></proof>
+  </goal>
+  <goal name="substract_and_uncheck&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.11" steps="1100036"/></proof>
+  </goal>
+  <goal name="substract_and_uncheck&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="substract_and_uncheck&#39;vc.5.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result&#39;def">
+    <goal name="substract_and_uncheck&#39;vc.5.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="path_sem_comp" arg2="with" arg3="( kronecker (apply_qft (n + 1) (value - substracted)) (ket 1 0))">
+     <goal name="substract_and_uncheck&#39;vc.5.0.0.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="ket_l_apply" arg2="with" arg3="n">
+      <goal name="substract_and_uncheck&#39;vc.5.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="4.02" steps="1235891"/></proof>
+      </goal>
+      <goal name="substract_and_uncheck&#39;vc.5.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.12" steps="1087373"/></proof>
+      </goal>
+      <goal name="substract_and_uncheck&#39;vc.5.0.0.0.2" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.79" steps="1008235"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="substract_and_uncheck&#39;vc.5.0.0.1" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="3.90" steps="1236881"/></proof>
+     </goal>
+     <goal name="substract_and_uncheck&#39;vc.5.0.0.2" expl="apply premises" proved="true">
+     <transf name="replace" proved="true" arg1="(apply_qft (n + 1) ( (value - substracted)))" arg2="(apply_qft (n + 1) (mod1 (value - substracted) (power 2 (n+1))))">
+      <goal name="substract_and_uncheck&#39;vc.5.0.0.2.0" expl="apply premises" proved="true">
+      <transf name="apply" proved="true" arg1="Ensures12">
+       <goal name="substract_and_uncheck&#39;vc.5.0.0.2.0.0" expl="apply premises" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="substract_and_uncheck&#39;vc.5.0.0.2.0.0.0" expl="apply premises" proved="true">
+        <transf name="replace" proved="true" arg1="(mod1 (value - substracted) (power 2 (n + 1)))" arg2="( (power 2 (n + 1) + (value - substracted)) )">
+         <goal name="substract_and_uncheck&#39;vc.5.0.0.2.0.0.0.0" expl="apply premises" proved="true">
+         <proof prover="5"><result status="valid" time="4.07" steps="1249101"/></proof>
+         </goal>
+         <goal name="substract_and_uncheck&#39;vc.5.0.0.2.0.0.0.1" expl="equality hypothesis" proved="true">
+         <transf name="instantiate" proved="true" arg1="unicity_div_mod" arg2="(value - substracted),(power 2 (n + 1)),(-1),(power 2 (n + 1) + (value - substracted))">
+          <goal name="substract_and_uncheck&#39;vc.5.0.0.2.0.0.0.1.0" expl="equality hypothesis" proved="true">
+          <proof prover="2"><result status="valid" time="4.01" steps="1239516"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="substract_and_uncheck&#39;vc.5.0.0.2.0.0.1" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="3.83" steps="1238994"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="substract_and_uncheck&#39;vc.5.0.0.2.1" expl="equality hypothesis" proved="true">
+      <proof prover="2"><result status="valid" time="4.08" steps="1239398"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="substract_and_uncheck&#39;vc.5.0.0.3" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="3.28" steps="1071955"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="substract_and_uncheck&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="substract_and_uncheck&#39;vc.6.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result&#39;def">
+    <goal name="substract_and_uncheck&#39;vc.6.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="path_sem_comp" arg2="with" arg3="( kronecker
+  (apply_qft (n + 1)  (value - substracted) )
+  (ket 1 1))">
+     <goal name="substract_and_uncheck&#39;vc.6.0.0.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="ket_l_apply" arg2="with" arg3="n">
+      <goal name="substract_and_uncheck&#39;vc.6.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="4.60" steps="1236126"/></proof>
+      </goal>
+      <goal name="substract_and_uncheck&#39;vc.6.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.49" steps="1087586"/></proof>
+      </goal>
+      <goal name="substract_and_uncheck&#39;vc.6.0.0.0.2" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.37" steps="1008396"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="substract_and_uncheck&#39;vc.6.0.0.1" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="5.09" steps="1237217"/></proof>
+     </goal>
+     <goal name="substract_and_uncheck&#39;vc.6.0.0.2" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="4.54" steps="1238269"/></proof>
+     </goal>
+     <goal name="substract_and_uncheck&#39;vc.6.0.0.3" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="3.37" steps="1072168"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="uncheck_modulo&#39;vc" expl="VC for uncheck_modulo" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="uncheck_modulo&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.86" steps="920598"/></proof>
+  </goal>
+  <goal name="uncheck_modulo&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.23" steps="920604"/></proof>
+  </goal>
+  <goal name="uncheck_modulo&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.76" steps="920778"/></proof>
+  </goal>
+  <goal name="uncheck_modulo&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.88" steps="920791"/></proof>
+  </goal>
+  <goal name="uncheck_modulo&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.69" steps="986387"/></proof>
+  </goal>
+  <goal name="uncheck_modulo&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.52" steps="1100982"/></proof>
+  </goal>
+  <goal name="uncheck_modulo&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="uncheck_modulo&#39;vc.6.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result&#39;def">
+    <goal name="uncheck_modulo&#39;vc.6.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="path_sem_comp" arg2="with" arg3="( kronecker
+  (apply_qft (n + 1)  (value - substracted) )
+  (ket 1 0))">
+     <goal name="uncheck_modulo&#39;vc.6.0.0.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="ket_l_apply" arg2="with" arg3="n">
+      <goal name="uncheck_modulo&#39;vc.6.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="4.61" steps="1236464"/></proof>
+      </goal>
+      <goal name="uncheck_modulo&#39;vc.6.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.61" steps="1088239"/></proof>
+      </goal>
+      <goal name="uncheck_modulo&#39;vc.6.0.0.0.2" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.71" steps="1009057"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="uncheck_modulo&#39;vc.6.0.0.1" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="4.66" steps="1237698"/></proof>
+     </goal>
+     <goal name="uncheck_modulo&#39;vc.6.0.0.2" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="4.69" steps="1237725"/></proof>
+     </goal>
+     <goal name="uncheck_modulo&#39;vc.6.0.0.3" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="3.42" steps="1072821"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="uncheck_modulo&#39;vc.7" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="uncheck_modulo&#39;vc.7.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result&#39;def">
+    <goal name="uncheck_modulo&#39;vc.7.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="path_sem_comp" arg2="with" arg3="( kronecker
+  (apply_qft (n + 1)  (value - substracted) )
+  (ket 1 0))">
+     <goal name="uncheck_modulo&#39;vc.7.0.0.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="ket_l_apply" arg2="with" arg3="n">
+      <goal name="uncheck_modulo&#39;vc.7.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="4.73" steps="1236792"/></proof>
+      </goal>
+      <goal name="uncheck_modulo&#39;vc.7.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.46" steps="1088392"/></proof>
+      </goal>
+      <goal name="uncheck_modulo&#39;vc.7.0.0.0.2" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.74" steps="1009180"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="uncheck_modulo&#39;vc.7.0.0.1" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="4.62" steps="1237789"/></proof>
+     </goal>
+     <goal name="uncheck_modulo&#39;vc.7.0.0.2" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="5.36" steps="1237909"/></proof>
+     </goal>
+     <goal name="uncheck_modulo&#39;vc.7.0.0.3" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="3.46" steps="1072974"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="modular_adder_&#39;vc" expl="VC for modular_adder_" proved="true">
+ <transf name="split_goal_right" proved="true" >
+  <goal name="modular_adder_&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.55" steps="921361"/></proof>
+  </goal>
+  <goal name="modular_adder_&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.73" steps="986664"/></proof>
+  </goal>
+  <goal name="modular_adder_&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.59" steps="921680"/></proof>
+  </goal>
+  <goal name="modular_adder_&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.60" steps="986972"/></proof>
+  </goal>
+  <goal name="modular_adder_&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.63" steps="986988"/></proof>
+  </goal>
+  <goal name="modular_adder_&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.77" steps="987581"/></proof>
+  </goal>
+  <goal name="modular_adder_&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.83" steps="1102741"/></proof>
+  </goal>
+  <goal name="modular_adder_&#39;vc.7" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_adder_&#39;vc.7.0" expl="postcondition" proved="true">
+   <transf name="eliminate_definition" proved="true" >
+    <goal name="modular_adder_&#39;vc.7.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="result&#39;def">
+     <goal name="modular_adder_&#39;vc.7.0.0.0" expl="postcondition" proved="true">
+     <transf name="case" proved="true" arg1="(bound &lt;= (value + added))">
+      <goal name="modular_adder_&#39;vc.7.0.0.0.0" expl="true case (postcondition)" proved="true">
+      <transf name="apply" proved="true" arg1="path_sem_comp" arg2="with" arg3="( kronecker
+  (apply_qft (n + 1)  (mod1 (added + value) bound))
+  (ket 1 0))">
+       <goal name="modular_adder_&#39;vc.7.0.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="ket_l_apply" arg2="with" arg3="n">
+        <goal name="modular_adder_&#39;vc.7.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="3.88" steps="1241610"/></proof>
+        </goal>
+        <goal name="modular_adder_&#39;vc.7.0.0.0.0.0.1" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="2.74" steps="1089349"/></proof>
+        </goal>
+        <goal name="modular_adder_&#39;vc.7.0.0.0.0.0.2" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="1.54" steps="1009975"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="modular_adder_&#39;vc.7.0.0.0.0.1" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="Ensures8">
+        <goal name="modular_adder_&#39;vc.7.0.0.0.0.1.0" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="1.54" steps="1009977"/></proof>
+        </goal>
+        <goal name="modular_adder_&#39;vc.7.0.0.0.0.1.1" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="1.51" steps="1009975"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="modular_adder_&#39;vc.7.0.0.0.0.2" expl="apply premises" proved="true">
+       <transf name="instantiate" proved="true" arg1="unicity_div_mod" arg2="(added +value),bound,(1),((value + added - bound))">
+        <goal name="modular_adder_&#39;vc.7.0.0.0.0.2.0" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="3.53" steps="1262303"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="modular_adder_&#39;vc.7.0.0.0.0.3" expl="apply premises" proved="true">
+       <proof prover="2"><result status="valid" time="3.28" steps="1073931"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="modular_adder_&#39;vc.7.0.0.0.1" expl="false case (postcondition)" proved="true">
+      <transf name="apply" proved="true" arg1="path_sem_comp" arg2="with" arg3="( kronecker
+  (apply_qft (n + 1)  (mod1 (added + value) bound))
+  (ket 1 1))">
+       <goal name="modular_adder_&#39;vc.7.0.0.0.1.0" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="ket_l_apply" arg2="with" arg3="n">
+        <goal name="modular_adder_&#39;vc.7.0.0.0.1.0.0" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="3.31" steps="1239967"/></proof>
+        </goal>
+        <goal name="modular_adder_&#39;vc.7.0.0.0.1.0.1" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="2.43" steps="1089356"/></proof>
+        </goal>
+        <goal name="modular_adder_&#39;vc.7.0.0.0.1.0.2" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="1.42" steps="1009979"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="modular_adder_&#39;vc.7.0.0.0.1.1" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="Ensures9">
+        <goal name="modular_adder_&#39;vc.7.0.0.0.1.1.0" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="1.65" steps="1009979"/></proof>
+        </goal>
+        <goal name="modular_adder_&#39;vc.7.0.0.0.1.1.1" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="1.61" steps="1009999"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="modular_adder_&#39;vc.7.0.0.0.1.2" expl="apply premises" proved="true">
+       <transf name="rewrite" proved="true" arg1="mod_inf">
+        <goal name="modular_adder_&#39;vc.7.0.0.0.1.2.0" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="3.17" steps="1241957"/></proof>
+        </goal>
+        <goal name="modular_adder_&#39;vc.7.0.0.0.1.2.1" expl="rewrite premises" proved="true">
+        <proof prover="2"><result status="valid" time="2.25" steps="1073917"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="modular_adder_&#39;vc.7.0.0.0.1.3" expl="apply premises" proved="true">
+       <proof prover="2"><result status="valid" time="2.94" steps="1073938"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="modular_adder&#39;vc" expl="VC for modular_adder" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="modular_adder&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.76" steps="1210810"/></proof>
+  </goal>
+  <goal name="modular_adder&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.55" steps="922107"/></proof>
+  </goal>
+  <goal name="modular_adder&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.80" steps="1215536"/></proof>
+  </goal>
+  <goal name="modular_adder&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.57" steps="922190"/></proof>
+  </goal>
+  <goal name="modular_adder&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.13" steps="922408"/></proof>
+  </goal>
+  <goal name="modular_adder&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="(mod1 (added + b) bound)" arg2="(mod1 ((mod1 added bound) + b) bound)
+">
+   <goal name="modular_adder&#39;vc.5.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="4.84" steps="262960"/></proof>
+   <transf name="apply" proved="true" arg1="Ensures1">
+    <goal name="modular_adder&#39;vc.5.0.0" expl="apply premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.17" steps="922460"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_adder&#39;vc.5.1" expl="equality hypothesis" proved="true">
+   <proof prover="0"><result status="valid" time="4.75" steps="260853"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_adder&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="(mod1 (added + b) bound)" arg2="(mod1 (added + (mod1 b bound) ) bound)
+">
+   <goal name="modular_adder&#39;vc.6.0" expl="postcondition" proved="true">
+   <transf name="apply" proved="true" arg1="Ensures">
+    <goal name="modular_adder&#39;vc.6.0.0" expl="apply premises" proved="true">
+    <proof prover="2"><result status="valid" time="2.93" steps="1216603"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_adder&#39;vc.6.1" expl="equality hypothesis" proved="true">
+   <transf name="rewrite" proved="true" arg1="mod_mod_add_right">
+    <goal name="modular_adder&#39;vc.6.1.0" expl="equality hypothesis" proved="true">
+    <proof prover="2"><result status="valid" time="1.19" steps="922578"/></proof>
+    </goal>
+    <goal name="modular_adder&#39;vc.6.1.1" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="2.82" steps="1215005"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>

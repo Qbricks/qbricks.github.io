@@ -1,0 +1,133 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+
+module Angle_list
+    use export pairs.Pairs
+    use  int.Int
+
+
+    use list.List
+    use export list.Append
+    use list.Length as Llength  (*rename because conflict with length of bitvec *)
+    use int.MinMax as IntMM
+    use list.Mem
+
+
+
+    type angle_list = {
+        a_list: list (int,int);
+        max_sec: int
+        }
+
+    let function angle_list_len  (al: angle_list) : int
+        ensures{ 0 <= result}
+        = (Llength.length al.a_list )
+
+    lemma aLength_nonnegative: forall al: angle_list.  0 <= angle_list_len al
+    lemma aLength_nil: forall al: angle_list. angle_list_len al = 0 <-> al.a_list = Nil
+    lemma aLength_incr: forall x, al:(int,int).
+    forall i:int. angle_list_len {a_list=(Cons al Nil) ;max_sec=i} <= angle_list_len {a_list=(Cons x (Cons al Nil)) ;max_sec=i}
+    (* lemma  somelemma: forall al: match x  angle_list_len al *)
+
+    (* lemma aLength_cons: forall i,x,y . angle_list_len {a_list=(Cons x y )  } = 0 <-> al.a_list = Nil *)
+
+        (* cons x  to some list al,  > length of that list *)
+
+
+    let angle_list_pair_maker (x y: int):   angle_list
+        = 
+        let a_list_ = Cons ( x, y) Nil in 
+                {a_list=a_list_; max_sec=y}
+
+    let angle_list_maker (elem: (int,int)):   angle_list
+        = 
+        let a_list_ = Cons elem Nil in 
+                {a_list=a_list_; max_sec=(sec elem)}
+
+    let angle_list_add (x y: int) (al2:angle_list ):   angle_list
+        ensures{    (angle_list_len result ) = ( angle_list_len al2) + 1   }
+
+        = 
+        let a_list_ = Cons ( x, y) al2.a_list in 
+            {a_list=a_list_; max_sec= ( IntMM.max y al2.max_sec  )  }
+
+
+    let function angle_list_append (a b: angle_list):   angle_list
+        ensures{    (angle_list_len result ) = ( angle_list_len a) + (angle_list_len b)   }
+        (* = let max_n = (if a.max_sec <= b.max_sec then b.max_sec else a.max_sec) in *)
+        ={   a_list =  (a.a_list ++ b.a_list )  ; max_sec = ( IntMM.max a.max_sec b.max_sec  ) }
+
+    let function (+@+) (elem : (int,int) ) (al2:angle_list ):   angle_list
+        =
+        angle_list_add (fir elem) (sec elem) al2
+    
+    let function (+@@+) (l1 l2: angle_list) : angle_list 
+        =
+        angle_list_append l1 l2
+
+
+
+    (*  *)
+
+    let pair_list_merge (elem:('a,'b)) (lp: (bool, list ('a,'b) ))  : (bool, list ('a,'b) )
+    = 
+        let b = fir lp in 
+        let l = sec lp in 
+        (b, Cons elem l )
+    ensures { fir result = fir lp}
+    ensures { Llength.length (sec result) = 1+Llength.length (sec lp)}
+    let function ap_isequal (p1 p2 : (int,int)) : bool
+    = ((fir p1)  = (fir p2)) && ((sec p1)  = (sec p2))
+
+    let rec find_and_rm_pair (v: (int,int))(l: list (int,int)) : (bool, list (int,int) )
+        variant { Llength.length l} 
+        =
+        match l with
+            | Nil      -> (false, l)
+            | Cons x r ->  let eb = ap_isequal x v  in
+                if eb  then (true, r)
+                else pair_list_merge  x (find_and_rm_pair v r) 
+            end
+
+    let rec function l_isequal (l1 l2: list (int,int)) : bool
+        variant { Llength.length l1}
+        =
+        if (  Llength.length l1) <> (  Llength.length l2) then false 
+        else
+            match l1 with
+                | Nil      -> true
+                | Cons x r -> let fp_res = find_and_rm_pair x l2 in                             
+                        if fir fp_res  then  l_isequal r (sec fp_res)  else false
+                end  
+        ensures{forall lista listb: list (int,int). forall elem:(int,int). result = true -> (mem elem lista) =(mem elem listb) }
+
+    let function al_isequal (al1 al2: angle_list) : bool
+        =
+        if( angle_list_len al1) <> ( angle_list_len al2) then false else
+            if (al1.max_sec) <> (al2.max_sec) then false else
+            l_isequal al1.a_list al2.a_list
+    
+
+
+
+end

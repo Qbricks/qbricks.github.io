@@ -1,3 +1,25 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
 module Shift
          use int.Int
          use int.EuclideanDivision
@@ -76,10 +98,7 @@ end
      
 module MapInjection
          use  int.Int
-         use  set.FsetComprehension
          use  p_set.Fset_comp
-         use  p_set.Card_one_set
-         use  p_set.IndexestoSet
          use  complex.Assert_equal
 
          predicate p_injective_in (f: 'a -> 'b) (s : set 'a) (s': set 'b) =
@@ -103,7 +122,6 @@ let lemma set_injective (f: 'a -> 'b) (s: set 'a)
       requires{    forall e e': 'a. mem e s -> mem e' s -> e <> e' -> f e <> f e'}
       ensures{p_injective f s}
   = ()
-
 
 let ghost  function image (f: 'a -> 'b) (s : set 'a) : set 'b
                                                          ensures{forall a: 'b. mem a result <-> exists antec_a: 'a. mem antec_a s /\ a = f antec_a}
@@ -144,7 +162,7 @@ let lemma get_injective (f: 'a -> 'b) (s: set 'a)
       requires{p_injective f s}
       ensures{    forall e e': 'a. mem e s -> mem e' s -> e <> e' -> f e <> f e'}
   = ()
-  
+
 let lemma get_not_injective (f: 'a -> 'b) (s: set 'a)
       requires{not (p_injective f s)}
       ensures{exists e e': 'a. mem e s /\ mem e' s /\ e <> e' /\ f e = f e'}
@@ -171,7 +189,7 @@ let lemma set_surjective (f: 'a -> 'b)  (s : set 'a)(s' : set 'b)
       requires{    forall e' : 'b. mem e' s' -> exists e : 'a. mem e s /\ f e = e'}
       ensures{p_surjective f s s'}
   = ()
-  
+
 let lemma get_surjective (f: 'a -> 'b)  (s : set 'a)(s' : set 'b)
       ensures{forall e:'a. mem e s -> mem (f e) s'}
       requires{p_surjective f s s'}
@@ -191,10 +209,22 @@ let lemma bijective_is_injective (f: 'a -> 'b)  (s : set 'a)(s' : set 'b)
       requires{p_bijective f s s'}
       ensures{p_injective f s}
   =()
-  
+
+  let lemma p_bijective_in (f: 'a -> 'b)  (s : set 'a)(s' : set 'b) (a: 'a)
+      requires{p_bijective f s s'}
+  requires{mem a s}
+  ensures{mem (f a) s'}
+  =()
+
 let lemma bijective_is_surjective (f: 'a -> 'b) (s : set 'a)(s' : set 'b)
       requires{p_bijective f s s'}
       ensures{p_surjective f s s'}
+  =()
+  
+let lemma auto_bijective_in (f: 'a -> 'a) (s : set 'a)(a :  'a)
+      requires{p_bijective f s s}
+      requires{mem a s}
+      ensures{mem (f a) s}
   =()
   
 let lemma set_bijective (f: 'a -> 'b) (s : set 'a)(s' : set 'b)
@@ -262,5 +292,58 @@ let lemma set_bijective_auto (f: 'a -> 'a) (s : set 'a)
   set_equal s (map f s);
   bij_equal_card f s
 
+let  function inverse_pre (f: 'a -> 'b) (sa: set 'a) (sb: set 'b) (b:'b)
+          requires{p_bijective f sa sb}
+          requires{mem b sb}
+          ensures{mem result sa}
+            ensures{f result = b}
+  = let rec function inner (s:set 'a)
+                       requires{exists e.mem e s /\ f e = b}
+                       requires{subset s sa}
+                       variant{cardinal s}
+                       ensures{mem result s}
+                       ensures{f result = b}
+                       = if f(choose s) == b then  (choose s)
+                       else inner  (remove (choose s)s)
+    in inner sa
 
+let  function inverse (f: 'a -> 'b) (sa: set 'a) (sb: set 'b) : 'b -> 'a
+        requires{p_bijective f sa sb}
+        ensures{forall b. mem b sb -> mem (result b) sa}
+        ensures{forall b. mem b sb -> f  (result b) = b}
+        ensures{p_bijective result   sb sa}
+  =
+  fun x -> if mem x sb then inverse_pre f sa sb x else choose sa
+
+let lemma unic_inverse (f: 'a -> 'b) (f':'b ->'a)(sa: set 'a) (sb: set 'b) 
+          requires{p_bijective f sa sb}
+          requires{forall a. mem  a sa -> f' (f a) = a}
+          ensures{forall b. mem b sb ->   f' b = inverse f sa sb b}
+  =   get_injective f sa
+
+let lemma unic_inverse_apply (f: 'a -> 'b) (sa: set 'a) (sb: set 'b) (b:'b) (a:'a)
+          requires{p_bijective f sa sb}
+          requires{mem b sb}
+          requires{mem a sa}
+          requires{f a = b}
+          ensures{inverse f sa sb b = a}
+  =   get_injective f sa
+
+let lemma inverse_invol (f: 'a -> 'b) (sa: set 'a) (sb: set 'b) (a:'a)
+          requires{p_bijective f sa sb}
+          requires{mem a sa}
+          ensures{(inverse (inverse f sa sb) sb sa) a = f a}
+  =()
+
+let lemma compose_inverse (f: 'a -> 'b) (sa: set 'a) (sb: set 'b) (b:'b)
+          requires{p_bijective f sa sb}
+          requires{mem b sb}
+          ensures{f (inverse f sa sb b)  = b}
+  =()
+
+let lemma inverse_compose (f: 'a -> 'b) (sa: set 'a) (sb: set 'b) (a:'a)
+          requires{p_bijective f sa sb}
+          requires{mem a sa}
+          ensures{(inverse f sa sb (f a))  = a}
+  =()
 end

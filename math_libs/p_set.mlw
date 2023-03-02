@@ -1,12 +1,64 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+
+module Fset
+
+type set 'a
+
+
+val  predicate mem (x:'a) (s:set 'a)
+val function add (x: 'a) (s: set 'a) : set 'a
+val constant empty :   set 'a
+val function cardinal (s: set 'a):int
+val function choose (s: set 'a): 'a
+val  function remove (x: 'a) (s: set 'a) : set 'a
+val   function filter_  (s:set 'a)  (p: 'a -> bool) : set 'a
+val function union (s s': set 'a) : set 'a
+                                      
+clone export set.Fset 
+    with type fset 'a = set 'a,
+predicate mem = mem,
+constant empty = empty,
+function cardinal = cardinal,
+function add = add,
+function pick = choose,
+function remove  = remove,
+function union = union,
+ function filter = filter_, axiom .
+                                                                               
+let   function filter   (p: 'a -> bool) (s:set 'a)
+    = filter_ s p 
+
+end
 
 module Fset_comp
-         use  set.FsetComprehension
-                                          use  int.Int
-                                          use  complex.Assert_equal
-                                          use  complex.Pairs
-                                          use  ref.Ref
+         use export  Fset
+         use  int.Int
+         use  complex.Assert_equal
+         use pairs.Pairs
+         use  ref.Ref
 
-                                          predicate eq_e (a a' :'a)= a = a'
+         predicate eq_e (a a' :'a)= a = a'
 
 let lemma set_equal (s s': set 'a)
       requires{forall e: 'a. mem e s -> mem e s'}
@@ -27,7 +79,7 @@ let lemma union_exchange (s s': set 'a)
       requires{not (is_empty s')}
       ensures{union (add (choose s') s) (remove (choose s') s') = union s s'}
   = ()
-
+  
 let lemma get_filter (p: 'a -> bool) (s:set 'a) (x:'a)
       requires{mem x (filter p s)}
       ensures{p x}
@@ -141,17 +193,6 @@ let lemma union_add_comm (s s':set 'a) (x: 'a)
       ensures{add x  (union s s') = union s (add x s')}
   = ()
   
-let lemma remove_add (s :set 'a) (x: 'a)
-      requires{not mem x s}
-      ensures{remove x  (add x  s ) =  s }
-  =  assert{remove x  (add x  s ) ==  s };
-     ()     
-     
-let lemma add_remove (s :set 'a) (x: 'a)
-      requires{ mem x s}
-      ensures{add x  (remove x  s ) =  s }
-  = ()      
-      
       predicate p_injective (f: 'a -> 'b) (s: set 'a) =
       forall e e': 'a. mem e s -> mem e' s -> e <> e' -> f e <> f e'
 
@@ -205,7 +246,6 @@ let lemma set_map_mem_el_gen (f: 'a ->  'b)(s : set 'a) (b :'b)
       ensures{mem b (map f s)}
   =()
   
-  
 let lemma map_antec (f: 'a ->  'b)(s : set 'a) (b :'b)
       requires{mem b (map f s)}
       ensures{exists a:'a. mem a s /\ b = f a}
@@ -255,19 +295,19 @@ let  rec  function right_injections (a : 'a)  (s: set 'b): set ('a,'b)
                                                              ensures{cardinal result = cardinal s}
                                                              ensures{forall a': 'a. forall b: 'b. mem (a',b) result <-> a'= a /\ mem b s}
                                                              ensures{result = map  (fun b -> (a,b)) s}
-  = if (is_empty s) then empty
+  = if ( s == empty) then empty
     else
       begin
         set_equal (add (a, (choose s)) (right_injections a (remove(choose s) s))) (map  (fun b -> (a,b)) s);
         add (a, (choose s)) (right_injections a (remove(choose s) s))
       end
   
-let  rec ghost function left_injections (s: set 'a)(b : 'b): set ('a,'b)
+let  rec function left_injections (s: set 'a)(b : 'b): set ('a,'b)
                                                                variant{cardinal s}
                                                                ensures{forall a: 'a. forall b': 'b. mem (a,b') result <-> (mem a s /\ b' = b)}
                                                                ensures{cardinal result = cardinal s}
                                                                ensures{result = map  (fun a -> (a,b)) s}
-  = if ( is_empty s) then empty
+  = if ( s == empty) then empty
     else
       begin
         let result1 = 
@@ -339,7 +379,7 @@ let rec  function cartesian_product (s1: set 'a)(s2: set 'b): set ('a, 'b)
                                                                 ensures{forall a: 'a. forall b: 'b. mem (a,b) result <-> mem a s1 /\ mem b s2}
                                                                 ensures{forall o: ('a,'b). mem o result <->  mem (fir o) s1 /\ mem (sec o) s2}
                                                                 variant{cardinal s1}
-  = if (is_empty s1) then empty
+  = if (s1 == empty) then empty
     else let prog = ref empty in
          let reg = ref s1 in
          while (cardinal !reg > 0) do
@@ -421,7 +461,7 @@ let lemma disjoint_cartesian_product_r (s1: set 'a)  (s2 s3: set 'b)
 
 let rec function iter_union (s : set (set 'a)) : set 'a
                                                    variant{cardinal s}
-  = if is_empty s then empty
+  = if  s == empty then empty
     else union (choose s) (iter_union (remove (choose s)s)) 
 
 let lemma get_mem_union (s s': set 'a) (e:'a)
@@ -448,88 +488,21 @@ let lemma set_mem_union' (s s': set 'a) (e:'a)
 
 end     
 
-module Choose_filter
-         use  set.FsetComprehension
-         use int.Int
-         use Fset_comp
-     
-let rec function choose_filter (s: set 'a) (p: 'a -> bool) : 'a
-                                                               requires{exists e. mem e s && p e}
-                                                               ensures{p result}
-                                                               ensures{mem result s}
-                                                               variant{cardinal s}
-  =
-  if p (choose s) then choose s
-  else
-    choose_filter (remove (choose s) s) p
-  
-let rec function my_filter (s: set 'a) (p: 'a -> bool) : set 'a
-                                                           ensures{forall e. mem e s -> (p e <-> mem e result)}
-                                                           ensures{forall e. mem e result  -> mem e s}
-                                                           ensures{0<= cardinal result <= cardinal s}
-                                                           variant{cardinal s}
-  =
-  if is_empty s then empty
-  else if p (choose s) then add (choose s) (my_filter (remove (choose s) s) p)
-  else (my_filter (remove (choose s) s) p)
-
-let lemma in_my_filter  (s: set 'a) (p: 'a -> bool) (e:'a)
-      requires{mem e s}
-      requires{p e}
-      ensures{mem e (my_filter s p)}
-  =()
-
-let lemma not_in_my_filter_set  (s: set 'a) (p: 'a -> bool) (e:'a)
-      requires{not (mem e s)}
-      ensures{not (mem e (my_filter s p))}
-  =()
-
-let lemma not_in_my_filter_filter  (s: set 'a) (p: 'a -> bool) (e:'a)
-      requires{not (p e)}
-      ensures{not (mem e (my_filter s p))}
-  =()
-
-let lemma in_my_filter_set  (s: set 'a) (p: 'a -> bool) (e:'a)
-      requires{mem e (my_filter s p)}
-      ensures{mem e s}
-  =()
-
-let lemma in_my_filter_filter  (s: set 'a) (p: 'a -> bool) (e:'a)
-      requires{mem e (my_filter s p)}
-      ensures{p e}
-  =()
-
-let lemma my_filter_inter (s: set 'a) (p1 p2: 'a -> bool) 
-      requires{forall e: 'a. mem e s -> p1 e -> not p2 e}
-      ensures{inter (my_filter s p1) (my_filter s p2) = empty}
-  =()
-
-  
-let lemma my_filter_union (s: set 'a) (p1 p2: 'a -> bool) 
-      requires{forall e: 'a. mem e s -> not p1 e ->  p2 e}
-      ensures{union (my_filter s p1) (my_filter s p2) = s}
-  =()
-
-
-end
      
 module My_map
          use Fset_comp
-         use  set.FsetComprehension
          use int.Int
      
 let rec function my_map  (f: 'a -> 'b) (s: set 'a): set 'b
                                                       ensures{result = map f s}
-                                                      (* ensures{cardinal result = cardinal s} *)
                                                       variant{cardinal s }
-  = if is_empty s then empty
+  = if  cardinal s = 0 then empty
     else add (f (choose s)) (my_map f (remove (choose s)s) )
-
 
 end
      
 module Card_one_set
-         use  set.FsetComprehension
+         use  Fset_comp
          use  int.Int
 
 let function element  (s: set 'a): 'a
@@ -584,7 +557,7 @@ let lemma get_choose_cardone  (s:set 'a) (e:'a)
 end
 
 module IndexestoSet
-         use  set.Fset
+         use  Fset
          use  Fset_comp
          use  int.Int
          use  ref.Ref
@@ -669,3 +642,75 @@ end
 
 
 
+module Choose_filter
+         use int.Int
+         use Fset_comp
+         use IndexestoSet
+     
+let rec function choose_filter (s: set 'a) (p: 'a -> bool) : 'a
+                                                               requires{exists e. mem e s && p e}
+                                                               ensures{p result}
+                                                               ensures{mem result s}
+                                                               variant{cardinal s}
+  =
+  if p (choose s) then choose s
+  else
+    choose_filter (remove (choose s) s) p
+  
+let rec function my_filter (s: set 'a) (p: 'a -> bool) : set 'a
+                                                           ensures{forall e. mem e s -> (p e <-> mem e result)}
+                                                           ensures{forall e. mem e result  -> mem e s}
+                                                           ensures{0<= cardinal result <= cardinal s}
+                                                           variant{cardinal s}
+  =
+  if (cardinal s = 0) then empty
+  else if p (choose s) then add (choose s) (my_filter (remove (choose s) s) p)
+  else (my_filter (remove (choose s) s) p)
+
+let rec function my_filter_int (i j:int) (p: int -> bool) : set int
+                                                              ensures{result = my_filter (to_fset i j) p}
+              ensures{forall e. i<= e < j -> (p e <-> mem e result)}
+              ensures{forall e. mem e result  -> i<= e < j}
+              ensures{i<= j -> 0<= cardinal result <= j-i}
+              variant{j-i}
+  =
+  if (j<= i) then empty
+  else if p i then add i (my_filter_int (i+1) j p)
+  else my_filter_int (i+1) j p
+
+let lemma in_my_filter  (s: set 'a) (p: 'a -> bool) (e:'a)
+      requires{mem e s}
+      requires{p e}
+      ensures{mem e (my_filter s p)}
+  =()
+
+let lemma not_in_my_filter_set  (s: set 'a) (p: 'a -> bool) (e:'a)
+      requires{not (mem e s)}
+      ensures{not (mem e (my_filter s p))}
+  =()
+
+let lemma not_in_my_filter_filter  (s: set 'a) (p: 'a -> bool) (e:'a)
+      requires{not (p e)}
+      ensures{not (mem e (my_filter s p))}
+  =()
+
+let lemma in_my_filter_set  (s: set 'a) (p: 'a -> bool) (e:'a)
+      requires{mem e (my_filter s p)}
+      ensures{mem e s}
+  =()
+
+let lemma in_my_filter_filter  (s: set 'a) (p: 'a -> bool) (e:'a)
+      requires{mem e (my_filter s p)}
+      ensures{p e}
+  =()
+
+let lemma my_filter_inter (s: set 'a) (p1 p2: 'a -> bool) 
+      requires{forall e: 'a. mem e s -> p1 e -> not p2 e}
+      ensures{inter (my_filter s p1) (my_filter s p2) = empty}
+  =()
+  
+let lemma my_filter_union (s: set 'a) (p1 p2: 'a -> bool) 
+      requires{forall e: 'a. mem e s -> not p1 e ->  p2 e}
+      ensures{union (my_filter s p1) (my_filter s p2) = s}
+  =()
+end

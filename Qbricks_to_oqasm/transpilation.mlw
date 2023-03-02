@@ -1,0 +1,133 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+module To_OqenQASM_2
+
+  use int.Int
+  use wired_circuits.Circuit_c
+  use wired_circuits.Qbricks_prim
+  use reversion.Circuit_reverse
+  use circuits_equiv_pre.Gate_decomp
+  use draw_circuits.Draw
+  use subcircuit_control.Subcircuit_control
+
+  type openqasm = 
+  | RX string | RY string | RZ string | U1 string
+  | CRX string string string | CRY string string string | CRZ string string string | CU1 string string string 
+  | H | SS | TT | XX | YY | ZZ | ID
+  | CH string string | CS string string | CT string string | CY string string  | CZ string string
+  | CX string string | CCX string string string | SWAP string string
+  | SEQUENCE openqasm openqasm | PLACE openqasm string
+  
+  let function string_rotation_oq_pos (k : int) : string
+  = "(2 * pi / 2^("^(i_to_s k)^"))"
+
+  let function string_rotation_oq_neg (k : int) : string
+  = "(- 2 * pi / 2^("^(i_to_s (-k))^"))"
+
+  let rec function qbricks_to_openqasm (c : wired_circuit) : openqasm
+    = 
+    match c with
+    | Phase _ -> ID
+    | Skip -> ID
+    | Rx k -> RX (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
+    | Ry k -> RY (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
+    | Rz k -> RZ (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
+    | Rzp k -> U1 (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
+    | Hadamard -> H
+    | S -> SS
+    | T -> TT
+    | X -> XX
+    | Y -> YY
+    | Z -> ZZ
+    | Cnot co t _ -> CX (i_to_s co) (i_to_s t)
+    | Bricks_Cnot -> CX (i_to_s 0) (i_to_s 1)
+    | Swap t1 t2 _ -> SWAP (i_to_s t1) (i_to_s t2)
+    | Bricks_Swap -> SWAP (i_to_s 0) (i_to_s 1)
+    | Sequence d e -> SEQUENCE (qbricks_to_openqasm d) (qbricks_to_openqasm e)
+    | Place c1 p _ ->
+       match c1 with
+       |  Cnot co1 ta1 n1 -> CX (i_to_s (co1 + p)) (i_to_s (ta1 + p)) 
+       |  Bricks_Cnot  -> CX (i_to_s p) (i_to_s (1 + p))
+       |  Swap ta1 ta2 n1 -> SWAP (i_to_s (ta1 + p)) (i_to_s (ta2 + p)) 
+       |  Bricks_Swap -> SWAP (i_to_s p) (i_to_s (1 + p)) 
+       | _ ->   PLACE (qbricks_to_openqasm c1) (i_to_s p)
+end
+     | Cont c1 co t n ->
+        match c1 with
+        | Phase k -> CRZ (i_to_s co) (i_to_s t) (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
+        | Skip -> PLACE ID (i_to_s t)
+        | Rx k -> CRX (i_to_s co) (i_to_s t) (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)      
+        | Ry k -> CRY (i_to_s co) (i_to_s t) (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)  
+        | Rz k -> CRZ (i_to_s co) (i_to_s t) (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
+        | Rzp k -> CU1 (i_to_s co) (i_to_s t) (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
+        | Hadamard -> CH (i_to_s co) (i_to_s t)
+        | S -> CRZ (i_to_s co) (i_to_s t) "pi/2)"
+        | T -> CRZ (i_to_s co) (i_to_s t) "pi/4)"
+        | X -> CX (i_to_s co) (i_to_s t)
+        | Y -> CY (i_to_s co) (i_to_s t)
+        | Z -> CZ (i_to_s co) (i_to_s t)
+        | Bricks_Cnot -> CCX (i_to_s 0) (i_to_s (1 + t)) (i_to_s (2 + t))
+        | Cnot co1 ta1 _ -> CCX (i_to_s co) (i_to_s (co1 + t)) (i_to_s (t + ta1))
+        | Swap ta1 ta2 n1 -> SEQUENCE (SEQUENCE (CCX (i_to_s co) (i_to_s (ta1 + t)) (i_to_s(ta2 + t))) (CCX (i_to_s co) (i_to_s(ta2 + t))  (i_to_s (ta1 + t)))) (CCX (i_to_s co) (i_to_s (ta1 + t)) (i_to_s(ta2 + t)))   
+        |  Bricks_Swap ->  SEQUENCE (SEQUENCE (CCX (i_to_s co) (i_to_s t) (i_to_s(t+1))) (CCX (i_to_s co) (i_to_s(t+1))  (i_to_s t))) (CCX (i_to_s co) (i_to_s t) (i_to_s(t+1)))   
+        | _ -> ID
+end
+     | _ -> ID
+end
+
+  let rec function string_oq_rec (c : openqasm) : string
+  = 
+    match c with
+    | RX k -> "rx "^k 
+    | RY k -> "ry "^k 
+    | RZ k -> "rz "^k 
+    | U1 k -> "u1 "^k
+    | CRX co t k -> "crx("^k^") q["^co^"], q["^t^"];\n"
+    | CRY co t k -> "cry("^k^") q["^co^"], q["^t^"];\n"
+    | CRZ co t k -> "crz("^k^") q["^co^"], q["^t^"];\n"
+    | CU1 co t k -> "cu1("^k^") q["^co^"], q["^t^"];\n"
+    | H -> "h" | SS -> "s" | TT -> "t" | XX -> "x" | YY -> "y" | ZZ -> "z" | ID -> "id" 
+    | CH co t -> "ch q["^co^"], q["^t^"];\n"
+    | CS co t -> "cs q["^co^"], q["^t^"];\n"
+    | CT co t -> "ct q["^co^"], q["^t^"];\n"
+    | CX co t -> "cx q["^co^"], q["^t^"];\n"
+    | CY co t -> "cy q["^co^"], q["^t^"];\n"
+    | CZ co t -> "cz q["^co^"], q["^t^"];\n"
+    | CCX co1 co2 t -> "ccx q["^co1^"], q["^co2^"], q["^t^"];\n"
+    | SWAP t1 t2 -> "swap q["^t1^"], q["^t2^"];\n"
+    | SEQUENCE d e -> (string_oq_rec d)^(string_oq_rec e)
+    | PLACE c1 p ->
+       match c1 with ID -> ""
+                   | _ ->(string_oq_rec c1)^" q["^p^"];\n"
+end
+end
+
+  let function print_oq (c : wired_circuit) : string
+requires{correct c}
+  = "OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q["^(i_to_s (width_pre c))^"];\n"^(string_oq_rec (qbricks_to_openqasm c))
+
+  let function string_oq (c : circuit) : string
+requires{ancilla_free c}
+  = print_oq (to_oqasm (pre c))
+
+end

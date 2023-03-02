@@ -1,0 +1,238 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+module Circuit_reverse
+         use  wired_circuits.Qbricks_prim
+         use  wired_circuits.Circuit_c
+         use  qbricks.Circuit_semantics
+         use  matrices.Matrix
+         use  complex.Complex
+         use  int.Int
+         use qdata.Ket_basis
+         use qdata.Qreg
+         use circuits_equiv.Circuit_equivalence_impl
+         use circuits_equiv.Neutral_circuit
+         use circuits_equiv.Gate_outcomes
+         use circuits_equiv.Gate_decomp
+         use circuits_equiv.To_qc
+     
+let rec predicate ancilla_free_pre (c:wired_circuit)
+          requires{build_correct c}
+          ensures{result <-> (ancillas_pre c = 0)}
+  = match  c with
+    Skip -> true
+  | Phase _ -> true
+  | Rx _ -> true
+  | Ry _ -> true
+  | Rz _ -> true
+  | Rzp _ -> true
+  | Hadamard -> true
+  | S -> true
+  | T -> true
+  | X -> true
+  | Y ->  true
+  | Z -> true
+  | Bricks_Cnot -> true
+  | Bricks_Toffoli  -> true
+  |  Bricks_Fredkin   -> true
+  |  Bricks_Swap   -> true
+  | Cnot _ _ _ ->  true
+  | Swap _ _ _ ->  true
+  | Toffoli _ _ _ _ -> true
+  | Fredkin _ _ _ _ ->  true 
+  | Place  c _ _ -> ancilla_free_pre c
+  | Cont c _ _ _  -> ancilla_free_pre c
+  | Sequence d e ->   ancilla_free_pre d && ancilla_free_pre e
+  | Parallel d e ->  ancilla_free_pre d && ancilla_free_pre e 
+  | Ancillas _ _ -> false
+end
+     
+let  predicate ancilla_free (c:circuit)
+       ensures{result <-> (ancillas c = 0)}
+  = ancilla_free_pre (pre c)
+
+let lemma set_ancilla_free (c:circuit)
+      requires{ancillas c = 0}
+      ensures{ancilla_free c}
+  =()
+
+let lemma ancilla_free_seq (c d:circuit)
+      requires{width c = width d}
+  requires{ancilla_free c}
+  requires{ancilla_free d}
+ ensures{ancilla_free (c--d)}
+  =()
+  
+let lemma phase_invol (k:int)(x y :matrix complex)
+      requires{is_a_ket_l x 1}
+      requires{is_a_ket_basis_elt x}
+      ensures{path_sem (to_qc (Phase k)) x = y -> path_sem (to_qc (Phase (-k))) y = x}
+  =()
+
+let lemma rz_invol (k:int)(x y :matrix complex)
+      requires{is_a_ket_l x 1}
+      requires{is_a_ket_basis_elt x}
+      ensures{path_sem (to_qc (Rz k)) x = y -> path_sem (to_qc (Rz (-k))) y = x}
+  = neutral_seq_rz k
+  
+let lemma ry_invol (k:int)(x y :matrix complex)
+      requires{is_a_ket_l x 1}
+      requires{is_a_ket_basis_elt x}
+      ensures{path_sem (to_qc (Ry k)) x = y -> path_sem (to_qc (Ry (-k))) y = x}
+  =neutral_seq_ry k
+
+let lemma rx_invol (k:int)(x y :matrix complex)
+      requires{is_a_ket_l x 1}
+      requires{is_a_ket_basis_elt x}
+      ensures{path_sem (to_qc (Rx k)) x = y -> path_sem (to_qc (Rx (-k))) y = x}
+  = neutral_seq_rx k
+  
+let lemma rzp_invol (k:int)(x y :matrix complex)
+      requires{is_a_ket_l x 1}
+      requires{is_a_ket_basis_elt x}
+      ensures{path_sem (to_qc (Rzp k)) x = y -> path_sem (to_qc (Rzp (-k))) y = x}
+  =()
+  
+let lemma yy_invol (x y :matrix complex)
+      requires{is_a_ket_l x 1}
+      requires{is_a_ket_basis_elt x}
+      ensures{path_sem (to_qc (Y)) x = y -> path_sem (to_qc (Y)) y = x}
+  = neutral_seq_yy 
+
+let lemma swap_invol  (t1 t2 n : int)(x y :matrix complex)
+      requires{is_a_ket_l x n}
+      requires{is_a_ket_basis_elt x}
+      requires{0<= t1<n}
+      requires{0<=t2<n}
+      requires{t1 <> t2}
+      ensures{path_sem (to_qc (Swap t1 t2 n)) x = y ->  path_sem (to_qc (Swap t1 t2 n)) y = x }
+  = neutral_seq_swap t1 t2 n
+  
+let lemma cnot_invol  (co t n : int)(x y :matrix complex)
+      requires{is_a_ket_l x n}
+      requires{is_a_ket_basis_elt x}
+      requires{0<= t<n}
+      requires{0<=co<n}
+      requires{t <> co}
+      ensures{path_sem (to_qc (Cnot co t n)) x = y ->  path_sem (to_qc (Cnot co t n)) y = x }
+  = neutral_seq_cnot co t n
+
+let lemma toffoli_invol (c1 c2 t n:int)      (x y :matrix complex)
+      requires{is_a_ket_l x n}
+      requires{is_a_ket_basis_elt x}
+      requires{0<= c1<n}
+      requires{0<= c2<n}
+      requires{0<= t<n}
+      requires{t<>c1}
+      requires{t<>c2}
+      requires{c2<>c1}
+      ensures{path_sem (to_qc (Toffoli c1 c2 t n )) x = y ->  path_sem (to_qc (Toffoli c1 c2 t n)) y = x }
+  = neutral_seq_toffoli c1 c2 t n
+
+let lemma fredkin_invol (c t1 t2  n:int)     (x y :matrix complex)
+      requires{is_a_ket_l x n}
+      requires{is_a_ket_basis_elt x}
+      requires{0<= t1<n}
+      requires{0<= t2<n}
+      requires{0<= c<n}
+      requires{c<>t1}
+      requires{c<>t2}
+      requires{t2<>t1}
+      ensures{path_sem (to_qc (Fredkin c t1 t2  n )) x = y ->  path_sem (to_qc (Fredkin c t1 t2  n)) y = x }
+  = neutral_seq_fredkin c t1 t2 n
+
+let rec  function reverse_pre (c:wired_circuit) : wired_circuit
+                                                    requires{ancillas_pre c = 0}
+                                                    requires{correct c}
+                                                    ensures{correct result}
+                                                    ensures{width_pre result = width_pre c}
+                                                    ensures{size_pre result = size_pre c}
+                                                    ensures{ancillas_pre result = 0}
+                                                    ensures{width (to_qc result) = width (to_qc c)}
+                                                    ensures{size (to_qc result) = size (to_qc c)}
+                                                    ensures{ancilla_free (to_qc result)}
+                                                    ensures{forall x y: matrix complex. is_a_ket_l x (width_pre c) -> is_a_ket_basis_elt x ->
+                                                                        is_a_ket_l y (width_pre c) -> ((path_sem (to_qc c) x = y -> path_sem (to_qc result) y = x)
+                                                                                                       /\ (path_sem (to_qc result) x = y -> path_sem (to_qc c) y = x))}      
+                                                    ensures{forall x y: matrix complex. is_a_ket_l x (width_pre c) ->
+                                                                        is_a_ket_l y (width_pre c) -> (path_sem (to_qc c) x = y <-> path_sem (to_qc result) y = x)}      
+  = match  c with
+    Skip -> Skip
+  | Phase k -> Phase (-k)
+  | Rx k -> Rx (-k)
+  | Ry k -> Ry (-k)
+  | Rz k -> Rz (-k)
+  | Rzp k -> Rzp (-k)
+  | Hadamard -> Hadamard
+  | S -> Rzp (-2) 
+  | T -> Rzp (-3)
+  | X -> X
+  | Y ->  Y
+  | Z -> Z
+  | Bricks_Cnot -> Bricks_Cnot
+  | Bricks_Toffoli  -> Bricks_Toffoli
+  |  Bricks_Fredkin   -> Bricks_Fredkin
+  |  Bricks_Swap   -> Bricks_Swap
+  | Cnot c t n ->  Cnot c t n
+  | Swap t1 t2 n ->  Swap t1 t2 n
+  | Toffoli c1 c2 t n -> Toffoli c1 c2 t n
+  | Fredkin c t1 t2 n ->  Fredkin c t1 t2 n 
+  | Place  c p n -> Place (reverse_pre c) p n
+  | Cont c co t n  -> Cont (reverse_pre c) co t n
+  | Sequence d e ->   Sequence (reverse_pre e) (reverse_pre d)
+  | Parallel d e ->  Parallel (reverse_pre d) (reverse_pre e)
+  | Ancillas d l -> Ancillas d l
+end
+     
+let function reverse (c:circuit)
+               requires{ancilla_free c}
+               ensures{width result = width c}
+               ensures{size result = size c}
+               ensures{ancilla_free result}
+               ensures{forall x y: matrix complex. is_a_ket_l x (width c) -> is_a_ket_l y (width c) -> (path_sem c x = y <-> path_sem result y = x)}      
+  = to_qc (reverse_pre  (pre c))
+
+let lemma reverse_invol (c:circuit)
+      requires{ancilla_free c}
+      ensures{reverse (reverse c) <=> c}
+  = ()
+
+let lemma path_sem_reverse_invol (c:circuit) (x:matrix complex)
+      requires{is_a_ket_l x (width c)}
+      requires{ancilla_free c}
+      ensures{path_sem (reverse (reverse c)) x  =  path_sem c x}
+  = ()
+
+let lemma path_sem_reverse (c:circuit) (x y: matrix complex)
+      requires{is_a_ket_l x (width c)}
+      requires{path_sem c x = y}
+      requires{ancilla_free c}
+      ensures{path_sem (reverse c) y = x}
+  =()
+  
+let lemma sem_reverse (c:circuit) (x y: matrix complex)
+      requires{sem c x  y}
+      requires{ancilla_free c}
+      ensures{sem (reverse c) y  x}
+  =()
+  
+end

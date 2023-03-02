@@ -1,0 +1,144 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+module Ternary_gates_del
+
+  use int.Int
+  use wired_circuits.Circuit_c
+  use wired_circuits.Qbricks_prim
+  use circuits_equiv_pre.Circuit_equivalence_impl
+  use circuits_equiv_pre.Gate_decomp
+  use reversion.Circuit_reverse
+  use commuting_lemmas.Ancilla_pre
+  use parallel_delete.Parallel_del
+
+  let rec predicate ternary_gates_free (c: wired_circuit)
+    requires{correct c}
+     =
+    match  c with
+    | Parallel c1 c2 -> ternary_gates_free c1 && ternary_gates_free c2
+    | Sequence c1 c2 -> ternary_gates_free c1 && ternary_gates_free c2
+    | Place c1 _ _ -> ternary_gates_free c1
+    | Cont c1 _ _ _ -> ternary_gates_free c1
+    | Ancillas  c1  _ -> ternary_gates_free c1
+    | Toffoli _ _ _ _ -> false
+    | Fredkin _ _ _ _ -> false
+    | Bricks_Toffoli   -> false
+    | Bricks_Fredkin  -> false
+    | _ -> true
+    end
+     
+ let lemma ternary_gates_free_cont_rev (c1: wired_circuit) (co1 ta1 n1: int)
+    requires{correct c1}
+    requires{0 <= co1 < n1}
+    requires{0 <= ta1 <= n1 - (width_pre c1)}
+    requires{ta1 <= co1 -> ta1 + width_pre c1 <= co1}
+    ensures{ternary_gates_free c1 -> ternary_gates_free (Cont c1 co1 ta1 n1)}
+  = ()
+
+  let lemma ternary_gates_free_cont (c1: wired_circuit) (co1 ta1 n1: int)
+    requires{correct c1}
+    requires{0 <= co1 < n1}
+    requires{0 <= ta1 <= n1 - (width_pre c1)}
+    requires{ta1 <= co1 -> ta1 + width_pre c1 <= co1}
+    ensures{ternary_gates_free (Cont c1 co1 ta1 n1) -> ternary_gates_free c1}
+  = ()
+
+  let lemma ternary_gates_free_seq (c1 c2: wired_circuit)
+    requires{correct c1}
+    requires{correct c2}
+    requires{width_pre c1 = width_pre c2}
+    ensures{ternary_gates_free (Parallel c1 c2) -> ternary_gates_free c1 && ternary_gates_free c2}
+  = ()
+
+  let lemma ternary_gates_free_seq_rev (c1 c2: wired_circuit)
+    requires{correct c1}
+    requires{correct c2}
+    requires{width_pre c1 = width_pre c2}
+    ensures{ternary_gates_free c1 && ternary_gates_free c2 -> ternary_gates_free (Sequence c1 c2)}
+  = ()
+
+  let lemma ternary_gates_free_place (c: wired_circuit) (ta n: int)
+    requires{correct c}
+    requires{0 <= ta}
+    requires{width_pre c + ta <= n}
+    ensures{ternary_gates_free (Place c ta n) -> ternary_gates_free c}
+  = ()
+
+  let lemma ternary_gates_free_place_rev (c: wired_circuit) (ta n: int)
+    requires{correct c}
+    requires{0 <= ta}
+    requires{width_pre c + ta <= n}
+    ensures{ternary_gates_free c -> ternary_gates_free (Place c ta n)}
+  = ()
+
+  let lemma ternary_gates_free_cnot (co1 ta1 n1: int)
+    requires{0 <= co1 < n1}
+    requires{0<= ta1 < n1}
+    requires{ta1 <> co1}
+    ensures{ternary_gates_free (Cnot co1 ta1 n1)}
+  = ()
+
+  let lemma ternary_gates_free_toffoli_decomp (co1 co2 t n1: int)
+    requires{0 <= co1 < n1}
+    requires{0 <= co2 < n1}
+    requires{0<= t < n1}
+    requires{t <> co1}
+    requires{t <> co2}
+    requires{co2 <> co1}
+    ensures{ternary_gates_free (toffoli_decomp co1 co2 t n1)}
+  = ()
+
+  let lemma ternary_gates_free_fredkin_decomp_toffoli (c t1 t2 n: int)
+    requires{0 <= c < n}
+    requires{0<= t1 < n}
+    requires{0<= t2 < n}
+    requires{t1 <> c}
+    requires{t1 <> t2}
+    requires{t2 <> c}
+    ensures{ternary_gates_free (fredkin_decomp_toffoli  c t1 t2  n)}
+  = ()
+
+  let lemma ternary_gates_free_ry (k: int)
+    ensures{ternary_gates_free (Ry k)}
+  = ()
+     
+  let rec function ternary_gates_del (c : wired_circuit) : wired_circuit
+    requires{correct c}
+    requires{ancilla_free c}
+    ensures{ternary_gates_free result}
+    ensures{result <=> c}
+    ensures{correct result}
+    ensures{ancilla_free result}
+    ensures{ parallel_free c -> parallel_free result}              
+    = match c with
+      | Place c1 t n -> Place (ternary_gates_del c1) t n
+      | Cont c1 co t n -> Cont (ternary_gates_del c1) co t n
+      | Sequence d e -> Sequence (ternary_gates_del d)  (ternary_gates_del e)
+      | Parallel d e -> Parallel (ternary_gates_del d)  (ternary_gates_del e)
+      | Toffoli a b c d -> toffoli_decomp a b c d
+      | Fredkin a b c d -> fredkin_decomp_toffoli a b c d
+      | Bricks_Toffoli   -> toffoli_decomp 0 1 2 3
+      | Bricks_Fredkin  -> fredkin_decomp_toffoli 0 1 2 3
+      | _ -> c
+    end
+end

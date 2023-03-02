@@ -1,53 +1,85 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
 module Balanced
-use export  exponentiation.Complex_Exponentiation
-use export complex.Complex
-use  export binary.Bit_vector
-use export exponentiation.Power_
-use export p_set.Choose_filter
-use  set.Fset
-use export int.Int
-use export binary.Bit_vector_decomp
-use export complex_operations.Base_type
-use export qdata.Sqrt_two
-use binary.Bv_int_op
+use   complex_expo.Complex_Exponentiation
+use complex.Complex
+use  binary.Bv_int_op
+use  binary.Bit_vector
+use binary.Int_to_bv
+use int_expo.Int_Exponentiation
+use p_set.Choose_filter
+use  p_set.Fset_comp
+use int.Int
+use binary.Bit_vector_decomp
+use complex_operations.Base_type
+use qdata.Sqrt_two
 
 predicate constant_bin (f:bitvec -> int) (n:int)
-  = 1<= n /\ (forall x. length x = n -> 0<= f x < 2) /\ forall x y : bitvec. length x = length y = n -> 
-                             f x = f y
+  = 1<= n /\ (forall x. length x = n -> 0<= f x < 2) /\ forall x y : bitvec. length x = length y = n -> f x = f y
+
+let lemma constant_bin_bound (f:bitvec -> int) (n:int) ( y: bitvec)
+      requires{constant_bin f n}
+      requires{mem y (n_bvs n)}
+      ensures{0 <= f y < 2}
+      =()
+                                     
+let lemma constant_value_choose (f:bitvec -> int)  (n:int)
+      requires{constant_bin f n}
+      ensures{0 <= f (choose (n_bvs n)) < 2}
+      = constant_bin_bound f n (choose (n_bvs n))
                                      
  predicate balanced_bin (f:bitvec -> int) (n:int)
                              = 1<= n /\ (forall x. length x = n -> 0<= f x < 2) /\
-cardinal (my_filter  (n_bvs n) (fun x -> f x = 0)) =  power_ 2 (n-1) /\
-cardinal (my_filter  (n_bvs n) (fun x -> f x = 1)) = power_ 2 (n-1)
+cardinal (my_filter  (n_bvs n) (fun x -> f x = 0)) =  power 2 (n-1) /\
+cardinal (my_filter  (n_bvs n) (fun x -> f x = 1)) = power 2 (n-1)
 
 let lemma get_balanced_bin_cardeq (f:bitvec -> int) (n:int)
   requires{balanced_bin f n}
   ensures{cardinal (my_filter  (n_bvs n) (fun x -> f x = 0)) =
             cardinal (my_filter  (n_bvs n) (fun x -> f x = 1))}
   =()
-
   
 let lemma get_balanced_bin_zero (f:bitvec -> int) (n:int)
   requires{balanced_bin f n}
-  ensures{cardinal (my_filter  (n_bvs n) (fun x -> f x = 0)) = power_ 2 (n-1)}
+  ensures{cardinal (my_filter  (n_bvs n) (fun x -> f x = 0)) = power 2 (n-1)}
   =()
 
 let lemma get_balanced_bin_one (f:bitvec -> int) (n:int)
   requires{balanced_bin f n}
-  ensures{cardinal (my_filter  (n_bvs n) (fun x -> f x = 1)) = power_ 2 (n-1)}
+  ensures{cardinal (my_filter  (n_bvs n) (fun x -> f x = 1)) = power 2 (n-1)}
   =()
 
 let lemma get_balanced_bin (f:bitvec -> int) (n:int)
   requires{balanced_bin f n}
-  ensures{cardinal (my_filter  (n_bvs n) (fun x -> f x = 0))=power_ 2 (n-1)}
-ensures{cardinal (my_filter  (n_bvs n) (fun x -> f x = 1)) = power_ 2 (n-1)}
+  ensures{cardinal (my_filter  (n_bvs n) (fun x -> f x = 0))=power 2 (n-1)}
+ensures{cardinal (my_filter  (n_bvs n) (fun x -> f x = 1)) = power 2 (n-1)}
   =()
 
 let lemma set_balanced_bin (f:bitvec -> int) (n:int)
   requires{1<= n}
   requires{forall x. length x = n -> 0<= f x < 2}
   requires{cardinal (my_filter  (n_bvs n) (fun x -> f x = 0)) =
-            cardinal (my_filter  (n_bvs n) (fun x -> f x = 1)) = power_ 2 (n-1)}
+            cardinal (my_filter  (n_bvs n) (fun x -> f x = 1)) = power 2 (n-1)}
   ensures{balanced_bin f n}
   =()
 
@@ -68,9 +100,8 @@ let lemma set_constant_bin (f:bitvec -> int) (n:int)
 let lemma exclu_constant_balanced (f:bitvec -> int) (n:int)
      ensures{constant_bin f n -> not (balanced_bin f n)}
       ensures{balanced_bin f n -> not (constant_bin f n)}
-= assert{constant_bin f n -> f (choose (n_bvs n)) = 0 -> cardinal (my_filter  (n_bvs n) (fun x -> f x = 0)) = power_ 2 n};
-  assert{constant_bin f n -> f (choose (n_bvs n)) = 1 -> cardinal (my_filter  (n_bvs n) (fun x -> f x = 1)) = power_ 2 n}
-
+= assert{constant_bin f n -> f (choose (n_bvs n)) = 0 -> cardinal (my_filter  (n_bvs n) (fun x -> f x = 0)) = power 2 n};
+  assert{constant_bin f n -> f (choose (n_bvs n)) = 1 -> cardinal (my_filter  (n_bvs n) (fun x -> f x = 1)) = power 2 n}
 
    use complex_operations.FromInt
                                 
@@ -96,8 +127,8 @@ let lemma constant_sum  (f:bitvec -> int) (n:int)
       requires{0<=n}
       requires{constant_bin f n}
   ensures{forall x y : bitvec. length x = length y = n ->  f x = f y}
-      ensures{sum (n_bvs n) (fun x -> cpower (-. c_one) ( f x)) = i_to_c (power_ 2 n) *. cpower (-. c_one) ( f (choose (n_bvs n)))}
-      ensures{modulus (sum (n_bvs n) (fun x -> cpower (-. c_one) ( f x))) = i_to_c (power_ 2 n)   }
+      ensures{sum (n_bvs n) (fun x -> cpower (-. c_one) ( f x)) = i_to_c (power 2 n) *. cpower (-. c_one) ( f (choose (n_bvs n)))}
+      ensures{modulus (sum (n_bvs n) (fun x -> cpower (-. c_one) ( f x))) = i_to_c (power 2 n)   }
       ensures{cpower  (modulus (pow_inv_2 n *. (sum (n_bvs n) (fun x -> cpower (-. c_one) ( f x))))) 2 = c_one  }
   =
   sum_constant (n_bvs n)  (fun x -> cpower (-. c_one) ( f x)) ( cpower (-. c_one) ( f (choose (n_bvs n))))
@@ -105,9 +136,9 @@ let lemma constant_sum  (f:bitvec -> int) (n:int)
 let lemma ind_balanced_sum  (f:bitvec -> int) (n:int)
       requires{0<=n}
       requires{balanced_bin f n}
-      ensures{ind_sum  (fun x -> cpower (-. c_one) ( f (int_to_bv x n))) 0 (power_ 2 n) = c_zero}
-      ensures{modulus (ind_sum  (fun x -> cpower (-. c_one) ( f (int_to_bv x n)))0 (power_ 2 n) ) = c_zero}
-      ensures{cpower (modulus (ind_sum  (fun x -> cpower (-. c_one) ( f (int_to_bv x n)))0 (power_ 2 n))) 2 = c_zero}
+      ensures{ind_sum  (fun x -> cpower (-. c_one) ( f (int_to_bv x n))) 0 (power 2 n) = c_zero}
+      ensures{modulus (ind_sum  (fun x -> cpower (-. c_one) ( f (int_to_bv x n)))0 (power 2 n) ) = c_zero}
+      ensures{cpower (modulus (ind_sum  (fun x -> cpower (-. c_one) ( f (int_to_bv x n)))0 (power 2 n))) 2 = c_zero}
     =
 ind_sum_bv (fun x -> cpower (-. c_one) ( f (int_to_bv x n))) n;
 balanced_sum f n
@@ -116,9 +147,9 @@ let lemma ind_constant_sum  (f:bitvec -> int) (n:int)
       requires{0<=n}
       requires{constant_bin f n}
   ensures{forall x y : bitvec. length x = length y = n ->  f x = f y}
-      ensures{ind_sum  (fun x -> cpower (-. c_one) ( f (int_to_bv x n))) 0 (power_ 2 n) = i_to_c (power_ 2 n) *. cpower (-. c_one) ( f  (choose (n_bvs n)))}
-      ensures{modulus (ind_sum  (fun x -> cpower (-. c_one) ( f (int_to_bv x n)))0 (power_ 2 n) ) = i_to_c (power_ 2 n)}
-      ensures{modulus (pow_inv_sqrt_2 (2*n+1) *. ind_sum  (fun x -> cpower (-. c_one) ( f (int_to_bv x n)))0 (power_ 2 n)) = pow_inv_sqrt_2 1}
+      ensures{ind_sum  (fun x -> cpower (-. c_one) ( f (int_to_bv x n))) 0 (power 2 n) = i_to_c (power 2 n) *. cpower (-. c_one) ( f  (choose (n_bvs n)))}
+      ensures{modulus (ind_sum  (fun x -> cpower (-. c_one) ( f (int_to_bv x n)))0 (power 2 n) ) = i_to_c (power 2 n)}
+      ensures{modulus (pow_inv_sqrt_2 (2*n+1) *. ind_sum  (fun x -> cpower (-. c_one) ( f (int_to_bv x n)))0 (power 2 n)) = pow_inv_sqrt_2 1}
   = ind_sum_bv (fun x -> cpower (-. c_one) ( f (int_to_bv x n))) n;
   sum_constant (n_bvs n)  (fun x -> cpower (-. c_one) ( f x)) ( cpower (-. c_one) ( f (choose (n_bvs n))))
 

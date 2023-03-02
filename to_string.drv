@@ -1,0 +1,22 @@
+
+
+module p_set.Fset
+
+  syntax type set     "Set.Make(int)"
+  syntax val  add      "SS.add %1 %2" 
+  
+end
+
+
+module int_to_string.Int_to_string
+         
+
+syntax val int_to_string "Z.to_string %1"
+
+
+
+end
+
+module cont.Cont_size
+syntax val cont_size "Z.one"
+end

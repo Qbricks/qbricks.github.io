@@ -1,0 +1,2597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="6">
+<prover id="0" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="5" name="Z3" version="4.8.6" alternative="counterexamples" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="7" name="Alt-Ergo" version="2.4.0" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="8" name="Z3" version="4.8.6" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="9" name="CVC4" version="1.7" timelimit="5" steplimit="0" memlimit="1000"/>
+<file format="whyml" proved="true">
+<path name=".."/><path name="measure.mlw"/>
+<theory name="Measure" proved="true">
+ <goal name="discard&#39;vc" expl="VC for discard" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="discard&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.55" steps="397174"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure&#39;vc" expl="VC for proba_measure" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.28" steps="468906"/></proof>
+  </goal>
+  <goal name="proba_measure&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.96" steps="425263"/></proof>
+  </goal>
+  <goal name="proba_measure&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.55" steps="398887"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_extension&#39;vc" expl="VC for proba_measure_extension" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_extension&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.55" steps="397874"/></proof>
+  </goal>
+  <goal name="proba_measure_extension&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.55" steps="397886"/></proof>
+  </goal>
+  <goal name="proba_measure_extension&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.98" steps="425688"/></proof>
+  </goal>
+  <goal name="proba_measure_extension&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.89" steps="425291"/></proof>
+  </goal>
+  <goal name="proba_measure_extension&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.55" steps="399269"/></proof>
+  </goal>
+  <goal name="proba_measure_extension&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.56" steps="399280"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_sum_from_extension&#39;vc" expl="VC for proba_measure_sum_from_extension" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_sum_from_extension&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="compute_specified" proved="true" >
+   <goal name="proba_measure_sum_from_extension&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="apply" proved="true" arg1="sum_eq">
+    <goal name="proba_measure_sum_from_extension&#39;vc.0.0.0" expl="apply premises" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="proba_measure_sum_from_extension&#39;vc.0.0.0.0" expl="apply premises" proved="true">
+     <transf name="compute_specified" proved="true" >
+      <goal name="proba_measure_sum_from_extension&#39;vc.0.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="9"><result status="valid" time="1.45" steps="538658"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_sum_to_extension&#39;vc" expl="VC for proba_measure_sum_to_extension" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_sum_to_extension&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.69" steps="468754"/></proof>
+  </goal>
+  <goal name="proba_measure_sum_to_extension&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.41" steps="540307"/></proof>
+  </goal>
+  <goal name="proba_measure_sum_to_extension&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.79" steps="642363"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="positive_proba_measure&#39;vc" expl="VC for positive_proba_measure" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="positive_proba_measure&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.26" steps="466969"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_scal&#39;vc" expl="VC for proba_measure_scal" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_scal&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="proba_measure_scal&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="proba_measure&#39;def">
+    <goal name="proba_measure_scal&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="proba_measure&#39;def">
+     <goal name="proba_measure_scal&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+      <goal name="proba_measure_scal&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="mult_modulus">
+       <goal name="proba_measure_scal&#39;vc.0.0.0.0.0.0" expl="postcondition" proved="true">
+       <proof prover="9"><result status="valid" time="1.27" steps="470845"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="proba_measure_scal&#39;vc.0.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="9"><result status="valid" time="0.57" steps="398822"/></proof>
+     </goal>
+     <goal name="proba_measure_scal&#39;vc.0.0.0.2" expl="rewrite premises" proved="true">
+     <proof prover="9"><result status="valid" time="0.56" steps="398831"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="proba_measure_scal&#39;vc.0.0.1" expl="rewrite premises" proved="true">
+    <proof prover="9"><result status="valid" time="0.95" steps="425348"/></proof>
+    </goal>
+    <goal name="proba_measure_scal&#39;vc.0.0.2" expl="rewrite premises" proved="true">
+    <proof prover="9"><result status="valid" time="0.53" steps="398831"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_add_ket_l_null_right&#39;vc" expl="VC for proba_measure_add_ket_l_null_right" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_add_ket_l_null_right&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="9"><result status="valid" time="1.52" steps="479593"/></proof>
+  </goal>
+  <goal name="proba_measure_add_ket_l_null_right&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.29" steps="472621"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_add_ket_l_null_left&#39;vc" expl="VC for proba_measure_add_ket_l_null_left" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_add_ket_l_null_left&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="9"><result status="valid" time="1.53" steps="479123"/></proof>
+  </goal>
+  <goal name="proba_measure_add_ket_l_null_left&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.31" steps="472907"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_cond&#39;vc" expl="VC for proba_measure_cond" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_cond&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.57" steps="399791"/></proof>
+  </goal>
+  <goal name="proba_measure_cond&#39;vc.1" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="proba_measure_cond&#39;vc.1.0" expl="postcondition" proved="true">
+   <proof prover="9"><result status="valid" time="2.16" steps="709844"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="proba_measure_cond&#39;vc.2" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="proba_measure_cond&#39;vc.2.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result&#39;def">
+    <goal name="proba_measure_cond&#39;vc.2.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="proba_measure_cond&#39;vc.2.0.0.0" expl="postcondition" proved="true">
+     <transf name="apply" proved="true" arg1="sum_eq">
+      <goal name="proba_measure_cond&#39;vc.2.0.0.0.0" expl="apply premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="proba_measure_cond&#39;vc.2.0.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="proba_measure_cond&#39;vc.2.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="split_all_full" proved="true" >
+         <goal name="proba_measure_cond&#39;vc.2.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="apply" proved="true" arg1="proba_measure_extension&#39;spec1">
+          <goal name="proba_measure_cond&#39;vc.2.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <proof prover="9"><result status="valid" time="1.14" steps="734375"/></proof>
+          </goal>
+          <goal name="proba_measure_cond&#39;vc.2.0.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+          <transf name="split_vc" proved="true" >
+           <goal name="proba_measure_cond&#39;vc.2.0.0.0.0.0.0.0.1.0" expl="apply premises" proved="true">
+           <transf name="apply" proved="true" arg1="Ensures6">
+            <goal name="proba_measure_cond&#39;vc.2.0.0.0.0.0.0.0.1.0.0" expl="apply premises" proved="true">
+            <proof prover="9"><result status="valid" time="1.95" steps="770508"/></proof>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="proba_measure_cond&#39;vc.2.0.0.0.0.0.0.0.1.1" expl="apply premises" proved="true">
+           <transf name="apply" proved="true" arg1="Ensures5">
+            <goal name="proba_measure_cond&#39;vc.2.0.0.0.0.0.0.0.1.1.0" expl="apply premises" proved="true">
+            <proof prover="9"><result status="valid" time="1.95" steps="770508"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_from_sum&#39;vc" expl="VC for proba_measure_from_sum" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_from_sum&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.43" steps="520308"/></proof>
+  </goal>
+  <goal name="proba_measure_from_sum&#39;vc.1" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="proba_measure&#39;def">
+   <goal name="proba_measure_from_sum&#39;vc.1.0" expl="postcondition" proved="true">
+   <transf name="replace" proved="true" arg1="(f @ int_to_bv i n)" arg2="(get_ket x i)">
+    <goal name="proba_measure_from_sum&#39;vc.1.0.0" expl="postcondition" proved="true">
+    <proof prover="9"><result status="valid" time="0.67" steps="480595"/></proof>
+    </goal>
+    <goal name="proba_measure_from_sum&#39;vc.1.0.1" expl="equality hypothesis" proved="true">
+    <transf name="rewrite" proved="true" arg1="Requires">
+     <goal name="proba_measure_from_sum&#39;vc.1.0.1.0" expl="equality hypothesis" proved="true">
+     <transf name="eliminate_definition" proved="true" >
+      <goal name="proba_measure_from_sum&#39;vc.1.0.1.0.0" expl="equality hypothesis" proved="true">
+      <transf name="rewrite" proved="true" arg1="get_ket&#39;def">
+       <goal name="proba_measure_from_sum&#39;vc.1.0.1.0.0.0" expl="equality hypothesis" proved="true">
+       <transf name="rewrite" proved="true" arg1="Ensures">
+        <goal name="proba_measure_from_sum&#39;vc.1.0.1.0.0.0.0" expl="equality hypothesis" proved="true">
+        <proof prover="9"><result status="valid" time="0.69" steps="480933"/></proof>
+        </goal>
+        <goal name="proba_measure_from_sum&#39;vc.1.0.1.0.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="9"><result status="valid" time="0.73" steps="480944"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="proba_measure_from_sum&#39;vc.1.1" expl="rewrite premises" proved="true">
+   <proof prover="9"><result status="valid" time="0.68" steps="480597"/></proof>
+   </goal>
+   <goal name="proba_measure_from_sum&#39;vc.1.2" expl="rewrite premises" proved="true">
+   <proof prover="9"><result status="valid" time="0.72" steps="480606"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc" expl="VC for proba_measure_from_scal_sum_sum_fun" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.69" steps="480461"/></proof>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.1.0" expl="precondition" proved="true">
+   <proof prover="9"><result status="valid" time="0.72" steps="482259"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.64" steps="557685"/></proof>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.79" steps="623720"/></proof>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.69" steps="480347"/></proof>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.70" steps="480508"/></proof>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.70" steps="480511"/></proof>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.7" expl="precondition" proved="true">
+  <transf name="case" proved="true" arg1="(mem e
+      (my_filter (to_fset 0 (power 2 n&#39;))
+       (fun (j:int) -&gt; not (g&#39; @ j) = (g&#39; @ i))))">
+   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.7.0" expl="true case (precondition)" proved="true">
+   <transf name="assert" proved="true" arg1="((g&#39; @ e) = (g&#39; @ i))">
+    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.7.0.0" expl="asserted formula" proved="true">
+    <proof prover="7"><result status="valid" time="0.36" steps="19029"/></proof>
+    </goal>
+    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.7.0.1" expl="true case (precondition)" proved="true">
+    <proof prover="9"><result status="valid" time="3.84" steps="1064555"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.7.1" expl="false case (precondition)" proved="true">
+   <transf name="apply" proved="true" arg1="h">
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.97" steps="639378"/></proof>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.9" expl="precondition" proved="true">
+  <transf name="apply" proved="true" arg1="goal_comm">
+   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.9.0" expl="apply premises" proved="true">
+   <transf name="apply" proved="true" arg1="my_filter_union">
+    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.9.0.0" expl="apply premises" proved="true">
+    <transf name="compute_specified" proved="true" >
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.10" expl="precondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="my_filter_inter">
+   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.10.0" expl="precondition" proved="true">
+   <proof prover="9"><result status="valid" time="0.92" steps="639792"/></proof>
+   </goal>
+   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.10.1" expl="rewrite premises" proved="true">
+   <proof prover="9"><result status="valid" time="2.14" steps="730517"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11" expl="precondition" proved="true">
+  <transf name="compute_specified" proved="true" >
+   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0" expl="precondition" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0" expl="precondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="ket_sum_l&#39;spec3">
+     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0" expl="precondition" proved="true">
+     <transf name="apply" proved="true" arg1="sum_null_">
+      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0" expl="apply premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="rewrite" proved="true" arg1="bv_to_int_to_bv">
+         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="rewrite" proved="true" arg1="scalar_ket_value">
+          <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <transf name="rewrite" proved="true" arg1="ket_kronecker_values">
+           <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+           <transf name="apply" proved="true" arg1="mult_zero_t">
+            <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+            <transf name="apply" proved="true" arg1="mult_zero_t">
+             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+             <transf name="replace" proved="true" arg1="(mod ((y *&#39; power 2 n1) +&#39; (g&#39; @ e1)) (rows (ket n1 (g&#39; @ i))))" arg2="(g&#39; e1)">
+              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+              <transf name="case" proved="true" arg1="(g&#39; e1 = g&#39; i)">
+               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="true case (apply premises)" proved="true">
+               <proof prover="9"><result status="valid" time="4.12" steps="1216011"/></proof>
+               </goal>
+               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0.0.0.0.1" expl="false case (apply premises)" proved="true">
+               <transf name="rewrite" proved="true" arg1="g_ket_value">
+                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0.0.0.0.1.0" expl="false case (apply premises)" proved="true">
+                <proof prover="9"><result status="valid" time="2.05" steps="907414"/></proof>
+                </goal>
+                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0.0.0.0.1.1" expl="rewrite premises" proved="true">
+                <proof prover="9"><result status="valid" time="1.26" steps="866708"/></proof>
+                </goal>
+                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0.0.0.0.1.2" expl="rewrite premises" proved="true">
+                <proof prover="9"><result status="valid" time="2.80" steps="967125"/></proof>
+                </goal>
+                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0.0.0.0.1.3" expl="rewrite premises" proved="true">
+                <transf name="assert" proved="true" arg1="(mem e1 (to_fset 0 (power 2 n&#39;)))">
+                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0.0.0.0.1.3.0" expl="asserted formula" proved="true">
+                 <proof prover="9"><result status="valid" time="2.21" steps="907887"/></proof>
+                 </goal>
+                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0.0.0.0.1.3.1" expl="rewrite premises" proved="true">
+                 <proof prover="9"><result status="valid" time="2.75" steps="967842"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+              <transf name="assert" proved="true" arg1="(mem e1 (to_fset 0 (power 2 n&#39;)))">
+               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0.0.0.1.0" expl="asserted formula" proved="true">
+               <proof prover="9"><result status="valid" time="2.24" steps="907821"/></proof>
+               </goal>
+               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0.0.0.1.1" expl="equality hypothesis" proved="true">
+               <transf name="replace" proved="true" arg1="(rows (ket n1 (g&#39; @ i)))" arg2="(power 2 n1)">
+                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0.0.0.1.1.0" expl="equality hypothesis" proved="true">
+                <proof prover="7"><result status="valid" time="0.59" steps="26562"/></proof>
+                </goal>
+                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.0.0.0.1.1.1" expl="equality hypothesis" proved="true">
+                <proof prover="9"><result status="valid" time="2.70" steps="968517"/></proof>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+           <proof prover="9"><result status="valid" time="2.69" steps="964970"/></proof>
+           </goal>
+           <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+           <proof prover="9"><result status="valid" time="2.69" steps="965802"/></proof>
+           </goal>
+           <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+           <transf name="replace" proved="true" arg1="(rows (ket n1 (g&#39; @ i)))" arg2="(power 2 n1)">
+            <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.3.0" expl="rewrite premises" proved="true">
+            <transf name="replace" proved="true" arg1="(rows (ket n&#39; (bv_to_int e)))" arg2="(power 2 n&#39;)">
+             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.3.0.0" expl="rewrite premises" proved="true">
+             <transf name="assert" proved="true" arg1="(0&lt;=&#39; (g&#39; e1)  &lt;&#39; ( (power 2 n1)))">
+              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.3.0.0.0" expl="asserted formula" proved="true">
+              <transf name="split_vc" proved="true" >
+               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.3.0.0.0.0" expl="asserted formula" proved="true">
+               <transf name="apply" proved="true" arg1="Requires8">
+                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.3.0.0.0.0.0" expl="apply premises" proved="true">
+                <transf name="assert" proved="true" arg1="(mem e1 (to_fset 0 (power 2 n&#39;)))">
+                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.3.0.0.0.0.0.0" expl="asserted formula" proved="true">
+                 <proof prover="9"><result status="valid" time="2.21" steps="907821"/></proof>
+                 </goal>
+                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.3.0.0.0.0.0.1" expl="apply premises" proved="true">
+                 <proof prover="9"><result status="valid" time="2.72" steps="964836"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.3.0.0.0.1" expl="asserted formula" proved="true">
+               <transf name="apply" proved="true" arg1="Requires7">
+                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.3.0.0.0.1.0" expl="apply premises" proved="true">
+                <transf name="assert" proved="true" arg1="(mem e1 (to_fset 0 (power 2 n&#39;)))">
+                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.3.0.0.0.1.0.0" expl="asserted formula" proved="true">
+                 <proof prover="9"><result status="valid" time="2.14" steps="907821"/></proof>
+                 </goal>
+                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.3.0.0.0.1.0.1" expl="apply premises" proved="true">
+                 <proof prover="9"><result status="valid" time="2.71" steps="964836"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.3.0.0.1" expl="rewrite premises" proved="true">
+              <proof prover="7"><result status="valid" time="0.53" steps="26209"/></proof>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.3.0.1" expl="equality hypothesis" proved="true">
+             <proof prover="9"><result status="valid" time="2.76" steps="966895"/></proof>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.0.0.3.1" expl="equality hypothesis" proved="true">
+            <proof prover="9"><result status="valid" time="2.71" steps="967746"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+         <proof prover="9"><result status="valid" time="1.24" steps="866686"/></proof>
+         </goal>
+         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+         <proof prover="9"><result status="valid" time="1.09" steps="866695"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="9"><result status="valid" time="1.06" steps="781701"/></proof>
+     </goal>
+     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2" expl="rewrite premises" proved="true">
+     <transf name="apply" proved="true" arg1="set_ket_valid_index">
+      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.0" expl="apply premises" proved="true">
+      <proof prover="7"><result status="valid" time="0.45" steps="23922"/></proof>
+      </goal>
+      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.1" expl="apply premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.1.0" expl="apply premises" proved="true">
+       <proof prover="5"><result status="valid" time="2.44" steps="3736846"/></proof>
+       </goal>
+       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.1.1" expl="apply premises" proved="true">
+       <transf name="replace" proved="true" arg1="(ket_length
+      (ket_sum_l (n_bvs n&#39;)
+       (fun (j1:bitvec) -&gt;
+         ((f @ bv_to_int (int_to_bv i n&#39;)) @ bv_to_int j1)
+         *.. kronecker (ket n&#39; (bv_to_int j1))
+             (ket n1 (g&#39; @ bv_to_int (int_to_bv i n&#39;))))
+       n))" arg2="n">
+        <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.1.1.0" expl="apply premises" proved="true">
+        <transf name="replace" proved="true" arg1="(power 2 n)" arg2="((power 2 n&#39; -&#39;&#39; 1) *&#39; power 2 n1 +&#39; power 2 n1)">
+         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.1.1.0.0" expl="apply premises" proved="true">
+         <transf name="assert" proved="true" arg1="(forall a b c d. a&lt;=&#39;c /\ b &lt;&#39; d -&gt; a+&#39; b &lt;&#39; c +&#39;d)">
+          <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.1.1.0.0.0" expl="asserted formula" proved="true">
+          <proof prover="9"><result status="valid" time="1.86" steps="819997"/></proof>
+          </goal>
+          <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.1.1.0.0.1" expl="apply premises" proved="true">
+          <transf name="apply" proved="true" arg1="h">
+           <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.1.1.0.0.1.0" expl="apply premises" proved="true">
+           <transf name="split_vc" proved="true" >
+            <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.1.1.0.0.1.0.0" proved="true">
+            <transf name="assert" proved="true" arg1="(forall a b c . 0&lt;=&#39; a&lt;=&#39;c -&gt; 0&lt;=&#39; b -&gt; a*&#39; b &lt;=&#39; c *&#39;b)">
+             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.1.1.0.0.1.0.0.0" expl="asserted formula" proved="true">
+             <proof prover="7"><result status="valid" time="0.56" steps="23839"/></proof>
+             </goal>
+             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.1.1.0.0.1.0.0.1" proved="true">
+             <transf name="apply" proved="true" arg1="h">
+              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.1.1.0.0.1.0.0.1.0" expl="apply premises" proved="true">
+              <proof prover="9"><result status="valid" time="1.13" steps="782083"/></proof>
+              </goal>
+              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.1.1.0.0.1.0.0.1.1" expl="apply premises" proved="true">
+              <proof prover="9"><result status="valid" time="2.52" steps="877196"/></proof>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.1.1.0.0.1.0.1" proved="true">
+            <proof prover="5"><result status="valid" time="0.65" steps="3157861"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.1.1.0.1" expl="equality hypothesis" proved="true">
+         <proof prover="7"><result status="valid" time="0.55" steps="25011"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.11.0.0.2.1.1.1" expl="equality hypothesis" proved="true">
+        <proof prover="7"><result status="valid" time="0.56" steps="23920"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.12" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.97" steps="678555"/></proof>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.13" expl="precondition" proved="true">
+  <transf name="apply" proved="true" arg1="set_injective">
+   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.13.0" expl="apply premises" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.13.0.0" expl="apply premises" proved="true">
+    <proof prover="9"><result status="valid" time="2.30" steps="771541"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.14" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.01" steps="681353"/></proof>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.15" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.15.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.76"/></proof>
+   </goal>
+   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.15.1" expl="precondition" proved="true">
+   <transf name="replace" proved="true" arg1="(power 2 n)" arg2="((power 2 n&#39; -&#39;&#39; 1) *&#39; power 2 n1 +&#39; power 2 n1)">
+    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.15.1.0" expl="precondition" proved="true">
+    <transf name="assert" proved="true" arg1="(forall a b c d. a&lt;=&#39;c /\ b &lt;&#39; d -&gt; a+&#39; b &lt;&#39; c +&#39;d)">
+     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.15.1.0.0" expl="asserted formula" proved="true">
+     <proof prover="9"><result status="valid" time="1.67" steps="715917"/></proof>
+     </goal>
+     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.15.1.0.1" expl="precondition" proved="true">
+     <transf name="apply" proved="true" arg1="h">
+      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.15.1.0.1.0" expl="apply premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.15.1.0.1.0.0" proved="true">
+       <transf name="assert" proved="true" arg1="(forall a b c . 0&lt;=&#39; a&lt;=&#39;c -&gt; 0&lt;=&#39; b -&gt; a*&#39; b &lt;=&#39; c *&#39;b)">
+        <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.15.1.0.1.0.0.0" expl="asserted formula" proved="true">
+        <proof prover="7"><result status="valid" time="0.59" steps="26083"/></proof>
+        </goal>
+        <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.15.1.0.1.0.0.1" proved="true">
+        <transf name="apply" proved="true" arg1="h">
+         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.15.1.0.1.0.0.1.0" expl="apply premises" proved="true">
+         <proof prover="9"><result status="valid" time="1.03" steps="681738"/></proof>
+         </goal>
+         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.15.1.0.1.0.0.1.1" expl="apply premises" proved="true">
+         <proof prover="9"><result status="valid" time="1.97" steps="773912"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.15.1.0.1.0.1" proved="true">
+       <proof prover="9"><result status="valid" time="2.00" steps="773240"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.15.1.1" expl="equality hypothesis" proved="true">
+    <proof prover="7"><result status="valid" time="0.55" steps="27257"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.16" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.04" steps="681419"/></proof>
+  </goal>
+  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="mult_cpower">
+   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0" expl="postcondition" proved="true">
+   <transf name="replace" proved="true" arg1="scal" arg2="(modulus scal)">
+    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="mult_modulus_rev">
+     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0" expl="postcondition" proved="true">
+     <transf name="replace" proved="true" arg1="(scal *. ind_sum (fun (i1:int) -&gt; (f @ (g @ i1)) @ y) 0 k)" arg2="(get_ket x ((y *&#39; power 2 n1) +&#39; (g&#39; @ i)))">
+      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="9"><result status="valid" time="1.02" steps="681422"/></proof>
+      </goal>
+      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1" expl="equality hypothesis" proved="true">
+      <transf name="rewrite" proved="true" arg1="Requires3">
+       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0" expl="equality hypothesis" proved="true">
+       <transf name="rewrite" proved="true" arg1="scalar_ket_value">
+        <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0" expl="equality hypothesis" proved="true">
+        <transf name="apply" proved="true" arg1="mult_eq_t">
+         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+         <proof prover="9"><result status="valid" time="1.01" steps="681420"/></proof>
+         </goal>
+         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1" expl="apply premises" proved="true">
+         <transf name="eliminate_let" proved="true" >
+          <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0" expl="apply premises" proved="true">
+          <transf name="rewrite" proved="true" arg1="Ensures39">
+           <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0" expl="apply premises" proved="true">
+           <transf name="compute_specified" proved="true" >
+            <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0" expl="apply premises" proved="true">
+            <transf name="rewrite" proved="true" arg1="Ensures14">
+             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0" expl="apply premises" proved="true">
+             <transf name="rewrite" proved="true" arg1="add_ket_l_value">
+              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0" expl="apply premises" proved="true">
+              <transf name="rewrite" proved="true" arg1="add_zero_t">
+               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0" expl="apply premises" proved="true">
+               <transf name="replace" proved="true" arg1="(my_filter (to_fset 0 (power 2 n&#39;)) (fun (j:int) -&gt; (g&#39; @ j) = (g&#39; @ i)))" arg2="(map g (to_fset 0 k))">
+                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                <transf name="rewrite" proved="true" arg1="Ensures4">
+                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                 <transf name="rewrite" proved="true" arg1="get_ket_sum_l_value">
+                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                  <transf name="rewrite" proved="true" arg1="ind_sum_to_sum">
+                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                   <transf name="apply" proved="true" arg1="sum_eq">
+                    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                    <transf name="split_vc" proved="true" >
+                     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                     <transf name="compute_specified" proved="true" >
+                      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                      <transf name="rewrite" proved="true" arg1="get_ket_sum_l_value">
+                       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                       <transf name="compute_specified" proved="true" >
+                        <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                        <transf name="rewrite" proved="true" arg1="bv_to_int_to_bv">
+                         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                         <transf name="instantiate" proved="true" arg1="sum_null_but_maybe_one_elt" arg2="(fun (e:bitvec) -&gt;
+      get_ket
+      (((f @ (g @ x)) @ bv_to_int e)
+       *.. kronecker (ket n&#39; (bv_to_int e)) (ket n1 (g&#39; @ (g @ x))))
+      ((y *&#39; power 2 n1) +&#39; (g&#39; @ i))),(n_bvs n&#39;),(int_to_bv y n&#39;)">
+                          <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                          <transf name="rewrite" proved="true" arg1="Hinst">
+                           <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                           <transf name="compute_specified" proved="true" >
+                            <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                            <transf name="rewrite" proved="true" arg1="scalar_ket_value">
+                             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                             <transf name="rewrite" proved="true" arg1="mult_one_t">
+                              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                              <proof prover="9"><result status="valid" time="2.54" steps="824568"/></proof>
+                              </goal>
+                              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                              <transf name="rewrite" proved="true" arg1="ket_kronecker_values">
+                               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0" expl="rewrite premises" proved="true">
+                               <transf name="replace" proved="true" arg1="((rows (ket n1 (g&#39; @ (g @ x)))))" arg2="(power 2 n1)">
+                                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0" expl="rewrite premises" proved="true">
+                                <transf name="rewrite" proved="true" arg1="bv_to_int_to_bv">
+                                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0" expl="rewrite premises" proved="true">
+                                 <transf name="replace" proved="true" arg1="(div ((y *&#39; power 2 n1) +&#39; (g&#39; @ i)) (power 2 n1))" arg2="y">
+                                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0.0" expl="rewrite premises" proved="true">
+                                  <transf name="replace" proved="true" arg1="(mod ((y *&#39; power 2 n1) +&#39; (g&#39; @ i)) (power 2 n1))" arg2="(g&#39; i)">
+                                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0.0.0" expl="rewrite premises" proved="true">
+                                   <transf name="rewrite" proved="true" arg1="mult_one_t">
+                                    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0.0.0.0" expl="rewrite premises" proved="true">
+                                    <proof prover="9"><result status="valid" time="2.35" steps="783155"/></proof>
+                                    </goal>
+                                    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                                    <proof prover="9"><result status="valid" time="2.02" steps="784516"/></proof>
+                                    </goal>
+                                   </transf>
+                                   </goal>
+                                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0.0.1" expl="equality hypothesis" proved="true">
+                                   <proof prover="7"><result status="valid" time="0.66" steps="29553"/></proof>
+                                   </goal>
+                                  </transf>
+                                  </goal>
+                                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0.1" expl="equality hypothesis" proved="true">
+                                  <proof prover="7"><result status="valid" time="0.61" steps="29672"/></proof>
+                                  </goal>
+                                 </transf>
+                                 </goal>
+                                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.1" expl="rewrite premises" proved="true">
+                                 <proof prover="9"><result status="valid" time="1.01" steps="681864"/></proof>
+                                 </goal>
+                                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.2" expl="rewrite premises" proved="true">
+                                 <proof prover="9"><result status="valid" time="1.03" steps="681873"/></proof>
+                                 </goal>
+                                </transf>
+                                </goal>
+                                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.1" expl="equality hypothesis" proved="true">
+                                <proof prover="9"><result status="valid" time="2.33" steps="784642"/></proof>
+                                </goal>
+                               </transf>
+                               </goal>
+                               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.1" expl="rewrite premises" proved="true">
+                               <proof prover="9"><result status="valid" time="2.33" steps="783253"/></proof>
+                               </goal>
+                               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.2" expl="rewrite premises" proved="true">
+                               <proof prover="9"><result status="valid" time="2.36" steps="783235"/></proof>
+                               </goal>
+                               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3" expl="rewrite premises" proved="true">
+                               <transf name="rewrite" proved="true" arg1="bv_to_int_to_bv">
+                                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3.0" expl="rewrite premises" proved="true">
+                                <transf name="assert" proved="true" arg1="(forall a b c d. a&lt;=&#39;c /\ b &lt;&#39; d -&gt; a+&#39; b &lt;&#39; c +&#39;d)">
+                                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3.0.0" expl="asserted formula" proved="true">
+                                 <proof prover="9"><result status="valid" time="1.74" steps="716566"/></proof>
+                                 </goal>
+                                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3.0.1" expl="rewrite premises" proved="true">
+                                 <transf name="replace" proved="true" arg1="(rows (ket n&#39; y) *&#39; rows (ket n1 (g&#39; @ (g @ x))))" arg2="((power 2 n&#39; -&#39;&#39; 1) *&#39; power 2 n1 +&#39; power 2 n1)">
+                                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3.0.1.0" expl="rewrite premises" proved="true">
+                                  <transf name="split_vc" proved="true" >
+                                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3.0.1.0.0" proved="true">
+                                   <proof prover="8"><result status="valid" time="2.86" steps="7195143"/></proof>
+                                   </goal>
+                                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3.0.1.0.1" proved="true">
+                                   <transf name="apply" proved="true" arg1="h">
+                                    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3.0.1.0.1.0" expl="apply premises" proved="true">
+                                    <transf name="split_vc" proved="true" >
+                                     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3.0.1.0.1.0.0" proved="true">
+                                     <transf name="assert" proved="true" arg1="(forall a b c . 0&lt;=&#39; a&lt;=&#39;c -&gt; 0&lt;=&#39; b -&gt; a*&#39; b &lt;=&#39; c *&#39;b)">
+                                      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3.0.1.0.1.0.0.0" expl="asserted formula" proved="true">
+                                      <proof prover="7"><result status="valid" time="0.70" steps="29932"/></proof>
+                                      </goal>
+                                      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3.0.1.0.1.0.0.1" proved="true">
+                                      <transf name="apply" proved="true" arg1="h">
+                                       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3.0.1.0.1.0.0.1.0" expl="apply premises" proved="true">
+                                       <proof prover="9"><result status="valid" time="1.03" steps="682246"/></proof>
+                                       </goal>
+                                       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3.0.1.0.1.0.0.1.1" expl="apply premises" proved="true">
+                                       <proof prover="9"><result status="valid" time="2.32" steps="783975"/></proof>
+                                       </goal>
+                                      </transf>
+                                      </goal>
+                                     </transf>
+                                     </goal>
+                                     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3.0.1.0.1.0.1" proved="true">
+                                     <proof prover="9"><result status="valid" time="2.33" steps="782233"/></proof>
+                                     </goal>
+                                    </transf>
+                                    </goal>
+                                   </transf>
+                                   </goal>
+                                  </transf>
+                                  </goal>
+                                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3.0.1.1" expl="equality hypothesis" proved="true">
+                                  <proof prover="8"><result status="valid" time="1.49" steps="7260258"/></proof>
+                                  </goal>
+                                 </transf>
+                                 </goal>
+                                </transf>
+                                </goal>
+                                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3.1" expl="rewrite premises" proved="true">
+                                <proof prover="9"><result status="valid" time="0.99" steps="681864"/></proof>
+                                </goal>
+                                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.3.2" expl="rewrite premises" proved="true">
+                                <proof prover="9"><result status="valid" time="1.01" steps="681873"/></proof>
+                                </goal>
+                               </transf>
+                               </goal>
+                              </transf>
+                              </goal>
+                             </transf>
+                             </goal>
+                            </transf>
+                            </goal>
+                           </transf>
+                           </goal>
+                           <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                           <proof prover="9"><result status="valid" time="2.66" steps="858173"/></proof>
+                           </goal>
+                           <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                           <transf name="split_vc" proved="true" >
+                            <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0" expl="rewrite premises" proved="true">
+                            <transf name="compute_specified" proved="true" >
+                             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0" expl="rewrite premises" proved="true">
+                             <transf name="rewrite" proved="true" arg1="scalar_ket_value">
+                              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0" expl="rewrite premises" proved="true">
+                              <transf name="rewrite" proved="true" arg1="mult_zero_t">
+                               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.0" expl="rewrite premises" proved="true">
+                               <proof prover="9"><result status="valid" time="1.14" steps="753759"/></proof>
+                               </goal>
+                               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1" expl="rewrite premises" proved="true">
+                               <transf name="rewrite" proved="true" arg1="ket_kronecker_values">
+                                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.0" expl="rewrite premises" proved="true">
+                                <transf name="apply" proved="true" arg1="zero_mult_t">
+                                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.0.0" expl="apply premises" proved="true">
+                                 <transf name="replace" proved="true" arg1="(div ((y *&#39; power 2 n1) +&#39; (g&#39; @ i)) (rows (ket n1 (g&#39; @ (g @ x)))))" arg2="y">
+                                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+                                  <transf name="rewrite" proved="true" arg1="get__ket_value">
+                                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.0.0.0.0" expl="apply premises" proved="true">
+                                   <proof prover="9"><result status="valid" time="3.37" steps="882376"/></proof>
+                                   </goal>
+                                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.0.0.0.1" expl="rewrite premises" proved="true">
+                                   <proof prover="9"><result status="valid" time="1.15" steps="753761"/></proof>
+                                   </goal>
+                                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.0.0.0.2" expl="rewrite premises" proved="true">
+                                   <transf name="split_vc" proved="true" >
+                                    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.0.0.0.2.0" expl="rewrite premises" proved="true">
+                                    <proof prover="9"><result status="valid" time="2.60" steps="860146"/></proof>
+                                    </goal>
+                                    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.0.0.0.2.1" expl="rewrite premises" proved="true">
+                                    <proof prover="8"><result status="valid" time="1.56" steps="7842491"/></proof>
+                                    </goal>
+                                   </transf>
+                                   </goal>
+                                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.0.0.0.3" expl="rewrite premises" proved="true">
+                                   <proof prover="9"><result status="valid" time="1.08" steps="753770"/></proof>
+                                   </goal>
+                                  </transf>
+                                  </goal>
+                                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.0.0.1" expl="equality hypothesis" proved="true">
+                                  <transf name="replace" proved="true" arg1="(rows (ket n1 (g&#39; @ (g @ x))))" arg2="(power 2 n1)">
+                                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.0.0.1.0" expl="equality hypothesis" proved="true">
+                                   <proof prover="7"><result status="valid" time="0.66" steps="29831"/></proof>
+                                   </goal>
+                                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.0.0.1.1" expl="equality hypothesis" proved="true">
+                                   <proof prover="9"><result status="valid" time="2.69" steps="862152"/></proof>
+                                   </goal>
+                                  </transf>
+                                  </goal>
+                                 </transf>
+                                 </goal>
+                                </transf>
+                                </goal>
+                                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.1" expl="rewrite premises" proved="true">
+                                <proof prover="9"><result status="valid" time="3.35" steps="881293"/></proof>
+                                </goal>
+                                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.2" expl="rewrite premises" proved="true">
+                                <proof prover="9"><result status="valid" time="2.32" steps="860970"/></proof>
+                                </goal>
+                                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3" expl="rewrite premises" proved="true">
+                                <transf name="replace" proved="true" arg1="(rows (ket n&#39; (bv_to_int k)) *&#39; rows (ket n1 (g&#39; @ (g @ x))))" arg2="((power 2 n&#39; -&#39;&#39; 1) *&#39; power 2 n1 +&#39; power 2 n1)">
+                                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.0" expl="rewrite premises" proved="true">
+                                 <transf name="split_vc" proved="true" >
+                                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.0.0" expl="rewrite premises" proved="true">
+                                  <proof prover="8"><result status="valid" time="2.50" steps="7851463"/></proof>
+                                  </goal>
+                                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.0.1" expl="rewrite premises" proved="true">
+                                  <transf name="assert" proved="true" arg1="(forall a b c d. a&lt;=&#39;c /\ b &lt;&#39; d -&gt; a+&#39; b &lt;&#39; c +&#39;d)">
+                                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.0.1.0" expl="asserted formula" proved="true">
+                                   <proof prover="9"><result status="valid" time="1.69" steps="790747"/></proof>
+                                   </goal>
+                                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.0.1.1" expl="rewrite premises" proved="true">
+                                   <transf name="apply" proved="true" arg1="h">
+                                    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.0.1.1.0" expl="apply premises" proved="true">
+                                    <transf name="assert" proved="true" arg1="(forall a b c . 0&lt;=&#39; a&lt;=&#39;c -&gt; 0&lt;=&#39; b -&gt; a*&#39; b &lt;=&#39; c *&#39;b)">
+                                     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.0.1.1.0.0" expl="asserted formula" proved="true">
+                                     <transf name="split_vc" proved="true" >
+                                      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.0.1.1.0.0.0" expl="asserted formula" proved="true">
+                                      <proof prover="7"><result status="valid" time="0.67" steps="30084"/></proof>
+                                      </goal>
+                                     </transf>
+                                     </goal>
+                                     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.0.1.1.0.1" expl="apply premises" proved="true">
+                                     <transf name="split_vc" proved="true" >
+                                      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.0.1.1.0.1.0" proved="true">
+                                      <transf name="apply" proved="true" arg1="h">
+                                       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.0.1.1.0.1.0.0" expl="apply premises" proved="true">
+                                       <proof prover="9"><result status="valid" time="1.13" steps="754143"/></proof>
+                                       </goal>
+                                       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.0.1.1.0.1.0.1" expl="apply premises" proved="true">
+                                       <proof prover="9"><result status="valid" time="2.31" steps="861636"/></proof>
+                                       </goal>
+                                      </transf>
+                                      </goal>
+                                      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.0.1.1.0.1.1" proved="true">
+                                      <proof prover="9"><result status="valid" time="2.64" steps="860078"/></proof>
+                                      </goal>
+                                     </transf>
+                                     </goal>
+                                    </transf>
+                                    </goal>
+                                   </transf>
+                                   </goal>
+                                  </transf>
+                                  </goal>
+                                 </transf>
+                                 </goal>
+                                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.1" expl="equality hypothesis" proved="true">
+                                 <transf name="replace" proved="true" arg1="(rows (ket n&#39; (bv_to_int k)))" arg2="(power 2 n&#39;)">
+                                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.1.0" expl="equality hypothesis" proved="true">
+                                  <transf name="replace" proved="true" arg1="(rows (ket n1 (g&#39; @ (g @ x))))" arg2="(power 2 n1)">
+                                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.1.0.0" expl="equality hypothesis" proved="true">
+                                   <proof prover="9"><result status="valid" time="1.16" steps="753796"/></proof>
+                                   </goal>
+                                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.1.0.1" expl="equality hypothesis" proved="true">
+                                   <proof prover="9"><result status="valid" time="2.62" steps="862152"/></proof>
+                                   </goal>
+                                  </transf>
+                                  </goal>
+                                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0.1.3.1.1" expl="equality hypothesis" proved="true">
+                                  <proof prover="9"><result status="valid" time="3.16" steps="882612"/></proof>
+                                  </goal>
+                                 </transf>
+                                 </goal>
+                                </transf>
+                                </goal>
+                               </transf>
+                               </goal>
+                              </transf>
+                              </goal>
+                             </transf>
+                             </goal>
+                            </transf>
+                            </goal>
+                           </transf>
+                           </goal>
+                          </transf>
+                          </goal>
+                         </transf>
+                         </goal>
+                         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                         <proof prover="9"><result status="valid" time="0.98" steps="681380"/></proof>
+                         </goal>
+                         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                         <proof prover="9"><result status="valid" time="1.95" steps="779426"/></proof>
+                         </goal>
+                        </transf>
+                        </goal>
+                       </transf>
+                       </goal>
+                       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                       <proof prover="9"><result status="valid" time="1.00" steps="681380"/></proof>
+                       </goal>
+                       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                       <transf name="replace" proved="true" arg1="(power 2 n)" arg2="((power 2 n&#39; -&#39;&#39; 1) *&#39; power 2 n1 +&#39; power 2 n1)">
+                        <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0" expl="rewrite premises" proved="true">
+                        <transf name="split_vc" proved="true" >
+                         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0" expl="rewrite premises" proved="true">
+                         <proof prover="8"><result status="valid" time="2.25" steps="7186979"/></proof>
+                         </goal>
+                         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.1" expl="rewrite premises" proved="true">
+                         <transf name="assert" proved="true" arg1="(forall a b c d. a&lt;=&#39;c /\ b &lt;&#39; d -&gt; a+&#39; b &lt;&#39; c +&#39;d)">
+                          <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.1.0" expl="asserted formula" proved="true">
+                          <proof prover="9"><result status="valid" time="1.42" steps="715986"/></proof>
+                          </goal>
+                          <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.1.1" expl="rewrite premises" proved="true">
+                          <transf name="apply" proved="true" arg1="h">
+                           <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.1.1.0" expl="apply premises" proved="true">
+                           <transf name="assert" proved="true" arg1="(forall a b c . 0&lt;=&#39; a&lt;=&#39;c -&gt; 0&lt;=&#39; b -&gt; a*&#39; b &lt;=&#39; c *&#39;b)">
+                            <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.1.1.0.0" expl="asserted formula" proved="true">
+                            <transf name="split_vc" proved="true" >
+                             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.1.1.0.0.0" expl="asserted formula" proved="true">
+                             <proof prover="7"><result status="valid" time="0.62" steps="29620"/></proof>
+                             </goal>
+                            </transf>
+                            </goal>
+                            <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.1.1.0.1" expl="apply premises" proved="true">
+                            <transf name="split_vc" proved="true" >
+                             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.1.1.0.1.0" proved="true">
+                             <transf name="apply" proved="true" arg1="h">
+                              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.1.1.0.1.0.0" expl="apply premises" proved="true">
+                              <proof prover="9"><result status="valid" time="1.02" steps="681762"/></proof>
+                              </goal>
+                              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.1.1.0.1.0.1" expl="apply premises" proved="true">
+                              <proof prover="9"><result status="valid" time="2.36" steps="781231"/></proof>
+                              </goal>
+                             </transf>
+                             </goal>
+                             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.1.1.0.1.1" proved="true">
+                             <proof prover="9"><result status="valid" time="2.33" steps="779784"/></proof>
+                             </goal>
+                            </transf>
+                            </goal>
+                           </transf>
+                           </goal>
+                          </transf>
+                          </goal>
+                         </transf>
+                         </goal>
+                        </transf>
+                        </goal>
+                        <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.2.1" expl="equality hypothesis" proved="true">
+                        <proof prover="7"><result status="valid" time="0.64" steps="30145"/></proof>
+                        </goal>
+                       </transf>
+                       </goal>
+                      </transf>
+                      </goal>
+                     </transf>
+                     </goal>
+                    </transf>
+                    </goal>
+                   </transf>
+                   </goal>
+                  </transf>
+                  </goal>
+                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                  <proof prover="9"><result status="valid" time="1.00" steps="681368"/></proof>
+                  </goal>
+                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                  <transf name="replace" proved="true" arg1="(power 2 n)" arg2="((power 2 n&#39; -&#39;&#39; 1) *&#39; power 2 n1 +&#39; power 2 n1)">
+                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0" expl="rewrite premises" proved="true">
+                   <transf name="split_vc" proved="true" >
+                    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.0" expl="rewrite premises" proved="true">
+                    <proof prover="8"><result status="valid" time="2.69" steps="7185941"/></proof>
+                    </goal>
+                    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.1" expl="rewrite premises" proved="true">
+                    <transf name="assert" proved="true" arg1="(forall a b c d. a&lt;=&#39;c /\ b &lt;&#39; d -&gt; a+&#39; b &lt;&#39; c +&#39;d)">
+                     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.1.0" expl="asserted formula" proved="true">
+                     <proof prover="9"><result status="valid" time="1.72" steps="715973"/></proof>
+                     </goal>
+                     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.1.1" expl="rewrite premises" proved="true">
+                     <transf name="apply" proved="true" arg1="h">
+                      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.1.1.0" expl="apply premises" proved="true">
+                      <transf name="assert" proved="true" arg1="(forall a b c . 0&lt;=&#39; a&lt;=&#39;c -&gt; 0&lt;=&#39; b -&gt; a*&#39; b &lt;=&#39; c *&#39;b)">
+                       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.1.1.0.0" expl="asserted formula" proved="true">
+                       <transf name="split_vc" proved="true" >
+                        <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.1.1.0.0.0" expl="asserted formula" proved="true">
+                        <proof prover="7"><result status="valid" time="0.64" steps="29459"/></proof>
+                        </goal>
+                       </transf>
+                       </goal>
+                       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.1.1.0.1" expl="apply premises" proved="true">
+                       <transf name="split_vc" proved="true" >
+                        <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.1.1.0.1.0" proved="true">
+                        <transf name="apply" proved="true" arg1="h">
+                         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.1.1.0.1.0.0" expl="apply premises" proved="true">
+                         <proof prover="9"><result status="valid" time="1.01" steps="681750"/></proof>
+                         </goal>
+                         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.1.1.0.1.0.1" expl="apply premises" proved="true">
+                         <proof prover="9"><result status="valid" time="2.30" steps="779170"/></proof>
+                         </goal>
+                        </transf>
+                        </goal>
+                        <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.1.1.0.1.1" proved="true">
+                        <proof prover="9"><result status="valid" time="2.36" steps="777727"/></proof>
+                        </goal>
+                       </transf>
+                       </goal>
+                      </transf>
+                      </goal>
+                     </transf>
+                     </goal>
+                    </transf>
+                    </goal>
+                   </transf>
+                   </goal>
+                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.1" expl="equality hypothesis" proved="true">
+                   <proof prover="7"><result status="valid" time="0.65" steps="29983"/></proof>
+                   </goal>
+                  </transf>
+                  </goal>
+                 </transf>
+                 </goal>
+                </transf>
+                </goal>
+                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+                <transf name="apply" proved="true" arg1="set_equal">
+                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1.0" expl="apply premises" proved="true">
+                 <transf name="split_vc" proved="true" >
+                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1.0.0" expl="apply premises" proved="true">
+                  <transf name="apply" proved="true" arg1="set_map_mem">
+                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+                   <transf name="instantiate" proved="true" arg1="Requires" arg2="e">
+                    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1.0.0.0.0" expl="apply premises" proved="true">
+                    <transf name="destruct" proved="true" arg1="Hinst">
+                     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1.0.0.0.0.0" expl="destruct premise" proved="true">
+                     <proof prover="5"><result status="valid" time="0.91" steps="3834408"/></proof>
+                     </goal>
+                     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1.0.0.0.0.1" expl="apply premises" proved="true">
+                     <transf name="destruct" proved="true" arg1="Hinst">
+                      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1.0.0.0.0.1.0" expl="destruct premise" proved="true">
+                      <proof prover="7"><result status="valid" time="0.56" steps="29483"/></proof>
+                      </goal>
+                      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1.0.0.0.0.1.1" expl="apply premises" proved="true">
+                      <transf name="destruct" proved="true" arg1="Hinst">
+                       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1.0.0.0.0.1.1.0" expl="apply premises" proved="true">
+                       <transf name="exists" proved="true" arg1="ind">
+                        <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1.0.0.0.0.1.1.0.0" proved="true">
+                        <proof prover="9"><result status="valid" time="2.34" steps="779332"/></proof>
+                        </goal>
+                       </transf>
+                       </goal>
+                      </transf>
+                      </goal>
+                     </transf>
+                     </goal>
+                    </transf>
+                    </goal>
+                   </transf>
+                   </goal>
+                  </transf>
+                  </goal>
+                 </transf>
+                 </goal>
+                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1.1" expl="apply premises" proved="true">
+                 <transf name="split_vc" proved="true" >
+                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1.1.0" expl="apply premises" proved="true">
+                  <transf name="apply" proved="true" arg1="in_my_filter">
+                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1.1.0.0" expl="apply premises" proved="true">
+                   <transf name="instantiate" proved="true" arg1="map_antec" arg2="g,(to_fset 0 k),e">
+                    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1.1.0.0.0" expl="apply premises" proved="true">
+                    <proof prover="9"><result status="valid" time="2.41" steps="782149"/></proof>
+                    </goal>
+                   </transf>
+                   </goal>
+                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1.1.0.1" expl="apply premises" proved="true">
+                   <transf name="compute_specified" proved="true" >
+                    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.0.1.1.0.1.0" expl="apply premises" proved="true">
+                    <proof prover="5"><result status="valid" time="1.29" steps="3909094"/></proof>
+                    </goal>
+                   </transf>
+                   </goal>
+                  </transf>
+                  </goal>
+                 </transf>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+               <transf name="rewrite" proved="true" arg1="get_ket_sum_l_value">
+                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0" expl="rewrite premises" proved="true">
+                <transf name="compute_specified" proved="true" >
+                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0" expl="rewrite premises" proved="true">
+                 <transf name="apply" proved="true" arg1="sum_null_">
+                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+                  <transf name="split_vc" proved="true" >
+                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0" expl="apply premises" proved="true">
+                   <transf name="compute_specified" proved="true" >
+                    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0" expl="apply premises" proved="true">
+                    <transf name="rewrite" proved="true" arg1="get_ket_sum_l_value">
+                     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0" expl="apply premises" proved="true">
+                     <transf name="apply" proved="true" arg1="sum_null_">
+                      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                      <transf name="split_vc" proved="true" >
+                       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                       <transf name="compute_specified" proved="true" >
+                        <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                        <transf name="rewrite" proved="true" arg1="scalar_ket_value">
+                         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                         <transf name="apply" proved="true" arg1="mult_zero_t">
+                          <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                          <transf name="rewrite" proved="true" arg1="ket_kronecker_values">
+                           <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                           <transf name="apply" proved="true" arg1="mult_zero_t">
+                            <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                            <transf name="rewrite" proved="true" arg1="bv_to_int_to_bv">
+                             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                             <transf name="replace" proved="true" arg1="(mod ((y *&#39; power 2 n1) +&#39; (g&#39; @ i)) (rows (ket n1 (g&#39; @ e1))))" arg2="(g&#39; i)">
+                              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                              <proof prover="5"><result status="valid" time="1.43" steps="4245481"/></proof>
+                              </goal>
+                              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+                              <transf name="replace" proved="true" arg1="(rows (ket n1 (g&#39; @ e1)))" arg2="(power 2 n1)">
+                               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0" expl="equality hypothesis" proved="true">
+                               <proof prover="7"><result status="valid" time="0.63" steps="29470"/></proof>
+                               </goal>
+                               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.1" expl="equality hypothesis" proved="true">
+                               <proof prover="9"><result status="valid" time="2.88" steps="877055"/></proof>
+                               </goal>
+                              </transf>
+                              </goal>
+                             </transf>
+                             </goal>
+                             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                             <proof prover="9"><result status="valid" time="1.12" steps="753326"/></proof>
+                             </goal>
+                             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                             <proof prover="5"><result status="valid" time="0.84" steps="4098581"/></proof>
+                             </goal>
+                            </transf>
+                            </goal>
+                           </transf>
+                           </goal>
+                           <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                           <proof prover="9"><result status="valid" time="2.78" steps="873621"/></proof>
+                           </goal>
+                           <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                           <proof prover="9"><result status="valid" time="2.21" steps="865179"/></proof>
+                           </goal>
+                           <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+                           <transf name="rewrite" proved="true" arg1="bv_to_int_to_bv">
+                            <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0" expl="rewrite premises" proved="true">
+                            <transf name="split_vc" proved="true" >
+                             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.0" expl="rewrite premises" proved="true">
+                             <proof prover="8"><result status="valid" time="2.61" steps="7837236"/></proof>
+                             </goal>
+                             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.1" expl="rewrite premises" proved="true">
+                             <transf name="replace" proved="true" arg1="(rows (ket n&#39; (bv_to_int e)) *&#39; rows (ket n1 (g&#39; @ e1)))" arg2="((power 2 n&#39; -&#39;&#39; 1) *&#39; power 2 n1 +&#39; power 2 n1)">
+                              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.1.0" expl="rewrite premises" proved="true">
+                              <transf name="assert" proved="true" arg1="(forall a b c d. a&lt;=&#39;c /\ b &lt;&#39; d -&gt; a+&#39; b &lt;&#39; c +&#39;d)">
+                               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.1.0.0" expl="asserted formula" proved="true">
+                               <proof prover="9"><result status="valid" time="1.90" steps="790230"/></proof>
+                               </goal>
+                               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.1.0.1" expl="rewrite premises" proved="true">
+                               <transf name="apply" proved="true" arg1="h">
+                                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.1.0.1.0" expl="apply premises" proved="true">
+                                <transf name="split_vc" proved="true" >
+                                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.1.0.1.0.0" proved="true">
+                                 <transf name="assert" proved="true" arg1="(forall a b c . 0&lt;=&#39; a&lt;=&#39;c -&gt; 0&lt;=&#39; b -&gt; a*&#39; b &lt;=&#39; c *&#39;b)">
+                                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.1.0.1.0.0.0" expl="asserted formula" proved="true">
+                                  <proof prover="7"><result status="valid" time="0.63" steps="29847"/></proof>
+                                  </goal>
+                                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.1.0.1.0.0.1" proved="true">
+                                  <transf name="apply" proved="true" arg1="h">
+                                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.1.0.1.0.0.1.0" expl="apply premises" proved="true">
+                                   <proof prover="9"><result status="valid" time="1.13" steps="753708"/></proof>
+                                   </goal>
+                                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.1.0.1.0.0.1.1" expl="apply premises" proved="true">
+                                   <proof prover="9"><result status="valid" time="2.22" steps="856782"/></proof>
+                                   </goal>
+                                  </transf>
+                                  </goal>
+                                 </transf>
+                                 </goal>
+                                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.1.0.1.0.1" proved="true">
+                                 <proof prover="9"><result status="valid" time="2.21" steps="855179"/></proof>
+                                 </goal>
+                                </transf>
+                                </goal>
+                               </transf>
+                               </goal>
+                              </transf>
+                              </goal>
+                              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.1.1" expl="equality hypothesis" proved="true">
+                              <transf name="replace" proved="true" arg1="(rows(ket n&#39; (bv_to_int e)))" arg2="(power 2 n&#39;)">
+                               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.1.1.0" expl="equality hypothesis" proved="true">
+                               <transf name="replace" proved="true" arg1="(rows(ket n1 (g e1)))" arg2="(power 2 n1)">
+                                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.1.1.0.0" expl="equality hypothesis" proved="true">
+                                <proof prover="7"><result status="valid" time="0.67" steps="31479"/></proof>
+                                </goal>
+                                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.1.1.0.1" expl="equality hypothesis" proved="true">
+                                <proof prover="9"><result status="valid" time="3.26" steps="876622"/></proof>
+                                </goal>
+                               </transf>
+                               </goal>
+                               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.0.1.1.1" expl="equality hypothesis" proved="true">
+                               <proof prover="9"><result status="valid" time="3.23" steps="874993"/></proof>
+                               </goal>
+                              </transf>
+                              </goal>
+                             </transf>
+                             </goal>
+                            </transf>
+                            </goal>
+                            <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.1" expl="rewrite premises" proved="true">
+                            <proof prover="9"><result status="valid" time="1.11" steps="753326"/></proof>
+                            </goal>
+                            <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.2" expl="rewrite premises" proved="true">
+                            <transf name="split_vc" proved="true" >
+                             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.2.0" expl="rewrite premises" proved="true">
+                             <proof prover="5"><result status="valid" time="0.87" steps="4087288"/></proof>
+                             </goal>
+                             <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0.0.3.2.1" expl="rewrite premises" proved="true">
+                             <proof prover="5"><result status="valid" time="0.95" steps="4164457"/></proof>
+                             </goal>
+                            </transf>
+                            </goal>
+                           </transf>
+                           </goal>
+                          </transf>
+                          </goal>
+                         </transf>
+                         </goal>
+                        </transf>
+                        </goal>
+                       </transf>
+                       </goal>
+                      </transf>
+                      </goal>
+                     </transf>
+                     </goal>
+                     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                     <proof prover="9"><result status="valid" time="0.97" steps="681438"/></proof>
+                     </goal>
+                     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                     <transf name="split_vc" proved="true" >
+                      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.2.0" expl="rewrite premises" proved="true">
+                      <proof prover="8"><result status="valid" time="2.43" steps="7187968"/></proof>
+                      </goal>
+                      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.2.1" expl="rewrite premises" proved="true">
+                      <transf name="replace" proved="true" arg1="(power 2 n)" arg2="((power 2 n&#39; -&#39;&#39; 1) *&#39; power 2 n1 +&#39; power 2 n1)">
+                       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.2.1.0" expl="rewrite premises" proved="true">
+                       <transf name="assert" proved="true" arg1="(forall a b c d. a&lt;=&#39;c /\ b &lt;&#39; d -&gt; a+&#39; b &lt;&#39; c +&#39;d)">
+                        <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.2.1.0.0" expl="asserted formula" proved="true">
+                        <proof prover="9"><result status="valid" time="1.64" steps="716064"/></proof>
+                        </goal>
+                        <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.2.1.0.1" expl="rewrite premises" proved="true">
+                        <transf name="apply" proved="true" arg1="h">
+                         <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.2.1.0.1.0" expl="apply premises" proved="true">
+                         <transf name="split_vc" proved="true" >
+                          <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.2.1.0.1.0.0" proved="true">
+                          <transf name="assert" proved="true" arg1="(forall a b c . 0&lt;=&#39; a&lt;=&#39;c -&gt; 0&lt;=&#39; b -&gt; a*&#39; b &lt;=&#39; c *&#39;b)">
+                           <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.2.1.0.1.0.0.0" expl="asserted formula" proved="true">
+                           <proof prover="7"><result status="valid" time="0.65" steps="29650"/></proof>
+                           </goal>
+                           <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.2.1.0.1.0.0.1" proved="true">
+                           <transf name="apply" proved="true" arg1="h">
+                            <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.2.1.0.1.0.0.1.0" expl="apply premises" proved="true">
+                            <proof prover="9"><result status="valid" time="0.92" steps="681820"/></proof>
+                            </goal>
+                            <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.2.1.0.1.0.0.1.1" expl="apply premises" proved="true">
+                            <proof prover="9"><result status="valid" time="2.24" steps="780299"/></proof>
+                            </goal>
+                           </transf>
+                           </goal>
+                          </transf>
+                          </goal>
+                          <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.2.1.0.1.0.1" proved="true">
+                          <proof prover="9"><result status="valid" time="2.23" steps="778595"/></proof>
+                          </goal>
+                         </transf>
+                         </goal>
+                        </transf>
+                        </goal>
+                       </transf>
+                       </goal>
+                       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.0.0.0.0.0.2.1.1" expl="equality hypothesis" proved="true">
+                       <proof prover="7"><result status="valid" time="0.58" steps="30167"/></proof>
+                       </goal>
+                      </transf>
+                      </goal>
+                     </transf>
+                     </goal>
+                    </transf>
+                    </goal>
+                   </transf>
+                   </goal>
+                  </transf>
+                  </goal>
+                 </transf>
+                 </goal>
+                </transf>
+                </goal>
+                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.1" expl="rewrite premises" proved="true">
+                <proof prover="9"><result status="valid" time="0.95" steps="681368"/></proof>
+                </goal>
+                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.2" expl="rewrite premises" proved="true">
+                <transf name="split_vc" proved="true" >
+                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.2.0" expl="rewrite premises" proved="true">
+                 <proof prover="8"><result status="valid" time="2.69" steps="7185941"/></proof>
+                 </goal>
+                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.2.1" expl="rewrite premises" proved="true">
+                 <transf name="replace" proved="true" arg1="(power 2 n)" arg2="((power 2 n&#39; -&#39;&#39; 1) *&#39; power 2 n1 +&#39; power 2 n1)">
+                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.2.1.0" expl="rewrite premises" proved="true">
+                  <transf name="assert" proved="true" arg1="(forall a b c d. a&lt;=&#39;c /\ b &lt;&#39; d -&gt; a+&#39; b &lt;&#39; c +&#39;d)">
+                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.2.1.0.0" expl="asserted formula" proved="true">
+                   <proof prover="9"><result status="valid" time="1.62" steps="715973"/></proof>
+                   </goal>
+                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.2.1.0.1" expl="rewrite premises" proved="true">
+                   <transf name="apply" proved="true" arg1="h">
+                    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.2.1.0.1.0" expl="apply premises" proved="true">
+                    <transf name="split_vc" proved="true" >
+                     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.2.1.0.1.0.0" proved="true">
+                     <transf name="assert" proved="true" arg1="(forall a b c . 0&lt;=&#39; a&lt;=&#39;c -&gt; 0&lt;=&#39; b -&gt; a*&#39; b &lt;=&#39; c *&#39;b)">
+                      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.2.1.0.1.0.0.0" expl="asserted formula" proved="true">
+                      <proof prover="7"><result status="valid" time="0.68" steps="29466"/></proof>
+                      </goal>
+                      <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.2.1.0.1.0.0.1" proved="true">
+                      <transf name="apply" proved="true" arg1="h">
+                       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.2.1.0.1.0.0.1.0" expl="apply premises" proved="true">
+                       <proof prover="9"><result status="valid" time="1.08" steps="681750"/></proof>
+                       </goal>
+                       <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.2.1.0.1.0.0.1.1" expl="apply premises" proved="true">
+                       <proof prover="9"><result status="valid" time="2.28" steps="779170"/></proof>
+                       </goal>
+                      </transf>
+                      </goal>
+                     </transf>
+                     </goal>
+                     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.2.1.0.1.0.1" proved="true">
+                     <proof prover="9"><result status="valid" time="1.99" steps="777466"/></proof>
+                     </goal>
+                    </transf>
+                    </goal>
+                   </transf>
+                   </goal>
+                  </transf>
+                  </goal>
+                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.0.1.2.1.1" expl="equality hypothesis" proved="true">
+                  <proof prover="7"><result status="valid" time="0.62" steps="29983"/></proof>
+                  </goal>
+                 </transf>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.1" expl="rewrite premises" proved="true">
+              <transf name="split_vc" proved="true" >
+               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.1.0" expl="rewrite premises" proved="true">
+               <proof prover="8"><result status="valid" time="2.32" steps="7185941"/></proof>
+               </goal>
+               <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.1.1" expl="rewrite premises" proved="true">
+               <transf name="replace" proved="true" arg1="(power 2 n)" arg2="((power 2 n&#39; -&#39;&#39; 1) *&#39; power 2 n1 +&#39; power 2 n1)">
+                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.1.1.0" expl="rewrite premises" proved="true">
+                <transf name="assert" proved="true" arg1="(forall a b c d. a&lt;=&#39;c /\ b &lt;&#39; d -&gt; a+&#39; b &lt;&#39; c +&#39;d)">
+                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.1.1.0.0" expl="asserted formula" proved="true">
+                 <proof prover="9"><result status="valid" time="1.82" steps="715973"/></proof>
+                 </goal>
+                 <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.1.1.0.1" expl="rewrite premises" proved="true">
+                 <transf name="apply" proved="true" arg1="h">
+                  <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.1.1.0.1.0" expl="apply premises" proved="true">
+                  <transf name="split_vc" proved="true" >
+                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.1.1.0.1.0.0" proved="true">
+                   <transf name="assert" proved="true" arg1="(forall a b c . 0&lt;=&#39; a&lt;=&#39;c -&gt; 0&lt;=&#39; b -&gt; a*&#39; b &lt;=&#39; c *&#39;b)">
+                    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.1.1.0.1.0.0.0" expl="asserted formula" proved="true">
+                    <proof prover="7"><result status="valid" time="0.63" steps="29466"/></proof>
+                    </goal>
+                    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.1.1.0.1.0.0.1" proved="true">
+                    <transf name="apply" proved="true" arg1="h">
+                     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.1.1.0.1.0.0.1.0" expl="apply premises" proved="true">
+                     <proof prover="9"><result status="valid" time="1.08" steps="681750"/></proof>
+                     </goal>
+                     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.1.1.0.1.0.0.1.1" expl="apply premises" proved="true">
+                     <proof prover="9"><result status="valid" time="2.13" steps="779170"/></proof>
+                     </goal>
+                    </transf>
+                    </goal>
+                   </transf>
+                   </goal>
+                   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.1.1.0.1.0.1" proved="true">
+                   <proof prover="9"><result status="valid" time="2.10" steps="777466"/></proof>
+                   </goal>
+                  </transf>
+                  </goal>
+                 </transf>
+                 </goal>
+                </transf>
+                </goal>
+                <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.1.1.1" expl="equality hypothesis" proved="true">
+                <proof prover="7"><result status="valid" time="0.61" steps="29983"/></proof>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.0.0.1.0.0.1.0.0.0.0.2" expl="rewrite premises" proved="true">
+              <proof prover="9"><result status="valid" time="0.90" steps="681368"/></proof>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.1" expl="equality hypothesis" proved="true">
+    <transf name="rewrite" proved="true" arg1="modulus_real_pos">
+     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.1.0" expl="equality hypothesis" proved="true">
+     <proof prover="9"><result status="valid" time="0.92" steps="681420"/></proof>
+     </goal>
+     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.1.1" expl="rewrite premises" proved="true">
+     <proof prover="9"><result status="valid" time="0.90" steps="681422"/></proof>
+     </goal>
+     <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.0.1.2" expl="rewrite premises" proved="true">
+     <proof prover="9"><result status="valid" time="1.10" steps="681422"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="proba_measure_from_scal_sum_sum_fun&#39;vc.17.1" expl="rewrite premises" proved="true">
+   <proof prover="9"><result status="valid" time="0.85" steps="681429"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_from_scal_ind_sum&#39;vc" expl="VC for proba_measure_from_scal_ind_sum" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_from_scal_ind_sum&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Requires1">
+   <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="proba_measure_scal">
+    <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="mult_eq_t">
+     <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.0" expl="apply premises" proved="true">
+     <proof prover="9"><result status="valid" time="0.71" steps="454603"/></proof>
+     </goal>
+     <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1" expl="apply premises" proved="true">
+     <transf name="rewrite" proved="true" arg1="proba_measure&#39;def">
+      <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0" expl="apply premises" proved="true">
+      <transf name="apply" proved="true" arg1="cpower_eq">
+       <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0" expl="apply premises" proved="true">
+       <transf name="replace" proved="true" arg1="(get_ket
+   (ket_sum_l (n_bvs n)
+    (fun (k:bitvec) -&gt;
+      ket_sum_l (n_bvs n)
+      (fun (l:bitvec) -&gt; ((f @ bv_to_int k) @ bv_to_int l) *.. bv_to_ket l) n)
+    n)
+   i)" arg2="(ind_sum (fun (k:int) -&gt; (f @ k) @ i) 0 (power 2 n))">
+        <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+        <proof prover="9"><result status="valid" time="1.69" steps="569195"/></proof>
+        </goal>
+        <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1" expl="equality hypothesis" proved="true">
+        <transf name="replace" proved="true" arg1="(ind_sum (fun (k:int) -&gt; (f @ k) @ i) 0 (power 2 n))" arg2="(sum (n_bvs n)
+    (fun (k:bitvec) -&gt; (fun (k1:int) -&gt; (f @ k1) @ i) @ bv_to_int k))">
+         <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0" expl="equality hypothesis" proved="true">
+         <transf name="rewrite" proved="true" arg1="get_ket_sum_l_value">
+          <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0" expl="equality hypothesis" proved="true">
+          <transf name="apply" proved="true" arg1="sum_eq">
+           <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0" expl="apply premises" proved="true">
+           <transf name="split_vc" proved="true" >
+            <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0" expl="apply premises" proved="true">
+            <transf name="compute_specified" proved="true" >
+             <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0" expl="apply premises" proved="true">
+             <transf name="rewrite" proved="true" arg1="get_ket_sum_l_value">
+              <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0.0" expl="apply premises" proved="true">
+              <transf name="compute_specified" proved="true" >
+               <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+               <transf name="instantiate" proved="true" arg1="sum_null_but_maybe_one_elt" arg2="(fun (e:bitvec) -&gt;
+    get_ket (((f @ bv_to_int x) @ bv_to_int e) *.. bv_to_ket e) i),(n_bvs n),(int_to_bv i n)">
+                <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                <transf name="rewrite" proved="true" arg1="Hinst">
+                 <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                 <transf name="compute_specified" proved="true" >
+                  <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                  <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+                   <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                   <proof prover="9"><result status="valid" time="2.25" steps="674184"/></proof>
+                   </goal>
+                  </transf>
+                  </goal>
+                 </transf>
+                 </goal>
+                 <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                 <proof prover="9"><result status="valid" time="1.44" steps="585233"/></proof>
+                 </goal>
+                 <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                 <transf name="split_vc" proved="true" >
+                  <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0" expl="rewrite premises" proved="true">
+                  <transf name="compute_specified" proved="true" >
+                   <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.0" expl="rewrite premises" proved="true">
+                   <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+                    <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.0.0" expl="rewrite premises" proved="true">
+                    <transf name="apply" proved="true" arg1="mult_zero_t">
+                     <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.0.0.0" expl="apply premises" proved="true">
+                     <transf name="rewrite" proved="true" arg1="get_ket_bv_to_ket_length">
+                      <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.0.0.0.0" expl="apply premises" proved="true">
+                      <proof prover="9"><result status="valid" time="3.90" steps="1020970"/></proof>
+                      </goal>
+                      <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0.0.0.0.2.0.0.0.0.1" expl="rewrite premises" proved="true">
+                      <proof prover="0"><result status="valid" time="0.54"/></proof>
+                      </goal>
+                     </transf>
+                     </goal>
+                    </transf>
+                    </goal>
+                   </transf>
+                   </goal>
+                  </transf>
+                  </goal>
+                 </transf>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+              <proof prover="9"><result status="valid" time="1.48" steps="580621"/></proof>
+              </goal>
+              <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+              <proof prover="9"><result status="valid" time="0.70" steps="505857"/></proof>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.1" expl="rewrite premises" proved="true">
+          <proof prover="9"><result status="valid" time="1.58" steps="526275"/></proof>
+          </goal>
+          <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.0.2" expl="rewrite premises" proved="true">
+          <proof prover="9"><result status="valid" time="0.75" steps="454605"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.1" expl="equality hypothesis" proved="true">
+         <transf name="case" proved="true" arg1="(n =0)">
+          <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.1.0" expl="true case (equality hypothesis)" proved="true">
+          <transf name="rewrite" proved="true" arg1="ind_sum_cardone">
+           <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.1.0.0" expl="true case (equality hypothesis)" proved="true">
+           <transf name="rewrite" proved="true" arg1="sum_one">
+            <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.1.0.0.0" expl="true case (equality hypothesis)" proved="true">
+            <transf name="compute_specified" proved="true" >
+             <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.1.0.0.0.0" expl="true case (equality hypothesis)" proved="true">
+             <proof prover="8"><result status="valid" time="1.35" steps="5491264"/></proof>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.1.0.0.1" expl="rewrite premises" proved="true">
+            <proof prover="9"><result status="valid" time="1.07" steps="506017"/></proof>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.1.0.1" expl="rewrite premises" proved="true">
+           <proof prover="9"><result status="valid" time="1.01" steps="482518"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.1.1" expl="false case (equality hypothesis)" proved="true">
+          <transf name="apply" proved="true" arg1="ind_sum_bv">
+           <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.0.1.1.1.0" expl="apply premises" proved="true">
+           <proof prover="9"><result status="valid" time="1.58" steps="526305"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.0.1" expl="apply premises" proved="true">
+       <proof prover="9"><result status="valid" time="0.63" steps="454594"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.1" expl="rewrite premises" proved="true">
+      <transf name="apply" proved="true" arg1="ket_sum_ket_l">
+       <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.1.0" expl="apply premises" proved="true">
+       <proof prover="9"><result status="valid" time="1.38" steps="526275"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.0.1.2" expl="rewrite premises" proved="true">
+      <proof prover="9"><result status="valid" time="0.65" steps="454605"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.1" expl="rewrite premises" proved="true">
+    <transf name="apply" proved="true" arg1="ket_sum_ket_l">
+     <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.1.0" expl="apply premises" proved="true">
+     <proof prover="9"><result status="valid" time="1.39" steps="526275"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.2" expl="rewrite premises" proved="true">
+    <proof prover="9"><result status="valid" time="0.65" steps="454605"/></proof>
+    </goal>
+    <goal name="proba_measure_from_scal_ind_sum&#39;vc.0.0.3" expl="rewrite premises" proved="true">
+    <proof prover="9"><result status="valid" time="0.63" steps="454596"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="top_proba_measure_from_scal_ind_sum&#39;vc" expl="VC for top_proba_measure_from_scal_ind_sum" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.42" steps="527369"/></proof>
+  </goal>
+  <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.52" steps="561476"/></proof>
+  </goal>
+  <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.63" steps="586617"/></proof>
+  </goal>
+  <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.83" steps="586629"/></proof>
+  </goal>
+  <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.82" steps="586633"/></proof>
+  </goal>
+  <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.5" expl="precondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Requires4">
+   <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.5.0" expl="precondition" proved="true">
+   <transf name="apply" proved="true" arg1="scalar_eq">
+    <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.5.0.0" expl="apply premises" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.5.0.0.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="ket_sum_eq">
+      <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.5.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="9"><result status="valid" time="1.84" steps="662926"/></proof>
+      </goal>
+      <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.5.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="9"><result status="valid" time="0.69" steps="586634"/></proof>
+      </goal>
+      <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.5.0.0.0.2" expl="apply premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.5.0.0.0.2.0" expl="apply premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.5.0.0.0.2.0.0" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="ket_sum_eq">
+         <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.5.0.0.0.2.0.0.0" expl="apply premises" proved="true">
+         <proof prover="9"><result status="valid" time="1.70" steps="711180"/></proof>
+         </goal>
+         <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.5.0.0.0.2.0.0.1" expl="apply premises" proved="true">
+         <proof prover="9"><result status="valid" time="0.79" steps="632417"/></proof>
+         </goal>
+         <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.5.0.0.0.2.0.0.2" expl="apply premises" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.5.0.0.0.2.0.0.2.0" expl="apply premises" proved="true">
+          <transf name="compute_specified" proved="true" >
+           <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.5.0.0.0.2.0.0.2.0.0" expl="apply premises" proved="true">
+           <transf name="apply" proved="true" arg1="scalar_eq_gen">
+            <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.5.0.0.0.2.0.0.2.0.0.0" expl="apply premises" proved="true">
+            <proof prover="9"><result status="valid" time="0.72" steps="632429"/></proof>
+            </goal>
+            <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.5.0.0.0.2.0.0.2.0.0.1" expl="apply premises" proved="true">
+            <proof prover="0"><result status="valid" time="0.58"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.62" steps="586846"/></proof>
+  </goal>
+  <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.72" steps="586778"/></proof>
+  </goal>
+  <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.68" steps="586790"/></proof>
+  </goal>
+  <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.9" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.76" steps="671749"/></proof>
+  </goal>
+  <goal name="top_proba_measure_from_scal_ind_sum&#39;vc.10" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="2.27" steps="687327"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_cond_eq&#39;vc" expl="VC for proba_measure_cond_eq" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_cond_eq&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="proba_measure_cond&#39;def">
+   <goal name="proba_measure_cond_eq&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="proba_measure_cond&#39;def">
+    <goal name="proba_measure_cond_eq&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="replace" proved="true" arg1="(my_filter (to_fset 0 (power 2 n)) p&#39;)" arg2="(my_filter (to_fset 0 (power 2 n)) p)">
+     <goal name="proba_measure_cond_eq&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="compute_specified" proved="true" >
+     </transf>
+     </goal>
+     <goal name="proba_measure_cond_eq&#39;vc.0.0.0.1" expl="equality hypothesis" proved="true">
+     <transf name="apply" proved="true" arg1="set_equal">
+      <goal name="proba_measure_cond_eq&#39;vc.0.0.0.1.0" expl="apply premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="proba_measure_cond_eq&#39;vc.0.0.0.1.0.0" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="in_my_filter">
+        <goal name="proba_measure_cond_eq&#39;vc.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+        <proof prover="9"><result status="valid" time="1.15" steps="539801"/></proof>
+        </goal>
+        <goal name="proba_measure_cond_eq&#39;vc.0.0.0.1.0.0.1" expl="apply premises" proved="true">
+        <transf name="split_all_full" proved="true" >
+         <goal name="proba_measure_cond_eq&#39;vc.0.0.0.1.0.0.1.0" expl="apply premises" proved="true">
+         <proof prover="5"><result status="valid" time="0.48" steps="2317562"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="proba_measure_cond_eq&#39;vc.0.0.0.1.1" expl="apply premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="proba_measure_cond_eq&#39;vc.0.0.0.1.1.0" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="in_my_filter">
+        <goal name="proba_measure_cond_eq&#39;vc.0.0.0.1.1.0.0" expl="apply premises" proved="true">
+        <proof prover="9"><result status="valid" time="1.15" steps="539801"/></proof>
+        </goal>
+        <goal name="proba_measure_cond_eq&#39;vc.0.0.0.1.1.0.1" expl="apply premises" proved="true">
+        <transf name="split_all_full" proved="true" >
+         <goal name="proba_measure_cond_eq&#39;vc.0.0.0.1.1.0.1.0" expl="apply premises" proved="true">
+         <proof prover="5"><result status="valid" time="0.61" steps="2317562"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="proba_measure_cond_eq&#39;vc.0.0.1" expl="rewrite premises" proved="true">
+    <proof prover="9"><result status="valid" time="0.60" steps="444116"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="proba_measure_cond_eq&#39;vc.0.1" expl="rewrite premises" proved="true">
+   <proof prover="9"><result status="valid" time="0.62" steps="444116"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_cond_entails&#39;vc" expl="VC for proba_measure_cond_entails" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_cond_entails&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.59" steps="444325"/></proof>
+  </goal>
+  <goal name="proba_measure_cond_entails&#39;vc.1" expl="precondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="proba_measure_cond_entails&#39;vc.1.0" expl="precondition" proved="true">
+   <transf name="assert" proved="true" arg1="(not (fun (i:int) -&gt; (p&#39; @ i) = True /\ not (p @ i) = True) e)">
+    <goal name="proba_measure_cond_entails&#39;vc.1.0.0" expl="asserted formula" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="proba_measure_cond_entails&#39;vc.1.0.0.0" expl="asserted formula" proved="true">
+     <proof prover="9"><result status="valid" time="1.47" steps="660365"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="proba_measure_cond_entails&#39;vc.1.0.1" expl="precondition" proved="true">
+    <proof prover="9"><result status="valid" time="4.86" steps="1476327"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="proba_measure_cond_entails&#39;vc.2" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="proba_measure_cond_entails&#39;vc.2.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="proba_measure_cond&#39;def">
+    <goal name="proba_measure_cond_entails&#39;vc.2.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="proba_measure_cond&#39;def">
+     <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0" expl="postcondition" proved="true">
+     <transf name="replace" proved="true" arg1="(my_filter (to_fset 0 (power 2 n)) p&#39;)" arg2="(union (my_filter (to_fset 0 (power 2 n)) p)
+   (my_filter (to_fset 0 (power 2 n))
+    (fun (i:int) -&gt; (p&#39; @ i) = True /\ not (p @ i) = True)))">
+      <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="Ensures">
+       <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="assert" proved="true" arg1="(forall a b. real_ a -&gt; c_zero &lt;=. b -&gt; a &lt;=. a+.b)">
+        <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.0.0.0" expl="asserted formula" proved="true">
+        <proof prover="9"><result status="valid" time="1.45" steps="661751"/></proof>
+        </goal>
+        <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.0.0.1" expl="postcondition" proved="true">
+        <transf name="apply" proved="true" arg1="h">
+         <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.0.0.1.0" expl="apply premises" proved="true">
+         <proof prover="9"><result status="valid" time="2.57" steps="728826"/></proof>
+         </goal>
+         <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.0.0.1.1" expl="apply premises" proved="true">
+         <transf name="apply" proved="true" arg1="positive_sum">
+          <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.0.0.1.1.0" expl="apply premises" proved="true">
+          <transf name="split_vc" proved="true" >
+           <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.0.0.1.1.0.0" expl="apply premises" proved="true">
+           <transf name="compute_specified" proved="true" >
+            <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.0.0.1.1.0.0.0" expl="apply premises" proved="true">
+            <proof prover="9"><result status="valid" time="1.98" steps="714757"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.1" expl="equality hypothesis" proved="true">
+      <transf name="apply" proved="true" arg1="set_equal">
+       <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.1.0" expl="apply premises" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.1.0.0" expl="apply premises" proved="true">
+        <transf name="case" proved="true" arg1="(p e)">
+         <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.1.0.0.0" expl="true case (apply premises)" proved="true">
+         <proof prover="9"><result status="valid" time="1.57" steps="720259"/></proof>
+         </goal>
+         <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.1.0.0.1" expl="false case (apply premises)" proved="true">
+         <proof prover="9"><result status="valid" time="4.11" steps="1245531"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.1.1" expl="apply premises" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.1.1.0" expl="apply premises" proved="true">
+        <transf name="case" proved="true" arg1="(p e)">
+         <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.1.1.0.0" expl="true case (apply premises)" proved="true">
+         <transf name="apply" proved="true" arg1="in_my_filter">
+          <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.1.1.0.0.0" expl="apply premises" proved="true">
+          <proof prover="9"><result status="valid" time="2.13" steps="729852"/></proof>
+          </goal>
+          <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.1.1.0.0.1" expl="apply premises" proved="true">
+          <transf name="apply" proved="true" arg1="Requires">
+           <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.1.1.0.0.1.0" expl="apply premises" proved="true">
+           <transf name="case" proved="true" arg1="(mem e (my_filter (to_fset 0 (power 2 n)) p) )">
+            <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.1.1.0.0.1.0.0" expl="true case (apply premises)" proved="true">
+            <proof prover="5"><result status="valid" time="0.47" steps="2476871"/></proof>
+            </goal>
+            <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.1.1.0.0.1.0.1" expl="false case (apply premises)" proved="true">
+            <proof prover="9"><result status="valid" time="1.89" steps="728278"/></proof>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.1.1.0.0.1.1" expl="apply premises" proved="true">
+           <proof prover="9"><result status="valid" time="0.80" steps="629906"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="proba_measure_cond_entails&#39;vc.2.0.0.0.1.1.0.1" expl="false case (apply premises)" proved="true">
+         <proof prover="9"><result status="valid" time="2.28" steps="731037"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="proba_measure_cond_entails&#39;vc.2.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="9"><result status="valid" time="0.91" steps="629798"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="proba_measure_cond_entails&#39;vc.2.0.1" expl="rewrite premises" proved="true">
+    <proof prover="9"><result status="valid" time="0.88" steps="629798"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_cond_add&#39;vc" expl="VC for proba_measure_cond_add" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_cond_add&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.71" steps="510692"/></proof>
+  </goal>
+  <goal name="proba_measure_cond_add&#39;vc.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="proba_measure_cond_add&#39;vc.1.0" expl="precondition" proved="true">
+   <proof prover="9"><result status="valid" time="3.12" steps="1086560"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="proba_measure_cond_add&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.83" steps="629921"/></proof>
+  </goal>
+  <goal name="proba_measure_cond_add&#39;vc.3" expl="precondition" proved="true">
+  <transf name="case" proved="true" arg1="(p&#39; i)">
+   <goal name="proba_measure_cond_add&#39;vc.3.0" expl="true case (precondition)" proved="true">
+   <transf name="apply" proved="true" arg1="Requires4">
+    <goal name="proba_measure_cond_add&#39;vc.3.0.0" expl="apply premises" proved="true">
+    <proof prover="9"><result status="valid" time="1.86" steps="711093"/></proof>
+    </goal>
+    <goal name="proba_measure_cond_add&#39;vc.3.0.1" expl="apply premises" proved="true">
+    <proof prover="9"><result status="valid" time="0.86" steps="630041"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="proba_measure_cond_add&#39;vc.3.1" expl="false case (precondition)" proved="true">
+   <transf name="apply" proved="true" arg1="Requires5">
+    <goal name="proba_measure_cond_add&#39;vc.3.1.0" expl="apply premises" proved="true">
+    <proof prover="9"><result status="valid" time="1.82" steps="712426"/></proof>
+    </goal>
+    <goal name="proba_measure_cond_add&#39;vc.3.1.1" expl="apply premises" proved="true">
+    <transf name="compute_hyp" proved="true" arg1="in" arg2="H">
+     <goal name="proba_measure_cond_add&#39;vc.3.1.1.0" expl="apply premises" proved="true">
+     <proof prover="9"><result status="valid" time="0.89" steps="629996"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="proba_measure_cond_add&#39;vc.4" expl="postcondition" proved="true">
+  <transf name="assert" proved="true" arg1="(scal2 &lt;=. proba_measure_cond x n (fun (i:int) -&gt; (p @ i) = True \/ (p&#39; @ i) = True))
+">
+   <goal name="proba_measure_cond_add&#39;vc.4.0" expl="asserted formula" proved="true">
+   <transf name="assert" proved="true" arg1="(scal +. scal&#39;  &lt;=. proba_measure_cond x n
+      (fun (i:int) -&gt; (p @ i) = True \/ (p&#39; @ i) = True))">
+    <goal name="proba_measure_cond_add&#39;vc.4.0.0" expl="asserted formula" proved="true">
+    <transf name="rewrite" proved="true" arg1="proba_measure_cond&#39;def">
+     <goal name="proba_measure_cond_add&#39;vc.4.0.0.0" expl="asserted formula" proved="true">
+     <transf name="replace" proved="true" arg1="(my_filter (to_fset 0 (power 2 n))
+       (fun (i:int) -&gt; (p @ i) = True \/ (p&#39; @ i) = True))" arg2="(union (my_filter (to_fset 0 (power 2 n)) p)
+   (my_filter (to_fset 0 (power 2 n)) p&#39;))">
+      <goal name="proba_measure_cond_add&#39;vc.4.0.0.0.0" expl="asserted formula" proved="true">
+      <transf name="rewrite" proved="true" arg1="Ensures1">
+       <goal name="proba_measure_cond_add&#39;vc.4.0.0.0.0.0" expl="asserted formula" proved="true">
+       <transf name="apply" proved="true" arg1="compat_order_add_both">
+        <goal name="proba_measure_cond_add&#39;vc.4.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <proof prover="9"><result status="valid" time="1.51" steps="664398"/></proof>
+        </goal>
+        <goal name="proba_measure_cond_add&#39;vc.4.0.0.0.0.0.1" expl="apply premises" proved="true">
+        <proof prover="9"><result status="valid" time="1.52" steps="664398"/></proof>
+        </goal>
+        <goal name="proba_measure_cond_add&#39;vc.4.0.0.0.0.0.2" expl="apply premises" proved="true">
+        <proof prover="9"><result status="valid" time="1.51" steps="664663"/></proof>
+        </goal>
+        <goal name="proba_measure_cond_add&#39;vc.4.0.0.0.0.0.3" expl="apply premises" proved="true">
+        <proof prover="9"><result status="valid" time="1.55" steps="664642"/></proof>
+        </goal>
+        <goal name="proba_measure_cond_add&#39;vc.4.0.0.0.0.0.4" expl="apply premises" proved="true">
+        <proof prover="9"><result status="valid" time="1.60" steps="664663"/></proof>
+        </goal>
+        <goal name="proba_measure_cond_add&#39;vc.4.0.0.0.0.0.5" expl="apply premises" proved="true">
+        <proof prover="9"><result status="valid" time="1.54" steps="664642"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="proba_measure_cond_add&#39;vc.4.0.0.0.1" expl="equality hypothesis" proved="true">
+      <transf name="apply" proved="true" arg1="set_equal">
+       <goal name="proba_measure_cond_add&#39;vc.4.0.0.0.1.0" expl="apply premises" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="proba_measure_cond_add&#39;vc.4.0.0.0.1.0.0" expl="apply premises" proved="true">
+        <proof prover="9"><result status="valid" time="4.31" steps="1332501"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="proba_measure_cond_add&#39;vc.4.0.0.0.1.1" expl="apply premises" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="proba_measure_cond_add&#39;vc.4.0.0.0.1.1.0" expl="apply premises" proved="true">
+        <proof prover="9"><result status="valid" time="6.62" steps="1835850"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="proba_measure_cond_add&#39;vc.4.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="9"><result status="valid" time="0.86" steps="630012"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="proba_measure_cond_add&#39;vc.4.0.1" expl="asserted formula" proved="true">
+    <transf name="instantiate" proved="true" arg1="transitive_infeq" arg2="scal2,(scal +. scal&#39;),(proba_measure_cond x n
+      (fun (i:int) -&gt; (p @ i) = True \/ (p&#39; @ i) = True))">
+     <goal name="proba_measure_cond_add&#39;vc.4.0.1.0" expl="asserted formula" proved="true">
+     <transf name="apply" proved="true" arg1="Hinst">
+      <goal name="proba_measure_cond_add&#39;vc.4.0.1.0.0" expl="apply premises" proved="true">
+      <proof prover="9"><result status="valid" time="0.89" steps="630265"/></proof>
+      </goal>
+      <goal name="proba_measure_cond_add&#39;vc.4.0.1.0.1" expl="apply premises" proved="true">
+      <transf name="apply" proved="true" arg1="h">
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="proba_measure_cond_add&#39;vc.4.1" expl="postcondition" proved="true">
+   <transf name="instantiate" proved="true" arg1="proba_measure_cond_entails" arg2="x,n,(fun (i:int) -&gt; (p @ i) = True \/ (p&#39; @ i) = True),p2">
+    <goal name="proba_measure_cond_add&#39;vc.4.1.0" expl="postcondition" proved="true">
+    <transf name="instantiate" proved="true" arg1="transitive_infeq" arg2="scal2,(proba_measure_cond x n
+      (fun (i:int) -&gt; (p @ i) = True \/ (p&#39; @ i) = True)),(proba_measure_cond x n
+      p2)">
+     <goal name="proba_measure_cond_add&#39;vc.4.1.0.0" expl="postcondition" proved="true">
+     <transf name="apply" proved="true" arg1="Hinst">
+      <goal name="proba_measure_cond_add&#39;vc.4.1.0.0.0" expl="apply premises" proved="true">
+      <transf name="apply" proved="true" arg1="h">
+      </transf>
+      </goal>
+      <goal name="proba_measure_cond_add&#39;vc.4.1.0.0.1" expl="apply premises" proved="true">
+      <transf name="apply" proved="true" arg1="Hinst1">
+       <goal name="proba_measure_cond_add&#39;vc.4.1.0.0.1.0" expl="apply premises" proved="true">
+       <proof prover="9"><result status="valid" time="1.01" steps="630533"/></proof>
+       </goal>
+       <goal name="proba_measure_cond_add&#39;vc.4.1.0.0.1.1" expl="apply premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="proba_measure_cond_add&#39;vc.4.1.0.0.1.1.0" expl="apply premises" proved="true">
+        <transf name="split_vc" proved="true" >
+         <goal name="proba_measure_cond_add&#39;vc.4.1.0.0.1.1.0.0" expl="apply premises" proved="true">
+         <transf name="case" proved="true" arg1="(p i)">
+          <goal name="proba_measure_cond_add&#39;vc.4.1.0.0.1.1.0.0.0" expl="true case (apply premises)" proved="true">
+          <transf name="apply" proved="true" arg1="Requires4">
+           <goal name="proba_measure_cond_add&#39;vc.4.1.0.0.1.1.0.0.0.0" expl="apply premises" proved="true">
+           <proof prover="9"><result status="valid" time="2.23" steps="720349"/></proof>
+           </goal>
+           <goal name="proba_measure_cond_add&#39;vc.4.1.0.0.1.1.0.0.0.1" expl="apply premises" proved="true">
+           <proof prover="9"><result status="valid" time="0.83" steps="630601"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="proba_measure_cond_add&#39;vc.4.1.0.0.1.1.0.0.1" expl="false case (apply premises)" proved="true">
+          <transf name="apply" proved="true" arg1="Requires3">
+           <goal name="proba_measure_cond_add&#39;vc.4.1.0.0.1.1.0.0.1.0" expl="apply premises" proved="true">
+           <proof prover="9"><result status="valid" time="1.94" steps="720065"/></proof>
+           </goal>
+           <goal name="proba_measure_cond_add&#39;vc.4.1.0.0.1.1.0.0.1.1" expl="apply premises" proved="true">
+           <proof prover="9"><result status="valid" time="0.83" steps="630605"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_cond_const&#39;vc" expl="VC for proba_measure_cond_const" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_cond_const&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.63" steps="482916"/></proof>
+  </goal>
+  <goal name="proba_measure_cond_const&#39;vc.1" expl="precondition" proved="true">
+  <transf name="compute_specified" proved="true" >
+   <goal name="proba_measure_cond_const&#39;vc.1.0" expl="precondition" proved="true">
+   <transf name="replace" proved="true" arg1="(proba_measure_extension x n e)" arg2="(proba_measure x e n)">
+    <goal name="proba_measure_cond_const&#39;vc.1.0.0" expl="precondition" proved="true">
+    <transf name="apply" proved="true" arg1="Requires">
+     <goal name="proba_measure_cond_const&#39;vc.1.0.0.0" expl="apply premises" proved="true">
+     <proof prover="9"><result status="valid" time="1.47" steps="659131"/></proof>
+     </goal>
+     <goal name="proba_measure_cond_const&#39;vc.1.0.0.1" expl="apply premises" proved="true">
+     <proof prover="5"><result status="valid" time="0.70" steps="2680021"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="proba_measure_cond_const&#39;vc.1.0.1" expl="equality hypothesis" proved="true">
+    <proof prover="5"><result status="valid" time="0.68" steps="2673853"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="proba_measure_cond_const&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.40" steps="662139"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_set_of_ind_pre&#39;vc" expl="VC for proba_measure_set_of_ind_pre" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_set_of_ind_pre&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="sum_scal_rev">
+   <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="proba_measure_cond&#39;def">
+    <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="replace" proved="true" arg1="(my_filter (to_fset 0 (power 2 n)) p)" arg2="(map f s)">
+     <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="map_sum_eq">
+      <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="apply" proved="true" arg1="sum_inf">
+        <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="compute_specified" proved="true" >
+         <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <proof prover="9"><result status="valid" time="1.85" steps="643469"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+        <transf name="split_vc" proved="true" >
+         <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.0.0.0.1.0" expl="apply premises" proved="true">
+         <transf name="compute_specified" proved="true" >
+          <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.0.0.0.1.0.0" expl="apply premises" proved="true">
+          <proof prover="9"><result status="valid" time="1.88" steps="642778"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.0.0.0.2" expl="apply premises" proved="true">
+        <transf name="split_vc" proved="true" >
+         <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.0.0.0.2.0" expl="apply premises" proved="true">
+         <transf name="compute_specified" proved="true" >
+          <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.0.0.0.2.0.0" expl="apply premises" proved="true">
+          <proof prover="9"><result status="valid" time="1.87" steps="644040"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="9"><result status="valid" time="1.84" steps="645042"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.1" expl="equality hypothesis" proved="true">
+     <transf name="apply" proved="true" arg1="set_equal">
+      <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.1.0" expl="apply premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.1.0.0" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="set_map_mem">
+        <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="Requires1">
+         <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.1.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="assert" proved="true" arg1="(mem e (to_fset 0 (power 2 n)))">
+          <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.1.0.0.0.0.0" expl="asserted formula" proved="true">
+          <proof prover="9"><result status="valid" time="1.51" steps="596979"/></proof>
+          </goal>
+          <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.1.0.0.0.0.1" expl="apply premises" proved="true">
+          <proof prover="9"><result status="valid" time="1.88" steps="645014"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.1.0.0.0.1" expl="apply premises" proved="true">
+         <proof prover="9"><result status="valid" time="1.51" steps="599595"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.1.1" expl="apply premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.1.1.0" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="in_my_filter">
+        <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.1.1.0.0" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="set_mem_to_fset">
+         <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.1.1.0.0.0" expl="apply premises" proved="true">
+         <transf name="instantiate" proved="true" arg1="map_antec" arg2="f,s,e">
+          <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.1.1.0.0.0.0" expl="apply premises" proved="true">
+          <proof prover="9"><result status="valid" time="1.93" steps="649524"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.0.1.1.0.1" expl="apply premises" proved="true">
+        <proof prover="9"><result status="valid" time="3.04" steps="921525"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="proba_measure_set_of_ind_pre&#39;vc.0.0.1" expl="rewrite premises" proved="true">
+    <proof prover="9"><result status="valid" time="0.87" steps="565903"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_set_of_ind&#39;vc" expl="VC for proba_measure_set_of_ind" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_set_of_ind&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.86" steps="566730"/></proof>
+  </goal>
+  <goal name="proba_measure_set_of_ind&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.52" steps="597415"/></proof>
+  </goal>
+  <goal name="proba_measure_set_of_ind&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.76" steps="566784"/></proof>
+  </goal>
+  <goal name="proba_measure_set_of_ind&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.89" steps="644659"/></proof>
+  </goal>
+  <goal name="proba_measure_set_of_ind&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.48" steps="597597"/></proof>
+  </goal>
+  <goal name="proba_measure_set_of_ind&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.49" steps="600242"/></proof>
+  </goal>
+  <goal name="proba_measure_set_of_ind&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.87" steps="644660"/></proof>
+  </goal>
+  <goal name="proba_measure_set_of_ind&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.48" steps="597976"/></proof>
+  </goal>
+  <goal name="proba_measure_set_of_ind&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.73" steps="571242"/></proof>
+  </goal>
+  <goal name="proba_measure_set_of_ind&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.89" steps="650398"/></proof>
+  </goal>
+  <goal name="proba_measure_set_of_ind&#39;vc.10" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.45" steps="602023"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="proba_measure_sum_of_conds&#39;vc" expl="VC for proba_measure_sum_of_conds" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="proba_measure_sum_of_conds&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="9"><result status="valid" time="1.75" steps="639406"/></proof>
+  </goal>
+  <goal name="proba_measure_sum_of_conds&#39;vc.1" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="proba_measure_sum_of_conds&#39;vc.1.0" expl="variant decrease" proved="true">
+   <proof prover="9"><result status="valid" time="1.16" steps="593517"/></proof>
+   </goal>
+   <goal name="proba_measure_sum_of_conds&#39;vc.1.1" expl="variant decrease" proved="true">
+   <proof prover="9"><result status="valid" time="1.93" steps="644065"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="proba_measure_sum_of_conds&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.69" steps="563361"/></proof>
+  </goal>
+  <goal name="proba_measure_sum_of_conds&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.65" steps="644192"/></proof>
+  </goal>
+  <goal name="proba_measure_sum_of_conds&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="2.92" steps="1010403"/></proof>
+  </goal>
+  <goal name="proba_measure_sum_of_conds&#39;vc.5" expl="precondition" proved="true">
+  <transf name="apply" proved="true" arg1="compat_order_mult_left">
+   <goal name="proba_measure_sum_of_conds&#39;vc.5.0" expl="apply premises" proved="true">
+   <proof prover="9"><result status="valid" time="1.94" steps="644773"/></proof>
+   </goal>
+   <goal name="proba_measure_sum_of_conds&#39;vc.5.1" expl="apply premises" proved="true">
+   <proof prover="9"><result status="valid" time="0.71" steps="565365"/></proof>
+   </goal>
+   <goal name="proba_measure_sum_of_conds&#39;vc.5.2" expl="apply premises" proved="true">
+   <proof prover="9"><result status="valid" time="1.48" steps="595975"/></proof>
+   </goal>
+   <goal name="proba_measure_sum_of_conds&#39;vc.5.3" expl="apply premises" proved="true">
+   <proof prover="9"><result status="valid" time="0.89" steps="565365"/></proof>
+   </goal>
+   <goal name="proba_measure_sum_of_conds&#39;vc.5.4" expl="apply premises" proved="true">
+   <proof prover="9"><result status="valid" time="0.73" steps="565365"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="proba_measure_sum_of_conds&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.72" steps="565398"/></proof>
+  </goal>
+  <goal name="proba_measure_sum_of_conds&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.71" steps="565401"/></proof>
+  </goal>
+  <goal name="proba_measure_sum_of_conds&#39;vc.8" expl="postcondition" proved="true">
+  <transf name="destruct" proved="true" arg1="H">
+   <goal name="proba_measure_sum_of_conds&#39;vc.8.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="mult_zero_t" arg2="in" arg3="Requires2">
+    <goal name="proba_measure_sum_of_conds&#39;vc.8.0.0" expl="postcondition" proved="true">
+    <transf name="instantiate" proved="true" arg1="transitive_infeq" arg2="scal&#39;,c_zero,( proba_measure_cond x n
+      (fun (i:int) -&gt; exists k:int. mem k s &amp;&amp; ((p @ k) @ i) = True))">
+     <goal name="proba_measure_sum_of_conds&#39;vc.8.0.0.0" expl="postcondition" proved="true">
+     <transf name="apply" proved="true" arg1="Hinst">
+      <goal name="proba_measure_sum_of_conds&#39;vc.8.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="9"><result status="valid" time="0.73" steps="563568"/></proof>
+      </goal>
+      <goal name="proba_measure_sum_of_conds&#39;vc.8.0.0.0.1" expl="apply premises" proved="true">
+      <transf name="rewrite" proved="true" arg1="proba_measure_cond&#39;def">
+       <goal name="proba_measure_sum_of_conds&#39;vc.8.0.0.0.1.0" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="positive_sum">
+        <goal name="proba_measure_sum_of_conds&#39;vc.8.0.0.0.1.0.0" expl="apply premises" proved="true">
+        <transf name="split_vc" proved="true" >
+         <goal name="proba_measure_sum_of_conds&#39;vc.8.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+         <transf name="compute_specified" proved="true" >
+          <goal name="proba_measure_sum_of_conds&#39;vc.8.0.0.0.1.0.0.0.0" expl="apply premises" proved="true">
+          <proof prover="9"><result status="valid" time="1.94" steps="642369"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="proba_measure_sum_of_conds&#39;vc.8.0.0.0.1.1" expl="rewrite premises" proved="true">
+       <proof prover="9"><result status="valid" time="0.73" steps="563568"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="proba_measure_sum_of_conds&#39;vc.8.0.1" expl="rewrite premises" proved="true">
+    <proof prover="9"><result status="valid" time="1.45" steps="593504"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="proba_measure_sum_of_conds&#39;vc.8.1" expl="postcondition" proved="true">
+   <transf name="instantiate" proved="true" arg1="proba_measure_cond_add" arg2="(fun i -&gt; (exists k. mem k (remove (choose s) s) &amp;&amp; p k i) ),(fun i -&gt; ( p (choose s) i) ),(fun i -&gt; (exists k. mem k  s &amp;&amp; p k i) ),x,n,(scal  *. i_to_c (cardinal  (remove (choose s) s))),scal,scal&#39; 
+">
+    <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="Hinst">
+     <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.0" expl="apply premises" proved="true">
+     <proof prover="9"><result status="valid" time="0.73" steps="564520"/></proof>
+     </goal>
+     <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.1" expl="apply premises" proved="true">
+     <transf name="split_vc" proved="true" >
+      <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.1.0" expl="apply premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.1.0.0" expl="apply premises" proved="true">
+       <proof prover="5"><result status="valid" time="2.39" steps="2995184"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.2" expl="apply premises" proved="true">
+     <transf name="split_vc" proved="true" >
+      <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.2.0" expl="apply premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.2.0.0" expl="apply premises" proved="true">
+       <transf name="compute_hyp" proved="true" arg1="in" arg2="H">
+        <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.2.0.0.0" expl="apply premises" proved="true">
+        <proof prover="9"><result status="valid" time="2.01" steps="654061"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.3" expl="apply premises" proved="true">
+     <transf name="split_vc" proved="true" >
+      <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.3.0" expl="apply premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.3.0.0" expl="apply premises" proved="true">
+       <transf name="compute_hyp" proved="true" arg1="in" arg2="H">
+        <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.3.0.0.0" expl="apply premises" proved="true">
+        <transf name="exists" proved="true" arg1="(choose s)">
+         <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.3.0.0.0.0" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.3.0.0.0.0.0" proved="true">
+          <proof prover="9"><result status="valid" time="1.69" steps="653517"/></proof>
+          </goal>
+          <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.3.0.0.0.0.1" proved="true">
+          <proof prover="9"><result status="valid" time="0.74" steps="566018"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.4" expl="apply premises" proved="true">
+     <transf name="eliminate_let" proved="true" >
+      <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.4.0" expl="apply premises" proved="true">
+      <transf name="replace" proved="true" arg1="(cardinal (remove (choose s) s))" arg2="(cardinal s -&#39;&#39; 1)
+">
+       <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.4.0.0" expl="apply premises" proved="true">
+       <proof prover="9"><result status="valid" time="1.78" steps="652734"/></proof>
+       </goal>
+       <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.4.0.1" expl="equality hypothesis" proved="true">
+       <proof prover="9"><result status="valid" time="1.72" steps="651673"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.5" expl="apply premises" proved="true">
+     <proof prover="9"><result status="valid" time="1.50" steps="652413"/></proof>
+     </goal>
+     <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.6" expl="apply premises" proved="true">
+     <transf name="replace" proved="true" arg1="(cardinal (remove (choose s) s))" arg2="(cardinal s -&#39;&#39; 1)
+">
+      <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.6.0" expl="apply premises" proved="true">
+      <transf name="replace" proved="true" arg1="((scal *. i_to_c (cardinal s -&#39;&#39; 1)) +. scal)" arg2="((scal *. i_to_c (cardinal s )))
+">
+       <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.6.0.0" expl="apply premises" proved="true">
+       <proof prover="9"><result status="valid" time="0.78" steps="564520"/></proof>
+       </goal>
+       <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.6.0.1" expl="equality hypothesis" proved="true">
+       <transf name="replace" proved="true" arg1="(i_to_c (cardinal s))" arg2="(i_to_c (cardinal s -&#39;&#39;1) +. c_one)
+">
+        <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.6.0.1.0" expl="equality hypothesis" proved="true">
+        <proof prover="9"><result status="valid" time="1.34" steps="601803"/></proof>
+        </goal>
+        <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.6.0.1.1" expl="equality hypothesis" proved="true">
+        <proof prover="9"><result status="valid" time="1.46" steps="651217"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="proba_measure_sum_of_conds&#39;vc.8.1.0.6.1" expl="equality hypothesis" proved="true">
+      <proof prover="9"><result status="valid" time="1.66" steps="651593"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>

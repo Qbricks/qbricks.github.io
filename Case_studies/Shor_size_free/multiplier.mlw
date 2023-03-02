@@ -1,0 +1,236 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+module Multiplier
+         
+         
+         use  adder.Adder
+     use  qft.Qft
+         
+         use  qbricks.Circuit_semantics
+         use  qbricks.Circuit_macros
+         use wired_circuits.Qbricks_prim
+         use wired_circuits.Circuit_c
+
+                  use qdata.Kronecker_Qbit
+         use binary.Bit_vector_decomp
+         use   binary.Bit_vector
+         use binary.Int_to_bv
+         use matrices.Kronecker_product
+
+         use arit.Inverse
+         use  int_expo.Int_Exponentiation
+         use extr_int.Ind_isum
+         use  p_int.Int_comp
+
+
+         use int.EuclideanDivision
+         use int.Int
+                  
+let function multiplier_pre (pick bound n  :int):circuit
+                                                   requires{0<n}
+                                                   requires{0<= pick < power 2 n}
+                                                   requires{ power 2 (n-1)<= bound < power 2 n}
+                                                   ensures{forall b i . 0<= b < bound ->  0<= i <power 2 n -> path_sem result (kronecker (ket n i) (kronecker (apply_qft (n+1)  b) (ket 1 0))) =
+                                                                                                                (kronecker (ket n i)  (kronecker(apply_qft (n+1)  (mod (b+ (pick * i)) bound )) (ket 1 0)))}
+                                                   ensures{width result = 2*n+2}
+  =
+  let rec multiplier_pre_ind (j:int)
+            requires{0<=j<n}
+            ensures{width result = 2*n+2}
+            ensures{forall b i . 0<= b < bound ->  0<= i <power 2 n -> path_sem result (kronecker (ket n i) (kronecker (apply_qft (n+1)  b)(ket 1 0))) 
+                                                                         = (kronecker (ket n i) (kronecker  (apply_qft (n+1)  (mod (b+(pick * (ind_isum   (fun k -> getbv (int_to_bv i n) k * power 2 (n-k-1))) 0 (j+1)))bound )) (ket 1 0)))}
+            variant{j}
+    = if j = 0 then
+        begin
+          cont_kron_pat_right_gen_ket (modular_adder n (pick * ( power 2 (n-1)))  bound  ) 0 n (2*n+2);
+          cont (modular_adder n (pick * ( power 2 (n-1)))  bound  ) 0 n (2*n+2);
+        end
+      else
+        begin
+          cont_kron_pat_right_gen_ket (modular_adder n (pick * ( power 2 (n-j-1)))  bound  ) j n (2*n+2);
+          (multiplier_pre_ind (j-1)) -- ( cont (modular_adder n (pick * power 2 (n-j-1)) bound ) j n (2*n+2))
+        end
+  in  multiplier_pre_ind (n-1)
+
+let function multiplier_qft_pre (pick bound  n :int) :circuit
+                                                        requires{0<n}
+                                                        requires{0<= pick < bound}
+                                                        requires{power 2 (n-1)<= bound < power 2 n}
+                                                        ensures{width result = 2*n+2}
+                                                        ensures{forall b i: int. 0<= b < bound -> 0<= i < power 2 n ->
+                                                                            path_sem result (kronecker (ket n i)  (kronecker(ket (n+1) b) (ket 1 0))) = (kronecker (ket n i)  (kronecker (ket (n+1) (mod   (b+(pick * i)) bound)) (ket 1 0)))}
+                                                        ensures{forall b i: int. 0<= b < bound -> 0<= i < power 2 n ->
+                                                                            path_sem result (kronecker (ket n i)  (kronecker(kronecker (ket 1 0)(ket n b)) (ket 1 0)))=
+                                                                              (kronecker (ket n i)  (kronecker(kronecker (ket 1 0) (ket n (mod  (b+ (pick * i)) bound))) (ket 1 0)))}
+                                                                      
+  =  apply_function_in_qft_basis_gen (multiplier_pre pick bound n)(n+1) n (2*n+2) 
+
+let function multiplier_qft_swap (pick bound n :int) :circuit
+                                                                      requires{0<n}
+                                                                      requires{0<= pick < bound}
+                                                                      requires{power 2 (n-1)<= bound < power 2 n}
+                                                                      ensures{width result = 2*n+2}
+                                                                      ensures{forall i:int. 0 <= i < power 2 n ->path_sem result (kronecker (ket n i)  (kronecker(ket (n+1) 0)(ket 1 0)) )
+                                                                                = (kronecker (ket n (mod   (pick * i) bound))  (kronecker(kronecker (ket 1 0) (ket n i)) (ket 1 0)))}
+  =
+  swap_lists_kets (n+1) n (2*n+2);
+  (multiplier_qft_pre pick bound n ) -- (swap_lists 0 (n+1) n (2*n+2))
+                                             
+                                             use  arit.Divisors
+                                             
+let function restricted_modular_multiplier (pick bound  n :int):circuit
+                                                                                requires{0<n}
+                                                                                requires{0<= pick < bound}
+                                                                                requires{power 2 (n-1)< bound < power 2 n}
+                                                                                requires{co_prime pick bound}
+                                                                                ensures{width result = 2*n+2}
+                                                                                ensures{forall i: int. 0<= i< bound -> path_sem result (kronecker (ket n i)  (kronecker (ket (n+1) 0) (ket 1 0))) 
+                                                                                          = (kronecker (ket n (mod (pick * i) bound))  (kronecker (kronecker (ket  1 0)(ket n 0)) (ket 1 0)))}
+                                                                                ensures{forall i: int. 0<= i< bound -> path_sem result (kronecker (ket n i)   (ket (n+2) 0)) 
+                                                                                          = (kronecker (ket n (mod (pick * i) bound))(ket (n+2) 0))}
+  =
+  (multiplier_qft_swap pick bound  n ) --
+    (multiplier_qft_pre  (mod (- (modular_inverse pick bound )) bound)  bound n )
+
+let function check_first_bit_is_one_for_multiplier (n:int):circuit
+                                                             requires{0<n}
+                                                             ensures{width result = 2*n+4}
+                                                             ensures{forall g: int. 0<= g < power 2 n ->
+                                                                               path_sem result (kronecker  (ket (n+1) g)  (kronecker (ket (n+2) 0) (ket 1 0)))
+                                                                                 = (kronecker  (ket (n+1) g)  (kronecker(ket (n+2) 0)(ket 1 0)))}
+                                                             ensures{forall g: int.  power 2 n <= g < power 2 (n+1) ->
+                                                                               path_sem result (kronecker  (ket (n+1) g)  (kronecker(ket (n+2) 0)(ket 1 0)))
+                                                                                 = (kronecker  (ket (n+1) g)  (kronecker(ket (n+2) 0)(ket 1 1)))}
+                                                            ensures{ancillas result = 0}
+  =insert_qbits (check_first_bit_is_one n ) (n+1) (n+2) (n+2)
+  
+let function check_order_pre (  n bound:int) :circuit
+                                                             requires{0<n}
+                                                             requires{power 2 (n-1)<= bound < power 2 n}
+                                                             ensures{width result = 2*n+4}
+                                                             ensures{ forall i.  bound <=i < power 2 n ->
+                                                                      path_sem result (kronecker  (ket (n+1) i)  (kronecker (ket (n+2) 0) (ket 1 0)))
+                                                                        = (kronecker  (ket (n+1) (i-bound))  (kronecker(ket (n+2) 0)(ket 1 0)))}
+                                                             ensures{forall i. 0<= i < bound  ->
+                                                                      path_sem result (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 0)))
+                                                                      = (kronecker  (ket (n+1) (mod (i-bound) (power 2 (n+1))))  (kronecker(ket (n+2) 0)(ket 1 1)))}
+                                                            ensures{ancillas result = 0}
+
+  = (place_substract_in_comput_basis bound n (2*n+4)) -- (check_first_bit_is_one_for_multiplier n)
+
+let function check_order ( n bound:int):circuit
+                                                       requires{0<n}
+                                                       requires{power 2 (n-1)<= bound < power 2 n}
+                                                       ensures{width result = 2*n+4}
+                                                       ensures{forall i. bound <=i < power 2 n ->
+                                                                path_sem result (kronecker  (ket (n+1) i)  (kronecker (ket (n+2) 0) (ket 1 0)))
+                                                                  = (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 0)))}
+                                                       ensures{forall i. 0 <= i<bound  ->
+                                                               path_sem result (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 0)))
+                                                                 = (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 1)))}
+                                                 ensures{ancillas result = 0}
+  =
+  (check_order_pre  n bound ) -- (place_add_in_comput_basis bound  n (2*n+4)) 
+
+                                    use reversion.Circuit_reverse
+  
+let function uncheck_order ( n bound:int):circuit
+                                                          requires{0<n}
+                                                          requires{power 2 (n-1)<= bound < power 2 n}
+                                                          ensures{width result = 2*n+4}
+                                                          ensures{ forall i. bound <=i < power 2 n ->
+                                                                   path_sem result  (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 0)))
+                                                                     = (kronecker  (ket (n+1) i)  (kronecker (ket (n+2) 0) (ket 1 0)))}
+                                                          ensures{forall i. 0<=i<bound  ->
+                                                                  path_sem result  (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 1)))
+                                                                    = (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 0)))}
+  = reverse (check_order  n bound )
+  
+let function cont_restricted_modular_multiplier (pick bound  n :int) :circuit
+                                                                                     requires{0<n}
+                                                                                     requires{0<= pick < bound}
+                                                                                     requires{power 2 (n-1)< bound < power 2 n}
+                                                                                     requires{co_prime pick bound}
+                                                                                     ensures{width result = 2*n+4}
+                                                                                     ensures{forall i. 0<= i < bound -> path_sem result (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 1)))
+                                                                                                            = (kronecker  (ket (n+1) (mod (pick * i) bound))  (kronecker(ket (n+2) 0)(ket 1 1)))}
+                                                                                     ensures{forall i. bound<= i < power 2 n-> path_sem result (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 0)))
+                                                                                                             = (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 0)))}
+  =
+  let cont_mult_pre()
+        ensures{width result = 2*n+3}
+        ensures{forall i. 0<= i < bound ->  path_sem result (kronecker  (ket n i)  (kronecker(ket (n+2) 0)(ket 1 1)))
+                               = (kronecker  (ket n (mod (pick * i) bound))  (kronecker(ket (n+2) 0)(ket 1 1)))}
+        ensures{forall i. bound<= i < power 2 n -> path_sem result (kronecker  (ket n i)  (kronecker(ket (n+2) 0)(ket 1 0)))
+                                = (kronecker  (ket n i)  (kronecker(ket (n+2) 0)(ket 1 0)))}
+    =  cont_last_qbit_kron_path (restricted_modular_multiplier pick bound n )
+  in place (cont_mult_pre()) 1 (2*n+4)
+
+let function modular_multiplier_with_ancillas (pick bound  n :int) :circuit
+                                                                      requires{0<n}
+                                                                      requires{0<= pick < bound}
+                                                                      requires{power 2 (n-1)< bound < power 2 n}
+                                                                      requires{co_prime pick bound}
+                                                                      ensures{width result = 2*n+4}
+                                                                      ensures{forall i. 0<=i < bound -> path_sem result (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 0)))
+                                                                                                        = (kronecker  (ket (n+1) (mod (pick * i) bound))  (kronecker(ket (n+2) 0)(ket 1 0)))}
+                                                                      ensures{forall i. bound<= i < power 2 n -> path_sem result (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 0)))
+                                                                                                                 = (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 0)))}
+                                                                      ensures{forall i. 0<= i < bound -> path_sem result (kronecker (ket 1 0) (kronecker  (ket n i)  (ket (n+3) 0)))
+                                                                                                         = (kronecker (ket 1 0) (kronecker  (ket n (mod (pick * i) bound))  (ket (n+3) 0)))}
+                                                                      ensures{forall i. bound<= i < power 2 n -> path_sem result (kronecker (ket 1 0)(kronecker  (ket n i)  (ket (n+3) 0)))
+                                                                                                                 = (kronecker (ket 1 0)(kronecker  (ket n i)  (ket (n+3) 0)))}
+  = let modular_multiplier_pre()
+          ensures{width result = 2*n+4}
+          ensures{forall i. 0<=i < bound -> path_sem result (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 0)))
+                                 = (kronecker  (ket (n+1) (mod (pick * i) bound))  (kronecker(ket (n+2) 0)(ket 1 1)))}
+          ensures{forall i. bound<= i < power 2 n-> path_sem result (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 0)))
+                                 = (kronecker  (ket (n+1) i)  (kronecker(ket (n+2) 0)(ket 1 0)))}
+      =
+      (check_order n bound) -- (cont_restricted_modular_multiplier pick bound n )
+    in (modular_multiplier_pre()) -- (uncheck_order n bound )
+    
+let function permut_modular_multiplier (pick bound  n :int) :circuit
+                                                               requires{0<n}
+                                                               requires{0<= pick < bound}
+                                                               requires{power 2 (n-1)< bound < power 2 n}
+                                                               requires{co_prime pick bound}
+                                                               ensures{width result = 2*n+4}
+                                                               ensures{forall i. 0<= i < bound -> path_sem result  (kronecker  (ket n i)  (ket (n+4) 0))
+                                                                                                   = (kronecker  (ket n (mod (pick * i) bound))  (ket (n+4) 0))}
+                                                               ensures{forall i. bound<= i < power 2 n -> path_sem result (kronecker  (ket n i)  (ket (n+4) 0))
+                                                                                                            = (kronecker  (ket n i)  (ket (n+4) 0))}
+  =
+  (with_permutation (modular_multiplier_with_ancillas pick bound n )(fun i -> if i< 1 then i + (2*n+4)-1 else  i - 1) )
+  
+let function modular_multiplier (pick bound  n :int) :circuit
+                                                        requires{0<n}
+                                                        requires{power 2 (n-1)< bound < power 2 n}
+                                                        requires{co_prime pick bound}
+                                                        ensures{width result = n}
+                                                        ensures{forall i. 0<= i < bound -> path_sem result    (ket n i) = (ket n (mod (pick * i) bound))}
+                                                        ensures{forall i. bound<= i < power 2 n -> path_sem result    (ket n i) = (ket n i)}
+  = ancilla (permut_modular_multiplier (mod pick bound) bound n) (n+4) 
+
+end
+     

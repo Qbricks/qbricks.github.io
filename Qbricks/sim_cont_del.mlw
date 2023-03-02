@@ -1,0 +1,137 @@
+module Cont_helpers
+
+    use int.Int
+    use int.MinMax
+    use wired_circuits.Circuit_c
+  
+  use wired_circuits.Qbricks_prim
+  use circuits_equiv.Gate_decomp as GD
+  use circuits_equiv.Circuit_equivalence_impl
+  (* use qbricks.Circuit_macros
+  use reversion.Circuit_reverse
+  
+  use circuits_equiv.Unwire_circuit_equiv
+  use circuits_equiv.Wiring_equiv
+  
+  use remarkable_fragments.Flat_circuits
+  use remarkable_fragments.Diag_circuits *)
+  (*use matrices.Kronecker_product*)
+  (* use  matrices.Matrix
+  use qdata.Qreg *)
+  let rec function count_gates (c: circuit): int
+    (*requires{ancilla_free_pre (pre c)}*)
+    ensures{1 <= result}
+    variant{pre c}
+  = match pre c with
+    | Place c1 _ _ -> count_gates (to_qc c1) + 1
+    | Cont c1 _ _ _ -> count_gates (to_qc c1) + 1
+    | Sequence c1 c2 -> (count_gates (to_qc c1)) + (count_gates (to_qc c2)) + 1
+    | Parallel c1 c2 -> (count_gates (to_qc c1)) + (count_gates (to_qc c2)) + 1
+    | Ancillas c1 _ -> count_gates (to_qc c1) + 1
+    | _ -> 1
+    end
+
+  let rec function count_par (c: circuit): int
+    ensures{0 <= result}
+    variant{pre c}
+  = (*if no_par c then 0 else*)
+    match pre c with
+    | Place c1 _ _ -> count_par (to_qc c1)
+    | Cont c1 _ _ _ -> count_par (to_qc c1)
+    | Sequence d e -> (count_par (to_qc d)) + (count_par (to_qc e))
+    | Parallel d e -> (count_par (to_qc d)) + (count_par (to_qc e)) + 1
+    | Ancillas c1 _ -> count_par (to_qc c1)
+    | _ -> 0
+    end
+  let rec function cont_depth (c : circuit) : int
+    variant{pre c}
+    ensures{0 <= result}
+  = match pre c with
+    | Cont c1 _ _ _ -> (cont_depth (to_qc c1)) + 1
+    | Sequence d e -> max (cont_depth (to_qc d)) (cont_depth (to_qc e))
+    | Parallel d e -> max (cont_depth (to_qc d)) (cont_depth (to_qc e))
+    | Place c1 _ _ -> cont_depth (to_qc c1)
+    | Ancillas c1 _ -> cont_depth (to_qc c1)
+    | _ -> 0
+    end
+
+ let rec function variant_cont_leaf (c: circuit): int
+    requires{count_par c = 0}
+    requires{cont_depth c <= 1}
+    (* requires{ancilla_free c} *)
+    ensures{0 <= result}
+    variant{count_gates c}
+  = match pre c with
+    | Place c1 _ _ -> variant_cont_leaf (to_qc c1)
+    | Sequence d e -> (variant_cont_leaf (to_qc d)) + (variant_cont_leaf (to_qc e))
+    | Cont (Place c1 ta1 _) co2 ta2 n2 -> variant_cont_leaf (cont (to_qc c1) co2 (ta1 + ta2) n2) + 1
+    | Cont (Sequence d e) co1 ta1 n1 -> 
+      variant_cont_leaf (cont (to_qc d) co1 ta1 n1) + 
+      variant_cont_leaf (cont (to_qc e) co1 ta1 n1) + 1
+    | Cont Bricks_Toffoli _ _ _ -> 3
+    | Cont Bricks_Fredkin _ _ _ -> 3
+    | Cont Bricks_Swap _ _ _ -> 3
+    | Cont (Swap _ _ _) _ _ _ -> 3
+    | Cont (Cnot _ _ _) _ _ _ -> 1
+    | Cont (Toffoli _ _ _ _)  _ _ _ -> 3
+    | Cont (Fredkin _ _ _ _) _ _ _ -> 3
+    | Cont c1 _ _ _ -> variant_cont_leaf (to_qc c1) + 1
+    | _ -> 0
+    end
+
+let rec function cont_leaf_to_cnot (c : circuit) : circuit
+    requires{count_par c = 0}
+    requires{cont_depth c <= 1}
+    (* requires{ancilla_free c} *)
+    variant{variant_cont_leaf c}
+    (* ensures{ancilla_free result} *)
+    ensures{cont_depth result = 0}
+    ensures{count_par result = 0}
+    ensures{width result = width c}
+    ensures{result <=> c}
+  = match (pre c) with
+    | Cont Skip _ t n -> place skip t n
+    | Cont (Phase k) co _ n -> place (rz k) co n
+    | Cont (Rx k) co t n -> GD.cont_rx k co t n
+    | Cont (Ry k) co t n -> GD.cont_ry k co t n
+    | Cont (Rz k) co t n -> GD.cont_rz k co t n   
+    | Cont (Rzp k) co t n -> GD.cont_rzp k co t n  
+    | Cont Hadamard co t n -> GD.cont_hadamard co t n
+    | Cont S co t n -> GD.cont_rz 2 co t n 
+    | Cont T co t n -> GD.cont_rz 3 co t n 
+    | Cont X co t n -> GD.cont_rx 1 co t n
+    | Cont Y co t n -> GD.cont_ry 1 co t n
+    | Cont Z co t n -> GD.cont_rz 1 co t n 
+    | Cont Bricks_Cnot co t n -> GD.toffoli_decomp co t (t+1) n
+    | Cont Bricks_Toffoli co t n -> cont_leaf_to_cnot (cont (GD.toffoli_decomp 0 1 2 3) co t n)
+    | Cont Bricks_Fredkin co t n -> cont_leaf_to_cnot (cont (GD.fredkin_decomp 0 1 2 3) co t n)
+    | Cont Bricks_Swap co t n -> cont_leaf_to_cnot (cont (GD.swap_decomp 0 1 2 ) co t n)
+    | Cont (Swap t1 t2 n1) co t n -> cont_leaf_to_cnot (cont (GD.swap_decomp t1 t2 n1) co t n) 
+    | Cont (Cnot co2 t2 _) co1 t1 n1 -> GD.toffoli_decomp co1 (t1+co2) (t2+t1) n1
+    | Cont (Toffoli co1 co2 t1 n1) co t n -> cont_leaf_to_cnot (cont (GD.toffoli_decomp co1 co2 t1 n1) co t n)
+    | Cont (Fredkin co1 t1 t2 n1) co t n -> cont_leaf_to_cnot (cont (GD.fredkin_decomp co1 t1 t2 n1) co t n)
+    | Cont (Place c2 ta2 _) co1 ta1 n1 -> 
+      cont_leaf_to_cnot (cont (to_qc c2) co1 (ta1 + ta2) n1)
+    | Cont (Sequence d e) co t n -> (cont_leaf_to_cnot (cont (to_qc d) co t n)) -- (cont_leaf_to_cnot (cont (to_qc e) co t n))
+    | c1 -> (to_qc c1)
+      
+      
+    end
+
+  let rec function zero_cont (c: circuit) : circuit
+    requires{count_par c = 0}
+    (* requires{ancilla_free c} *)
+    variant{cont_depth c}
+    (* ensures{ancilla_free c} *)
+    ensures{cont_depth result = 0}
+    ensures{result <=> c}
+  = if cont_depth c >= 1 then
+      match (pre c) with
+      | Cont c1 co1 t1 n1 -> cont_leaf_to_cnot (cont (zero_cont (to_qc c1)) co1 t1 n1)
+      | Place c1 t1 n1 -> place (zero_cont (to_qc c1)) t1 n1
+      | Sequence d e -> (zero_cont (to_qc d)) -- (zero_cont (to_qc e))
+      | c -> (to_qc c) 
+      end
+    else c
+
+end

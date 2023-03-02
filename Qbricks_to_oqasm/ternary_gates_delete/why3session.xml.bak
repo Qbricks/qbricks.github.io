@@ -1,0 +1,1444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="6">
+<prover id="0" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="1" name="Alt-Ergo" version="2.4.0" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="2" name="CVC4" version="1.7" timelimit="5" steplimit="0" memlimit="1000"/>
+<file format="whyml">
+<path name=".."/><path name="ternary_gates_delete.mlw"/>
+<theory name="Ternary_gates_del">
+ <goal name="ternary_gates_free&#39;vc" expl="VC for ternary_gates_free" proved="true">
+ <transf name="split_goal_right" proved="true" >
+  <goal name="ternary_gates_free&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.52"/></proof>
+  </goal>
+  <goal name="ternary_gates_free&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.51"/></proof>
+  </goal>
+  <goal name="ternary_gates_free&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.53"/></proof>
+  </goal>
+  <goal name="ternary_gates_free&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.50"/></proof>
+  </goal>
+  <goal name="ternary_gates_free&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.52"/></proof>
+  </goal>
+  <goal name="ternary_gates_free&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.49"/></proof>
+  </goal>
+  <goal name="ternary_gates_free&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.56"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ternary_gates_free_cont_rev&#39;vc" expl="VC for ternary_gates_free_cont_rev" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ternary_gates_free_cont_rev&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="assert" proved="true" arg1="(correct  (Cont c1 co1 ta1 n1))">
+   <goal name="ternary_gates_free_cont_rev&#39;vc.0.0" expl="asserted formula" proved="true">
+   <proof prover="2"><result status="valid" time="3.19" steps="1265466"/></proof>
+   </goal>
+   <goal name="ternary_gates_free_cont_rev&#39;vc.0.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.56"/></proof>
+   </goal>
+  </transf>
+  <transf name="instantiate" proved="true" arg1="ternary_gates_free&#39;def" arg2="(  (Cont c1 co1 ta1 n1))">
+   <goal name="ternary_gates_free_cont_rev&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="assert" proved="true" arg1="(correct  (Cont c1 co1 ta1 n1))">
+    <goal name="ternary_gates_free_cont_rev&#39;vc.0.0.0" expl="asserted formula" proved="true">
+    <proof prover="0"><result status="valid" time="1.63"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_cont_rev&#39;vc.0.0.1" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.66"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ternary_gates_free_cont&#39;vc" expl="VC for ternary_gates_free_cont" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ternary_gates_free_cont&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.59"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ternary_gates_free_seq&#39;vc" expl="VC for ternary_gates_free_seq" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ternary_gates_free_seq&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.62"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ternary_gates_free_seq_rev&#39;vc" expl="VC for ternary_gates_free_seq_rev" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ternary_gates_free_seq_rev&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.65"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ternary_gates_free_place&#39;vc" expl="VC for ternary_gates_free_place" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ternary_gates_free_place&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="instantiate" proved="true" arg1="ternary_gates_free&#39;def" arg2="c">
+   <goal name="ternary_gates_free_place&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="instantiate" proved="true" arg1="ternary_gates_free&#39;def" arg2="(Place c ta n)">
+    <goal name="ternary_gates_free_place&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <proof prover="2"><result status="valid" time="3.47" steps="1267248"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ternary_gates_free_place_rev&#39;vc" expl="VC for ternary_gates_free_place_rev" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ternary_gates_free_place_rev&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="instantiate" proved="true" arg1="ternary_gates_free&#39;def" arg2="(Place c ta n)">
+   <goal name="ternary_gates_free_place_rev&#39;vc.0.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.33" steps="1265713"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ternary_gates_free_cnot&#39;vc" expl="VC for ternary_gates_free_cnot" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ternary_gates_free_cnot&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.61"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ternary_gates_free_toffoli_decomp&#39;vc" expl="VC for ternary_gates_free_toffoli_decomp" proved="true">
+ <proof prover="2" obsolete="true"><result status="timeout" time="5.00" steps="1302737"/></proof>
+ <transf name="split_vc" proved="true" >
+  <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="0" obsolete="true"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2" obsolete="true"><result status="timeout" time="5.00" steps="1319496"/></proof>
+  <transf name="split_all_full" proved="true" >
+   <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="toffoli_decomp&#39;spec">
+    <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <proof prover="2"><result status="timeout" time="5.00" steps="1600001"/></proof>
+    <transf name="apply" proved="true" arg1="ternary_gates_free_seq_rev">
+     <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.0" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="4.33" steps="1558545"/></proof>
+     </goal>
+     <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.1" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="4.13" steps="1538290"/></proof>
+     </goal>
+     <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.2" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="4.08" steps="1558963"/></proof>
+     </goal>
+     <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3" expl="apply premises" proved="true">
+     <proof prover="2"><result status="timeout" time="5.00" steps="1598080"/></proof>
+     <transf name="rewrite" arg1="ccz&#39;spec">
+      <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0" expl="apply premises">
+      <transf name="rewrite" arg1="cont_rzp&#39;spec">
+       <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0" expl="apply premises">
+       <transf name="rewrite" arg1="cont_rzp&#39;spec">
+        <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0" expl="apply premises">
+        <transf name="rewrite" arg1="cont_phase&#39;spec">
+         <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0" expl="apply premises">
+         <transf name="rewrite" arg1="cont_phase&#39;spec">
+          <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.0" expl="apply premises">
+          <transf name="rewrite" arg1="cont_rz&#39;spec">
+           <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.0.0" expl="apply premises">
+           <transf name="rewrite" arg1="cont_rz&#39;spec">
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.0.0.0" expl="apply premises">
+            <proof prover="0"><result status="timeout" time="5.00"/></proof>
+            <proof prover="2"><result status="timeout" time="5.00" steps="1606308"/></proof>
+            <transf name="rewrite" arg1="cont_xor_rz&#39;spec">
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.0.0.0.0" expl="apply premises">
+             <proof prover="0"><result status="timeout" time="5.00"/></proof>
+             <proof prover="1"><result status="timeout" time="5.00"/></proof>
+             <proof prover="2"><result status="timeout" time="5.00" steps="1608671"/></proof>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+             <proof prover="2"><result status="valid" time="1.74" steps="1238359"/></proof>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+             <proof prover="2"><result status="valid" time="1.77" steps="1238359"/></proof>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+             <proof prover="2"><result status="valid" time="1.65" steps="1238359"/></proof>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.0.0.0.4" expl="rewrite premises" proved="true">
+             <proof prover="2"><result status="valid" time="1.59" steps="1238357"/></proof>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.0.0.0.5" expl="rewrite premises" proved="true">
+             <proof prover="2"><result status="valid" time="1.66" steps="1238357"/></proof>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.0.0.0.6" expl="rewrite premises" proved="true">
+             <proof prover="2"><result status="valid" time="1.56" steps="1238348"/></proof>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.74" steps="1238359"/></proof>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.82" steps="1238359"/></proof>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.72" steps="1238348"/></proof>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+           <proof prover="2"><result status="valid" time="1.90" steps="1238359"/></proof>
+           </goal>
+           <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+           <proof prover="2"><result status="valid" time="1.90" steps="1238359"/></proof>
+           </goal>
+           <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+           <proof prover="2"><result status="valid" time="1.89" steps="1238348"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.1" expl="rewrite premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.84" steps="1238359"/></proof>
+          </goal>
+          <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.2" expl="rewrite premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.92" steps="1238359"/></proof>
+          </goal>
+          <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.0.3" expl="rewrite premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.90" steps="1238348"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.1" expl="rewrite premises" proved="true">
+         <proof prover="2"><result status="valid" time="1.85" steps="1238359"/></proof>
+         </goal>
+         <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.2" expl="rewrite premises" proved="true">
+         <proof prover="2"><result status="valid" time="1.83" steps="1238359"/></proof>
+         </goal>
+         <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.0.3" expl="rewrite premises" proved="true">
+         <proof prover="2"><result status="valid" time="1.82" steps="1238348"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="2"><result status="valid" time="1.95" steps="1238359"/></proof>
+        </goal>
+        <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.2" expl="rewrite premises" proved="true">
+        <proof prover="2"><result status="valid" time="1.79" steps="1238359"/></proof>
+        </goal>
+        <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0.3" expl="rewrite premises">
+        <proof prover="2"><result status="timeout" time="5.00" steps="1584319"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.1" expl="rewrite premises" proved="true">
+       <proof prover="2"><result status="valid" time="1.72" steps="1238359"/></proof>
+       </goal>
+       <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.2" expl="rewrite premises" proved="true">
+       <proof prover="2"><result status="valid" time="1.84" steps="1238359"/></proof>
+       </goal>
+       <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3" expl="rewrite premises">
+       <proof prover="2"><result status="timeout" time="5.00" steps="1582356"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.1" expl="rewrite premises">
+      </goal>
+      <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.2" expl="rewrite premises">
+      </goal>
+      <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.3" expl="rewrite premises">
+      </goal>
+      <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.4" expl="rewrite premises">
+      </goal>
+      <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.5" expl="rewrite premises">
+      </goal>
+      <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.6" expl="rewrite premises">
+      </goal>
+     </transf>
+     <transf name="split_vc" proved="true" >
+      <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="timeout" time="5.00" steps="1595270"/></proof>
+      <transf name="apply" proved="true" arg1="ternary_gates_free_seq_rev">
+       <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.0" expl="apply premises" proved="true">
+       <proof prover="2"><result status="valid" time="3.94" steps="1538290"/></proof>
+       </goal>
+       <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.1" expl="apply premises" proved="true">
+       <proof prover="2"><result status="valid" time="3.96" steps="1535665"/></proof>
+       </goal>
+       <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.2" expl="apply premises" proved="true">
+       <proof prover="2"><result status="valid" time="3.74" steps="1540205"/></proof>
+       </goal>
+       <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3" expl="apply premises" proved="true">
+       <proof prover="0"><result status="timeout" time="5.00"/></proof>
+       <proof prover="2"><result status="timeout" time="5.00" steps="1602326"/></proof>
+       <transf name="split_vc" proved="true" >
+        <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.0" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="4.06" steps="1538632"/></proof>
+        </goal>
+        <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1" expl="apply premises" proved="true">
+        <proof prover="0"><result status="timeout" time="5.00"/></proof>
+        <proof prover="2"><result status="timeout" time="5.00" steps="1591532"/></proof>
+        <transf name="rewrite" proved="true" arg1="ccz&#39;spec">
+         <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0" expl="apply premises" proved="true">
+         <transf name="apply" arg1="ternary_gates_free_seq_rev">
+          <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="4.07" steps="1541837"/></proof>
+          </goal>
+          <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.1" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="4.05" steps="1536555"/></proof>
+          </goal>
+          <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.2" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="3.96" steps="1542880"/></proof>
+          </goal>
+          <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3" expl="apply premises">
+          <transf name="split_vc" >
+           <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0" expl="apply premises">
+           <proof prover="2"><result status="timeout" time="5.00" steps="1596115"/></proof>
+           <transf name="apply" arg1="ternary_gates_free_seq_rev">
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.0" expl="apply premises" proved="true">
+            <proof prover="2"><result status="valid" time="4.01" steps="1538790"/></proof>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.1" expl="apply premises" proved="true">
+            <proof prover="2"><result status="valid" time="3.99" steps="1538688"/></proof>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.2" expl="apply premises" proved="true">
+            <proof prover="2"><result status="valid" time="3.91" steps="1541149"/></proof>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3" expl="apply premises">
+            <proof prover="0"><result status="timeout" time="5.00"/></proof>
+            <proof prover="1"><result status="timeout" time="5.00"/></proof>
+            <proof prover="2"><result status="timeout" time="5.00" steps="1603197"/></proof>
+            <transf name="rewrite" arg1="cont_rzp&#39;spec">
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0" expl="apply premises">
+             <proof prover="2"><result status="timeout" time="5.00" steps="1601797"/></proof>
+             <transf name="rewrite" arg1="cont_rzp&#39;spec">
+              <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0" expl="apply premises" proved="true">
+              <transf name="rewrite" proved="true" arg1="cont_phase&#39;spec">
+               <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0" expl="apply premises" proved="true">
+               <transf name="rewrite" proved="true" arg1="cont_phase&#39;spec">
+                <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.0" expl="apply premises" proved="true">
+                <transf name="rewrite" proved="true" arg1="cont_rz&#39;spec">
+                 <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.0.0" expl="apply premises" proved="true">
+                 <transf name="rewrite" proved="true" arg1="cont_rz&#39;spec">
+                  <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.0.0.0" expl="apply premises" proved="true">
+                  <proof prover="2"><result status="valid" time="3.92" steps="1554486"/></proof>
+                  </goal>
+                  <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                  <proof prover="2"><result status="valid" time="1.75" steps="1238377"/></proof>
+                  </goal>
+                  <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                  <proof prover="2"><result status="valid" time="1.78" steps="1238377"/></proof>
+                  </goal>
+                  <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+                  <proof prover="2"><result status="valid" time="1.77" steps="1238366"/></proof>
+                  </goal>
+                 </transf>
+                 </goal>
+                 <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.0.1" expl="rewrite premises" proved="true">
+                 <proof prover="2"><result status="valid" time="1.78" steps="1238377"/></proof>
+                 </goal>
+                 <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.0.2" expl="rewrite premises" proved="true">
+                 <proof prover="2"><result status="valid" time="1.84" steps="1238377"/></proof>
+                 </goal>
+                 <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.0.3" expl="rewrite premises" proved="true">
+                 <proof prover="2"><result status="valid" time="1.81" steps="1238366"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+                <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.1" expl="rewrite premises" proved="true">
+                <proof prover="2"><result status="valid" time="1.74" steps="1238377"/></proof>
+                </goal>
+                <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.2" expl="rewrite premises" proved="true">
+                <proof prover="2"><result status="valid" time="1.76" steps="1238377"/></proof>
+                </goal>
+                <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3" expl="rewrite premises" proved="true">
+                <proof prover="2"><result status="valid" time="1.80" steps="1238366"/></proof>
+                </goal>
+               </transf>
+               </goal>
+               <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1" expl="rewrite premises" proved="true">
+               <proof prover="2"><result status="valid" time="1.77" steps="1238377"/></proof>
+               </goal>
+               <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.2" expl="rewrite premises" proved="true">
+               <proof prover="2"><result status="valid" time="1.83" steps="1238377"/></proof>
+               </goal>
+               <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.3" expl="rewrite premises" proved="true">
+               <proof prover="2"><result status="valid" time="1.91" steps="1238366"/></proof>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.1" expl="rewrite premises" proved="true">
+              <proof prover="2"><result status="valid" time="1.78" steps="1238377"/></proof>
+              </goal>
+              <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.2" expl="rewrite premises" proved="true">
+              <proof prover="2"><result status="valid" time="1.76" steps="1238377"/></proof>
+              </goal>
+              <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.3" expl="rewrite premises">
+              <proof prover="0"><result status="timeout" time="5.00"/></proof>
+              <proof prover="1"><result status="timeout" time="5.00"/></proof>
+              <proof prover="2"><result status="timeout" time="5.00" steps="1602763"/></proof>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.1" expl="rewrite premises" proved="true">
+             <proof prover="2"><result status="valid" time="1.86" steps="1238377"/></proof>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.2" expl="rewrite premises" proved="true">
+             <proof prover="2"><result status="valid" time="1.63" steps="1238377"/></proof>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.3" expl="rewrite premises">
+             <proof prover="2"><result status="timeout" time="5.00" steps="1597156"/></proof>
+             </goal>
+            </transf>
+            <transf name="split_vc" >
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0" expl="apply premises">
+             <proof prover="0"><result status="timeout" time="5.00"/></proof>
+             <proof prover="1"><result status="timeout" time="5.00"/></proof>
+             <proof prover="2"><result status="timeout" time="5.00" steps="1598277"/></proof>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.1" expl="apply premises">
+             <proof prover="0"><result status="timeout" time="5.00"/></proof>
+             <proof prover="1"><result status="timeout" time="5.00"/></proof>
+             <proof prover="2"><result status="timeout" time="5.00" steps="1597969"/></proof>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1" expl="apply premises">
+           <proof prover="0"><result status="timeout" time="5.00"/></proof>
+           <proof prover="1"><result status="timeout" time="5.00"/></proof>
+           <proof prover="2"><result status="timeout" time="5.00" steps="1596370"/></proof>
+           <transf name="rewrite" arg1="cont_xor_rz&#39;spec">
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0" expl="apply premises">
+            <proof prover="0"><result status="timeout" time="5.00"/></proof>
+            <proof prover="1"><result status="timeout" time="5.00"/></proof>
+            <proof prover="2"><result status="timeout" time="5.00" steps="1564880"/></proof>
+            <transf name="case" arg1="((t +&#39; 1) &lt;=&#39; co2)">
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.0" expl="true case (apply premises)">
+             <proof prover="0"><result status="timeout" time="5.00"/></proof>
+             <proof prover="1"><result status="timeout" time="5.00"/></proof>
+             <proof prover="2"><result status="timeout" time="5.00" steps="1603314"/></proof>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.1" expl="false case (apply premises)">
+             <proof prover="0"><result status="timeout" time="5.00"/></proof>
+             <proof prover="1"><result status="timeout" time="5.00"/></proof>
+             <proof prover="2"><result status="timeout" time="5.00" steps="1601887"/></proof>
+             </goal>
+            </transf>
+            <transf name="rewrite" arg1="cont_rzp&#39;spec">
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.0" expl="apply premises">
+             <proof prover="0"><result status="timeout" time="5.00"/></proof>
+             <proof prover="2"><result status="timeout" time="5.00" steps="1602324"/></proof>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.1" expl="rewrite premises" proved="true">
+             <proof prover="2"><result status="valid" time="1.86" steps="1238418"/></proof>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.2" expl="rewrite premises" proved="true">
+             <proof prover="2"><result status="valid" time="1.68" steps="1238418"/></proof>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3" expl="rewrite premises">
+             <proof prover="0"><result status="timeout" time="5.00"/></proof>
+             <proof prover="2"><result status="timeout" time="5.00" steps="1608494"/></proof>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.1" expl="rewrite premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.98" steps="1238418"/></proof>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.2" expl="rewrite premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.95" steps="1238418"/></proof>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.3" expl="rewrite premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.83" steps="1238418"/></proof>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.4" expl="rewrite premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.81" steps="1238416"/></proof>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.5" expl="rewrite premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.80" steps="1238416"/></proof>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.6" expl="rewrite premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.80" steps="1238407"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         <transf name="replace" proved="true" arg1="(cont_rzp 2 co1 t n1)" arg2="(Sequence (cont_phase (incr_abs 2) co1 t n1) (cont_rz 2 co1 t n1))">
+          <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0" expl="apply premises" proved="true">
+          <proof prover="2"><result status="timeout" time="5.00" steps="1605354"/></proof>
+          <transf name="replace" proved="true" arg1="(cont_rzp 2 co2 t n1)" arg2="(Sequence (cont_phase (incr_abs 2) co2 t n1) (cont_rz 2 co2 t n1))">
+           <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0" expl="apply premises" proved="true">
+           <proof prover="2"><result status="timeout" time="5.00" steps="1607783"/></proof>
+           <transf name="rewrite" proved="true" arg1="cont_xor_rz&#39;spec">
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0" expl="apply premises" proved="true">
+            <proof prover="2"><result status="timeout" time="5.00" steps="1590361"/></proof>
+            <transf name="rewrite" proved="true" arg1="cont_phase&#39;spec">
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0" expl="apply premises" proved="true">
+             <proof prover="2"><result status="timeout" time="5.00" steps="1609002"/></proof>
+             <transf name="rewrite" proved="true" arg1="cont_phase&#39;spec">
+              <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0" expl="apply premises" proved="true">
+              <proof prover="2"><result status="timeout" time="5.00" steps="1608416"/></proof>
+              <transf name="replace" proved="true" arg1="(cont_rzp (- 2) co2 t n1)" arg2="(Sequence (cont_phase (incr_abs (- 2)) co2 t n1)
+      (cont_rz (- 2) co2 t n1))">
+               <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+               <proof prover="2"><result status="timeout" time="5.00" steps="1612881"/></proof>
+               <transf name="rewrite" proved="true" arg1="cont_phase&#39;spec">
+                <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                <transf name="rewrite" proved="true" arg1="cont_rz&#39;spec">
+                 <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                 <transf name="rewrite" proved="true" arg1="cont_rz&#39;spec">
+                  <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                  <proof prover="2"><result status="timeout" time="5.00" steps="1620149"/></proof>
+                  <transf name="rewrite" proved="true" arg1="cont_rz&#39;spec">
+                   <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                   <proof prover="2"><result status="valid" time="4.24" steps="1590108"/></proof>
+                   </goal>
+                   <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                   <proof prover="2"><result status="valid" time="1.74" steps="1238377"/></proof>
+                   </goal>
+                   <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                   <proof prover="2"><result status="valid" time="1.69" steps="1238377"/></proof>
+                   </goal>
+                   <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+                   <proof prover="2"><result status="valid" time="1.54" steps="1238366"/></proof>
+                   </goal>
+                  </transf>
+                  </goal>
+                  <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                  <proof prover="2"><result status="valid" time="1.67" steps="1238377"/></proof>
+                  </goal>
+                  <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                  <proof prover="2"><result status="valid" time="1.66" steps="1238377"/></proof>
+                  </goal>
+                  <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+                  <proof prover="2"><result status="valid" time="1.62" steps="1238366"/></proof>
+                  </goal>
+                 </transf>
+                 </goal>
+                 <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                 <proof prover="2"><result status="valid" time="1.81" steps="1238377"/></proof>
+                 </goal>
+                 <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                 <proof prover="2"><result status="valid" time="1.77" steps="1238377"/></proof>
+                 </goal>
+                 <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+                 <proof prover="2"><result status="valid" time="1.76" steps="1238366"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+                <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                <proof prover="2"><result status="valid" time="1.75" steps="1238377"/></proof>
+                </goal>
+                <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                <proof prover="2"><result status="valid" time="1.80" steps="1238377"/></proof>
+                </goal>
+                <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+                <proof prover="2"><result status="valid" time="1.76" steps="1238366"/></proof>
+                </goal>
+               </transf>
+               </goal>
+               <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+               <proof prover="2"><result status="valid" time="3.74" steps="1541013"/></proof>
+               </goal>
+              </transf>
+              <transf name="rewrite" arg1="cont_rz&#39;spec">
+               <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0" expl="apply premises">
+               <proof prover="2"><result status="timeout" time="5.00" steps="1609081"/></proof>
+               </goal>
+               <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+               <proof prover="2"><result status="valid" time="1.68" steps="1238377"/></proof>
+               </goal>
+               <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+               <proof prover="2"><result status="valid" time="1.74" steps="1238377"/></proof>
+               </goal>
+               <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+               <proof prover="2"><result status="valid" time="1.76" steps="1238366"/></proof>
+               </goal>
+              </transf>
+              <transf name="rewrite" arg1="cont_rzp&#39;spec">
+               <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0" expl="apply premises">
+               <transf name="rewrite" arg1="cont_phase&#39;spec">
+                <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0" expl="apply premises">
+                <transf name="rewrite" arg1="cont_rz&#39;spec">
+                 <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.0" expl="apply premises">
+                 <transf name="rewrite" arg1="cont_rz&#39;spec">
+                  <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.0.0" expl="apply premises">
+                  <proof prover="2"><result status="timeout" time="5.00" steps="1614332"/></proof>
+                  </goal>
+                  <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                  <proof prover="2"><result status="valid" time="1.75" steps="1238377"/></proof>
+                  </goal>
+                  <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                  <proof prover="2"><result status="valid" time="1.71" steps="1238377"/></proof>
+                  </goal>
+                  <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+                  <proof prover="2"><result status="valid" time="1.70" steps="1238366"/></proof>
+                  </goal>
+                 </transf>
+                 </goal>
+                 <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                 <proof prover="2"><result status="valid" time="1.64" steps="1238377"/></proof>
+                 </goal>
+                 <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                 <proof prover="2"><result status="valid" time="1.67" steps="1238377"/></proof>
+                 </goal>
+                 <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+                 <proof prover="2"><result status="valid" time="1.70" steps="1238366"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+                <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+                <proof prover="2"><result status="valid" time="1.74" steps="1238377"/></proof>
+                </goal>
+                <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+                <proof prover="2"><result status="valid" time="1.67" steps="1238377"/></proof>
+                </goal>
+                <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+                <proof prover="2"><result status="valid" time="1.65" steps="1238366"/></proof>
+                </goal>
+               </transf>
+               </goal>
+               <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+               <proof prover="2"><result status="valid" time="1.62" steps="1238377"/></proof>
+               </goal>
+               <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+               <proof prover="2"><result status="valid" time="1.67" steps="1238377"/></proof>
+               </goal>
+               <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.0.3" expl="rewrite premises">
+               <proof prover="2"><result status="timeout" time="5.00" steps="1605621"/></proof>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+              <proof prover="2"><result status="valid" time="1.70" steps="1238377"/></proof>
+              </goal>
+              <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+              <proof prover="2"><result status="valid" time="1.67" steps="1238377"/></proof>
+              </goal>
+              <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+              <proof prover="2"><result status="valid" time="1.63" steps="1238366"/></proof>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.1" expl="rewrite premises" proved="true">
+             <proof prover="2"><result status="valid" time="1.67" steps="1238377"/></proof>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.2" expl="rewrite premises" proved="true">
+             <proof prover="2"><result status="valid" time="1.69" steps="1238377"/></proof>
+             </goal>
+             <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.0.3" expl="rewrite premises" proved="true">
+             <proof prover="2"><result status="valid" time="1.57" steps="1238366"/></proof>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.1" expl="rewrite premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.96" steps="1238377"/></proof>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.2" expl="rewrite premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.95" steps="1238377"/></proof>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.3" expl="rewrite premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.78" steps="1238377"/></proof>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.4" expl="rewrite premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.78" steps="1238375"/></proof>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.5" expl="rewrite premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.68" steps="1238375"/></proof>
+            </goal>
+            <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.0.6" expl="rewrite premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.69" steps="1238366"/></proof>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0.1" expl="equality hypothesis" proved="true">
+           <proof prover="2"><result status="valid" time="3.73" steps="1541723"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.1" expl="equality hypothesis" proved="true">
+          <proof prover="2"><result status="valid" time="3.72" steps="1541645"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.1" expl="rewrite premises" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.1.0" expl="rewrite premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.69" steps="1238368"/></proof>
+          </goal>
+          <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.1.1" expl="rewrite premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.73" steps="1238383"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.2" expl="rewrite premises" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.2.0" expl="rewrite premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.74" steps="1238368"/></proof>
+          </goal>
+          <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.2.1" expl="rewrite premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.75" steps="1238383"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.3" expl="rewrite premises" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.3.0" expl="rewrite premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.73" steps="1238368"/></proof>
+          </goal>
+          <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.3.1" expl="rewrite premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.75" steps="1238383"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.4" expl="rewrite premises" proved="true">
+         <proof prover="2"><result status="valid" time="1.76" steps="1238375"/></proof>
+         </goal>
+         <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.5" expl="rewrite premises" proved="true">
+         <proof prover="2"><result status="valid" time="1.78" steps="1238375"/></proof>
+         </goal>
+         <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.6" expl="rewrite premises" proved="true">
+         <proof prover="2"><result status="valid" time="1.84" steps="1238366"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.0.3.1" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="4.02" steps="1540253"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.1" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.72" steps="1238359"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.2" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.68" steps="1238359"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.3" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.62" steps="1238359"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.4" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.77" steps="1238357"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.5" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.79" steps="1238357"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_toffoli_decomp&#39;vc.0.0.6" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.56" steps="1238348"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ternary_gates_free_fredkin_decomp_toffoli&#39;vc" expl="VC for ternary_gates_free_fredkin_decomp_toffoli" proved="true">
+ <proof prover="2" obsolete="true"><result status="timeout" time="5.00" steps="1301930"/></proof>
+ <transf name="split_vc" proved="true" >
+  <goal name="ternary_gates_free_fredkin_decomp_toffoli&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="1" obsolete="true"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2" obsolete="true"><result status="timeout" time="5.00" steps="1319439"/></proof>
+  <transf name="split_all_full" proved="true" >
+   <goal name="ternary_gates_free_fredkin_decomp_toffoli&#39;vc.0.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="2"><result status="timeout" time="5.00" steps="1600790"/></proof>
+   <transf name="rewrite" arg1="fredkin_decomp&#39;spec">
+    <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.0" expl="postcondition">
+    <proof prover="2"><result status="timeout" time="5.00" steps="1594555"/></proof>
+    <transf name="apply" arg1="ternary_gates_free_seq_rev">
+     <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.0.0" expl="apply premises">
+     <proof prover="2"><result status="valid" time="4.09" steps="1539949"/></proof>
+     </goal>
+     <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.0.1" expl="apply premises">
+     <proof prover="2"><result status="valid" time="3.91" steps="1535832"/></proof>
+     </goal>
+     <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.0.2" expl="apply premises">
+     <proof prover="2"><result status="valid" time="3.82" steps="1539358"/></proof>
+     </goal>
+     <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.0.3" expl="apply premises">
+     <transf name="split_vc" >
+      <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.0.3.0" expl="apply premises">
+      <proof prover="2"><result status="timeout" time="5.00" steps="1585892"/></proof>
+      <transf name="apply" arg1="ternary_gates_free_seq_rev">
+       <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.0.3.0.0" expl="apply premises">
+       <proof prover="2"><result status="valid" time="3.95" steps="1535832"/></proof>
+       </goal>
+       <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.0.3.0.1" expl="apply premises">
+       <proof prover="2"><result status="valid" time="3.95" steps="1535474"/></proof>
+       </goal>
+       <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.0.3.0.2" expl="apply premises">
+       <proof prover="2"><result status="valid" time="3.97" steps="1538754"/></proof>
+       </goal>
+       <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.0.3.0.3" expl="apply premises">
+       <proof prover="2"><result status="timeout" time="5.00" steps="1593387"/></proof>
+       <transf name="split_vc" >
+        <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.0.3.0.3.0" expl="apply premises">
+        <proof prover="2"><result status="valid" time="3.77" steps="1536421"/></proof>
+        </goal>
+        <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.0.3.0.3.1" expl="apply premises">
+        <proof prover="2"><result status="timeout" time="5.00" steps="1600471"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.0.3.1" expl="apply premises">
+      <proof prover="2"><result status="valid" time="4.08" steps="1537782"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.1" expl="rewrite premises">
+    <proof prover="2"><result status="valid" time="1.82" steps="1238635"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.2" expl="rewrite premises">
+    <proof prover="2"><result status="valid" time="1.84" steps="1238635"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.3" expl="rewrite premises">
+    <proof prover="2"><result status="valid" time="1.86" steps="1238635"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.4" expl="rewrite premises">
+    <proof prover="2"><result status="valid" time="1.73" steps="1238624"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.5" expl="rewrite premises">
+    <proof prover="2"><result status="valid" time="1.72" steps="1238624"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_fredkin_decomp&#39;vc.0.0.6" expl="rewrite premises">
+    <proof prover="2"><result status="valid" time="1.61" steps="1238633"/></proof>
+    </goal>
+   </transf>
+   <transf name="rewrite" proved="true" arg1="fredkin_decomp_toffoli&#39;spec">
+    <goal name="ternary_gates_free_fredkin_decomp_toffoli&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <proof prover="2"><result status="valid" time="3.93" steps="1542422"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_fredkin_decomp_toffoli&#39;vc.0.0.1" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.74" steps="1238635"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_fredkin_decomp_toffoli&#39;vc.0.0.2" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.69" steps="1238635"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_fredkin_decomp_toffoli&#39;vc.0.0.3" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.68" steps="1238635"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_fredkin_decomp_toffoli&#39;vc.0.0.4" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.69" steps="1238624"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_fredkin_decomp_toffoli&#39;vc.0.0.5" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.70" steps="1238624"/></proof>
+    </goal>
+    <goal name="ternary_gates_free_fredkin_decomp_toffoli&#39;vc.0.0.6" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.72" steps="1238633"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ternary_gates_free_ry&#39;vc" expl="VC for ternary_gates_free_ry" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ternary_gates_free_ry&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.57"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ternary_gates_del&#39;vc" expl="VC for ternary_gates_del">
+ <transf name="split_goal_right" >
+  <goal name="ternary_gates_del&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.28" steps="1267193"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.61"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.17" steps="1268537"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.84"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.19" steps="981699"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.60"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.18" steps="982001"/></proof>
+  <transf name="split_vc" proved="true" >
+   <goal name="ternary_gates_del&#39;vc.6.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.61"/></proof>
+   <proof prover="2"><result status="valid" time="2.19" steps="984632"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.60"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.23" steps="981689"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.9" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ternary_gates_del&#39;vc.9.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.37" steps="1276380"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.29" steps="981991"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.11" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ternary_gates_del&#39;vc.11.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.25" steps="1282349"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.12" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ternary_gates_del&#39;vc.12.0" expl="VC for ternary_gates_del" proved="true">
+   <proof prover="2"><result status="valid" time="3.32" steps="1271583"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.12.1" expl="VC for ternary_gates_del" proved="true">
+   <proof prover="2"><result status="valid" time="3.22" steps="1271584"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.13" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ternary_gates_del&#39;vc.13.0" expl="VC for ternary_gates_del" proved="true">
+   <proof prover="2"><result status="valid" time="3.14" steps="1271605"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.13.1" expl="VC for ternary_gates_del" proved="true">
+   <proof prover="2"><result status="valid" time="3.14" steps="1271669"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.14" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ternary_gates_del&#39;vc.14.0" expl="VC for ternary_gates_del" proved="true">
+   <proof prover="2"><result status="valid" time="3.20" steps="1271852"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.14.1" expl="VC for ternary_gates_del" proved="true">
+   <transf name="eliminate_definition" proved="true" >
+    <goal name="ternary_gates_del&#39;vc.14.1.0" expl="VC for ternary_gates_del" proved="true">
+    <transf name="instantiate" proved="true" arg1="correct&#39;def" arg2="c">
+     <goal name="ternary_gates_del&#39;vc.14.1.0.0" expl="VC for ternary_gates_del" proved="true">
+     <proof prover="2"><result status="valid" time="3.28" steps="1153430"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.15" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ternary_gates_del&#39;vc.15.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.37" steps="1271331"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.16" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ternary_gates_del&#39;vc.16.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.33" steps="1271406"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.17" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ternary_gates_del&#39;vc.17.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.29" steps="1271334"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.18" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ternary_gates_del&#39;vc.18.0" expl="VC for ternary_gates_del" proved="true">
+   <proof prover="2"><result status="valid" time="3.31" steps="1271577"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.18.1" expl="VC for ternary_gates_del" proved="true">
+   <proof prover="2"><result status="valid" time="3.34" steps="1271578"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.19" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ternary_gates_del&#39;vc.19.0" expl="VC for ternary_gates_del" proved="true">
+   <proof prover="2"><result status="valid" time="3.31" steps="1271599"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.19.1" expl="VC for ternary_gates_del" proved="true">
+   <proof prover="2"><result status="valid" time="3.37" steps="1271907"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.20" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ternary_gates_del&#39;vc.20.0" expl="VC for ternary_gates_del" proved="true">
+   <proof prover="2"><result status="valid" time="3.35" steps="1271944"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.20.1" expl="VC for ternary_gates_del" proved="true">
+   <proof prover="2"><result status="valid" time="3.58" steps="1271636"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.21" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ternary_gates_del&#39;vc.21.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.35" steps="1271665"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.22" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ternary_gates_del&#39;vc.22.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.42" steps="1271345"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.23" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ternary_gates_del&#39;vc.23.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.47" steps="1271667"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.24" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.96" steps="25463"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.25" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.92" steps="25463"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.26" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.93" steps="25481"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.27" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.95" steps="25481"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.28" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.00" steps="25482"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.29" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.00" steps="25484"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.30" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.98" steps="25463"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.31" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.11" steps="25479"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.32" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.90" steps="25481"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.33" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.93" steps="25481"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.34" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.96" steps="25482"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.35" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.94" steps="25484"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.36" expl="postcondition">
+  <transf name="split_vc" >
+   <goal name="ternary_gates_del&#39;vc.36.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.29" steps="1278599"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.36.1" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.79" steps="1293729"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.36.2" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.87" steps="1286067"/></proof>
+   <transf name="destruct_rec" arg1="H1">
+    <goal name="ternary_gates_del&#39;vc.36.8.0" expl="postcondition">
+    <proof prover="2"><result status="valid" time="2.65" steps="985066"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.36.8.1" expl="postcondition">
+    <proof prover="2"><result status="valid" time="2.41" steps="984979"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.36.8.2" expl="postcondition">
+    <proof prover="2"><result status="valid" time="2.45" steps="984979"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.36.8.3" expl="postcondition">
+    <proof prover="2"><result status="valid" time="2.46" steps="984979"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.36.8.4" expl="postcondition">
+    <proof prover="2"><result status="valid" time="2.39" steps="984979"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.36.8.5" expl="postcondition">
+    <proof prover="2"><result status="valid" time="2.42" steps="984979"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.36.8.6" expl="postcondition">
+    <proof prover="2"><result status="valid" time="2.46" steps="985067"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.36.8.7" expl="postcondition">
+    <proof prover="2"><result status="valid" time="2.43" steps="985056"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.36.8.8" expl="postcondition">
+    <proof prover="2"><result status="valid" time="2.23" steps="985045"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.36.8.9" expl="postcondition">
+    <proof prover="2"><result status="valid" time="2.43" steps="985034"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.36.8.10" expl="postcondition">
+    <proof prover="2"><result status="valid" time="2.45" steps="985023"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.36.8.11" expl="postcondition">
+    <proof prover="2"><result status="valid" time="2.48" steps="985012"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.36.8.12" expl="postcondition">
+    <proof prover="2"><result status="valid" time="2.10" steps="985001"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.36.8.13" expl="postcondition">
+    <proof prover="2"><result status="valid" time="2.40" steps="984968"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.36.8.14" expl="postcondition">
+    <proof prover="2"><result status="valid" time="2.19" steps="984983"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.36.8.15" expl="postcondition">
+    <proof prover="2"><result status="valid" time="2.40" steps="984983"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.36.8.16" expl="postcondition">
+    <transf name="instantiate" arg1="ancilla_free&#39;def" arg2="c">
+     <goal name="ternary_gates_del&#39;vc.36.8.16.0" expl="postcondition">
+     <transf name="destruct_rec" arg1="Hinst">
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.0" expl="destruct premise">
+      <proof prover="2"><result status="valid" time="2.21" steps="984556"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.1" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.22" steps="985096"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.2" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.15" steps="984598"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.3" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.16" steps="984598"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.4" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.56" steps="984598"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.5" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.56" steps="984598"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.6" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.60" steps="984598"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.7" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.22" steps="984578"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.8" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.20" steps="984578"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.9" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.20" steps="984578"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.10" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.22" steps="984578"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.11" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.24" steps="984578"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.12" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.22" steps="984578"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.13" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.23" steps="985029"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.14" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.63" steps="985018"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.15" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.26" steps="985007"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.16" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.21" steps="984996"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.17" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.23" steps="984606"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.18" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.64" steps="984606"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.19" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.25" steps="984600"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.20" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.14" steps="984600"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.21" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.13" steps="984617"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.22" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.14" steps="984621"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.23" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.15" steps="984628"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.24" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.14" steps="984628"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.8.16.0.25" expl="postcondition">
+      <proof prover="2"><result status="valid" time="1.47" steps="918168"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.36.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.53"/></proof>
+   <proof prover="2"><result status="timeout" time="5.00" steps="1347728"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.36.4" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.75" steps="1281176"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.36.5" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.04" steps="1281121"/></proof>
+   <transf name="rewrite" arg1="H">
+    <goal name="ternary_gates_del&#39;vc.36.5.0" expl="postcondition">
+    <transf name="eliminate_definition" >
+     <goal name="ternary_gates_del&#39;vc.36.5.0.0" expl="postcondition">
+     <transf name="instantiate" arg1="ternary_gates_free&#39;def" arg2="(Parallel ternary_gates_del&#39;result&#39;unused&#39;unused
+   ternary_gates_del&#39;result&#39;unused&#39;unused1)">
+      <goal name="ternary_gates_del&#39;vc.36.3.0.0.0" expl="postcondition">
+      <proof prover="2"><result status="valid" time="2.24" steps="980950"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.36.6" expl="postcondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="2"><result status="valid" time="2.95" steps="1274650"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.36.7" expl="postcondition">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="2"><result status="timeout" time="5.00" steps="1340562"/></proof>
+   <transf name="split_all_full" >
+    <goal name="ternary_gates_del&#39;vc.36.7.0" expl="postcondition">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="timeout" time="5.00" steps="1606950"/></proof>
+    <transf name="rewrite" arg1="Ensures">
+     <goal name="ternary_gates_del&#39;vc.36.7.0.0" expl="postcondition">
+     <proof prover="0"><result status="timeout" time="5.00"/></proof>
+     <proof prover="1"><result status="timeout" time="5.00"/></proof>
+     <proof prover="2"><result status="timeout" time="5.00" steps="1603879"/></proof>
+     <transf name="apply" arg1="ternary_gates_free_seq_rev">
+      <goal name="ternary_gates_del&#39;vc.36.7.0.0.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.86" steps="1313907"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.7.0.0.1" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.91" steps="1313907"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.7.0.0.2" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.97" steps="1313949"/></proof>
+      </goal>
+      <goal name="ternary_gates_del&#39;vc.36.7.0.0.3" expl="apply premises">
+      <proof prover="2"><result status="timeout" time="5.00" steps="1592653"/></proof>
+      <transf name="split_vc" >
+       <goal name="ternary_gates_del&#39;vc.36.7.0.0.3.0" expl="apply premises">
+       <proof prover="2"><result status="timeout" time="5.00" steps="1593201"/></proof>
+       </goal>
+       <goal name="ternary_gates_del&#39;vc.36.7.0.0.3.1" expl="apply premises" proved="true">
+       <proof prover="2"><result status="valid" time="3.97" steps="1539389"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.36.8" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.51" steps="986682"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.37" expl="postcondition">
+  <transf name="split_vc" >
+   <goal name="ternary_gates_del&#39;vc.37.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.73"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.37.1" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.53" steps="1293620"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.37.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.79"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.37.3" expl="postcondition">
+   <transf name="apply" arg1="transitive_circuit_equiv" arg2="with" arg3="(Fredkin 0 1  2 3)">
+    <goal name="ternary_gates_del&#39;vc.37.3.0" expl="apply premises" proved="true">
+    <proof prover="2"><result status="valid" time="2.23" steps="984736"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.37.3.1" expl="apply premises" proved="true">
+    <proof prover="2"><result status="valid" time="2.34" steps="984775"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.37.3.2" expl="apply premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.35" steps="918261"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.37.3.3" expl="apply premises">
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="timeout" time="5.00" steps="1347337"/></proof>
+    </goal>
+    <goal name="ternary_gates_del&#39;vc.37.3.4" expl="apply premises">
+    <proof prover="2"><result status="timeout" time="5.00" steps="1345128"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.37.4" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.22" steps="983507"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.37.5" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.31" steps="983484"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.37.6" expl="postcondition">
+   <proof prover="2"><result status="timeout" time="5.00" steps="1334547"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.37.7" expl="postcondition">
+   <proof prover="2"><result status="timeout" time="5.00" steps="1337625"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.37.8" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.48" steps="985155"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.38" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ternary_gates_del&#39;vc.38.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.18" steps="984736"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.38.1" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.23" steps="984743"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.38.2" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.42" steps="984794"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.38.3" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.23" steps="984750"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.38.4" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.51" steps="918264"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.38.5" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.23" steps="918261"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.38.6" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.66"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.38.7" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.45" steps="918246"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.38.8" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.29" steps="983942"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.39" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.50" steps="1331605"/></proof>
+  </goal>
+  <goal name="ternary_gates_del&#39;vc.40" expl="postcondition">
+  <transf name="split_vc" >
+   <goal name="ternary_gates_del&#39;vc.40.0" expl="postcondition">
+   <transf name="rewrite" arg1="H1">
+    <goal name="ternary_gates_del&#39;vc.40.0.0" expl="postcondition">
+    <transf name="apply" arg1="parallel_free_toffoli_decomp">
+     <goal name="ternary_gates_del&#39;vc.40.6.0.0" expl="apply premises">
+     <proof prover="1"><result status="valid" time="0.83" steps="25935"/></proof>
+     <proof prover="2"><result status="valid" time="1.17" steps="918301"/></proof>
+     </goal>
+     <goal name="ternary_gates_del&#39;vc.40.6.0.1" expl="apply premises">
+     <proof prover="1"><result status="valid" time="0.84" steps="25935"/></proof>
+     <proof prover="2"><result status="valid" time="1.25" steps="918301"/></proof>
+     </goal>
+     <goal name="ternary_gates_del&#39;vc.40.6.0.2" expl="apply premises">
+     <proof prover="1"><result status="valid" time="0.90" steps="25951"/></proof>
+     <proof prover="2"><result status="valid" time="1.36" steps="918301"/></proof>
+     </goal>
+     <goal name="ternary_gates_del&#39;vc.40.6.0.3" expl="apply premises">
+     <proof prover="1"><result status="valid" time="0.87" steps="25934"/></proof>
+     <proof prover="2"><result status="valid" time="1.37" steps="918285"/></proof>
+     </goal>
+     <goal name="ternary_gates_del&#39;vc.40.6.0.4" expl="apply premises">
+     <proof prover="1"><result status="valid" time="0.93" steps="25934"/></proof>
+     <proof prover="2"><result status="valid" time="1.47" steps="918285"/></proof>
+     </goal>
+     <goal name="ternary_gates_del&#39;vc.40.6.0.5" expl="apply premises">
+     <proof prover="1"><result status="valid" time="0.88" steps="25934"/></proof>
+     <proof prover="2"><result status="valid" time="1.29" steps="918285"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.40.1" expl="postcondition">
+   <transf name="rewrite" arg1="H1">
+    <goal name="ternary_gates_del&#39;vc.40.1.0" expl="postcondition">
+    <transf name="apply" arg1="parallel_free_fredkin_decomp">
+     <goal name="ternary_gates_del&#39;vc.40.5.0.0" expl="apply premises">
+     <proof prover="2"><result status="valid" time="3.58" steps="1279421"/></proof>
+     </goal>
+     <goal name="ternary_gates_del&#39;vc.40.5.0.1" expl="apply premises">
+     <proof prover="2"><result status="valid" time="3.63" steps="1279421"/></proof>
+     </goal>
+     <goal name="ternary_gates_del&#39;vc.40.5.0.2" expl="apply premises">
+     <proof prover="2"><result status="valid" time="3.52" steps="1279421"/></proof>
+     </goal>
+     <goal name="ternary_gates_del&#39;vc.40.5.0.3" expl="apply premises">
+     <proof prover="2"><result status="valid" time="3.94" steps="1278811"/></proof>
+     </goal>
+     <goal name="ternary_gates_del&#39;vc.40.5.0.4" expl="apply premises">
+     <proof prover="2"><result status="valid" time="3.87" steps="1279205"/></proof>
+     </goal>
+     <goal name="ternary_gates_del&#39;vc.40.5.0.5" expl="apply premises">
+     <proof prover="2"><result status="valid" time="3.88" steps="1279057"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.40.2" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.48" steps="985701"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.40.3" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.46" steps="985204"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.40.4" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.51" steps="1281614"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.40.5" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.50" steps="1283006"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.40.6" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.56" steps="1275240"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.40.7" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="3.71" steps="1275608"/></proof>
+   </goal>
+   <goal name="ternary_gates_del&#39;vc.40.8" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.35" steps="983975"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>

@@ -1,0 +1,357 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+module Ghost_terms
+         use shor_circ.Circuit
+         use p_int.P_minmax
+         use qpe.Phase_estim
+         use matrices.Matrix
+         use matrices.Matrix_scalar
+         use p_set.IndexestoSet
+         use qdata.Bv_to_ket
+         use complex.Complex
+         use qdata.Ket_basis
+         use complex_operations.FromInt
+         use qdata.Sqrt_two
+         use qdata.Qreg
+         use kets.Superpositions
+         use qft.Rev_qft
+         use arit.Inverse
+         use wired_circuits.Circuit_c
+         use binary.Bit_vector_decomp
+         use int.EuclideanDivision
+         use  qbricks.Circuit_semantics
+         use   binary.Bit_vector
+         use  p_int.Int_comp
+         use  qft.Qft
+         use  int_expo.Int_Exponentiation
+         use  qbricks.Circuit_macros
+         use wired_circuits.Qbricks_prim
+         use int.Int
+         use qdata.Kronecker_Qbit
+         use matrices.Kronecker_product
+         use  arit.Divisors
+         use extr_int.Ind_isum
+         use complex_operations.Base_type
+         use complex_expo.Complex_Exponentiation
+     
+let constant multi_o:int
+  = modular_expo_gen_rev pick bound;
+    multi_order pick bound
+      ensures{forall i l. 0<= l -> 0<= i -> mod (power pick ((l * result) + mod i result)) bound =  mod (power pick i) bound}
+      ensures{1<= result < bound}
+      ensures{c_zero <. i_to_c result}
+      ensures{forall k. n<= k -> result < power 2 k}
+      ensures{mod  (power pick result)  bound = 1}
+  
+  
+let lemma k_bound (k i:int)
+               requires{0<= k <= div (power 2 (2*n)) multi_o}
+               requires{0<= i < mod (power 2 (2*n)) multi_o}
+               ensures{((i_to_c k *. i_to_c multi_o +. i_to_c i) *. pow_inv_2 (2 * n)) <=. c_one}
+               ensures{(i_to_c k *. i_to_c multi_o +. i_to_c i)  <=. i_to_c (power 2 (2 * n))}
+               ensures{i_to_c (k * multi_o+i) *. pow_inv_2 (2 * n) <=. c_one}
+               ensures{i_to_c (k * multi_o+i)  <=. i_to_c (power 2 (2 * n))}
+  = mult_leq_c_one_expl (i_to_c k *. i_to_c multi_o+. i_to_c i) (pow_inv_2 (2 * n)) (i_to_c (div (power 2 (2*n)) multi_o * multi_o +i )) ;
+    mult_leq_c_one_rev (i_to_c k *. i_to_c multi_o+. i_to_c i) (pow_inv_2 (2 * n))
+    
+let ghost function best_appr_  (k :int):int
+               requires{0<= k < multi_o}
+               ensures{0<= result <= power 2 (2*n)}               
+               ensures{modulus (((i_to_c  k) /. (i_to_c multi_o)) -. pow_inv_2 (2*n) *. i_to_c  result) <=. pow_inv_2 (2*n+1)}
+               ensures{forall b. 0< b ->  b*  multi_o   <= power 2 (2*n) ->
+                       modulus (i_to_c k -. (pow_inv_2 (2 * n) *. i_to_c ((result * multi_o))))
+                         <=. (c_one /. (ttwo *. i_to_c b))}
+  =    modulus_simpl_leq_rev (pow_inv_2 (2*n) *. i_to_c   (best_appr ((i_to_c  k ) /. (i_to_c multi_o)) (2*n))
+                                 -. ((i_to_c  k) /. (i_to_c multi_o))) (c_one/. i_to_c (power 2 (2*n+1)))  (i_to_c multi_o);                          
+       best_appr ((i_to_c  k ) /. (i_to_c multi_o)) (2*n)
+
+let lemma best_appr_orders  (k :int)
+               requires{0<= k < multi_o}
+               ensures{(i_to_c  (k * power 2 (2*n)) /. (i_to_c multi_o)) -. c_one /. ttwo <=. i_to_c (best_appr_ k )
+                       <=. (i_to_c  (k * power 2 (2*n)) /. (i_to_c multi_o)) +. c_one /. ttwo}
+                 ensures{0<= best_appr_ k  < power 2 (2*n)}
+  =  modulus_real_minus_bound (i_to_c  (k * power 2 (2*n)) /. (i_to_c multi_o)) (i_to_c (best_appr_ k )) (c_one /. ttwo)
+   
+let function greatest_factor ( i:int)
+               requires{0<= i < multi_o}
+               ensures{1<=result}
+               ensures{c_zero <. i_to_c result}
+               ensures{forall j. 0<= j < result -> j * multi_o + mod i multi_o <  power 2 (2*n)}
+           ensures{forall j. 0<= j < power 2 (2*n) -> mod j multi_o = i <-> exists k. 0<= k < result && j =  k * multi_o + i}
+           ensures{i_to_c (result-1) <=. i_to_c (power 2 (2*n) -i) /. i_to_c multi_o}
+           ensures{div i multi_o < result}
+  = greatest_factor_in_n multi_o (2*n) i
+  
+let ghost constant min_mod_sum 
+  = let min_mod_sum_pre (k:int)
+               ensures{c_zero<=.result}
+          ensures{real_ result}
+          ensures{0<= k < multi_o -> forall i. 0<= i < multi_o -> 
+                  result <=.  cpower (modulus (ind_sum  (fun y -> (int_qft_coeff (y  * multi_o +mod i multi_o)
+                                                                     (-  (best_appr_ k ) ) (2*n))) 0 (greatest_factor  i)))2
+              /.( cpower (i_to_c (greatest_factor  i)) 2)}
+      = if 0<= k < multi_o then
+      min_set_complex (to_fset 0 multi_o)
+        (fun i -> if 0<= i < multi_o then
+                    cpower (modulus (ind_sum  (fun y -> (int_qft_coeff (y  * multi_o+mod i multi_o)
+                                                           (-  (best_appr_ k ) ) (2*n))) 0 (greatest_factor  i)))2
+                    /. ( cpower (i_to_c (greatest_factor i)) 2) else c_zero) else c_zero
+    in min_set_complex (to_fset 0 multi_o) min_mod_sum_pre
+               ensures{c_zero<=.result}
+               ensures{real_ result}
+          ensures{forall i k. 0<= i < multi_o ->  0<= k < multi_o -> 
+                  result <=. cpower (modulus (ind_sum  (fun y -> (int_qft_coeff (y  * multi_o+ mod i multi_o)
+                                                                    (-  (best_appr_ k ) ) (2*n))) 0 (greatest_factor  i)))2
+                /. ( cpower (i_to_c (greatest_factor i)) 2)}
+          ensures{forall i k. 0<= i < multi_o ->  0<= k < multi_o -> 
+                  ( cpower (i_to_c (greatest_factor  i)) 2) *. result <=.
+                    cpower (modulus (ind_sum  (fun y -> (int_qft_coeff (y  * multi_o+mod i multi_o)
+                                                           (-  (best_appr_ k) ) (2*n))) 0 (greatest_factor  i)))2}
+  
+let lemma separated_best_appr (k k' :int)
+               requires{0<= k < k' < multi_o}
+               ensures{best_appr_ k  < best_appr_ k'  }
+               ensures{forall l. (best_appr_ k )  * power 2 n + l <>
+                          (best_appr_ k' )  * power 2 n + l }
+    =
+    assert{  ((i_to_c  (k' * power 2 (2*n)) /. (i_to_c multi_o)) -. c_one /. ttwo) -.
+               ((i_to_c  (k * power 2 (2*n)) /. (i_to_c multi_o)) +. c_one /. ttwo)
+             = (i_to_c  (k'-k) *. (i_to_c ( power 2 (2*n)) /. (i_to_c multi_o)) -. c_one )};
+    assert{((i_to_c  (k * power 2 (2*n)) /. (i_to_c multi_o)) +. c_one /. ttwo) <. ((i_to_c  (k' * power 2 (2*n)) /. (i_to_c multi_o)) -. c_one /. ttwo) };
+ best_appr_orders  k ;
+ best_appr_orders  k';
+transitive_infeq_inf (i_to_c (best_appr_ k))
+  ((i_to_c  (k * power 2 (2*n)) /. (i_to_c multi_o)) +. c_one /. ttwo)
+  ((i_to_c  (k' * power 2 (2*n)) /. (i_to_c multi_o)) -. c_one /. ttwo);
+transitive_inf_infeq (i_to_c (best_appr_ k))
+  ((i_to_c (k' * power 2 (2*n)) /. (i_to_c multi_o)) -. c_one /. ttwo)
+  (i_to_c (best_appr_ k'))
+
+end                   
+
+module Shor_spec
+         
+         use shor_circuit.Shor
+         use qft.Qft
+         use wired_circuits.Circuit_c
+         use wired_circuits.Qbricks_prim
+         use measure.Measure
+         use qdata.Sqrt_two
+         use qdata.Kronecker_Qbit
+         use matrices.Kronecker_product
+         use arit.Inverse
+         use arit.Div_Mod
+         use  arit.Divisors
+         use  complex_expo.Complex_Exponentiation
+         use complex_operations.FromInt
+         use  complex_operations.Base_type
+         use  int_expo.Int_Exponentiation
+         use p_int.Int_comp
+         use p_set.IndexestoSet
+         use complex.Complex
+         use int.EuclideanDivision
+         use int.Int
+     
+let lemma shor_meas_j_k    (a bound n i  k:int)
+      requires{0<n}
+      requires{0<= a < power 2 n}
+      requires{power 2 (n-1)< bound < power 2 n}
+      requires{a < bound}
+      requires{co_prime a bound}
+      requires{0<= k < (multi_order a bound)}
+      requires{0<= i < multi_order a bound}
+      ensures{cpower (pow_inv_2 (2*n)) 2 *.  cpower (i_to_c (greatest_factor a bound n i)) 2 *. (min_mod_sum a bound n)<=.
+                proba_measure (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1)))
+                  ((best_appr_  k a bound n)  * (power 2 n) +  mod (power a i ) bound) (3*n)}
+  =
+  transitive_inf_int   bound  (power 2 n) (power 2 (2*n));
+  transitive_inf_int  (multi_order a bound) bound (power 2 (2*n));
+  transitive_inf_leq_int i (multi_order a bound) (power 2 (2*n));
+  kronecker_ket_l_sum (ket (2*n) 0) (ket n 1) (2*n) n (width (shor_circ a bound n));
+  div_mod_sim_bound  (best_appr_  k a bound n)  (mod (power a i) bound)  (power 2 n) (power 2 (2*n));
+  transitive_infeq (cpower (pow_inv_2 (2*n)) 2 *.  (cpower (i_to_c (greatest_factor a bound n i)) 2 *.  (min_mod_sum a bound n)))
+    (proba_measure_from_scal_sum_sum_fun (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1)))
+       i  (best_appr_  k a bound n) (greatest_factor a bound n i) (3*n)  n  (2*n) (fun i1 j1 -> int_qft_coeff  i1 (-j1) (2*n)) (fun i1 -> i1 * (multi_order a bound) + mod i (multi_order a bound))
+       (fun l -> mod (power a l) bound)  (pow_inv_2 (2*n)))
+    (proba_measure (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1)))
+       (best_appr_  k a bound n  * (power 2 n) + mod (power a i ) bound) (3*n))
+  
+let lemma greatest_factor_sum (a bound n:int)(cst:complex)
+      requires{0<n}
+      requires{0<= a < power 2 n}
+      requires{power 2 (n-1)< bound < power 2 n}
+      requires{a < bound}
+      requires{co_prime a bound}
+      ensures{sum (to_fset 0 (multi_order a bound)) (fun i -> i_to_c (greatest_factor a bound n i) *. cst) = i_to_c (power 2 (2*n)) *. cst }
+      ensures{ cpower  (i_to_c (power 2 (2*n)))2 <=. sum (to_fset 0 (multi_order a bound)) (fun i -> cpower (i_to_c (greatest_factor a bound n i))2) *. i_to_c (multi_order a bound)}
+  =
+  greatest_factor_sum_in_n (multi_order a bound) (2*n) cst
+  
+let lemma  shor_meas_i    (a bound n  k:int)
+      requires{0<n}
+      requires{0<= a < power 2 n}
+      requires{power 2 (n-1)< bound < power 2 n}
+      requires{a < bound}
+      requires{co_prime a bound}
+      requires{0<= k < multi_order a bound}
+      ensures{cpower ( pow_inv_2 (2*n)) 2 *. (min_mod_sum a bound n) *. (sum (to_fset 0 (multi_order a bound))
+                                                                           (fun  i -> if 0 <= i < multi_order a bound then cpower ( i_to_c (greatest_factor a bound n i)) 2 else c_zero))
+              <=. proba_measure_cond (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1)))  (3*n)
+                    (fun y1 ->  div y1 (power 2 n) =  (best_appr_  k a bound n))}
+  = div_mod_sim_bound_gen_r   (best_appr_  k a bound n)   (power 2 n) (power 2 (2*n))
+  
+let lemma  shor_meas_spec    (a bound n  :int)
+      requires{0<n}
+      requires{0<= a < power 2 n}
+      requires{power 2 (n-1)< bound < power 2 n}
+      requires{a < bound}
+      requires{co_prime a bound}
+      ensures{  min_mod_sum a bound n
+                <=.   proba_measure_cond (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1)))  (3*n)
+                        (fun y1 -> exists k. 0<= k < multi_order a bound && div y1 (power 2 n) =   (best_appr_  k a bound n) )}
+      ensures{ (i_to_c (euler_phi (multi_order a bound ))/. i_to_c (multi_order a bound) ) *.  (min_mod_sum a bound n)
+               <=.   proba_measure_cond (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1)))  (3*n)
+                       (fun y1 -> exists k. 0<= k < multi_order a bound && co_prime k (multi_order a bound) && div y1 (power 2 n) =   (best_appr_  k a bound n) )}
+  = 
+  kronecker_ket_l_sum (ket (2*n) 0) (ket n 1) (2*n) n (width (shor_circ a bound n));
+  proba_measure_sum_of_conds (to_fset 0  (multi_order a bound)) (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1))) (3*n)
+    (fun k i -> if 0 <= k < multi_order a bound then div i (power 2 n) =   (best_appr_  k a bound n)  else true)
+    (cpower ( pow_inv_2 (2*n)) 2 *. (min_mod_sum a bound n) *. (sum (to_fset 0 (multi_order a bound))
+                                                                  (fun  i -> if 0 <= i < multi_order a bound then cpower ( i_to_c (greatest_factor a bound n i)) 2else c_zero)))
+    (min_mod_sum a bound n);
+  proba_measure_sum_of_conds (co_primes (multi_order a bound) ) (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1))) (3*n)
+    (fun k i -> if 0 <= k < multi_order a bound then  div i (power 2 n) =   (best_appr_  k a bound n)  else true)
+    (cpower ( pow_inv_2 (2*n)) 2 *. (min_mod_sum a bound n) *. (sum (to_fset 0 (multi_order a bound))
+                                                                  (fun  i -> if 0 <= i < multi_order a bound then cpower ( i_to_c (greatest_factor a bound n i)) 2 else c_zero)))
+    ((i_to_c (euler_phi (multi_order a bound ))/. i_to_c (multi_order a bound) ) *.  (min_mod_sum a bound n))
+
+(* It is assumed by Shor in his original article, available at
+ *   https://arxiv.org/abs/quant-ph/9508027, that min_mod_sum is asymptotically
+ *   bounded below by 4/pi^2. Then so is 
+ * proba_measure_cond (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1)))  (3*n)
+ *                                (fun y1 -> exists k. 0<= k < multi_order a bound && div y1 (power 2 n) =   (best_appr_  k a bound n) )
+ * Furthermore,  ((euler_phi (multi_order a bound )) /. i_to_c (multi_order a bound)) is proved to be lower bounded by c_one /. log n 
+ * (see, eg.Artur Ekert and Richard Jozsa 1996: Quantum computation and Shor's factoring algorithm ), making 
+ * proba_measure_cond (path_sem (shor_circ a bound n) (kronecker (ket (2*n) 0) (ket n 1)))  (3*n)
+ *   (fun y1 -> exists k. 0<= k < multi_order a bound && co_prime k (multi_order a bound) && div y1 (power 2 n) =   (best_appr_  k a bound n) )
+ * asymptotically bounded below by 4/(log n * pi^2) *)  
+  
+end
+
+
+
+     
+(* module Shor_spec
+ *          
+ *          use shor_circ.Circuit
+ *          use Ghost_terms
+ *          (\* use adder.Adder *\)
+ *          use qft.Qft
+ *          use wired_circuits.Circuit_c
+ *          use wired_circuits.Qbricks_prim
+ *          use measure.Measure
+ *          use qdata.Sqrt_two
+ *          use qdata.Kronecker_Qbit
+ *          use matrices.Kronecker_product
+ *          use arit.Inverse
+ *          use arit.Div_Mod
+ *          use  arit.Divisors
+ *          use  complex_expo.Complex_Exponentiation
+ *          use complex_operations.FromInt
+ *          use  complex_operations.Base_type
+ *          use  int_expo.Int_Exponentiation
+ *          use p_int.Int_comp
+ *          use p_set.IndexestoSet
+ *          use complex.Complex
+ *          use int.EuclideanDivision
+ *          use int.Int
+ * 
+ * 
+ *      
+ * let lemma shor_meas_j_k    ( i  k:int)
+ *       requires{0<= k < (multi_o)}
+ *       requires{0<= i < multi_o}
+ *       ensures{cpower (pow_inv_2 (2*n)) 2 *.  cpower (i_to_c (greatest_factor  i)) 2 *. min_mod_sum<=.
+ *                 proba_measure (path_sem (shor_circuit()) (reg_init))
+ *                   ((best_appr_  k)  * (power 2 n) +  mod (power pick i ) bound) (3*n)}
+ *   =
+ *   transitive_inf_int   bound  (power 2 n) (power 2 (2*n));
+ *   transitive_inf_int  (multi_o) bound (power 2 (2*n));
+ *   transitive_inf_leq_int i (multi_o) (power 2 (2*n));
+ *   kronecker_ket_l_sum (ket (2*n) 0) (ket n 1) (2*n) n (width shor_circuit);
+ *   div_mod_sim_bound  (best_appr_  k)  (mod (power pick i) bound)  (power 2 n) (power 2 (2*n));
+ *   transitive_infeq (cpower (pow_inv_2 (2*n)) 2 *.  (cpower (i_to_c (greatest_factor  i)) 2 *.  min_mod_sum))
+ *     (proba_measure_from_scal_sum_sum_fun (path_sem (shor_circuit()) reg_init)
+ *        i  (best_appr_  k ) (greatest_factor  i) (3*n)  n  (2*n) (fun i1 j1 -> int_qft_coeff  i1 (-j1) (2*n)) (fun i1 -> i1 * (multi_o) + mod i (multi_o))
+ *        (fun l -> mod (power pick l) bound)  (pow_inv_2 (2*n)))
+ *     (proba_measure (path_sem (shor_circuit()) (reg_init))
+ *        (best_appr_  k  * (power 2 n) + mod (power pick i ) bound) (3*n))
+ *   
+ * let lemma greatest_factor_sum (cst:complex)
+ *       ensures{sum (to_fset 0 (multi_o)) (fun i -> i_to_c (greatest_factor  i) *. cst) = i_to_c (power 2 (2*n)) *. cst }
+ *       ensures{ cpower  (i_to_c (power 2 (2*n)))2 <=. sum (to_fset 0 (multi_o)) (fun i -> cpower (i_to_c (greatest_factor  i))2) *. i_to_c (multi_o)}
+ *   =
+ *   greatest_factor_sum_in_n (multi_o) (2*n) cst
+ * 
+ *   
+ * let lemma  shor_meas_i    (  k:int)
+ *       requires{0<= k < multi_o}
+ *       ensures{cpower ( pow_inv_2 (2*n)) 2 *. min_mod_sum *. (sum (to_fset 0 (multi_o))
+ *                                                                            (fun  i -> if 0 <= i < multi_o then cpower ( i_to_c (greatest_factor  i)) 2 else c_zero))
+ *               <=. proba_measure_cond (path_sem (shor_circuit()) (reg_init))  (3*n)
+ *                     (fun y1 ->  div y1 (power 2 n) =  (best_appr_  k ))}
+ *   = div_mod_sim_bound_gen_r   (best_appr_  k)   (power 2 n) (power 2 (2*n))
+ *   
+ * let  lemma  shor_meas_spec()
+ *    ensures{  min_mod_sum
+ *                 <=.   proba_measure_cond (path_sem (shor_circuit()) (reg_init))  (3*n)
+ *                         (fun y1 -> exists k. 0<= k < multi_o && div y1 (power 2 n) =   (best_appr_  k ) )}
+ *       ensures{ (i_to_c (euler_phi (multi_o ))/. i_to_c (multi_o) ) *.  min_mod_sum
+ *                <=.   proba_measure_cond (path_sem (shor_circuit()) (reg_init))  (3*n)
+ *                        (fun y1 -> exists k. 0<= k < multi_o && co_prime k (multi_o) && div y1 (power 2 n) =   (best_appr_  k) )}
+ *   =
+ *   kronecker_ket_l_sum (ket (2*n) 0) (ket n 1) (2*n) n (width (shor_circuit()));
+ *   proba_measure_sum_of_conds (to_fset 0  (multi_o)) (path_sem (shor_circuit()) (reg_init)) (3*n)    (fun k i -> if 0 <= k < multi_o then div i (power 2 n) =   (best_appr_  k )  else true)
+ *     (cpower ( pow_inv_2 (2*n)) 2 *. min_mod_sum *. (sum (to_fset 0 (multi_o))
+ *                                                                   (fun  i -> if 0 <= i < multi_o then cpower ( i_to_c (greatest_factor  i)) 2else c_zero)))
+ *     min_mod_sum;
+ *   proba_measure_sum_of_conds (co_primes (multi_o) ) (path_sem (shor_circuit()) (reg_init)) (3*n)
+ *     (fun k i -> if 0 <= k < multi_o then  div i (power 2 n) =   (best_appr_  k)  else true)
+ *     (cpower ( pow_inv_2 (2*n)) 2 *. min_mod_sum *. (sum (to_fset 0 (multi_o))
+ *                                                                   (fun  i -> if 0 <= i < multi_o then cpower ( i_to_c (greatest_factor  i)) 2 else c_zero)))
+ *     ((i_to_c (euler_phi (multi_o ))/. i_to_c (multi_o) ) *.  min_mod_sum)
+ *    
+ * (\* It is assumed by Shor in his original article, available at
+ *  *   https://arxiv.org/abs/quant-ph/9508027, that min_mod_sum is asymptotically
+ *  *   bounded below by 4/pi^2. Then so is 
+ *  * proba_measure_cond (path_sem (shor_circuit()) (kronecker (ket (2*n) 0) (ket n 1)))  (3*n)
+ *  *                                (fun y1 -> exists k. 0<= k < multi_order pick bound && div y1 (power 2 n) =   (best_appr_  k pick bound n) )
+ *  * Furthermore,  ((euler_phi (multi_order pick bound )) /. i_to_c (multi_order pick bound)) is proved to be lower bounded by c_one /. log n 
+ *  * (see, eg.Artur Ekert and Richard Jozsa 1996: Quantum computation and Shor's factoring algorithm ), making 
+ *  * proba_measure_cond (path_sem (shor_circuit()) (kronecker (ket (2*n) 0) (ket n 1)))  (3*n)
+ *  *   (fun y1 -> exists k. 0<= k < multi_order pick bound && co_prime k (multi_order pick bound) && div y1 (power 2 n) =   (best_appr_  k pick bound n) )
+ *  * asymptotically bounded below by 4/(log n * pi^2) *\)  
+ *   
+ * end *)
+
+

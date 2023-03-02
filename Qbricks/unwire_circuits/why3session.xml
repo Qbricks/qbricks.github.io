@@ -1,0 +1,2201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="6">
+<prover id="0" name="Alt-Ergo" version="2.4.0" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="2" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="3" name="CVC4" version="1.7" timelimit="5" steplimit="0" memlimit="1000"/>
+<file format="whyml" proved="true">
+<path name=".."/><path name="unwire_circuits.mlw"/>
+<theory name="Pre_wire" proved="true">
+ <goal name="unwire_path_sem&#39;vc" expl="VC for unwire_path_sem" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_path_sem&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="2.93" steps="979179"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_path_sem_basis&#39;vc" expl="VC for unwire_path_sem_basis" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_path_sem_basis&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="(path_sem_basis c x)" arg2="(path_sem c x)
+">
+   <goal name="unwire_path_sem_basis&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="replace" proved="true" arg1="(path_sem_basis1 (unwire c) x)" arg2="(path_sem1 (unwire c) x)
+">
+    <goal name="unwire_path_sem_basis&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <proof prover="3"><result status="valid" time="1.78" steps="802917"/></proof>
+    </goal>
+    <goal name="unwire_path_sem_basis&#39;vc.0.0.1" expl="equality hypothesis" proved="true">
+    <transf name="rewrite" proved="true" arg1="get_path_sem_basis1">
+     <goal name="unwire_path_sem_basis&#39;vc.0.0.1.0" expl="equality hypothesis" proved="true">
+     <proof prover="3"><result status="valid" time="0.97" steps="747128"/></proof>
+     </goal>
+     <goal name="unwire_path_sem_basis&#39;vc.0.0.1.1" expl="rewrite premises" proved="true">
+     <transf name="replace" proved="true" arg1="(width1 (unwire c))" arg2="(width c)">
+      <goal name="unwire_path_sem_basis&#39;vc.0.0.1.1.0" expl="rewrite premises" proved="true">
+      <proof prover="3"><result status="valid" time="0.98" steps="747130"/></proof>
+      </goal>
+      <goal name="unwire_path_sem_basis&#39;vc.0.0.1.1.1" expl="equality hypothesis" proved="true">
+      <transf name="eliminate_definition" proved="true" >
+       <goal name="unwire_path_sem_basis&#39;vc.0.0.1.1.1.0" expl="equality hypothesis" proved="true">
+       <transf name="rewrite" proved="true" arg1="unwire&#39;def">
+        <goal name="unwire_path_sem_basis&#39;vc.0.0.1.1.1.0.0" expl="equality hypothesis" proved="true">
+        <transf name="split_all_full" proved="true" >
+         <goal name="unwire_path_sem_basis&#39;vc.0.0.1.1.1.0.0.0" expl="equality hypothesis" proved="true">
+         <transf name="rewrite" proved="true" arg1="unwire_pre&#39;spec2">
+          <goal name="unwire_path_sem_basis&#39;vc.0.0.1.1.1.0.0.0.0" expl="equality hypothesis" proved="true">
+          <proof prover="3"><result status="valid" time="2.40" steps="1034684"/></proof>
+          </goal>
+          <goal name="unwire_path_sem_basis&#39;vc.0.0.1.1.1.0.0.0.1" expl="rewrite premises" proved="true">
+          <proof prover="3"><result status="valid" time="2.37" steps="1034612"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="unwire_path_sem_basis&#39;vc.0.0.1.2" expl="rewrite premises" proved="true">
+     <proof prover="3"><result status="valid" time="0.94" steps="747130"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="unwire_path_sem_basis&#39;vc.0.1" expl="equality hypothesis" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="unwire_path_sem_basis&#39;vc.0.1.0" expl="equality hypothesis" proved="true">
+    <transf name="rewrite" proved="true" arg1="path_sem&#39;spec">
+     <goal name="unwire_path_sem_basis&#39;vc.0.1.0.0" expl="equality hypothesis" proved="true">
+     <transf name="rewrite" proved="true" arg1="rewrite_pps_apply_basis">
+      <goal name="unwire_path_sem_basis&#39;vc.0.1.0.0.0" expl="equality hypothesis" proved="true">
+      <proof prover="3"><result status="valid" time="2.27" steps="992156"/></proof>
+      </goal>
+      <goal name="unwire_path_sem_basis&#39;vc.0.1.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="3"><result status="valid" time="2.23" steps="998080"/></proof>
+      </goal>
+      <goal name="unwire_path_sem_basis&#39;vc.0.1.0.0.2" expl="rewrite premises" proved="true">
+      <proof prover="3"><result status="valid" time="1.23" steps="930669"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="unwire_path_sem_basis&#39;vc.0.1.0.1" expl="rewrite premises" proved="true">
+     <proof prover="3"><result status="valid" time="1.51" steps="930669"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_width&#39;vc" expl="VC for unwire_width" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_width&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="unwire_width&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="unwire&#39;def">
+    <goal name="unwire_width&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="split_all_full" proved="true" >
+     <goal name="unwire_width&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="unwire_pre&#39;spec2">
+      <goal name="unwire_width&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="3"><result status="valid" time="2.31" steps="1034746"/></proof>
+      </goal>
+      <goal name="unwire_width&#39;vc.0.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="3"><result status="valid" time="2.35" steps="1034682"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="wire_pre&#39;vc" expl="VC for wire_pre" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="wire_pre&#39;vc.0" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="wire_pre&#39;vc.0.0" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.44" steps="977388"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.0.1" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.42" steps="977440"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.0.2" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.65" steps="803038"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.0.3" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.71" steps="803038"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.0.4" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.94" steps="803038"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.0.5" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.67" steps="803038"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.0.6" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.41" steps="978561"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.0.7" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.43" steps="977617"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.0.8" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.46" steps="977670"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="wire_pre&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="3"><result status="valid" time="1.68" steps="803043"/></proof>
+  </goal>
+  <goal name="wire_pre&#39;vc.2" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="wire_pre&#39;vc.2.0" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.90" steps="978130"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.2.1" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.98" steps="978321"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.2.2" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.97" steps="803202"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.2.3" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.97" steps="803202"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.2.4" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.67" steps="803202"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.2.5" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.96" steps="803202"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.2.6" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.89" steps="979313"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.2.7" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.86" steps="978344"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.2.8" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.54" steps="978386"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="wire_pre&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="3"><result status="valid" time="1.73" steps="803225"/></proof>
+  </goal>
+  <goal name="wire_pre&#39;vc.4" expl="precondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures2">
+   <goal name="wire_pre&#39;vc.4.0" expl="precondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures5">
+    <goal name="wire_pre&#39;vc.4.0.0" expl="precondition" proved="true">
+    <proof prover="3"><result status="valid" time="2.00" steps="803475"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="wire_pre&#39;vc.5" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="wire_pre&#39;vc.5.0" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.92" steps="977375"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.5.1" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.56" steps="977431"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.5.2" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.80" steps="803038"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.5.3" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.97" steps="803038"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.5.4" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.73" steps="803038"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.5.5" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.67" steps="803038"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.5.6" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.46" steps="977617"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.5.7" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.48" steps="978532"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.5.8" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.46" steps="977653"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="wire_pre&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="3"><result status="valid" time="1.69" steps="803033"/></proof>
+  </goal>
+  <goal name="wire_pre&#39;vc.7" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="wire_pre&#39;vc.7.0" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.43" steps="978060"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.7.1" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.48" steps="978112"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.7.2" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.73" steps="803202"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.7.3" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.73" steps="803202"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.7.4" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.67" steps="803202"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.7.5" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.75" steps="803202"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.7.6" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.52" steps="978278"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.7.7" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.48" steps="979203"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.7.8" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.85" steps="978326"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="wire_pre&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="3"><result status="valid" time="2.10" steps="803197"/></proof>
+  </goal>
+  <goal name="wire_pre&#39;vc.9" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="wire_pre&#39;vc.9.0" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.48" steps="977495"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.9.1" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.47" steps="977551"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.9.2" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.72" steps="803038"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.9.3" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.02" steps="803038"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.9.4" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.04" steps="803038"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.9.5" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="1.80" steps="803038"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.9.6" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.80" steps="977712"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.9.7" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.74" steps="977700"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.9.8" expl="variant decrease" proved="true">
+   <proof prover="3"><result status="valid" time="2.60" steps="978705"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="wire_pre&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="3"><result status="valid" time="2.52" steps="976811"/></proof>
+  </goal>
+  <goal name="wire_pre&#39;vc.11" expl="precondition" proved="true">
+  <proof prover="3"><result status="valid" time="2.55" steps="977452"/></proof>
+  </goal>
+  <goal name="wire_pre&#39;vc.12" expl="precondition" proved="true">
+  <proof prover="3"><result status="valid" time="2.68" steps="979226"/></proof>
+  </goal>
+  <goal name="wire_pre&#39;vc.13" expl="precondition" proved="true">
+  <transf name="assert" proved="true" arg1="(ancillable_pre x2  x1)">
+   <goal name="wire_pre&#39;vc.13.0" expl="asserted formula" proved="true">
+   <proof prover="3"><result status="valid" time="2.57" steps="979867"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.13.1" expl="precondition" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="wire_pre&#39;vc.13.1.0" expl="precondition" proved="true">
+    <transf name="eliminate_definition" proved="true" >
+     <goal name="wire_pre&#39;vc.13.1.0.0" expl="precondition" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="wire_pre&#39;vc.13.1.0.0.0" expl="precondition" proved="true">
+      <transf name="instantiate" proved="true" arg1="ancillable_pre&#39;spec1" arg2="x2,x1">
+       <goal name="wire_pre&#39;vc.13.1.0.0.0.0" expl="precondition" proved="true">
+       <transf name="destruct" proved="true" arg1="Hinst">
+        <goal name="wire_pre&#39;vc.13.1.0.0.0.0.0" expl="destruct premise" proved="true">
+        <proof prover="3"><result status="valid" time="1.58" steps="974959"/></proof>
+        </goal>
+        <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1" expl="precondition" proved="true">
+        <transf name="destruct" proved="true" arg1="Hinst">
+         <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0" expl="precondition" proved="true">
+         <transf name="instantiate" proved="true" arg1="Hinst" arg2="x">
+          <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0" expl="precondition" proved="true">
+          <transf name="replace" proved="true" arg1="(pps_apply (circ_to_pps_pre1 x2) (kronecker x (ket x1 0)))" arg2="(path_sem1 (to_qc1 x2) (kronecker x (ket x1 0)))" arg3="in" arg4="Hinst">
+           <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.0" expl="precondition" proved="true">
+           <transf name="rewrite" proved="true" arg1="Ensures">
+            <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.0.0" expl="precondition" proved="true">
+            <proof prover="3"><result status="valid" time="2.42" steps="1040069"/></proof>
+            </goal>
+            <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.0.1" expl="rewrite premises" proved="true">
+            <transf name="replace" proved="true" arg1="(width o )" arg2="(width o -&#39;&#39;x1+&#39;x1)">
+             <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.0.1.0" expl="rewrite premises" proved="true">
+             <transf name="apply" proved="true" arg1="kronecker_ket_l">
+              <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.0.1.0.0" expl="apply premises" proved="true">
+              <proof prover="3"><result status="valid" time="2.37" steps="1032817"/></proof>
+              </goal>
+              <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.0.1.0.1" expl="apply premises" proved="true">
+              <proof prover="3"><result status="valid" time="2.34" steps="1032800"/></proof>
+              </goal>
+              <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.0.1.0.2" expl="apply premises" proved="true">
+              <proof prover="3"><result status="valid" time="1.36" steps="975146"/></proof>
+              </goal>
+              <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.0.1.0.3" expl="apply premises" proved="true">
+              <proof prover="3"><result status="valid" time="3.11" steps="1181954"/></proof>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.0.1.1" expl="equality hypothesis" proved="true">
+             <proof prover="3"><result status="valid" time="1.24" steps="975160"/></proof>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.1" expl="equality hypothesis" proved="true">
+           <transf name="rewrite" proved="true" arg1="path_sem_apply">
+            <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.1.0" expl="equality hypothesis" proved="true">
+            <proof prover="3"><result status="valid" time="3.08" steps="1181583"/></proof>
+            </goal>
+            <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.1.1" expl="rewrite premises" proved="true">
+            <transf name="replace" proved="true" arg1="(width1 (to_qc1 x2)  )" arg2="(width o -&#39;&#39;x1+&#39;x1)">
+             <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.1.1.0" expl="rewrite premises" proved="true">
+             <transf name="apply" proved="true" arg1="kronecker_ket_l">
+              <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.1.1.0.0" expl="apply premises" proved="true">
+              <proof prover="3"><result status="valid" time="2.43" steps="1032817"/></proof>
+              </goal>
+              <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.1.1.0.1" expl="apply premises" proved="true">
+              <proof prover="3"><result status="valid" time="2.49" steps="1032800"/></proof>
+              </goal>
+              <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.1.1.0.2" expl="apply premises" proved="true">
+              <proof prover="3"><result status="valid" time="1.57" steps="975146"/></proof>
+              </goal>
+              <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.1.1.0.3" expl="apply premises" proved="true">
+              <proof prover="3"><result status="valid" time="3.60" steps="1181778"/></proof>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="wire_pre&#39;vc.13.1.0.0.0.0.1.0.0.1.1.1" expl="equality hypothesis" proved="true">
+             <proof prover="3"><result status="valid" time="3.14" steps="1181331"/></proof>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="wire_pre&#39;vc.14" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="wire_pre&#39;vc.14.0" expl="postcondition" proved="true">
+   <proof prover="3"><result status="valid" time="2.02" steps="818693"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.14.1" expl="postcondition" proved="true">
+   <proof prover="3"><result status="valid" time="2.11" steps="818700"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.14.2" expl="postcondition" proved="true">
+   <proof prover="3"><result status="valid" time="1.98" steps="802169"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.14.3" expl="postcondition" proved="true">
+   <proof prover="3"><result status="valid" time="1.95" steps="802189"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.14.4" expl="postcondition" proved="true">
+   <proof prover="3"><result status="valid" time="2.01" steps="802171"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.14.5" expl="postcondition" proved="true">
+   <proof prover="3"><result status="valid" time="1.95" steps="802181"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.14.6" expl="postcondition" proved="true">
+   <proof prover="3"><result status="valid" time="2.56" steps="906142"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.14.7" expl="postcondition" proved="true">
+   <proof prover="3"><result status="valid" time="3.12" steps="999587"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.14.8" expl="postcondition" proved="true">
+   <proof prover="3"><result status="valid" time="3.16" steps="997719"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="wire_pre&#39;vc.15" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="wire_pre&#39;vc.15.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="path_sem_basis_apply">
+    <goal name="wire_pre&#39;vc.15.0.0" expl="postcondition" proved="true">
+    <transf name="replace" proved="true" arg1="((circ_to_pps1 (to_qc1 c)) )" arg2="(pps_phase x1)">
+     <goal name="wire_pre&#39;vc.15.0.0.0" expl="postcondition" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="wire_pre&#39;vc.15.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="path_sem_basis&#39;spec">
+       <goal name="wire_pre&#39;vc.15.0.0.0.0.0" expl="postcondition" proved="true">
+       <proof prover="3"><result status="valid" time="3.81" steps="1173284"/></proof>
+       </goal>
+       <goal name="wire_pre&#39;vc.15.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="3"><result status="valid" time="1.71" steps="945535"/></proof>
+       </goal>
+       <goal name="wire_pre&#39;vc.15.0.0.0.0.2" expl="rewrite premises" proved="true">
+       <proof prover="3"><result status="valid" time="1.69" steps="945535"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="wire_pre&#39;vc.15.0.0.1" expl="equality hypothesis" proved="true">
+     <proof prover="2"><result status="valid" time="1.73"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="wire_pre&#39;vc.15.0.1" expl="rewrite premises" proved="true">
+    <proof prover="3"><result status="valid" time="3.18" steps="996983"/></proof>
+    </goal>
+    <goal name="wire_pre&#39;vc.15.0.2" expl="rewrite premises" proved="true">
+    <proof prover="3"><result status="valid" time="1.28" steps="761403"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="wire_pre&#39;vc.15.1" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="path_sem_basis_apply">
+    <goal name="wire_pre&#39;vc.15.1.0" expl="postcondition" proved="true">
+    <transf name="replace" proved="true" arg1="((circ_to_pps1 (to_qc1 c)) )" arg2="(pps_rz x1)">
+     <goal name="wire_pre&#39;vc.15.1.0.0" expl="postcondition" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="wire_pre&#39;vc.15.1.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="path_sem_basis&#39;spec">
+       <goal name="wire_pre&#39;vc.15.1.0.0.0.0" expl="postcondition" proved="true">
+       <proof prover="3"><result status="valid" time="3.74" steps="1173259"/></proof>
+       </goal>
+       <goal name="wire_pre&#39;vc.15.1.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="3"><result status="valid" time="1.56" steps="945542"/></proof>
+       </goal>
+       <goal name="wire_pre&#39;vc.15.1.0.0.0.2" expl="rewrite premises" proved="true">
+       <proof prover="3"><result status="valid" time="1.59" steps="945542"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="wire_pre&#39;vc.15.1.0.1" expl="equality hypothesis" proved="true">
+     <proof prover="2"><result status="valid" time="1.62"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="wire_pre&#39;vc.15.1.1" expl="rewrite premises" proved="true">
+    <proof prover="3"><result status="valid" time="2.97" steps="997010"/></proof>
+    </goal>
+    <goal name="wire_pre&#39;vc.15.1.2" expl="rewrite premises" proved="true">
+    <proof prover="3"><result status="valid" time="1.02" steps="761410"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="wire_pre&#39;vc.15.2" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.58"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.15.3" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.32"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.15.4" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.35"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.15.5" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.57"/></proof>
+   </goal>
+   <goal name="wire_pre&#39;vc.15.6" expl="postcondition" proved="true">
+   <transf name="eliminate_let" proved="true" >
+    <goal name="wire_pre&#39;vc.15.6.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="H2">
+     <goal name="wire_pre&#39;vc.15.6.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="path_sem_basis_comp_">
+      <goal name="wire_pre&#39;vc.15.6.0.0.0" expl="postcondition" proved="true">
+      <transf name="replace" proved="true" arg1="(to_qc1 c)" arg2="(sequence (to_qc1 x2) (to_qc1 x1))">
+       <goal name="wire_pre&#39;vc.15.6.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="rewrite" proved="true" arg1="path_sem_comp_basis">
+        <goal name="wire_pre&#39;vc.15.6.0.0.0.0.0" expl="postcondition" proved="true">
+        <proof prover="3"><result status="valid" time="3.01" steps="1088302"/></proof>
+        </goal>
+        <goal name="wire_pre&#39;vc.15.6.0.0.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="3"><result status="valid" time="3.05" steps="1086332"/></proof>
+        </goal>
+        <goal name="wire_pre&#39;vc.15.6.0.0.0.0.2" expl="rewrite premises" proved="true">
+        <proof prover="3"><result status="valid" time="1.25" steps="843558"/></proof>
+        </goal>
+        <goal name="wire_pre&#39;vc.15.6.0.0.0.0.3" expl="rewrite premises" proved="true">
+        <proof prover="3"><result status="valid" time="3.17" steps="1086435"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="wire_pre&#39;vc.15.6.0.0.0.1" expl="equality hypothesis" proved="true">
+       <transf name="assert" proved="true" arg1="(pre1 (to_qc1 c) = pre1 (sequence (to_qc1 x2) (to_qc1 x1)))">
+        <goal name="wire_pre&#39;vc.15.6.0.0.0.1.0" expl="asserted formula" proved="true">
+        <transf name="rewrite" proved="true" arg1="pre_to_qc">
+         <goal name="wire_pre&#39;vc.15.6.0.0.0.1.0.0" expl="asserted formula" proved="true">
+         <transf name="rewrite" proved="true" arg1="H3">
+          <goal name="wire_pre&#39;vc.15.6.0.0.0.1.0.0.0" expl="asserted formula" proved="true">
+          <transf name="split_all_full" proved="true" >
+           <goal name="wire_pre&#39;vc.15.6.0.0.0.1.0.0.0.0" expl="asserted formula" proved="true">
+           <transf name="rewrite" proved="true" arg1="sequence&#39;spec2">
+            <goal name="wire_pre&#39;vc.15.6.0.0.0.1.0.0.0.0.0" expl="asserted formula" proved="true">
+            <proof prover="3"><result status="valid" time="3.65" steps="1273456"/></proof>
+            </goal>
+            <goal name="wire_pre&#39;vc.15.6.0.0.0.1.0.0.0.0.1" expl="rewrite premises" proved="true">
+            <proof prover="3"><result status="valid" time="3.63" steps="1272212"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="wire_pre&#39;vc.15.6.0.0.0.1.0.1" expl="rewrite premises" proved="true">
+         <proof prover="3"><result status="valid" time="1.26" steps="843558"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="wire_pre&#39;vc.15.6.0.0.0.1.1" expl="equality hypothesis" proved="true">
+        <proof prover="3"><result status="valid" time="2.28" steps="906132"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="wire_pre&#39;vc.15.6.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="3"><result status="valid" time="2.14" steps="905652"/></proof>
+      </goal>
+      <goal name="wire_pre&#39;vc.15.6.0.0.2" expl="rewrite premises" proved="true">
+      <proof prover="3"><result status="valid" time="1.26" steps="843558"/></proof>
+      </goal>
+      <goal name="wire_pre&#39;vc.15.6.0.0.3" expl="rewrite premises" proved="true">
+      <proof prover="3"><result status="valid" time="2.19" steps="906161"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="wire_pre&#39;vc.15.7" expl="postcondition" proved="true">
+   <transf name="eliminate_let" proved="true" >
+    <goal name="wire_pre&#39;vc.15.7.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="H2">
+     <goal name="wire_pre&#39;vc.15.7.0.0" expl="postcondition" proved="true">
+     <transf name="replace" proved="true" arg1="x" arg2="(kronecker (bv_to_ket (hpart (ket_to_bv x) (width wire_pre&#39;result&#39;unused&#39;unused1)))(bv_to_ket  (tpart (ket_to_bv x) (width wire_pre&#39;result&#39;unused&#39;unused1))))
+">
+      <goal name="wire_pre&#39;vc.15.7.0.0.0" expl="postcondition" proved="true">
+      <transf name="replace" proved="true" arg1="(to_qc1 c)" arg2="(parallel (to_qc1 x2) (to_qc1 x1))">
+       <goal name="wire_pre&#39;vc.15.7.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="rewrite" proved="true" arg1="path_sem_kron_basis">
+        <goal name="wire_pre&#39;vc.15.7.0.0.0.0.0" expl="postcondition" proved="true">
+        <transf name="apply" proved="true" arg1="path_sem_basis_kron">
+         <goal name="wire_pre&#39;vc.15.7.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <proof prover="3"><result status="valid" time="3.21" steps="1006795"/></proof>
+         </goal>
+         <goal name="wire_pre&#39;vc.15.7.0.0.0.0.0.1" expl="apply premises" proved="true">
+         <transf name="apply" proved="true" arg1="is_a_ket_l_bv_to_ket">
+          <goal name="wire_pre&#39;vc.15.7.0.0.0.0.0.1.0" expl="apply premises" proved="true">
+          <transf name="rewrite" proved="true" arg1="tpart_length">
+           <goal name="wire_pre&#39;vc.15.7.0.0.0.0.0.1.0.0" expl="apply premises" proved="true">
+           <proof prover="3"><result status="valid" time="3.01" steps="1005794"/></proof>
+           </goal>
+           <goal name="wire_pre&#39;vc.15.7.0.0.0.0.0.1.0.1" expl="rewrite premises" proved="true">
+           <proof prover="3"><result status="valid" time="3.08" steps="1005561"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="wire_pre&#39;vc.15.7.0.0.0.0.0.2" expl="apply premises" proved="true">
+         <proof prover="3"><result status="valid" time="2.17" steps="819472"/></proof>
+         </goal>
+         <goal name="wire_pre&#39;vc.15.7.0.0.0.0.0.3" expl="apply premises" proved="true">
+         <proof prover="3"><result status="valid" time="2.12" steps="819472"/></proof>
+         </goal>
+         <goal name="wire_pre&#39;vc.15.7.0.0.0.0.0.4" expl="apply premises" proved="true">
+         <proof prover="3"><result status="valid" time="3.13" steps="1003258"/></proof>
+         </goal>
+         <goal name="wire_pre&#39;vc.15.7.0.0.0.0.0.5" expl="apply premises" proved="true">
+         <transf name="apply" proved="true" arg1="Ensures12">
+          <goal name="wire_pre&#39;vc.15.7.0.0.0.0.0.5.0" expl="apply premises" proved="true">
+          <transf name="apply" proved="true" arg1="is_a_ket_l_bv_to_ket">
+           <goal name="wire_pre&#39;vc.15.7.0.0.0.0.0.5.0.0" expl="apply premises" proved="true">
+           <transf name="rewrite" proved="true" arg1="tpart_length">
+            <goal name="wire_pre&#39;vc.15.7.0.0.0.0.0.5.0.0.0" expl="apply premises" proved="true">
+            <proof prover="3"><result status="valid" time="3.14" steps="1005794"/></proof>
+            </goal>
+            <goal name="wire_pre&#39;vc.15.7.0.0.0.0.0.5.0.0.1" expl="rewrite premises" proved="true">
+            <proof prover="3"><result status="valid" time="3.09" steps="1005561"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="wire_pre&#39;vc.15.7.0.0.0.0.0.5.1" expl="apply premises" proved="true">
+          <proof prover="3"><result status="valid" time="2.11" steps="819472"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="wire_pre&#39;vc.15.7.0.0.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="3"><result status="valid" time="2.86" steps="1003183"/></proof>
+        </goal>
+        <goal name="wire_pre&#39;vc.15.7.0.0.0.0.2" expl="rewrite premises" proved="true">
+        <transf name="apply" proved="true" arg1="is_a_ket_l_bv_to_ket">
+         <goal name="wire_pre&#39;vc.15.7.0.0.0.0.2.0" expl="apply premises" proved="true">
+         <transf name="rewrite" proved="true" arg1="tpart_length">
+          <goal name="wire_pre&#39;vc.15.7.0.0.0.0.2.0.0" expl="apply premises" proved="true">
+          <proof prover="3"><result status="valid" time="2.77" steps="1006129"/></proof>
+          </goal>
+          <goal name="wire_pre&#39;vc.15.7.0.0.0.0.2.0.1" expl="rewrite premises" proved="true">
+          <proof prover="3"><result status="valid" time="2.82" steps="1005561"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="wire_pre&#39;vc.15.7.0.0.0.0.3" expl="rewrite premises" proved="true">
+        <proof prover="3"><result status="valid" time="1.72" steps="819472"/></proof>
+        </goal>
+        <goal name="wire_pre&#39;vc.15.7.0.0.0.0.4" expl="rewrite premises" proved="true">
+        <proof prover="3"><result status="valid" time="1.74" steps="819472"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="wire_pre&#39;vc.15.7.0.0.0.1" expl="equality hypothesis" proved="true">
+       <proof prover="3"><result status="valid" time="2.79" steps="1000861"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="wire_pre&#39;vc.15.7.0.0.1" expl="equality hypothesis" proved="true">
+      <proof prover="3"><result status="valid" time="2.85" steps="1004504"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="wire_pre&#39;vc.15.8" expl="postcondition" proved="true">
+   <transf name="replace" proved="true" arg1="(path_sem_basis result x)" arg2="(path_sem result x)">
+    <goal name="wire_pre&#39;vc.15.8.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="Ensures8">
+     <goal name="wire_pre&#39;vc.15.8.0.0" expl="apply premises" proved="true">
+     <proof prover="3"><result status="valid" time="1.74" steps="851554"/></proof>
+     </goal>
+     <goal name="wire_pre&#39;vc.15.8.0.1" expl="apply premises" proved="true">
+     <transf name="replace" proved="true" arg1="(path_sem wire_pre&#39;result&#39;unused&#39;unused (kronecker x (ket x1 0)))" arg2="(path_sem_basis wire_pre&#39;result&#39;unused&#39;unused (kronecker x (ket x1 0)))">
+      <goal name="wire_pre&#39;vc.15.8.0.1.0" expl="apply premises" proved="true">
+      <transf name="rewrite" proved="true" arg1="Ensures11">
+       <goal name="wire_pre&#39;vc.15.8.0.1.0.0" expl="apply premises" proved="true">
+       <transf name="instantiate" proved="true" arg1="ancilla_pre_path_sem" arg2="(to_qc1 c),( x2),x1">
+        <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0" expl="apply premises" proved="true">
+        <transf name="replace" proved="true" arg1="(path_sem_basis1 (to_qc1 x2) (kronecker x (ket x1 0)) )" arg2="(path_sem1 (to_qc1 x2) (kronecker x (ket x1 0)) )">
+         <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="rewrite" proved="true" arg1="Hinst">
+          <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.0.0" expl="apply premises" proved="true">
+          <proof prover="3"><result status="valid" time="2.55" steps="1004148"/></proof>
+          </goal>
+          <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.0.1" expl="rewrite premises" proved="true">
+          <proof prover="3"><result status="valid" time="1.74" steps="819539"/></proof>
+          </goal>
+          <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.0.2" expl="rewrite premises" proved="true">
+          <proof prover="3"><result status="valid" time="1.73" steps="842860"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1" expl="equality hypothesis" proved="true">
+         <transf name="rewrite" proved="true" arg1="get_path_sem_basis1">
+          <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.0" expl="equality hypothesis" proved="true">
+          <proof prover="3"><result status="valid" time="0.99" steps="762062"/></proof>
+          </goal>
+          <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.1" expl="rewrite premises" proved="true">
+          <transf name="replace" proved="true" arg1="(width1 (to_qc1 x2))" arg2="(width1 (to_qc1 x2) -&#39;&#39; x1 +&#39; x1)">
+           <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.1.0" expl="rewrite premises" proved="true">
+           <transf name="apply" proved="true" arg1="kronecker_ket_l">
+            <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.1.0.0" expl="apply premises" proved="true">
+            <proof prover="3"><result status="valid" time="2.79" steps="1000301"/></proof>
+            </goal>
+            <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.1.0.1" expl="apply premises" proved="true">
+            <proof prover="3"><result status="valid" time="2.84" steps="999745"/></proof>
+            </goal>
+            <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.1.0.2" expl="apply premises" proved="true">
+            <transf name="replace" proved="true" arg1="(width1 (to_qc1 x2))" arg2="(width wire_pre&#39;result&#39;unused&#39;unused)">
+             <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.1.0.2.0" expl="apply premises" proved="true">
+             <proof prover="3"><result status="valid" time="1.81" steps="851738"/></proof>
+             </goal>
+             <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.1.0.2.1" expl="equality hypothesis" proved="true">
+             <proof prover="3"><result status="valid" time="2.49" steps="999809"/></proof>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.1.0.3" expl="apply premises" proved="true">
+            <proof prover="3"><result status="valid" time="2.67" steps="1003845"/></proof>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.1.1" expl="equality hypothesis" proved="true">
+           <proof prover="3"><result status="valid" time="0.96" steps="762089"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.2" expl="rewrite premises" proved="true">
+          <transf name="apply" proved="true" arg1="kronecker_is_a_ket_basis_elt">
+           <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.2.0" expl="apply premises" proved="true">
+           <proof prover="3"><result status="valid" time="1.03" steps="762064"/></proof>
+           </goal>
+           <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.2.1" expl="apply premises" proved="true">
+           <transf name="apply" proved="true" arg1="ket_is_a_ket_basis_elt">
+            <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.2.1.0" expl="apply premises" proved="true">
+            <proof prover="3"><result status="valid" time="2.25" steps="999745"/></proof>
+            </goal>
+            <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.2.1.1" expl="apply premises" proved="true">
+            <transf name="split_vc" proved="true" >
+             <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.2.1.1.0" proved="true">
+             <proof prover="0"><result status="valid" time="0.55" steps="19434"/></proof>
+             </goal>
+             <goal name="wire_pre&#39;vc.15.8.0.1.0.0.0.1.2.1.1.1" proved="true">
+             <proof prover="2"><result status="valid" time="1.18"/></proof>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="wire_pre&#39;vc.15.8.0.1.0.1" expl="rewrite premises" proved="true">
+       <transf name="replace" proved="true" arg1="(width wire_pre&#39;result&#39;unused&#39;unused)" arg2="(width result +&#39; x1)">
+        <goal name="wire_pre&#39;vc.15.8.0.1.0.1.0" expl="rewrite premises" proved="true">
+        <transf name="apply" proved="true" arg1="kronecker_ket_l">
+         <goal name="wire_pre&#39;vc.15.8.0.1.0.1.0.0" expl="apply premises" proved="true">
+         <proof prover="3"><result status="valid" time="2.53" steps="997220"/></proof>
+         </goal>
+         <goal name="wire_pre&#39;vc.15.8.0.1.0.1.0.1" expl="apply premises" proved="true">
+         <proof prover="3"><result status="valid" time="2.58" steps="999064"/></proof>
+         </goal>
+         <goal name="wire_pre&#39;vc.15.8.0.1.0.1.0.2" expl="apply premises" proved="true">
+         <proof prover="3"><result status="valid" time="0.94" steps="761963"/></proof>
+         </goal>
+         <goal name="wire_pre&#39;vc.15.8.0.1.0.1.0.3" expl="apply premises" proved="true">
+         <proof prover="3"><result status="valid" time="2.42" steps="1002908"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="wire_pre&#39;vc.15.8.0.1.0.1.1" expl="equality hypothesis" proved="true">
+        <proof prover="3"><result status="valid" time="0.98" steps="761977"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="wire_pre&#39;vc.15.8.0.1.0.2" expl="rewrite premises" proved="true">
+       <transf name="apply" proved="true" arg1="kronecker_is_a_ket_basis_elt">
+        <goal name="wire_pre&#39;vc.15.8.0.1.0.2.0" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="1.00" steps="761963"/></proof>
+        </goal>
+        <goal name="wire_pre&#39;vc.15.8.0.1.0.2.1" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="ket_is_a_ket_basis_elt">
+         <goal name="wire_pre&#39;vc.15.8.0.1.0.2.1.0" expl="apply premises" proved="true">
+         <proof prover="3"><result status="valid" time="2.57" steps="999064"/></proof>
+         </goal>
+         <goal name="wire_pre&#39;vc.15.8.0.1.0.2.1.1" expl="apply premises" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="wire_pre&#39;vc.15.8.0.1.0.2.1.1.0" expl="apply premises" proved="true">
+          <proof prover="0"><result status="valid" time="0.61" steps="19386"/></proof>
+          </goal>
+          <goal name="wire_pre&#39;vc.15.8.0.1.0.2.1.1.1" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.20"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="wire_pre&#39;vc.15.8.0.1.1" expl="equality hypothesis" proved="true">
+      <transf name="rewrite" proved="true" arg1="get_path_sem_basis">
+       <goal name="wire_pre&#39;vc.15.8.0.1.1.0" expl="equality hypothesis" proved="true">
+       <proof prover="3"><result status="valid" time="1.04" steps="761961"/></proof>
+       </goal>
+       <goal name="wire_pre&#39;vc.15.8.0.1.1.1" expl="rewrite premises" proved="true">
+       <transf name="replace" proved="true" arg1="(width wire_pre&#39;result&#39;unused&#39;unused)" arg2="(width result +&#39; x1)">
+        <goal name="wire_pre&#39;vc.15.8.0.1.1.1.0" expl="rewrite premises" proved="true">
+        <transf name="apply" proved="true" arg1="kronecker_ket_l">
+         <goal name="wire_pre&#39;vc.15.8.0.1.1.1.0.0" expl="apply premises" proved="true">
+         <proof prover="3"><result status="valid" time="2.48" steps="997220"/></proof>
+         </goal>
+         <goal name="wire_pre&#39;vc.15.8.0.1.1.1.0.1" expl="apply premises" proved="true">
+         <proof prover="3"><result status="valid" time="2.48" steps="999064"/></proof>
+         </goal>
+         <goal name="wire_pre&#39;vc.15.8.0.1.1.1.0.2" expl="apply premises" proved="true">
+         <proof prover="3"><result status="valid" time="0.99" steps="761963"/></proof>
+         </goal>
+         <goal name="wire_pre&#39;vc.15.8.0.1.1.1.0.3" expl="apply premises" proved="true">
+         <proof prover="3"><result status="valid" time="2.57" steps="1002908"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="wire_pre&#39;vc.15.8.0.1.1.1.1" expl="equality hypothesis" proved="true">
+        <proof prover="3"><result status="valid" time="1.04" steps="761977"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="wire_pre&#39;vc.15.8.0.1.1.2" expl="rewrite premises" proved="true">
+       <transf name="apply" proved="true" arg1="kronecker_is_a_ket_basis_elt">
+        <goal name="wire_pre&#39;vc.15.8.0.1.1.2.0" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="1.03" steps="761963"/></proof>
+        </goal>
+        <goal name="wire_pre&#39;vc.15.8.0.1.1.2.1" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="ket_is_a_ket_basis_elt">
+         <goal name="wire_pre&#39;vc.15.8.0.1.1.2.1.0" expl="apply premises" proved="true">
+         <proof prover="3"><result status="valid" time="2.86" steps="999064"/></proof>
+         </goal>
+         <goal name="wire_pre&#39;vc.15.8.0.1.1.2.1.1" expl="apply premises" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="wire_pre&#39;vc.15.8.0.1.1.2.1.1.0" expl="apply premises" proved="true">
+          <proof prover="0"><result status="valid" time="0.66" steps="19386"/></proof>
+          </goal>
+          <goal name="wire_pre&#39;vc.15.8.0.1.1.2.1.1.1" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.42"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="wire_pre&#39;vc.15.8.1" expl="equality hypothesis" proved="true">
+    <proof prover="3"><result status="valid" time="1.62" steps="819441"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="wire_pre&#39;vc.16" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="wire_pre&#39;vc.16.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="path_sem&#39;def">
+    <goal name="wire_pre&#39;vc.16.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="path_sem&#39;def1">
+     <goal name="wire_pre&#39;vc.16.0.0.0" expl="postcondition" proved="true">
+     <transf name="apply" proved="true" arg1="ket_sum_eq_gen">
+      <goal name="wire_pre&#39;vc.16.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="3"><result status="valid" time="3.13" steps="1035453"/></proof>
+      </goal>
+      <goal name="wire_pre&#39;vc.16.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="3"><result status="valid" time="3.24" steps="1037420"/></proof>
+      </goal>
+      <goal name="wire_pre&#39;vc.16.0.0.0.2" expl="apply premises" proved="true">
+      <proof prover="3"><result status="valid" time="3.16" steps="1036888"/></proof>
+      </goal>
+      <goal name="wire_pre&#39;vc.16.0.0.0.3" expl="apply premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="wire_pre&#39;vc.16.0.0.0.3.0" expl="apply premises" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="wire_pre&#39;vc.16.0.0.0.3.0.0" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="3.28" steps="1038065"/></proof>
+        </goal>
+        <goal name="wire_pre&#39;vc.16.0.0.0.3.0.1" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="2.84" steps="1038124"/></proof>
+        </goal>
+        <goal name="wire_pre&#39;vc.16.0.0.0.3.0.2" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="2.79" steps="1026309"/></proof>
+        </goal>
+        <goal name="wire_pre&#39;vc.16.0.0.0.3.0.3" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="2.75" steps="1024852"/></proof>
+        </goal>
+        <goal name="wire_pre&#39;vc.16.0.0.0.3.0.4" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="2.74" steps="1024820"/></proof>
+        </goal>
+        <goal name="wire_pre&#39;vc.16.0.0.0.3.0.5" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="2.69" steps="1026328"/></proof>
+        </goal>
+        <goal name="wire_pre&#39;vc.16.0.0.0.3.0.6" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="3.11" steps="1125218"/></proof>
+        </goal>
+        <goal name="wire_pre&#39;vc.16.0.0.0.3.0.7" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="2.71" steps="1040115"/></proof>
+        </goal>
+        <goal name="wire_pre&#39;vc.16.0.0.0.3.0.8" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="2.78" steps="1038822"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="wire_pre&#39;vc.16.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="3"><result status="valid" time="3.00" steps="1036921"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="wire_pre&#39;vc.16.0.1" expl="rewrite premises" proved="true">
+    <proof prover="3"><result status="valid" time="1.18" steps="846902"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="wire&#39;vc" expl="VC for wire" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="wire&#39;vc.0" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="wire&#39;vc.0.0" expl="precondition" proved="true">
+   <proof prover="3"><result status="valid" time="1.65" steps="804041"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="wire&#39;vc.1" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="wire&#39;vc.1.0" expl="postcondition" proved="true">
+   <proof prover="3"><result status="valid" time="1.96" steps="804274"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="wire&#39;vc.2" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures2">
+   <goal name="wire&#39;vc.2.0" expl="postcondition" proved="true">
+   <proof prover="3"><result status="valid" time="1.86" steps="827522"/></proof>
+   </goal>
+   <goal name="wire&#39;vc.2.1" expl="rewrite premises" proved="true">
+   <proof prover="3"><result status="valid" time="1.11" steps="748409"/></proof>
+   </goal>
+   <goal name="wire&#39;vc.2.2" expl="rewrite premises" proved="true">
+   <proof prover="3"><result status="valid" time="1.12" steps="748409"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="wire&#39;vc.3" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="path_sem&#39;def">
+   <goal name="wire&#39;vc.3.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="path_sem&#39;def1">
+    <goal name="wire&#39;vc.3.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="ket_sum_eq_gen">
+     <goal name="wire&#39;vc.3.0.0.0" expl="apply premises" proved="true">
+     <proof prover="3"><result status="valid" time="2.65" steps="981261"/></proof>
+     </goal>
+     <goal name="wire&#39;vc.3.0.0.1" expl="apply premises" proved="true">
+     <proof prover="3"><result status="valid" time="1.71" steps="803909"/></proof>
+     </goal>
+     <goal name="wire&#39;vc.3.0.0.2" expl="apply premises" proved="true">
+     <proof prover="3"><result status="valid" time="1.01" steps="748477"/></proof>
+     </goal>
+     <goal name="wire&#39;vc.3.0.0.3" expl="apply premises" proved="true">
+     <transf name="compute_specified" proved="true" >
+      <goal name="wire&#39;vc.3.0.0.3.0" expl="apply premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="wire&#39;vc.3.0.0.3.0.0" expl="apply premises" proved="true">
+       <proof prover="3"><result status="valid" time="3.03" steps="1085325"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="wire&#39;vc.3.0.1" expl="rewrite premises" proved="true">
+    <proof prover="3"><result status="valid" time="1.91" steps="803901"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="wire&#39;vc.3.1" expl="rewrite premises" proved="true">
+   <proof prover="3"><result status="valid" time="1.11" steps="748477"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="wire_path_sem&#39;vc" expl="VC for wire_path_sem" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="wire_path_sem&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="2.66" steps="982303"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="wire_path_sem_basis&#39;vc" expl="VC for wire_path_sem_basis" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="wire_path_sem_basis&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="2.64" steps="983672"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="wire_width&#39;vc" expl="VC for wire_width" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="wire_width&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="1.81" steps="804510"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_embedding_path_sem&#39;vc" expl="VC for unwire_embedding_path_sem" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_embedding_path_sem&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="2.48" steps="984103"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_embedding_path_sem_basis&#39;vc" expl="VC for unwire_embedding_path_sem_basis" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_embedding_path_sem_basis&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="2.49" steps="985320"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="to_qc_rev&#39;vc" expl="VC for to_qc_rev" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="to_qc_rev&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="assert" proved="true" arg1="(pre c = pre (to_qc (pre c)))
+">
+   <goal name="to_qc_rev&#39;vc.0.0" expl="asserted formula" proved="true">
+   <proof prover="3"><result status="valid" time="2.67" steps="981314"/></proof>
+   </goal>
+   <goal name="to_qc_rev&#39;vc.0.1" expl="postcondition" proved="true">
+   <proof prover="3"><result status="valid" time="1.69" steps="804689"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="to_qc_pre&#39;vc" expl="VC for to_qc_pre" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="to_qc_pre&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="1.82" steps="804708"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="pre_rev&#39;vc" expl="VC for pre_rev" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="pre_rev&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="1.80" steps="804758"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="pre_to_qc&#39;vc" expl="VC for pre_to_qc" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="pre_to_qc&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="1.74" steps="804824"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="path_sem_apply&#39;vc" expl="VC for path_sem_apply" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="path_sem_apply&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="1.80" steps="804904"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="apply_path_sem&#39;vc" expl="VC for apply_path_sem" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="apply_path_sem&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="1.78" steps="804992"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="correct_path_sum&#39;vc" expl="VC for correct_path_sum" proved="true">
+ <proof prover="3"><result status="valid" time="0.95" steps="749112"/></proof>
+ </goal>
+ <goal name="set_correct_pps_basis&#39;vc" expl="VC for set_correct_pps_basis" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="set_correct_pps_basis&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="set_correct_pps_basis&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="correct_path_sum&#39;def">
+    <goal name="set_correct_pps_basis&#39;vc.0.0.0" expl="VC for set_correct_pps_basis" proved="true">
+    <transf name="apply" proved="true" arg1="set_pps_apply_equiv">
+     <goal name="set_correct_pps_basis&#39;vc.0.0.0.0" expl="apply premises" proved="true">
+     <proof prover="3"><result status="valid" time="1.89" steps="804929"/></proof>
+     </goal>
+     <goal name="set_correct_pps_basis&#39;vc.0.0.0.1" expl="apply premises" proved="true">
+     <transf name="split_vc" proved="true" >
+      <goal name="set_correct_pps_basis&#39;vc.0.0.0.1.0" expl="apply premises" proved="true">
+      <transf name="replace" proved="true" arg1="(pps_apply_basis h x
+)" arg2="(pps_apply h (bv_to_ket x))">
+       <goal name="set_correct_pps_basis&#39;vc.0.0.0.1.0.0" expl="apply premises" proved="true">
+       <transf name="rewrite" proved="true" arg1="Requires">
+        <goal name="set_correct_pps_basis&#39;vc.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="2.75" steps="940940"/></proof>
+        </goal>
+        <goal name="set_correct_pps_basis&#39;vc.0.0.0.1.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="3"><result status="valid" time="1.84" steps="817716"/></proof>
+        </goal>
+        <goal name="set_correct_pps_basis&#39;vc.0.0.0.1.0.0.2" expl="rewrite premises" proved="true">
+        <proof prover="3"><result status="valid" time="2.14" steps="804879"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="set_correct_pps_basis&#39;vc.0.0.0.1.0.1" expl="equality hypothesis" proved="true">
+       <proof prover="3"><result status="valid" time="2.26" steps="817731"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="set_correct_pps&#39;vc" expl="VC for set_correct_pps" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="set_correct_pps&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="set_correct_pps_basis">
+   <goal name="set_correct_pps&#39;vc.0.0" expl="apply premises" proved="true">
+   <proof prover="3"><result status="valid" time="1.24" steps="749396"/></proof>
+   </goal>
+   <goal name="set_correct_pps&#39;vc.0.1" expl="apply premises" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="set_correct_pps&#39;vc.0.1.0" expl="apply premises" proved="true">
+    <transf name="rewrite" proved="true" arg1="Requires">
+     <goal name="set_correct_pps&#39;vc.0.1.0.0" expl="apply premises" proved="true">
+     <proof prover="3"><result status="valid" time="2.03" steps="805337"/></proof>
+     </goal>
+     <goal name="set_correct_pps&#39;vc.0.1.0.1" expl="rewrite premises" proved="true">
+     <proof prover="3"><result status="valid" time="1.22" steps="749416"/></proof>
+     </goal>
+     <goal name="set_correct_pps&#39;vc.0.1.0.2" expl="rewrite premises" proved="true">
+     <proof prover="3"><result status="valid" time="1.13" steps="749416"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="get_correct_pps&#39;vc" expl="VC for get_correct_pps" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="get_correct_pps&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="get_correct_pps&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="correct_path_sum&#39;def" arg2="in" arg3="Requires
+">
+    <goal name="get_correct_pps&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="instantiate" proved="true" arg1="get_pps_apply_equiv" arg2="(circ_to_pps c),h">
+     <goal name="get_correct_pps&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="path_sem_apply">
+      <goal name="get_correct_pps&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="Hinst">
+       <goal name="get_correct_pps&#39;vc.0.0.0.0.0.0" expl="postcondition" proved="true">
+       <proof prover="3"><result status="valid" time="1.21" steps="749182"/></proof>
+       </goal>
+       <goal name="get_correct_pps&#39;vc.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="3"><result status="valid" time="2.06" steps="805260"/></proof>
+       </goal>
+       <goal name="get_correct_pps&#39;vc.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+       <proof prover="3"><result status="valid" time="1.16" steps="749181"/></proof>
+       </goal>
+       <goal name="get_correct_pps&#39;vc.0.0.0.0.0.3" expl="rewrite premises" proved="true">
+       <proof prover="3"><result status="valid" time="1.98" steps="805294"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="get_correct_pps&#39;vc.0.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="3"><result status="valid" time="1.18" steps="749184"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_correct&#39;vc" expl="VC for unwire_correct" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_correct&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="set_correct_pps_">
+   <goal name="unwire_correct&#39;vc.0.0" expl="apply premises" proved="true">
+   <transf name="replace" proved="true" arg1="(h_width h)" arg2="(width c)">
+    <goal name="unwire_correct&#39;vc.0.0.0" expl="apply premises" proved="true">
+    <proof prover="3"><result status="valid" time="1.93" steps="805511"/></proof>
+    </goal>
+    <goal name="unwire_correct&#39;vc.0.0.1" expl="equality hypothesis" proved="true">
+    <transf name="eliminate_definition" proved="true" >
+     <goal name="unwire_correct&#39;vc.0.0.1.0" expl="equality hypothesis" proved="true">
+     <transf name="rewrite" proved="true" arg1="correct_path_sum&#39;def" arg2="in" arg3="Requires">
+      <goal name="unwire_correct&#39;vc.0.0.1.0.0" expl="equality hypothesis" proved="true">
+      <transf name="rewrite" proved="true" arg1="pps_apply_equiv&#39;def" arg2="in" arg3="Requires">
+       <goal name="unwire_correct&#39;vc.0.0.1.0.0.0" expl="equality hypothesis" proved="true">
+       <proof prover="3"><result status="valid" time="1.89" steps="805332"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="unwire_correct&#39;vc.0.1" expl="apply premises" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="unwire_correct&#39;vc.0.1.0" expl="apply premises" proved="true">
+    <transf name="rewrite" proved="true" arg1="wire_path_sem">
+     <goal name="unwire_correct&#39;vc.0.1.0.0" expl="apply premises" proved="true">
+     <transf name="replace" proved="true" arg1="(path_sem (wire (unwire c)) x)" arg2="(path_sem c x)
+">
+      <goal name="unwire_correct&#39;vc.0.1.0.0.0" expl="apply premises" proved="true">
+      <transf name="apply" proved="true" arg1="get_correct_pps">
+       <goal name="unwire_correct&#39;vc.0.1.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="eliminate_definition" proved="true" >
+        <goal name="unwire_correct&#39;vc.0.1.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="rewrite" proved="true" arg1="correct_path_sum&#39;def" arg2="in" arg3="Requires">
+         <goal name="unwire_correct&#39;vc.0.1.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="rewrite" proved="true" arg1="pps_apply_equiv&#39;def" arg2="in" arg3="Requires">
+          <goal name="unwire_correct&#39;vc.0.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <proof prover="3"><result status="valid" time="2.15" steps="805362"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="unwire_correct&#39;vc.0.1.0.0.0.1" expl="apply premises" proved="true">
+       <proof prover="3"><result status="valid" time="2.22" steps="828727"/></proof>
+       </goal>
+       <goal name="unwire_correct&#39;vc.0.1.0.0.0.2" expl="apply premises" proved="true">
+       <proof prover="3"><result status="valid" time="1.26" steps="749592"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="unwire_correct&#39;vc.0.1.0.0.1" expl="equality hypothesis" proved="true">
+      <proof prover="3"><result status="valid" time="3.17" steps="985747"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="unwire_correct&#39;vc.0.1.0.1" expl="rewrite premises" proved="true">
+     <proof prover="3"><result status="valid" time="1.22" steps="749592"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_correct_rev&#39;vc" expl="VC for unwire_correct_rev" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_correct_rev&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="set_correct_pps">
+   <goal name="unwire_correct_rev&#39;vc.0.0" expl="apply premises" proved="true">
+   <proof prover="3"><result status="valid" time="3.11" steps="983620"/></proof>
+   </goal>
+   <goal name="unwire_correct_rev&#39;vc.0.1" expl="apply premises" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="unwire_correct_rev&#39;vc.0.1.0" expl="apply premises" proved="true">
+    <transf name="rewrite" proved="true" arg1="unwire_path_sem">
+     <goal name="unwire_correct_rev&#39;vc.0.1.0.0" expl="apply premises" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="unwire_correct_rev&#39;vc.0.1.0.0.0" expl="apply premises" proved="true">
+      <transf name="eliminate_definition" proved="true" >
+       <goal name="unwire_correct_rev&#39;vc.0.1.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="rewrite" proved="true" arg1="correct_path_sum&#39;def1" arg2="in" arg3="Requires">
+        <goal name="unwire_correct_rev&#39;vc.0.1.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="rewrite" proved="true" arg1="correct_path_sum_&#39;def" arg2="in" arg3="Requires">
+         <goal name="unwire_correct_rev&#39;vc.0.1.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="destruct" proved="true" arg1="Requires">
+          <goal name="unwire_correct_rev&#39;vc.0.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <proof prover="3"><result status="valid" time="3.65" steps="1140762"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="unwire_correct_rev&#39;vc.0.1.0.1" expl="rewrite premises" proved="true">
+     <proof prover="3"><result status="valid" time="1.16" steps="749646"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="wire_correct&#39;vc" expl="VC for wire_correct" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="wire_correct&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="set_correct_pps">
+   <goal name="wire_correct&#39;vc.0.0" expl="apply premises" proved="true">
+   <proof prover="3"><result status="valid" time="3.07" steps="983674"/></proof>
+   </goal>
+   <goal name="wire_correct&#39;vc.0.1" expl="apply premises" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="wire_correct&#39;vc.0.1.0" expl="apply premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.47"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+<theory name="Wire_unwire" proved="true">
+ <goal name="unwire_ancillable&#39;vc" expl="VC for unwire_ancillable" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_ancillable&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="unwire_ancillable&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="ancillable&#39;spec" arg2="in" arg3="Requires">
+    <goal name="unwire_ancillable&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="ancillable_pre&#39;spec">
+     <goal name="unwire_ancillable&#39;vc.0.0.0.0" expl="VC for unwire_ancillable" proved="true">
+     <transf name="destruct" proved="true" arg1="Requires">
+      <goal name="unwire_ancillable&#39;vc.0.0.0.0.0" expl="VC for unwire_ancillable" proved="true">
+      <transf name="exists" proved="true" arg1="path_sem_target">
+       <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0" proved="true">
+        <transf name="replace" proved="true" arg1="(circ_to_pps_pre1 (pre1 (unwire c)))" arg2="(circ_to_pps1 ( (unwire c)))">
+         <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0" proved="true">
+         <transf name="rewrite" proved="true" arg1="apply_path_sem1">
+          <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0" proved="true">
+          <transf name="rewrite" proved="true" arg1="wire_path_sem">
+           <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0" proved="true">
+           <transf name="replace" proved="true" arg1="(circ_to_pps_pre (pre c))" arg2="(circ_to_pps ( ( c)))" arg3="in" arg4="Requires">
+            <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0" proved="true">
+            <transf name="instantiate" proved="true" arg1="Requires" arg2="x">
+             <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0" proved="true">
+             <transf name="rewrite" proved="true" arg1="apply_path_sem" arg2="in" arg3="Hinst">
+              <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.0" proved="true">
+              <transf name="rewrite" proved="true" arg1="unwire_embedding_path_sem" arg2="in" arg3="Hinst">
+               <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.0.0" proved="true">
+               <transf name="apply" proved="true" arg1="Hinst">
+                <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                <transf name="replace" proved="true" arg1="(width_pre1 (pre1 (unwire c)))" arg2="(width_pre (pre ( c)))" arg3="in" arg4="H">
+                 <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                 <proof prover="3"><result status="valid" time="1.10" steps="813507"/></proof>
+                 </goal>
+                 <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+                 <proof prover="3"><result status="valid" time="2.81" steps="1008900"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+               <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+               <transf name="replace" proved="true" arg1="(width c)" arg2="(width c -&#39;&#39; l+&#39;l)">
+                <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0" expl="rewrite premises" proved="true">
+                <transf name="apply" proved="true" arg1="kronecker_ket_l">
+                 <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0" expl="apply premises" proved="true">
+                 <transf name="replace" proved="true" arg1="(width_pre1 (pre1 (unwire c)) )" arg2="(width c)" arg3="in" arg4="H">
+                  <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+                  <proof prover="3"><result status="valid" time="3.12" steps="1008244"/></proof>
+                  </goal>
+                  <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.1" expl="equality hypothesis" proved="true">
+                  <proof prover="3"><result status="valid" time="3.06" steps="1008863"/></proof>
+                  </goal>
+                 </transf>
+                 </goal>
+                 <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.1" expl="apply premises" proved="true">
+                 <proof prover="3"><result status="valid" time="1.30" steps="813525"/></proof>
+                 </goal>
+                 <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.2" expl="apply premises" proved="true">
+                 <proof prover="2"><result status="valid" time="3.78"/></proof>
+                 </goal>
+                 <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.3" expl="apply premises" proved="true">
+                 <proof prover="3"><result status="valid" time="3.10" steps="1007720"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+                <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.0.1.1" expl="equality hypothesis" proved="true">
+                <proof prover="3"><result status="valid" time="1.26" steps="813550"/></proof>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+              <transf name="replace" proved="true" arg1="(width_pre1 (pre1 (unwire c)) )" arg2="(width c)" arg3="in" arg4="H">
+               <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.1.0" expl="rewrite premises" proved="true">
+               <transf name="replace" proved="true" arg1="(width c)" arg2="(width c-&#39;&#39;l+&#39;l)">
+                <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0" expl="rewrite premises" proved="true">
+                <transf name="apply" proved="true" arg1="kronecker_ket_l">
+                 <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+                 <proof prover="3"><result status="valid" time="3.02" steps="1008351"/></proof>
+                 </goal>
+                 <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.1" expl="apply premises" proved="true">
+                 <proof prover="3"><result status="valid" time="1.29" steps="813517"/></proof>
+                 </goal>
+                 <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.2" expl="apply premises" proved="true">
+                 <proof prover="3"><result status="valid" time="1.28" steps="813517"/></proof>
+                 </goal>
+                 <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.3" expl="apply premises" proved="true">
+                 <proof prover="3"><result status="valid" time="3.18" steps="1008937"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+                <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.1.0.1" expl="equality hypothesis" proved="true">
+                <proof prover="3"><result status="valid" time="1.36" steps="813531"/></proof>
+                </goal>
+               </transf>
+               </goal>
+               <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.0.0.1.1" expl="equality hypothesis" proved="true">
+               <proof prover="3"><result status="valid" time="2.75" steps="1009013"/></proof>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+            <proof prover="3"><result status="valid" time="2.25" steps="870698"/></proof>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+           <transf name="replace" proved="true" arg1="(width_pre1 (pre1 (unwire c)) )" arg2="(width1 (unwire c))" arg3="in" arg4="H">
+            <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.1.0" expl="rewrite premises" proved="true">
+            <transf name="replace" proved="true" arg1="(width1 (unwire c))" arg2="(width1 (unwire c)-&#39;&#39;l+&#39;l)">
+             <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.1.0.0" expl="rewrite premises" proved="true">
+             <transf name="apply" proved="true" arg1="kronecker_ket_l">
+              <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+              <proof prover="3"><result status="valid" time="3.06" steps="1002489"/></proof>
+              </goal>
+              <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.1.0.0.1" expl="apply premises" proved="true">
+              <proof prover="3"><result status="valid" time="1.31" steps="813468"/></proof>
+              </goal>
+              <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.1.0.0.2" expl="apply premises" proved="true">
+              <proof prover="3"><result status="valid" time="1.30" steps="813468"/></proof>
+              </goal>
+              <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.1.0.0.3" expl="apply premises" proved="true">
+              <proof prover="3"><result status="valid" time="2.86" steps="1003247"/></proof>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.1.0.1" expl="equality hypothesis" proved="true">
+             <proof prover="3"><result status="valid" time="1.28" steps="813482"/></proof>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.0.1.1" expl="equality hypothesis" proved="true">
+            <proof prover="3"><result status="valid" time="2.27" steps="870736"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+          <transf name="replace" proved="true" arg1="(width_pre1 (pre1 (unwire c)) )" arg2="(width1 (unwire c))" arg3="in" arg4="H">
+           <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.1.0" expl="rewrite premises" proved="true">
+           <transf name="replace" proved="true" arg1="(width1 (unwire c))" arg2="(width1 (unwire c)-&#39;&#39;l+&#39;l)">
+            <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.1.0.0" expl="rewrite premises" proved="true">
+            <transf name="apply" proved="true" arg1="kronecker_ket_l">
+             <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+             <proof prover="3"><result status="valid" time="3.20" steps="1002489"/></proof>
+             </goal>
+             <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.1.0.0.1" expl="apply premises" proved="true">
+             <proof prover="3"><result status="valid" time="1.38" steps="813468"/></proof>
+             </goal>
+             <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.1.0.0.2" expl="apply premises" proved="true">
+             <proof prover="3"><result status="valid" time="1.29" steps="813468"/></proof>
+             </goal>
+             <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.1.0.0.3" expl="apply premises" proved="true">
+             <proof prover="3"><result status="valid" time="3.19" steps="1003247"/></proof>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.1.0.1" expl="equality hypothesis" proved="true">
+            <proof prover="3"><result status="valid" time="1.36" steps="813482"/></proof>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.0.1.1" expl="equality hypothesis" proved="true">
+           <proof prover="3"><result status="valid" time="2.27" steps="870736"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="unwire_ancillable&#39;vc.0.0.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+         <proof prover="3"><result status="valid" time="2.49" steps="870702"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_sequence&#39;vc" expl="VC for unwire_sequence" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_sequence&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="unwire_sequence&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="unwire_sequence&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="unwire&#39;def">
+     <goal name="unwire_sequence&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="eliminate_let" proved="true" >
+      <goal name="unwire_sequence&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="instantiate" proved="true" arg1="unwire_pre&#39;def2" arg2="(pre (d--e))">
+       <goal name="unwire_sequence&#39;vc.0.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="destruct" proved="true" arg1="Hinst">
+        <goal name="unwire_sequence&#39;vc.0.0.0.0.0.0.0" expl="destruct premise" proved="true">
+        <proof prover="3"><result status="valid" time="3.11" steps="1038646"/></proof>
+        </goal>
+        <goal name="unwire_sequence&#39;vc.0.0.0.0.0.0.1" expl="postcondition" proved="true">
+        <transf name="instantiate" proved="true" arg1="Hinst" arg2="(pre d),(pre e)">
+         <goal name="unwire_sequence&#39;vc.0.0.0.0.0.0.1.0" expl="postcondition" proved="true">
+         <transf name="rewrite" proved="true" arg1="Hinst">
+          <goal name="unwire_sequence&#39;vc.0.0.0.0.0.0.1.0.0" expl="postcondition" proved="true">
+          <proof prover="3"><result status="valid" time="3.13" steps="1041101"/></proof>
+          </goal>
+          <goal name="unwire_sequence&#39;vc.0.0.0.0.0.0.1.0.1" expl="rewrite premises" proved="true">
+          <proof prover="3"><result status="valid" time="2.95" steps="1038779"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_parallel&#39;vc" expl="VC for unwire_parallel" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_parallel&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="unwire_parallel&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="unwire_parallel&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="unwire&#39;def">
+     <goal name="unwire_parallel&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="eliminate_let" proved="true" >
+      <goal name="unwire_parallel&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="instantiate" proved="true" arg1="unwire_pre&#39;def1" arg2="(pre (d//e))">
+       <goal name="unwire_parallel&#39;vc.0.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="destruct" proved="true" arg1="Hinst">
+        <goal name="unwire_parallel&#39;vc.0.0.0.0.0.0.0" expl="destruct premise" proved="true">
+        <proof prover="3"><result status="valid" time="2.99" steps="1038711"/></proof>
+        </goal>
+        <goal name="unwire_parallel&#39;vc.0.0.0.0.0.0.1" expl="postcondition" proved="true">
+        <transf name="instantiate" proved="true" arg1="Hinst" arg2="(pre d),(pre e)">
+         <goal name="unwire_parallel&#39;vc.0.0.0.0.0.0.1.0" expl="postcondition" proved="true">
+         <proof prover="3"><result status="valid" time="2.96" steps="1041117"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_place&#39;vc" expl="VC for unwire_place" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_place&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="unwire_place&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="unwire_place&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="unwire&#39;def">
+     <goal name="unwire_place&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="eliminate_let" proved="true" >
+      <goal name="unwire_place&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="instantiate" proved="true" arg1="unwire_pre&#39;def4" arg2="(pre (place c k n))">
+       <goal name="unwire_place&#39;vc.0.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="destruct" proved="true" arg1="Hinst">
+        <goal name="unwire_place&#39;vc.0.0.0.0.0.0.0" expl="destruct premise" proved="true">
+        <proof prover="3"><result status="valid" time="2.93" steps="1038824"/></proof>
+        </goal>
+        <goal name="unwire_place&#39;vc.0.0.0.0.0.0.1" expl="postcondition" proved="true">
+        <transf name="instantiate" proved="true" arg1="Hinst" arg2="(pre c),k,n">
+         <goal name="unwire_place&#39;vc.0.0.0.0.0.0.1.0" expl="postcondition" proved="true">
+         <proof prover="3"><result status="valid" time="3.69" steps="1178740"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_cont&#39;vc" expl="VC for unwire_cont" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_cont&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="unwire_cont&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="unwire_cont&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="unwire&#39;def">
+     <goal name="unwire_cont&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="eliminate_let" proved="true" >
+      <goal name="unwire_cont&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="instantiate" proved="true" arg1="unwire_pre&#39;def3" arg2="(pre (cont  c co k n))">
+       <goal name="unwire_cont&#39;vc.0.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="destruct" proved="true" arg1="Hinst">
+        <goal name="unwire_cont&#39;vc.0.0.0.0.0.0.0" expl="destruct premise" proved="true">
+        <proof prover="3"><result status="valid" time="2.97" steps="1039156"/></proof>
+        </goal>
+        <goal name="unwire_cont&#39;vc.0.0.0.0.0.0.1" expl="postcondition" proved="true">
+        <transf name="instantiate" proved="true" arg1="Hinst" arg2="(pre c),co,k,n">
+         <goal name="unwire_cont&#39;vc.0.0.0.0.0.0.1.0" expl="postcondition" proved="true">
+         <proof prover="3"><result status="valid" time="3.75" steps="1179284"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_ancilla&#39;vc" expl="VC for unwire_ancilla" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_ancilla&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="unwire_ancilla&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="eliminate_let" proved="true" >
+    <goal name="unwire_ancilla&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="split_all_full" proved="true" >
+     <goal name="unwire_ancilla&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="unwire&#39;def">
+      <goal name="unwire_ancilla&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="instantiate" proved="true" arg1="unwire_pre&#39;def" arg2="(pre (ancilla c l))">
+       <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="destruct" proved="true" arg1="Hinst">
+        <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.0" expl="destruct premise" proved="true">
+        <proof prover="3"><result status="valid" time="2.91" steps="1039990"/></proof>
+        </goal>
+        <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1" expl="postcondition" proved="true">
+        <transf name="instantiate" proved="true" arg1="Hinst" arg2="(pre c),l">
+         <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0" expl="postcondition" proved="true">
+         <transf name="rewrite" proved="true" arg1="Hinst">
+          <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.0" expl="postcondition" proved="true">
+          <proof prover="3"><result status="valid" time="2.64" steps="1042225"/></proof>
+          </goal>
+          <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1" expl="rewrite premises" proved="true">
+          <transf name="apply" proved="true" arg1="ancilla&#39;spec6">
+           <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.0" expl="apply premises" proved="true">
+           <proof prover="3"><result status="valid" time="1.48" steps="978922"/></proof>
+           </goal>
+           <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.1" expl="apply premises" proved="true">
+           <proof prover="3"><result status="valid" time="1.66" steps="978937"/></proof>
+           </goal>
+           <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2" expl="apply premises" proved="true">
+           <transf name="instantiate" proved="true" arg1="ancillable&#39;spec1" arg2="(pre c),l">
+            <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2.0" expl="apply premises" proved="true">
+            <transf name="destruct" proved="true" arg1="Hinst">
+             <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2.0.0" expl="destruct premise" proved="true">
+             <proof prover="3"><result status="valid" time="1.48" steps="978922"/></proof>
+             </goal>
+             <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2.0.1" expl="apply premises" proved="true">
+             <transf name="destruct" proved="true" arg1="Hinst">
+              <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2.0.1.0" expl="apply premises" proved="true">
+              <transf name="split_vc" proved="true" >
+               <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2.0.1.0.0" expl="apply premises" proved="true">
+               <transf name="exists" proved="true" arg1="(path_sem_target x)">
+                <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2.0.1.0.0.0" proved="true">
+                <transf name="rewrite" proved="true" arg1="path_sem&#39;spec">
+                 <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2.0.1.0.0.0.0" proved="true">
+                 <transf name="rewrite" proved="true" arg1="circ_to_pps&#39;def">
+                  <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2.0.1.0.0.0.0.0" proved="true">
+                  <transf name="apply" proved="true" arg1="Hinst">
+                   <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2.0.1.0.0.0.0.0.0" expl="apply premises" proved="true">
+                   <proof prover="3"><result status="valid" time="2.97" steps="1044328"/></proof>
+                   </goal>
+                  </transf>
+                  </goal>
+                 </transf>
+                 </goal>
+                 <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2.0.1.0.0.0.1" expl="rewrite premises" proved="true">
+                 <transf name="replace" proved="true" arg1="(width c)" arg2="(width c-&#39;&#39;l+&#39;l)">
+                  <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2.0.1.0.0.0.1.0" expl="rewrite premises" proved="true">
+                  <transf name="apply" proved="true" arg1="kronecker_ket_l">
+                   <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2.0.1.0.0.0.1.0.0" expl="apply premises" proved="true">
+                   <proof prover="3"><result status="valid" time="2.67" steps="1037727"/></proof>
+                   </goal>
+                   <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2.0.1.0.0.0.1.0.1" expl="apply premises" proved="true">
+                   <proof prover="3"><result status="valid" time="2.56" steps="1037730"/></proof>
+                   </goal>
+                   <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2.0.1.0.0.0.1.0.2" expl="apply premises" proved="true">
+                   <proof prover="3"><result status="valid" time="1.60" steps="979077"/></proof>
+                   </goal>
+                   <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2.0.1.0.0.0.1.0.3" expl="apply premises" proved="true">
+                   <proof prover="3"><result status="valid" time="3.68" steps="1184681"/></proof>
+                   </goal>
+                  </transf>
+                  </goal>
+                  <goal name="unwire_ancilla&#39;vc.0.0.0.0.0.0.1.0.1.2.0.1.0.0.0.1.1" expl="equality hypothesis" proved="true">
+                  <proof prover="3"><result status="valid" time="1.61" steps="979091"/></proof>
+                  </goal>
+                 </transf>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_skip&#39;vc" expl="VC for unwire_skip" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_skip&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.20"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_hadamard&#39;vc" expl="VC for unwire_hadamard" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_hadamard&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.21"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_s&#39;vc" expl="VC for unwire_s" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_s&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.37"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_t&#39;vc" expl="VC for unwire_t" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unwire_t&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.11"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_xx&#39;vc" expl="VC for unwire_xx" proved="true">
+ <proof prover="2"><result status="valid" time="1.11"/></proof>
+ </goal>
+ <goal name="unwire_yy&#39;vc" expl="VC for unwire_yy" proved="true">
+ <proof prover="2"><result status="valid" time="1.34"/></proof>
+ </goal>
+ <goal name="unwire_zz&#39;vc" expl="VC for unwire_zz" proved="true">
+ <proof prover="2"><result status="valid" time="1.34"/></proof>
+ </goal>
+ <goal name="unwire_phase&#39;vc" expl="VC for unwire_phase" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="unwire_phase&#39;vc.0" expl="VC for unwire_phase" proved="true">
+  <transf name="rewrite" proved="true" arg1="unwire&#39;def">
+   <goal name="unwire_phase&#39;vc.0.0" expl="VC for unwire_phase" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="unwire_phase&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <proof prover="3"><result status="valid" time="3.70" steps="1180381"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_rx&#39;vc" expl="VC for unwire_rx" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="unwire_rx&#39;vc.0" expl="VC for unwire_rx" proved="true">
+  <transf name="rewrite" proved="true" arg1="unwire&#39;def">
+   <goal name="unwire_rx&#39;vc.0.0" expl="VC for unwire_rx" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="unwire_rx&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <proof prover="3"><result status="valid" time="3.69" steps="1180458"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_ry&#39;vc" expl="VC for unwire_ry" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="unwire_ry&#39;vc.0" expl="VC for unwire_ry" proved="true">
+  <transf name="rewrite" proved="true" arg1="unwire&#39;def">
+   <goal name="unwire_ry&#39;vc.0.0" expl="VC for unwire_ry" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="unwire_ry&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <proof prover="3"><result status="valid" time="3.53" steps="1180426"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_rz&#39;vc" expl="VC for unwire_rz" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="unwire_rz&#39;vc.0" expl="VC for unwire_rz" proved="true">
+  <transf name="rewrite" proved="true" arg1="unwire&#39;def">
+   <goal name="unwire_rz&#39;vc.0.0" expl="VC for unwire_rz" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="unwire_rz&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <proof prover="3"><result status="valid" time="3.81" steps="1180614"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_rzp&#39;vc" expl="VC for unwire_rzp" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="unwire_rzp&#39;vc.0" expl="VC for unwire_rzp" proved="true">
+  <transf name="rewrite" proved="true" arg1="unwire&#39;def">
+   <goal name="unwire_rzp&#39;vc.0.0" expl="VC for unwire_rzp" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="unwire_rzp&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <proof prover="3"><result status="valid" time="3.75" steps="1180512"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_cnot&#39;vc" expl="VC for unwire_cnot" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="unwire_cnot&#39;vc.0" expl="VC for unwire_cnot" proved="true">
+  <transf name="rewrite" proved="true" arg1="unwire&#39;def">
+   <goal name="unwire_cnot&#39;vc.0.0" expl="VC for unwire_cnot" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="unwire_cnot&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <proof prover="3"><result status="valid" time="3.78" steps="1180895"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_swap&#39;vc" expl="VC for unwire_swap" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="unwire_swap&#39;vc.0" expl="VC for unwire_swap" proved="true">
+  <transf name="rewrite" proved="true" arg1="unwire&#39;def">
+   <goal name="unwire_swap&#39;vc.0.0" expl="VC for unwire_swap" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="unwire_swap&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <proof prover="3"><result status="valid" time="3.77" steps="1184217"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_toffoli&#39;vc" expl="VC for unwire_toffoli" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="unwire_toffoli&#39;vc.0" expl="VC for unwire_toffoli" proved="true">
+  <transf name="rewrite" proved="true" arg1="unwire&#39;def">
+   <goal name="unwire_toffoli&#39;vc.0.0" expl="VC for unwire_toffoli" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="unwire_toffoli&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <proof prover="3"><result status="valid" time="3.75" steps="1184857"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unwire_fredkin&#39;vc" expl="VC for unwire_fredkin" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="unwire_fredkin&#39;vc.0" expl="VC for unwire_fredkin" proved="true">
+  <transf name="rewrite" proved="true" arg1="unwire&#39;def">
+   <goal name="unwire_fredkin&#39;vc.0.0" expl="VC for unwire_fredkin" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="unwire_fredkin&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="unwire_fredkin&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="instantiate" proved="true" arg1="unwire_pre&#39;def5" arg2="(pre (fredkin c t1 t2 n))">
+      <goal name="unwire_fredkin&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="destruct" proved="true" arg1="Hinst">
+       <goal name="unwire_fredkin&#39;vc.0.0.0.0.0.0" expl="destruct premise" proved="true">
+       <proof prover="3"><result status="valid" time="2.96" steps="1044503"/></proof>
+       </goal>
+       <goal name="unwire_fredkin&#39;vc.0.0.0.0.0.1" expl="postcondition" proved="true">
+       <transf name="apply" proved="true" arg1="Hinst">
+        <goal name="unwire_fredkin&#39;vc.0.0.0.0.0.1.0" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="3.77" steps="1182270"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="wire_sequence&#39;vc" expl="VC for wire_sequence" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="wire_sequence&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="wire_sequence&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="eliminate_let" proved="true" >
+    <goal name="wire_sequence&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="split_all_full" proved="true" >
+     <goal name="wire_sequence&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="wire&#39;def">
+      <goal name="wire_sequence&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="instantiate" proved="true" arg1="wire_pre&#39;def2" arg2="(pre1 (sequence d e))">
+       <goal name="wire_sequence&#39;vc.0.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="destruct" proved="true" arg1="Hinst">
+        <goal name="wire_sequence&#39;vc.0.0.0.0.0.0.0" expl="destruct premise" proved="true">
+        <proof prover="3"><result status="valid" time="2.87" steps="1043685"/></proof>
+        </goal>
+        <goal name="wire_sequence&#39;vc.0.0.0.0.0.0.1" expl="postcondition" proved="true">
+        <transf name="rewrite" proved="true" arg1="wire&#39;def">
+         <goal name="wire_sequence&#39;vc.0.0.0.0.0.0.1.0" expl="postcondition" proved="true">
+         <transf name="rewrite" proved="true" arg1="wire&#39;def">
+          <goal name="wire_sequence&#39;vc.0.0.0.0.0.0.1.0.0" expl="postcondition" proved="true">
+          <transf name="apply" proved="true" arg1="Hinst">
+           <goal name="wire_sequence&#39;vc.0.0.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+           <proof prover="3"><result status="valid" time="2.75" steps="1043780"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="wire_parallel&#39;vc" expl="VC for wire_parallel" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="wire_parallel&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="wire_parallel&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="eliminate_let" proved="true" >
+    <goal name="wire_parallel&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="split_all_full" proved="true" >
+     <goal name="wire_parallel&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="wire&#39;def">
+      <goal name="wire_parallel&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="wire&#39;def">
+       <goal name="wire_parallel&#39;vc.0.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="rewrite" proved="true" arg1="wire&#39;def">
+        <goal name="wire_parallel&#39;vc.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+        <proof prover="3"><result status="valid" time="3.71" steps="1185449"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="wire_ancilla&#39;vc" expl="VC for wire_ancilla" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="wire_ancilla&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="wire_ancilla&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="eliminate_let" proved="true" >
+    <goal name="wire_ancilla&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="split_all_full" proved="true" >
+     <goal name="wire_ancilla&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="wire&#39;def">
+      <goal name="wire_ancilla&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="wire&#39;def">
+       <goal name="wire_ancilla&#39;vc.0.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="apply" proved="true" arg1="wire_pre&#39;def">
+        <goal name="wire_ancilla&#39;vc.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <proof prover="3"><result status="valid" time="2.73" steps="1043859"/></proof>
+        </goal>
+        <goal name="wire_ancilla&#39;vc.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="ancilla&#39;spec11">
+         <goal name="wire_ancilla&#39;vc.0.0.0.0.0.0.1.0" expl="apply premises" proved="true">
+         <proof prover="3"><result status="valid" time="1.44" steps="980308"/></proof>
+         </goal>
+         <goal name="wire_ancilla&#39;vc.0.0.0.0.0.0.1.1" expl="apply premises" proved="true">
+         <proof prover="3"><result status="valid" time="1.47" steps="980337"/></proof>
+         </goal>
+         <goal name="wire_ancilla&#39;vc.0.0.0.0.0.0.1.2" expl="apply premises" proved="true">
+         <transf name="instantiate" proved="true" arg1="ancillable_pre&#39;spec1" arg2="(pre1 c),l">
+          <goal name="wire_ancilla&#39;vc.0.0.0.0.0.0.1.2.0" expl="apply premises" proved="true">
+          <transf name="replace" proved="true" arg1="(circ_to_pps1 c)" arg2="(circ_to_pps_pre1 (pre1 c))">
+           <goal name="wire_ancilla&#39;vc.0.0.0.0.0.0.1.2.0.0" expl="apply premises" proved="true">
+           <transf name="destruct" proved="true" arg1="Hinst">
+            <goal name="wire_ancilla&#39;vc.0.0.0.0.0.0.1.2.0.0.0" expl="destruct premise" proved="true">
+            <proof prover="3"><result status="valid" time="1.58" steps="980308"/></proof>
+            </goal>
+            <goal name="wire_ancilla&#39;vc.0.0.0.0.0.0.1.2.0.0.1" expl="apply premises" proved="true">
+            <transf name="destruct" proved="true" arg1="Hinst">
+             <goal name="wire_ancilla&#39;vc.0.0.0.0.0.0.1.2.0.0.1.0" expl="apply premises" proved="true">
+             <transf name="exists" proved="true" arg1="path_sem_target">
+              <goal name="wire_ancilla&#39;vc.0.0.0.0.0.0.1.2.0.0.1.0.0" proved="true">
+              <transf name="split_vc" proved="true" >
+               <goal name="wire_ancilla&#39;vc.0.0.0.0.0.0.1.2.0.0.1.0.0.0" proved="true">
+               <transf name="apply" proved="true" arg1="Hinst">
+                <goal name="wire_ancilla&#39;vc.0.0.0.0.0.0.1.2.0.0.1.0.0.0.0" expl="apply premises" proved="true">
+                <proof prover="3"><result status="valid" time="2.78" steps="1048284"/></proof>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="wire_ancilla&#39;vc.0.0.0.0.0.0.1.2.0.1" expl="equality hypothesis" proved="true">
+           <proof prover="3"><result status="valid" time="2.61" steps="1044071"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>

@@ -1,0 +1,447 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+module Cont_del
+
+  use int.Int
+  use wired_circuits.Circuit_c
+  use wired_circuits.Qbricks_prim
+  use qbricks.Circuit_macros
+  use reversion.Circuit_reverse
+  use circuits_equiv_pre.Circuit_equivalence_impl
+  use circuits_equiv_pre.Wiring_equiv
+  use circuits_equiv_pre.Neutral_circuit 
+  use circuits_equiv_pre.Gate_decomp as GD
+  use circuits_equiv_pre.Wiring_equiv 
+  use remarkable_fragments.Diag_circuits
+  use remarkable_fragments.Flat_circuits 
+  use commuting_lemmas.Ancilla_pre
+  use atomic_place.Atomic_place
+  use ternary_gates_delete.Ternary_gates_del     
+  use commuting_lemmas.Cont_depth_pre
+  use parallel_delete.Parallel_del
+
+  let function cont_hadamard (co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    ensures{correct result }
+    ensures{atomic_control result }
+    ensures{ancilla_free result}
+    ensures{atomic_place result}
+    ensures{ternary_gates_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont Hadamard co1 ta1 n1}
+    = GD.cont_hadamard co1 ta1 n1
+    
+  let function cont_ry (k co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    ensures{correct result }
+    ensures{atomic_control result }
+    ensures{atomic_place result}
+    ensures{ternary_gates_free result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont (Ry k) co1 ta1 n1}
+    = GD.cont_ry k co1 ta1 n1
+    
+  use binary.Binary_Op
+  use arit.Incr_abs
+  use unit_circle.Angle
+  
+  let function cont_rz (k co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    ensures{correct result }
+    ensures{atomic_control result }
+    ensures{ternary_gates_free result}
+    ensures{atomic_place result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont (Rz k) co1 ta1 n1}
+    = GD.cont_rz k co1 ta1 n1
+    
+  let function cont_phase (k co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    ensures{correct result }
+    ensures{atomic_control result }
+    ensures{atomic_place result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{ternary_gates_free result}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont (Phase k) co1 ta1 n1}
+    = GD.cont_phase k co1 ta1 n1
+    
+  let function cont_rzp (k co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    ensures{correct result }
+    ensures{atomic_control result }
+    ensures{atomic_place result}
+    ensures{ternary_gates_free result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont (Rzp k) co1 ta1 n1}
+    = GD.cont_rzp k co1 ta1 n1
+    
+  let function cont_rx (k co1 ta1 n1: int) : wired_circuit
+    requires{0 <= co1 < n1}
+    requires{0 <= ta1 /\ ta1 <= n1 - 1}
+    requires{ta1 <= co1 -> ta1 + 1 <= co1}
+    ensures{correct result }
+    ensures{atomic_place result}
+    ensures{atomic_control result }
+    ensures{ternary_gates_free result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont (Rx k) co1 ta1 n1}
+    = GD. cont_rx  k co1 ta1 n1
+    
+  let function toffoli_decomp (co1 co2 ta1 n1: int) : wired_circuit
+    requires{0 <= co1 < n1}
+    requires{0 <= co2 < n1}
+    requires{0 <= ta1 < n1}
+    requires{co1 <> co2}
+    requires{co1 <> ta1}
+    requires{ta1 <> co2}
+    ensures{atomic_place result}
+    ensures{atomic_control result }
+    ensures{correct result }
+    ensures{ternary_gates_free result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Toffoli co1 co2 ta1 n1}
+    =GD.toffoli_decomp co1 co2 ta1 n1
+    
+ let function fredkin_decomp (co1 ta1 ta2 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= ta2 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> ta2}
+    requires{ta1 <> co1}
+    requires{co1 <> ta2}
+    ensures{atomic_control result }
+    ensures{atomic_place result}
+    ensures{ternary_gates_free result}
+    ensures{correct result }
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Fredkin co1 ta1 ta2 n1}
+ = GD.fredkin_decomp_toffoli co1 ta1 ta2 n1
+     
+  let function cont_s (co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    ensures{correct result }
+    ensures{atomic_place result}
+    ensures{atomic_control result }
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{ternary_gates_free result}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont S co1 ta1 n1}
+  = cont_rzp 2 co1 ta1 n1
+  
+  let function cont_t (co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    ensures{correct result }
+    ensures{atomic_place result}
+    ensures{atomic_control result }
+    ensures{ancilla_free result}
+    ensures{ternary_gates_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont T co1 ta1 n1}
+  = cont_rzp 3 co1 ta1 n1
+  
+  let function cont_zz (co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    ensures{correct result }
+    ensures{atomic_place result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{atomic_control result }
+    ensures{ternary_gates_free result}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont Z co1 ta1 n1}
+  = cont_rzp 1 co1 ta1 n1
+  
+  let function cont_xx (co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    requires{ta1 <= co1 -> (ta1 + 1) <= co1}
+    ensures{atomic_place result}
+    ensures{correct result }
+    ensures{atomic_control result }
+    ensures{ancilla_free result}
+    ensures{ternary_gates_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont X co1 ta1 n1}
+  = Sequence (Sequence (cont_hadamard co1 ta1 n1)  (cont_zz co1 ta1 n1 )) (cont_hadamard co1 ta1 n1)
+  
+  let function cont_yy (co1 ta1 n1: int) : wired_circuit
+    requires{0 <= ta1 < n1}
+    requires{0 <= co1 < n1}
+    requires{ta1 <> co1}
+    requires{ta1 <= co1 -> (ta1 + 1) <= co1}
+    ensures{correct result }
+    ensures{atomic_place result}
+    ensures{atomic_control result }
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{ternary_gates_free result}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> Cont Y co1 ta1 n1}
+  = Sequence (cont_phase 2 co1 ta1 n1) (cont_ry 1 co1 ta1 n1)
+                                              
+  clone export cont_decomp.Cont_del_implem with
+    val cont_rx = cont_rx,
+    val cont_ry = cont_ry,
+    val cont_rz = cont_rz,
+    val cont_rzp = cont_rzp,
+    val cont_phase = cont_phase,
+    val cont_hadamard = cont_hadamard,
+    val toffoli_decomp = toffoli_decomp,
+    val fredkin_decomp = fredkin_decomp,
+    val cont_s   =cont_s,
+    val cont_t   = cont_t,
+    val cont_zz   = cont_zz,
+    val cont_xx   = cont_xx,
+    val  cont_yy = cont_yy
+                       
+end 
+
+module Subcircuit_control
+
+  use int.Int
+  use wired_circuits.Circuit_c
+  use wired_circuits.Qbricks_prim
+  use circuits_equiv_pre.Circuit_equivalence_impl
+  use circuits_equiv_pre.Gate_decomp
+  use circuits_equiv_pre.Neutral_circuit
+  use reversion.Circuit_reverse
+  use commuting_lemmas.Ancilla_pre
+  use parallel_delete.Parallel_del
+  use ternary_gates_delete.Ternary_gates_del
+  use atomic_place.Atomic_place
+  use commuting_lemmas.Cont_depth_pre
+  use Cont_del   
+  use commuting_lemmas.Place_atomic_def
+  use qbricks.Circuit_macros
+  use circuits_equiv_pre.Neutral_circuit 
+ 
+  let rec function control_delete_step (c: wired_circuit) (co t  n:int)
+    requires{0<= co < n}
+    requires{0<= t < n}
+    requires{t <= co -> t + width_pre c <= co}
+    requires{atomic_place c}
+    requires{correct (Cont c co t n)}
+    ensures{correct result}
+    ensures{result <=> Cont c co t  n}
+    ensures{atomic_place result}
+    requires{ternary_gates_free c}
+    ensures{ternary_gates_free result}
+    requires{parallel_free c}
+    requires{ancilla_free c}
+    ensures{ancilla_free result}
+    ensures{parallel_free result}
+    requires{cont_depth c = 0}
+    ensures{cont_depth result = 0}
+  =
+    match  c with
+    | Sequence c1 c2 -> Sequence (control_delete_step c1 co t n) (control_delete_step c2 co t n) 
+    | Place c1 k1 _ ->  control_delete_step c1 co (k1+t) n
+    |  Phase k -> cont_phase k co t n
+    | Rx k  ->  cont_rx k co t n
+    | Ry k ->  cont_ry k co t n
+    | Rz k ->  cont_rz k co t n
+    | Rzp k ->  cont_rzp k co t n
+    | Hadamard ->  cont_hadamard  co t n
+    |  S -> cont_s  co t n
+    | T -> cont_t co t n
+    | X -> cont_xx co t n
+    | Y -> cont_yy co t n
+    | Z  -> cont_zz  co t n
+    | Cnot co1 t1 _ -> toffoli_decomp co (t+co1) (t+t1) n
+    | Swap t1 t2 _ -> fredkin_decomp  co (t+t1) (t+t2) n
+    | Bricks_Cnot  -> toffoli_decomp co t (t+1) n
+    | Bricks_Swap -> fredkin_decomp  co t (t+1)  n 
+    | Skip  -> cont_skip_to_place co t n
+    | _ -> c
+    end
+     
+  let rec function control_delete_steps (c: wired_circuit) 
+    requires{correct c}
+    requires{atomic_place c}
+    requires{ternary_gates_free c}
+    requires{parallel_free c}
+    requires{ancilla_free c}
+    ensures{correct result}
+    ensures{result <=> c}
+    ensures{atomic_place result}
+    ensures{ternary_gates_free result}
+    ensures{ancilla_free result}
+    ensures{parallel_free result}
+    ensures{cont_depth result = 0}
+  =
+    match  c with
+    | Sequence c1 c2 -> Sequence (control_delete_steps c1) (control_delete_steps c2) 
+    | Cont c1 co k n -> 
+       if cont_depth c1 = 0 then control_delete_step c1 co k n
+       else control_delete_step (control_delete_steps c1) co k n
+    |  _ -> c
+    end
+
+  let rec function control_delete (c: wired_circuit) 
+    requires{correct c}
+    requires{atomic_place c}
+    requires{ternary_gates_free c}
+    requires{parallel_free c}
+    requires{ancilla_free c}
+    ensures{correct result}
+    ensures{result <=> c}
+    ensures{atomic_place result}
+    ensures{ternary_gates_free result}
+    ensures{ancilla_free result}
+    ensures{parallel_free result}
+    ensures{cont_depth result <= 1}
+    =
+    match  c with
+    | Sequence c1 c2 -> Sequence (control_delete_steps c1) (control_delete_steps c2) 
+    | Cont c1 co k n ->
+       if cont_depth c1 = 0 then c 
+       else  Cont (control_delete_steps c1) co k n
+    |  _ -> c
+    end
+
+  let rec function control_atom (circ:wired_circuit) ( co k' n:int)
+    requires{0<= co < n}
+    requires{0<= k' < n}
+    requires{k' <= co -> k' + width_pre circ <= co}
+    requires{correct (Cont circ co k' n)} 
+    requires{atomic_place circ}
+    requires{ternary_gates_free circ}
+    requires{parallel_free circ}
+    requires{ancilla_free circ}
+    requires{cont_depth circ = 0}
+    ensures{correct result}
+    ensures{atomic_control result}
+    ensures{ternary_gates_free result}
+    ensures{ancilla_free result}
+    ensures{parallel_free result}
+    ensures{result <=> Cont circ co k' n}
+  = 
+    match circ with
+    | Sequence circ1 circ2 -> Sequence (control_atom circ1 co k' n) (control_atom circ2 co k' n) 
+    | Place circ1 k1 _ -> control_atom circ1 co (k'+k1) n
+    | Skip  -> cont_skip_to_place co k' n
+    | Phase k -> cont_phase k co k' n
+    | Rx k  -> cont_rx k co k' n
+    | Ry k -> cont_ry k co k' n
+    | Rz k -> cont_rz k co k' n
+    | Rzp k -> cont_rzp k co k' n
+    | Hadamard -> cont_hadamard co k' n
+    | S -> cont_s co k' n
+    | T -> cont_t co k' n
+    | X -> cont_xx co k' n
+    | Y -> cont_yy co k' n
+    | Z -> cont_zz co k' n
+    | Cnot co1 t1 n1 -> toffoli_decomp co (k'+co1) (k'+t1) n
+    | Swap t1 t2 n1 -> fredkin_decomp co (k'+t1) (k'+t2) n
+    | Bricks_Cnot -> toffoli_decomp co k' (k'+1) n
+    | Bricks_Swap -> fredkin_decomp co k' (k'+1)  n 
+    | _ -> circ
+    end
+     
+  let rec function control_atomic (c: wired_circuit) 
+    requires{correct c} 
+    requires{atomic_place c}
+    requires{ternary_gates_free c}
+    requires{parallel_free c}
+    requires{ancilla_free c}
+    requires{cont_depth c <=1}
+    ensures{correct result}
+    ensures{result <=> c}
+    ensures{atomic_control result}
+    ensures{ternary_gates_free result}
+    ensures{ancilla_free result}
+    ensures{parallel_free result}
+  =
+    match  c with
+    | Sequence c1 c2 -> Sequence (control_atomic c1) (control_atomic c2) 
+    | Cont c1 co k n  -> control_atom c1 co k n
+    | _ -> c
+    end 
+
+  use ref.Ref
+     
+  let function to_oqasm (c : wired_circuit) : wired_circuit
+    requires{correct c}
+    requires{ancilla_free c}
+    ensures{correct result}
+    ensures{result <=> c}
+    ensures{atomic_control result}
+    ensures{ternary_gates_free result}
+    ensures{ancilla_free result}
+    ensures{parallel_free result}
+   = 
+    let ref c  = parallel_del c in 
+      c := ternary_gates_del c;
+      c := place_atomic c;
+      c := control_delete c;
+      c := control_atomic c;
+      return c 
+end

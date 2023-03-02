@@ -1,0 +1,3019 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="6">
+<prover id="0" name="Alt-Ergo" version="2.4.0" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="1" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="2" name="CVC4" version="1.7" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="3" name="Z3" version="4.8.6" alternative="noBV" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="4" name="veriT" version="2021.06-40-gc20206d-rmx" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="5" name="CVC4" version="1.7" alternative="counterexamples" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="6" name="Yices" version="Yices" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="7" name="Z3" version="4.8.6" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="8" name="Yices" version="2.6.4" timelimit="5" steplimit="0" memlimit="1000"/>
+<file format="whyml">
+<path name=".."/><path name="modular_multiplier.mlw"/>
+<theory name="Multiplier">
+ <goal name="multiplier_pre&#39;vc" expl="VC for multiplier_pre">
+ <transf name="split_vc" >
+  <goal name="multiplier_pre&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.80" steps="23010"/></proof>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.1.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.83" steps="23010"/></proof>
+   </goal>
+   <goal name="multiplier_pre&#39;vc.1.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.80" steps="23010"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.2.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.83" steps="23117"/></proof>
+   </goal>
+   <goal name="multiplier_pre&#39;vc.2.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.82" steps="23117"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.3" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.3.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.84" steps="23117"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.82" steps="23117"/></proof>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.5" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.5.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.83" steps="23117"/></proof>
+   </goal>
+   <goal name="multiplier_pre&#39;vc.5.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.84" steps="23117"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.6" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.6.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.82" steps="23117"/></proof>
+   </goal>
+   <goal name="multiplier_pre&#39;vc.6.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.84" steps="23117"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.7" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.7.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.83" steps="23118"/></proof>
+   </goal>
+   <goal name="multiplier_pre&#39;vc.7.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.82" steps="23118"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.8" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.8.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.82" steps="23120"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="22975"/></proof>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.10" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.10.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.84" steps="22975"/></proof>
+   </goal>
+   <goal name="multiplier_pre&#39;vc.10.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.83" steps="22975"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.11" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.11.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.83" steps="23083"/></proof>
+   </goal>
+   <goal name="multiplier_pre&#39;vc.11.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.84" steps="23083"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.12" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.12.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.83" steps="23083"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.13" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="23083"/></proof>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.14" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.14.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.85" steps="23083"/></proof>
+   </goal>
+   <goal name="multiplier_pre&#39;vc.14.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.84" steps="23083"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.15" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.15.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.84" steps="23083"/></proof>
+   </goal>
+   <goal name="multiplier_pre&#39;vc.15.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.82" steps="23083"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.16" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.16.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.83" steps="23085"/></proof>
+   </goal>
+   <goal name="multiplier_pre&#39;vc.16.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.80" steps="23085"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.17" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.17.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.81" steps="23086"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.18" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.18.0" expl="variant decrease" proved="true">
+   <proof prover="0"><result status="valid" time="0.84" steps="23347"/></proof>
+   </goal>
+   <goal name="multiplier_pre&#39;vc.18.1" expl="variant decrease" proved="true">
+   <proof prover="0"><result status="valid" time="0.84" steps="23347"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.19" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.19.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.84" steps="23347"/></proof>
+   </goal>
+   <goal name="multiplier_pre&#39;vc.19.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.84" steps="23347"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.20" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="23401"/></proof>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.21" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.21.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="multiplier_pre&#39;vc.21.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.85" steps="23430"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="multiplier_pre&#39;vc.21.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="multiplier_pre&#39;vc.21.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.86" steps="23726"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.22" expl="postcondition">
+  <transf name="split_vc" >
+   <goal name="multiplier_pre&#39;vc.22.0" expl="postcondition">
+   <transf name="split_vc" >
+    <goal name="multiplier_pre&#39;vc.22.0.0" expl="postcondition">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="timeout" time="5.00" steps="1324418"/></proof>
+    <proof prover="3"><result status="timeout" time="5.00"/></proof>
+    <proof prover="4"><result status="highfailure" time="0.23"/></proof>
+    <proof prover="5"><result status="timeout" time="5.00" steps="1327629"/></proof>
+    <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+    <proof prover="7"><result status="timeout" time="5.00" steps="36075587"/></proof>
+    <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="multiplier_pre&#39;vc.22.1" expl="postcondition">
+   <transf name="split_vc" >
+    <goal name="multiplier_pre&#39;vc.22.1.0" expl="postcondition">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="timeout" time="5.00" steps="1411291"/></proof>
+    <proof prover="3"><result status="timeout" time="5.00"/></proof>
+    <proof prover="4"><result status="highfailure" time="0.24"/></proof>
+    <proof prover="5"><result status="timeout" time="5.00" steps="1417641"/></proof>
+    <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+    <proof prover="7"><result status="timeout" time="5.00" steps="37438734"/></proof>
+    <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.23" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_pre&#39;vc.23.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.81" steps="22856"/></proof>
+   </goal>
+   <goal name="multiplier_pre&#39;vc.23.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.83" steps="22857"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.24" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1316228"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.24"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1316268"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="35368222"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="multiplier_pre&#39;vc.25" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.81" steps="22909"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="multiplier_qft_pre&#39;vc" expl="VC for multiplier_qft_pre">
+ <transf name="split_vc" >
+  <goal name="multiplier_qft_pre&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.82" steps="22895"/></proof>
+  </goal>
+  <goal name="multiplier_qft_pre&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.81" steps="22861"/></proof>
+  </goal>
+  <goal name="multiplier_qft_pre&#39;vc.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_pre&#39;vc.2.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.81" steps="22861"/></proof>
+   </goal>
+   <goal name="multiplier_qft_pre&#39;vc.2.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.83" steps="22861"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_pre&#39;vc.3" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_pre&#39;vc.3.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.84" steps="22861"/></proof>
+   </goal>
+   <goal name="multiplier_qft_pre&#39;vc.3.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.84" steps="22861"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_pre&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="22913"/></proof>
+  </goal>
+  <goal name="multiplier_qft_pre&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="22913"/></proof>
+  </goal>
+  <goal name="multiplier_qft_pre&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="22913"/></proof>
+  </goal>
+  <goal name="multiplier_qft_pre&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="22914"/></proof>
+  </goal>
+  <goal name="multiplier_qft_pre&#39;vc.8" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_pre&#39;vc.8.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="timeout" time="5.00"/></proof>
+   <proof prover="2"><result status="valid" time="3.44" steps="1287509"/></proof>
+   </goal>
+   <goal name="multiplier_qft_pre&#39;vc.8.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="timeout" time="5.00"/></proof>
+   <proof prover="2"><result status="valid" time="3.47" steps="1287263"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_pre&#39;vc.9" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="23115"/></proof>
+  </goal>
+  <goal name="multiplier_qft_pre&#39;vc.10" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1322908"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.24"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1323068"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="35625619"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="multiplier_qft_pre&#39;vc.11" expl="postcondition" proved="true">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="valid" time="2.73"/></proof>
+  </goal>
+  <goal name="multiplier_qft_pre&#39;vc.12" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1329137"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.23"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1352742"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="48964686"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="multiplier_qft_swap&#39;vc" expl="VC for multiplier_qft_swap">
+ <transf name="split_vc" >
+  <goal name="multiplier_qft_swap&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="22859"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.1.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.81" steps="22859"/></proof>
+   </goal>
+   <goal name="multiplier_qft_swap&#39;vc.1.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.81" steps="22859"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.82" steps="22859"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="23081"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="23386"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="23682"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="23648"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="24085"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="24174"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="24137"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="24172"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.11" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24455"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.12" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="24625"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.13" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="24678"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.14" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="25081"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.15" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.15.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.88" steps="25375"/></proof>
+   </goal>
+   <goal name="multiplier_qft_swap&#39;vc.15.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.88" steps="25375"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.16" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.16.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="25375"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.17" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.17.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="25376"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.18" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.18.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="25376"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.19" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.19.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.88" steps="25417"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.20" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.90" steps="25501"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.21" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.21.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.91" steps="25501"/></proof>
+   </goal>
+   <goal name="multiplier_qft_swap&#39;vc.21.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="25501"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.22" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.22.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.91" steps="25501"/></proof>
+   </goal>
+   <goal name="multiplier_qft_swap&#39;vc.22.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="25501"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.23" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.23.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="25501"/></proof>
+   </goal>
+   <goal name="multiplier_qft_swap&#39;vc.23.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="25501"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.24" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.24.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="25502"/></proof>
+   </goal>
+   <goal name="multiplier_qft_swap&#39;vc.24.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="25502"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.25" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1456967"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.24"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1463536"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="46361337"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.26" expl="precondition" proved="true">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="valid" time="1.64"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.27" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="2016735"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="2431456"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="44646324"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.28" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.91" steps="26257"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.29" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.29.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.91" steps="26137"/></proof>
+   </goal>
+   <goal name="multiplier_qft_swap&#39;vc.29.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="26137"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.30" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.30.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="26139"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.31" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.31.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.94" steps="26139"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.32" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.32.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.93" steps="26139"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.33" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.33.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.92" steps="26181"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.34" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.93" steps="26137"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.35" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.35.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.94" steps="26137"/></proof>
+   </goal>
+   <goal name="multiplier_qft_swap&#39;vc.35.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="26137"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.36" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.36.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.92" steps="26137"/></proof>
+   </goal>
+   <goal name="multiplier_qft_swap&#39;vc.36.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.92" steps="26137"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.37" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.37.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="26138"/></proof>
+   </goal>
+   <goal name="multiplier_qft_swap&#39;vc.37.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.91" steps="26138"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.38" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multiplier_qft_swap&#39;vc.38.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.91" steps="26139"/></proof>
+   </goal>
+   <goal name="multiplier_qft_swap&#39;vc.38.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.91" steps="26139"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.39" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.91" steps="26137"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.40" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.92" steps="26440"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.41" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.93" steps="26440"/></proof>
+  </goal>
+  <goal name="multiplier_qft_swap&#39;vc.42" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1537570"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.24"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1556264"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="43714531"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="restricted_modular_multiplier&#39;vc" expl="VC for restricted_modular_multiplier">
+ <transf name="split_vc" >
+  <goal name="restricted_modular_multiplier&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="22908"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="23131"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="23402"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="23696"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="23662"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24098"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="24150"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="24439"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="24759"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="24723"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.91" steps="24873"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.11" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.92" steps="24926"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.12" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.90" steps="25329"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.13" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.91" steps="25648"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.14" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.14.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="valid" time="1.59"/></proof>
+   </goal>
+   <goal name="restricted_modular_multiplier&#39;vc.14.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.87" steps="25607"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.15" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.15.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="25607"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.16" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="25712"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.17" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="25670"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.18" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.18.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="valid" time="1.63"/></proof>
+   </goal>
+   <goal name="restricted_modular_multiplier&#39;vc.18.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="valid" time="1.59"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.19" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.19.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="25673"/></proof>
+   </goal>
+   <goal name="restricted_modular_multiplier&#39;vc.19.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="25673"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.20" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.20.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="25674"/></proof>
+   </goal>
+   <goal name="restricted_modular_multiplier&#39;vc.20.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.91" steps="25674"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.21" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.21.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="valid" time="1.61"/></proof>
+   </goal>
+   <goal name="restricted_modular_multiplier&#39;vc.21.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="valid" time="1.62"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.22" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="25851"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.23" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.23.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.91" steps="25851"/></proof>
+   </goal>
+   <goal name="restricted_modular_multiplier&#39;vc.23.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="25851"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.24" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.24.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="25851"/></proof>
+   </goal>
+   <goal name="restricted_modular_multiplier&#39;vc.24.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="25851"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.25" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.25.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="25852"/></proof>
+   </goal>
+   <goal name="restricted_modular_multiplier&#39;vc.25.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.88" steps="25852"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.26" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1979787"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="2524424"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="38798334"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.27" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.90" steps="26030"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.28" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="2006746"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="4318297"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="37077138"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.29" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.92" steps="26089"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.30" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.91" steps="26071"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.31" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.31.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="valid" time="1.95"/></proof>
+   </goal>
+   <goal name="restricted_modular_multiplier&#39;vc.31.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="26030"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.32" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.32.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.87" steps="26031"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.33" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="26071"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.34" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="26030"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.35" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.35.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="valid" time="1.73"/></proof>
+   </goal>
+   <goal name="restricted_modular_multiplier&#39;vc.35.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="valid" time="1.73"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.36" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.36.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="26032"/></proof>
+   </goal>
+   <goal name="restricted_modular_multiplier&#39;vc.36.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="26032"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.37" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.37.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="26032"/></proof>
+   </goal>
+   <goal name="restricted_modular_multiplier&#39;vc.37.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.91" steps="26032"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.38" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.38.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="valid" time="1.69"/></proof>
+   </goal>
+   <goal name="restricted_modular_multiplier&#39;vc.38.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="valid" time="1.70"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.39" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.90" steps="26030"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.40" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.40.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.91" steps="26030"/></proof>
+   </goal>
+   <goal name="restricted_modular_multiplier&#39;vc.40.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.91" steps="26030"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.41" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.41.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.93" steps="26030"/></proof>
+   </goal>
+   <goal name="restricted_modular_multiplier&#39;vc.41.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.92" steps="26030"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.42" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="restricted_modular_multiplier&#39;vc.42.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="26030"/></proof>
+   </goal>
+   <goal name="restricted_modular_multiplier&#39;vc.42.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="26031"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.43" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.92" steps="26030"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.44" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.90" steps="26333"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.45" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.92" steps="26333"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.46" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="2023264"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="2555340"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="34125581"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="restricted_modular_multiplier&#39;vc.47" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1996911"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="2634281"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="33983558"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="check_first_bit_is_one_for_multiplier&#39;vc" expl="VC for check_first_bit_is_one_for_multiplier">
+ <transf name="split_vc" >
+  <goal name="check_first_bit_is_one_for_multiplier&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.82" steps="22853"/></proof>
+  </goal>
+  <goal name="check_first_bit_is_one_for_multiplier&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="22957"/></proof>
+  </goal>
+  <goal name="check_first_bit_is_one_for_multiplier&#39;vc.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_first_bit_is_one_for_multiplier&#39;vc.2.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.83" steps="22957"/></proof>
+   </goal>
+   <goal name="check_first_bit_is_one_for_multiplier&#39;vc.2.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.85" steps="22957"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_first_bit_is_one_for_multiplier&#39;vc.3" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_first_bit_is_one_for_multiplier&#39;vc.3.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.83" steps="22958"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_first_bit_is_one_for_multiplier&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="23113"/></proof>
+  </goal>
+  <goal name="check_first_bit_is_one_for_multiplier&#39;vc.5" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1319031"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.49"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1314134"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="30741680"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="check_first_bit_is_one_for_multiplier&#39;vc.6" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1322098"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.48"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1320563"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="34744931"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="check_order_pre&#39;vc" expl="VC for check_order_pre">
+ <transf name="split_vc" >
+  <goal name="check_order_pre&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="22857"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="23079"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="23453"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="23887"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="23940"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="23974"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="24007"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="24060"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="24095"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24495"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24550"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.11" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="24550"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.12" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1472679"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.26"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1417191"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="47344790"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.13" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1475726"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1418741"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="46740389"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.14" expl="precondition" proved="true">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="valid" time="1.61"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.15" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24819"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.16" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="22857"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.17" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="23080"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.18" expl="precondition" proved="true">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="valid" time="3.45" steps="1321233"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.19" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="23453"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.20" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.82" steps="23887"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.21" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.82" steps="24067"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.22" expl="precondition" proved="true">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="valid" time="1.63"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.23" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="24214"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.24" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="24362"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.25" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24415"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.26" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24449"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.27" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24852"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.28" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="24907"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.29" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="24907"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.30" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="2139375"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.24"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="2370055"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="46821084"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.31" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="2170749"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.23"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="2346062"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="46191403"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.32" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="2213963"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.26"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="2371041"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="47111536"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.33" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="25177"/></proof>
+  </goal>
+  <goal name="check_order_pre&#39;vc.34" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order_pre&#39;vc.34.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order_pre&#39;vc.34.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.86" steps="24714"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order_pre&#39;vc.34.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order_pre&#39;vc.34.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="25177"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order_pre&#39;vc.35" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order_pre&#39;vc.35.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order_pre&#39;vc.35.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="24714"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order_pre&#39;vc.35.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order_pre&#39;vc.35.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.86" steps="25177"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order_pre&#39;vc.36" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order_pre&#39;vc.36.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order_pre&#39;vc.36.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="24714"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order_pre&#39;vc.36.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order_pre&#39;vc.36.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25177"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order_pre&#39;vc.37" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order_pre&#39;vc.37.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order_pre&#39;vc.37.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="24714"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order_pre&#39;vc.37.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order_pre&#39;vc.37.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="25177"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order_pre&#39;vc.38" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order_pre&#39;vc.38.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order_pre&#39;vc.38.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="24984"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order_pre&#39;vc.38.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order_pre&#39;vc.38.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25447"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order_pre&#39;vc.39" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order_pre&#39;vc.39.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order_pre&#39;vc.39.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="24985"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order_pre&#39;vc.39.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order_pre&#39;vc.39.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25447"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order_pre&#39;vc.40" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order_pre&#39;vc.40.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order_pre&#39;vc.40.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="24985"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order_pre&#39;vc.40.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order_pre&#39;vc.40.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="25466"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="check_order&#39;vc" expl="VC for check_order">
+ <transf name="split_vc" >
+  <goal name="check_order&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="22857"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="23079"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="23453"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="23887"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="23938"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="23973"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="24374"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="24427"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24462"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="24495"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="24496"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.11" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="24607"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.12" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order&#39;vc.12.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.92" steps="24607"/></proof>
+   </goal>
+   <goal name="check_order&#39;vc.12.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.92" steps="24607"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order&#39;vc.13" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order&#39;vc.13.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="24607"/></proof>
+   </goal>
+   <goal name="check_order&#39;vc.13.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.87" steps="24607"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order&#39;vc.14" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="2200398"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.24"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1801924"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="48037932"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.15" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="24802"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.16" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="2202549"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.23"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1804239"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="46468206"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.17" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24855"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.18" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="22857"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.19" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="23079"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.20" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="23453"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.21" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="23886"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.22" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="23939"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.23" expl="precondition" proved="true">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="valid" time="3.74" steps="1477169"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.24" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="23973"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.25" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="24374"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.26" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="24553"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.27" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="24701"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.28" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="24852"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.29" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="24852"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.30" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="24963"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.31" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order&#39;vc.31.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="24963"/></proof>
+   </goal>
+   <goal name="check_order&#39;vc.31.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="24963"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order&#39;vc.32" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order&#39;vc.32.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="24963"/></proof>
+   </goal>
+   <goal name="check_order&#39;vc.32.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="24963"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order&#39;vc.33" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="2148719"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="2350794"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="46187336"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.34" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.90" steps="25159"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.35" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="2155573"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="2303404"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="47345685"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.36" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="25212"/></proof>
+  </goal>
+  <goal name="check_order&#39;vc.37" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order&#39;vc.37.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.37.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="24802"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order&#39;vc.37.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.37.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.91" steps="25213"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order&#39;vc.38" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order&#39;vc.38.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.38.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.92" steps="24802"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order&#39;vc.38.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.38.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.91" steps="25213"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order&#39;vc.39" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order&#39;vc.39.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.39.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="24802"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order&#39;vc.39.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.39.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="25213"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order&#39;vc.40" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order&#39;vc.40.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.40.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="24802"/></proof>
+    </goal>
+    <goal name="check_order&#39;vc.40.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25213"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order&#39;vc.40.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.40.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="24802"/></proof>
+    </goal>
+    <goal name="check_order&#39;vc.40.1.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="25213"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order&#39;vc.41" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order&#39;vc.41.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.41.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.91" steps="24802"/></proof>
+    </goal>
+    <goal name="check_order&#39;vc.41.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="25213"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order&#39;vc.41.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.41.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="24802"/></proof>
+    </goal>
+    <goal name="check_order&#39;vc.41.1.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.91" steps="25213"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order&#39;vc.42" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order&#39;vc.42.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.42.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="24802"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order&#39;vc.42.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.42.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.91" steps="25213"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order&#39;vc.43" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order&#39;vc.43.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.43.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25073"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order&#39;vc.43.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.43.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.91" steps="25483"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order&#39;vc.44" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order&#39;vc.44.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.44.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="25073"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order&#39;vc.44.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.44.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="25483"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order&#39;vc.45" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order&#39;vc.45.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.45.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="25073"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order&#39;vc.45.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.45.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25500"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="check_order&#39;vc.46" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="check_order&#39;vc.46.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.46.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="valid" time="1.59"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="check_order&#39;vc.46.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="check_order&#39;vc.46.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="valid" time="1.69"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="uncheck_order&#39;vc" expl="VC for uncheck_order">
+ <transf name="split_vc" >
+  <goal name="uncheck_order&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="22857"/></proof>
+  </goal>
+  <goal name="uncheck_order&#39;vc.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="uncheck_order&#39;vc.1.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.88" steps="22857"/></proof>
+   </goal>
+   <goal name="uncheck_order&#39;vc.1.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.85" steps="22856"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="uncheck_order&#39;vc.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="uncheck_order&#39;vc.2.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.85" steps="22856"/></proof>
+   </goal>
+   <goal name="uncheck_order&#39;vc.2.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.83" steps="22856"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="uncheck_order&#39;vc.3" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1316924"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.53"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1321591"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="30889430"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="uncheck_order&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="23126"/></proof>
+  </goal>
+  <goal name="uncheck_order&#39;vc.5" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1320682"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.53"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1320822"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="36695906"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="uncheck_order&#39;vc.6" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1322463"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.49"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1323278"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="41218143"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="uncheck_order&#39;vc.7" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1323496"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.52"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1323041"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="29682876"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="cont_restricted_modular_multiplier&#39;vc" expl="VC for cont_restricted_modular_multiplier">
+ <transf name="split_vc" >
+  <goal name="cont_restricted_modular_multiplier&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="22943"/></proof>
+  </goal>
+  <goal name="cont_restricted_modular_multiplier&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="22908"/></proof>
+  </goal>
+  <goal name="cont_restricted_modular_multiplier&#39;vc.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="cont_restricted_modular_multiplier&#39;vc.2.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="22908"/></proof>
+   </goal>
+   <goal name="cont_restricted_modular_multiplier&#39;vc.2.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="22908"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cont_restricted_modular_multiplier&#39;vc.3" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="cont_restricted_modular_multiplier&#39;vc.3.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.82" steps="22908"/></proof>
+   </goal>
+   <goal name="cont_restricted_modular_multiplier&#39;vc.3.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.83" steps="22908"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cont_restricted_modular_multiplier&#39;vc.4" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="cont_restricted_modular_multiplier&#39;vc.4.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="valid" time="1.53"/></proof>
+   </goal>
+   <goal name="cont_restricted_modular_multiplier&#39;vc.4.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="valid" time="1.54"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cont_restricted_modular_multiplier&#39;vc.5" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="cont_restricted_modular_multiplier&#39;vc.5.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.85" steps="22910"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cont_restricted_modular_multiplier&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="23214"/></proof>
+  </goal>
+  <goal name="cont_restricted_modular_multiplier&#39;vc.7" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1342216"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1341098"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="39983515"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="cont_restricted_modular_multiplier&#39;vc.8" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1349012"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.24"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1355112"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="41041300"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="cont_restricted_modular_multiplier&#39;vc.9" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1365692"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1376515"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="42931338"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="cont_restricted_modular_multiplier&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="23026"/></proof>
+  </goal>
+  <goal name="cont_restricted_modular_multiplier&#39;vc.11" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="23026"/></proof>
+  </goal>
+  <goal name="cont_restricted_modular_multiplier&#39;vc.12" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.82" steps="23280"/></proof>
+  </goal>
+  <goal name="cont_restricted_modular_multiplier&#39;vc.13" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1336908"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1337351"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="37936179"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="cont_restricted_modular_multiplier&#39;vc.14" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1343141"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.26"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1343354"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="33531979"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="cont_restricted_modular_multiplier&#39;vc.15" expl="postcondition" proved="true">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="valid" time="1.73"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="modular_multiplier_with_ancillas&#39;vc" expl="VC for modular_multiplier_with_ancillas">
+ <transf name="split_vc" >
+  <goal name="modular_multiplier_with_ancillas&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.80" steps="22909"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.80" steps="23132"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.81" steps="23541"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="23507"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="23943"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="23995"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="24030"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24431"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="24609"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.90" steps="24757"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.90" steps="24909"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.11" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.11.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="24910"/></proof>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.11.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="24909"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.12" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.12.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.88" steps="24910"/></proof>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.12.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.87" steps="24909"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.13" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.13.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="24909"/></proof>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.13.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="24910"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.14" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.14.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="24909"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.15" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.93" steps="25052"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.16" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.16.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.91" steps="25052"/></proof>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.16.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.91" steps="25052"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.17" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.17.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="25053"/></proof>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.17.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.88" steps="25052"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.18" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1490354"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1482061"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="47364359"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.19" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.92" steps="25229"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.20" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.90" steps="25229"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.21" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="25229"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.22" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="22909"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.23" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="23132"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.24" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="23507"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.25" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="23941"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.26" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="23994"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.27" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24029"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.28" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24063"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.29" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="24116"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.30" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="24150"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.31" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="24185"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.32" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.32.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="24185"/></proof>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.32.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="24185"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.33" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.33.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="24185"/></proof>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.33.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="24185"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.34" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.34.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="24185"/></proof>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.34.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.86" steps="24185"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.35" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.35.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.87" steps="24185"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.36" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="24327"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.37" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.37.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.91" steps="24327"/></proof>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.37.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.88" steps="24327"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.38" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.38.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="24327"/></proof>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.38.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.88" steps="24327"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.39" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1422886"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.26"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1422359"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="40179995"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.40" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="24504"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.41" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="24504"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.42" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="24504"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.43" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.43.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.43.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25281"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.43.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.43.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="24504"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.44" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.44.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.44.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="25281"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.44.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="24504"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.44.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.44.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25281"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.44.1.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="24504"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.45" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.45.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.45.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25281"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.45.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="24504"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.45.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.45.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="25281"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.45.1.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="24504"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.46" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.46.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.46.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="25281"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.46.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="24504"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.46.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.46.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25281"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.46.1.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="24504"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.47" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.47.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.47.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25281"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.47.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.47.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="24504"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.48" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.48.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.48.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="25281"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.48.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.48.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="24504"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.49" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.49.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.49.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="25281"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.49.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="24504"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.49.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.49.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.85" steps="25281"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.49.1.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="24504"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.50" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.50.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.50.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25281"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.50.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="24504"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.50.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.50.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="25281"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.50.1.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="24504"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.51" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.51.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.51.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="25281"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.51.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.51.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="24504"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.52" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.52.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.52.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="25552"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.52.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.52.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="24774"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.53" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.53.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.53.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="25552"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.53.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.53.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="24775"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.54" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.54.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.54.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="25552"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.54.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.54.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.86" steps="24792"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.55" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.55.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.55.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="25569"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.55.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.55.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="24793"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.56" expl="postcondition">
+  <transf name="split_vc" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.56.0" expl="postcondition">
+   <transf name="split_vc" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.56.0.0" expl="postcondition">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="timeout" time="5.00" steps="1584318"/></proof>
+    <proof prover="3"><result status="timeout" time="5.00"/></proof>
+    <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+    <proof prover="5"><result status="timeout" time="5.00" steps="1572603"/></proof>
+    <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+    <proof prover="7"><result status="timeout" time="5.00" steps="45831596"/></proof>
+    <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.56.1" expl="postcondition">
+   <transf name="split_vc" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.56.1.0" expl="postcondition">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="timeout" time="5.00" steps="1514627"/></proof>
+    <proof prover="3"><result status="timeout" time="5.00"/></proof>
+    <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+    <proof prover="5"><result status="timeout" time="5.00" steps="1515296"/></proof>
+    <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+    <proof prover="7"><result status="timeout" time="5.00" steps="36383324"/></proof>
+    <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.57" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="23110"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.58" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="23333"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.59" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="23742"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.60" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="23707"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.61" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="24145"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.62" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="24324"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.63" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="24508"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.64" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24472"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.65" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="24620"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.66" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="24672"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.67" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="24708"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.68" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.88" steps="25149"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.69" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="25113"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.70" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.70.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="25113"/></proof>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.70.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.88" steps="25113"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.71" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.71.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="timeout" time="5.00"/></proof>
+   <proof prover="2"><result status="valid" time="2.29" steps="1034357"/></proof>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.71.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="timeout" time="5.00"/></proof>
+   <proof prover="2"><result status="valid" time="2.29" steps="1034437"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.72" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1485847"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.24"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1480673"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="47131851"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.73" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="25289"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.74" expl="precondition" proved="true">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="valid" time="2.34" steps="1034693"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.75" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="25325"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.76" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.82" steps="23076"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.77" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.85" steps="23299"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.78" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.89" steps="23674"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.79" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.90" steps="24110"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.80" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.90" steps="24163"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.81" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24197"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.82" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24231"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.83" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="24284"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.84" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24318"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.85" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.91" steps="24353"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.86" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.86.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="24353"/></proof>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.86.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.88" steps="24353"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.87" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.87.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.88" steps="24354"/></proof>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.87.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.87" steps="24354"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.88" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1423200"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1419124"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="40059368"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.89" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24511"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.90" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24547"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.91" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.86" steps="24582"/></proof>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.92" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.92.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.92.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="25450"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.92.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.92.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.84" steps="24511"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.93" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.93.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.93.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="25450"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.93.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.93.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="24512"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.94" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.94.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.94.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="25450"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.94.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.86" steps="24512"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.94.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.94.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="valid" time="3.57" steps="1420294"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.94.1.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="valid" time="3.31" steps="1348530"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.95" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.95.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.95.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="25451"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.95.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.86" steps="24514"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.95.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.95.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25451"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.95.1.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.86" steps="24512"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.96" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.96.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.96.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="25611"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.96.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.96.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="24671"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.97" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.97.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.97.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="25573"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.97.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.97.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="24635"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.98" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.98.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.98.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25573"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.98.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="24635"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.98.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.98.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="25573"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.98.1.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.89" steps="24635"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.99" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.99.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.99.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="valid" time="2.23" steps="1034929"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.99.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="valid" time="2.24" steps="1031933"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.99.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.99.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="valid" time="2.23" steps="1034978"/></proof>
+    </goal>
+    <goal name="modular_multiplier_with_ancillas&#39;vc.99.1.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="valid" time="2.27" steps="1031967"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.100" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.100.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.100.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.91" steps="25573"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.100.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.100.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="24761"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.101" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.101.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.101.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25845"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.101.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.101.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25031"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.102" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.102.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.102.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25845"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.102.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.102.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25031"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.103" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.103.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.103.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.91" steps="25862"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.103.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.103.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="valid" time="1.86"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.104" expl="postcondition">
+  <transf name="split_vc" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.104.0" expl="postcondition">
+   <transf name="split_vc" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.104.0.0" expl="postcondition">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="timeout" time="5.00" steps="1588497"/></proof>
+    <proof prover="3"><result status="timeout" time="5.00"/></proof>
+    <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+    <proof prover="5"><result status="timeout" time="5.00" steps="1577001"/></proof>
+    <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+    <proof prover="7"><result status="timeout" time="5.00" steps="41711670"/></proof>
+    <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.104.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.104.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="25083"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.105" expl="postcondition">
+  <transf name="split_vc" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.105.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.105.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.91" steps="25968"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.105.1" expl="postcondition">
+   <transf name="split_vc" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.105.1.0" expl="postcondition">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="timeout" time="5.00" steps="1534649"/></proof>
+    <proof prover="3"><result status="timeout" time="5.00"/></proof>
+    <proof prover="4"><result status="highfailure" time="0.26"/></proof>
+    <proof prover="5"><result status="timeout" time="5.00" steps="1528918"/></proof>
+    <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+    <proof prover="7"><result status="timeout" time="5.00" steps="45020343"/></proof>
+    <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.106" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.106.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.106.0.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.90" steps="25986"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.106.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.106.1.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.87" steps="25154"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier_with_ancillas&#39;vc.107" expl="postcondition">
+  <transf name="split_vc" >
+   <goal name="modular_multiplier_with_ancillas&#39;vc.107.0" expl="postcondition">
+   <transf name="split_vc" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.107.0.0" expl="postcondition">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="timeout" time="5.00" steps="1593521"/></proof>
+    <proof prover="3"><result status="timeout" time="5.00"/></proof>
+    <proof prover="4"><result status="highfailure" time="0.24"/></proof>
+    <proof prover="5"><result status="timeout" time="5.00" steps="1563832"/></proof>
+    <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+    <proof prover="7"><result status="timeout" time="5.00" steps="43970311"/></proof>
+    <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="modular_multiplier_with_ancillas&#39;vc.107.1" expl="postcondition">
+   <transf name="split_vc" >
+    <goal name="modular_multiplier_with_ancillas&#39;vc.107.1.0" expl="postcondition">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="timeout" time="5.00" steps="1536438"/></proof>
+    <proof prover="3"><result status="timeout" time="5.00"/></proof>
+    <proof prover="4"><result status="highfailure" time="0.25"/></proof>
+    <proof prover="5"><result status="timeout" time="5.00" steps="1533228"/></proof>
+    <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+    <proof prover="7"><result status="timeout" time="5.00" steps="45750636"/></proof>
+    <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="permut_modular_multiplier&#39;vc" expl="VC for permut_modular_multiplier">
+ <transf name="split_vc" >
+  <goal name="permut_modular_multiplier&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.83" steps="22906"/></proof>
+  </goal>
+  <goal name="permut_modular_multiplier&#39;vc.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="permut_modular_multiplier&#39;vc.1.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.82" steps="22906"/></proof>
+   </goal>
+   <goal name="permut_modular_multiplier&#39;vc.1.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.85" steps="22906"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="permut_modular_multiplier&#39;vc.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="permut_modular_multiplier&#39;vc.2.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.85" steps="22906"/></proof>
+   </goal>
+   <goal name="permut_modular_multiplier&#39;vc.2.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.85" steps="22906"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="permut_modular_multiplier&#39;vc.3" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="permut_modular_multiplier&#39;vc.3.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.84" steps="22906"/></proof>
+   </goal>
+   <goal name="permut_modular_multiplier&#39;vc.3.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.85" steps="22907"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="permut_modular_multiplier&#39;vc.4" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="permut_modular_multiplier&#39;vc.4.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.85" steps="22907"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="permut_modular_multiplier&#39;vc.5" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1337099"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.50"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1336874"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="37821263"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="permut_modular_multiplier&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.87" steps="23478"/></proof>
+  </goal>
+  <goal name="permut_modular_multiplier&#39;vc.7" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1351244"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.26"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1349463"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="41108733"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="permut_modular_multiplier&#39;vc.8" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1348545"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.50"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1345580"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="39069027"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="modular_multiplier&#39;vc" expl="VC for modular_multiplier">
+ <transf name="split_vc" >
+  <goal name="modular_multiplier&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="valid" time="1.54"/></proof>
+  </goal>
+  <goal name="modular_multiplier&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="22905"/></proof>
+  </goal>
+  <goal name="modular_multiplier&#39;vc.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier&#39;vc.2.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="timeout" time="5.00"/></proof>
+   <proof prover="2"><result status="valid" time="3.26" steps="1260178"/></proof>
+   </goal>
+   <goal name="modular_multiplier&#39;vc.2.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="timeout" time="5.00"/></proof>
+   <proof prover="2"><result status="valid" time="3.40" steps="1260068"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier&#39;vc.3" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier&#39;vc.3.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.85" steps="22906"/></proof>
+   </goal>
+   <goal name="modular_multiplier&#39;vc.3.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.84" steps="22906"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier&#39;vc.4" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="modular_multiplier&#39;vc.4.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1"><result status="valid" time="1.47"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="modular_multiplier&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.84" steps="22956"/></proof>
+  </goal>
+  <goal name="modular_multiplier&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.82" steps="22956"/></proof>
+  </goal>
+  <goal name="modular_multiplier&#39;vc.7" expl="precondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1318881"/></proof>
+  <proof prover="3"><result status="timeout" time="5.00"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.46"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1318320"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="32546275"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="modular_multiplier&#39;vc.8" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.79" steps="23210"/></proof>
+  </goal>
+  <goal name="modular_multiplier&#39;vc.9" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1330641"/></proof>
+  <proof prover="3"><result status="outofmemory" time="4.79"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.24"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1331709"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="timeout" time="5.00" steps="29951893"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+  <goal name="modular_multiplier&#39;vc.10" expl="postcondition">
+  <proof prover="0"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2"><result status="timeout" time="5.00" steps="1328535"/></proof>
+  <proof prover="3"><result status="outofmemory" time="4.79"/></proof>
+  <proof prover="4"><result status="highfailure" time="0.44"/></proof>
+  <proof prover="5"><result status="timeout" time="5.00" steps="1323666"/></proof>
+  <proof prover="6"><result status="highfailure" time="0.00"/></proof>
+  <proof prover="7"><result status="outofmemory" time="4.76"/></proof>
+  <proof prover="8"><result status="highfailure" time="0.00"/></proof>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>

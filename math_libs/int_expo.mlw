@@ -1,0 +1,413 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+module Int_Exponentiation
+         use  complex.Constant
+         use  fsum.Iterations
+         use  p_int.Int_comp
+         use  int.Int 
+         use extr_int.Ind_isum
+     
+let rec function power_pre (e i:int)  : int
+                                  requires{0<=i}
+               variant{i}
+  =  if i = 0 then 1
+    else
+      e * power_pre e (i-1)
+
+let  function power (e i:int)  : int
+  = if i < 0 then 0
+    else
+     power_pre e i
+            
+lemma Power_zero :forall i:int. power i 0 = 1
+lemma Power_one :forall i:int. power i 1 = i
+
+let lemma power_plus_one ( i x:int)
+  requires{0<=x}
+  ensures{power i (x+1) = power i x * i}
+  =()
+  
+let rec lemma power_sum (i x y :int)
+          requires{0<=x}
+         requires{0<=y} 
+         ensures{power i (x+y) =  power i x *     power   i y}
+         variant{y}
+  = if y = 0 then ()
+  else if y = 1 then power_plus_one  i x
+    else begin
+        power_sum i x (y-1) ;
+          power_plus_one  i (x+ (y-1))
+      end
+           
+let rec lemma power_mult (i x y :int)
+          requires{0<=x}
+         requires{0<=y} 
+         ensures{power i (x*y) =  power (power i x) y    }
+         variant{y}
+  = if y = 0 then()
+    else begin
+        power_mult i x (y-1) ;
+          power_sum i (x* (y-1)) x ;
+      power_plus_one  (power i x) (y-1)
+      end
+           
+lemma Power_sum :  forall x y i:int. x>= 0 -> y >= 0 ->
+    power i (x+y) =  power i x *     power   i y
+lemma Power_mult :  forall x y i:int. x>= 0 ->y  >= 0 ->
+                                 power i (x*y) =  (power    (power   i x) y)                                                                            
+     
+    let rec lemma power_to_ind_iproduct  (e i:int)
+          requires{0<= i}
+          ensures{power e i = ind_iproduct (const e) 0 i}
+          variant{i}
+  = if (i = 0) then ()
+    else begin
+        power_plus_one e (i-1);
+        ind_iproduct_right_extension (const e) 0 i;
+        power_to_ind_iproduct e (i-1);
+      end
+
+let rec lemma power_transl  (e k i:int)
+          requires{0<= i}
+          ensures{power e i = ind_iproduct (const e) k (k+i)}
+          variant{i}
+  = if (i = 0) then ()
+    else begin
+        power_plus_one e (i-1);
+        ind_iproduct_right_extension (const e) k (k+i);
+        power_transl e k (i-1);
+      end
+
+let lemma ind_iproduct_to_power  (e i j:int)
+      requires{0<= i<=j}
+      ensures{ind_iproduct (const e) i j = power e (j-i)}
+  =
+  assert{ind_iproduct (const e) i j =   int_iterate ( * ) (const e) i j};
+         power_transl e i (j-i)
+
+let lemma ind_iproduct_to_power_gen  (e :int)
+      ensures{forall i j:int. 0<= i<=j -> ind_iproduct (const e) i j = power e (j-i)}
+  =()
+
+let  lemma power_sum_rev (x:int) (n m :int)
+       requires{n>=0}
+       requires{m>=0}
+       ensures{   power x n * power x m =   power x (n+m)}
+  =
+  ()
+
+let  lemma power_eq (x:int) (n m :int)
+       requires{n = m}
+       ensures{    power x n = power x m}
+  =
+  ()
+
+let  lemma power_eq_gen (x y:int) (n m :int)
+       requires{n = m}
+       requires{x = y}
+       ensures{    power x n = power y m}
+  =
+  ()
+
+  let rec lemma power_2_sum(i:int)
+          requires{i>= 1}
+          ensures{ind_isum (fun k -> power 2 (k+1)) 0 i = power 2 (i+1)-2 }
+          variant{i}
+    = if i = 1 then ()
+      else
+        begin
+          ind_isum_right_extension (fun k -> if 0<= k then power 2 (k+1) else 0) 0 (i-1);
+          power_2_sum (i-1);
+          power_plus_one 2 (i-1);
+        end
+
+let rec lemma power_decomp (i:int)
+          requires{i>= 1}
+          ensures{ind_isum (fun k -> power 2 (k+1)) 0 i < power 2 (i+1) }
+          variant{i}
+  = power_2_sum i
+
+let rec lemma power_decomp_minus_one (i:int)
+          requires{i>= 1}
+          ensures{ind_isum (fun k -> if 1<= k < i+1 then power 2 (k-1) else 0) 1 i < power 2 (i-1) }
+          variant{i}
+  =
+  if (i = 1) then ()
+  else
+    begin
+      ind_isum_right_extension (fun k -> if 1<= k < i+1 then power 2 (k-1) else 0) 1 (i-1);
+      power_decomp_minus_one  (i-1);
+    end
+  
+let rec lemma power_decomp_ (i:int)
+          requires{i>= 1}
+          ensures{ind_isum (fun k -> power 2 k) 0 i < power 2 i }
+          variant{i}
+  =
+  if (i = 1) then ()
+  else
+    begin
+      ind_isum_plus_one (fun k -> if 0<= k < i+1 then power 2 k else 0) 0 i;
+      power_decomp_  (i-1);
+    end
+  
+let lemma power_decomp_one (i:int)
+      requires{i>= 1}
+      ensures{ind_isum (fun k -> power 2 (k+1)) 1 i < power 2 (i+1) }
+  =
+  if i = 1 then ()
+  else
+    begin
+      ind_isum_plus_one (fun k -> if (0<= k) then power 2 (k+1) else 1) 0 i;
+      power_decomp i;
+      assert{ind_isum (fun k -> power 2 (k+1)) 1 i < ind_isum (fun k -> power 2 (k+1)) 0 i }
+    end
+  
+let  lemma power_decomp_one_ (i:int)
+       requires{i>= 1}
+       ensures{ind_isum (fun k -> power 2 k) 1 i < power 2 i }
+  =
+  if i = 1 then ()
+  else
+    begin
+      ind_isum_plus_one (fun k -> if (0<= k) then power 2 k else 1) 0 i;
+      power_decomp i;
+      assert{ind_isum (fun k -> power 2 k) 1 i < ind_isum (fun k -> power 2 k) 0 i }
+    end
+
+let lemma growing_mult(n m :int)
+      requires{0<= n}
+      requires{1<= m}
+      ensures{n*m >= n}
+  =()
+
+let lemma strict_growing_mult(n m :int)
+      requires{1< n}
+      requires{1< m}
+      ensures{n*m > n}
+  =()
+
+let lemma init_exp (k :int)
+      ensures{power k 0 = 1}
+      ensures{power k 1 = k}
+      ensures{power k 2 = k*k}
+  =()
+
+let rec lemma positive_int_exp (k n:int)
+          requires {1 <= k}
+          requires {0<= n}
+          ensures{1<= power k n}
+          ensures  {0< power k n }
+          ensures{ power k n <= power k (n+1)}
+          variant{n}
+  =                               
+  if n= 0 then  () else
+    begin
+      assert { power k n >= k * (power k (n-1))};
+      positive_int_exp k (n-1)
+    end;
+  assert{power k (n+1) = power k n * k }
+
+let rec lemma strict_positive_int_exp (k n:int)
+          requires {1 < k}
+          requires {0< n}
+          ensures{power k n > 1}
+          ensures{ power k (n-1) < power k n}
+          ensures{ power k n < power k (n+1)}
+          variant{n}
+  =
+  if n= 0 then ()  else
+    begin
+      assert { power k n = k * (power k (n-1))};
+      positive_int_exp k (n-1)
+    end   
+
+      use int.EuclideanDivision
+  
+let rec lemma power_minus_one (i:int)
+          requires{0<=i}
+          ensures{mod i 2 = 0 -> power (-1) i = 1}
+          ensures{mod i 2 = 1 -> power (-1) i = -1}
+      variant{i}
+  = if i = 0 then ()
+    else power_minus_one (i-1)
+  
+let lemma growing_exp (k m n :int)
+      requires{1 <= k}
+      requires{0<= m <=n}
+      ensures{power k m <= power  k n}
+  = 
+  assert {power k n = power k (m + (n-m))};
+  assert {power k n = power k m * power k  (n-m)};
+  assert {power k m = power k m * 1}
+  
+let lemma strict_growing_exp (k:int)(m n :int)
+      requires{1 < k}
+      requires{0<= m<n}
+      ensures{power k m < power  k n}
+  = ()
+
+let lemma unicity_exp (k  m n :int)
+      requires{1 < k}
+      requires{0<= m}
+      requires{0<= n}
+      ensures{power k m = power k n <-> m=n}      
+  = ()
+
+let lemma bounded_sum_exp
+      (i j :int)(  m n :int)
+      requires{0<= m}
+      requires{0<= n}
+      requires{0<= i< power 2 m}
+      requires{0<=j< power 2 n}
+      ensures{(i * (power 2 n)) + j < power 2 (m+n)}      
+  = assert{i <= (power 2 m) - one};
+    assert{(i * (power 2 n)) <= ((power 2 m) - one)* power 2 n};
+    assert{(i * (power 2 n)) <= (power 2 (m+n)) - (power 2 n)};
+    assert{ j <=  (power 2 n) - one};
+    assert{(i * (power 2 n)) + j <= power 2 (m+n)- (power 2 n) + (power 2 n)- one}
+                                                                            
+lemma Power_pos : forall i:int. 0<=i -> 0< power i 0 
+lemma Power_pos_gen : forall i j:int. 0<i -> 0<=j  -> 0 < power i j
+lemma power_two : forall x:int. 0<= x -> power x 2 = x * x
+lemma power_plus_one_two : forall x:int. 0<= x -> power 2 (x+1) = power 2 x + power 2 x 
+
+let rec lemma growing_right_power (a b i:int)
+      requires{0<=i}
+      requires{0<= a <= b}
+      ensures{power a i <= power b i}
+      variant{i}
+  = if i = 0 then ()
+    else
+      begin
+        power_plus_one a (i-1);
+        power_plus_one b (i-1);
+        growing_right_power a b (i-1);
+      end
+  
+let rec lemma power_of_one (a b :int)
+      requires{0<=b}
+      requires{a = 1}
+      ensures{power a b =1}
+      variant{b}
+  = if b = 0 then ()
+    else
+      begin
+        power_plus_one a (b-1);
+        power_of_one a (b-1);
+      end
+  
+let lemma bound_power (i a k n:int)
+      requires{0< a}
+      requires{0< k<=n}
+      requires{0<=i < power a n}
+      ensures{div i (power a (n-k)) < power a k}
+  =
+  assert{mod i (power a (n-k)) < power a (n-k)};
+  assert{i < (power a (n-k)) *  power a k}
+  
+let lemma power_inf ( a n n':int)
+      requires{1< a}
+      requires{0< n<n'}
+      ensures{power  a n < power a n'}
+  =()
+  
+let lemma power_leq ( a n n':int)
+      requires{0<= a}
+      requires{0< n<=n'}
+      ensures{power  a n <= power a n'}
+  =()
+  
+let lemma power_rises ( a n :int)
+      requires{1< a}
+      requires {1 < n}
+      ensures{a < power a n}
+  = power_inf a 1 n
+  
+let rec lemma int_expo_rises ( a n :int)
+      requires{1< a}
+      requires {1 <= n}
+      ensures{n < power a n}
+      variant{n}
+  =
+  if n = 1 then ()
+  else begin
+      int_expo_rises a (n-1);
+      assert {n+1 < (power a n) +1 < (power a n) + (power a n)<=  a* (power a n)= power a  (n+1)} ;
+    end
+  
+let lemma bound_power_2 (i   n:int)
+      requires{0<= n}
+      requires{0<=i < power 2 (n+1)}
+      ensures{div i (power 2 n) < 2}
+  =()
+  
+let function polysquare n a2 a1 a0:int
+           requires{0<n}
+           requires{0<=a2}
+           requires{0<=a1}
+           requires{0<=a0}
+           ensures{0<=result}
+  = a2 * (power n 2) + (a1 * n) + a0
+
+let lemma polysquare_leq_trans (n a2 a1 a0 b2 b1 b0 pa pb ps :int)
+           requires{0<n}
+           requires{0<=a2}
+           requires{0<=a1}
+           requires{0<=a0}
+           requires{0<=b2}
+           requires{0<=b1}
+           requires{0<=b0}
+           requires{pa <= polysquare n a2 a1 a0}
+           requires{pb <= polysquare n b2 b1 b0}
+           requires{ps <= pa + pb}
+           ensures{ps <= polysquare n (a2 + b2) (a1 + b1) (a0 + b0)}
+           =()
+
+let lemma polysquare_leq_trans_sc (n a2 a1 a0 b2 b1 b0 pa sc ps :int)
+           requires{0<n}
+           requires{0<=a2}
+           requires{0<=a1}
+           requires{0<=a0}
+           requires{0<=sc}
+           requires{sc*a2<=b2}
+           requires{sc*a1<=b1}
+           requires{sc*a0<=b0}
+           requires{pa <= polysquare n a2 a1 a0}
+           requires{ps <= sc*pa}
+           ensures{ps <= polysquare n b2 b1 b0}
+           = leq_trans ps (sc*pa) (sc*polysquare n a2 a1 a0);
+             leq_trans ps  (sc*polysquare n a2 a1 a0) (polysquare n b2 b1 b0)
+
+let lemma polysquare_update (na nb a2 a1 a0 pa  :int)
+           requires{0<na <= nb}
+           requires{0<=a2}
+           requires{0<=a1}
+           requires{0<=a0}
+           requires{pa<=polysquare na a2 a1 a0}
+           ensures{pa<=polysquare nb a2 a1 a0}
+           = leq_trans pa (polysquare na a2 a1 a0) (polysquare nb a2 a1 a0)
+
+  end     
+
+     

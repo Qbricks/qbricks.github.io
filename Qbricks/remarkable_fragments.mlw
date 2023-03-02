@@ -1,0 +1,362 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+module Diag_circuits
+         use wired_circuits.Circuit_c
+         use wired_circuits.Qbricks_prim
+	 use  complex.Complex
+         use  int.Int
+         use binary.Binary_Op
+         use  binary.Bit_vector
+         use  qdata.Bv_to_ket
+         use  qdata.Ket_basis
+         use  matrices.Matrix
+         use  unit_circle.Angle
+         use  qdata.Qreg
+         use int.MinMax
+     
+let function seq_diag ( d e:circuit) 
+               requires{width d = width e}
+               requires{range d = 0}
+               requires{range e = 0}
+               requires{forall x y i. binary_l  x (width d) ->0<= i < width d ->basis_ket d x y i = x i}
+               requires{forall x y i. binary_l  x (width e) ->0<= i < width e ->basis_ket e x y i = x i}
+               ensures{size result = size d  + size e}
+               ensures{ancillas result = max (ancillas d) (ancillas e)}
+               ensures{pre result = Sequence (pre d) (pre e)}
+               ensures{forall x y i. binary_l x (width d) -> 0<= i < width d ->basis_ket result x y i = x i}
+               ensures{width result = width d}
+               ensures{range result = 0}
+               ensures{forall x y: int->int. binary_l x (width d) -> ang_ind result x y  =
+                                                                       (ang_ind d x y) +.+ (ang_ind e  x y)}
+  = d -- e
+
+let function cont_diag (c : circuit) (co t n:int) : circuit
+
+                                                      
+                                                      
+                                                      requires{0<= co < n}
+                                                      requires{0<= t <= n - (width c)}
+                                                      requires{t <= co -> t + width c <= co}
+                                                      requires{forall x y i. binary_l  x (width c) ->0<= i < width c ->basis_ket c x y i = x i}
+                                                      requires{range c = 0}
+                                                      ensures{size result <= cont_size *  size c}
+                                                      ensures{ancillas result = ancillas c}
+                                                      ensures{pre result = Cont (pre c) co t n}
+                                                      
+                                                      ensures{width result  = n}
+                                                      ensures{range result  =0}
+                                                      ensures{forall x y: int->int. binary_l  x n -> forall i:int. basis_ket result x y i = x i}
+                                                      ensures{forall x y: int->int. binary_l  x n ->ang_ind result x y  = x co *.* ang_ind c (fun j -> x (j+t)) y}
+           
+           
+  = cont c co t n
+
+
+let function place_diag (c : circuit) (t n:int) : circuit
+                                                    requires{0<=t}
+                                                    requires{t + width c <= n }
+                                                    requires{range c = 0}
+                                                    requires{forall x y i. binary_l  x (width c) ->0<= i < width c ->basis_ket c x y i = x i}
+                                                    ensures{ancillas result = ancillas c}
+                                                    ensures{size result = size c}
+                                                    ensures{pre result = Place (pre c)  t n}
+                                                    ensures{width result = n}
+                                                    ensures{range result = 0}
+                                                    ensures{forall x y: int->int. forall i:int.binary_l  x n -> basis_ket result x y i =   x i}
+                                                    ensures{forall x y: int->int. binary_l  x n ->ang_ind result x y  = ang_ind c (fun j -> x (j+t)) y}
+  = place c  t n
+
+
+let function seq_diag_right ( d e:circuit) 
+               requires{width d = width e}
+               requires{range e = 0}
+               requires{forall x y i. 0<= i < width e -> binary_l  x (width e) ->basis_ket e x y i = x i}
+               ensures{size result = size d  + size e}
+               ensures{ancillas result = max (ancillas d) (ancillas e)}
+               ensures{pre result = Sequence (pre d) (pre e)}
+               ensures{width result = width d}
+               ensures{range result = range d}
+               ensures{forall x y: int->int. forall i:int. binary_l  x (width result) -> binary_l  y (range result) -> 0<= i < width d ->basis_ket result x y i =
+                                                                                                                                           basis_ket d x y  i}
+               ensures{forall x y: int->int. binary_l  x (width result) -> binary_l  y (range result) -> ang_ind result x y  =
+                                                                                                           (ang_ind d x y) +.+ (ang_ind e (basis_ket d x y)  (fun k -> y (k+ range d)))}
+  = d -- e
+
+
+  
+
+let function seq_diag_left ( d e:circuit) 
+               requires{width d = width e}
+               requires{range d = 0}
+               requires{forall x y i. binary_l  x (width e) ->0<= i < width e -> basis_ket d x y i = x i}
+               ensures{size result = size d  + size e}
+               ensures{ancillas result = max (ancillas d) (ancillas e)}
+               ensures{pre result = Sequence (pre d) (pre e)}
+               ensures{width result = width d}
+               ensures{range result = range e}
+               ensures{forall x y: int->int. forall i:int.binary_l  x (width result) -> 0<= i < width d ->basis_ket result x y i =
+                                                                                                            basis_ket e x y  i}
+               ensures{forall x y: int->int. binary_l  x (width result) ->ang_ind result x y  =
+                                                                            (ang_ind d x y) +.+ (ang_ind e x  y)}
+  = d -- e
+
+           use matrices.Matrix_scalar
+
+let lemma path_sem_diag ( d :circuit) (x:bitvec) 
+      requires{length x = width d}
+      requires{range d = 0}
+      requires{forall x y i.binary_l  x (width d) -> 0<= i < width d -> basis_ket d x y i = x i}
+      ensures{path_sem d (bv_to_ket x) =  ang_exp(ang_ind d (getbv x)  (fun i -> i)) *.. bv_to_ket x}
+  =()
+
+let lemma path_sem_diag_basis ( d :circuit) (x:matrix complex) 
+      requires{is_a_ket_l x (width d)}
+      requires{is_a_ket_basis_elt x }
+      requires{range d = 0}
+      requires{forall x y i. binary_l  x (width d) -> 0<= i < width d -> basis_ket d x y i = x i}
+      ensures{path_sem d x =  ang_exp(ang_ind d (getbv (ket_to_bv x))  (fun i -> i)) *..  x}
+  = path_sem_diag d  (ket_to_bv x)
+
+let lemma path_sem_diag_apply ( d :circuit) (x:bitvec)(a:complex) 
+      requires{length x = width d}
+      requires{range d = 0}
+      requires{forall x y i. binary_l  x (width d) ->0<= i < width d -> basis_ket d x y i = x i}
+      requires{forall y. length y = 0 ->ang_exp(ang_ind d (getbv x)  (getbv y)) = a}
+      ensures{path_sem d (bv_to_ket x) =  a *.. bv_to_ket x}
+  =()
+
+
+end
+
+module Flat_mute_circuits
+         use wired_circuits.Circuit_c
+         use wired_circuits.Qbricks_prim
+	 use  int.Int
+         use binary.Binary_Op
+         use  binary.Bit_vector
+         use   qdata.Bv_to_ket
+         use   qdata.Ket_basis
+         use  unit_circle.Angle
+         use  qdata.Qreg
+         use int.MinMax
+
+let function seq_flat_mute ( d e:circuit) 
+               requires{width d = width e}
+               requires{range d = 0}
+               requires{range e = 0}
+               requires{forall x y . binary_l  x (width d) -> ang_ind d x y  = 1/./0}
+               requires{forall x y .binary_l  x (width e) -> ang_ind e x y  = 1/./0}
+               ensures{size result = size d  + size e}
+               ensures{ancillas result = max (ancillas d) (ancillas e)}
+               ensures{pre result = Sequence (pre d) (pre e)}
+               ensures{width result = width d}
+               ensures{forall x y: int->int. forall i:int. binary_l  x (width d) -> 0<=i < width d -> basis_ket result x y i =
+                                                                                                        basis_ket e (basis_ket d x y) y i}
+               ensures{width result = width d}
+               ensures{range result = 0}
+               ensures{forall x y: int->int. binary_l  x (width d) -> ang_ind result x y  = 1/./0}
+  = d -- e
+
+
+let function cont_flat_mute (c : circuit) (co t n:int) : circuit
+                                                           requires{0<= co < n}
+                                                           requires{0<= t <= n - (width c)}
+                                                           requires{t <= co -> t + width c <= co}
+                                                           requires{forall x y. binary_l  x (width c) ->ang_ind c x y  = 1/./0}
+                                                           requires{range c = 0}
+                                                           ensures{size result <= cont_size * size c}
+                                                           ensures{ancillas result = ancillas c}
+                                                           ensures{pre result = Cont (pre c) co t n}
+                                                           ensures{width result = n}
+                                                           ensures{range result = 0}
+                                                           ensures{forall x y: int->int. forall i:int. binary_l  x n -> 0<=i < n ->
+                                                                                                  basis_ket result x y i =  if x co = 1 && t<= i < t + width c then basis_ket c (fun j -> x (j+t)) y (i-t)
+                                                                                                                            else x i}
+                                                           ensures{forall x y: int->int. binary_l  x n ->ang_ind result x y  = 1/./0}
+
+  = cont c co t n
+
+let function cont_flat_mute_lemma (c : circuit) (co t n:int)
+               requires{0<= co < n}
+               requires{0<= t <= n - (width c)}
+               requires{t <= co -> t + width c <= co}
+               requires{forall x y. binary_l  x (width c) ->ang_ind c x y  = 1/./0}
+               requires{range c = 0}
+               ensures{range (cont c co t n) = 0}
+               ensures{forall x y: int->int. forall i:int. binary_l  x n -> 0<=i < n ->
+                                                      basis_ket (cont c co t n) x y i =  if x co = 1 && t<= i < t + width c then basis_ket c (fun j -> x (j+t)) y (i-t)
+                                                                                         else x i}
+               ensures{forall x y: int->int. binary_l  x n ->ang_ind (cont c co t n) x y  = 1/./0}
+  = ()
+
+let function seq_flat_mute_right ( d e:circuit) 
+               requires{width d = width e}
+               requires{range e = 0}
+               requires{forall x y. binary_l  x (width e) -> ang_ind e x y  = 1/./0}
+               ensures{size result = size d  + size e}
+               ensures{ancillas result = max (ancillas d) (ancillas e)}
+               ensures{width result = width d}
+               ensures{pre result = Sequence (pre d) (pre e)}
+               ensures{range result = range d}
+               ensures{forall x y: int->int. forall i:int. binary_l  x (width d) -> binary_l  y (range  d) -> 0<= i < width d ->basis_ket result x y i =
+                                                                                                                                  basis_ket e (basis_ket d x y)  (fun k -> y (k + range d)) i}
+               ensures{forall x y: int->int.  binary_l  x (width d) -> binary_l  y (range  d) -> ang_ind result x y  =
+                                                                                                   (ang_ind d x y)}
+  = d -- e
+
+
+let function seq_flat_mute_left ( d e:circuit) 
+               requires{width d = width e}
+               requires{range d = 0}
+               requires{forall x y. binary_l  x (width d) -> ang_ind d x y  = 1/./0}
+               ensures{size result = size d  + size e}
+               ensures{ancillas result = max (ancillas d) (ancillas e)}
+               ensures{pre result = Sequence (pre d) (pre e)}
+               ensures{width result = width d}
+               ensures{range result = range e}
+               ensures{forall x y: int->int. forall i:int. binary_l  x (width d) -> binary_l  y (range  e) ->0<= i < width d -> basis_ket result x y i =
+                                                                                                                                  basis_ket e (basis_ket d x y) y i}
+               ensures{forall x y: int->int. binary_l  x (width d) ->binary_l  y (range  e) ->ang_ind result x y  =
+                                                                                                ang_ind e (basis_ket d x y)  y}
+  = d -- e
+
+let lemma path_sem_flat_mute ( d :circuit) (x:bitvec) 
+      requires{length x = width d}
+      requires{range d = 0}
+      
+      requires{forall x y. binary_l  x (width d) ->ang_ind d x y  = 1/./0}
+      ensures{path_sem d (bv_to_ket x) = bv_to_ket  (make_bv  (basis_ket d (getbv x) (fun i -> i)) (width d))}
+  =()
+
+let lemma path_sem_flat_mute_gen ( d :circuit) 
+      requires{range d = 0}
+      requires{forall x y. binary_l  x (width d) ->ang_ind d x y  = 1/./0}
+      ensures{forall x. length x = width d -> path_sem d (bv_to_ket x) = bv_to_ket  (make_bv  (basis_ket d (getbv x) (fun i -> i)) (width d))}
+  =()
+
+let lemma path_sem_flat_mute_ket ( d :circuit) 
+      requires{range d = 0}
+      requires{forall x y. binary_l  x (width d) ->ang_ind d x y  = 1/./0}
+      ensures{forall x. is_a_ket_l x ( width d) -> is_a_ket_basis_elt x
+              -> path_sem d x = bv_to_ket  (make_bv  (basis_ket d (getbv (ket_to_bv x)) (fun i -> i)) (width d))}
+  =()
+
+let lemma path_sem_flat_mute_bv ( d :circuit) (x y:bitvec) 
+      requires{length x = width d}
+      requires{length y = width d}
+      requires{range d = 0}
+      requires{forall i. 0 <= i < width d -> basis_ket d (getbv x) (fun i -> i) i = getbv y i }
+      requires{forall x y. binary_l  x (width d) ->ang_ind d x y  = 1/./0}
+      ensures{path_sem d (bv_to_ket x) = bv_to_ket  y}
+  =()
+
+end
+
+module Flat_circuits
+         use wired_circuits.Circuit_c
+         use wired_circuits.Qbricks_prim
+	 use  int.Int
+         use binary.Binary_Op
+         use  binary.Bit_vector
+         use   qdata.Bv_to_ket
+         use  unit_circle.Angle
+         use int.MinMax
+
+let function seq_flat ( d e:circuit) 
+               requires{width d = width e}
+               requires{range d = 0}
+               requires{range e = 0}
+               ensures{size result = size d  + size e}
+               ensures{ancillas result = max (ancillas d) (ancillas e)}
+               ensures{pre result = Sequence (pre d) (pre e)}
+               ensures{forall x y: int->int. forall i:int. binary_l  x (width d) -> 0<= i < width d -> basis_ket result x y i =
+                                                                                                         basis_ket e (basis_ket d x y) y i}
+               ensures{width result = width d}
+               ensures{range result = 0}
+               ensures{forall x y: int->int. binary_l  x (width d) ->ang_ind result x y  =
+                                                                       (ang_ind d x y) +.+ (ang_ind e  (basis_ket d x y) y)}
+  = d -- e
+
+
+let function cont_flat (c : circuit) (co t n:int) : circuit
+                                                      requires{0<= co < n}
+                                                      requires{0<= t <= n - (width c)}
+                                                      requires{t <= co -> t + width c <= co}
+                                                      requires{range c = 0}
+                                                      ensures{ancillas result = ancillas c}
+                                                      ensures{size result <= cont_size * size c}
+                                                      ensures{pre result = Cont (pre c) co t n}
+                                                      ensures{width result = n}
+                                                      ensures{forall x y: int->int. forall i:int. binary_l  x (width c) -> 0<= i < width c ->
+                                                                                             basis_ket result x y i =  if x co = 1 && t<= i < t + width c then basis_ket c (fun j -> x (j+t)) y (i-t)
+                                                                                                                       else x i}
+                                                      ensures{forall x y: int->int. binary_l  x (width c) -> ang_ind result x y  = x co *.* ang_ind c (fun j -> x (j+t)) y}
+
+  = cont c co t n
+
+
+let function seq_flat_right ( d e:circuit) 
+               requires{width d = width e}
+               requires{range e = 0}
+               ensures{size result = size d  + size e}
+               ensures{ancillas result = max (ancillas d) (ancillas e)}
+               ensures{pre result = Sequence (pre d) (pre e)}
+               ensures{width result = width d}
+               ensures{range result = range d}
+               ensures{forall x y: int->int. forall i:int. 0<= i < width d ->binary_l  x (width result) -> basis_ket result x y i =
+                                                                                                             basis_ket e (basis_ket d x y)  (fun k -> y (k + range d)) i}
+
+               ensures{forall x y: int->int. binary_l  x (width result) -> ang_ind result x y  =
+                                                                             (ang_ind d x y) +.+ (ang_ind e (basis_ket d x y)  (fun k -> y (k+ range d)))}
+
+  = d -- e
+
+
+let function seq_flat_left ( d e:circuit) 
+               requires{width d = width e}
+               requires{range d = 0}
+               ensures{size result = size d  + size e}
+               ensures{ancillas result = max (ancillas d) (ancillas e)}
+               ensures{pre result = Sequence (pre d) (pre e)}
+               ensures{width result = width d}
+               ensures{range result = range e}
+               ensures{forall x y: int->int. forall i:int. 0<= i < width d ->binary_l  x (width d) -> basis_ket result x y i =
+                                                                                                        basis_ket e (basis_ket d x y) y i}
+               ensures{forall x y: int->int. binary_l x (width result) -> ang_ind result x y  =
+                                                                            (ang_ind d x y) +.+ (ang_ind e (basis_ket d x y)  y)}
+  = d -- e
+
+           use matrices.Matrix_scalar
+
+let lemma path_sem_flat ( d :circuit) (x:bitvec) 
+      requires{length x = width d}
+      requires{range d = 0}
+      ensures{path_sem d (bv_to_ket x) =  ang_exp(ang_ind d (getbv x)  (fun i -> i)) *.. bv_to_ket  (make_bv (basis_ket d (getbv x) (fun i -> i))  (width d))}
+  =()
+
+let lemma path_sem_flat_gen ( d :circuit)  
+      requires{range d = 0}
+      ensures{forall x. length x = width d -> path_sem d (bv_to_ket x) =  ang_exp(ang_ind d (getbv x)  (fun i -> i)) *.. bv_to_ket  (make_bv (basis_ket d (getbv x) (fun i -> i))  (width d))}
+  =()
+
+end

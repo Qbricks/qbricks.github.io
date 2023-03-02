@@ -1,0 +1,940 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="6">
+<prover id="1" name="Z3" version="4.8.6" alternative="counterexamples" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="3" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="4" name="Alt-Ergo" version="2.4.0" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="6" name="CVC4" version="1.7" timelimit="5" steplimit="0" memlimit="1000"/>
+<file format="whyml" proved="true">
+<path name=".."/><path name="int_expo.mlw"/>
+<theory name="Int_Exponentiation" proved="true">
+ <goal name="power_pre&#39;vc" expl="VC for power_pre" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_pre&#39;vc.0" expl="variant decrease" proved="true">
+  <proof prover="6"><result status="valid" time="0.09" steps="72533"/></proof>
+  </goal>
+  <goal name="power_pre&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.12" steps="75288"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power&#39;vc" expl="VC for power" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.09" steps="72610"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Power_zero" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="Power_zero.0" proved="true">
+  <proof prover="6"><result status="valid" time="0.15" steps="80838"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Power_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="Power_one.0" proved="true">
+  <proof prover="4"><result status="valid" time="0.04" steps="352"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_plus_one&#39;vc" expl="VC for power_plus_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_plus_one&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.03" steps="196"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_sum&#39;vc" expl="VC for power_sum" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_sum&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.07" steps="72904"/></proof>
+  </goal>
+  <goal name="power_sum&#39;vc.1" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="power_sum&#39;vc.1.0" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.09" steps="72909"/></proof>
+   </goal>
+   <goal name="power_sum&#39;vc.1.1" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.08" steps="72925"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="power_sum&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.07" steps="72909"/></proof>
+  </goal>
+  <goal name="power_sum&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="75742"/></proof>
+  </goal>
+  <goal name="power_sum&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="75823"/></proof>
+  </goal>
+  <goal name="power_sum&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.29" steps="8175"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_mult&#39;vc" expl="VC for power_mult" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_mult&#39;vc.0" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="power_mult&#39;vc.0.0" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.08" steps="72995"/></proof>
+   </goal>
+   <goal name="power_mult&#39;vc.0.1" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.09" steps="73011"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="power_mult&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.08" steps="72995"/></proof>
+  </goal>
+  <goal name="power_mult&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.12" steps="75816"/></proof>
+  </goal>
+  <goal name="power_mult&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="3"><result status="valid" time="0.07"/></proof>
+  </goal>
+  <goal name="power_mult&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.09" steps="73071"/></proof>
+  </goal>
+  <goal name="power_mult&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="75935"/></proof>
+  </goal>
+  <goal name="power_mult&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.04" steps="525"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Power_sum" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="Power_sum.0" proved="true">
+  <proof prover="4"><result status="valid" time="0.03" steps="59"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Power_mult" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="Power_mult.0" proved="true">
+  <proof prover="4"><result status="valid" time="0.03" steps="54"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_to_ind_iproduct&#39;vc" expl="VC for power_to_ind_iproduct" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_to_ind_iproduct&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.09" steps="76173"/></proof>
+  </goal>
+  <goal name="power_to_ind_iproduct&#39;vc.1" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="power_to_ind_iproduct&#39;vc.1.0" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.12" steps="118413"/></proof>
+   </goal>
+   <goal name="power_to_ind_iproduct&#39;vc.1.1" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.13" steps="118422"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="power_to_ind_iproduct&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.18" steps="122264"/></proof>
+  </goal>
+  <goal name="power_to_ind_iproduct&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="3.49"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_transl&#39;vc" expl="VC for power_transl" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_transl&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.12" steps="76346"/></proof>
+  </goal>
+  <goal name="power_transl&#39;vc.1" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="power_transl&#39;vc.1.0" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.13" steps="118547"/></proof>
+   </goal>
+   <goal name="power_transl&#39;vc.1.1" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.14" steps="118556"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="power_transl&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.19" steps="122416"/></proof>
+  </goal>
+  <goal name="power_transl&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="2.85"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ind_iproduct_to_power&#39;vc" expl="VC for ind_iproduct_to_power" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ind_iproduct_to_power&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="6"><result status="valid" time="0.46" steps="189196"/></proof>
+  </goal>
+  <goal name="ind_iproduct_to_power&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.14" steps="119409"/></proof>
+  </goal>
+  <goal name="ind_iproduct_to_power&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.21" steps="124240"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ind_iproduct_to_power_gen&#39;vc" expl="VC for ind_iproduct_to_power_gen" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ind_iproduct_to_power_gen&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="ind_iproduct_to_power">
+   <goal name="ind_iproduct_to_power_gen&#39;vc.0.0" expl="apply premises" proved="true">
+   <proof prover="6"><result status="valid" time="0.09" steps="73910"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_sum_rev&#39;vc" expl="VC for power_sum_rev" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_sum_rev&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.04" steps="61"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_eq&#39;vc" expl="VC for power_eq" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_eq&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.08" steps="74262"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_eq_gen&#39;vc" expl="VC for power_eq_gen" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_eq_gen&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.09" steps="74357"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_2_sum&#39;vc" expl="VC for power_2_sum" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_2_sum&#39;vc.0" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="power_2_sum&#39;vc.0.0" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.16" steps="101675"/></proof>
+   </goal>
+   <goal name="power_2_sum&#39;vc.0.1" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.11" steps="98361"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="power_2_sum&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.17" steps="101713"/></proof>
+  </goal>
+  <goal name="power_2_sum&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="98431"/></proof>
+  </goal>
+  <goal name="power_2_sum&#39;vc.3" expl="postcondition" proved="true">
+  <transf name="destruct" proved="true" arg1="H">
+   <goal name="power_2_sum&#39;vc.3.0" expl="postcondition" proved="true">
+   <proof prover="6"><result status="valid" time="1.24" steps="421971"/></proof>
+   </goal>
+   <goal name="power_2_sum&#39;vc.3.1" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="power_2_sum&#39;vc.3.1.0" expl="postcondition" proved="true">
+    <transf name="replace" proved="true" arg1="( ind_isum (fun (k:int) -&gt; power 2 (k + 1)) 0 i)" arg2="( ind_isum (fun (k:int) -&gt; if 0 &lt;= k then power 2 (k + 1) else 0) 0
+  ((i - 1) + 1))">
+     <goal name="power_2_sum&#39;vc.3.1.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures2">
+      <goal name="power_2_sum&#39;vc.3.1.0.0.0" expl="postcondition" proved="true">
+      <transf name="replace" proved="true" arg1="(ind_isum (fun (k:int) -&gt; if 0 &lt;= k then power 2 (k + 1) else 0) 0 (i - 1))" arg2="(ind_isum (fun (k:int) -&gt;  power 2 (k + 1) ) 0 (i - 1))">
+       <goal name="power_2_sum&#39;vc.3.1.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="rewrite" proved="true" arg1="Ensures1">
+        <goal name="power_2_sum&#39;vc.3.1.0.0.0.0.0" expl="postcondition" proved="true">
+        <proof prover="6"><result status="valid" time="0.17" steps="111761"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="power_2_sum&#39;vc.3.1.0.0.0.1" expl="equality hypothesis" proved="true">
+       <proof prover="6"><result status="valid" time="0.26" steps="137442"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="power_2_sum&#39;vc.3.1.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="6"><result status="valid" time="0.10" steps="98448"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="power_2_sum&#39;vc.3.1.0.1" expl="equality hypothesis" proved="true">
+     <proof prover="3"><result status="valid" time="0.49"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_decomp&#39;vc" expl="VC for power_decomp" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_decomp&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.08" steps="74602"/></proof>
+  </goal>
+  <goal name="power_decomp&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.23" steps="110337"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_decomp_minus_one&#39;vc" expl="VC for power_decomp_minus_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_decomp_minus_one&#39;vc.0" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="power_decomp_minus_one&#39;vc.0.0" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.16" steps="102166"/></proof>
+   </goal>
+   <goal name="power_decomp_minus_one&#39;vc.0.1" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.11" steps="98779"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="power_decomp_minus_one&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.15" steps="102180"/></proof>
+  </goal>
+  <goal name="power_decomp_minus_one&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="2.63" steps="1112705"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_decomp_&#39;vc" expl="VC for power_decomp_" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_decomp_&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.09" steps="98596"/></proof>
+  </goal>
+  <goal name="power_decomp_&#39;vc.1" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="power_decomp_&#39;vc.1.0" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.15" steps="102299"/></proof>
+   </goal>
+   <goal name="power_decomp_&#39;vc.1.1" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.12" steps="98933"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="power_decomp_&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.16" steps="102344"/></proof>
+  </goal>
+  <goal name="power_decomp_&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.28" steps="136881"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_decomp_one&#39;vc" expl="VC for power_decomp_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_decomp_one&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.07" steps="98744"/></proof>
+  </goal>
+  <goal name="power_decomp_one&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="99017"/></proof>
+  </goal>
+  <goal name="power_decomp_one&#39;vc.2" expl="assertion" proved="true">
+  <proof prover="3"><result status="valid" time="0.95"/></proof>
+  </goal>
+  <goal name="power_decomp_one&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="1.73" steps="619172"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_decomp_one_&#39;vc" expl="VC for power_decomp_one_" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_decomp_one_&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.09" steps="98873"/></proof>
+  </goal>
+  <goal name="power_decomp_one_&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.12" steps="99101"/></proof>
+  </goal>
+  <goal name="power_decomp_one_&#39;vc.2" expl="assertion" proved="true">
+  <proof prover="6"><result status="valid" time="1.36" steps="455689"/></proof>
+  </goal>
+  <goal name="power_decomp_one_&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.38" steps="157292"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="growing_mult&#39;vc" expl="VC for growing_mult" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="growing_mult&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="0.07"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="strict_growing_mult&#39;vc" expl="VC for strict_growing_mult" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="strict_growing_mult&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="0.07"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="init_exp&#39;vc" expl="VC for init_exp" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="init_exp&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.18" steps="78795"/></proof>
+  </goal>
+  <goal name="init_exp&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.18" steps="78865"/></proof>
+  </goal>
+  <goal name="init_exp&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.42" steps="182233"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="positive_int_exp&#39;vc" expl="VC for positive_int_exp" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="positive_int_exp&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="6"><result status="valid" time="0.21" steps="82936"/></proof>
+  </goal>
+  <goal name="positive_int_exp&#39;vc.1" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="positive_int_exp&#39;vc.1.0" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.12" steps="75867"/></proof>
+   </goal>
+   <goal name="positive_int_exp&#39;vc.1.1" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.13" steps="75876"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="positive_int_exp&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="75867"/></proof>
+  </goal>
+  <goal name="positive_int_exp&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.16" steps="78979"/></proof>
+  </goal>
+  <goal name="positive_int_exp&#39;vc.4" expl="assertion" proved="true">
+  <proof prover="6"><result status="valid" time="0.24" steps="83305"/></proof>
+  </goal>
+  <goal name="positive_int_exp&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.18" steps="79387"/></proof>
+  </goal>
+  <goal name="positive_int_exp&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.12" steps="75994"/></proof>
+  </goal>
+  <goal name="positive_int_exp&#39;vc.7" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.05" steps="141"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="strict_positive_int_exp&#39;vc" expl="VC for strict_positive_int_exp" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="strict_positive_int_exp&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="6"><result status="valid" time="0.20" steps="83227"/></proof>
+  </goal>
+  <goal name="strict_positive_int_exp&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.15" steps="79095"/></proof>
+  </goal>
+  <goal name="strict_positive_int_exp&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="76064"/></proof>
+  </goal>
+  <goal name="strict_positive_int_exp&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.38" steps="134053"/></proof>
+  </goal>
+  <goal name="strict_positive_int_exp&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.13" steps="3942"/></proof>
+  </goal>
+  <goal name="strict_positive_int_exp&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.21" steps="8178"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_minus_one&#39;vc" expl="VC for power_minus_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_minus_one&#39;vc.0" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="power_minus_one&#39;vc.0.0" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.12" steps="77803"/></proof>
+   </goal>
+   <goal name="power_minus_one&#39;vc.0.1" expl="variant decrease" proved="true">
+   <proof prover="6"><result status="valid" time="0.11" steps="77819"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="power_minus_one&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.15" steps="80966"/></proof>
+  </goal>
+  <goal name="power_minus_one&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.24" steps="88024"/></proof>
+  </goal>
+  <goal name="power_minus_one&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.23" steps="87760"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="growing_exp&#39;vc" expl="VC for growing_exp" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="growing_exp&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="6"><result status="valid" time="0.12" steps="78132"/></proof>
+  </goal>
+  <goal name="growing_exp&#39;vc.1" expl="assertion" proved="true">
+  <proof prover="6"><result status="valid" time="0.24" steps="95536"/></proof>
+  </goal>
+  <goal name="growing_exp&#39;vc.2" expl="assertion" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="78178"/></proof>
+  </goal>
+  <goal name="growing_exp&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.05" steps="439"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="strict_growing_exp&#39;vc" expl="VC for strict_growing_exp" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="strict_growing_exp&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.22" steps="94961"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unicity_exp&#39;vc" expl="VC for unicity_exp" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unicity_exp&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="unicity_exp&#39;vc.0.0" expl="postcondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.19" steps="86144"/></proof>
+   </goal>
+   <goal name="unicity_exp&#39;vc.0.1" expl="postcondition" proved="true">
+   <proof prover="6"><result status="valid" time="0.12" steps="78427"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="bounded_sum_exp&#39;vc" expl="VC for bounded_sum_exp" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="bounded_sum_exp&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="78598"/></proof>
+  </goal>
+  <goal name="bounded_sum_exp&#39;vc.1" expl="assertion" proved="true">
+  <proof prover="4"><result status="valid" time="0.05" steps="160"/></proof>
+  </goal>
+  <goal name="bounded_sum_exp&#39;vc.2" expl="assertion" proved="true">
+  <proof prover="4"><result status="valid" time="0.05" steps="299"/></proof>
+  </goal>
+  <goal name="bounded_sum_exp&#39;vc.3" expl="assertion" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="78730"/></proof>
+  </goal>
+  <goal name="bounded_sum_exp&#39;vc.4" expl="assertion" proved="true">
+  <proof prover="6"><result status="valid" time="0.15" steps="81917"/></proof>
+  </goal>
+  <goal name="bounded_sum_exp&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.09" steps="78788"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Power_pos" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="Power_pos.0" proved="true">
+  <proof prover="6"><result status="valid" time="0.16" steps="82111"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Power_pos_gen" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="Power_pos_gen.0" proved="true">
+  <proof prover="6"><result status="valid" time="0.19" steps="86077"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_two" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_two.0" proved="true">
+  <proof prover="6"><result status="valid" time="0.20" steps="86329"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_plus_one_two" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_plus_one_two.0" proved="true">
+  <proof prover="6"><result status="valid" time="0.20" steps="87092"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="growing_right_power&#39;vc" expl="VC for growing_right_power" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="growing_right_power&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.15" steps="82359"/></proof>
+  </goal>
+  <goal name="growing_right_power&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.13" steps="82424"/></proof>
+  </goal>
+  <goal name="growing_right_power&#39;vc.2" expl="variant decrease" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="79279"/></proof>
+  </goal>
+  <goal name="growing_right_power&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.15" steps="82477"/></proof>
+  </goal>
+  <goal name="growing_right_power&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="79276"/></proof>
+  </goal>
+  <goal name="growing_right_power&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.52" steps="211290"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_of_one&#39;vc" expl="VC for power_of_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_of_one&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.16" steps="82485"/></proof>
+  </goal>
+  <goal name="power_of_one&#39;vc.1" expl="variant decrease" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="79377"/></proof>
+  </goal>
+  <goal name="power_of_one&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.17" steps="82552"/></proof>
+  </goal>
+  <goal name="power_of_one&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="79367"/></proof>
+  </goal>
+  <goal name="power_of_one&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.16" steps="82727"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="bound_power&#39;vc" expl="VC for bound_power" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="bound_power&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="6"><result status="valid" time="0.20" steps="87780"/></proof>
+  </goal>
+  <goal name="bound_power&#39;vc.1" expl="assertion" proved="true">
+  <proof prover="4"><result status="valid" time="0.09" steps="958"/></proof>
+  </goal>
+  <goal name="bound_power&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="8.94"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_inf&#39;vc" expl="VC for power_inf" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_inf&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.20" steps="87568"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_leq&#39;vc" expl="VC for power_leq" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_leq&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.30" steps="128124"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="power_rises&#39;vc" expl="VC for power_rises" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="power_rises&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="80004"/></proof>
+  </goal>
+  <goal name="power_rises&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="80026"/></proof>
+  </goal>
+  <goal name="power_rises&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.16" steps="83397"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_expo_rises&#39;vc" expl="VC for int_expo_rises" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_expo_rises&#39;vc.0" expl="variant decrease" proved="true">
+  <proof prover="6"><result status="valid" time="0.16" steps="83298"/></proof>
+  </goal>
+  <goal name="int_expo_rises&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="80143"/></proof>
+  </goal>
+  <goal name="int_expo_rises&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.15" steps="83327"/></proof>
+  </goal>
+  <goal name="int_expo_rises&#39;vc.3" expl="assertion" proved="true">
+  <proof prover="3"><result status="valid" time="0.08"/></proof>
+  </goal>
+  <goal name="int_expo_rises&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.17" steps="83755"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="bound_power_2&#39;vc" expl="VC for bound_power_2" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="bound_power_2&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="n" arg2="(n+1-1)">
+   <goal name="bound_power_2&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="assert" proved="true" arg1="(div i (power 2 ((n + 1) - 1)) &lt; power 2 1)">
+    <goal name="bound_power_2&#39;vc.0.0.0" expl="asserted formula" proved="true">
+    <transf name="apply" proved="true" arg1="bound_power">
+     <goal name="bound_power_2&#39;vc.0.0.0.0" expl="apply premises" proved="true">
+     <proof prover="6"><result status="valid" time="0.11" steps="80238"/></proof>
+     </goal>
+     <goal name="bound_power_2&#39;vc.0.0.0.1" expl="apply premises" proved="true">
+     <proof prover="6"><result status="valid" time="0.11" steps="80257"/></proof>
+     </goal>
+     <goal name="bound_power_2&#39;vc.0.0.0.2" expl="apply premises" proved="true">
+     <proof prover="6"><result status="valid" time="0.10" steps="80238"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="bound_power_2&#39;vc.0.0.1" expl="postcondition" proved="true">
+    <proof prover="6"><result status="valid" time="0.17" steps="83924"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="bound_power_2&#39;vc.0.1" expl="equality hypothesis" proved="true">
+   <proof prover="6"><result status="valid" time="0.10" steps="80243"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="polysquare&#39;vc" expl="VC for polysquare" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="polysquare&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.05" steps="755"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="polysquare_leq_trans&#39;vc" expl="VC for polysquare_leq_trans" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="polysquare_leq_trans&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.30" steps="125798"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="polysquare_leq_trans_sc&#39;vc" expl="VC for polysquare_leq_trans_sc" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="polysquare_leq_trans_sc&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="81358"/></proof>
+  </goal>
+  <goal name="polysquare_leq_trans_sc&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="81362"/></proof>
+  </goal>
+  <goal name="polysquare_leq_trans_sc&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="81365"/></proof>
+  </goal>
+  <goal name="polysquare_leq_trans_sc&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="81368"/></proof>
+  </goal>
+  <goal name="polysquare_leq_trans_sc&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="81367"/></proof>
+  </goal>
+  <goal name="polysquare_leq_trans_sc&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.03" steps="90"/></proof>
+  </goal>
+  <goal name="polysquare_leq_trans_sc&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.09" steps="81406"/></proof>
+  </goal>
+  <goal name="polysquare_leq_trans_sc&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.03" steps="42"/></proof>
+  </goal>
+  <goal name="polysquare_leq_trans_sc&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.03" steps="43"/></proof>
+  </goal>
+  <goal name="polysquare_leq_trans_sc&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.02" steps="44"/></proof>
+  </goal>
+  <goal name="polysquare_leq_trans_sc&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.12" steps="81430"/></proof>
+  </goal>
+  <goal name="polysquare_leq_trans_sc&#39;vc.11" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="81434"/></proof>
+  </goal>
+  <goal name="polysquare_leq_trans_sc&#39;vc.12" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="81437"/></proof>
+  </goal>
+  <goal name="polysquare_leq_trans_sc&#39;vc.13" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="81440"/></proof>
+  </goal>
+  <goal name="polysquare_leq_trans_sc&#39;vc.14" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="81431"/></proof>
+  </goal>
+  <goal name="polysquare_leq_trans_sc&#39;vc.15" expl="precondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="polysquare&#39;def">
+   <goal name="polysquare_leq_trans_sc&#39;vc.15.0" expl="precondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="polysquare&#39;def">
+    <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0" expl="precondition" proved="true">
+    <transf name="assert" proved="true" arg1="(forall a b c. a * (b+c) = a*b+a*c)">
+     <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.0" expl="asserted formula" proved="true">
+     <proof prover="6"><result status="valid" time="0.08" steps="81493"/></proof>
+     </goal>
+     <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1" expl="precondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="h">
+      <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0" expl="precondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="h">
+       <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0" expl="precondition" proved="true">
+       <transf name="assert" proved="true" arg1="(forall a b c d. a &lt;= b -&gt; c &lt;= d -&gt; a+c &lt;= b+d)">
+        <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.0" expl="asserted formula" proved="true">
+        <proof prover="6"><result status="valid" time="0.13" steps="84913"/></proof>
+        </goal>
+        <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1" expl="precondition" proved="true">
+        <transf name="apply" proved="true" arg1="h">
+         <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0" expl="apply premises" proved="true">
+         <transf name="apply" proved="true" arg1="h">
+          <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.0" expl="apply premises" proved="true">
+          <transf name="assert" proved="true" arg1="(forall a b c . a * (b*c) = a*b*c)">
+           <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.0.0" expl="asserted formula" proved="true">
+           <proof prover="6"><result status="valid" time="0.08" steps="81753"/></proof>
+           </goal>
+           <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.0.1" expl="apply premises" proved="true">
+           <transf name="rewrite" proved="true" arg1="h">
+            <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.0.1.0" expl="apply premises" proved="true">
+            <transf name="assert" proved="true" arg1="(forall a b c d. 0&lt;=a &lt;= b -&gt; 0&lt;=c &lt;= d -&gt; a*c &lt;= b*d)">
+             <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.0.1.0.0" expl="asserted formula" proved="true">
+             <proof prover="4"><result status="valid" time="0.04" steps="148"/></proof>
+             </goal>
+             <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.0.1.0.1" expl="apply premises" proved="true">
+             <transf name="apply" proved="true" arg1="h">
+              <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.0.1.0.1.0" expl="apply premises" proved="true">
+              <transf name="split_vc" proved="true" >
+               <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.0.1.0.1.0.0" proved="true">
+               <proof prover="4"><result status="valid" time="0.04" steps="44"/></proof>
+               </goal>
+               <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.0.1.0.1.0.1" proved="true">
+               <proof prover="6"><result status="valid" time="0.09" steps="81971"/></proof>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.0.1.0.1.1" expl="apply premises" proved="true">
+              <transf name="split_vc" proved="true" >
+               <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.0.1.0.1.1.0" proved="true">
+               <proof prover="6"><result status="valid" time="0.16" steps="89979"/></proof>
+               </goal>
+               <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.0.1.0.1.1.1" proved="true">
+               <proof prover="6"><result status="valid" time="0.08" steps="81985"/></proof>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.1" expl="apply premises" proved="true">
+          <transf name="assert" proved="true" arg1="(forall a b c . a * (b*c) = a*b*c)">
+           <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.1.0" expl="asserted formula" proved="true">
+           <proof prover="6"><result status="valid" time="0.08" steps="81753"/></proof>
+           </goal>
+           <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.1.1" expl="apply premises" proved="true">
+           <transf name="rewrite" proved="true" arg1="h">
+            <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.1.1.0" expl="apply premises" proved="true">
+            <transf name="assert" proved="true" arg1="(forall a b c d. 0&lt;=a &lt;= b -&gt; 0&lt;=c &lt;= d -&gt; a*c &lt;= b*d)">
+             <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.1.1.0.0" expl="asserted formula" proved="true">
+             <proof prover="4"><result status="valid" time="0.05" steps="148"/></proof>
+             </goal>
+             <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.1.1.0.1" expl="apply premises" proved="true">
+             <transf name="apply" proved="true" arg1="h">
+              <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.1.1.0.1.0" expl="apply premises" proved="true">
+              <transf name="split_vc" proved="true" >
+               <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.1.1.0.1.0.0" proved="true">
+               <proof prover="4"><result status="valid" time="0.13" steps="44"/></proof>
+               </goal>
+               <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.1.1.0.1.0.1" proved="true">
+               <proof prover="6"><result status="valid" time="0.09" steps="81971"/></proof>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.1.1.0.1.1" expl="apply premises" proved="true">
+              <transf name="split_vc" proved="true" >
+               <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.1.1.0.1.1.0" proved="true">
+               <proof prover="6"><result status="valid" time="0.17" steps="85285"/></proof>
+               </goal>
+               <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.0.1.1.0.1.1.1" proved="true">
+               <proof prover="6"><result status="valid" time="0.09" steps="81978"/></proof>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="polysquare_leq_trans_sc&#39;vc.15.0.0.1.0.0.1.1" expl="apply premises" proved="true">
+         <proof prover="6"><result status="valid" time="0.09" steps="81701"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="polysquare_leq_trans_sc&#39;vc.15.0.1" expl="rewrite premises" proved="true">
+    <proof prover="6"><result status="valid" time="0.08" steps="81436"/></proof>
+    </goal>
+    <goal name="polysquare_leq_trans_sc&#39;vc.15.0.2" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="0.03" steps="44"/></proof>
+    </goal>
+    <goal name="polysquare_leq_trans_sc&#39;vc.15.0.3" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="0.03" steps="44"/></proof>
+    </goal>
+    <goal name="polysquare_leq_trans_sc&#39;vc.15.0.4" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="0.02" steps="44"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="polysquare_leq_trans_sc&#39;vc.15.1" expl="rewrite premises" proved="true">
+   <proof prover="6"><result status="valid" time="0.09" steps="81436"/></proof>
+   </goal>
+   <goal name="polysquare_leq_trans_sc&#39;vc.15.2" expl="rewrite premises" proved="true">
+   <proof prover="6"><result status="valid" time="0.09" steps="81434"/></proof>
+   </goal>
+   <goal name="polysquare_leq_trans_sc&#39;vc.15.3" expl="rewrite premises" proved="true">
+   <proof prover="6"><result status="valid" time="0.08" steps="81434"/></proof>
+   </goal>
+   <goal name="polysquare_leq_trans_sc&#39;vc.15.4" expl="rewrite premises" proved="true">
+   <proof prover="6"><result status="valid" time="0.08" steps="81434"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="polysquare_leq_trans_sc&#39;vc.16" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="81457"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="polysquare_update&#39;vc" expl="VC for polysquare_update" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="polysquare_update&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.14" steps="84898"/></proof>
+  </goal>
+  <goal name="polysquare_update&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="81752"/></proof>
+  </goal>
+  <goal name="polysquare_update&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="81755"/></proof>
+  </goal>
+  <goal name="polysquare_update&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="81758"/></proof>
+  </goal>
+  <goal name="polysquare_update&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="81758"/></proof>
+  </goal>
+  <goal name="polysquare_update&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="81762"/></proof>
+  </goal>
+  <goal name="polysquare_update&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.11" steps="81765"/></proof>
+  </goal>
+  <goal name="polysquare_update&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="81768"/></proof>
+  </goal>
+  <goal name="polysquare_update&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.10" steps="81767"/></proof>
+  </goal>
+  <goal name="polysquare_update&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="0.12" steps="1109"/></proof>
+  </goal>
+  <goal name="polysquare_update&#39;vc.10" expl="postcondition" proved="true">
+  <proof prover="6"><result status="valid" time="0.09" steps="81793"/></proof>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>

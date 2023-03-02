@@ -1,8 +1,30 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
 module Assert_equal
 
-val  predicate (==) (a b :'a)
+val   predicate (==) (a b :'a)
     ensures{result <->   (a = b)}
-     
+    
 let lemma assert_equal (a b:'a)
       requires{a = b}
       ensures{a = b}
@@ -15,45 +37,23 @@ let lemma goal_comm (a b:'a)
 
 end
 
-module False
-let lemma set_false (p:bool)
-      requires{p}
-      requires{not p}
-      ensures{false}
-  =()
-end
      
 module Constant
      
 let function p_id (a:'a) = a                                    
-let ghost function const (a: 'a) (b :'b)= a
+let ghost function const (a: 'a) (_ :'b)= a
  predicate constant_f (f: 'a -> 'b) = exists a. f = const a
 
 end
 
-module Pairs
-
-val function fir (o: ('a,'b)) :'a
-val function sec (o: ('a,'b)) :'b
-
-axiom projections: forall o: ('a,'b). o = (fir o, sec o)
-
-let lemma get_fir (a:'a) (b:'b)
-      ensures{ fir (a,b) = a}
-  =()
-  
-let lemma get_sec (a:'a) (b:'b)
-      ensures{ sec (a,b) = b}
-  =()
-
-end
-
 module P_real
-         use real.Real(* Infix *)
-use Assert_equal
+         use real.Real
+         use Assert_equal
+
 let function  (/*) (x y: real):real
                                  requires{y <> 0.0}
                                = x / y
+
 let predicate (=*) (x y : real)
   ensures{result = (x = y)}
                    = x==y
@@ -115,8 +115,7 @@ axiom positive_inv: forall x: real. 0.0 <* x -> 0.0 <* 1.0 /* x
 let lemma r_zeroLessOne ()
       ensures{0.0 <=* 1.0}
   =()
-  
-  
+    
 let lemma r_compatOrderAdd  (x y z : real)
       requires{x <=* y}
       ensures{ x +* z <=* y +* z}
@@ -145,17 +144,10 @@ let lemma inv_strict_order (a b: real)
   = assert{1.0/b = a / (a**b) = a** (1.0 / (a**b))};
     assert{1.0/a = b / (a**b) = b** (1.0 / (a**b)) }
 
-(* let lemma compat_inf_order_real (a b : real)
- *       requires{a<=*b}
- *       requires{a<>0.0}
- *       requires{b<>0.0}
- *       ensures{1.0 /*b <=* 1.0 /* a}
- *   = assert{a**a <=* b**b } *)
-
-                  end
+end
 
 module Complex
-     use export Assert_equal
+         use  Assert_equal
 
 type complex
 
@@ -171,7 +163,7 @@ val function  (+.)  complex complex : complex
 val function  ( *.)  complex complex : complex
 val function inv complex: complex
                              
-clone (* export *) algebra.Field with type t = complex,
+clone  algebra.Field with type t = complex,
 constant zero = c_zero, constant one = c_one,
                 function (-_) = (-._),
                 function inv = inv,
@@ -183,7 +175,8 @@ let function  (-.) (x y: complex)  = x +. (-. y)
                                  requires{y <> c_zero}
                                  ensures{result = x *. inv y}
 = x *. inv y
-                                 use P_real
+
+         use P_real
 
 let lemma invol_neg (a: complex)
       ensures{-. (-. a) = a }
@@ -216,7 +209,6 @@ let lemma mult_num (a b c: complex)
       requires{c <> c_zero}
       ensures{(a*. b)/. c = a *. (b /. c)}
   =()
-
   
 let lemma div_rev (a b : complex)
       requires{b <> c_zero}
@@ -245,7 +237,7 @@ let lemma dic_simpl (a b c : complex)
       requires{c <> c_zero}
       requires{b <> c_zero}
       ensures{ (a/. (c *. b)) *. b = a /. c}
-               = ()
+  = ()
                
 let lemma simpl_with_c_one (a b: complex)
   requires{a<> c_zero}
@@ -269,7 +261,6 @@ let lemma mult_eq_t_rev (a1 a2 b1 b2: complex)
       requires{b1 = b2}
       ensures{a1 *.b1 = b2 *.a2}
   =()  
-
   
 let lemma mult_comm (a b: complex)
       ensures{a *.b = b *. a}
@@ -279,12 +270,9 @@ let lemma mult_assoc (a b c: complex)
       ensures{(a*. b) *.c = a *. (b*.c)}
   =()
   
-  
 let lemma mult_abc_to_acb (a b c: complex)
       ensures{(a*. b) *.c = (a *. c) *.b}
   =()
-
-
 
 let lemma zero_mult_t (a1 a2: complex)
       requires{a1 = c_zero}
@@ -312,19 +300,16 @@ let lemma add_eq_t_rev (a1 a2 b1 b2: complex)
       requires{b1 = b2}
       ensures{a1 +.b1 = b2 +.a2}
   =()
-  
 
 let lemma substr_eq_t (a1 a2 b1 b2: complex)
       requires{a1 = a2}
       requires{b1 = b2}
       ensures{a1 -.b1 = a2 -.b2}
   =()
-
   
 val constant im: complex
 axiom im_Def: im *. im = -.c_one
 let constant ttwo: complex  = c_one +. c_one
-
                            
 val function r_to_c (i:real): complex
 axiom r_to_c_zero: r_to_c 0.0 = c_zero
@@ -343,15 +328,11 @@ axiom Real_part_add : forall i j: complex. real_part (i +. j) = real_part i +* r
 axiom Im_part_add : forall i j: complex. im_part (i +. j) = im_part i +* im_part j                               
 lemma Real_part_opposite : forall i : complex. real_part (-. i ) = -* (real_part i)                               
 lemma Im_part_opposite : forall i : complex. im_part (-.i) = -* (im_part i)                               
-
 axiom Complex_decomp : forall i: complex. i = (r_to_c (real_part i) +. (im *.r_to_c (im_part i)))
 axiom Unic_decomp : forall i : complex. forall x y : real. i = (r_to_c x +. (im *.r_to_c y)) -> x = real_part i /\ y = im_part i
 
 let     predicate real_ (x: complex)= im_part x == 0.0
 let predicate pure_im_ (x: complex)= real_part x == 0.0
-
-
-                             
                                                        
 let lemma unic_decomp (i: complex) (x y:real)
       requires{i = (r_to_c x +. (im *.r_to_c y))}
@@ -372,7 +353,6 @@ let lemma r_to_c_pure_im (x: complex)
       requires{pure_im_ x}
       ensures{x = im *. r_to_c (im_part x)}
   =()
-  
                                                        
 let lemma decomp_mult (a b: complex)
       ensures{a *. b = ((r_to_c (real_part a) *. r_to_c (real_part b)) -. (r_to_c (im_part a) *. r_to_c (im_part b)))
@@ -399,21 +379,16 @@ let lemma t_im_part_inv (x: complex)
   ensures{t_im_part (-. x) = -. (t_im_part x)}
   =()
 
-
 let lemma decomp_mult_as_reals (a b: complex)
       ensures{a *. b = ((t_real_part a) *. (t_real_part b) -.  (t_im_part a) *.  (t_im_part b))
                                                                           +. im *.  ((t_real_part a) *.  (t_im_part b) +.  (t_real_part b) *.  (t_im_part a))}
 = decomp_mult a b 
-
 
 let lemma decomp_mult_real_part (a b: complex)
       ensures{real_part (a *. b) = (real_part a) ** (real_part b) -*  (im_part a) **  (im_part b)}
   = decomp_mult a b;
     unic_decomp   (a *. b) ((real_part a) ** (real_part b) -*  (im_part a) **  (im_part b))
       ((real_part a) **  (im_part b) +* (real_part b) ** (im_part a))
-
-
-
     
 let lemma decomp_mult_im_part (a b: complex)
       ensures{im_part (a *. b) =   (real_part a) **  (im_part b)
@@ -449,7 +424,6 @@ let lemma complex_real_squared (a: complex)
       requires{real_ a}
       ensures{a*.a = t_real_part a *.  t_real_part a }
   = complex_squared a  
-
     
 let lemma decomp_div (a b: complex)
       requires{b <>c_zero}
@@ -464,17 +438,6 @@ let lemma decomp_div_real (a b: complex)
   =
   assert{a/.b = (a*. b)/.(b *.b)}
   
-
-    
-(* let lemma mult_real_real (a b: complex)
- *       requires{real_ a}
- *       requires{real_ b}
- *       ensures{a*.b = (r_to_c (real_part a) *. r_to_c (real_part b)) = r_to_c (real_part a ** real_part b)}
- *       ensures{real_part (a*.b) =  (real_part a ** real_part b)}
- *       ensures{im_part (a*.b) =  0.0}
- *   = decomp_mult a b;
- *     unic_decomp (a*.b ) (real_part a ** real_part b) 0.0 *)
-    
 let lemma complex_prod_fact (a b: complex)
   ensures{a*.b = r_to_c (real_part a) *. b +. im *.  r_to_c (im_part a) *. b }
   =()
@@ -514,7 +477,6 @@ let lemma complex_prod_fact (a b: complex)
       end
       end
         
-
 let lemma non_zero_prod (a b: complex)
       requires{a<> c_zero}
       requires{b<> c_zero}
@@ -642,8 +604,7 @@ let lemma minus_add_in (a b: complex)
 let lemma minus_add_out (a b: complex)
       ensures{ (-. a) +. (-. b) = -. (a+. b) }
   =()
-  
-  
+
 let lemma minus_eq (a b : complex)
       requires{a = b}
       ensures{-.a  = -.  b}
@@ -722,18 +683,6 @@ let lemma div_div_rev  (x y z : complex)
       ensures{ x /. (y*.z) = (x /. y) /. z}
   =()
 
-
-(* let lemma mult_real_real (a b: complex)
- *       requires{real_ a}
- *       requires{real_ b}
- *       ensures{a*.b = (r_to_c (real_part a) *. r_to_c (real_part b)) = r_to_c (real_part a ** real_part b)}
- *       ensures{real_part (a*.b) =  (real_part a ** real_part b)}
- *       ensures{im_part (a*.b) =  0.0}
- *   = decomp_mult a b;
- *     unic_decomp (a*.b ) (real_part a ** real_part b) 0.0 *)
-
-
-
 let lemma involutive_inv (a: complex)
       requires{a<> c_zero}
       ensures{c_one /. (c_one /. a) = a}
@@ -750,8 +699,6 @@ let lemma twice_half()
 let lemma half_plus_half(i: complex)
       ensures{ (i /. ttwo) +. (i /. ttwo) = i}
   =()
-
-
   
 let lemma decomp_inv_real (a : complex)
       requires{real_ a}
@@ -762,7 +709,6 @@ let lemma decomp_inv_real (a : complex)
   ensures{real_part  (c_one /. a) = 1.0 /* real_part a}
   =
 assert{c_one /.a = c_one /. t_real_part a = r_to_c (1.0 /* real_part a) }
-  
 
 let lemma mult_div_comm (x y z t: complex)
       requires{z <> c_zero}
@@ -776,10 +722,6 @@ let lemma mult_div_comm_rev (x y z t: complex)
       ensures{ (x/.z) *. (y/.t) = (x*.y) /. (z*.t)}
   = ()
 
-     
-use Assert_equal
-
-  
 let predicate (<=.)  (x y: complex): bool
 =  (real_ x && real_ y && real_part x <=* real_part y)|| x ==y
 
@@ -803,7 +745,6 @@ let lemma leq_right_real (a b : complex)
       requires{real_ b}
       ensures{real_ a}
       =()
-  
   
 let lemma inf_left_real (a b : complex)
       requires{a<. b}
@@ -838,23 +779,7 @@ let lemma leq_left_not_real_b (a b : complex)
       requires{not (real_ b)}
       ensures{a = b}
       =()
-                 
-                 
-(* let lemma leq_right_is_real (a b : complex)
- *       requires{a<=. b}
- *       ensures{real_ b}
- *       =()
- *                  
- * let lemma inf_left_is_real (a b : complex)
- *       requires{a<. b}
- *       ensures{real_ a}
- *       =()
- *                  
- * let lemma inf_right_is_real (a b : complex)
- *       requires{a<. b}
- *       ensures{real_ b}
- *       =() *)
-                 
+                                  
 clone  relations.PartialOrder with type t =complex, predicate rel = (<=.)
 clone  relations.PartialOrder as Supeq  with type t =complex, predicate rel = (>=.)
 clone  relations.PartialStrictOrder as Inf with type t =complex, predicate rel = (<.)
@@ -886,7 +811,6 @@ let lemma positive_inv_t ( x: complex)
       ensures{c_zero <. c_one /.x}
   = assert{real_ x};
   assert{0.0 <* 1.0 /* (real_part x)}
-
   
 val constant pi: complex
 ensures{r_to_c 3.0 <. result}
@@ -894,7 +818,6 @@ ensures{r_to_c 3.0 <. result}
 lemma real_pi : real_ pi
 lemma pi_sup_one : c_one <. pi
 lemma pi_sup_zero : c_zero <. pi
-
 
   let lemma compat_order_mult  (x y z : complex)
       requires{x <=. y}
@@ -939,7 +862,6 @@ lemma pi_sup_zero : c_zero <. pi
       ensures{ z +. x <=.  t +. y}
     = compat_order_add_left x y z;
       compat_order_add z t y
-
      
   let lemma compat_order_substr  (x y z : complex)
       requires{x <=. y}
@@ -964,7 +886,6 @@ lemma pi_sup_zero : c_zero <. pi
   ensures{a<=.c}
     =()
 
-
 let lemma transitive_infeq_inf (a b c : complex)
   requires{a <=. b}
   requires{b <. c}
@@ -986,7 +907,6 @@ let lemma transitive_inf (a b c : complex)
 let lemma pi_sup_ttwo()
     ensures{ ttwo <. pi}
 = transitive_inf ttwo (r_to_c 3.0) pi
-
     
 let lemma transitive_leq_inv_r (a b c : complex)
       requires{real_ a}
@@ -1017,8 +937,7 @@ let lemma transitive_leq_inv_r (a b c : complex)
       requires{c_zero <. z <.t}
       requires{c_zero <. y}
       ensures{ z *. x <. t *. y}
-    = transitive_inf (z *. x) (z*.y) (t *. y)
-    
+    = transitive_inf (z *. x) (z*.y) (t *. y)    
     
   let lemma compat_inf_add  (x y z : complex)
       requires{x <. y}
@@ -1070,8 +989,6 @@ let lemma real_inv (x: complex)
     assert{0.0 <=* real_part (z)};
     assert{0.0 <=* real_part (c_one/.z)};
     compat_order_mult (x *.z) (y*.z) (c_one /. z)
-    
-
 
   let lemma compat_order_mult_left  (x y z : complex)
       requires{x <=. y}
@@ -1081,9 +998,6 @@ let lemma real_inv (x: complex)
       requires{c_zero <=. z}
       ensures{  z *. x <=.  z *. y}
   = ()
-
-
-
   
 let lemma strict_compat_order_mult  (x y z : complex)
       requires{x <. y}
@@ -1094,7 +1008,6 @@ let lemma strict_compat_order_mult  (x y z : complex)
       ensures{ x *. z <. y *. z}
   = compat_order_mult x y z;
     assert { x *. z = y *. z -> x = y}
-
   
 let lemma strict_compat_order_mult_left  (x y z : complex)
       requires{x <. y}
@@ -1203,14 +1116,7 @@ let lemma real_substr (x y: complex)
   ensures{real_ (x -. y)}
   =()
 
-(* let lemma real_inv (x: complex)
- *       requires{real_ x}
- *       requires{x <> c_zero}
- *   ensures{real_ (c_one /.  x)}
- *   = assert{x *. (c_one /. x) = c_one};
- *     decomp_mult x (c_one /. x) *)
-
-    let lemma inv_pos (x : complex)
+let lemma inv_pos (x : complex)
       requires{real_ x}
       requires{ c_zero <. x  }
       ensures{ c_zero <. c_one /.  x }
@@ -1221,7 +1127,7 @@ let lemma lower_over_cons (a b c : complex)
   requires{c_zero <=. a}
   requires{a<=.b}
   ensures{a/.c <=. b/. c}
-    =()
+  =()
   
 let lemma eq_to_leq_t (a b : complex)
       requires{real_ a}
@@ -1272,14 +1178,11 @@ let lemma inf_minus (x y: complex)
      assert{x-.x<. y -. x};
      assert{(x-.x) -. y<. (y -. x) -. y}
 
-
  let lemma absorbing_zero (a b: complex)
       requires{a*. b = c_zero}
       ensures{(a <> c_zero) -> (b = c_zero)}
       ensures{b <> c_zero -> a = c_zero}
   =()
-  
-
 
   let lemma inf_zero_inv (z: complex)
     requires{c_zero <. z}
@@ -1289,15 +1192,12 @@ let lemma inf_minus (x y: complex)
     assert{0.0 <* real_part z};
     assert{0.0 <* 1.0 /* real_part z};
     assert{real_part (c_one /. z) = 1.0 /* real_part z }
-
   
 let lemma mult_pos (x y: complex)
   requires{c_zero<=. x}
   requires{c_zero<=. y}
   ensures{c_zero <=. x*.y}
   =()
-
-
 
   let lemma simpl_leq_mult_div  (a b c: complex)
         requires{real_ a}
@@ -1306,13 +1206,13 @@ let lemma mult_pos (x y: complex)
       ensures{a<=. (c_one /. b)*.c}
   = compat_order_mult (a*.b) c (c_one /.b)
 
-let lemma mult_leq_c_one_leq  (a b c: complex)
+let lemma mult_leq_c_one_leq  (a b : complex)
       requires{ c_zero <=. a}
       requires{ c_zero <=. b <=. c_one}
       ensures{a*. b <=.  a}
   =() 
 
-let lemma mult_leq_c_one_leq_gen  (a a' b c: complex)
+let lemma mult_leq_c_one_leq_gen  (a a' b : complex)
       requires{ c_zero <=. a}
       requires{ c_zero <=. b <=. c_one}
       requires{a=a'}
@@ -1392,15 +1292,12 @@ ensures{c_one/.b <=.c_one /.a}
 = assert{c_one/.b = a /. (a*.b) = a*. (c_one /. (a*.b))};
     assert{c_one/.a = b /. (a*.b) = b*. (c_one /. (a*.b) )};
     compat_order_mult a b (c_one /. (a*.b))
-
-
   
 let lemma compat_inv_order  (a b c : complex)
   requires{c_zero <. a <=. b}
   requires{c <=. c_one /. b}
   ensures{c <=. c_one /. a}
     =()
-
   
 let lemma leq_by_div_simpl (a b c: complex)
   requires{c_zero <=. a}
@@ -1413,7 +1310,6 @@ let lemma leq_by_div (a b c: complex)
   requires{c_zero <. b <=. c}
   ensures{a /. c <=. a /. b}
   =()
-
 
 let lemma strict_pos_div (x y: complex)
   requires{c_zero<. x}
@@ -1451,7 +1347,6 @@ let lemma subst_zero (a  : complex)
       requires{b=c_zero}
       ensures{a -. b = a}
     =()
-
 
 let lemma transitive_inf_inv_r (a b c : complex)
   requires{a <=. b}
@@ -1553,8 +1448,6 @@ let lemma infeq_inv_add_r (a b c : complex)
         requires{x <> y}
         ensures{r_to_c x <> r_to_c y}
     = assert{r_to_c (x-* y) = r_to_c x -. r_to_c y}
-    (* ;
-     *  assert{r_to_c (x-* y) <> c_zero} *)
 
   let lemma r_to_c_inf_rev (x y:real)
         requires{x <* y}
@@ -1659,8 +1552,6 @@ let lemma real_sum (x y: complex)
   ensures{real_ (x +. y)}
   =()
 
-     use set.Fset
-      
 let lemma real_diff (x y: complex)
   requires{real_ x}
   requires{real_ y}
@@ -1690,7 +1581,6 @@ let lemma pure_im_diff (x y: complex)
   requires{pure_im_ y}
   ensures{pure_im_ (x -. y)}
   =()
-  
     
 let lemma real_div (x y: complex)
       requires{real_ x}
@@ -1737,7 +1627,6 @@ let lemma decomp_mult_gen (a b: complex)
      unic_decomp (a*. b) ((real_part a ** real_part b) -* (im_part a ** im_part b))
        ((real_part a ** im_part b) +* (im_part a ** real_part b))
 
-
 let lemma inv_real (a: complex)
       requires{a <> c_zero}
       requires{real_ a}
@@ -1748,7 +1637,6 @@ let lemma inv_real (a: complex)
   assert{a *. c_one /.  a = c_one};
   decomp_mult_gen a (c_one /.  a);
   assert{im_part (c_one /.  a) = 0.0}
-
   
 let lemma div_real_real (a b: complex)
       requires{real_ a}
@@ -1757,8 +1645,6 @@ let lemma div_real_real (a b: complex)
       ensures{real_part (a/.b) =  (real_part a /* real_part b)}
   =
   mult_real_real a (c_one/.b)
-
-     
 
 let lemma zeroLessOne ()
       ensures{c_zero <=. c_one}
@@ -1849,7 +1735,6 @@ let lemma compat_inf_div  (x y z : complex)
       requires{c_zero <. z}
       ensures{ x /. z <. y /. z}
   = ()
-  
 
 let lemma positive_prod_itself  (x   : complex)
       requires{real_ x}
@@ -2030,8 +1915,6 @@ let lemma subst_itself (a1 a2 : complex)
       ensures{a1 -. a2 = c_zero}
   =()
   
-
-  
 let lemma mult_assoc_four (a b c d: complex)
       ensures{(a*. (b *.c) *.d) = (a *. b) *. (c *. d)}
   =()
@@ -2040,8 +1923,6 @@ let lemma mult_assoc_rev (a b c: complex)
       ensures{a *. (b*.c) = (a*. b) *.c}
   =()
 
-  
-
 let lemma add_assoc (a b c: complex)
       ensures{(a+. b) +.c = a +. (b+.c)}
   =()
@@ -2049,7 +1930,6 @@ let lemma add_assoc (a b c: complex)
 let lemma add_assoc_rev (a b c: complex)
       ensures{a +. (b+.c) = (a+. b) +.c}
   =()
-
   
 let lemma div_mult (a b c: complex)
       requires{c <> c_zero}
@@ -2135,7 +2015,6 @@ let lemma square_rt_eq (a b: complex)
       }
       ensures{square_rt a = square_rt b}
       =()
-
          
 lemma real_square_rt: forall x: complex. real_ x -> c_zero <=. x -> real_ (square_rt x)
 lemma pos_square_rt: forall x: complex. real_ x -> c_zero <=. x ->  (square_rt x >=. c_zero)
@@ -2151,7 +2030,6 @@ let lemma square_rt_infeq (x y: complex)
       requires{c_zero <=. x <=.y}
       ensures{square_rt x <=. square_rt y}
       =()
-      
       
 let lemma square_rt_inf (x y: complex)
       requires{c_zero <=. x <.y}
@@ -2179,13 +2057,11 @@ let lemma injective_square (x y: complex)
 let lemma square_rt_c_one()
       ensures{square_rt c_one = c_one}
       = assert{sqrt 1.0 = 1.0}
-
          
 lemma  square_rt_mult: forall t t': complex. real_ t -> c_zero <=. t ->   real_ t' -> c_zero <=. t' ->  square_rt t *.  square_rt t' =   square_rt (t*.t')
 lemma  square_rt_mult_rev: forall t t': complex. real_ t -> c_zero <=. t ->   real_ t' -> c_zero <=. t' ->   square_rt (t*.t') = square_rt t *.  square_rt t' 
   
 let function modulus (x: complex): complex
-                               (* ensures{result = r_to_c (modulus x)} *)
                                ensures{c_zero <=. result }
            = square_rt (t_real_part x *. t_real_part x +. t_im_part x *. t_im_part x)
                
@@ -2201,8 +2077,6 @@ let lemma modulus_eq (x y: complex)
 let lemma modulus_minus (x : complex)
   ensures{modulus (-.x) = modulus x}
   =()
-
-
   
   let lemma square_rt_simpl (x: complex)
         requires{c_zero <. x}
@@ -2235,7 +2109,6 @@ let lemma modulus_real_pos (x : complex)
   ensures{modulus x = x}
   =() 
 
-
 let lemma modulus_real_pos_inv (x : complex)
   requires{real_ x}
   requires{c_zero<=. x}
@@ -2262,14 +2135,6 @@ let lemma modulus_real (x : complex)
   ensures{real_ (modulus  x)}
   =() 
 
-  (* let lemma t_mult_real (a b: complex)
- *   ensures{t_real_part (a*.b) = (t_real_part a *. t_real_part b) -. (t_im_part a *. t_im_part b) }
- * = decomp_mult_real_part a b
- * 
- *   let lemma t_mult_im (a b: complex)
- *   ensures{t_im_part (a*.b) = (t_real_part a *. t_im_part b) +. (t_im_part a *. t_im_part b) }
- * = decomp_mult_real_part a b *)
-
   let lemma t_mult_real_square (a b: complex)
         ensures{t_real_part (a*.b) *. t_real_part (a*.b) = (t_real_part a *. t_real_part a) *. (t_real_part b *. t_real_part b) +.
                                                              (t_im_part a *. t_im_part a) *. (t_im_part b *. t_im_part b)
@@ -2285,7 +2150,6 @@ let lemma modulus_real (x : complex)
     = t_mult_im a b;
       triang_p (t_real_part a *. t_im_part b)  (t_im_part a *. t_real_part b);
       assert{forall a b : complex. (a*.b)*.(a*.b) = (a*.a)*.(b*.b)}
-      
 
 let lemma mult_modulus_pre (a b: complex)
       ensures{(t_real_part (a*.b) *. t_real_part (a*.b)) +. (t_im_part (a*.b) *. t_im_part (a*.b)) =  (((t_real_part a *. t_real_part a) +. (t_im_part a *. t_im_part a))
@@ -2293,8 +2157,6 @@ let lemma mult_modulus_pre (a b: complex)
   =t_mult_real_square a b;
    t_mult_im_square a b;
    assert{forall a b c d x. (a*.c +. b*.d -. x)+. (a*. d+. b*.c +. x)= (a+.b)*.(c+.d)}
-=()  
-
   
 let lemma mult_modulus (x y: complex)
 ensures{modulus (x*.y) = modulus x *. modulus y}
@@ -2342,8 +2204,6 @@ let lemma mult_modulus_real (x y: complex)
       ensures{modulus (x*.y) = modulus x *.  y}
   =mult_modulus x y;
    modulus_real_pos y
-
-
   
 let lemma mult_modulus_non_null (x y: complex)
       requires{x<>c_zero}
@@ -2351,7 +2211,7 @@ let lemma mult_modulus_non_null (x y: complex)
       ensures{modulus (x*.y) <> c_zero}
   =()
   
-let lemma modulus_to_non_null (x y: complex)
+let lemma modulus_to_non_null (x : complex)
       requires{c_zero <. modulus x}
       ensures{x <> c_zero}
   =()
@@ -2421,7 +2281,6 @@ let lemma mult_eq_inv_t (a1 a2 b1 b2: complex)
       requires{b1 = b2}
       ensures{a1 *. b1 = b2 *. a2}
   =()
-
   
 let lemma sum_frac (a1 a2 b: complex)
       requires{b<>c_zero}
@@ -2438,7 +2297,8 @@ let lemma div_pos (x y: complex)
   requires{c_zero<. y}
   ensures{c_zero <=. x/.y}
   = mult_pos x (c_one /.y)
-                                                           end
+
+end
 
                                                       
                                                       

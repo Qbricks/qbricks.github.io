@@ -1,0 +1,785 @@
+module Correct_width_sub
+         use wired_circuits.Circuit_c
+         use int.Int
+
+let lemma correct_seq_pre (d e: wired_circuit)
+      requires{correct d}
+      requires{correct e}
+      requires{width_pre d = width_pre e}
+      ensures{correct (Sequence d e)}
+  =()
+  
+let lemma correct_par_pre (d e: wired_circuit)
+      requires{correct d}
+      requires{correct e}
+      ensures{correct (Parallel d e)}
+  =()
+
+let lemma correct_cont_pre (c:wired_circuit) (co k n :int)
+      requires{0<= co < n}
+      requires{0<= k <= n - (width_pre c)}
+      requires{k <= co -> k + width_pre c <= co}
+      requires{correct c}
+      ensures{correct (Cont c co k n)}
+  = ()
+
+let lemma correct_place_pre (c:wired_circuit) (k n :int)
+      requires{0<=k}
+      requires{ width_pre c+ k <=n}
+      requires{correct c}
+      ensures{correct (Place c k n)}
+  = ()
+  
+let lemma width_seq_pre (d e: wired_circuit)
+      requires{correct d}
+      requires{correct e}
+      requires{width_pre d = width_pre e}
+      ensures{width_pre  (Sequence d e) = width_pre  d}
+  =()
+  
+let lemma width_par_pre (d e: wired_circuit)
+      requires{correct d}
+      requires{correct e}
+      ensures{width_pre  (Parallel d e) = width_pre  d + width_pre  e}
+  =()
+
+let lemma width_cont_pre (c:wired_circuit) (co k n :int)
+      requires{0<= co < n}
+      requires{0<= k <= n - (width_pre c)}
+      requires{k <= co -> k + width_pre c <= co}
+      requires{correct c}
+      ensures{width_pre  (Cont c co k n) = n}
+  = ()
+
+let lemma width_place_pre (c:wired_circuit) (k n :int)
+      requires{0<=k}
+      requires{ width_pre c+ k <=n}
+      requires{correct c}
+      ensures{width_pre  (Place c k n) = n}
+  = ()
+end     
+
+
+module Circuit_equivalence_impl
+
+         use Correct_width_sub
+         use wired_circuits.Circuit_c
+         use wired_circuits.Qbricks_prim
+         use qdata.Qreg
+         use qdata.Ket_basis
+         use qdata.Bv_to_ket
+         use matrices.Matrix
+         use matrices.Kronecker_product
+         use complex.Complex
+         use unit_circle.Angle
+         use qbricks.Circuit_semantics
+         use qbricks.Circuit_macros
+         use pps.Pps
+         use int.Int
+         use matrices.Matrix_scalar
+         use binary.Binary_Op
+         use binary.Bit_vector
+         use unwire_circuits.Pre_wire
+         use circuits_equiv.Circuit_equivalence_impl as CE
+         use circuits_equiv.To_qc
+                                                          
+predicate (<=>) (c c': wired_circuit)
+  = correct c && correct c' &&
+      (width_pre c = width_pre c') && 
+        (forall x. (is_a_ket_l x (width_pre c)) -> (is_a_ket_basis_elt x) ->
+         ((path_sem_basis (to_qc c) x) = (path_sem_basis (to_qc c') x)))
+
+let lemma to_qc_equiv (c c': wired_circuit)
+      requires{c <=> c'}
+      ensures{CE.(<=>) (to_qc c)  (to_qc c')}
+  = CE.set_equiv_circuits_basis  (to_qc c)  (to_qc c')
+
+let lemma pre_equiv (c c': wired_circuit)
+      requires{correct c}
+      requires{correct c'}
+      requires{CE.(<=>) (to_qc c)  (to_qc c')}
+      ensures{c <=> c'}
+  =()
+
+let lemma refl_circuit_equiv (c c' : wired_circuit)
+      requires{correct c}
+      requires{correct c'}
+      requires {c = c'}
+      ensures {c <=> c'}
+  = ()
+  
+let lemma sym_circuit_equiv (c c' : wired_circuit)
+      requires{correct c}
+      requires{correct c'}
+      requires {c <=> c'}
+      ensures {c' <=> c}
+  = ()
+  
+let lemma transitive_circuit_equiv (c c' c'' : wired_circuit)
+      requires{correct c}
+      requires{correct c'}
+      requires{correct c''}
+      requires {c <=> c'}
+      requires {c' <=> c''}
+      ensures {c <=> c''}
+  =
+  CE.transitive_circuit_equiv (to_qc c) (to_qc c') (to_qc c'')
+  
+let lemma sequence_assoc (c c' c'' : wired_circuit)
+      requires{correct c}
+      requires{correct c'}
+      requires{correct c''}
+      requires {width_pre c = width_pre c' = width_pre c''}
+      ensures {(Sequence (Sequence c c') c'') <=> (Sequence c (Sequence c' c''))}
+  =
+  CE.sequence_assoc (to_qc c) (to_qc c') (to_qc c'');
+  
+  
+  use binary.Bv_concat
+    use binary.Bit_vector
+    use int.Int
+    use circuits_equiv.To_qc
+  
+let lemma parallel_assoc (c c' c'' : wired_circuit)
+      requires{correct c}
+      requires{correct c'}
+      requires{correct c''}
+      requires { width_pre c = width_pre c' = width_pre c'' }
+      ensures {Parallel (Parallel c c') c'' <=> Parallel c (Parallel c' c'')}
+  =
+  assert{to_qc (Parallel c c') = (to_qc c) // (to_qc c')};
+  assert{to_qc (Parallel (Parallel c c') c'') = (to_qc c) // (to_qc c') // (to_qc c'')};
+  assert{to_qc (Parallel c' c'') = (to_qc c') // (to_qc c'')};
+  CE.parallel_assoc (to_qc c) (to_qc c') (to_qc c'');
+  assert{CE.(<=>) ((to_qc (Parallel c c')) // (to_qc c'')) ((to_qc  c) // (to_qc (Parallel c' c'')))};
+  assert{CE.(<=>) (to_qc (Parallel (Parallel c c') c'')) (to_qc (Parallel c (Parallel c' c'')))};
+  assert{CE.(<=>) (to_qc (Parallel c (Parallel c' c''))) ((to_qc c) // (to_qc c') // (to_qc c''))}
+  
+let lemma sequence_equiv (c1 c2 c3 c4 : wired_circuit)
+      requires{correct c1}
+      requires{correct c2}
+      requires{correct c3}
+      requires{correct c4}
+      requires { c1 <=> c2 }
+      requires { c3 <=> c4 }
+      requires { (width_pre c1) = (width_pre c3) }
+      ensures { Sequence c1 c3 <=> Sequence c2 c4 }
+  =
+  assert{to_qc (Sequence c1 c3) = (to_qc c1) -- (to_qc c3)};
+  assert{to_qc (Sequence c2 c4) = (to_qc c2) -- (to_qc c4)};
+  CE.sequence_equiv (to_qc c1) (to_qc c2) (to_qc c3) (to_qc c4)
+  
+let lemma parallel_equiv (c1 c2 c3 c4 : wired_circuit)
+      requires{correct c1}
+      requires{correct c2}
+      requires{correct c3}
+      requires{correct c4}
+      requires { c1 <=> c2 }
+      requires { c3 <=> c4 }
+      ensures { Parallel c1 c3 <=> Parallel c2 c4 }
+  =
+  assert{Parallel c1 c3 = pre ((to_qc c1) // (to_qc c3))};
+  assert{Parallel c2 c4 = pre ((to_qc c2) // (to_qc c4))};
+  CE.parallel_equiv (to_qc c1) (to_qc c2) (to_qc c3) (to_qc c4)
+
+let lemma place_equiv (c c' : wired_circuit) (k n k' n' : int)
+      requires{correct c}
+      requires{correct c'}
+      requires { 0 <= k }
+      requires { (width_pre c) + k <= n }
+      requires { c <=> c' }
+      requires { k = k' }
+      requires { n = n' }
+      ensures { Place c k n <=> Place c' k' n' }
+  =
+  assert{Place c k n = pre (place (to_qc c) k n)};
+  assert{Place c' k' n' = pre (place (to_qc c') k' n')};
+  CE.place_equiv (to_qc c) (to_qc c') k n k' n'
+
+let lemma cont_equiv (c c' : wired_circuit) (co k n co' k' n' : int)
+      requires{correct c}
+      requires{correct c'}
+      requires { 0 <= co < n }
+      requires { 0 <= k <= n - (width_pre c) }
+      requires { k <= co -> k + (width_pre c) <= co }
+      requires { c <=> c' }
+      requires { co = co' }
+      requires { k = k' }
+      requires { n = n' }
+      ensures { Cont c co k n <=> Cont c' co' k' n' }
+  =
+  assert{Cont c co k n = pre (cont (to_qc c) co k n)};
+  assert{Cont c' co' k' n' = pre (cont (to_qc c') co' k' n')};
+  CE.cont_equiv (to_qc c) (to_qc c') co k n co' k' n'
+
+let function remove_parallel (c c' : wired_circuit)
+               requires{correct c}
+               requires{correct c'}
+               ensures{CE.(<=>) (to_qc result) (CE.remove_parallel (to_qc c) (to_qc c'))}
+               ensures { result <=> Parallel c c' }
+               ensures{correct result}
+  = 
+  assert{Place c 0 ((width_pre c) + (width_pre c')) = pre (place (to_qc c) 0 ((width_pre c) + (width_pre c')))};
+  assert{Sequence (Place c 0 ((width_pre c) + (width_pre c'))) (Place c' (width_pre c) ((width_pre c) + (width_pre c')))
+         = pre ((place (to_qc c) 0 ((width_pre c) + (width_pre c'))) -- (place (to_qc c') (width_pre c) ((width_pre c) + (width_pre c'))))};
+  Sequence (Place c 0 ((width_pre c) + (width_pre c'))) (Place c' (width_pre c) ((width_pre c) + (width_pre c')))
+
+    use p_set.IndexestoSet
+    use functions.MapInjection
+  
+let lemma par_seq_commut (a b c d :wired_circuit) 
+      requires{correct a}
+      requires{correct b}
+      requires{correct c}
+      requires{correct d}
+      requires{width_pre a = width_pre c}
+      requires{width_pre b = width_pre d}
+      ensures{Sequence (Parallel a b) (Parallel c d) <=> Parallel (Sequence a c) (Sequence b d) }
+  =
+  CE.par_seq_commut (to_qc a) (to_qc b) (to_qc c) (to_qc d)
+end
+
+module  Wiring_equiv
+
+          use Correct_width_sub
+          use Circuit_equivalence_impl
+          use circuits_equiv.Wiring_equiv as WE
+                                               use wired_circuits.Circuit_c
+                                               use wired_circuits.Qbricks_prim
+                                               use qdata.Qreg
+                                               use qdata.Ket_basis
+                                               use qdata.Bv_to_ket
+                                               use matrices.Matrix
+                                               use matrices.Kronecker_product
+                                               use complex.Complex
+                                               use unit_circle.Angle
+                                               use qbricks.Circuit_semantics
+                                               use qbricks.Circuit_macros
+                                               use pps.Pps
+                                               use int.Int
+                                               use matrices.Matrix_scalar
+
+let lemma place_place (c:wired_circuit) (k k' n n': int) 
+      requires{correct c}
+      requires{0 <= k}
+      requires{ width_pre c + k <=n}
+      requires{0 <= k'}
+      requires{ n + k' <= n'}
+      ensures{Place (Place c k n) k' n' <=> Place c (k + k') n'}
+  =()
+
+let lemma place_cont (c:wired_circuit) (co k k' n n': int) 
+      requires{correct c}
+      requires{0<=k}
+      requires{0<= co <n}
+      requires{ width_pre c+ k <=n}
+      requires{0<=k'}
+      requires{ n+ k' <=n'}
+      requires{k <= co -> k + width_pre c <= co}
+      ensures{Place (Cont c co k n) k' n' <=>  Cont c (co + k')  (k+k') n'}
+  = ()
+
+let lemma cont_place (c:wired_circuit) (co k k' n n': int) 
+      requires{correct c}
+      requires{0<=k}
+      requires{width_pre c + k<=n}
+      requires{0<= co <n'}
+      requires{0<=k'}
+      requires{ n+ k' <=n'}
+      requires{k' <= co -> k' + n <= co}
+      ensures{Cont  (Place c  k n) co  k' n' <=> Cont c co (k + k') n'}
+  =()
+
+let lemma cont_sequence_comm (co k n : int) (c d : wired_circuit)
+      requires{correct c}
+      requires{correct d}
+      requires{0<= k}
+      requires{width_pre c + k<=n}
+      requires{k <= co -> k + width_pre c <= co}
+      requires{width_pre c = width_pre d}
+      requires{0 <= co < n}
+      ensures{Cont (Sequence c d) co k n <=> Sequence (Cont c co k n) (Cont d co k n) }
+  = WE.cont_sequence_comm co k n (to_qc c) (to_qc d)
+  
+let lemma cont_sequence (co k n : int) (c d : wired_circuit)
+      requires{correct c}
+      requires{correct d}
+      requires{0<= k}
+      requires{width_pre c + k<=n}
+      requires{k <= co -> k + n <= co}
+      requires{width_pre c = width_pre d}
+      requires{0<= co <n}
+      ensures{Sequence (Cont c co k n) (Cont d co k n) <=> Cont (Sequence c d) co k n}
+  = WE.cont_sequence co k n (to_qc c) (to_qc d)
+  
+let lemma place_sequence_comm (k n : int) (c d : wired_circuit)
+      requires{correct c}
+      requires{correct d}
+      requires{0<= k}
+      requires{width_pre c + k<=n}
+      requires{width_pre c = width_pre d}
+      ensures{Place (Sequence c d) k n <=> Sequence (Place c k n) (Place d k n) }
+  = WE.place_sequence_comm  k n (to_qc c) (to_qc d)
+  
+let lemma place_sequence (k n : int) (c d : wired_circuit)
+      requires{correct c}
+      requires{correct d}
+      requires{0<= k}
+      requires{width_pre c + k<=n}
+      requires{width_pre c = width_pre d}
+      ensures{Sequence (Place c  k n) (Place d  k n) <=> Place (Sequence c d)  k n}
+  = WE.place_sequence  k n (to_qc c) (to_qc d)
+  
+end
+     
+module  Gate_decomp
+
+          use Correct_width_sub
+          use Circuit_equivalence_impl
+          use circuits_equiv.Gate_decomp as GD
+          use circuits_equiv.Gate_outcomes as GO
+          use wired_circuits.Circuit_c
+          use wired_circuits.Qbricks_prim
+          use qdata.Qreg
+          use qdata.Ket_basis
+          use qdata.Bv_to_ket
+          use matrices.Matrix
+          use matrices.Kronecker_product
+          use complex.Complex
+          use unit_circle.Angle
+          use qbricks.Circuit_semantics
+          use qbricks.Circuit_macros
+          use pps.Pps
+          use int.Int
+          use matrices.Matrix_scalar
+          use arit.Incr_abs
+          use remarkable_fragments.Flat_circuits
+          use remarkable_fragments.Diag_circuits
+          use binary.Binary_Op
+          use Wiring_equiv
+      
+let function rewrite_cnot  (co t n : int)
+               requires{0<= t<n}
+               requires{0<=co<n}
+               requires{t <> co}
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Cnot co t n}
+  = pre (GD.rewrite_cnot co t n)
+  
+let function rz_not (k:int)
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Rz (-k)}
+  = pre (GD.rz_not k)
+
+let function ry_not (k:int)
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Ry (-k)}
+  = pre (GD.ry_not k)
+  
+let function rewrite_rz (k:int)
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Rz k}
+  = pre (GD.rewrite_rz k)
+
+let function rewrite_rzp (k:int)
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Rzp k}
+  = pre (GD.rewrite_rzp k)
+  
+let function rewrite_rx (k:int)
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Rx k}
+  = pre (GD.rewrite_rx k)
+  
+let function rewrite_ry (k:int)
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Ry k}
+  =pre (GD.rewrite_ry k)
+  
+let function rewrite_ry_with_z  (k:int)
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Ry k}
+  = pre (GD.rewrite_ry_with_z k)
+  
+let function rewrite_s()
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> S}
+  = pre (GD.rewrite_s())
+  
+let function rewrite_t()
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> T}
+  = pre (GD.rewrite_t())
+  
+let function rewrite_zz()
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Z}
+  = pre (GD.rewrite_zz())
+  
+let function rewrite_xx()
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> X}
+  = pre (GD.rewrite_xx())
+  
+let function rewrite_yy()
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Y}
+  = pre (GD.rewrite_yy())
+  
+let function rewrite_hadamard()
+               ensures{ancillas_pre result = 0}
+               ensures{result  <=> Hadamard}
+  = pre (GD.rewrite_hadamard())
+  
+let function place_hadamard_with_ry (t n:int)
+               requires{0<= t < n}
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Place Hadamard t n}
+  = pre (GD.place_hadamard_with_ry t n)
+  
+let function cont_hadamard (co t n:int)
+               requires{0<= co < n}
+               requires{0<= t < n}
+               requires{co<>t}
+               ensures{width_pre result = n}
+               ensures{correct result}
+               ensures{ancillas_pre result = 0}
+               ensures{result = Sequence( Sequence (Place (Ry 3) t n) (Cnot co  t n))  (Place (Ry (-3)) t n)  }
+               ensures{result <=> Cont Hadamard co t n}
+  = pre (GD.cont_hadamard co t n)
+  
+let function cont_ry (k co t n:int)
+               requires{0<= co < n}
+               requires{0<= t < n}
+               requires{co<>t}
+               ensures{width_pre result = n}
+               ensures{correct result}
+               ensures{ancillas_pre result = 0}
+               ensures{result = Sequence( Sequence( Sequence( Place (Ry  (incr_abs k)) t n) (Cnot co t n)) (Place (Ry (-(incr_abs k))) t n)) (Cnot co t n)}
+               ensures{result <=> Cont (Ry k) co t n}
+  = pre (GD.cont_ry k co t n)
+  
+let function cont_rz (k co t n:int)
+               requires{0<= t<n}
+               requires{0<= co<n}
+               requires{t <>  co}
+               ensures{correct result}
+               ensures{result <=> Cont (Rz k) co t n}
+               ensures{ancillas_pre result = 0}
+               ensures{width_pre result = n}
+               ensures{result = Sequence(Sequence(Sequence(Place(Rz (incr_abs k)) t n) (Cnot co t n))(Place (Rz (- incr_abs k)) t n))
+                                  (Cnot co t n)}
+  = pre (GD.cont_rz k co t n)
+
+  
+let function cont_phase (k co t n:int)
+               requires{0<= t<n}
+               requires{0<= co<n}
+               requires{t <>  co}
+               ensures{correct result}
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Cont (Phase k) co t n}
+               ensures{width_pre result = n}
+               ensures{result = Place (Rzp k) co n}
+  = pre (GD.cont_phase k co t n)
+
+let function cont_rzp (k co t n : int)
+               requires{0 <= co < n}
+               requires{0 <= t /\ t < n}
+               requires{t <= co -> t + 1 <= co}
+               ensures{correct result}
+               ensures{ancillas_pre result = 0}
+               ensures{width_pre result = n}
+               ensures{result <=> Cont (Rzp k) co t n}
+               ensures{result = Sequence  (cont_phase (incr_abs k) co t n) (cont_rz k co t n)}
+  = pre (GD.cont_rzp k co t n)
+  
+let function cont_xor_rz (k co1 co2 t n:int)
+               requires{0<=co1<n}
+               requires{0<=co2<n}
+               requires{0<=t<n}
+               requires{co1<>co2}
+               requires{co1<>t}
+               requires{t<>co2}
+               ensures{correct result}
+               ensures{ancillas_pre result = 0}
+               ensures{width_pre result = n}
+               ensures{result =    (Sequence (Sequence ( (Cnot co1 co2 n)) ( (cont_rzp k co2 t n))) ((Cnot co1 co2 n)))}
+  =
+  pre (GD.cont_xor_rz k co1 co2 t n)
+  
+let function cont_rx (k co t n : int)
+               requires{0 <= co < n}
+               requires{0 <= t /\ t <= n - 1}
+               requires{t <= co -> t + 1 <= co}
+               ensures{width_pre result = n}
+               ensures{correct result}
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Cont (Rx k) co t n}
+               ensures{result = Sequence(Sequence(cont_hadamard co t n) (cont_rz k co t n ))
+                                  (cont_hadamard co t n)}
+  =      pre (GD.cont_rx k co t n)
+
+           use remarkable_fragments.Flat_mute_circuits
+       
+let function swap_decomp (t1 t2 n : int) : wired_circuit
+                                             requires{0 <= t1 < n}
+                                             requires{0 <= t2 < n}
+                                             requires{t1 <> t2}
+                                             ensures{width_pre result = n}
+                                             ensures{correct result}
+                                             ensures{ancillas_pre result = 0}
+                                             ensures{result <=> Swap t1 t2 n}
+                                             ensures{result =  Sequence (Sequence (Cnot t1 t2 n)  (Cnot t2 t1 n))  (Cnot t1 t2 n)}
+  =pre (GD.swap_decomp t1 t2 n)
+     
+     use p_int.P_minmax
+  
+let function ccz (t1 t2 t3 n:int)
+               requires{0<=t1<n}
+               requires{0<=t2<n}
+               requires{0<=t3<n}
+               requires{t1<>t2}
+               requires{t1<>t3}
+               requires{t3<>t2}
+               ensures{correct result}
+               ensures{ancillas_pre result = 0}
+               ensures{width_pre result = n}
+               ensures{result =   Sequence (Sequence  (cont_rzp 2 t1 t3 n)  (cont_rzp 2 t2 t3 n))  (cont_xor_rz (-2) t1 t2  t3 n)}
+  =pre (GD.ccz t1 t2 t3 n)
+
+     use binary.Bit_vector
+  
+let function toffoli_decomp (c1 c2 t n:int)
+               requires{0<=c1<n}
+               requires{0<=c2<n}
+               requires{0<=t<n}
+               requires{c1<>c2}
+               requires{c1<>t}
+               requires{t<>c2}
+               ensures{correct result}
+               ensures{width_pre result = n}
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Toffoli c1 c2 t n}
+               ensures{correct result}
+               ensures{result = Sequence(Sequence  (Place Hadamard t n)  (ccz c1 c2 t n)) (Place Hadamard t n)}
+  =  pre (GD.toffoli_decomp c1 c2 t n)
+
+let function fredkin_decomp (c t1 t2 n:int)
+               requires{0<=t1<n}
+               requires{0<=t2<n}
+               requires{0<=c<n}
+               requires{t1<>t2}
+               requires{t1<>c}
+               requires{c<>t2}
+               ensures{correct result}
+               ensures{width_pre result = n}
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Fredkin c t1 t2 n}
+               ensures{correct result}
+               ensures{result = Sequence (Sequence   (Cnot t2 t1 n)  (Toffoli c t1 t2 n)) (Cnot t2 t1 n)}
+  =  pre (GD.fredkin_decomp c t1 t2 n)
+
+let function fredkin_decomp_toffoli (c t1 t2 n:int)
+               requires{0<=t1<n}
+               requires{0<=t2<n}
+               requires{0<=c<n}
+               requires{t1<>t2}
+               requires{t1<>c}
+               requires{c<>t2}
+               ensures{width_pre result = n}
+               ensures{correct result}
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Fredkin c t1 t2 n}
+               ensures{result =  Sequence(Sequence(Cnot t2 t1 n)  (toffoli_decomp c t1 t2 n)) (Cnot t2 t1 n)}
+  =  pre (GD. fredkin_decomp_toffoli c t1 t2 n)
+
+let lemma unbricks_fredkin ()
+      ensures{Bricks_Fredkin <=> Fredkin 0 1 2 3}
+  =   ()
+
+let lemma unbricks_toffoli ()
+      ensures{Bricks_Toffoli <=> Toffoli 0 1 2 3}
+  =   ()
+
+let lemma unbricks_swap ()
+      ensures{Bricks_Swap <=> Swap 0 1 2 }
+  =  
+  ()
+
+let lemma unbricks_cnot ()
+      ensures{Bricks_Cnot <=> Cnot 0 1 2 }
+  =  
+  ()
+  
+let function fredkin_as_cont_swap (c ta1 ta2 k n1 n2:int)
+               requires{k<=ta1<k+n1}
+               requires{k<=ta2<k+n1}
+               requires{ta1<>ta2}
+               requires{k+n1<= n2}
+               requires{0<=k}
+               requires{k<= c-> k + n1<=c}
+               requires{0<= c < n2}
+               ensures{width_pre result = n2}
+               ensures{correct result}
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Fredkin c ta1 ta2 n2}
+               ensures{result = Cont (Swap (ta1-k) (ta2 - k) n1) c k n2}
+  = pre (GD.fredkin_as_cont_swap c ta1 ta2 k n1 n2)
+  
+let function toffoli_as_cont_cnot (c ta1 ta2 k n1 n2:int)
+               requires{k<=ta1<k+n1}
+               requires{k<=ta2<k+n1}
+               requires{ta1<>ta2}
+               requires{k+n1<= n2}
+               requires{0<=k}
+               requires{k<= c-> k + n1<=c}
+               requires{0<= c < n2}
+               ensures{width_pre result = n2}
+               ensures{correct result}
+               ensures{ancillas_pre result = 0}
+               ensures{result <=> Toffoli c ta1 ta2 n2}
+               ensures{result = Cont (Cnot (ta1-k) (ta2 - k) n1) c k n2}
+  = pre (GD.toffoli_as_cont_cnot c ta1 ta2 k n1 n2)
+  
+end
+
+
+module Neutral_circuit
+
+         use wired_circuits.Circuit_c
+         use wired_circuits.Qbricks_prim
+         use export complex.Complex
+         use export int.Int
+         use pairs.Pairs
+         use binary.Bit_vector_decomp
+         use int.EuclideanDivision
+         use functions.Shift
+         use binary.Binary_Op
+         use export complex_expo.Complex_Exponentiation
+         use  int_expo.Int_Exponentiation
+         use  binary.Bit_vector
+         use  export qdata.Bv_to_ket
+         use  export qdata.Ket_basis
+         use  export qdata.Kronecker_Qbit
+         use  matrices.Matrix
+         use pps.Pps         
+         use export unit_circle.Angle
+         use binary.Bv_concat       
+         use pps.Mats_for_sem
+         use  matrices.Matrix_product
+         use  export matrices.Kronecker_product
+         use  qdata.Qreg
+         use qbricks.Circuit_macros
+         use Circuit_equivalence_impl
+         use circuits_equiv.Neutral_circuit as NC
+     
+let ghost predicate neutral_circ (c:wired_circuit) 
+      requires{correct c}
+  = c <=> pre (m_skip (width_pre c))
+
+let lemma pre_neutral_circ  ( c:wired_circuit)
+      requires{correct c}
+      requires{NC.neutral_circ (to_qc c)}
+      ensures{neutral_circ c}
+  =()
+
+let lemma to_qc_neutral_circ  ( c:circuit)
+      requires{neutral_circ (pre c)}
+      ensures{NC.neutral_circ c}
+  =()
+
+let lemma cont_neutral(co k n : int) (c : wired_circuit)
+      requires{correct c}
+      requires{0<= k}
+      requires{width_pre c + k<=n}
+      requires{k <= co -> k + (width_pre c) <= co}
+      requires{neutral_circ c}
+      requires{0<= co <n}
+      ensures{neutral_circ (Cont c co k n)}
+  = ()
+
+let lemma neutral_equiv (c1 c2 : wired_circuit)
+      requires{correct c1}
+      requires{correct c2}
+      requires{neutral_circ c1}
+      requires{neutral_circ c2}
+      requires{width_pre c1 = width_pre c2}
+      ensures{c1 <=> c2}
+  =()
+  
+let lemma neutral_skip ()
+      ensures{neutral_circ Skip}
+  =()
+  
+let function cont_skip_to_place (co ta n: int): wired_circuit
+                                                  requires{0 <= ta < n}
+                                                  requires{0 <= co < n}
+                                                  requires{co <> ta}
+                                                  ensures{result = Place Skip ta n}
+                                                  ensures{result <=> Cont Skip co ta n}
+  = pre (NC.cont_skip_to_place co ta n)
+
+let lemma place_neutral (k n : int) (c : wired_circuit)
+      requires{correct c}
+      requires{0 <= k}
+      requires{width_pre c + k <= n}
+      requires{neutral_circ c}
+      ensures{neutral_circ (Place c  k n)}
+  = NC.place_neutral k n (to_qc c)
+  
+let lemma neutral_seq_left (c d :wired_circuit)
+      requires{correct c}
+      requires{correct d}
+      requires{width_pre c = width_pre d}
+      requires{neutral_circ c}
+      ensures{Sequence c d <=> d}
+  = NC.neutral_seq_left (to_qc c) (to_qc d)
+
+let lemma neutral_seq_right (c d :wired_circuit)
+      requires{correct c}
+      requires{correct d}
+      requires{width_pre c = width_pre d}
+      requires{neutral_circ c}
+      ensures{Sequence d c <=> d}
+  = NC.neutral_seq_right (to_qc c) (to_qc d)
+
+let lemma neutral_seq_had ()
+      ensures{neutral_circ (Sequence Hadamard Hadamard)}
+  = NC.neutral_seq_had
+
+let lemma neutral_seq_cnot (co t n : int)
+      requires{0<= t<n}
+      requires{0<=co<n}
+      requires{t <> co}
+      ensures{neutral_circ (Sequence (Cnot co t n) (Cnot co t n))}
+  = NC.neutral_seq_cnot co t n
+  
+let lemma neutral_seq_rx (k:int)
+      ensures{neutral_circ (Sequence (Rx k) (Rx (-k)))}
+  = NC.neutral_seq_rx k
+  
+let lemma neutral_seq_rx_minus (k:int)
+      ensures{neutral_circ (Sequence (Rx (-k)) (Rx k))}
+  = NC.neutral_seq_rx_minus
+  
+let lemma neutral_seq_ry (k:int)
+      ensures{neutral_circ (Sequence (Ry k) (Ry (-k)))}
+  = NC.neutral_seq_ry k
+  
+let lemma neutral_seq_ry_minus (k:int)
+      ensures{neutral_circ (Sequence (Ry (-k)) (Ry k))}
+  = NC.neutral_seq_ry_minus k
+  
+let lemma neutral_seq_rz (k:int)
+      ensures{neutral_circ (Sequence (Rz k) (Rz (-k)))}
+  = NC.neutral_seq_rz k
+  
+let lemma neutral_seq_rz_minus (k:int)
+      ensures{neutral_circ (Sequence (Rz (-k)) (Rz k))}
+  = NC.neutral_seq_rz_minus k
+end
+
+
+
+     

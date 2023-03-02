@@ -1,11 +1,28 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
 module Simpl_op
          use complex.Complex
          use complex.P_real
- use set.FsetComprehension
-         use  fsum.Int_iter
-         use  set.Fset
-         (* use export Base_type *)
-         use int.Int
 
 let lemma add_im_re (i j:complex)
   ensures{i +. j = t_real_part i +. t_real_part j +. im *.(t_im_part i +. t_im_part j)}
@@ -44,10 +61,9 @@ let lemma mult_distr_minus (a b c:complex)
   ensures{a *. (b -.c) = a*. b -. a*. c}
   =()
 
-let lemma minus_out (a b c:complex)
+let lemma minus_out (a b :complex)
   ensures{-.a *. b = -. (a*. b) }
   =()
-
 
 let lemma mult_distr_add_r_rev (a b c:complex)
   ensures{a*. b+. a*. c = a *. (b+.c)}
@@ -56,8 +72,6 @@ let lemma mult_distr_add_r_rev (a b c:complex)
 let lemma mult_distr_minus_rev (a b c:complex)
   ensures{a*. b -. a*. c = a *. (b -.c) }
   =()
-
-
   
 let lemma div_distr_add (a b c:complex)
       requires{a <> c_zero}
@@ -69,7 +83,6 @@ let lemma div_distr_minus (a b c:complex)
       ensures{ (b-.c) /.a = b /. a -.  c /. a}
   =()
   
-
 let lemma div_distr_add_rev (a b c:complex)
       requires{a <> c_zero}
       ensures{ b /. a+.  c /. a = (b+.c) /.a}
@@ -99,7 +112,6 @@ let lemma mult_distr_minus_ll (a b c:complex)
 let lemma mult_distr_minus_ri (a b c:complex)
   ensures{ (b -.c) *. a = a*. b -. a*. c}
   =()
-
   
 let lemma minus_distr_op (a b c:complex)
   ensures{a -. (b +.c) = a -. b -.  c}
@@ -117,7 +129,7 @@ let lemma assoc_right_mult (a b c:complex)
   ensures{a *. (b*.c)   = a *. b*.c}
   =()
   
-let lemma minus_elim (a b c:complex)
+let lemma minus_elim (a b :complex)
   ensures{a -. b = a +. (-.b)}
   =()
 
@@ -134,14 +146,11 @@ let lemma minus_distr_elim (a b c:complex)
 let lemma plus_minus_distr_elim (a b c:complex)
   ensures{a +. (-. (b +.c)) = a +. (-. b)  +. (-.  c)}
   =()
-  
 
 let lemma def_by_minus (x y z:complex)
     requires{x= y-.z}
     ensures{y= x+.z}
   =()
-
-
   
 let lemma switch (a b c:complex)
   ensures{a +. b +. c = a +. c+.b}
@@ -194,7 +203,6 @@ let lemma meet_b_d_m (a b c d:complex)
 let lemma meet_c_d_m (a b c d:complex)
   ensures{a +. b +. c +. d= c +. d+.a +. b}
   =()
-
 
 let lemma t_real_part_add (a b:complex)
       ensures{t_real_part (a+.b) = t_real_part a +. t_real_part b}
@@ -250,25 +258,22 @@ end
 
 
 module Base_type
-         use Simpl_op
          use  int.Int
-         use export complex.Complex
+         use  complex.Complex
          use  fsum.Iterations
          use  fsum.Set_iter
-         use  set.FsetComprehension
          use  fsum.Int_iter
-         use  set.Fset
          use  p_set.Fset_comp
          use  p_set.IndexestoSet
-         clone  fsum.Fset_iter_Pos
-         use  ref.Ref
+         use  fsum.Fset_iter_Pos
          use  functions.MapInjection
-         use  complex.Pairs
+         use pairs.Pairs
+         use Simpl_op
      
 let function couple (f: 'a -> 'b -> 'im) (o :('a,'b)):  'im
   =  let (a,b) = o in f a b
 
-                        lemma null_product: forall a b:complex. a*. b = c_zero ->
+lemma null_product: forall a b:complex. a*. b = c_zero ->
                                a = c_zero \/ b = c_zero
 
 let lemma couple_value (f: 'a -> 'b -> 'im) (o :('a,'b))
@@ -288,7 +293,7 @@ let lemma neutral_c_zero  ()
 let  function sum (s: set 'a) (t : 'a -> complex):complex
   = iterate (+.) s t
 
-      predicate eq_t (a a' :complex)= a = a'
+predicate eq_t (a a' :complex)= a = a'
 
 let lemma sum_empty  (s:set 'a) (t : 'a -> complex)
       requires{is_empty s}
@@ -297,7 +302,6 @@ let lemma sum_empty  (s:set 'a) (t : 'a -> complex)
   
 let lemma sum_one   (s:set 'a) (t : 'a -> complex)
       requires{cardinal  s = 1}
-      (* requires{iterable op} *)
       ensures{sum s t = t (choose s)}
   = iterate_one (+.) s t
 
@@ -312,7 +316,6 @@ let   lemma sum_plus_one (s: set 'b)(f: 'b -> complex)
   = sum_add (remove (choose s)s) f (choose s)
 
 let rec  lemma sum_partition  (s s': set 'b)(f: 'b -> complex)
-        (* requires{cardinal s >1} *)
         requires{forall e. mem e s -> not (mem e s')}
         ensures{sum (union s s') f  = sum s f +. sum s' f}
        variant{cardinal s'}
@@ -327,8 +330,6 @@ let rec  lemma sum_partition  (s s': set 'b)(f: 'b -> complex)
         sum_add s f (choose s');
       end
 
-
-
 let rec lemma sum_real (s: set 'a) (f: 'a -> complex)
   requires{forall a. mem a s -> real_ (f a)}
   ensures{real_ (sum s f)}
@@ -341,7 +342,6 @@ begin
     sum_add  (remove (choose s) s) f  (choose s);
     real_sum (f (choose s)) (sum (remove (choose s) s) f)
 end
-
   
 let   lemma map_sum_eq (s: set 'b)(f: 'b -> 'a)(t: 'a -> complex)
         requires{p_injective f s}
@@ -391,8 +391,6 @@ let lemma sum_from_cartesian_product  (s1: set 'a)(s2: set 'b)(f : 'a -> 'b -> c
   
 let  function ind_sum  (f :int -> complex) (i:int) (j:int) 
   = int_iterate ( +.) f i j
-
-
   
 let lemma ind_sum_to_int_iterate  (f :int -> complex) (i:int) (j:int) 
       ensures{ind_sum f i j  = int_iterate ( +.) f i j}
@@ -508,8 +506,6 @@ let lemma ind_sum_to_sum  (f :int -> complex) (i:int) (j:int)
       ensures{ind_sum f i j = sum (to_fset  i j) f}
   = () 
   
-  
-  
 let   lemma map_ind_sum_eq (i j k l:int)(f: int -> int)(t: int -> complex)
         requires{p_bijective f (to_fset i j) (to_fset k l )}
         ensures{ind_sum  t k l  = ind_sum  (fun b -> t (f b)) i j}
@@ -544,25 +540,6 @@ let rec lemma sum_scal_right(f: 'a-> complex)  (s:set 'a) (c:complex)
         sum_add (remove (choose s)s)  (fun x ->  (f x) *. c) (choose s); 
         sum_scal_right f (remove (choose s)s)  c;
       end
-
-(* let rec lemma sum_scal(f: 'a-> complex)  (s:set 'a) (c:complex)
- *           ensures{sum s (fun x -> c*. (f x)) = c *. (sum s f)}
- *           variant{cardinal s}
- *   = if (is_empty s) then
- *       begin
- *         sum_empty s f;
- *         sum_empty s (fun x -> c*. (f x));
- *       end
- *     else
- *       begin
- *         sum_add (remove (choose s)s)  f (choose s) ;
- *         sum_add (remove (choose s)s)  (fun x -> c*. (f x)) (choose s); 
- *         sum_scal f (remove (choose s)s)  c;
- *       end *)
-
-(* let lemma sum_scal_right (f: 'a-> complex)  (s:set 'a) (c:complex)
- *           ensures{sum s (fun x ->  (f x) *. c) =  (sum s f) *. c}
- *   = sum_scal f s c *)
   
 let lemma sum_scal_rev_right (f: 'a-> complex)  (s:set 'a) (c:complex)
           ensures{ (sum s f) *. c = sum s (fun x ->  (f x) *.c)  }
@@ -657,6 +634,8 @@ let   lemma map_sum_eq_nonnull (s: set 'a)(f: 'a -> 'a)(t: 'a -> complex)
   assert{sum  ( map f (non_c_zero s (fun b -> t (f b)))) t  = sum (non_c_zero s (fun b -> t (f b))) (fun b -> t (f b))};
   set_equal (map f (non_c_zero s (fun b -> t  (f  b)))) (non_c_zero (map  f s) t);
   non_null_map s f t
+
+    use p_set.Card_one_set
   
 let lemma sum_null_but_one  (s: set 'a) (t:  'a -> complex)
       requires{cardinal (non_c_zero  s t) =1}
@@ -682,7 +661,6 @@ let rec lemma sum_null_forall  (s: set 'a) (t:  'a -> complex)
         sum_add (remove (choose s) s) t (choose s) ;
         sum_null_forall (remove (choose s) s) t;
         end
-
   
 let lemma ind_sum_null   (t:  int -> complex) (i j:int)
       requires{forall k. i<= k < j -> t k  = c_zero}
@@ -714,8 +692,6 @@ let lemma sum_null_but_maybe_two_elt   (t:  'a -> complex) (s:set 'a) (elt elt':
       ensures{sum s  t = t elt +. t elt'}
   = sum_add (remove elt s) t elt;
     sum_null_but_maybe_one_elt t (remove elt  s) elt'
-
-
   
 let lemma ind_sum_null_but_maybe_one_elt   (t:  int -> complex) (i j ind:int)
       requires{i<= ind <j}
@@ -745,24 +721,6 @@ let lemma ind_sum_map_filter (n n':int) (g: int->int) (f: int-> complex) (p: int
     set_equal (my_filter (to_fset 0 n) p)  (map g (to_fset 0 n'));
     sum_null  (my_filter (to_fset 0 n) (fun x -> not p x)) f;
     map_sum_eq (to_fset 0 n') g f
-
-    (* let   lemma map_sum_eq (s: set 'b)(f: 'b -> 'a)(t: 'a -> complex)
-   *       requires{p_injective f s}
-   *       ensures{sum  (map  f s) t  = sum s (fun b -> complex (f b))}
-   * = iterate_map (+.) s f t *)
-
-    
-(* let   lemma sum_disjoint_transitivity  (s1 s2: set 'a)(t: 'a -> complex)
- *         requires{inter s1 s2 = empty}
- *         ensures{sum (union s1 s2) t =  (sum s1 t)  +. ( sum s2 t)}
- *   = iterate_disjoint_transitivity (+.) s1 s2 t *)
-
-  
-(* let lemma ind_sum_null_but_maybe_one   (t:  'a -> complex) (s:set 'a)
- *       requires{i<= ind <j}
- *       requires{forall k:int. i <= k < j-> k<> ind-> t k = c_zero}
- *       ensures{ind_sum   t i j = t ind}
- *   = ind_sum_null_but_maybe_one_elt t (to_fset i j) ind *)
 
 let lemma neutral_c_one ()
       ensures{neutral ( *.) c_one}
@@ -919,20 +877,29 @@ let rec lemma ind_product_const_c_one (f : int -> complex ) (i  j : int)
         ind_product_const_c_one f i (j-1);
       end
 
-
+let rec lemma sum_filter_decomp (s: set 'a) (s2: set 'b) (p: 'a -> 'b -> bool) (p1 : 'b -> bool) (f: 'b -> complex)
+      requires{forall e. mem e s2 -> (p1 e <-> exists e'. mem e' s /\ p e' e)}
+      requires{forall e. forall e' e''. mem e s2 -> p1 e -> mem e' s -> mem e'' s -> p e' e -> p e'' e -> e' = e''}
+      ensures{sum s (fun l -> sum (my_filter s2 (p l)) f) = sum (my_filter s2 p1 ) f}
+      variant{cardinal s}
+  = if cardinal s = 0 then ()
+    else
+    if cardinal s = 1 then ()
+    else
+      begin
+        assert{1 < cardinal s};
+      sum_filter_decomp (remove (choose s) s) s2 p (fun x -> p1 x && not (p (choose s) x)) f;
+      sum_disjoint_transitivity (my_filter s2 (fun x -> p1 x && not (p (choose s) x)) ) 
+      (my_filter s2 (p (choose s))) f;
+      end
 end
      
 module Indic
          use  complex.Complex
          use  Base_type
-         use  fsum.Iterations
-         use  fsum.Set_iter
-         use  set.Fset
          use  p_set.Fset_comp
          use  p_set.IndexestoSet
-         use  fsum.Fset_iter_Pos
-         use  ref.Ref
-use complex.Assert_equal
+         use complex.Assert_equal
      
 let  function indic  (a a' :'a):complex 
   ensures{result = if (a = a') then c_one else c_zero}
@@ -1009,7 +976,6 @@ let lemma sum_indic_ts (s: set 'a) (t : 'a -> complex) (i: 'a)
   
 let lemma ind_sum_indic_t (t : int -> complex) (l h i: int)
       requires{l<= i < h}
-      (* requires{t i <> c_zero} *)
       ensures{ ind_sum_indic t  l h i   = t i}
       ensures{  ind_sum  (fun e -> (t e) *. indic i e) l h   = t i}
   =  sum_indic_t (to_fset l h) t i
@@ -1019,12 +985,12 @@ let lemma ind_sum_indic_t_quant (t : int -> complex) (l h: int)
   = 
   assert{forall i. l<= i < h -> t i <> c_zero -> ind_sum_indic t  l h i   = t i};
   assert{forall i. l<= i < h -> ind_sum_indic t  l h i   =   ind_sum (fun e -> (t e) *. indic i e)  l h   }
+
 end
 
 module Inv_func
 
          use  functions.MapInjection
-         use  set.FsetComprehension
          use  p_set.Fset_comp
          use  p_set.Card_one_set
          use  Indic 
@@ -1045,8 +1011,8 @@ let  function inv_func (f: 'a -> 'b) (s : set 'a) ( s': set 'b)(e': 'b):'a
     set_cardone s_indic;
     element s_indic
   end
-
-let lemma bijective_inv_func (f: 'a -> 'b) (s : set 'a) ( s': set 'b)
+     
+         let lemma bijective_inv_func (f: 'a -> 'b) (s : set 'a) ( s': set 'b)
       requires{p_bijective f s s'}
       ensures{p_bijective (fun x -> inv_func f s s' x) s' s}
   =()
@@ -1141,15 +1107,12 @@ let function inv_auto (f: 'a -> 'a)  (s : set 'a) : ('a->'a)
                ensures{p_bijective result s s}
   = injective_is_bijective_auto f s;
     inv_f f s s
-
-
 end
 
 module Im_re
 
          use  complex.Complex
-         use  complex.P_real
-use Simpl_op
+
 let lemma real (x:complex)
       requires{real_ x}
       ensures{x = r_to_c (real_part x)}
@@ -1182,11 +1145,10 @@ end
 module FromInt
          use  complex.P_real
          use  complex.Complex
-         use  Im_re
          use  int.Int
 use Simpl_op
 
-let (* ghost *)  function i_to_c (i:int)
+let function i_to_c (i:int)
                         ensures{real_ result}
   =  (r_to_c (from_int i))
 
@@ -1199,7 +1161,6 @@ let lemma i_to_c_surj( i j:int)
       ensures{i_to_c i <> i_to_c j}
   = ()
 
-
 let lemma i_to_c_eq (i j:int)
       requires{i = j}
       ensures{i_to_c i = i_to_c j}
@@ -1209,7 +1170,6 @@ let lemma i_to_c_inf( i j:int)
       requires{i<j}
       ensures{i_to_c i <. i_to_c j}
   = assert{i_to_c (j-i) = i_to_c j-. i_to_c i}
-
   
 let lemma i_to_c_nzero (i:int)
       requires{i <> 0}
@@ -1223,8 +1183,6 @@ let lemma i_to_c_one ()
 let lemma i_to_c_add ( i j : int)
       ensures{i_to_c i +. i_to_c j = i_to_c (i+j)}
   =()
-
-  
   
 let lemma i_to_c_add_rev ( i j : int)
       ensures{ i_to_c (i+j) = i_to_c i +. i_to_c j}
@@ -1266,13 +1224,11 @@ let  lemma i_to_c_mult ( i j : int)
   =
   if 0<=j then i_to_c_mult_pos i j
   else begin
-      
-assert{i_to_c i *. i_to_c j = -. (i_to_c i *. i_to_c (-j))};
-assert{i_to_c (i*j) = -. i_to_c (i*(-j))};
-i_to_c_mult_pos i (-j);
-end
+      assert{i_to_c i *. i_to_c j = -. (i_to_c i *. i_to_c (-j))};
+      assert{i_to_c (i*j) = -. i_to_c (i*(-j))};
+      i_to_c_mult_pos i (-j);
+    end
 
-  
 let lemma i_to_c_mult_rev ( i j : int)
       ensures{ i_to_c (i*j) =i_to_c i *. i_to_c j}
   =()
@@ -1306,7 +1262,6 @@ let lemma i_to_c_minus_mult (i j:int)
     ensures{i_to_c (-i) *. i_to_c j = i_to_c i *. i_to_c (-j) }
 =()
 
-
 let lemma i_to_c_div_leq_c_one (a b:int)
       requires{0<= a < b}
       ensures{i_to_c a /. i_to_c b <=. c_one}
@@ -1327,7 +1282,6 @@ let lemma compat_i_to_c_inf_rev (a b :int)
   ensures{a < b}
 =()
   
-  
 let lemma compat_i_to_c_sup (a b :int)
   requires{a > b}
   ensures{i_to_c a >. i_to_c b}
@@ -1346,6 +1300,7 @@ let lemma non_null_int_squrt (i:int)
       =()
    
 use Base_type
+
 let rec lemma ind_sum_constant  (f :int -> complex) (valu:complex) (i:int) (j:int) 
           requires{i<=j}
           requires{forall k. i<= k< j -> f k = valu}
@@ -1365,8 +1320,6 @@ let rec lemma ind_sum_constant_from_z  (f :int -> complex) (valu:complex)  (j:in
 
       use p_set.IndexestoSet
       use p_set.Choose_filter
-           use  set.FsetComprehension
-
   
 let rec lemma sum_constant_lower_bound (s: set 'a) (t:  'a -> complex) (x:complex)
           requires{ forall e. mem e s -> real_ (t e)}
@@ -1403,7 +1356,6 @@ let rec lemma sum_inf (s: set 'a) (t t':  'a -> complex)
         assert{cardinal s = cardinal (remove (choose s)s) +1};
         end;
     ()
-
   
 let rec lemma sum_constant (s: set 'a) (t:  'a -> complex) (x:complex)
           requires{ forall e. mem e s -> t e = x}
@@ -1417,7 +1369,6 @@ let rec lemma sum_constant (s: set 'a) (t:  'a -> complex) (x:complex)
         assert{cardinal s = cardinal (remove (choose s)s) +1};
         mult_distr_add_r x (i_to_c (cardinal (remove (choose s)s))) c_one;
       end
-
   
 let lemma ind_sum_constant_case  (n:int)(t:  int -> complex) (p: int -> bool) (x y:complex) (k1:int)
       requires{0<=n}
@@ -1434,27 +1385,17 @@ let lemma ind_sum_constant_case  (n:int)(t:  int -> complex) (p: int -> bool) (x
       sum_constant (my_filter (to_fset 0 n) p) t x;
     sum_constant (my_filter  (to_fset 0 n) (fun x -> not p x)) t y
 
-
-  
-  
-
-
 let lemma sum_const_one (s: set 'a) (t:  'a -> complex)
           requires{ forall e. mem e s -> t e = c_one}
           ensures{sum s t = i_to_c (cardinal s)}
   = sum_constant s t c_one
-  
-end
+  end
 
      
 module Conjugate
          use complex.Complex
- use set.FsetComprehension
-         use  fsum.Int_iter
-         use  set.Fset
+         use  p_set.Fset
          use Base_type
-         use int.Int
-         (* use Real_im_ops *)
          use Simpl_op
      
 let function conjugate (i:complex):complex
@@ -1495,8 +1436,6 @@ let lemma conjugate_to_modulus (i:complex)
 let lemma conjugate_times_itself_pos (i:complex)
       ensures{c_zero <=.i *. conjugate i}
   =()
-
-
   
   let rec lemma sum_conjugate (s: set 'a) (f : 'a -> complex)
             ensures{conjugate (sum s f) = sum s (fun x-> conjugate (f x))}
@@ -1565,7 +1504,6 @@ injective_square_rt (i *. conjugate i) c_one
   let lemma conjugate_im()
         ensures{conjugate im = -. im}
     =unic_decomp im 0.0 1.0;
-
     conjugate_pure_im im
 
   let lemma conjugate_value (c a b:complex)
@@ -1581,8 +1519,6 @@ injective_square_rt (i *. conjugate i) c_one
     requires{c = a -. im *. b}
     ensures{conjugate c = a +. im *. b}
     = t_decomp_minus c a b
-
-
     
   let lemma prod_conjugate (a b:complex)
           ensures{a*. conjugate  b = ((t_real_part a *. t_real_part b) +. (t_im_part a *. t_im_part b)) +. im *. ( t_real_part b *. t_im_part a -. t_im_part b *. t_real_part a ) }
@@ -1612,14 +1548,12 @@ let lemma conj_prod_conj (a b:complex)
       ensures{conjugate (  a*. conjugate b) = conjugate a *. b }
   = conjugate_prod a b;
     prod_conjugate a b
-  
-    
+      
   let lemma itself_prod_conjugate_modulus_one (a :complex)
         requires{modulus a = c_one}
         ensures{a *. conjugate  a  = c_one}
     = prod_conjugate a a;
       injective_square_rt (a *. conjugate  a) c_one
-    
     
   let lemma conjugate_prod_itself_modulus_one (a :complex)
         requires{modulus a = c_one}
@@ -1633,11 +1567,8 @@ let lemma conj_prod_conj (a b:complex)
     = () 
 
   let lemma modulus_conjugate (a :complex)
-        (* requires{real_ a }
-         * requires{c_zero<=.a } *)
         ensures{modulus a = modulus (conjugate a)}
     = () 
-
 
   let lemma modulus_pos (a :complex)
         requires{real_ a }
@@ -1650,10 +1581,6 @@ let lemma conj_prod_conj (a b:complex)
         requires{a <=. c_zero }
         ensures{modulus a = -. a}
     = modulus_opposite (-.a)
-
-
-
-
 end
                                                       
 module Int_dec_parts
@@ -1674,7 +1601,6 @@ let ghost function int_part_int (x:complex):int
       ensures{i_to_c result <=. x  <. i_to_c (result ) +. c_one}
   = floor (real_part x)
 
-
 let ghost function dec_part (x:complex):complex
       requires{real_ x}
       ensures{real_ result}
@@ -1692,7 +1618,6 @@ let lemma dec_part_decomp_rev (x:complex)
     ensures{dec_part x +. int_part x = x}
   =()
 
-  
 let lemma dec_part_decomp_int (x:complex)
     requires{real_ x}
     ensures{x = dec_part x +. i_to_c (int_part_int x)}
@@ -1702,7 +1627,6 @@ let lemma dec_part_decomp_int_rev (x:complex)
     requires{real_ x}
     ensures{dec_part x +. i_to_c (int_part_int x) = x}
   =()
-
 end
 
 

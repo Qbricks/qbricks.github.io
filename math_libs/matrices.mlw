@@ -1,11 +1,30 @@
-module Matrice
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+module Matrix
          use  int.Int
-         use  ref.Ref
-         use  map.Map as M
          use  p_set.IndexestoSet
          use  p_set.Fset_comp
-         use  set.Fset
-         use  complex.Pairs
+         use pairs.Pairs
      
 type matrix 'a = {
     elts: int -> int -> 'a;
@@ -42,7 +61,7 @@ let function make (r c: int) (v: 'a) : matrix 'a
                                          ensures  {columns result = c }
                                          ensures  {forall i j. 0 <= i < r /\ 0 <= j < c -> get result i j = v }
   ={
-  elts = (fun x y -> v);
+  elts = (fun _ _ -> v);
                     rows = r;
                     columns = c}
 
@@ -167,11 +186,10 @@ let lemma get_to_indexes_mem (m: matrix 'a)(o: (int,int))
 end
      
 module Matrix_equality
-         use complex.Complex
          use  int.Int
-         use  complex_operations.Base_type
-         use  Matrice
-  
+         use  Matrix
+         use complex. Assert_equal
+     
 let predicate equal (m: matrix 'a) (n: matrix 'a)  
   = (m == n)
 
@@ -261,22 +279,15 @@ end
 module Kronecker_product
          use  complex.Complex
          use  int.Int
-         use  complex_operations.Base_type
-         use  fsum.Set_iter
          use  fsum.Iterations
-         use  Matrice         
+         use  Matrix         
          use  Matrix_equality         
          use  int.EuclideanDivision
          use  arit.Div_Mod
-         use  arit.Base_arit
-         use  exponentiation.Int_Exponentiation
-         use  p_int.Int_comp
+         use  int_expo.Int_Exponentiation
          
 let          constant kronecker_neutral : matrix complex
   =   make 1 1 ( c_one : complex)
-        
-   use  ref.Ref
-   use  set.FsetComprehension
 
 let function identity (n:int): matrix complex
                                  requires{0<=n}
@@ -463,10 +474,7 @@ get m (div i n.rows) (div j n.columns)  = get ml (div i n.rows) (div j n.columns
     ensures{kronecker (identity m)(identity n) = (identity (m+n))}
     =()
     
-    use  fsum.Int_iter
-    use  fsum.Iterations
     use  complex.Constant
-    use  complex.Assert_equal
 
 let ghost function frows  (f: int -> matrix complex) (k:int)
                      ensures{ result >0}
@@ -487,14 +495,8 @@ let lemma const_frows (m: matrix complex)(k:int)
 
 module Matrix_product 
          use  complex.Complex
-         use  int.Int
          use  complex_operations.Base_type 
-         use  Matrice
-         use  Matrix_equality
-         use  ref.Ref
-         use  complex_operations.Indic
-         use  p_int.Int_comp
-         use  p_set.IndexestoSet
+         use  Matrix
          use  Kronecker_product
      use fsum.Iterations
 use int.Int
@@ -511,7 +513,7 @@ let   function mat_mult_no_bound (m n: matrix complex):
                       ind_sum (fun k -> get m i k +. get n k j) 0 (columns m)};
   if columns m = rows n then 
     make_f  (rows m) (columns n) (fun i j -> ind_sum  (fun k -> get m i k *. get n k j) 0 (columns m))
-  else make_f 1 1 (fun i j -> c_zero)
+  else make_f 1 1 (fun _ _ -> c_zero)
 
 let  function mat_mult (m n: matrix complex):
                      matrix complex
@@ -585,7 +587,8 @@ let rec lemma int_mat_prod_eq (f g:int-> matrix complex)(i j:int)
         int_mat_prod_eq f g i (j-1);
       end
 
-use exponentiation.Int_Exponentiation 
+use int_expo.Int_Exponentiation 
+
 let lemma mat_mult_id (n:int)(m: matrix complex)
       requires{n>=0}
       requires{columns m = power 2 n}
@@ -610,17 +613,11 @@ module Matrix_addition
          use  complex.Complex     
          use  int.Int
          use  complex_operations.Base_type
-         use  fsum.Int_iter
-         use  fsum.Set_iter
-         use  p_set.Fset_comp
-         use  p_set.IndexestoSet
-         use  Matrice
-         use  ref.Ref
+         use  Matrix
          use  int.Abs
          use   Matrix_product
          use  Matrix_equality
-         use  complex_operations.Indic
-     
+         
 let  function add_mat (m n : matrix complex):
                      matrix complex
                        requires{rows m = rows n}
@@ -792,11 +789,9 @@ module Matrix_scalar
          use  complex.Complex
          use  int.Int
          use  complex_operations.Base_type
-         use  Matrice
+         use  Matrix
          use  Matrix_equality
          use  Matrix_addition
-         use  ref.Ref
-         use  complex_operations.Indic
          use  Matrix_product
      
 let function ( *..)
@@ -1011,8 +1006,6 @@ let lemma distr_r_substr ( m n o : matrix complex)
   = distr_r m n (-.c_one *.. o);
     scal_mat_mut m o (-. c_one)
 
-      use complex_operations.Simpl_op
-
 let lemma mat_substr_eq (m m' n n':matrix complex)
   requires{rows m = rows n}
   requires{columns m = columns n}
@@ -1058,18 +1051,13 @@ module Matrix_sums
          use  complex.Complex
          use  int.Int
          use  complex_operations.Base_type
-         use  set.FsetComprehension
          use  p_set.Fset_comp
          use  p_set.IndexestoSet
-         use  Matrice
+         use  Matrix
          use  Matrix_equality
          use  Matrix_scalar
-         use export Matrix_addition
-         use export Matrix_product
-         use  fsum.Fset_iter_Pos
-         use  complex_operations.Indic
-         use  complex.Pairs
-         use  functions.MapInjection
+         use Matrix_addition
+         use Matrix_product
          use  complex.Constant
          
          predicate constant_size (s: set 'a) (f : 'a -> matrix complex) =
@@ -1227,6 +1215,8 @@ let lemma set_s_rows_columns_add (s: set 'a)  (f : 'a -> matrix complex) (x:'a)
   = set_s_columns_elt   (add x s) f x;
     set_s_rows_elt   (add x s) f x
     
+    use p_set.Card_one_set
+    
 let   rec  function mat_sum  (s: set 'a)  (f:'a -> matrix complex)
                          :  matrix complex
                               requires{constant_size s f}
@@ -1241,7 +1231,7 @@ let   rec  function mat_sum  (s: set 'a)  (f:'a -> matrix complex)
           subset_constant_size s (remove (choose s) s) f;
           add_mat (f  (choose s) ) (mat_sum (remove (choose s) s) f); 
         end         
-    
+
 let lemma columns_mat_sum (s: set 'a)  (f:'a -> matrix complex)(n:int)
       requires{cardinal s <> 0}
       requires{constant_size s f}
@@ -1776,12 +1766,10 @@ end
 
 module Mat_sums_comp
          use  Matrix_sums
-         use  complex_operations.Base_type
-         use  set.FsetComprehension
          use  p_set.Fset_comp
-         use  Matrice         
+         use  Matrix         
          use  Matrix_equality
-         use  complex.Pairs
+         use pairs.Pairs
          use  complex.Complex
          use  int.Int
          use  complex.Assert_equal
@@ -1814,22 +1802,21 @@ end
 module Matrix_decomp
          use  complex.Complex
          use  int.Int
-         use  Matrice
-         use  complex.Assert_equal
+         use  Matrix
          use  Matrix_sums
          use  complex_operations.Base_type
          use  complex_operations.Indic
          use  Matrix_scalar
-         use  functions.MapInjection
          use  Matrix_equality
-         use  complex.Pairs     
-         use  set.FsetComprehension
+         use pairs.Pairs     
          use  p_set.Fset_comp
          use  p_set.Card_one_set
          use  p_set.IndexestoSet
          use  complex.Constant     
          use p_set.Choose_filter
-     
+ use Matrix_product
+ use Matrix_addition
+             
 let function ind_basis_mat ( i  j r c :int): matrix complex
                                                      requires{0<= i<r}
                                                      requires{0<= j<c}
@@ -1986,7 +1973,7 @@ let lemma indexes_decomp_pre  (m:matrix complex) (i j :int)
                                                    get (basis_projection m (fir o) (sec o)) i j
                                                  else c_zero)}
 
-let lemma indexes_decomp_pre_gen  (m:matrix complex) (i j :int)
+let lemma indexes_decomp_pre_gen  (m:matrix complex) 
       ensures{forall i j:int. valid_index m i j ->
                          get m i j = sum (to_indexes m) (fun o -> get (basis_projection m (fir o) (sec o)) i j)}
   =     ()
@@ -2093,7 +2080,7 @@ end
 
 module Diag_mat
 
-         use Matrice
+         use Matrix
          use complex.Complex
          use int.Int
          use Matrix_scalar
@@ -2157,6 +2144,7 @@ let lemma diag_mat_eq (f g  : int-> complex) (s s':int)
       requires{s = s'}
       ensures{diag_mat f s  =  diag_mat g s'}
              =()
+
                 use Matrix_product
              
 let function id_mat (n:int)
@@ -2164,7 +2152,7 @@ let function id_mat (n:int)
            ensures{forall i. 0<=i < n -> diagonal result i = c_one}
            ensures{rows result = n}
            ensures{columns result = n}
-  = diag_mat (fun i-> c_one) n
+  = diag_mat (fun _ -> c_one) n
 
 let lemma set_id_mat (n:int) (f:int -> complex)
       requires{1<=n}
@@ -2184,6 +2172,5 @@ let lemma id_mat_prod_l (n:int) (m:matrix complex)
       requires{columns m = n}
       ensures{mat_mult m (id_mat n)  = m}
   = get_valid_index (mat_mult m (id_mat n)) (rows m)  (columns m)
-   
-           
+          
 end        

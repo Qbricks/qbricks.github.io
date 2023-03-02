@@ -1,0 +1,123 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+module Qft
+
+         use wired_circuits.Circuit_c
+         use extr_int.Ind_isum
+         use int.Int
+         use wired_circuits.Qbricks_prim
+         use qbricks.Circuit_macros
+         use qbricks.Circuit_semantics
+         use export binary.Bit_vector
+         use export p_int.Int_comp
+         use ref.Ref
+         use int_expo.Int_Exponentiation
+         use remarkable_fragments.Diag_circuits
+         use qbricks.Circuit_semantics
+         use unit_circle.Angle
+
+let qft ( n:int) :circuit
+                    requires{0<n}
+  =
+  begin
+    let c = ref (m_skip n)
+       in for q = 0 to n-1 do
+            invariant{width !c = n}
+              invariant{range !c = q}
+              invariant{forall x y i. 0<= i < n ->
+                        basis_ket !c x y i = if 0<= i < q then y i else x i}
+              invariant{forall x y. ang_ind !c x y = (ind_isum(fun k ->
+                       (ind_isum (fun l -> x l * y k * power 2 (n-l - 1+k)) k n))0 q) /./ n}
+              begin
+                let cl = ref (m_skip n)
+                   in for i = q+1 to n-1 do
+                        invariant{width !cl = n}
+                          invariant{range !cl = 0}
+                          invariant{forall x y i. 0<= i < n ->
+                                    basis_ket !cl x y i = x i}
+                          invariant{forall x y. ang_ind !cl x y =
+                                   (ind_isum (fun l -> x l * x q * power 2 (n- l -1+ q)) (q+1) i) /./n}
+                          cl := !cl -- (crz i (q) (i - q+1) n );   
+                      done;
+                      cl:=  place_hadamard (q) n -- !cl;
+                      assert{forall x y i. 0<= i < n ->
+                             basis_ket !cl x y i = if i = q then y 0 else x i};
+                      assert{forall x y. ang_ind !cl x y =
+                               (ind_isum (fun l -> x l * y 0 * power 2 (n-l - 1+ q)) q n) /./ n};
+                      c:= !c -- !cl;
+              end
+          done;
+          return (!c)
+            ensures{width result = n}
+            ensures{range result = n}
+            ensures{forall x y i. 0<= i < n -> basis_ket result x y i = y i}
+            ensures{forall x y. ang_ind result x y  = (ind_isum(fun k ->
+                   (ind_isum (fun l -> x l * y k * power 2 (n-l - 1+k)) k n))0 n) /./ n}          
+  end
+
+let qft_d ( n:int) :circuit
+                      requires{0<n}
+  =
+  begin
+    let q = ref 0
+    in let c = ref (m_skip n)
+       in while (!q < n) do
+            invariant{width !c = n}
+              invariant{0<= !q<=n}
+              invariant{range !c = !q}
+              invariant{forall x y i. 0<= i < n -> basis_ket !c x y i = if 0<= i < !q then y i else x i}
+              invariant{forall x y. ang_ind !c x y = (ind_isum(fun k -> (ind_isum (fun l -> x l * y k * power 2 (n-l - 1+k)) k n))0 !q) /./ n}
+              variant{n- !q}
+              begin
+                let i = ref (!q+1)
+                in let cl = ref (m_skip n)
+                   in while (!i < n) do
+                        invariant{width !cl = n}
+                          invariant{!q< !i<=n}
+                          invariant{range !cl = 0}
+                          invariant{forall x y i. 0<= i < n -> basis_ket !cl x y i = x i}
+                          invariant{forall x y. ang_ind !cl x y = (ind_isum (fun l -> x l * x !q * power 2 (n- l -1+ !q)) (!q+1) !i) /./n}
+                          variant{n- !i}
+                          cl := seq_diag !cl  (crz !i (!q) (!i - !q+1) n );
+                        i := !i +1
+                      done;
+                      cl:=  seq_diag_right (place_hadamard (!q) n)  !cl;
+                      assert{forall x y i. 0<= i < n -> basis_ket !cl x y i = if i = !q then y 0 else x i};
+                      assert{forall x y. ang_ind !cl x y = (ind_isum (fun l -> x l * y 0 * power 2 (n-l - 1+ !q)) !q n) /./ n};
+                      c:= !c -- !cl;
+                      q := !q+1
+              end
+          done;
+          return (!c)
+            ensures{width result = n}
+            ensures{range result = n}
+            ensures{forall x y i. 0<= i < n -> basis_ket result x y i = y i}
+            ensures{forall x y. ang_ind result x y  = (ind_isum(fun k -> (ind_isum (fun l -> x l * y k * power 2 (n-l - 1+k)) k n))0 n) /./ n}
+          
+  end
+
+  
+end
+
+
+

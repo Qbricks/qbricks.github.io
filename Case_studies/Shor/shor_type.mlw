@@ -1,0 +1,9 @@
+module Shor_type
+         use export int.Int
+              use export int_expo.Int_Exponentiation
+         use export arit.Divisors
+
+type shor_ = {composite:int; compos_log : int; picked : int}
+               invariant{0<compos_log /\  1< picked < composite /\power 2 (compos_log-1)<= composite < power 2 compos_log /\co_prime picked composite /\0< compos_log}
+               by{composite = 5; compos_log =3 ; picked =3}
+end

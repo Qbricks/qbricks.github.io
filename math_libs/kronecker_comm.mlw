@@ -1,24 +1,40 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
 module Kronecker_comm
-         use  binary.Binary_Op
+         use  int.Int
+         use int.EuclideanDivision
+         use  int_expo.Int_Exponentiation
+         use  complex.Complex
+         use  p_set.Fset_comp
+         use  p_set.IndexestoSet
          use  complex_operations.Base_type 
-         use  matrices.Matrice
+         use  complex_operations.Indic
+         use  arit.Div_Mod
+         use  matrices.Matrix
          use  matrices.Matrix_equality
          use  matrices.Matrix_product
          use  matrices.Kronecker_product
-         use  arit.Div_Mod
-         use  set.FsetComprehension
-         use  p_set.Fset_comp
-         use  p_set.IndexestoSet
          use  matrices.Matrix_scalar
-         use  matrices.Matrix_addition
-         use  matrices.Matrix_sums
-         use  int.Int
-         use  matrices.Diag_mat
-         use  complex_operations.Indic
-         use  complex.Complex
-         use  exponentiation.Int_Exponentiation
-         use  p_int.Int_comp
-         use int.EuclideanDivision
      
 let lemma kronecker_scalar_distr (m n: matrix complex)(a: complex)
       ensures{kronecker (a*.. m) n = a *.. (kronecker m n)}
@@ -46,7 +62,6 @@ let ghost function mat_k_id (m:matrix complex) (n:int)
                       ensures{result = make_f (rows m *  power 2 n) (columns m * power 2 n)
                                          (fun i j -> indic (mod i ( power 2 n)) (mod j ( power 2 n)) *. get m (div i ( power 2 n)) (div j ( power 2 n)))}
   =
-  (* identity_indic n; *)
   set_equal_mat_make (( power 2 n) * rows m) (( power 2 n) * columns m) (fun i j -> indic (mod i ( power 2 n)) (mod j ( power 2 n)) *. get m (div i ( power 2 n)) (div j ( power 2 n)))
     (fun i j ->( get m (div i (power 2 n)) (div j (power 2 n)) ) *. ( get  (identity n) (mod i (power 2 n)) (mod j (power 2 n)) ));
   kronecker m (identity n)
@@ -74,7 +89,6 @@ let ghost function id_k_mat (m:matrix complex) (n:int)
                       ensures{result = make_f (rows m *(power 2 n)) (columns m * (power 2 n))
                                          (fun i j -> indic (div i (rows m)) (div j (columns m)) *.  get m (mod i (rows m)) (mod j (columns m)))}
   =
-  (* identity_indic n; *)
   get_kronecker (identity n) m;
   assert{kronecker  (identity n) m = make_f ((power 2 n) * rows m) ((power 2 n) * columns m)
                                        (fun i j ->(get   (identity n) (div i (rows m)) (div j (columns m)) ) *. (get   m (mod i (rows m)) (mod j (columns m)) ))};
@@ -112,7 +126,7 @@ let ghost function mat_prod_k_id  (m o:matrix complex) (n:int)
                                                    (fun i j -> indic (mod i (power 2 n)) (mod j (power 2 n)) *. get (mat_mult m o) (div i (power 2 n)) (div j (power 2 n)))};
   assert{forall i j:int. valid_index (mat_mult m o) i j ->
                     get (mat_mult m o) (div i (power 2 n)) (div j (power 2 n)) = (ind_sum (fun k -> get m (div i (power 2 n)) k *. get o k (div j (power 2 n))) 0 (columns m))};
-  set_equal_mat_make (rows m (* *(power 2 n) *)) (columns o (* * (power 2 n) *))
+  set_equal_mat_make (rows m ) (columns o )
     (fun i j -> indic (mod i (power 2 n)) (mod j (power 2 n)) *. get (mat_mult m o) (div i (power 2 n)) (div j (power 2 n)))
     (fun i j -> indic (mod i (power 2 n)) (mod j (power 2 n)) *. (ind_sum (fun k -> get m (div i (power 2 n)) k *. get o k (div j (power 2 n))) 0 (columns m)));
   kronecker (mat_mult m o) (identity n)
@@ -179,7 +193,6 @@ let lemma filter_sum_indic_div (v n p: int)(g:int-> complex)
     set_non_c_zero_member_gen big_set g_from_big;
     assert{forall k:int. mem k small_set -> g k = (fun k ->  g (mod k v)  *. indic (div k v) p) ((fun k -> (p * v + k)) k)};
     set_equal  non_c_zero_map_small_set non_c_zero_big_set;
-    (* set_equal (non_c_zero small_set g_from_big) non_c_zero_small_set; *)
     set_bijective to_big_set non_c_zero_small_set non_c_zero_big_set;
     sum_nullity_partition big_set g_from_big;
     sum_nullity_partition small_set g;
@@ -230,11 +243,11 @@ let lemma  prod_mat_k_id_pre (m o:matrix complex) (i j n :int)
     end
   
 let ghost function  prod_mat_k_id (m o:matrix complex) (n :int): matrix complex
-                                                             requires{0 <= n}
-                                                             requires{columns m = rows o}
-                                                             ensures{result = make_f (rows m * (power 2 n)) (columns o * (power 2 n))
-                                                                                (fun i j -> indic (mod i (power 2 n)) (mod j  (power 2 n))
-                                                                                            *. (ind_sum (fun k -> get m (div i  (power 2 n)) k *. get o k (div j  (power 2 n))) 0 (columns m)))}
+                                                                   requires{0 <= n}
+                                                                   requires{columns m = rows o}
+                                                                   ensures{result = make_f (rows m * (power 2 n)) (columns o * (power 2 n))
+                                                                                      (fun i j -> indic (mod i (power 2 n)) (mod j  (power 2 n))
+                                                                                                  *. (ind_sum (fun k -> get m (div i  (power 2 n)) k *. get o k (div j  (power 2 n))) 0 (columns m)))}
   = set_equal_mat (mat_mult (mat_k_id m n) (mat_k_id o n)) (make_f (rows m * (power 2 n)) (columns o * (power 2 n))
                                                               (fun i j -> indic (mod i (power 2 n)) (mod j  (power 2 n))
                                                                           *. (ind_sum (fun k -> get m (div i  (power 2 n)) k *. get o k (div j  (power 2 n))) 0 (columns m))));
@@ -271,11 +284,11 @@ let lemma  k_id_prod_mat_pre (m o:matrix complex) (i j n :int)
     end
 
 let ghost function  k_id_prod_mat (m o:matrix complex) (n :int):matrix complex
-                                                            requires{0 <= n}
-                                                            requires{columns m = rows o }
-                                                            ensures{ result = make_f (rows m * power 2 n) (columns o * power 2 n)
-                                                                                ( fun i j -> indic (div i (rows m)) (div j  (columns o))
-                                                                                             *. (ind_sum (fun k -> get m (mod i (rows m)) k *. get o k (mod j (columns o))) 0 (columns m)))}
+                                                                  requires{0 <= n}
+                                                                  requires{columns m = rows o }
+                                                                  ensures{ result = make_f (rows m * power 2 n) (columns o * power 2 n)
+                                                                                      ( fun i j -> indic (div i (rows m)) (div j  (columns o))
+                                                                                                   *. (ind_sum (fun k -> get m (mod i (rows m)) k *. get o k (mod j (columns o))) 0 (columns m)))}
   = set_equal_mat ( mat_mult (id_k_mat m n) (id_k_mat o n)) (make_f (rows m * power 2 n) (columns o * power 2 n)
                                                                ( fun i j -> indic (div i (rows m)) (div j  (columns o))
                                                                             *. (ind_sum (fun k -> get m (mod i (rows m)) k *. get o k (mod j (columns o))) 0 (columns m))));
@@ -429,12 +442,12 @@ let lemma kronecker_mult_commut_p_quant (a b:matrix complex)
 end
 
 module Kronecker_distr
-         use  matrices.Matrice
+         use  matrices.Matrix
          use  complex.Complex
          use  matrices.Kronecker_product
          use  matrices.Matrix_addition
          use  matrices.Matrix_equality
-         use  set.FsetComprehension
+         use  p_set.Fset_comp
          use  matrices.Matrix_sums
          use  int.Int
          use  matrices.Matrix_scalar
@@ -456,8 +469,8 @@ let lemma kronecker_add_distr_r (m n o : matrix complex)
       ensures{columns (kronecker o (add_mat m n) ) = columns m * columns o}
   = set_equal_mat (kronecker o (add_mat m n) ) (add_mat (kronecker o m)  (kronecker o n))  
 
-  use qdata.Qreg
-use qdata.Ket_basis
+      use qdata.Qreg
+      use qdata.Ket_basis
 
 let lemma kronecker_ket_add_distr_r (m n x : matrix complex) (l l1 l2:int)
       requires{l = l1 + l2}
@@ -465,7 +478,7 @@ let lemma kronecker_ket_add_distr_r (m n x : matrix complex) (l l1 l2:int)
       requires{is_a_ket_l n l1}
       requires{is_a_ket_l x l2}
       ensures{add_ket_l (kronecker m x)  (kronecker n x) l = kronecker (add_ket_l m n l1) x}
-= kronecker_add_distr_l m n x
+  = kronecker_add_distr_l m n x
   
 let rec lemma kronecker_sum_distr_l  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) 
           requires{constant_size s f}
@@ -544,97 +557,93 @@ let rec lemma kronecker_sum_distr_sc  (s: set 'a)  (f:'a -> matrix complex)(m: m
   kronecker_sum_distr_l s (fun k -> (a*.. (f k))) m;
   kronecker_scalar_distr (mat_sum s f) m a;
   mat_sum_scalar s (fun k -> kronecker (f k) m) a
-
   
-  let  lemma kronecker_ket_sum_distr_l  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1 l2 :int)
-          requires{forall e. mem e s -> is_a_ket_l (f e) l1}
-          requires{is_a_ket_l m l2}
-          requires{cardinal s > 0}
-          ensures{is_a_ket_l (ket_sum_l s (fun k -> kronecker  (f k) m) (l1+l2) ) (l1+l2)}
-          ensures{ kronecker (ket_sum_l s f l1) m = ket_sum_l s (fun k -> kronecker  (f k) m) (l1+l2)}
-    =  kronecker_sum_distr_l s f m
+let  lemma kronecker_ket_sum_distr_l  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1 l2 :int)
+       requires{forall e. mem e s -> is_a_ket_l (f e) l1}
+       requires{is_a_ket_l m l2}
+       requires{cardinal s > 0}
+       ensures{is_a_ket_l (ket_sum_l s (fun k -> kronecker  (f k) m) (l1+l2) ) (l1+l2)}
+       ensures{ kronecker (ket_sum_l s f l1) m = ket_sum_l s (fun k -> kronecker  (f k) m) (l1+l2)}
+  =  kronecker_sum_distr_l s f m
 
-  let  lemma kronecker_ket_sum_distr_l_nol  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1  :int)
-          requires{forall e. mem e s -> is_a_ket_l (f e) l1}
-          requires{is_a_ket m }
-          requires{cardinal s > 0}
-          ensures{is_a_ket_l (ket_sum_l s (fun k -> kronecker  (f k) m) (l1+ket_length m) ) (l1+ ket_length m)}
-          ensures{ kronecker (ket_sum_l s f l1) m = ket_sum_l s (fun k -> kronecker  (f k) m) (l1+ ket_length m)}
+let  lemma kronecker_ket_sum_distr_l_nol  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1  :int)
+       requires{forall e. mem e s -> is_a_ket_l (f e) l1}
+       requires{is_a_ket m }
+       requires{cardinal s > 0}
+       ensures{is_a_ket_l (ket_sum_l s (fun k -> kronecker  (f k) m) (l1+ket_length m) ) (l1+ ket_length m)}
+       ensures{ kronecker (ket_sum_l s f l1) m = ket_sum_l s (fun k -> kronecker  (f k) m) (l1+ ket_length m)}
   = kronecker_sum_distr_l s f m
 
-  let  lemma kronecker_ket_sum_distr_l_rew  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1  :int)
-          requires{forall e. mem e s -> is_a_ket_l (f e) l1}
-          requires{is_a_ket m }
-          requires{cardinal s > 0}
-          ensures{ kronecker (ket_sum_l s f l1) m = ket_sum_l s (fun k -> kronecker  (f k) m) (l1+ ket_length m)}
+let  lemma kronecker_ket_sum_distr_l_rew  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1  :int)
+       requires{forall e. mem e s -> is_a_ket_l (f e) l1}
+       requires{is_a_ket m }
+       requires{cardinal s > 0}
+       ensures{ kronecker (ket_sum_l s f l1) m = ket_sum_l s (fun k -> kronecker  (f k) m) (l1+ ket_length m)}
   = kronecker_ket_sum_distr_l_nol s f m l1
 
-
 let  lemma kronecker_ket_sum_distr_r  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1 l2:int)
-          requires{forall e. mem e s -> is_a_ket_l (f e) l1}
-          requires{is_a_ket_l m l2}
-          requires{cardinal s > 0}
-          ensures{is_a_ket_l ( ket_sum_l s (fun k -> kronecker m (f k) ) (l1+l2)) (l1+l2)}
-          ensures{ kronecker m (ket_sum_l s f l1)  = ket_sum_l s (fun k -> kronecker m (f k) ) (l1+l2)}
+       requires{forall e. mem e s -> is_a_ket_l (f e) l1}
+       requires{is_a_ket_l m l2}
+       requires{cardinal s > 0}
+       ensures{is_a_ket_l ( ket_sum_l s (fun k -> kronecker m (f k) ) (l1+l2)) (l1+l2)}
+       ensures{ kronecker m (ket_sum_l s f l1)  = ket_sum_l s (fun k -> kronecker m (f k) ) (l1+l2)}
   =   kronecker_sum_distr_r s f m
 
-  let  lemma kronecker_ket_sum_distr_l_rev  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1 l2 :int)
-          requires{forall e. mem e s -> is_a_ket_l (f e) l1}
-          requires{is_a_ket_l m l2}
-          requires{cardinal s > 0}
-          ensures{is_a_ket_l (ket_sum_l s (fun k -> kronecker  (f k) m) (l1+l2) ) (l1+l2)}
-          ensures{ket_sum_l s (fun k -> kronecker  (f k) m) (l1+l2) =  kronecker (ket_sum_l s f l1) m}
+let  lemma kronecker_ket_sum_distr_l_rev  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1 l2 :int)
+       requires{forall e. mem e s -> is_a_ket_l (f e) l1}
+       requires{is_a_ket_l m l2}
+       requires{cardinal s > 0}
+       ensures{is_a_ket_l (ket_sum_l s (fun k -> kronecker  (f k) m) (l1+l2) ) (l1+l2)}
+       ensures{ket_sum_l s (fun k -> kronecker  (f k) m) (l1+l2) =  kronecker (ket_sum_l s f l1) m}
   = kronecker_ket_sum_distr_l s f m  l1 l2
 
 let  lemma kronecker_ket_sum_distr_r_rev  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1 l2:int)
-          requires{forall e. mem e s -> is_a_ket_l (f e) l1}
-          requires{is_a_ket_l m l2}
-          requires{cardinal s > 0}
-          ensures{is_a_ket_l ( ket_sum_l s (fun k -> kronecker m (f k) ) (l1+l2)) (l1+l2)}
-          ensures{ket_sum_l s (fun k -> kronecker m (f k) ) (l1+l2)=  kronecker m (ket_sum_l s f l1) }
+       requires{forall e. mem e s -> is_a_ket_l (f e) l1}
+       requires{is_a_ket_l m l2}
+       requires{cardinal s > 0}
+       ensures{is_a_ket_l ( ket_sum_l s (fun k -> kronecker m (f k) ) (l1+l2)) (l1+l2)}
+       ensures{ket_sum_l s (fun k -> kronecker m (f k) ) (l1+l2)=  kronecker m (ket_sum_l s f l1) }
   = kronecker_ket_sum_distr_r s f m  l1 l2
   
-  let  lemma kronecker_ket_sum_distr_l_  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1 l2 :int)
-          requires{forall e. mem e s -> is_a_ket_l (f e) l1}
-          requires{is_a_ket_l m l2}
-          requires{0<=l1}
-          ensures{is_a_ket_l (ket_sum_l s (fun k -> kronecker  (f k) m) (l1+l2) ) (l1+l2)}
-          ensures{ kronecker (ket_sum_l s f l1) m = ket_sum_l s (fun k -> kronecker  (f k) m) (l1+l2)}
-    = if (cardinal s = 0) then()
-      else
-        begin
-          assert{0< cardinal s};
-          kronecker_ket_sum_distr_l s f m l1 l2
-        end
-    
-  let  lemma kronecker_ket_sum_distr_l_nol_  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1  :int)
-          requires{forall e. mem e s -> is_a_ket_l (f e) l1}
-          requires{is_a_ket m }
-          requires{0<=l1}
-          ensures{is_a_ket_l (ket_sum_l s (fun k -> kronecker  (f k) m) (l1+ket_length m) ) (l1+ ket_length m)}
-          ensures{ kronecker (ket_sum_l s f l1) m = ket_sum_l s (fun k -> kronecker  (f k) m) (l1+ ket_length m)}
+let  lemma kronecker_ket_sum_distr_l_  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1 l2 :int)
+       requires{forall e. mem e s -> is_a_ket_l (f e) l1}
+       requires{is_a_ket_l m l2}
+       requires{0<=l1}
+       ensures{is_a_ket_l (ket_sum_l s (fun k -> kronecker  (f k) m) (l1+l2) ) (l1+l2)}
+       ensures{ kronecker (ket_sum_l s f l1) m = ket_sum_l s (fun k -> kronecker  (f k) m) (l1+l2)}
+  = if (cardinal s = 0) then()
+    else
+      begin
+        assert{0< cardinal s};
+        kronecker_ket_sum_distr_l s f m l1 l2
+      end
+  
+let  lemma kronecker_ket_sum_distr_l_nol_  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1  :int)
+       requires{forall e. mem e s -> is_a_ket_l (f e) l1}
+       requires{is_a_ket m }
+       requires{0<=l1}
+       ensures{is_a_ket_l (ket_sum_l s (fun k -> kronecker  (f k) m) (l1+ket_length m) ) (l1+ ket_length m)}
+       ensures{ kronecker (ket_sum_l s f l1) m = ket_sum_l s (fun k -> kronecker  (f k) m) (l1+ ket_length m)}
   =  if (cardinal s = 0) then()
      else
        begin
          assert{0< cardinal s};
          kronecker_ket_sum_distr_l_nol s f m l1
        end
-
-         
-  let  lemma kronecker_ket_sum_distr_l_rew_  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1  :int)
-          requires{forall e. mem e s -> is_a_ket_l (f e) l1}
-          requires{is_a_ket m }
-          requires{0<=l1}
-          ensures{ kronecker (ket_sum_l s f l1) m = ket_sum_l s (fun k -> kronecker  (f k) m) (l1+ ket_length m)}
+   
+let  lemma kronecker_ket_sum_distr_l_rew_  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1  :int)
+       requires{forall e. mem e s -> is_a_ket_l (f e) l1}
+       requires{is_a_ket m }
+       requires{0<=l1}
+       ensures{ kronecker (ket_sum_l s f l1) m = ket_sum_l s (fun k -> kronecker  (f k) m) (l1+ ket_length m)}
   = kronecker_ket_sum_distr_l_nol_ s f m l1
 
-
 let  lemma kronecker_ket_sum_distr_r_  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1 l2:int)
-          requires{forall e. mem e s -> is_a_ket_l (f e) l1}
-          requires{is_a_ket_l m l2}
-          requires{0<=l1}
-          ensures{is_a_ket_l ( ket_sum_l s (fun k -> kronecker m (f k) ) (l1+l2)) (l1+l2)}
-          ensures{ kronecker m (ket_sum_l s f l1)  = ket_sum_l s (fun k -> kronecker m (f k) ) (l1+l2)}
+       requires{forall e. mem e s -> is_a_ket_l (f e) l1}
+       requires{is_a_ket_l m l2}
+       requires{0<=l1}
+       ensures{is_a_ket_l ( ket_sum_l s (fun k -> kronecker m (f k) ) (l1+l2)) (l1+l2)}
+       ensures{ kronecker m (ket_sum_l s f l1)  = ket_sum_l s (fun k -> kronecker m (f k) ) (l1+l2)}
   =  if (cardinal s = 0) then()
      else
        begin
@@ -642,75 +651,66 @@ let  lemma kronecker_ket_sum_distr_r_  (s: set 'a)  (f:'a -> matrix complex)(m: 
          kronecker_ket_sum_distr_r s f m l1 l2
        end
    
-  let  lemma kronecker_ket_sum_distr_l_rev_  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1 l2 :int)
-          requires{forall e. mem e s -> is_a_ket_l (f e) l1}
-          requires{is_a_ket_l m l2}
-          requires{0<=l1}
-          ensures{is_a_ket_l (ket_sum_l s (fun k -> kronecker  (f k) m) (l1+l2) ) (l1+l2)}
-          ensures{ket_sum_l s (fun k -> kronecker  (f k) m) (l1+l2) =  kronecker (ket_sum_l s f l1) m}
+let  lemma kronecker_ket_sum_distr_l_rev_  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1 l2 :int)
+       requires{forall e. mem e s -> is_a_ket_l (f e) l1}
+       requires{is_a_ket_l m l2}
+       requires{0<=l1}
+       ensures{is_a_ket_l (ket_sum_l s (fun k -> kronecker  (f k) m) (l1+l2) ) (l1+l2)}
+       ensures{ket_sum_l s (fun k -> kronecker  (f k) m) (l1+l2) =  kronecker (ket_sum_l s f l1) m}
   = kronecker_ket_sum_distr_l_ s f m  l1 l2
 
 let  lemma kronecker_ket_sum_distr_r_rev_  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1 l2:int)
-          requires{forall e. mem e s -> is_a_ket_l (f e) l1}
-          requires{is_a_ket_l m l2}
-          requires{0<=l1}
-
-          ensures{is_a_ket_l ( ket_sum_l s (fun k -> kronecker m (f k) ) (l1+l2)) (l1+l2)}
-          ensures{ket_sum_l s (fun k -> kronecker m (f k) ) (l1+l2)=  kronecker m (ket_sum_l s f l1) }
+       requires{forall e. mem e s -> is_a_ket_l (f e) l1}
+       requires{is_a_ket_l m l2}
+       requires{0<=l1}
+       ensures{is_a_ket_l ( ket_sum_l s (fun k -> kronecker m (f k) ) (l1+l2)) (l1+l2)}
+       ensures{ket_sum_l s (fun k -> kronecker m (f k) ) (l1+l2)=  kronecker m (ket_sum_l s f l1) }
   = kronecker_ket_sum_distr_r_ s f m  l1 l2
 
-  use qdata.Bv_to_ket
+      use qdata.Bv_to_ket
 
-  let  lemma kronecker_ket_sum_distr_r_rew  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1  :int)
-          requires{forall e. mem e s -> is_a_ket_l (f e) l1}
-          requires{is_a_ket m }
-          requires{cardinal s > 0}
-                    ensures{ kronecker m (ket_sum_l s f l1)  = ket_sum_l s (fun k -> kronecker m (f k) ) (l1+ ket_length m)}
-
+let  lemma kronecker_ket_sum_distr_r_rew  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (l1  :int)
+       requires{forall e. mem e s -> is_a_ket_l (f e) l1}
+       requires{is_a_ket m }
+       requires{cardinal s > 0}
+       ensures{ kronecker m (ket_sum_l s f l1)  = ket_sum_l s (fun k -> kronecker m (f k) ) (l1+ ket_length m)}
   = kronecker_ket_sum_distr_r s f m l1 (ket_length m)
-
-
-
       
-use binary.Bit_vector_decomp
-
-use binary.Bit_vector
-  use binary.Bv_concat
-use functions.Shift
+      use binary.Bit_vector_decomp
+      use binary.Bit_vector
+      use binary.Bv_concat
 
 let  lemma  ket_sum_scalar  (s: set 'a)  (f:'a -> matrix complex) (a: complex) (l:int)
-          requires{forall e. mem e s -> is_a_ket_l (f e) l}
-          requires{cardinal s > 0}
-          ensures{ket_sum_l s (fun k -> a*.. (f k)) l = a*.. (ket_sum_l s f l)}      
+       requires{forall e. mem e s -> is_a_ket_l (f e) l}
+       requires{cardinal s > 0}
+       ensures{ket_sum_l s (fun k -> a*.. (f k)) l = a*.. (ket_sum_l s f l)}      
   = mat_sum_scalar s f a
 
 let  lemma kronecker_ket_sum_distr_sc  (s: set 'a)  (f:'a -> matrix complex)(m: matrix complex) (a: complex) (l1 l2:int)
-          requires{forall e. mem e s -> is_a_ket_l (f e) l1}
-          requires{is_a_ket_l m l2}
-          requires{cardinal s > 0}
-          ensures{ ket_sum_l s (fun k -> kronecker (a*.. (f k)) m ) (l1+l2) =  a*.. ket_sum_l s (fun k -> (kronecker  (f k) m)) (l1 + l2)}
+       requires{forall e. mem e s -> is_a_ket_l (f e) l1}
+       requires{is_a_ket_l m l2}
+       requires{cardinal s > 0}
+       ensures{ ket_sum_l s (fun k -> kronecker (a*.. (f k)) m ) (l1+l2) =  a*.. ket_sum_l s (fun k -> (kronecker  (f k) m)) (l1 + l2)}
   =
-kronecker_sum_distr_sc s f m a
+  kronecker_sum_distr_sc s f m a
 
-
-  let  lemma kronecker_decomp_r  (m n: matrix complex) (lm ln:int)
-          requires{is_a_ket_l m lm}
-          requires{is_a_ket_l n ln}
-          ensures{ kronecker m n  = ket_sum_l (n_bvs ln) (fun x -> (get_ket n (bv_to_int x) *.. kronecker m (bv_to_ket x)) ) (lm+ln)}
+let  lemma kronecker_decomp_r  (m n: matrix complex) (lm ln:int)
+       requires{is_a_ket_l m lm}
+       requires{is_a_ket_l n ln}
+       ensures{ kronecker m n  = ket_sum_l (n_bvs ln) (fun x -> (get_ket n (bv_to_int x) *.. kronecker m (bv_to_ket x)) ) (lm+ln)}
   = ket_decomp_bv_ket n ln;
-kronecker_ket_sum_distr_r (n_bvs ln) (fun x -> get_ket n (bv_to_int x) *.. (bv_to_ket x)) m ln lm
+    kronecker_ket_sum_distr_r (n_bvs ln) (fun x -> get_ket n (bv_to_int x) *.. (bv_to_ket x)) m ln lm
 
-  let  lemma kronecker_decomp_l  (m n: matrix complex) (lm ln:int)
-          requires{is_a_ket_l m lm}
-          requires{is_a_ket_l n ln}
-          ensures{ kronecker m n  = ket_sum_l (n_bvs lm) (fun x ->  (get_ket m (bv_to_int x) *.. kronecker   (bv_to_ket x) n )) (lm+ln)}
+let  lemma kronecker_decomp_l  (m n: matrix complex) (lm ln:int)
+       requires{is_a_ket_l m lm}
+       requires{is_a_ket_l n ln}
+       ensures{ kronecker m n  = ket_sum_l (n_bvs lm) (fun x ->  (get_ket m (bv_to_int x) *.. kronecker   (bv_to_ket x) n )) (lm+ln)}
   = ket_decomp_bv_ket m lm;
-kronecker_ket_sum_distr_l (n_bvs lm) (fun x -> get_ket m (bv_to_int x) *.. (bv_to_ket x)) n lm ln
+    kronecker_ket_sum_distr_l (n_bvs lm) (fun x -> get_ket m (bv_to_int x) *.. (bv_to_ket x)) n lm ln
 
+      use qdata.Bv_mat_sum
 
-
-  use qdata.Bv_mat_sum
-let  lemma kronecker_ket_sum_distr_double  (i j: int)  (f:bitvec -> matrix complex)(g:bitvec -> matrix complex)(m: matrix complex)(l1 l2 :int) 
+let  lemma kronecker_ket_sum_distr_double  (i j: int)  (f:bitvec -> matrix complex)(g:bitvec -> matrix complex)(l1 l2 :int) 
        requires{0<= i}
        requires{0<= j}
        requires{forall bv. mem bv  (n_bvs i) -> is_a_ket_l (f bv) l1}
@@ -720,7 +720,6 @@ let  lemma kronecker_ket_sum_distr_double  (i j: int)  (f:bitvec -> matrix compl
   assert{forall bvx bvy: bitvec. mem bvx (n_bvs i) ->  mem bvy (n_bvs j) -> is_a_ket_l (kronecker (f bvx) (g bvy)) (l1 +l2)};
   ket_sum_bin_comp_rev (fun bvx bvy -> kronecker (f bvx )(g bvy )) (l1+l2) j i;
   kronecker_ket_sum_distr_l (n_bvs i) f (ket_sum_l (n_bvs j) g l2) l1 l2
-
 
 let lemma kronecker_add_null (m m1 m2 x x': matrix complex) (l1 l2 :int)
       requires{is_a_ket_l m l1}
@@ -735,32 +734,72 @@ let lemma kronecker_add_null (m m1 m2 x x': matrix complex) (l1 l2 :int)
       ensures{null_mat (kronecker m2 x')}
       ensures{null_mat m2}
       ensures{forall x'. null_mat (kronecker m2 x')}
-    = ()
+  = ()
   
-  let lemma kronecker_injec_eq_left (m m' o: matrix complex)
+let lemma kronecker_injec_eq_left (m m' o: matrix complex)
       requires{kronecker m o = kronecker m' o}
       requires{not (null_mat o)}
       ensures{m = m'}
-    = if rows m <> rows m' then
-        assert{rows (kronecker m o) <> rows (kronecker m' o)} 
-      else if columns m <> columns m' then
-        assert{columns (kronecker m o) <> columns (kronecker m' o)} 
-      else ()
+  = if rows m <> rows m' then
+      assert{rows (kronecker m o) <> rows (kronecker m' o)} 
+    else if columns m <> columns m' then
+      assert{columns (kronecker m o) <> columns (kronecker m' o)} 
+    else ()
 
+end
 
-             (* (h_width h-1)
-     * replace (ket_sum_l (n_bvs (h_range h))
-     *    (fun (y1:bitvec) ->
-     *      ang_exp (h_angle_bv h x y1) *.. bv_to_ket (h_basis_ket_bv h x y1))
-     *    (h_width h))
-     * (ket_sum_l (n_bvs (h_range h))
-     *    (fun (y1:bitvec) ->
-     *      ang_exp (h_angle_bv h x y1) *.. bv_to_ket (concat (hpart (h_basis_ket_bv h x y1) (h_width h-1)) (make_bv (fun i -> h_basis_ket h x y1 (h_width h-1)) 1)))
-     *    (h_width h)) *)
+module Ket_zero
 
-(* if (exists i j. valid_index m i j && m i j <> m i j) then
-       *   assert{forall i' j'. valid_index o i' j' -> get (kronecker m o) (i* rows o + i') (j* columns o + j') <>
-       *     get (kronecker m' o) (i* rows o + i') (j* columns o + j')}
-       * else set_equal_mat m m' *)
+         use  matrices.Matrix
+         use  matrices.Kronecker_product
+         use  complex.Complex
+         use qdata.Kronecker_Qbit
+         use qdata.Qreg
+         use qdata.Ket_basis
+         use qdata.Bv_to_ket
+         use binary.Bit_vector
+     
+let constant ket_zero = ket 0 0
+                          ensures{is_a_ket_l result 0}
+                          ensures{is_a_ket_basis_elt result}
+                          ensures{forall i. i = 0 -> get_ket result i = c_one}
+                          ensures{rows result =1 }
+                          ensures{columns result =1 }
+
+let lemma get_ket_zero (x : matrix complex)
+      requires{x = ket_zero}
+      ensures{is_a_ket_l x 0}
+      ensures{forall i. i = 0 -> get_ket x i = c_one}
+  =()
   
+let lemma set_ket_zero (x : matrix complex)
+      requires{rows x = 1}
+      requires{columns x = 1}
+      requires{get_ket x 0 = c_one}
+      ensures{x = ket_zero}
+  =()
+
+let lemma ket_to_bv_zero (x:bitvec)
+      requires{length x = 0}
+      ensures{x = ket_to_bv ket_zero}
+  =()
+
+let lemma bv_to_ket_zero (x:bitvec)
+      requires{length x = 0}
+      ensures{bv_to_ket x = ket_zero}
+  =()
+
+let lemma ket_zero_kron (x y:matrix complex)
+      requires{x = ket_zero}
+      ensures{kronecker x y = y}
+  =
+  kronecker_rows x y;
+  kronecker_columns x y
+
+let lemma kron_ket_zero (x y:matrix complex)
+      requires{x = ket_zero}
+      ensures{kronecker y x = y}
+  =
+  kronecker_rows y x;
+  kronecker_columns y x
 end
