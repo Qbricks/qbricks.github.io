@@ -74,7 +74,8 @@ let qft ( n:int) :circuit
             ensures{forall x y. ang_ind result x y  = (ind_isum(fun k ->
                    (ind_isum (fun l -> x l * y k * power 2 (n-l - 1+k)) k n))0 n) /./ n}          
   end
-
+use binary.Binary_Op
+  
 let qft_d ( n:int) :circuit
                       requires{0<n}
   =
@@ -85,8 +86,8 @@ let qft_d ( n:int) :circuit
             invariant{width !c = n}
               invariant{0<= !q<=n}
               invariant{range !c = !q}
-              invariant{forall x y i. 0<= i < n -> basis_ket !c x y i = if 0<= i < !q then y i else x i}
-              invariant{forall x y. ang_ind !c x y = (ind_isum(fun k -> (ind_isum (fun l -> x l * y k * power 2 (n-l - 1+k)) k n))0 !q) /./ n}
+              invariant{forall x y i. binary_l x n -> binary_l y (!q) -> 0<= i < n -> basis_ket !c x y i = if 0<= i < !q then y i else x i}
+              invariant{forall x y. binary_l x n -> binary_l y (!q) -> ang_ind !c x y = (ind_isum(fun k -> (ind_isum (fun l -> x l * y k * power 2 (n-l - 1+k)) k n))0 !q) /./ n}
               variant{n- !q}
               begin
                 let i = ref (!q+1)
@@ -95,15 +96,15 @@ let qft_d ( n:int) :circuit
                         invariant{width !cl = n}
                           invariant{!q< !i<=n}
                           invariant{range !cl = 0}
-                          invariant{forall x y i. 0<= i < n -> basis_ket !cl x y i = x i}
-                          invariant{forall x y. ang_ind !cl x y = (ind_isum (fun l -> x l * x !q * power 2 (n- l -1+ !q)) (!q+1) !i) /./n}
+                          invariant{forall x y i.binary_l x n ->  0<= i < n -> basis_ket !cl x y i = x i}
+                          invariant{forall x y. binary_l x n -> ang_ind !cl x y = (ind_isum (fun l -> x l * x !q * power 2 (n- l -1+ !q)) (!q+1) !i) /./n}
                           variant{n- !i}
                           cl := seq_diag !cl  (crz !i (!q) (!i - !q+1) n );
                         i := !i +1
                       done;
                       cl:=  seq_diag_right (place_hadamard (!q) n)  !cl;
-                      assert{forall x y i. 0<= i < n -> basis_ket !cl x y i = if i = !q then y 0 else x i};
-                      assert{forall x y. ang_ind !cl x y = (ind_isum (fun l -> x l * y 0 * power 2 (n-l - 1+ !q)) !q n) /./ n};
+                      assert{forall x y i. 0<= i < n -> binary_l x n -> binary_l y 1-> basis_ket !cl x y i = if i = !q then y 0 else x i};
+                      assert{forall x y. binary_l x n ->  binary_l y 1 -> ang_ind !cl x y = (ind_isum (fun l -> x l * y 0 * power 2 (n-l - 1+ !q)) !q n) /./ n};
                       c:= !c -- !cl;
                       q := !q+1
               end
@@ -111,8 +112,8 @@ let qft_d ( n:int) :circuit
           return (!c)
             ensures{width result = n}
             ensures{range result = n}
-            ensures{forall x y i. 0<= i < n -> basis_ket result x y i = y i}
-            ensures{forall x y. ang_ind result x y  = (ind_isum(fun k -> (ind_isum (fun l -> x l * y k * power 2 (n-l - 1+k)) k n))0 n) /./ n}
+            ensures{forall x y i. 0<= i < n ->binary_l x n ->  binary_l y n -> basis_ket result x y i = y i}
+            ensures{forall x y. binary_l x n -> binary_l y n -> ang_ind result x y  = (ind_isum(fun k -> (ind_isum (fun l -> x l * y k * power 2 (n-l - 1+k)) k n))0 n) /./ n}
           
   end
 

@@ -57,10 +57,7 @@ module Circuit
          use qdata.Sqrt_two
          use qdata.Ket_basis
          use qft.Rev_qft
-
-type shor_ = {composite:int; compos_log : int; picked : int}
-               invariant{0<compos_log /\  1< picked < composite /\power 2 (compos_log-1)<= composite < power 2 compos_log /\co_prime picked composite /\0< compos_log}
-               by{composite = 5; compos_log =3 ; picked =3}
+         use shor_type.Shor_type
            
  val constant s() : ref shor_
 let constant  bound= !(s()).composite   

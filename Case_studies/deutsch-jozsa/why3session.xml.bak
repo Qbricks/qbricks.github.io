@@ -1,0 +1,743 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="6">
+<prover id="0" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="4" name="CVC4" version="1.7" timelimit="5" steplimit="0" memlimit="1000"/>
+<file format="whyml" proved="true">
+<path name=".."/><path name="deutsch-jozsa.mlw"/>
+<theory name="Deutsch_jozsa" proved="true">
+ <goal name="dj_pre&#39;vc" expl="VC for dj_pre" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="dj_pre&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.29" steps="934769"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.37" steps="874849"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.70" steps="1046260"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.39" steps="1159848"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.97" steps="1159134"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="4.33" steps="1365584"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.82" steps="1093924"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="2.24"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.8" expl="precondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="dj_pre&#39;vc.8.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="3.08" steps="1160780"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="dj_pre&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.87" steps="1094115"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.29" steps="1160910"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.11" expl="precondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="dj_pre&#39;vc.11.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.87" steps="1095512"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="dj_pre&#39;vc.12" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.12" steps="1159489"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.13" expl="precondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="dj_pre&#39;vc.13.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="3.32" steps="1226983"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="dj_pre&#39;vc.14" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.40" steps="1259871"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.15" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.04" steps="1190274"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.16" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.45" steps="1261345"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.17" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.40" steps="1190970"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.18" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.01" steps="1190976"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.19" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.30" steps="1262225"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.20" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="2.28"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.21" expl="precondition" proved="true">
+  <transf name="replace" proved="true" arg1="(repeat_had (n +&#39; 1))" arg2="( (repeat_had n) //hadamard)
+">
+   <goal name="dj_pre&#39;vc.21.0" expl="precondition" proved="true">
+   <transf name="apply" proved="true" arg1="path_sem_kron">
+    <goal name="dj_pre&#39;vc.21.0.0" expl="apply premises" proved="true">
+    <proof prover="4"><result status="valid" time="3.84" steps="1263839"/></proof>
+    </goal>
+    <goal name="dj_pre&#39;vc.21.0.1" expl="apply premises" proved="true">
+    <proof prover="4"><result status="valid" time="3.18" steps="1262533"/></proof>
+    </goal>
+    <goal name="dj_pre&#39;vc.21.0.2" expl="apply premises" proved="true">
+    <proof prover="0"><result status="valid" time="2.63"/></proof>
+    </goal>
+    <goal name="dj_pre&#39;vc.21.0.3" expl="apply premises" proved="true">
+    <proof prover="4"><result status="valid" time="1.90" steps="1191539"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="dj_pre&#39;vc.21.1" expl="equality hypothesis" proved="true">
+   <transf name="instantiate" proved="true" arg1="repeat_had&#39;def" arg2="(n+&#39;1)
+">
+    <goal name="dj_pre&#39;vc.21.1.0" expl="equality hypothesis" proved="true">
+    <proof prover="4"><result status="valid" time="3.30" steps="1262638"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="dj_pre&#39;vc.22" expl="precondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures32">
+   <goal name="dj_pre&#39;vc.22.0" expl="precondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="kronecker_scalar_distr">
+    <goal name="dj_pre&#39;vc.22.0.0" expl="precondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="path_sem_scal">
+     <goal name="dj_pre&#39;vc.22.0.0.0" expl="precondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="kronecker_ket_sum_distr_l_rew">
+      <goal name="dj_pre&#39;vc.22.0.0.0.0" expl="precondition" proved="true">
+      <transf name="apply" proved="true" arg1="scal_path_sem_sum_gen">
+       <goal name="dj_pre&#39;vc.22.0.0.0.0.0" expl="apply premises" proved="true">
+       <proof prover="4"><result status="valid" time="2.00" steps="1191554"/></proof>
+       </goal>
+       <goal name="dj_pre&#39;vc.22.0.0.0.0.1" expl="apply premises" proved="true">
+       <proof prover="4"><result status="valid" time="3.67" steps="1296383"/></proof>
+       </goal>
+       <goal name="dj_pre&#39;vc.22.0.0.0.0.2" expl="apply premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="dj_pre&#39;vc.22.0.0.0.0.2.0" expl="apply premises" proved="true">
+        <transf name="split_vc" proved="true" >
+         <goal name="dj_pre&#39;vc.22.0.0.0.0.2.0.0" expl="apply premises" proved="true">
+         <transf name="replace" proved="true" arg1="(width (deutsch_oracle f n))" arg2="(n+&#39;1)
+">
+          <goal name="dj_pre&#39;vc.22.0.0.0.0.2.0.0.0" expl="apply premises" proved="true">
+          <transf name="apply" proved="true" arg1="kronecker_ket_l">
+           <goal name="dj_pre&#39;vc.22.0.0.0.0.2.0.0.0.0" expl="apply premises" proved="true">
+           <proof prover="4"><result status="valid" time="3.62" steps="1262586"/></proof>
+           </goal>
+           <goal name="dj_pre&#39;vc.22.0.0.0.0.2.0.0.0.1" expl="apply premises" proved="true">
+           <proof prover="4"><result status="valid" time="2.34" steps="1191566"/></proof>
+           </goal>
+           <goal name="dj_pre&#39;vc.22.0.0.0.0.2.0.0.0.2" expl="apply premises" proved="true">
+           <proof prover="0"><result status="valid" time="2.46"/></proof>
+           </goal>
+           <goal name="dj_pre&#39;vc.22.0.0.0.0.2.0.0.0.3" expl="apply premises" proved="true">
+           <proof prover="4"><result status="valid" time="2.18" steps="1191559"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="dj_pre&#39;vc.22.0.0.0.0.2.0.0.1" expl="equality hypothesis" proved="true">
+          <proof prover="4"><result status="valid" time="1.88" steps="1191559"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="dj_pre&#39;vc.22.0.0.0.0.3" expl="apply premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="dj_pre&#39;vc.22.0.0.0.0.3.0" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="4.00" steps="1264045"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="dj_pre&#39;vc.22.0.0.0.0.4" expl="apply premises" proved="true">
+       <proof prover="4"><result status="valid" time="2.02" steps="1191545"/></proof>
+       </goal>
+       <goal name="dj_pre&#39;vc.22.0.0.0.0.5" expl="apply premises" proved="true">
+       <proof prover="4"><result status="valid" time="3.49" steps="1263889"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="dj_pre&#39;vc.22.0.0.0.1" expl="rewrite premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="dj_pre&#39;vc.22.0.0.0.1.0" expl="rewrite premises" proved="true">
+       <proof prover="0"><result status="valid" time="2.71"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="dj_pre&#39;vc.22.0.0.0.2" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="3.62" steps="1263880"/></proof>
+      </goal>
+      <goal name="dj_pre&#39;vc.22.0.0.0.3" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="2.10" steps="1191549"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="dj_pre&#39;vc.22.0.0.1" expl="rewrite premises" proved="true">
+     <transf name="replace" proved="true" arg1="(width (deutsch_oracle f n))" arg2="(n+&#39;1)
+">
+      <goal name="dj_pre&#39;vc.22.0.0.1.0" expl="rewrite premises" proved="true">
+      <transf name="apply" proved="true" arg1="kronecker_ket_l">
+       <goal name="dj_pre&#39;vc.22.0.0.1.0.0" expl="apply premises" proved="true">
+       <proof prover="4"><result status="valid" time="3.47" steps="1262573"/></proof>
+       </goal>
+       <goal name="dj_pre&#39;vc.22.0.0.1.0.1" expl="apply premises" proved="true">
+       <proof prover="4"><result status="valid" time="2.10" steps="1191554"/></proof>
+       </goal>
+       <goal name="dj_pre&#39;vc.22.0.0.1.0.2" expl="apply premises" proved="true">
+       <proof prover="0"><result status="valid" time="2.16"/></proof>
+       </goal>
+       <goal name="dj_pre&#39;vc.22.0.0.1.0.3" expl="apply premises" proved="true">
+       <proof prover="4"><result status="valid" time="2.11" steps="1191547"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="dj_pre&#39;vc.22.0.0.1.1" expl="equality hypothesis" proved="true">
+      <proof prover="4"><result status="valid" time="2.05" steps="1191547"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="dj_pre&#39;vc.23" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.63" steps="1263545"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.24" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.12" steps="1191622"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.25" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.11" steps="1191628"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.26" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.55" steps="1262783"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.27" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.63" steps="1263967"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.28" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="4.07" steps="1385677"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.29" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures6">
+   <goal name="dj_pre&#39;vc.29.0" expl="postcondition" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="dj_pre&#39;vc.29.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="repeat_had&#39;spec3">
+     <goal name="dj_pre&#39;vc.29.0.0.0" expl="postcondition" proved="true">
+     <transf name="apply" proved="true" arg1="max_right">
+      <goal name="dj_pre&#39;vc.29.0.0.0.0" expl="apply premises" proved="true">
+      <transf name="apply" proved="true" arg1="ancillas_pos">
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="dj_pre&#39;vc.29.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="4"><result status="valid" time="4.74" steps="1669703"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="dj_pre&#39;vc.30" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="4.28" steps="1385676"/></proof>
+  </goal>
+  <goal name="dj_pre&#39;vc.31" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="dj_pre&#39;vc.31.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result&#39;def">
+    <goal name="dj_pre&#39;vc.31.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures75">
+     <goal name="dj_pre&#39;vc.31.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures19">
+      <goal name="dj_pre&#39;vc.31.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="compute_specified" proved="true" >
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="dj_output&#39;vc" expl="VC for dj_output" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="dj_output&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.67" steps="973918"/></proof>
+  </goal>
+  <goal name="dj_output&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.89" steps="1064629"/></proof>
+  </goal>
+  <goal name="dj_output&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="4.14" steps="1271750"/></proof>
+  </goal>
+  <goal name="dj_output&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.76" steps="1073351"/></proof>
+  </goal>
+  <goal name="dj_output&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.74" steps="1009632"/></proof>
+  </goal>
+  <goal name="dj_output&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.75" steps="1009638"/></proof>
+  </goal>
+  <goal name="dj_output&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.86" steps="1074273"/></proof>
+  </goal>
+  <goal name="dj_output&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.69" steps="1126334"/></proof>
+  </goal>
+  <goal name="dj_output&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.64" steps="1074371"/></proof>
+  </goal>
+  <goal name="dj_output&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.75" steps="1126432"/></proof>
+  </goal>
+  <goal name="dj_output&#39;vc.10" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.81" steps="1065754"/></proof>
+  </goal>
+  <goal name="dj_output&#39;vc.11" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="dj_output&#39;vc.11.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="result&#39;def">
+    <goal name="dj_output&#39;vc.11.0.0" expl="postcondition" proved="true">
+    <transf name="compute_hyp_specified" proved="true" arg1="in" arg2="Ensures14">
+     <goal name="dj_output&#39;vc.11.0.0.0" expl="postcondition" proved="true">
+     <transf name="apply" proved="true" arg1="Ensures14">
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="dj_output&#39;vc.12" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="dj_output&#39;vc.12.0" expl="postcondition" proved="true">
+   <transf name="compute_hyp_specified" proved="true" arg1="in" arg2="Ensures14">
+    <goal name="dj_output&#39;vc.12.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures14">
+     <goal name="dj_output&#39;vc.12.0.0.0" expl="postcondition" proved="true">
+     <transf name="apply" proved="true" arg1="sum_eq">
+      <goal name="dj_output&#39;vc.12.0.0.0.0" expl="apply premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="dj_output&#39;vc.12.0.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="dj_output&#39;vc.12.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="rewrite" proved="true" arg1="ind_isum_null">
+         <goal name="dj_output&#39;vc.12.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <proof prover="4"><result status="valid" time="1.62" steps="1065930"/></proof>
+         </goal>
+         <goal name="dj_output&#39;vc.12.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+         <proof prover="4"><result status="valid" time="1.72" steps="1065911"/></proof>
+         </goal>
+         <goal name="dj_output&#39;vc.12.0.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+         <transf name="compute_specified" proved="true" >
+          <goal name="dj_output&#39;vc.12.0.0.0.0.0.0.2.0" expl="rewrite premises" proved="true">
+          <transf name="split_vc" proved="true" >
+           <goal name="dj_output&#39;vc.12.0.0.0.0.0.0.2.0.0" expl="rewrite premises" proved="true">
+           <proof prover="0"><result status="valid" time="1.85"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="dj_output&#39;vc.13" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="dj_output&#39;vc.13.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="proba_measure&#39;def">
+    <goal name="dj_output&#39;vc.13.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+     <goal name="dj_output&#39;vc.13.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures">
+      <goal name="dj_output&#39;vc.13.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="split_all_full" proved="true" >
+       <goal name="dj_output&#39;vc.13.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="apply" proved="true" arg1="constant_sum">
+        <goal name="dj_output&#39;vc.13.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="3.51" steps="1471988"/></proof>
+        </goal>
+        <goal name="dj_output&#39;vc.13.0.0.0.0.0.1" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="2.20" steps="1401222"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="dj_output&#39;vc.13.0.1" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="2.70" steps="1130850"/></proof>
+    </goal>
+    <goal name="dj_output&#39;vc.13.0.2" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="3.48" steps="1286352"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="dj_output&#39;vc.14" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="dj_output&#39;vc.14.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="proba_measure&#39;def">
+    <goal name="dj_output&#39;vc.14.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="get_ket_scalar">
+     <goal name="dj_output&#39;vc.14.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures1">
+      <goal name="dj_output&#39;vc.14.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="split_all_full" proved="true" >
+       <goal name="dj_output&#39;vc.14.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="apply" proved="true" arg1="bc_sum">
+        <goal name="dj_output&#39;vc.14.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="2.06" steps="1401262"/></proof>
+        </goal>
+        <goal name="dj_output&#39;vc.14.0.0.0.0.0.1" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="2.32" steps="1401262"/></proof>
+        </goal>
+        <goal name="dj_output&#39;vc.14.0.0.0.0.0.2" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="2.21" steps="1401262"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="dj_output&#39;vc.14.0.1" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="2.81" steps="1130894"/></proof>
+    </goal>
+    <goal name="dj_output&#39;vc.14.0.2" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="4.02" steps="1286534"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="dj&#39;vc" expl="VC for dj" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="dj&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.42" steps="875855"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.44" steps="875993"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.49" steps="875999"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.75" steps="1040719"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.76" steps="1040438"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.79" steps="1091689"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.81" steps="1094487"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.70" steps="1028299"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.90" steps="1139517"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.9" expl="precondition" proved="true">
+  <transf name="apply" proved="true" arg1="ket_l_ket_sum_scalar">
+   <goal name="dj&#39;vc.9.0" expl="apply premises" proved="true">
+   <proof prover="4"><result status="valid" time="3.03" steps="1139529"/></proof>
+   </goal>
+   <goal name="dj&#39;vc.9.1" expl="apply premises" proved="true">
+   <proof prover="4"><result status="valid" time="1.87" steps="1071629"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="dj&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.28" steps="1188588"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.11" expl="precondition" proved="true">
+  <transf name="replace" proved="true" arg1="(pow_inv_2 n *.. dj_output f n)" arg2="(pow_inv_sqrt_2 n *.. (pow_inv_sqrt_2 n *.. dj_output f n))
+">
+   <goal name="dj&#39;vc.11.0" expl="precondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="path_sem_scal">
+    <goal name="dj&#39;vc.11.0.0" expl="precondition" proved="true">
+    <transf name="apply" proved="true" arg1="scalar_eq">
+     <goal name="dj&#39;vc.11.0.0.0" expl="apply premises" proved="true">
+     <transf name="rewrite" proved="true" arg1="path_sem_sum_">
+      <goal name="dj&#39;vc.11.0.0.0.0" expl="apply premises" proved="true">
+      <transf name="rewrite" proved="true" arg1="dj_output&#39;def">
+       <goal name="dj&#39;vc.11.0.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="rewrite" proved="true" arg1="ket_sum_scalar_rev_l">
+        <goal name="dj&#39;vc.11.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="ket_sum_eq">
+         <goal name="dj&#39;vc.11.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <proof prover="4"><result status="valid" time="2.97" steps="1139638"/></proof>
+         </goal>
+         <goal name="dj&#39;vc.11.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+         <proof prover="4"><result status="valid" time="1.83" steps="1071725"/></proof>
+         </goal>
+         <goal name="dj&#39;vc.11.0.0.0.0.0.0.2" expl="apply premises" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="dj&#39;vc.11.0.0.0.0.0.0.2.0" expl="apply premises" proved="true">
+          <transf name="compute_specified" proved="true" >
+           <goal name="dj&#39;vc.11.0.0.0.0.0.0.2.0.0" expl="apply premises" proved="true">
+           <transf name="rewrite" proved="true" arg1="path_sem_scal">
+            <goal name="dj&#39;vc.11.0.0.0.0.0.0.2.0.0.0" expl="apply premises" proved="true">
+            <transf name="rewrite" proved="true" arg1="repeat_had_basis_bv">
+             <goal name="dj&#39;vc.11.0.0.0.0.0.0.2.0.0.0.0" expl="apply premises" proved="true">
+             <transf name="rewrite" proved="true" arg1="scalar_assoc">
+              <goal name="dj&#39;vc.11.0.0.0.0.0.0.2.0.0.0.0.0" expl="apply premises" proved="true">
+              <transf name="rewrite" proved="true" arg1="scalar_assoc">
+               <goal name="dj&#39;vc.11.0.0.0.0.0.0.2.0.0.0.0.0.0" expl="apply premises" proved="true">
+               <transf name="apply" proved="true" arg1="scalar_eq_gen">
+                <goal name="dj&#39;vc.11.0.0.0.0.0.0.2.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+                <transf name="compute_specified" proved="true" >
+                </transf>
+                </goal>
+                <goal name="dj&#39;vc.11.0.0.0.0.0.0.2.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+                <proof prover="4"><result status="valid" time="3.17" steps="1140907"/></proof>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="dj&#39;vc.11.0.0.0.0.0.0.2.0.0.0.1" expl="rewrite premises" proved="true">
+             <proof prover="4"><result status="valid" time="1.79" steps="1071739"/></proof>
+             </goal>
+             <goal name="dj&#39;vc.11.0.0.0.0.0.0.2.0.0.0.2" expl="rewrite premises" proved="true">
+             <proof prover="4"><result status="valid" time="3.46" steps="1140863"/></proof>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="dj&#39;vc.11.0.0.0.0.0.0.2.0.0.1" expl="rewrite premises" proved="true">
+            <proof prover="0"><result status="valid" time="1.90"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="dj&#39;vc.11.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="4"><result status="valid" time="3.38" steps="1139638"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="dj&#39;vc.11.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="2.09" steps="1071727"/></proof>
+       </goal>
+       <goal name="dj&#39;vc.11.0.0.0.0.2" expl="rewrite premises" proved="true">
+       <proof prover="4"><result status="valid" time="1.79" steps="1071727"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="dj&#39;vc.11.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="1.77" steps="1071734"/></proof>
+      </goal>
+      <goal name="dj&#39;vc.11.0.0.0.2" expl="rewrite premises" proved="true">
+      <proof prover="4"><result status="valid" time="1.71" steps="1071734"/></proof>
+      </goal>
+      <goal name="dj&#39;vc.11.0.0.0.3" expl="rewrite premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="dj&#39;vc.11.0.0.0.3.0" expl="rewrite premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="dj&#39;vc.11.0.0.0.3.0.0" expl="rewrite premises" proved="true">
+        <proof prover="4"><result status="valid" time="5.57" steps="1643155"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="dj&#39;vc.11.0.1" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="5.28" steps="1640985"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="dj&#39;vc.11.1" expl="equality hypothesis" proved="true">
+   <proof prover="4"><result status="valid" time="3.10" steps="1140869"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="dj&#39;vc.12" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.16" steps="1071743"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.13" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.81" steps="1071749"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.14" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.45" steps="1140041"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.15" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.96" steps="1140597"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.16" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.45" steps="1140823"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.17" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.10" steps="1142098"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.18" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.54" steps="1144082"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.19" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.10" steps="1076569"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.20" expl="precondition" proved="true">
+  <transf name="compute_specified" proved="true" >
+  </transf>
+  </goal>
+  <goal name="dj&#39;vc.21" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.58" steps="1145980"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.22" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.88" steps="1077282"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.23" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.85" steps="1077288"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.24" expl="precondition" proved="true">
+  <transf name="replace" proved="true" arg1="(width (dj_pre f n))" arg2="(n+&#39;1)
+">
+   <goal name="dj&#39;vc.24.0" expl="precondition" proved="true">
+   <transf name="apply" proved="true" arg1="kronecker_ket_l">
+    <goal name="dj&#39;vc.24.0.0" expl="apply premises" proved="true">
+    <proof prover="4"><result status="valid" time="3.00" steps="1146658"/></proof>
+    </goal>
+    <goal name="dj&#39;vc.24.0.1" expl="apply premises" proved="true">
+    <proof prover="4"><result status="valid" time="1.79" steps="1077462"/></proof>
+    </goal>
+    <goal name="dj&#39;vc.24.0.2" expl="apply premises" proved="true">
+    <proof prover="4"><result status="valid" time="3.28" steps="1147948"/></proof>
+    </goal>
+    <goal name="dj&#39;vc.24.0.3" expl="apply premises" proved="true">
+    <proof prover="4"><result status="valid" time="2.14" steps="1077455"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="dj&#39;vc.24.1" expl="equality hypothesis" proved="true">
+   <proof prover="4"><result status="valid" time="2.04" steps="1077455"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="dj&#39;vc.25" expl="precondition" proved="true">
+  <transf name="apply" proved="true" arg1="Ensures">
+  </transf>
+  </goal>
+  <goal name="dj&#39;vc.26" expl="precondition" proved="true">
+  <transf name="apply" proved="true" arg1="Ensures83">
+  </transf>
+  </goal>
+  <goal name="dj&#39;vc.27" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.07" steps="1147733"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.28" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.05" steps="1077480"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.29" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.17" steps="1077801"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.30" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.08" steps="1146952"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.31" expl="precondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="dj&#39;vc.31.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.83" steps="1079255"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="dj&#39;vc.32" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.16" steps="1078108"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.33" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.24" steps="1148242"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.34" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="4.06" steps="1274334"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.35" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures6">
+   <goal name="dj&#39;vc.35.0" expl="postcondition" proved="true">
+   <proof prover="4"><result status="valid" time="6.42" steps="2080348"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="dj&#39;vc.36" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.90" steps="1162466"/></proof>
+  </goal>
+  <goal name="dj&#39;vc.37" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="discard&#39;def">
+   <goal name="dj&#39;vc.37.0" expl="postcondition" proved="true">
+   <proof prover="4"><result status="valid" time="3.27" steps="1234256"/></proof>
+   </goal>
+   <goal name="dj&#39;vc.37.1" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="3.50" steps="1234401"/></proof>
+   </goal>
+   <goal name="dj&#39;vc.37.2" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="1.83" steps="1162487"/></proof>
+   </goal>
+   <goal name="dj&#39;vc.37.3" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="1.83" steps="1162469"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>

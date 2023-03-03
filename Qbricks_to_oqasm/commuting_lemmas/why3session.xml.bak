@@ -6,7 +6,7 @@
 <prover id="1" name="Alt-Ergo" version="2.4.0" timelimit="5" steplimit="0" memlimit="1000"/>
 <prover id="2" name="CVC4" version="1.7" timelimit="5" steplimit="0" memlimit="1000"/>
 <prover id="4" name="CVC4" version="1.7" alternative="counterexamples" timelimit="5" steplimit="0" memlimit="1000"/>
-<file format="whyml">
+<file format="whyml" proved="true">
 <path name=".."/><path name="commuting_lemmas.mlw"/>
 <theory name="Ancilla_pre" proved="true">
  <goal name="ancilla_free&#39;vc" expl="VC for ancilla_free" proved="true">
@@ -1207,266 +1207,266 @@
  </transf>
  </goal>
 </theory>
-<theory name="Lemmas_correct_circuit_pre">
- <goal name="correct_cont&#39;vc" expl="VC for correct_cont">
- <transf name="split_vc" >
-  <goal name="correct_cont&#39;vc.0" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.68" steps="1257124"/></proof>
+<theory name="Lemmas_correct_circuit_pre" proved="true">
+ <goal name="correct_cont&#39;vc" expl="VC for correct_cont" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="correct_cont&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.68" steps="1257417"/></proof>
   </goal>
  </transf>
  </goal>
- <goal name="correct_seq&#39;vc" expl="VC for correct_seq">
- <transf name="split_vc" >
-  <goal name="correct_seq&#39;vc.0" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="2.17" steps="971123"/></proof>
+ <goal name="correct_seq&#39;vc" expl="VC for correct_seq" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="correct_seq&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.57" steps="971339"/></proof>
   </goal>
  </transf>
  </goal>
- <goal name="correct_par&#39;vc" expl="VC for correct_par">
- <transf name="split_vc" >
-  <goal name="correct_par&#39;vc.0" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="2.16" steps="971199"/></proof>
+ <goal name="correct_par&#39;vc" expl="VC for correct_par" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="correct_par&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.58" steps="971415"/></proof>
   </goal>
  </transf>
  </goal>
- <goal name="correct_place&#39;vc" expl="VC for correct_place">
- <transf name="split_vc" >
-  <goal name="correct_place&#39;vc.0" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.36" steps="1256432"/></proof>
+ <goal name="correct_place&#39;vc" expl="VC for correct_place" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="correct_place&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.36" steps="1256848"/></proof>
   </goal>
  </transf>
  </goal>
- <goal name="correct_cont_rev&#39;vc" expl="VC for correct_cont_rev">
- <transf name="split_vc" >
-  <goal name="correct_cont_rev&#39;vc.0" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.23" steps="1257208"/></proof>
+ <goal name="correct_cont_rev&#39;vc" expl="VC for correct_cont_rev" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="correct_cont_rev&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.23" steps="1257311"/></proof>
   </goal>
-  <goal name="correct_cont_rev&#39;vc.1" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.66" steps="1262331"/></proof>
+  <goal name="correct_cont_rev&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.66" steps="1262373"/></proof>
   </goal>
-  <goal name="correct_cont_rev&#39;vc.2" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.60" steps="1262904"/></proof>
-  </goal>
- </transf>
- </goal>
- <goal name="correct_toffoli&#39;vc" expl="VC for correct_toffoli">
- <transf name="split_vc" >
-  <goal name="correct_toffoli&#39;vc.0" expl="postcondition">
-  <proof prover="0" obsolete="true"><result status="valid" time="1.75"/></proof>
+  <goal name="correct_cont_rev&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.60" steps="1262524"/></proof>
   </goal>
  </transf>
  </goal>
- <goal name="correct_fredkin&#39;vc" expl="VC for correct_fredkin">
- <transf name="split_vc" >
-  <goal name="correct_fredkin&#39;vc.0" expl="postcondition">
-  <proof prover="0" obsolete="true"><result status="valid" time="1.58"/></proof>
+ <goal name="correct_toffoli&#39;vc" expl="VC for correct_toffoli" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="correct_toffoli&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.75"/></proof>
   </goal>
  </transf>
  </goal>
- <goal name="correct_cnot&#39;vc" expl="VC for correct_cnot">
- <transf name="split_vc" >
-  <goal name="correct_cnot&#39;vc.0" expl="postcondition">
-  <proof prover="0" obsolete="true"><result status="valid" time="1.68"/></proof>
+ <goal name="correct_fredkin&#39;vc" expl="VC for correct_fredkin" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="correct_fredkin&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.58"/></proof>
   </goal>
  </transf>
  </goal>
- <goal name="correct_swap&#39;vc" expl="VC for correct_swap">
- <transf name="split_vc" >
-  <goal name="correct_swap&#39;vc.0" expl="postcondition">
-  <proof prover="0" obsolete="true"><result status="valid" time="1.76"/></proof>
+ <goal name="correct_cnot&#39;vc" expl="VC for correct_cnot" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="correct_cnot&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.68"/></proof>
   </goal>
  </transf>
  </goal>
- <goal name="correct_toffoli_rev&#39;vc" expl="VC for correct_toffoli_rev">
- <transf name="split_vc" >
-  <goal name="correct_toffoli_rev&#39;vc.0" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.74" steps="1258021"/></proof>
-  </goal>
-  <goal name="correct_toffoli_rev&#39;vc.1" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.72" steps="1258076"/></proof>
-  </goal>
-  <goal name="correct_toffoli_rev&#39;vc.2" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.23" steps="1257470"/></proof>
-  </goal>
-  <goal name="correct_toffoli_rev&#39;vc.3" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.70" steps="1257226"/></proof>
-  </goal>
-  <goal name="correct_toffoli_rev&#39;vc.4" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.23" steps="1258367"/></proof>
-  </goal>
-  <goal name="correct_toffoli_rev&#39;vc.5" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.60" steps="1258264"/></proof>
+ <goal name="correct_swap&#39;vc" expl="VC for correct_swap" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="correct_swap&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.76"/></proof>
   </goal>
  </transf>
  </goal>
- <goal name="correct_fredkin_rev&#39;vc" expl="VC for correct_fredkin_rev">
- <transf name="split_vc" >
-  <goal name="correct_fredkin_rev&#39;vc.0" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.64" steps="1257537"/></proof>
+ <goal name="correct_toffoli_rev&#39;vc" expl="VC for correct_toffoli_rev" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="correct_toffoli_rev&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.74" steps="1257071"/></proof>
   </goal>
-  <goal name="correct_fredkin_rev&#39;vc.1" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.56" steps="1257145"/></proof>
+  <goal name="correct_toffoli_rev&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.72" steps="1257507"/></proof>
   </goal>
-  <goal name="correct_fredkin_rev&#39;vc.2" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.59" steps="1257698"/></proof>
+  <goal name="correct_toffoli_rev&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.23" steps="1257427"/></proof>
   </goal>
-  <goal name="correct_fredkin_rev&#39;vc.3" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.52" steps="1258590"/></proof>
+  <goal name="correct_toffoli_rev&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.70" steps="1258171"/></proof>
   </goal>
-  <goal name="correct_fredkin_rev&#39;vc.4" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.67" steps="1258635"/></proof>
+  <goal name="correct_toffoli_rev&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.23" steps="1258317"/></proof>
   </goal>
-  <goal name="correct_fredkin_rev&#39;vc.5" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.69" steps="1258240"/></proof>
-  </goal>
- </transf>
- </goal>
- <goal name="correct_cnot_rev&#39;vc" expl="VC for correct_cnot_rev">
- <transf name="split_vc" >
-  <goal name="correct_cnot_rev&#39;vc.0" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.64" steps="1259368"/></proof>
-  </goal>
-  <goal name="correct_cnot_rev&#39;vc.1" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.66" steps="1258873"/></proof>
-  </goal>
-  <goal name="correct_cnot_rev&#39;vc.2" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.45" steps="1258448"/></proof>
+  <goal name="correct_toffoli_rev&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.60" steps="1258063"/></proof>
   </goal>
  </transf>
  </goal>
- <goal name="correct_swap_rev&#39;vc" expl="VC for correct_swap_rev">
- <transf name="split_vc" >
-  <goal name="correct_swap_rev&#39;vc.0" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.40" steps="1259260"/></proof>
+ <goal name="correct_fredkin_rev&#39;vc" expl="VC for correct_fredkin_rev" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="correct_fredkin_rev&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.64" steps="1258888"/></proof>
   </goal>
-  <goal name="correct_swap_rev&#39;vc.1" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.34" steps="1258915"/></proof>
+  <goal name="correct_fredkin_rev&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.56" steps="1258597"/></proof>
   </goal>
-  <goal name="correct_swap_rev&#39;vc.2" expl="postcondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.32" steps="1258400"/></proof>
+  <goal name="correct_fredkin_rev&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.59" steps="1258697"/></proof>
+  </goal>
+  <goal name="correct_fredkin_rev&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.52" steps="1258587"/></proof>
+  </goal>
+  <goal name="correct_fredkin_rev&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.67" steps="1258344"/></proof>
+  </goal>
+  <goal name="correct_fredkin_rev&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.69" steps="1258307"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="correct_cnot_rev&#39;vc" expl="VC for correct_cnot_rev" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="correct_cnot_rev&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.64" steps="1258742"/></proof>
+  </goal>
+  <goal name="correct_cnot_rev&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.13" steps="1259218"/></proof>
+  </goal>
+  <goal name="correct_cnot_rev&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.45" steps="1257818"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="correct_swap_rev&#39;vc" expl="VC for correct_swap_rev" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="correct_swap_rev&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.40" steps="1258783"/></proof>
+  </goal>
+  <goal name="correct_swap_rev&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.34" steps="1258886"/></proof>
+  </goal>
+  <goal name="correct_swap_rev&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.32" steps="1258289"/></proof>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Place_atomic_def">
- <goal name="skip_atomic&#39;vc" expl="VC for skip_atomic">
- <transf name="split_vc" >
-  <goal name="skip_atomic&#39;vc.0" expl="postcondition">
-  <transf name="assert" arg1="(build_correct c)">
-   <goal name="skip_atomic&#39;vc.0.0" expl="asserted formula">
-   <proof prover="2" obsolete="true"><result status="valid" time="3.72" steps="1268537"/></proof>
+<theory name="Place_atomic_def" proved="true">
+ <goal name="skip_atomic&#39;vc" expl="VC for skip_atomic" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="skip_atomic&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="assert" proved="true" arg1="(build_correct c)">
+   <goal name="skip_atomic&#39;vc.0.0" expl="asserted formula" proved="true">
+   <proof prover="2"><result status="valid" time="3.14" steps="1268999"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.0.1" expl="postcondition">
-   <transf name="apply" arg1="set_ancilla_free">
-    <goal name="skip_atomic&#39;vc.0.1.0" expl="apply premises">
-    <proof prover="2" obsolete="true"><result status="valid" time="1.46" steps="915876"/></proof>
+   <goal name="skip_atomic&#39;vc.0.1" expl="postcondition" proved="true">
+   <transf name="apply" proved="true" arg1="set_ancilla_free">
+    <goal name="skip_atomic&#39;vc.0.1.0" expl="apply premises" proved="true">
+    <proof prover="2"><result status="valid" time="1.46" steps="916092"/></proof>
     </goal>
-    <goal name="skip_atomic&#39;vc.0.1.1" expl="apply premises">
-    <transf name="destruct_rec" arg1="H1">
-     <goal name="skip_atomic&#39;vc.0.1.1.0" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="1.35" steps="914837"/></proof>
+    <goal name="skip_atomic&#39;vc.0.1.1" expl="apply premises" proved="true">
+    <transf name="destruct_rec" proved="true" arg1="H1">
+     <goal name="skip_atomic&#39;vc.0.1.1.0" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="1.35" steps="915053"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.1" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="1.31" steps="914837"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.1" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="1.31" steps="915053"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.2" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="1.29" steps="914841"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.2" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="1.29" steps="915057"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.3" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="1.30" steps="914845"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.3" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="1.30" steps="915061"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.4" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="1.31" steps="914837"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.4" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="1.31" steps="915053"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.5" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="2.28" steps="980716"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.5" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.28" steps="980773"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.6" expl="apply premises">
-     <transf name="split_all_full" >
-      <goal name="skip_atomic&#39;vc.0.1.1.6.0" expl="apply premises">
-      <proof prover="2" obsolete="true"><result status="valid" time="3.56" steps="1306340"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.6" expl="apply premises" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="skip_atomic&#39;vc.0.1.1.6.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.56" steps="1306971"/></proof>
       </goal>
      </transf>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.7" expl="apply premises">
-     <transf name="split_all_full" >
-      <goal name="skip_atomic&#39;vc.0.1.1.7.0" expl="apply premises">
-      <proof prover="2" obsolete="true"><result status="valid" time="3.50" steps="1306340"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.7" expl="apply premises" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="skip_atomic&#39;vc.0.1.1.7.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.50" steps="1306971"/></proof>
       </goal>
      </transf>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.8" expl="apply premises">
-     <transf name="split_all_full" >
-      <goal name="skip_atomic&#39;vc.0.1.1.8.0" expl="apply premises">
-      <proof prover="2" obsolete="true"><result status="valid" time="3.46" steps="1306340"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.8" expl="apply premises" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="skip_atomic&#39;vc.0.1.1.8.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.46" steps="1306971"/></proof>
       </goal>
      </transf>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.9" expl="apply premises">
-     <transf name="split_all_full" >
-      <goal name="skip_atomic&#39;vc.0.1.1.9.0" expl="apply premises">
-      <proof prover="2" obsolete="true"><result status="valid" time="3.59" steps="1306340"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.9" expl="apply premises" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="skip_atomic&#39;vc.0.1.1.9.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.09" steps="1306971"/></proof>
       </goal>
      </transf>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.10" expl="apply premises">
-     <transf name="split_all_full" >
-      <goal name="skip_atomic&#39;vc.0.1.1.10.0" expl="apply premises">
-      <proof prover="2" obsolete="true"><result status="valid" time="3.48" steps="1306340"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.10" expl="apply premises" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="skip_atomic&#39;vc.0.1.1.10.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.48" steps="1306971"/></proof>
       </goal>
      </transf>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.11" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="2.43" steps="980716"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.11" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.43" steps="980773"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.12" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="2.69" steps="980716"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.12" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.30" steps="980773"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.13" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="2.75" steps="980716"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.13" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.32" steps="980773"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.14" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="2.69" steps="980716"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.14" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.32" steps="980773"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.15" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="2.60" steps="980716"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.15" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.60" steps="980773"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.16" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="2.55" steps="980716"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.16" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.55" steps="980773"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.17" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="2.63" steps="980716"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.17" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.63" steps="980773"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.18" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="2.63" steps="980716"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.18" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.25" steps="980773"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.19" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="2.30" steps="980716"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.19" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.30" steps="980773"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.20" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="2.34" steps="980716"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.20" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.34" steps="980773"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.21" expl="apply premises">
-     <transf name="split_all_full" >
-      <goal name="skip_atomic&#39;vc.0.1.1.21.0" expl="apply premises">
-      <proof prover="2" obsolete="true"><result status="valid" time="3.38" steps="1306366"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.21" expl="apply premises" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="skip_atomic&#39;vc.0.1.1.21.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="3.38" steps="1307007"/></proof>
       </goal>
      </transf>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.22" expl="apply premises">
-     <proof prover="2" obsolete="true"><result status="valid" time="3.56" steps="1268684"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.22" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="3.56" steps="1268622"/></proof>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.23" expl="apply premises">
-     <transf name="split_all_full" >
-      <goal name="skip_atomic&#39;vc.0.1.1.23.0" expl="apply premises">
-      <proof prover="2" obsolete="true"><result status="valid" time="2.88" steps="1306361"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.23" expl="apply premises" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="skip_atomic&#39;vc.0.1.1.23.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.88" steps="1307023"/></proof>
       </goal>
      </transf>
      </goal>
-     <goal name="skip_atomic&#39;vc.0.1.1.24" expl="apply premises">
-     <transf name="split_all_full" >
-      <goal name="skip_atomic&#39;vc.0.1.1.24.0" expl="apply premises">
-      <proof prover="2" obsolete="true"><result status="valid" time="2.80" steps="1306361"/></proof>
+     <goal name="skip_atomic&#39;vc.0.1.1.24" expl="apply premises" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="skip_atomic&#39;vc.0.1.1.24.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.80" steps="1307023"/></proof>
       </goal>
      </transf>
      </goal>
@@ -1476,96 +1476,96 @@
    </goal>
   </transf>
   </goal>
-  <goal name="skip_atomic&#39;vc.1" expl="postcondition">
-  <transf name="destruct_rec" arg1="H1">
-   <goal name="skip_atomic&#39;vc.1.0" expl="postcondition">
-   <proof prover="2" obsolete="true"><result status="valid" time="1.22" steps="914844"/></proof>
+  <goal name="skip_atomic&#39;vc.1" expl="postcondition" proved="true">
+  <transf name="destruct_rec" proved="true" arg1="H1">
+   <goal name="skip_atomic&#39;vc.1.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.22" steps="915060"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.1" expl="postcondition">
-   <proof prover="2" obsolete="true"><result status="valid" time="1.24" steps="914844"/></proof>
+   <goal name="skip_atomic&#39;vc.1.1" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.24" steps="915060"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.2" expl="postcondition">
-   <proof prover="2" obsolete="true"><result status="valid" time="1.36" steps="914848"/></proof>
+   <goal name="skip_atomic&#39;vc.1.2" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.36" steps="915064"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.3" expl="postcondition">
-   <proof prover="2" obsolete="true"><result status="valid" time="1.26" steps="914852"/></proof>
+   <goal name="skip_atomic&#39;vc.1.3" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.26" steps="915068"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.4" expl="postcondition">
-   <proof prover="2" obsolete="true"><result status="valid" time="1.23" steps="914844"/></proof>
+   <goal name="skip_atomic&#39;vc.1.4" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.23" steps="915060"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.5" expl="postcondition">
-   <proof prover="0" obsolete="true"><result status="valid" time="1.73"/></proof>
+   <goal name="skip_atomic&#39;vc.1.5" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.73"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.6" expl="postcondition">
-   <proof prover="0" obsolete="true"><result status="valid" time="1.74"/></proof>
+   <goal name="skip_atomic&#39;vc.1.6" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.74"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.7" expl="postcondition">
-   <proof prover="0" obsolete="true"><result status="valid" time="1.74"/></proof>
+   <goal name="skip_atomic&#39;vc.1.7" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.74"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.8" expl="postcondition">
-   <proof prover="2" obsolete="true"><result status="valid" time="2.54" steps="980706"/></proof>
+   <goal name="skip_atomic&#39;vc.1.8" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.54" steps="980818"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.9" expl="postcondition">
-   <proof prover="0" obsolete="true"><result status="valid" time="1.64"/></proof>
+   <goal name="skip_atomic&#39;vc.1.9" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.64"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.10" expl="postcondition">
-   <proof prover="0" obsolete="true"><result status="valid" time="1.60"/></proof>
+   <goal name="skip_atomic&#39;vc.1.10" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.60"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.11" expl="postcondition">
-   <proof prover="0" obsolete="true"><result status="valid" time="1.59"/></proof>
+   <goal name="skip_atomic&#39;vc.1.11" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.59"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.12" expl="postcondition">
-   <proof prover="0" obsolete="true"><result status="valid" time="1.55"/></proof>
+   <goal name="skip_atomic&#39;vc.1.12" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.55"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.13" expl="postcondition">
-   <proof prover="0" obsolete="true"><result status="valid" time="1.64"/></proof>
+   <goal name="skip_atomic&#39;vc.1.13" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.64"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.14" expl="postcondition">
-   <proof prover="0" obsolete="true"><result status="valid" time="1.72"/></proof>
+   <goal name="skip_atomic&#39;vc.1.14" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.72"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.15" expl="postcondition">
-   <proof prover="0" obsolete="true"><result status="valid" time="1.56"/></proof>
+   <goal name="skip_atomic&#39;vc.1.15" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.56"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.16" expl="postcondition">
-   <proof prover="0" obsolete="true"><result status="valid" time="1.61"/></proof>
+   <goal name="skip_atomic&#39;vc.1.16" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.61"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.17" expl="postcondition">
-   <proof prover="0" obsolete="true"><result status="valid" time="1.59"/></proof>
+   <goal name="skip_atomic&#39;vc.1.17" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.59"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.18" expl="postcondition">
-   <proof prover="0" obsolete="true"><result status="valid" time="1.66"/></proof>
+   <goal name="skip_atomic&#39;vc.1.18" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.66"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.19" expl="postcondition">
-   <proof prover="0" obsolete="true"><result status="valid" time="1.61"/></proof>
+   <goal name="skip_atomic&#39;vc.1.19" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.61"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.20" expl="postcondition">
-   <proof prover="0" obsolete="true"><result status="valid" time="1.51"/></proof>
+   <goal name="skip_atomic&#39;vc.1.20" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.80"/></proof>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.21" expl="postcondition">
-   <transf name="split_vc" >
-    <goal name="skip_atomic&#39;vc.1.21.0" expl="postcondition">
-    <proof prover="0" obsolete="true"><result status="valid" time="1.62"/></proof>
+   <goal name="skip_atomic&#39;vc.1.21" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="skip_atomic&#39;vc.1.21.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.62"/></proof>
     </goal>
    </transf>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.22" expl="postcondition">
-   <transf name="split_vc" >
-    <goal name="skip_atomic&#39;vc.1.22.0" expl="postcondition">
-    <proof prover="0" obsolete="true"><result status="valid" time="1.55"/></proof>
+   <goal name="skip_atomic&#39;vc.1.22" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="skip_atomic&#39;vc.1.22.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.89"/></proof>
     </goal>
    </transf>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.23" expl="postcondition">
-   <transf name="split_vc" >
-    <goal name="skip_atomic&#39;vc.1.23.0" expl="postcondition">
-    <proof prover="0" obsolete="true"><result status="valid" time="1.51"/></proof>
+   <goal name="skip_atomic&#39;vc.1.23" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="skip_atomic&#39;vc.1.23.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.80"/></proof>
     </goal>
    </transf>
    </goal>
-   <goal name="skip_atomic&#39;vc.1.24" expl="postcondition">
-   <transf name="split_vc" >
-    <goal name="skip_atomic&#39;vc.1.24.0" expl="postcondition">
-    <proof prover="0" obsolete="true"><result status="valid" time="1.52"/></proof>
+   <goal name="skip_atomic&#39;vc.1.24" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="skip_atomic&#39;vc.1.24.0" expl="postcondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.52"/></proof>
     </goal>
    </transf>
    </goal>
@@ -1573,25 +1573,25 @@
   </goal>
  </transf>
  </goal>
- <goal name="place_free&#39;vc" expl="VC for place_free">
- <transf name="split_vc" >
-  <goal name="place_free&#39;vc.0" expl="precondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="2.24" steps="982454"/></proof>
+ <goal name="place_free&#39;vc" expl="VC for place_free" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="place_free&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.24" steps="982505"/></proof>
   </goal>
-  <goal name="place_free&#39;vc.1" expl="precondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="2.17" steps="982454"/></proof>
+  <goal name="place_free&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.17" steps="982505"/></proof>
   </goal>
-  <goal name="place_free&#39;vc.2" expl="precondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="2.11" steps="982464"/></proof>
+  <goal name="place_free&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.11" steps="982515"/></proof>
   </goal>
-  <goal name="place_free&#39;vc.3" expl="precondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="2.08" steps="982464"/></proof>
+  <goal name="place_free&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="2.08" steps="982515"/></proof>
   </goal>
-  <goal name="place_free&#39;vc.4" expl="precondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.16" steps="1272333"/></proof>
+  <goal name="place_free&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.16" steps="1272042"/></proof>
   </goal>
-  <goal name="place_free&#39;vc.5" expl="precondition">
-  <proof prover="2" obsolete="true"><result status="valid" time="3.07" steps="1270783"/></proof>
+  <goal name="place_free&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.07" steps="1271074"/></proof>
   </goal>
  </transf>
  </goal>

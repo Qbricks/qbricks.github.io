@@ -321,7 +321,8 @@ let ghost function ket_with_ancs (i:int)
 let function modular_multiplier(p:int) :circuit
                                           requires{0< p < bound}
                                           requires{co_prime p  bound}
-             ensures{forall i. 0<=i < bound  ->
+                                          ensures{ancilla_free result}
+                                          ensures{forall i. 0<=i < bound  ->
                      path_sem result  (ket_with_ancs i)  = ket_with_ancs (mod (p * i) bound)}
               ensures{width result = 2*n+4}
   =
@@ -364,10 +365,12 @@ let function modular_multiplier(p:int) :circuit
               assert{forall i. 0<=i < bound ->
                      path_sem c (kronecker  (ket (n+1) i)  (kronecker (ket (n+2) 0) (ket 1 0))) = kronecker  (ket (n+1) (mod (p * i) bound ))  (kronecker (ket (n+2) 0) (ket 1 0))};
               assert{width c = 2*n+4};
+              assert{ancilla_free c};                      
               c := with_permutation c (fun i -> if i< 1 then i + (2*n+4)-1 else  i - 1) ;
               assert{forall i. 0<=i < bound ->
                      path_sem c (kronecker (kronecker  (ket n i)   (ket (n+3) 0) ) (ket 1 0)) = (kronecker (kronecker  (ket n (mod (p * i) bound ))  ( ket (n+3) 0)) (ket 1 0)) };
               assert{width c = 2*n+4};
+              assert{ancilla_free c};                      
               c
               
 let ghost function reg_final
