@@ -1,3 +1,25 @@
+# (**************************************************************************)
+# (*  This file is part of QBRICKS.                                         *)
+# (*                                                                        *)
+# (*  Copyright (C) 2020-2022                                               *)
+# (*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+# (*         alternatives)                                                  *)
+# (*    Université Paris-Saclay                                             *)
+# (*                                                                        *)
+# (*  you can redistribute it and/or modify it under the terms of the GNU   *)
+# (*  Lesser General Public License as published by the Free Software       *)
+# (*  Foundation, version 2.1.                                              *)
+# (*                                                                        *)
+# (*  It is distributed in the hope that it will be useful,                 *)
+# (*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+# (*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+# (*  GNU Lesser General Public License for more details.                   *)
+# (*                                                                        *)
+# (*  See the GNU Lesser General Public License version 2.1                 *)
+# (*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+# (*                                                                        *)
+# (**************************************************************************)
+
 DIRS?= --library=../math_libs --library=../Qbricks --library=../Case_studies --library=../extracted
 
 
@@ -19,7 +41,6 @@ ide_qbricks:
 ide_derived_circuits_c:
 	why3 ide $(DIRS) derived_circuits_c.mlw
 
-
 ide_pps:
 	why3 ide $(DIRS) pps.mlw
 
@@ -29,31 +50,11 @@ ide_qdata:
 ide_binary:
 	why3 ide $(DIRS) ../math_libs/binary.mlw
 
-ide_hybrid_circuits:
-	why3 ide $(DIRS) hybrid_circuits.mlw
-
-ide_hpps:
-	why3 ide $(DIRS) hpps.mlw
-
 ide_reversion:
 	why3 ide $(DIRS) reversion.mlw
 
-
-reformat_qbricks:
-	why3 pp --output mlw qbricks.mlw >> qbricks_f.mlw
-
-reformat_circuits_equiv:
-	why3 pp --output mlw circuits_equiv.mlw >> circuits_equiv_f.mlw
-
-
 prove_circuits_equiv:
 	why3 prove $(DIRS) circuits_equiv.mlw
-
-
-prove_hybrid_circuits:
-	why3 prove $(DIRS) hybrid_circuits.mlw
-prove_hybrid_semantics:
-	why3 prove $(DIRS) hybrid_semantics.mlw
 
 # Print dependencies tree of `qbricks.mlw`
 dep_qbricks:
