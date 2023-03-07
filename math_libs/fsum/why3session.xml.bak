@@ -1,0 +1,2422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="6">
+<prover id="0" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="8" name="Alt-Ergo" version="2.4.0" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="10" name="CVC4" version="1.7" timelimit="5" steplimit="0" memlimit="1000"/>
+<file format="whyml" proved="true">
+<path name=".."/><path name="fsum.mlw"/>
+<theory name="Iterations" proved="true">
+ <goal name="refl&#39;vc" expl="VC for refl" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="refl&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.06" steps="30359"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="set_neutral&#39;vc" expl="VC for set_neutral" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="set_neutral&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.05" steps="30649"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterates_&#39;vc" expl="VC for iterates_" proved="true">
+ <proof prover="10"><result status="valid" time="0.05" steps="31680"/></proof>
+ </goal>
+ <goal name="iterate&#39;vc" expl="VC for iterate" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate&#39;vc.0" expl="variant decrease" proved="true">
+  <proof prover="10"><result status="valid" time="0.09" steps="42840"/></proof>
+  </goal>
+  <goal name="iterate&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.05" steps="38571"/></proof>
+  </goal>
+  <goal name="iterate&#39;vc.2" expl="precondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="iterate&#39;vc.2.0" expl="precondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="iterable&#39;def">
+    <goal name="iterate&#39;vc.2.0.0" expl="VC for iterate" proved="true">
+    <transf name="exists" proved="true" arg1="(neutral_elt op )">
+     <goal name="iterate&#39;vc.2.0.0.0" proved="true">
+     <proof prover="10"><result status="valid" time="0.11" steps="47445"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="minus_zero&#39;vc" expl="VC for minus_zero" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="minus_zero&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.22" steps="92785"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="unic&#39;vc" expl="VC for unic" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="unic&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="40206"/></proof>
+  </goal>
+  <goal name="unic&#39;vc.1" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="48476"/></proof>
+  </goal>
+  <goal name="unic&#39;vc.2" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="48428"/></proof>
+  </goal>
+  <goal name="unic&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.05" steps="34015"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="substract_comm&#39;vc" expl="VC for substract_comm" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="substract_comm&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.09" steps="36845"/></proof>
+  </goal>
+  <goal name="substract_comm&#39;vc.1" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.07" steps="35557"/></proof>
+  </goal>
+  <goal name="substract_comm&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.07" steps="35603"/></proof>
+  </goal>
+  <goal name="substract_comm&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.07" steps="35779"/></proof>
+  </goal>
+  <goal name="substract_comm&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.72" steps="286245"/></proof>
+  </goal>
+  <goal name="substract_comm&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.45" steps="158141"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate&#39;vc" expl="VC for int_iterate" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate&#39;vc.0" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="int_iterate&#39;vc.0.0" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.07" steps="36047"/></proof>
+   </goal>
+   <goal name="int_iterate&#39;vc.0.1" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.06" steps="34811"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="int_iterate&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.09" steps="36072"/></proof>
+  </goal>
+  <goal name="int_iterate&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.06" steps="38657"/></proof>
+  </goal>
+  <goal name="int_iterate&#39;vc.3" expl="postcondition" proved="true">
+  <transf name="assert" proved="true" arg1="(iterable op)">
+   <goal name="int_iterate&#39;vc.3.0" expl="asserted formula" proved="true">
+   <proof prover="8"><result status="valid" time="0.05" steps="341"/></proof>
+   </goal>
+   <goal name="int_iterate&#39;vc.3.1" expl="postcondition" proved="true">
+   <transf name="eliminate_let" proved="true" >
+    <goal name="int_iterate&#39;vc.3.1.0" expl="postcondition" proved="true">
+    <proof prover="10"><result status="valid" time="0.13" steps="48529"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_int_iterate&#39;vc" expl="VC for int_int_iterate" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_int_iterate&#39;vc.0" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="int_int_iterate&#39;vc.0.0" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.07" steps="37331"/></proof>
+   </goal>
+   <goal name="int_int_iterate&#39;vc.0.1" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.05" steps="36081"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="int_int_iterate&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.05" steps="36043"/></proof>
+  </goal>
+  <goal name="int_int_iterate&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.04" steps="36055"/></proof>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+<theory name="Set_iter" proved="true">
+ <goal name="iterate_empty&#39;vc" expl="VC for iterate_empty" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_empty&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.08" steps="43672"/></proof>
+  </goal>
+  <goal name="iterate_empty&#39;vc.1" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="47543"/></proof>
+  </goal>
+  <goal name="iterate_empty&#39;vc.2" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="46633"/></proof>
+  </goal>
+  <goal name="iterate_empty&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="50034"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_one&#39;vc" expl="VC for iterate_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_one&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="s" arg2="(add (choose s) empty)">
+   <goal name="iterate_one&#39;vc.0.0" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.24" steps="61254"/></proof>
+   </goal>
+   <goal name="iterate_one&#39;vc.0.1" expl="equality hypothesis" proved="true">
+   <proof prover="10"><result status="valid" time="0.19" steps="95005"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_add&#39;vc" expl="VC for iterate_add" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_add&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="case" proved="true" arg1="(is_empty s)">
+   <goal name="iterate_add&#39;vc.0.0" expl="true case (postcondition)" proved="true">
+   <proof prover="10"><result status="valid" time="0.30" steps="144100"/></proof>
+   </goal>
+   <goal name="iterate_add&#39;vc.0.1" expl="false case (postcondition)" proved="true">
+   <transf name="case" proved="true" arg1="(cardinal s = 1)">
+    <goal name="iterate_add&#39;vc.0.1.0" expl="false case (true case. postcondition)" proved="true">
+    <transf name="rewrite" proved="true" arg1="Iterate_add">
+     <goal name="iterate_add&#39;vc.0.1.0.0" expl="false case (true case. postcondition)" proved="true">
+     <proof prover="10"><result status="valid" time="0.05" steps="57692"/></proof>
+     </goal>
+     <goal name="iterate_add&#39;vc.0.1.0.1" expl="rewrite premises" proved="true">
+     <proof prover="10"><result status="valid" time="0.14" steps="60590"/></proof>
+     </goal>
+     <goal name="iterate_add&#39;vc.0.1.0.2" expl="rewrite premises" proved="true">
+     <proof prover="10"><result status="valid" time="0.11" steps="57694"/></proof>
+     </goal>
+     <goal name="iterate_add&#39;vc.0.1.0.3" expl="rewrite premises" proved="true">
+     <proof prover="10"><result status="valid" time="0.11" steps="57692"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="iterate_add&#39;vc.0.1.1" expl="false case (postcondition)" proved="true">
+    <proof prover="10"><result status="valid" time="0.12" steps="65794"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_add_&#39;vc" expl="VC for iterate_add_" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_add_&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Iterate_add">
+   <goal name="iterate_add_&#39;vc.0.0" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.14" steps="60535"/></proof>
+   </goal>
+   <goal name="iterate_add_&#39;vc.0.1" expl="rewrite premises" proved="true">
+   <proof prover="10"><result status="valid" time="0.13" steps="66706"/></proof>
+   </goal>
+   <goal name="iterate_add_&#39;vc.0.2" expl="rewrite premises" proved="true">
+   <proof prover="10"><result status="valid" time="0.13" steps="60537"/></proof>
+   </goal>
+   <goal name="iterate_add_&#39;vc.0.3" expl="rewrite premises" proved="true">
+   <proof prover="10"><result status="valid" time="0.12" steps="60535"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_remove&#39;vc" expl="VC for iterate_remove" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_remove&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.27" steps="72395"/></proof>
+  </goal>
+  <goal name="iterate_remove&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.24" steps="68720"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_def_choose&#39;vc" expl="VC for iterate_def_choose" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_def_choose&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.21" steps="63480"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="choose_any&#39;vc" expl="VC for choose_any" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="choose_any&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="71278"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_comp_iterate&#39;vc" expl="VC for iterate_comp_iterate" proved="true">
+ <transf name="eliminate_let" proved="true" >
+  <goal name="iterate_comp_iterate&#39;vc.0" expl="VC for iterate_comp_iterate" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iterate_comp_iterate&#39;vc.0.0" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.09" steps="49658"/></proof>
+   </goal>
+   <goal name="iterate_comp_iterate&#39;vc.0.1" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.09" steps="49661"/></proof>
+   </goal>
+   <goal name="iterate_comp_iterate&#39;vc.0.2" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.19" steps="69359"/></proof>
+   </goal>
+   <goal name="iterate_comp_iterate&#39;vc.0.3" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.11" steps="57282"/></proof>
+   </goal>
+   <goal name="iterate_comp_iterate&#39;vc.0.4" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.11" steps="57285"/></proof>
+   </goal>
+   <goal name="iterate_comp_iterate&#39;vc.0.5" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.19" steps="71694"/></proof>
+   </goal>
+   <goal name="iterate_comp_iterate&#39;vc.0.6" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.11" steps="57334"/></proof>
+   </goal>
+   <goal name="iterate_comp_iterate&#39;vc.0.7" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.10" steps="57337"/></proof>
+   </goal>
+   <goal name="iterate_comp_iterate&#39;vc.0.8" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.20" steps="71747"/></proof>
+   </goal>
+   <goal name="iterate_comp_iterate&#39;vc.0.9" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.21" steps="68209"/></proof>
+   </goal>
+   <goal name="iterate_comp_iterate&#39;vc.0.10" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.11" steps="57560"/></proof>
+   </goal>
+   <goal name="iterate_comp_iterate&#39;vc.0.11" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.09" steps="57563"/></proof>
+   </goal>
+   <goal name="iterate_comp_iterate&#39;vc.0.12" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.10" steps="57566"/></proof>
+   </goal>
+   <goal name="iterate_comp_iterate&#39;vc.0.13" expl="postcondition" proved="true">
+   <transf name="destruct" proved="true" arg1="H">
+    <goal name="iterate_comp_iterate&#39;vc.0.13.0" expl="postcondition" proved="true">
+    <transf name="case" proved="true" arg1="(cardinal s1 = 0)">
+     <goal name="iterate_comp_iterate&#39;vc.0.13.0.0" expl="true case (postcondition)" proved="true">
+     <proof prover="10"><result status="valid" time="0.20" steps="58871"/></proof>
+     </goal>
+     <goal name="iterate_comp_iterate&#39;vc.0.13.0.1" expl="false case (postcondition)" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="iterate_comp_iterate&#39;vc.0.13.0.1.0" expl="false case (postcondition)" proved="true">
+      <proof prover="10"><result status="valid" time="0.18" steps="69053"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="iterate_comp_iterate&#39;vc.0.13.1" expl="postcondition" proved="true">
+    <transf name="case" proved="true" arg1="(cardinal s1 = 0)">
+     <goal name="iterate_comp_iterate&#39;vc.0.13.1.0" expl="true case (postcondition)" proved="true">
+     <proof prover="10"><result status="valid" time="0.21" steps="63220"/></proof>
+     </goal>
+     <goal name="iterate_comp_iterate&#39;vc.0.13.1.1" expl="false case (postcondition)" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="iterate_comp_iterate&#39;vc.0.13.1.1.0" expl="false case (postcondition)" proved="true">
+      <transf name="replace" proved="true" arg1="(add (choose s1) (remove (choose s1) s1))" arg2="s1" arg3="in" arg4="H1">
+       <goal name="iterate_comp_iterate&#39;vc.0.13.1.1.0.0" expl="false case (postcondition)" proved="true">
+       <transf name="rewrite" proved="true" arg1="H1">
+        <goal name="iterate_comp_iterate&#39;vc.0.13.1.1.0.0.0" expl="false case (postcondition)" proved="true">
+        <transf name="rewrite" proved="true" arg1="H">
+         <goal name="iterate_comp_iterate&#39;vc.0.13.1.1.0.0.0.0" expl="false case (postcondition)" proved="true">
+         <transf name="compute_specified" proved="true" >
+          <goal name="iterate_comp_iterate&#39;vc.0.13.1.1.0.0.0.0.0" expl="false case (postcondition)" proved="true">
+          <proof prover="10"><result status="valid" time="0.28" steps="84782"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="iterate_comp_iterate&#39;vc.0.13.1.1.0.1" expl="equality hypothesis" proved="true">
+       <proof prover="10"><result status="valid" time="0.21" steps="75116"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_comp_iterate_com&#39;vc" expl="VC for iterate_comp_iterate_com" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_comp_iterate_com&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.09" steps="46288"/></proof>
+  </goal>
+  <goal name="iterate_comp_iterate_com&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.08" steps="46291"/></proof>
+  </goal>
+  <goal name="iterate_comp_iterate_com&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="52387"/></proof>
+  </goal>
+  <goal name="iterate_comp_iterate_com&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.21" steps="63720"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_transitivity&#39;vc" expl="VC for iterate_transitivity" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_transitivity&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="61307"/></proof>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.1" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="62452"/></proof>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.2" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="62763"/></proof>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.3" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iterate_transitivity&#39;vc.3.0" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.19" steps="59522"/></proof>
+   </goal>
+   <goal name="iterate_transitivity&#39;vc.3.1" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.20" steps="62078"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="56560"/></proof>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="56563"/></proof>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.09" steps="56566"/></proof>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.7" expl="assertion" proved="true">
+  <transf name="assert" proved="true" arg1="(union s1 s2 == union s1 (remove (choose s2) s2))">
+   <goal name="iterate_transitivity&#39;vc.7.0" expl="asserted formula" proved="true">
+   <proof prover="10"><result status="valid" time="0.20" steps="95699"/></proof>
+   </goal>
+   <goal name="iterate_transitivity&#39;vc.7.1" expl="assertion" proved="true">
+   <proof prover="10"><result status="valid" time="0.27" steps="79552"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.8" expl="assertion" proved="true">
+  <transf name="apply" proved="true" arg1="set_equal">
+   <goal name="iterate_transitivity&#39;vc.8.0" expl="apply premises" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="iterate_transitivity&#39;vc.8.0.0" expl="apply premises" proved="true">
+    <proof prover="10"><result status="valid" time="0.19" steps="98782"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="iterate_transitivity&#39;vc.8.1" expl="apply premises" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="iterate_transitivity&#39;vc.8.1.0" expl="apply premises" proved="true">
+    <proof prover="10"><result status="valid" time="0.27" steps="80907"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.9" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="76233"/></proof>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.10" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="1.34" steps="851041"/></proof>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.11" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="1.94" steps="1044696"/></proof>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.12" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.26" steps="81635"/></proof>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.13" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.21" steps="76594"/></proof>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.14" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.25" steps="79728"/></proof>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.15" expl="assertion" proved="true">
+  <transf name="apply" proved="true" arg1="set_equal">
+   <goal name="iterate_transitivity&#39;vc.15.0" expl="apply premises" proved="true">
+   <proof prover="10"><result status="valid" time="0.28" steps="87213"/></proof>
+   </goal>
+   <goal name="iterate_transitivity&#39;vc.15.1" expl="apply premises" proved="true">
+   <proof prover="10"><result status="valid" time="0.26" steps="80509"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.16" expl="assertion" proved="true">
+  <transf name="eliminate_if" proved="true" >
+   <goal name="iterate_transitivity&#39;vc.16.0" expl="assertion" proved="true">
+   <transf name="destruct" proved="true" arg1="H">
+    <goal name="iterate_transitivity&#39;vc.16.0.0" expl="assertion" proved="true">
+    <transf name="case" proved="true" arg1="(mem (choose s2)s1)">
+     <goal name="iterate_transitivity&#39;vc.16.0.0.0" expl="true case (assertion)" proved="true">
+     <transf name="destruct" proved="true" arg1="H1">
+      <goal name="iterate_transitivity&#39;vc.16.0.0.0.0" expl="destruct premise" proved="true">
+      <proof prover="10"><result status="valid" time="0.13" steps="74616"/></proof>
+      </goal>
+      <goal name="iterate_transitivity&#39;vc.16.0.0.0.1" expl="true case (assertion)" proved="true">
+      <transf name="destruct" proved="true" arg1="H1">
+       <goal name="iterate_transitivity&#39;vc.16.0.0.0.1.0" expl="true case (assertion)" proved="true">
+       <transf name="assert" proved="true" arg1="(union s1 s2 = union s1 (remove (choose s2) s2))">
+        <goal name="iterate_transitivity&#39;vc.16.0.0.0.1.0.0" expl="asserted formula" proved="true">
+        <proof prover="10"><result status="valid" time="0.14" steps="74883"/></proof>
+        </goal>
+        <goal name="iterate_transitivity&#39;vc.16.0.0.0.1.0.1" expl="true case (assertion)" proved="true">
+        <transf name="rewrite" proved="true" arg1="h">
+         <goal name="iterate_transitivity&#39;vc.16.0.0.0.1.0.1.0" expl="true case (assertion)" proved="true">
+         <transf name="replace" proved="true" arg1="((op @ iterate op s1 f) @ iterate op s2 f)" arg2="(op (((op @ iterate op s1 f) @ iterate op (remove (choose s2) s2) f)) (f (choose s2)))">
+          <goal name="iterate_transitivity&#39;vc.16.0.0.0.1.0.1.0.0" expl="true case (assertion)" proved="true">
+          <proof prover="10"><result status="valid" time="0.16" steps="92825"/></proof>
+          </goal>
+          <goal name="iterate_transitivity&#39;vc.16.0.0.0.1.0.1.0.1" expl="equality hypothesis" proved="true">
+          <proof prover="10"><result status="valid" time="0.17" steps="92060"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="iterate_transitivity&#39;vc.16.0.0.1" expl="false case (assertion)" proved="true">
+     <transf name="destruct" proved="true" arg1="H">
+      <goal name="iterate_transitivity&#39;vc.16.0.0.1.0" expl="destruct premise" proved="true">
+      <proof prover="10"><result status="valid" time="0.14" steps="74851"/></proof>
+      </goal>
+      <goal name="iterate_transitivity&#39;vc.16.0.0.1.1" expl="false case (assertion)" proved="true">
+      <transf name="split_all_full" proved="true" >
+       <goal name="iterate_transitivity&#39;vc.16.0.0.1.1.0" expl="false case (assertion)" proved="true">
+       <transf name="rewrite" proved="true" arg1="H1">
+        <goal name="iterate_transitivity&#39;vc.16.0.0.1.1.0.0" expl="false case (assertion)" proved="true">
+        <transf name="rewrite" proved="true" arg1="iterate_add">
+         <goal name="iterate_transitivity&#39;vc.16.0.0.1.1.0.0.0" expl="false case (assertion)" proved="true">
+         <proof prover="10"><result status="valid" time="0.45" steps="133812"/></proof>
+         </goal>
+         <goal name="iterate_transitivity&#39;vc.16.0.0.1.1.0.0.1" expl="rewrite premises" proved="true">
+         <proof prover="10"><result status="valid" time="0.16" steps="94636"/></proof>
+         </goal>
+         <goal name="iterate_transitivity&#39;vc.16.0.0.1.1.0.0.2" expl="rewrite premises" proved="true">
+         <proof prover="10"><result status="valid" time="0.16" steps="94636"/></proof>
+         </goal>
+         <goal name="iterate_transitivity&#39;vc.16.0.0.1.1.0.0.3" expl="rewrite premises" proved="true">
+         <proof prover="10"><result status="valid" time="0.18" steps="101837"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iterate_transitivity&#39;vc.17" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.22" steps="77017"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_disjoint_transitivity&#39;vc" expl="VC for iterate_disjoint_transitivity" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_disjoint_transitivity&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="64856"/></proof>
+  </goal>
+  <goal name="iterate_disjoint_transitivity&#39;vc.1" expl="assertion" proved="true">
+  <transf name="destruct" proved="true" arg1="H">
+   <goal name="iterate_disjoint_transitivity&#39;vc.1.0" expl="assertion" proved="true">
+   <proof prover="10"><result status="valid" time="0.24" steps="77091"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iterate_disjoint_transitivity&#39;vc.2" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iterate_disjoint_transitivity&#39;vc.2.0" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.24" steps="73439"/></proof>
+   </goal>
+   <goal name="iterate_disjoint_transitivity&#39;vc.2.1" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.24" steps="73740"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iterate_disjoint_transitivity&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="62806"/></proof>
+  </goal>
+  <goal name="iterate_disjoint_transitivity&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="62809"/></proof>
+  </goal>
+  <goal name="iterate_disjoint_transitivity&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.27" steps="80227"/></proof>
+  </goal>
+  <goal name="iterate_disjoint_transitivity&#39;vc.6" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.35" steps="81493"/></proof>
+  </goal>
+  <goal name="iterate_disjoint_transitivity&#39;vc.7" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.22" steps="68825"/></proof>
+  </goal>
+  <goal name="iterate_disjoint_transitivity&#39;vc.8" expl="postcondition" proved="true">
+  <proof prover="8"><result status="valid" time="1.64" steps="24292"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_eq&#39;vc" expl="VC for iterate_eq" proved="true">
+ <transf name="eliminate_let" proved="true" >
+  <goal name="iterate_eq&#39;vc.0" expl="VC for iterate_eq" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iterate_eq&#39;vc.0.0" expl="assertion" proved="true">
+   <proof prover="10"><result status="valid" time="0.25" steps="78346"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.1" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.22" steps="77011"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.2" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.14" steps="74624"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.3" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.15" steps="74627"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.4" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.21" steps="77306"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.5" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.14" steps="74901"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.6" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.13" steps="74904"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.7" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.12" steps="73371"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.8" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.13" steps="73374"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.9" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.14" steps="74328"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.10" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.13" steps="74331"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.11" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.24" steps="78258"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.12" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.25" steps="78408"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.13" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.13" steps="74223"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.14" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.25" steps="78126"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.15" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.13" steps="74619"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.16" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.13" steps="74627"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.17" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.20" steps="77021"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.18" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.13" steps="74661"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.19" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.13" steps="74669"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.20" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.19" steps="77064"/></proof>
+   </goal>
+   <goal name="iterate_eq&#39;vc.0.21" expl="postcondition" proved="true">
+   <transf name="case" proved="true" arg1="(cardinal s = 0)">
+    <goal name="iterate_eq&#39;vc.0.21.0" expl="true case (postcondition)" proved="true">
+    <proof prover="10"><result status="valid" time="0.22" steps="77916"/></proof>
+    </goal>
+    <goal name="iterate_eq&#39;vc.0.21.1" expl="false case (postcondition)" proved="true">
+    <proof prover="10"><result status="valid" time="0.25" steps="80372"/></proof>
+    </goal>
+   </transf>
+   <transf name="eliminate_if" proved="true" >
+    <goal name="iterate_eq&#39;vc.0.21.0" expl="postcondition" proved="true">
+    <transf name="destruct" proved="true" arg1="H">
+     <goal name="iterate_eq&#39;vc.0.21.0.0" expl="postcondition" proved="true">
+     <transf name="case" proved="true" arg1="(cardinal s = 0)">
+      <goal name="iterate_eq&#39;vc.0.21.0.0.0" expl="true case (postcondition)" proved="true">
+      <proof prover="10"><result status="valid" time="0.19" steps="78732"/></proof>
+      </goal>
+      <goal name="iterate_eq&#39;vc.0.21.0.0.1" expl="false case (postcondition)" proved="true">
+      <proof prover="10"><result status="valid" time="0.26" steps="81014"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_map&#39;vc" expl="VC for iterate_map" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_map&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.25" steps="80757"/></proof>
+  </goal>
+  <goal name="iterate_map&#39;vc.1" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.29" steps="92772"/></proof>
+  </goal>
+  <goal name="iterate_map&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="81139"/></proof>
+  </goal>
+  <goal name="iterate_map&#39;vc.3" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iterate_map&#39;vc.3.0" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.16" steps="86048"/></proof>
+   </goal>
+   <goal name="iterate_map&#39;vc.3.1" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.28" steps="86297"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iterate_map&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.27" steps="85967"/></proof>
+  </goal>
+  <goal name="iterate_map&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="81172"/></proof>
+  </goal>
+  <goal name="iterate_map&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.30" steps="98480"/></proof>
+  </goal>
+  <goal name="iterate_map&#39;vc.7" expl="postcondition" proved="true">
+  <transf name="destruct" proved="true" arg1="H">
+   <goal name="iterate_map&#39;vc.7.0" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.24" steps="73286"/></proof>
+   </goal>
+   <goal name="iterate_map&#39;vc.7.1" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.34" steps="98542"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_cardone&#39;vc" expl="VC for iterate_cardone" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_cardone&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.23" steps="70495"/></proof>
+  </goal>
+  <goal name="iterate_cardone&#39;vc.1" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.25" steps="73586"/></proof>
+  </goal>
+  <goal name="iterate_cardone&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.24" steps="73608"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_cardzero&#39;vc" expl="VC for iterate_cardzero" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_cardzero&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="66106"/></proof>
+  </goal>
+  <goal name="iterate_cardzero&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.19" steps="71010"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="injec_iterate&#39;vc" expl="VC for injec_iterate" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="injec_iterate&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.09" steps="56583"/></proof>
+  </goal>
+  <goal name="injec_iterate&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.09" steps="56586"/></proof>
+  </goal>
+  <goal name="injec_iterate&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.19" steps="76251"/></proof>
+  </goal>
+  <goal name="injec_iterate&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="159039"/></proof>
+  </goal>
+  <goal name="injec_iterate&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="159042"/></proof>
+  </goal>
+  <goal name="injec_iterate&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.27" steps="165482"/></proof>
+  </goal>
+  <goal name="injec_iterate&#39;vc.6" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="injec_iterate&#39;vc.6.0" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.35" steps="173375"/></proof>
+   </goal>
+   <goal name="injec_iterate&#39;vc.6.1" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.35" steps="173719"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="injec_iterate&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="162531"/></proof>
+  </goal>
+  <goal name="injec_iterate&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="162534"/></proof>
+  </goal>
+  <goal name="injec_iterate&#39;vc.9" expl="assertion" proved="true">
+  <transf name="replace" proved="true" arg1="(add (choose s) (remove (choose s) s))" arg2="s" arg3="in" arg4="Ensures8">
+   <goal name="injec_iterate&#39;vc.9.0" expl="assertion" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures8">
+    <goal name="injec_iterate&#39;vc.9.0.0" expl="assertion" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures">
+     <goal name="injec_iterate&#39;vc.9.0.0.0" expl="assertion" proved="true">
+     <transf name="replace" proved="true" arg1="(add (a, choose s) (remove (a, choose s) (cartesian_product (to_set a) s)))" arg2="(cartesian_product (to_set a) s)" arg3="in" arg4="Ensures1">
+      <goal name="injec_iterate&#39;vc.9.0.0.0.0" expl="assertion" proved="true">
+      <transf name="replace" proved="true" arg1="((op @ ((f @ a) @ choose s))
+   @ iterate op (cartesian_product (to_set a) (remove (choose s) s))
+     (fun (o:(a1, b)) -&gt; (f @ fir o) @ sec o))" arg2="(iterate op (cartesian_product (to_set a) s)
+  (fun (o:(a1, b)) -&gt; (f @ fir o) @ sec o))
+">
+       <goal name="injec_iterate&#39;vc.9.0.0.0.0.0" expl="assertion" proved="true">
+       <transf name="rewrite" proved="true" arg1="Ensures1">
+        <goal name="injec_iterate&#39;vc.9.0.0.0.0.0.0" expl="assertion" proved="true">
+        <transf name="compute_specified" proved="true" >
+         <goal name="injec_iterate&#39;vc.9.0.0.0.0.0.0.0" expl="assertion" proved="true">
+         <transf name="replace" proved="true" arg1="(remove (a, choose s) (cartesian_product (to_set a) s))" arg2="(cartesian_product (to_set a) (remove (choose s) s))">
+          <goal name="injec_iterate&#39;vc.9.0.0.0.0.0.0.0.0" expl="assertion" proved="true">
+          <proof prover="10"><result status="valid" time="0.44" steps="200279"/></proof>
+          </goal>
+          <goal name="injec_iterate&#39;vc.9.0.0.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+          <transf name="apply" proved="true" arg1="set_equal">
+           <goal name="injec_iterate&#39;vc.9.0.0.0.0.0.0.0.1.0" expl="apply premises" proved="true">
+           <transf name="split_vc" proved="true" >
+            <goal name="injec_iterate&#39;vc.9.0.0.0.0.0.0.0.1.0.0" expl="apply premises" proved="true">
+            <proof prover="10"><result status="valid" time="0.41" steps="190561"/></proof>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="injec_iterate&#39;vc.9.0.0.0.0.0.0.0.1.1" expl="apply premises" proved="true">
+           <transf name="split_vc" proved="true" >
+            <goal name="injec_iterate&#39;vc.9.0.0.0.0.0.0.0.1.1.0" expl="apply premises" proved="true">
+            <proof prover="10"><result status="valid" time="0.48" steps="206076"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="injec_iterate&#39;vc.9.0.0.0.0.1" expl="equality hypothesis" proved="true">
+       <transf name="replace" proved="true" arg1="(fun (o:(a1, b)) -&gt;
+    (f @ match o with
+     | x, _ -&gt; x
+     end) @ match o with
+    | _, y -&gt; y
+    end)" arg2="(fun (o:(a1, b)) -&gt; (f @ fir o) @ sec o)" arg3="in" arg4="Ensures1">
+        <goal name="injec_iterate&#39;vc.9.0.0.0.0.1.0" expl="equality hypothesis" proved="true">
+        <transf name="rewrite" proved="true" arg1="Ensures1">
+         <goal name="injec_iterate&#39;vc.9.0.0.0.0.1.0.0" expl="equality hypothesis" proved="true">
+         <transf name="compute_specified" proved="true" >
+          <goal name="injec_iterate&#39;vc.9.0.0.0.0.1.0.0.0" expl="equality hypothesis" proved="true">
+          <transf name="replace" proved="true" arg1="(remove (a, choose s) (cartesian_product (to_set a) s))" arg2="(cartesian_product (to_set a) (remove (choose s) s))">
+           <goal name="injec_iterate&#39;vc.9.0.0.0.0.1.0.0.0.0" expl="equality hypothesis" proved="true">
+           <proof prover="10"><result status="valid" time="0.46" steps="200272"/></proof>
+           </goal>
+           <goal name="injec_iterate&#39;vc.9.0.0.0.0.1.0.0.0.1" expl="equality hypothesis" proved="true">
+           <transf name="apply" proved="true" arg1="set_equal">
+            <goal name="injec_iterate&#39;vc.9.0.0.0.0.1.0.0.0.1.0" expl="apply premises" proved="true">
+            <transf name="split_vc" proved="true" >
+             <goal name="injec_iterate&#39;vc.9.0.0.0.0.1.0.0.0.1.0.0" expl="apply premises" proved="true">
+             <proof prover="10"><result status="valid" time="0.44" steps="190641"/></proof>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="injec_iterate&#39;vc.9.0.0.0.0.1.0.0.0.1.1" expl="apply premises" proved="true">
+            <transf name="split_vc" proved="true" >
+             <goal name="injec_iterate&#39;vc.9.0.0.0.0.1.0.0.0.1.1.0" expl="apply premises" proved="true">
+             <proof prover="10"><result status="valid" time="0.50" steps="206323"/></proof>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="injec_iterate&#39;vc.9.0.0.0.0.1.1" expl="equality hypothesis" proved="true">
+        <proof prover="10"><result status="valid" time="0.40" steps="184290"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="injec_iterate&#39;vc.9.0.0.0.1" expl="equality hypothesis" proved="true">
+      <proof prover="10"><result status="valid" time="0.34" steps="173407"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="injec_iterate&#39;vc.9.1" expl="equality hypothesis" proved="true">
+   <proof prover="10"><result status="valid" time="0.35" steps="173931"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="injec_iterate&#39;vc.10" expl="postcondition" proved="true">
+  <transf name="case" proved="true" arg1="(is_empty s)">
+   <goal name="injec_iterate&#39;vc.10.0" expl="true case (postcondition)" proved="true">
+   <proof prover="10"><result status="valid" time="0.46" steps="203520"/></proof>
+   </goal>
+   <goal name="injec_iterate&#39;vc.10.1" expl="false case (postcondition)" proved="true">
+   <proof prover="10"><result status="valid" time="0.49" steps="202806"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_cartesian_product&#39;vc" expl="VC for iterate_cartesian_product" proved="true">
+ <transf name="eliminate_let" proved="true" >
+  <goal name="iterate_cartesian_product&#39;vc.0" expl="VC for iterate_cartesian_product" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iterate_cartesian_product&#39;vc.0.0" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.10" steps="66512"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.1" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.11" steps="71646"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.2" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.11" steps="66511"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.3" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.12" steps="66514"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.4" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.12" steps="66517"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.5" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.12" steps="72255"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.6" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.12" steps="72255"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.7" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.13" steps="72258"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.8" expl="assertion" proved="true">
+   <transf name="replace" proved="true" arg1="(add (choose s1) (remove (choose s1) s1))" arg2="s1" arg3="in" arg4="Ensures">
+    <goal name="iterate_cartesian_product&#39;vc.0.8.0" expl="assertion" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures1">
+     <goal name="iterate_cartesian_product&#39;vc.0.8.0.0" expl="assertion" proved="true">
+     <transf name="compute_specified" proved="true" >
+      <goal name="iterate_cartesian_product&#39;vc.0.8.0.0.0" expl="assertion" proved="true">
+      <transf name="rewrite" proved="true" arg1="Ensures">
+       <goal name="iterate_cartesian_product&#39;vc.0.8.0.0.0.0" expl="assertion" proved="true">
+       <transf name="replace" proved="true" arg1="(to_set (element s1))" arg2="s1">
+        <goal name="iterate_cartesian_product&#39;vc.0.8.0.0.0.0.0" expl="assertion" proved="true">
+        <proof prover="10"><result status="valid" time="0.25" steps="117661"/></proof>
+        </goal>
+        <goal name="iterate_cartesian_product&#39;vc.0.8.0.0.0.0.1" expl="equality hypothesis" proved="true">
+        <proof prover="10"><result status="valid" time="0.93" steps="435716"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="iterate_cartesian_product&#39;vc.0.8.1" expl="equality hypothesis" proved="true">
+    <proof prover="10"><result status="valid" time="0.21" steps="110181"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.9" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.10" steps="66515"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.10" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.12" steps="66518"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.11" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.21" steps="103684"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.12" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.16" steps="96728"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.13" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.17" steps="96731"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.14" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.24" steps="119228"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.15" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.19" steps="112321"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.16" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.22" steps="112324"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.17" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.19" steps="169856"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.18" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.18" steps="169859"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.19" expl="precondition" proved="true">
+   <proof prover="8"><result status="valid" time="1.66" steps="48403"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.20" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.17" steps="171720"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.21" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.19" steps="172806"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.22" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.21" steps="171719"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.23" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.19" steps="171722"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.24" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.30" steps="177323"/></proof>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.25" expl="assertion" proved="true">
+   <transf name="replace" proved="true" arg1="(add (choose s1) (remove (choose s1) s1))" arg2="s1" arg3="in" arg4="Ensures">
+    <goal name="iterate_cartesian_product&#39;vc.0.25.0" expl="assertion" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures">
+     <goal name="iterate_cartesian_product&#39;vc.0.25.0.0" expl="assertion" proved="true">
+     <transf name="compute_specified" proved="true" >
+      <goal name="iterate_cartesian_product&#39;vc.0.25.0.0.0" expl="assertion" proved="true">
+      <transf name="replace" proved="true" arg1="(union (cartesian_product (to_set (choose s1)) s2)
+   (cartesian_product (remove (choose s1) s1) s2))" arg2="(cartesian_product s1 s2)" arg3="in" arg4="Ensures5">
+       <goal name="iterate_cartesian_product&#39;vc.0.25.0.0.0.0" expl="assertion" proved="true">
+       <transf name="rewrite" proved="true" arg1="Ensures5">
+        <goal name="iterate_cartesian_product&#39;vc.0.25.0.0.0.0.0" expl="assertion" proved="true">
+        <proof prover="0"><result status="valid" time="2.00"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="iterate_cartesian_product&#39;vc.0.25.0.0.0.1" expl="equality hypothesis" proved="true">
+       <proof prover="10"><result status="valid" time="0.48" steps="203660"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="iterate_cartesian_product&#39;vc.0.25.1" expl="equality hypothesis" proved="true">
+    <proof prover="10"><result status="valid" time="0.40" steps="185132"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="iterate_cartesian_product&#39;vc.0.26" expl="postcondition" proved="true">
+   <transf name="destruct" proved="true" arg1="H">
+    <goal name="iterate_cartesian_product&#39;vc.0.26.0" expl="postcondition" proved="true">
+    <proof prover="10"><result status="valid" time="0.53" steps="299111"/></proof>
+    </goal>
+    <goal name="iterate_cartesian_product&#39;vc.0.26.1" expl="postcondition" proved="true">
+    <proof prover="10"><result status="valid" time="0.74" steps="297736"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_eq_func&#39;vc" expl="VC for iterate_eq_func" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_eq_func&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="65789"/></proof>
+  </goal>
+  <goal name="iterate_eq_func&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="65796"/></proof>
+  </goal>
+  <goal name="iterate_eq_func&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="65799"/></proof>
+  </goal>
+  <goal name="iterate_eq_func&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="69663"/></proof>
+  </goal>
+  <goal name="iterate_eq_func&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="69670"/></proof>
+  </goal>
+  <goal name="iterate_eq_func&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="69673"/></proof>
+  </goal>
+  <goal name="iterate_eq_func&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.36" steps="157883"/></proof>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+<theory name="Int_iter" proved="true">
+ <goal name="int_iterate_def_empty&#39;vc" expl="VC for int_iterate_def_empty" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_def_empty&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="96192"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_def_plus_one&#39;vc" expl="VC for int_iterate_def_plus_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_def_plus_one&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="int_iterate_def_plus_one&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="instantiate" proved="true" arg1="int_iterate&#39;def" arg2="op,f,i,j
+">
+    <goal name="int_iterate_def_plus_one&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="destruct" proved="true" arg1="Hinst">
+     <goal name="int_iterate_def_plus_one&#39;vc.0.0.0.0" expl="destruct premise" proved="true">
+     <transf name="split_vc" proved="true" >
+      <goal name="int_iterate_def_plus_one&#39;vc.0.0.0.0.0" expl="destruct premise" proved="true">
+      <transf name="assert" proved="true" arg1="false">
+       <goal name="int_iterate_def_plus_one&#39;vc.0.0.0.0.0.0" expl="asserted formula" proved="true">
+       <proof prover="10"><result status="valid" time="0.07" steps="79945"/></proof>
+       </goal>
+       <goal name="int_iterate_def_plus_one&#39;vc.0.0.0.0.0.1" expl="destruct premise" proved="true">
+       <proof prover="10"><result status="valid" time="0.09" steps="79950"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="int_iterate_def_plus_one&#39;vc.0.0.0.1" expl="postcondition" proved="true">
+     <proof prover="10"><result status="valid" time="0.21" steps="98409"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_cardone&#39;vc" expl="VC for int_iterate_cardone" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_cardone&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.21" steps="95038"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_def_plus_one_com&#39;vc" expl="VC for int_iterate_def_plus_one_com" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_def_plus_one_com&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="97649"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_to_iterate&#39;vc" expl="VC for int_iterate_to_iterate" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_to_iterate&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.08" steps="80174"/></proof>
+  </goal>
+  <goal name="int_iterate_to_iterate&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="80177"/></proof>
+  </goal>
+  <goal name="int_iterate_to_iterate&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="132219"/></proof>
+  </goal>
+  <goal name="int_iterate_to_iterate&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="132222"/></proof>
+  </goal>
+  <goal name="int_iterate_to_iterate&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="132225"/></proof>
+  </goal>
+  <goal name="int_iterate_to_iterate&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.09" steps="80219"/></proof>
+  </goal>
+  <goal name="int_iterate_to_iterate&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="132411"/></proof>
+  </goal>
+  <goal name="int_iterate_to_iterate&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="132319"/></proof>
+  </goal>
+  <goal name="int_iterate_to_iterate&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="80246"/></proof>
+  </goal>
+  <goal name="int_iterate_to_iterate&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="80248"/></proof>
+  </goal>
+  <goal name="int_iterate_to_iterate&#39;vc.10" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="int_iterate_to_iterate&#39;vc.10.0" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.16" steps="96985"/></proof>
+   </goal>
+   <goal name="int_iterate_to_iterate&#39;vc.10.1" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.12" steps="94374"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="int_iterate_to_iterate&#39;vc.11" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="97017"/></proof>
+  </goal>
+  <goal name="int_iterate_to_iterate&#39;vc.12" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="94361"/></proof>
+  </goal>
+  <goal name="int_iterate_to_iterate&#39;vc.13" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="133992"/></proof>
+  </goal>
+  <goal name="int_iterate_to_iterate&#39;vc.14" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.30" steps="140845"/></proof>
+  </goal>
+  <goal name="int_iterate_to_iterate&#39;vc.15" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.24" steps="138009"/></proof>
+  </goal>
+  <goal name="int_iterate_to_iterate&#39;vc.16" expl="postcondition" proved="true">
+  <proof prover="8"><result status="valid" time="0.06" steps="768"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_right_extension&#39;vc" expl="VC for int_iterate_right_extension" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_right_extension&#39;vc.0" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="int_iterate_right_extension&#39;vc.0.0" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.13" steps="82543"/></proof>
+   </goal>
+   <goal name="int_iterate_right_extension&#39;vc.0.1" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.10" steps="80359"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="int_iterate_right_extension&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.09" steps="80321"/></proof>
+  </goal>
+  <goal name="int_iterate_right_extension&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="1.16" steps="307324"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_right_extension_&#39;vc" expl="VC for int_iterate_right_extension_" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_right_extension_&#39;vc.0" expl="variant decrease" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="80872"/></proof>
+  </goal>
+  <goal name="int_iterate_right_extension_&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="78626"/></proof>
+  </goal>
+  <goal name="int_iterate_right_extension_&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.14" steps="80878"/></proof>
+  </goal>
+  <goal name="int_iterate_right_extension_&#39;vc.3" expl="postcondition" proved="true">
+  <transf name="destruct" proved="true" arg1="H">
+   <goal name="int_iterate_right_extension_&#39;vc.3.0" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.22" steps="98448"/></proof>
+   </goal>
+   <goal name="int_iterate_right_extension_&#39;vc.3.1" expl="postcondition" proved="true">
+   <transf name="eliminate_let" proved="true" >
+    <goal name="int_iterate_right_extension_&#39;vc.3.1.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="int_iterate_def_plus_one">
+     <goal name="int_iterate_right_extension_&#39;vc.3.1.0.0" expl="postcondition" proved="true">
+     <proof prover="10"><result status="valid" time="0.52" steps="236295"/></proof>
+     </goal>
+     <goal name="int_iterate_right_extension_&#39;vc.3.1.0.1" expl="rewrite premises" proved="true">
+     <proof prover="10"><result status="valid" time="0.16" steps="95692"/></proof>
+     </goal>
+     <goal name="int_iterate_right_extension_&#39;vc.3.1.0.2" expl="rewrite premises" proved="true">
+     <proof prover="10"><result status="valid" time="0.16" steps="97600"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_transitivity&#39;vc" expl="VC for int_iterate_transitivity" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_transitivity&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="81569"/></proof>
+  </goal>
+  <goal name="int_iterate_transitivity&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="81572"/></proof>
+  </goal>
+  <goal name="int_iterate_transitivity&#39;vc.2" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="int_iterate_transitivity&#39;vc.2.0" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.10" steps="81591"/></proof>
+   </goal>
+   <goal name="int_iterate_transitivity&#39;vc.2.1" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.10" steps="81611"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="int_iterate_transitivity&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="81573"/></proof>
+  </goal>
+  <goal name="int_iterate_transitivity&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="81576"/></proof>
+  </goal>
+  <goal name="int_iterate_transitivity&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="81579"/></proof>
+  </goal>
+  <goal name="int_iterate_transitivity&#39;vc.6" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="int_iterate_transitivity&#39;vc.6.0" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.10" steps="81603"/></proof>
+   </goal>
+   <goal name="int_iterate_transitivity&#39;vc.6.1" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.10" steps="81582"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="int_iterate_transitivity&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="98307"/></proof>
+  </goal>
+  <goal name="int_iterate_transitivity&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="95645"/></proof>
+  </goal>
+  <goal name="int_iterate_transitivity&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="95680"/></proof>
+  </goal>
+  <goal name="int_iterate_transitivity&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="95690"/></proof>
+  </goal>
+  <goal name="int_iterate_transitivity&#39;vc.11" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="int_iterate_transitivity&#39;vc.11.0" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.26" steps="102333"/></proof>
+   </goal>
+   <goal name="int_iterate_transitivity&#39;vc.11.1" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.22" steps="100511"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_transitivity_&#39;vc" expl="VC for int_iterate_transitivity_" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_transitivity_&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="80780"/></proof>
+  </goal>
+  <goal name="int_iterate_transitivity_&#39;vc.1" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="int_iterate_transitivity_&#39;vc.1.0" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.13" steps="83068"/></proof>
+   </goal>
+   <goal name="int_iterate_transitivity_&#39;vc.1.1" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.09" steps="80816"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="int_iterate_transitivity_&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="80785"/></proof>
+  </goal>
+  <goal name="int_iterate_transitivity_&#39;vc.3" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="int_iterate_transitivity_&#39;vc.3.0" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.14" steps="83092"/></proof>
+   </goal>
+   <goal name="int_iterate_transitivity_&#39;vc.3.1" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.09" steps="80803"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="int_iterate_transitivity_&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="97725"/></proof>
+  </goal>
+  <goal name="int_iterate_transitivity_&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.18" steps="98876"/></proof>
+  </goal>
+  <goal name="int_iterate_transitivity_&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="95069"/></proof>
+  </goal>
+  <goal name="int_iterate_transitivity_&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="96177"/></proof>
+  </goal>
+  <goal name="int_iterate_transitivity_&#39;vc.8" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="int_iterate_transitivity_&#39;vc.8.0" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.23" steps="99655"/></proof>
+   </goal>
+   <goal name="int_iterate_transitivity_&#39;vc.8.1" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.23" steps="100824"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_comp_iterate&#39;vc" expl="VC for int_iterate_comp_iterate" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_comp_iterate&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="82691"/></proof>
+  </goal>
+  <goal name="int_iterate_comp_iterate&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.09" steps="82700"/></proof>
+  </goal>
+  <goal name="int_iterate_comp_iterate&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="96650"/></proof>
+  </goal>
+  <goal name="int_iterate_comp_iterate&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="96652"/></proof>
+  </goal>
+  <goal name="int_iterate_comp_iterate&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="96766"/></proof>
+  </goal>
+  <goal name="int_iterate_comp_iterate&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="96768"/></proof>
+  </goal>
+  <goal name="int_iterate_comp_iterate&#39;vc.6" expl="variant decrease" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="99712"/></proof>
+  </goal>
+  <goal name="int_iterate_comp_iterate&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="96976"/></proof>
+  </goal>
+  <goal name="int_iterate_comp_iterate&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="96979"/></proof>
+  </goal>
+  <goal name="int_iterate_comp_iterate&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="96982"/></proof>
+  </goal>
+  <goal name="int_iterate_comp_iterate&#39;vc.10" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="99905"/></proof>
+  </goal>
+  <goal name="int_iterate_comp_iterate&#39;vc.11" expl="postcondition" proved="true">
+  <transf name="destruct" proved="true" arg1="H">
+   <goal name="int_iterate_comp_iterate&#39;vc.11.0" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.28" steps="115462"/></proof>
+   </goal>
+   <goal name="int_iterate_comp_iterate&#39;vc.11.1" expl="postcondition" proved="true">
+   <transf name="destruct" proved="true" arg1="H">
+    <goal name="int_iterate_comp_iterate&#39;vc.11.1.0" expl="postcondition" proved="true">
+    <transf name="destruct" proved="true" arg1="H">
+     <goal name="int_iterate_comp_iterate&#39;vc.11.1.0.0" expl="postcondition" proved="true">
+     <transf name="eliminate_let" proved="true" >
+      <goal name="int_iterate_comp_iterate&#39;vc.11.1.0.0.0" expl="postcondition" proved="true">
+      <transf name="destruct" proved="true" arg1="H">
+       <goal name="int_iterate_comp_iterate&#39;vc.11.1.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="destruct" proved="true" arg1="H">
+        <goal name="int_iterate_comp_iterate&#39;vc.11.1.0.0.0.0.0" expl="postcondition" proved="true">
+        <transf name="rewrite" proved="true" arg1="H3">
+         <goal name="int_iterate_comp_iterate&#39;vc.11.1.0.0.0.0.0.0" expl="postcondition" proved="true">
+         <transf name="rewrite" proved="true" arg1="H4">
+          <goal name="int_iterate_comp_iterate&#39;vc.11.1.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+          <transf name="rewrite" proved="true" arg1="H2">
+           <goal name="int_iterate_comp_iterate&#39;vc.11.1.0.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+           <transf name="rewrite" proved="true" arg1="H1">
+            <goal name="int_iterate_comp_iterate&#39;vc.11.1.0.0.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+            <proof prover="10"><result status="valid" time="0.26" steps="112586"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_attr_no_f&#39;vc" expl="VC for int_iterate_attr_no_f" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_attr_no_f&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="163360"/></proof>
+  </goal>
+  <goal name="int_iterate_attr_no_f&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.19" steps="163369"/></proof>
+  </goal>
+  <goal name="int_iterate_attr_no_f&#39;vc.2" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.18" steps="163152"/></proof>
+  </goal>
+  <goal name="int_iterate_attr_no_f&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.19" steps="163177"/></proof>
+  </goal>
+  <goal name="int_iterate_attr_no_f&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="163179"/></proof>
+  </goal>
+  <goal name="int_iterate_attr_no_f&#39;vc.5" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.19" steps="162962"/></proof>
+  </goal>
+  <goal name="int_iterate_attr_no_f&#39;vc.6" expl="variant decrease" proved="true">
+  <proof prover="10"><result status="valid" time="0.27" steps="167308"/></proof>
+  </goal>
+  <goal name="int_iterate_attr_no_f&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.30" steps="167364"/></proof>
+  </goal>
+  <goal name="int_iterate_attr_no_f&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.18" steps="163050"/></proof>
+  </goal>
+  <goal name="int_iterate_attr_no_f&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="163053"/></proof>
+  </goal>
+  <goal name="int_iterate_attr_no_f&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="163056"/></proof>
+  </goal>
+  <goal name="int_iterate_attr_no_f&#39;vc.11" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.27" steps="167431"/></proof>
+  </goal>
+  <goal name="int_iterate_attr_no_f&#39;vc.12" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.40" steps="169622"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_attr&#39;vc" expl="VC for int_iterate_attr" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_attr&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.18" steps="168371"/></proof>
+  </goal>
+  <goal name="int_iterate_attr&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="168380"/></proof>
+  </goal>
+  <goal name="int_iterate_attr&#39;vc.2" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.40" steps="177723"/></proof>
+  </goal>
+  <goal name="int_iterate_attr&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.19" steps="168366"/></proof>
+  </goal>
+  <goal name="int_iterate_attr&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.18" steps="168368"/></proof>
+  </goal>
+  <goal name="int_iterate_attr&#39;vc.5" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.19" steps="168032"/></proof>
+  </goal>
+  <goal name="int_iterate_attr&#39;vc.6" expl="variant decrease" proved="true">
+  <proof prover="10"><result status="valid" time="0.28" steps="172440"/></proof>
+  </goal>
+  <goal name="int_iterate_attr&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.28" steps="172496"/></proof>
+  </goal>
+  <goal name="int_iterate_attr&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="168120"/></proof>
+  </goal>
+  <goal name="int_iterate_attr&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.19" steps="168123"/></proof>
+  </goal>
+  <goal name="int_iterate_attr&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="168126"/></proof>
+  </goal>
+  <goal name="int_iterate_attr&#39;vc.11" expl="postcondition" proved="true">
+  <transf name="destruct" proved="true" arg1="H">
+   <goal name="int_iterate_attr&#39;vc.11.0" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.36" steps="173588"/></proof>
+   </goal>
+   <goal name="int_iterate_attr&#39;vc.11.1" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.40" steps="179914"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_attr_comm&#39;vc" expl="VC for int_iterate_attr_comm" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_attr_comm&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.31" steps="162871"/></proof>
+  </goal>
+  <goal name="int_iterate_attr_comm&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.18" steps="158895"/></proof>
+  </goal>
+  <goal name="int_iterate_attr_comm&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="158898"/></proof>
+  </goal>
+  <goal name="int_iterate_attr_comm&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="158901"/></proof>
+  </goal>
+  <goal name="int_iterate_attr_comm&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.38" steps="179040"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_eq&#39;vc" expl="VC for int_iterate_eq" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_eq&#39;vc.0" expl="variant decrease" proved="true">
+  <proof prover="10"><result status="valid" time="0.18" steps="107661"/></proof>
+  </goal>
+  <goal name="int_iterate_eq&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.23" steps="108555"/></proof>
+  </goal>
+  <goal name="int_iterate_eq&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.18" steps="107764"/></proof>
+  </goal>
+  <goal name="int_iterate_eq&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="104669"/></proof>
+  </goal>
+  <goal name="int_iterate_eq&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="104671"/></proof>
+  </goal>
+  <goal name="int_iterate_eq&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="104714"/></proof>
+  </goal>
+  <goal name="int_iterate_eq&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="104716"/></proof>
+  </goal>
+  <goal name="int_iterate_eq&#39;vc.7" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.23" steps="109261"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_left_right&#39;vc" expl="VC for int_iterate_left_right" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_left_right&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="90122"/></proof>
+  </goal>
+  <goal name="int_iterate_left_right&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="105317"/></proof>
+  </goal>
+  <goal name="int_iterate_left_right&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="105324"/></proof>
+  </goal>
+  <goal name="int_iterate_left_right&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="110664"/></proof>
+  </goal>
+  <goal name="int_iterate_left_right&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="107798"/></proof>
+  </goal>
+  <goal name="int_iterate_left_right&#39;vc.5" expl="variant decrease" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="108059"/></proof>
+  </goal>
+  <goal name="int_iterate_left_right&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="108018"/></proof>
+  </goal>
+  <goal name="int_iterate_left_right&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="108021"/></proof>
+  </goal>
+  <goal name="int_iterate_left_right&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.18" steps="111071"/></proof>
+  </goal>
+  <goal name="int_iterate_left_right&#39;vc.9" expl="assertion" proved="true">
+  <proof prover="8"><result status="valid" time="1.84" steps="22590"/></proof>
+  </goal>
+  <goal name="int_iterate_left_right&#39;vc.10" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.45" steps="181759"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_eq_func&#39;vc" expl="VC for int_iterate_eq_func" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_eq_func&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="145748"/></proof>
+  </goal>
+  <goal name="int_iterate_eq_func&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.18" steps="145751"/></proof>
+  </goal>
+  <goal name="int_iterate_eq_func&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="145754"/></proof>
+  </goal>
+  <goal name="int_iterate_eq_func&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="145757"/></proof>
+  </goal>
+  <goal name="int_iterate_eq_func&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="145760"/></proof>
+  </goal>
+  <goal name="int_iterate_eq_func&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="147146"/></proof>
+  </goal>
+  <goal name="int_iterate_eq_func&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="147154"/></proof>
+  </goal>
+  <goal name="int_iterate_eq_func&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="146777"/></proof>
+  </goal>
+  <goal name="int_iterate_eq_func&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="146785"/></proof>
+  </goal>
+  <goal name="int_iterate_eq_func&#39;vc.9" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.34" steps="153949"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_map&#39;vc" expl="VC for int_iterate_map" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_map&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.26" steps="156896"/></proof>
+  </goal>
+  <goal name="int_iterate_map&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.26" steps="157010"/></proof>
+  </goal>
+  <goal name="int_iterate_map&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.27" steps="156911"/></proof>
+  </goal>
+  <goal name="int_iterate_map&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="152707"/></proof>
+  </goal>
+  <goal name="int_iterate_map&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.25" steps="156480"/></proof>
+  </goal>
+  <goal name="int_iterate_map&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="1.09" steps="434152"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_transl&#39;vc" expl="VC for int_iterate_transl" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_transl&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="91719"/></proof>
+  </goal>
+  <goal name="int_iterate_transl&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="91722"/></proof>
+  </goal>
+  <goal name="int_iterate_transl&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="106701"/></proof>
+  </goal>
+  <goal name="int_iterate_transl&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="106705"/></proof>
+  </goal>
+  <goal name="int_iterate_transl&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="91745"/></proof>
+  </goal>
+  <goal name="int_iterate_transl&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="91754"/></proof>
+  </goal>
+  <goal name="int_iterate_transl&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="106948"/></proof>
+  </goal>
+  <goal name="int_iterate_transl&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="106957"/></proof>
+  </goal>
+  <goal name="int_iterate_transl&#39;vc.8" expl="variant decrease" proved="true">
+  <proof prover="10"><result status="valid" time="0.18" steps="110026"/></proof>
+  </goal>
+  <goal name="int_iterate_transl&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="107123"/></proof>
+  </goal>
+  <goal name="int_iterate_transl&#39;vc.10" expl="postcondition" proved="true">
+  <proof prover="8"><result status="valid" time="0.27" steps="4187"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_map_auto&#39;vc" expl="VC for int_iterate_map_auto" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_map_auto&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="119312"/></proof>
+  </goal>
+  <goal name="int_iterate_map_auto&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="119312"/></proof>
+  </goal>
+  <goal name="int_iterate_map_auto&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="119315"/></proof>
+  </goal>
+  <goal name="int_iterate_map_auto&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.32" steps="141161"/></proof>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+<theory name="Int_int_iter" proved="true">
+ <goal name="int_int_iterate_def_empty&#39;vc" expl="VC for int_int_iterate_def_empty" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_int_iterate_def_empty&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.29" steps="135797"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_int_iterate_def_plus_one&#39;vc" expl="VC for int_int_iterate_def_plus_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_int_iterate_def_plus_one&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.30" steps="136297"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_int_iterate_to_int_iterate&#39;vc" expl="VC for int_int_iterate_to_int_iterate" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_int_iterate_to_int_iterate&#39;vc.0" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="int_int_iterate_to_int_iterate&#39;vc.0.0" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.12" steps="93529"/></proof>
+   </goal>
+   <goal name="int_int_iterate_to_int_iterate&#39;vc.0.1" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.13" steps="93549"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="int_int_iterate_to_int_iterate&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="95914"/></proof>
+  </goal>
+  <goal name="int_int_iterate_to_int_iterate&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="93536"/></proof>
+  </goal>
+  <goal name="int_int_iterate_to_int_iterate&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.24" steps="135428"/></proof>
+  </goal>
+  <goal name="int_int_iterate_to_int_iterate&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="132077"/></proof>
+  </goal>
+  <goal name="int_int_iterate_to_int_iterate&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="132140"/></proof>
+  </goal>
+  <goal name="int_int_iterate_to_int_iterate&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.22" steps="135554"/></proof>
+  </goal>
+  <goal name="int_int_iterate_to_int_iterate&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="132202"/></proof>
+  </goal>
+  <goal name="int_int_iterate_to_int_iterate&#39;vc.8" expl="postcondition" proved="true">
+  <transf name="case" proved="true" arg1="(j-i = 0)">
+   <goal name="int_int_iterate_to_int_iterate&#39;vc.8.0" expl="true case (postcondition)" proved="true">
+   <proof prover="10"><result status="valid" time="0.31" steps="136965"/></proof>
+   </goal>
+   <goal name="int_int_iterate_to_int_iterate&#39;vc.8.1" expl="false case (postcondition)" proved="true">
+   <proof prover="10"><result status="valid" time="0.32" steps="142618"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_to_int_int_iterate&#39;vc" expl="VC for int_iterate_to_int_int_iterate" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_to_int_int_iterate&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.34" steps="150826"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_int_iterate_to_iterate&#39;vc" expl="VC for int_int_iterate_to_iterate" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_int_iterate_to_iterate&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="135525"/></proof>
+  </goal>
+  <goal name="int_int_iterate_to_iterate&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="135528"/></proof>
+  </goal>
+  <goal name="int_int_iterate_to_iterate&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.21" steps="171748"/></proof>
+  </goal>
+  <goal name="int_int_iterate_to_iterate&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="171751"/></proof>
+  </goal>
+  <goal name="int_int_iterate_to_iterate&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.23" steps="193470"/></proof>
+  </goal>
+  <goal name="int_int_iterate_to_iterate&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.23" steps="193519"/></proof>
+  </goal>
+  <goal name="int_int_iterate_to_iterate&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.21" steps="193527"/></proof>
+  </goal>
+  <goal name="int_int_iterate_to_iterate&#39;vc.7" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures1">
+   <goal name="int_int_iterate_to_iterate&#39;vc.7.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures">
+    <goal name="int_int_iterate_to_iterate&#39;vc.7.0.0" expl="postcondition" proved="true">
+    <transf name="replace" proved="true" arg1="(fun (a:int) -&gt; int_iterate op (f @ a) k l)" arg2="(fun (a:int) -&gt; iterate op (to_fset k l) (f @ a))">
+     <goal name="int_int_iterate_to_iterate&#39;vc.7.0.0.0" expl="postcondition" proved="true">
+     <transf name="apply" proved="true" arg1="Ensures2">
+     </transf>
+     </goal>
+     <goal name="int_int_iterate_to_iterate&#39;vc.7.0.0.1" expl="equality hypothesis" proved="true">
+     <proof prover="10"><result status="valid" time="0.40" steps="208848"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_commute&#39;vc" expl="VC for iterate_commute" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_commute&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.22" steps="120796"/></proof>
+  </goal>
+  <goal name="iterate_commute&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.34" steps="327342"/></proof>
+  </goal>
+  <goal name="iterate_commute&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.32" steps="327349"/></proof>
+  </goal>
+  <goal name="iterate_commute&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.34" steps="327352"/></proof>
+  </goal>
+  <goal name="iterate_commute&#39;vc.4" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="iterate_commute&#39;vc.4.0" expl="postcondition" proved="true">
+   <transf name="replace" proved="true" arg1="(map (fun (y0:(b, a)) -&gt; commute y0) (cartesian_product s2 s1))" arg2="(cartesian_product s1 s2)" arg3="in" arg4="Ensures">
+    <goal name="iterate_commute&#39;vc.4.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures">
+     <goal name="iterate_commute&#39;vc.4.0.0.0" expl="postcondition" proved="true">
+     <transf name="compute_specified" proved="true" >
+      <goal name="iterate_commute&#39;vc.4.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="apply" proved="true" arg1="iterate_eq">
+       <goal name="iterate_commute&#39;vc.4.0.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="iterate_commute&#39;vc.4.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="compute_specified" proved="true" >
+         <goal name="iterate_commute&#39;vc.4.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <proof prover="8"><result status="valid" time="0.03" steps="192"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="iterate_commute&#39;vc.4.0.0.0.0.1" expl="apply premises" proved="true">
+       <proof prover="10"><result status="valid" time="0.38" steps="347604"/></proof>
+       </goal>
+       <goal name="iterate_commute&#39;vc.4.0.0.0.0.2" expl="apply premises" proved="true">
+       <proof prover="10"><result status="valid" time="0.38" steps="348983"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="iterate_commute&#39;vc.4.0.1" expl="equality hypothesis" proved="true">
+    <proof prover="10"><result status="valid" time="0.77" steps="364002"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_commute_&#39;vc" expl="VC for iterate_commute_" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_commute_&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="97067"/></proof>
+  </goal>
+  <goal name="iterate_commute_&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="97070"/></proof>
+  </goal>
+  <goal name="iterate_commute_&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.17" steps="191755"/></proof>
+  </goal>
+  <goal name="iterate_commute_&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="191758"/></proof>
+  </goal>
+  <goal name="iterate_commute_&#39;vc.4" expl="postcondition" proved="true">
+  <transf name="compute_hyp_specified" proved="true" arg1="in" arg2="Ensures">
+   <goal name="iterate_commute_&#39;vc.4.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures">
+    <goal name="iterate_commute_&#39;vc.4.0.0" expl="postcondition" proved="true">
+    <transf name="replace" proved="true" arg1="(fun (a1:a) -&gt; iterate op s2 (fun (a2:b) -&gt; (f @ a1) @ a2))" arg2="(fun (a1:a) -&gt; iterate op s2 (f @ a1))">
+     <goal name="iterate_commute_&#39;vc.4.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures1">
+      <goal name="iterate_commute_&#39;vc.4.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="replace" proved="true" arg1="(fun (o:(a, b)) -&gt;
+      (f @ match o with
+       | x, _ -&gt; x
+       end) @ match o with
+      | _, y -&gt; y
+      end)" arg2="(fun (o:(a, b)) -&gt; (f @ fir o) @ sec o)">
+       <goal name="iterate_commute_&#39;vc.4.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="replace" proved="true" arg1="(fun (o:(b, a)) -&gt;
+      (f @ match o with
+       | _, y -&gt; y
+       end) @ match o with
+      | x, _ -&gt; x
+      end)" arg2="(fun (o:(b, a)) -&gt; (f @ sec o) @ fir o)">
+        <goal name="iterate_commute_&#39;vc.4.0.0.0.0.0.0" expl="postcondition" proved="true">
+        <transf name="apply" proved="true" arg1="iterate_commute">
+         <goal name="iterate_commute_&#39;vc.4.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <proof prover="10"><result status="valid" time="0.23" steps="220104"/></proof>
+         </goal>
+         <goal name="iterate_commute_&#39;vc.4.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+         <proof prover="10"><result status="valid" time="0.24" steps="220104"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="iterate_commute_&#39;vc.4.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+        <proof prover="10"><result status="valid" time="0.54" steps="234814"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="iterate_commute_&#39;vc.4.0.0.0.0.1" expl="equality hypothesis" proved="true">
+       <proof prover="10"><result status="valid" time="0.54" steps="234824"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="iterate_commute_&#39;vc.4.0.0.1" expl="equality hypothesis" proved="true">
+     <proof prover="10"><result status="valid" time="0.37" steps="225721"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_int_iterate_commute&#39;vc" expl="VC for int_int_iterate_commute" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_int_iterate_commute&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="99176"/></proof>
+  </goal>
+  <goal name="int_int_iterate_commute&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.11" steps="99179"/></proof>
+  </goal>
+  <goal name="int_int_iterate_commute&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="99182"/></proof>
+  </goal>
+  <goal name="int_int_iterate_commute&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.21" steps="164260"/></proof>
+  </goal>
+  <goal name="int_int_iterate_commute&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="164263"/></proof>
+  </goal>
+  <goal name="int_int_iterate_commute&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="164266"/></proof>
+  </goal>
+  <goal name="int_int_iterate_commute&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.24" steps="201439"/></proof>
+  </goal>
+  <goal name="int_int_iterate_commute&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.24" steps="201442"/></proof>
+  </goal>
+  <goal name="int_int_iterate_commute&#39;vc.8" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures8">
+   <goal name="int_int_iterate_commute&#39;vc.8.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures7">
+    <goal name="int_int_iterate_commute&#39;vc.8.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures">
+     <goal name="int_int_iterate_commute&#39;vc.8.0.0.0" expl="postcondition" proved="true">
+     <transf name="compute_specified" proved="true" >
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_iterate_commute&#39;vc" expl="VC for int_iterate_commute" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_iterate_commute&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="99799"/></proof>
+  </goal>
+  <goal name="int_iterate_commute&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="99802"/></proof>
+  </goal>
+  <goal name="int_iterate_commute&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="140969"/></proof>
+  </goal>
+  <goal name="int_iterate_commute&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="140972"/></proof>
+  </goal>
+  <goal name="int_iterate_commute&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="141170"/></proof>
+  </goal>
+  <goal name="int_iterate_commute&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="141173"/></proof>
+  </goal>
+  <goal name="int_iterate_commute&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="141176"/></proof>
+  </goal>
+  <goal name="int_iterate_commute&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="141179"/></proof>
+  </goal>
+  <goal name="int_iterate_commute&#39;vc.8" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures2">
+   <goal name="int_iterate_commute&#39;vc.8.0" expl="postcondition" proved="true">
+   <transf name="replace" proved="true" arg1="(int_iterate op
+    (fun (a:int) -&gt; int_iterate op (fun (b:int) -&gt; (f @ b) @ a) i j) k l)" arg2="(int_iterate op
+  (fun (a:int) -&gt;
+    int_iterate op ((fun (a1:int) (b:int) -&gt; (f @ b) @ a1) @ a) i j)
+  k l)
+">
+    <goal name="int_iterate_commute&#39;vc.8.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures1">
+     <goal name="int_iterate_commute&#39;vc.8.0.0.0" expl="postcondition" proved="true">
+     <transf name="apply" proved="true" arg1="Ensures">
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="int_iterate_commute&#39;vc.8.0.1" expl="equality hypothesis" proved="true">
+    <transf name="compute_specified" proved="true" >
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+<theory name="Fset_iter_Pos" proved="true">
+ <goal name="nonn_part&#39;vc" expl="VC for nonn_part" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="nonn_part&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="nonn_part&#39;vc.0.0" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.16" steps="85794"/></proof>
+   </goal>
+   <goal name="nonn_part&#39;vc.0.1" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.12" steps="87504"/></proof>
+   </goal>
+   <goal name="nonn_part&#39;vc.0.2" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.11" steps="87721"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="n_part&#39;vc" expl="VC for n_part" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="n_part&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="n_part&#39;vc.0.0" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.16" steps="87607"/></proof>
+   </goal>
+   <goal name="n_part&#39;vc.0.1" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.11" steps="89390"/></proof>
+   </goal>
+   <goal name="n_part&#39;vc.0.2" expl="postcondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.12" steps="89544"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="nullity_partition&#39;vc" expl="VC for nullity_partition" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="nullity_partition&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.14" steps="82324"/></proof>
+  </goal>
+  <goal name="nullity_partition&#39;vc.1" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.09" steps="84859"/></proof>
+  </goal>
+  <goal name="nullity_partition&#39;vc.2" expl="assertion" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="nullity_partition&#39;vc.2.0" expl="assertion" proved="true">
+   <proof prover="10"><result status="valid" time="0.15" steps="95863"/></proof>
+   </goal>
+   <goal name="nullity_partition&#39;vc.2.1" expl="assertion" proved="true">
+   <proof prover="10"><result status="valid" time="0.15" steps="95849"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="nullity_partition&#39;vc.3" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.39" steps="263024"/></proof>
+  </goal>
+  <goal name="nullity_partition&#39;vc.4" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="95950"/></proof>
+  </goal>
+  <goal name="nullity_partition&#39;vc.5" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="89526"/></proof>
+  </goal>
+  <goal name="nullity_partition&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="89289"/></proof>
+  </goal>
+  <goal name="nullity_partition&#39;vc.7" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.10" steps="87302"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_neutral&#39;vc" expl="VC for iterate_neutral" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_neutral&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="91593"/></proof>
+  </goal>
+  <goal name="iterate_neutral&#39;vc.1" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iterate_neutral&#39;vc.1.0" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.13" steps="91583"/></proof>
+   </goal>
+   <goal name="iterate_neutral&#39;vc.1.1" expl="variant decrease" proved="true">
+   <proof prover="10"><result status="valid" time="0.14" steps="91863"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iterate_neutral&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="86736"/></proof>
+  </goal>
+  <goal name="iterate_neutral&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.14" steps="86739"/></proof>
+  </goal>
+  <goal name="iterate_neutral&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.14" steps="91984"/></proof>
+  </goal>
+  <goal name="iterate_neutral&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="8"><result status="valid" time="0.12" steps="3734"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iterate_nullity_partition&#39;vc" expl="VC for iterate_nullity_partition" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iterate_nullity_partition&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="0"><result status="valid" time="0.05"/></proof>
+  </goal>
+  <goal name="iterate_nullity_partition&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="85022"/></proof>
+  </goal>
+  <goal name="iterate_nullity_partition&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="85025"/></proof>
+  </goal>
+  <goal name="iterate_nullity_partition&#39;vc.3" expl="precondition" proved="true">
+  <transf name="instantiate" proved="true" arg1="Ensures" arg2="a">
+   <goal name="iterate_nullity_partition&#39;vc.3.0" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.10" steps="87528"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iterate_nullity_partition&#39;vc.4" expl="assertion" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="84906"/></proof>
+  </goal>
+  <goal name="iterate_nullity_partition&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="8"><result status="valid" time="0.10" steps="814"/></proof>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+<theory name="Comp_func" proved="true">
+ <goal name="comp_func&#39;vc" expl="VC for comp_func" proved="true">
+ <proof prover="10"><result status="valid" time="0.05" steps="49835"/></proof>
+ </goal>
+ <goal name="comp_func_apply&#39;vc" expl="VC for comp_func_apply" proved="true">
+ <proof prover="10"><result status="valid" time="0.12" steps="75505"/></proof>
+ </goal>
+ <goal name="comp_func_eq&#39;vc" expl="VC for comp_func_eq" proved="true">
+ <proof prover="10"><result status="valid" time="0.08" steps="73830"/></proof>
+ </goal>
+ <goal name="comp_func_apply_eq&#39;vc" expl="VC for comp_func_apply_eq" proved="true">
+ <proof prover="10"><result status="valid" time="0.09" steps="74058"/></proof>
+ </goal>
+ <goal name="neutral_id&#39;vc" expl="VC for neutral_id" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="neutral_id&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.29" steps="127974"/></proof>
+  </goal>
+  <goal name="neutral_id&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.29" steps="124294"/></proof>
+  </goal>
+  <goal name="neutral_id&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.51" steps="186903"/></proof>
+  </goal>
+  <goal name="neutral_id&#39;vc.3" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="set_neutral">
+   <goal name="neutral_id&#39;vc.3.0" expl="apply premises" proved="true">
+   <proof prover="10"><result status="valid" time="0.48" steps="210220"/></proof>
+   </goal>
+   <goal name="neutral_id&#39;vc.3.1" expl="apply premises" proved="true">
+   <proof prover="10"><result status="valid" time="0.49" steps="206120"/></proof>
+   </goal>
+   <goal name="neutral_id&#39;vc.3.2" expl="apply premises" proved="true">
+   <proof prover="10"><result status="valid" time="0.84" steps="309500"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="neutral_id&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.48" steps="205560"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iter_comp&#39;vc" expl="VC for iter_comp" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iter_comp&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.14" steps="121489"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="comp_func_neutral_left&#39;vc" expl="VC for comp_func_neutral_left" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="comp_func_neutral_left&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.12" steps="77487"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="comp_func_neutral_right&#39;vc" expl="VC for comp_func_neutral_right" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="comp_func_neutral_right&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.13" steps="77535"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iter_comp_empty&#39;vc" expl="VC for iter_comp_empty" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iter_comp_empty&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.06" steps="118376"/></proof>
+  </goal>
+  <goal name="iter_comp_empty&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="121850"/></proof>
+  </goal>
+  <goal name="iter_comp_empty&#39;vc.2" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="iter_comp_empty&#39;vc.2.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="iter_comp&#39;def">
+    <goal name="iter_comp_empty&#39;vc.2.0.0" expl="postcondition" proved="true">
+    <proof prover="10"><result status="valid" time="0.26" steps="141433"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iter_comp_plus_one&#39;vc" expl="VC for iter_comp_plus_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iter_comp_plus_one&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="118487"/></proof>
+  </goal>
+  <goal name="iter_comp_plus_one&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="121967"/></proof>
+  </goal>
+  <goal name="iter_comp_plus_one&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.26" steps="140263"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iter_comp_plus_one_value&#39;vc" expl="VC for iter_comp_plus_one_value" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iter_comp_plus_one_value&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.06" steps="51090"/></proof>
+  </goal>
+  <goal name="iter_comp_plus_one_value&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.19" steps="101595"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iter_comp_cardone&#39;vc" expl="VC for iter_comp_cardone" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iter_comp_cardone&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.06" steps="119223"/></proof>
+  </goal>
+  <goal name="iter_comp_cardone&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.27" steps="140798"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iter_comp_def_plus_one_com&#39;vc" expl="VC for iter_comp_def_plus_one_com" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iter_comp_def_plus_one_com&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.07" steps="119385"/></proof>
+  </goal>
+  <goal name="iter_comp_def_plus_one_com&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="122865"/></proof>
+  </goal>
+  <goal name="iter_comp_def_plus_one_com&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.24" steps="141376"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iter_comp_right_extension&#39;vc" expl="VC for iter_comp_right_extension" proved="true">
+ <transf name="eliminate_let" proved="true" >
+  <goal name="iter_comp_right_extension&#39;vc.0" expl="VC for iter_comp_right_extension" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_comp_right_extension&#39;vc.0.0" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.15" steps="123002"/></proof>
+   </goal>
+   <goal name="iter_comp_right_extension&#39;vc.0.1" expl="postcondition" proved="true">
+   <transf name="eliminate_definition" proved="true" >
+    <goal name="iter_comp_right_extension&#39;vc.0.1.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="iter_comp&#39;def">
+     <goal name="iter_comp_right_extension&#39;vc.0.1.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures">
+      <goal name="iter_comp_right_extension&#39;vc.0.1.0.0.0" expl="postcondition" proved="true">
+      <proof prover="10"><result status="valid" time="0.26" steps="142682"/></proof>
+      </goal>
+      <goal name="iter_comp_right_extension&#39;vc.0.1.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="10"><result status="valid" time="0.17" steps="138841"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iter_comp_right_extension_value&#39;vc" expl="VC for iter_comp_right_extension_value" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iter_comp_right_extension_value&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.06" steps="51792"/></proof>
+  </goal>
+  <goal name="iter_comp_right_extension_value&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.18" steps="102847"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iter_comp_transitivity&#39;vc" expl="VC for iter_comp_transitivity" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iter_comp_transitivity&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="123837"/></proof>
+  </goal>
+  <goal name="iter_comp_transitivity&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="123840"/></proof>
+  </goal>
+  <goal name="iter_comp_transitivity&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.29" steps="128421"/></proof>
+  </goal>
+  <goal name="iter_comp_transitivity&#39;vc.3" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_comp_transitivity&#39;vc.3.0" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.16" steps="123991"/></proof>
+   </goal>
+   <goal name="iter_comp_transitivity&#39;vc.3.1" expl="precondition" proved="true">
+   <proof prover="10"><result status="valid" time="0.15" steps="123991"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_comp_transitivity&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.26" steps="142593"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iter_comp_eq&#39;vc" expl="VC for iter_comp_eq" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iter_comp_eq&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.22" steps="142842"/></proof>
+  </goal>
+  <goal name="iter_comp_eq&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.16" steps="141253"/></proof>
+  </goal>
+  <goal name="iter_comp_eq&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.37" steps="152150"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iter_comp_eq_gen&#39;vc" expl="VC for iter_comp_eq_gen" proved="true">
+ <proof prover="10"><result status="valid" time="0.23" steps="105234"/></proof>
+ </goal>
+ <goal name="iter_comp_transl&#39;vc" expl="VC for iter_comp_transl" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iter_comp_transl&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.15" steps="124564"/></proof>
+  </goal>
+  <goal name="iter_comp_transl&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.28" steps="154489"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iter_comp_transl_plus_one&#39;vc" expl="VC for iter_comp_transl_plus_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iter_comp_transl_plus_one&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="10"><result status="valid" time="0.20" steps="106677"/></proof>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>

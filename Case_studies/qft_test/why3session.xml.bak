@@ -1,0 +1,1051 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="6">
+<prover id="0" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="1" name="Alt-Ergo" version="2.4.0" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="2" name="CVC4" version="1.7" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="3" name="Z3" version="4.8.6" alternative="counterexamples" timelimit="5" steplimit="0" memlimit="1000"/>
+<file format="whyml">
+<path name=".."/><path name="qft_test.mlw"/>
+<theory name="Qft">
+ <goal name="qft&#39;vc" expl="VC for qft" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="qft&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.76" steps="19686"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.1" expl="loop invariant init" proved="true">
+  <proof prover="1"><result status="valid" time="0.65" steps="19941"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.2" expl="loop invariant init" proved="true">
+  <proof prover="1"><result status="valid" time="0.64" steps="19941"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.3" expl="loop invariant init" proved="true">
+  <proof prover="1"><result status="valid" time="3.94" steps="208325"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.4" expl="loop invariant init" proved="true">
+  <transf name="rewrite" proved="true" arg1="ind_isum_empty">
+   <goal name="qft&#39;vc.4.0" expl="loop invariant init" proved="true">
+   <proof prover="2"><result status="valid" time="1.93" steps="910802"/></proof>
+   </goal>
+   <goal name="qft&#39;vc.4.1" expl="rewrite premises" proved="true">
+   <proof prover="2"><result status="valid" time="1.18" steps="849156"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.68" steps="20046"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.6" expl="loop invariant init" proved="true">
+  <proof prover="1"><result status="valid" time="0.65" steps="20046"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.7" expl="loop invariant init" proved="true">
+  <proof prover="1"><result status="valid" time="0.64" steps="20046"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.8" expl="loop invariant init" proved="true">
+  <proof prover="2"><result status="valid" time="2.25" steps="911702"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.9" expl="loop invariant init" proved="true">
+  <transf name="rewrite" proved="true" arg1="ind_isum_empty">
+   <goal name="qft&#39;vc.9.0" expl="loop invariant init" proved="true">
+   <proof prover="2"><result status="valid" time="1.96" steps="911751"/></proof>
+   </goal>
+   <goal name="qft&#39;vc.9.1" expl="rewrite premises" proved="true">
+   <proof prover="2"><result status="valid" time="1.13" steps="849725"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.65" steps="20153"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.11" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.64" steps="20153"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.12" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.65" steps="20187"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.13" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.83" steps="20362"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.14" expl="loop invariant preservation" proved="true">
+  <proof prover="1"><result status="valid" time="0.88" steps="20683"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.15" expl="loop invariant preservation" proved="true">
+  <proof prover="1"><result status="valid" time="0.85" steps="20720"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.16" expl="loop invariant preservation" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="qft&#39;vc.16.0" expl="loop invariant preservation" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures2">
+    <goal name="qft&#39;vc.16.0.0" expl="loop invariant preservation" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures10">
+     <goal name="qft&#39;vc.16.0.0.0" expl="loop invariant preservation" proved="true">
+     <transf name="compute_specified" proved="true" >
+      <goal name="qft&#39;vc.16.0.0.0.0" expl="loop invariant preservation" proved="true">
+      <proof prover="2"><result status="valid" time="3.16" steps="1220435"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.17" expl="loop invariant preservation" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="qft&#39;vc.17.0" expl="loop invariant preservation" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures1">
+    <goal name="qft&#39;vc.17.0.0" expl="loop invariant preservation" proved="true">
+    <transf name="rewrite" proved="true" arg1="ind_isum_re">
+     <goal name="qft&#39;vc.17.0.0.0" expl="loop invariant preservation" proved="true">
+     <transf name="rewrite" proved="true" arg1="int_to_ang_add_rev">
+      <goal name="qft&#39;vc.17.0.0.0.0" expl="loop invariant preservation" proved="true">
+      <transf name="apply" proved="true" arg1="ang_add_eq">
+       <goal name="qft&#39;vc.17.0.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="rewrite" proved="true" arg1="LoopInvariant3">
+        <goal name="qft&#39;vc.17.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="int_to_ang_eq">
+         <goal name="qft&#39;vc.17.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="apply" proved="true" arg1="ind_isum_eq_gen">
+          <goal name="qft&#39;vc.17.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <transf name="split_vc" proved="true" >
+           <goal name="qft&#39;vc.17.0.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+           <transf name="compute_specified" proved="true" >
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="qft&#39;vc.17.0.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.34" steps="931315"/></proof>
+          </goal>
+          <goal name="qft&#39;vc.17.0.0.0.0.0.0.0.2" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.46" steps="931338"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="qft&#39;vc.17.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+         <proof prover="2"><result status="valid" time="1.32" steps="931315"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="qft&#39;vc.17.0.0.0.0.1" expl="apply premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="qft&#39;vc.17.0.0.0.0.1.0" expl="apply premises" proved="true">
+        <transf name="rewrite" proved="true" arg1="Ensures8" arg2="with" arg3="n">
+         <goal name="qft&#39;vc.17.0.0.0.0.1.0.0" expl="apply premises" proved="true">
+         <transf name="compute_specified" proved="true" >
+          <goal name="qft&#39;vc.17.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="4.07" steps="1255541"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="qft&#39;vc.17.0.0.0.0.1.0.1" expl="rewrite premises" proved="true">
+         <proof prover="1"><result status="valid" time="0.68" steps="20755"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="qft&#39;vc.17.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.40" steps="931324"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="qft&#39;vc.17.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="2"><result status="valid" time="1.37" steps="931333"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.18" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.82" steps="20150"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.19" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.85" steps="20360"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.20" expl="assertion" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="qft&#39;vc.20.0" expl="assertion" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures2">
+    <goal name="qft&#39;vc.20.0.0" expl="assertion" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="qft&#39;vc.20.0.0.0" expl="assertion" proved="true">
+     <transf name="rewrite" proved="true" arg1="LoopInvariant1">
+      <goal name="qft&#39;vc.20.0.0.0.0" expl="assertion" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="qft&#39;vc.20.0.0.0.0.0" expl="assertion" proved="true">
+       <proof prover="2"><result status="valid" time="3.22" steps="1219949"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="qft&#39;vc.20.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.31" steps="931348"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.21" expl="assertion" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="qft&#39;vc.21.0" expl="assertion" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures1">
+    <goal name="qft&#39;vc.21.0.0" expl="assertion" proved="true">
+    <transf name="rewrite" proved="true" arg1="ind_isum_plus_one">
+     <goal name="qft&#39;vc.21.0.0.0" expl="assertion" proved="true">
+     <transf name="rewrite" proved="true" arg1="int_to_ang_add_rev">
+      <goal name="qft&#39;vc.21.0.0.0.0" expl="assertion" proved="true">
+      <transf name="apply" proved="true" arg1="ang_add_eq">
+       <goal name="qft&#39;vc.21.0.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="qft&#39;vc.21.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="replace" arg1="(((n - q) - 1) + q)" arg2="(n-1)">
+         <goal name="qft&#39;vc.21.0.0.0.0.0.0.0" expl="apply premises">
+         <proof prover="1"><result status="failure" time="0.00"/></proof>
+         </goal>
+         <goal name="qft&#39;vc.21.0.0.0.0.0.0.1" expl="equality hypothesis">
+         <proof prover="1"><result status="failure" time="0.00"/></proof>
+         <proof prover="2"><result status="valid" time="1.31" steps="921908"/></proof>
+         </goal>
+        </transf>
+        <transf name="replace" proved="true" arg1="(((n -&#39;&#39; q) -&#39;&#39; 1) +&#39; q)" arg2="(n-&#39;&#39; 1)">
+         <goal name="qft&#39;vc.21.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <proof prover="1"><result status="valid" time="5.14" steps="231491"/></proof>
+         <proof prover="2" obsolete="true"><result status="timeout" time="5.00" steps="1290671"/></proof>
+         </goal>
+         <goal name="qft&#39;vc.21.0.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+         <proof prover="2"><result status="valid" time="1.55" steps="931491"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="qft&#39;vc.21.0.0.0.0.1" expl="apply premises" proved="true">
+       <transf name="rewrite" proved="true" arg1="LoopInvariant">
+        <goal name="qft&#39;vc.21.0.0.0.0.1.0" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="int_to_ang_eq">
+         <goal name="qft&#39;vc.21.0.0.0.0.1.0.0" expl="apply premises" proved="true">
+         <transf name="apply" proved="true" arg1="ind_isum_eq_gen">
+          <goal name="qft&#39;vc.21.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+          <transf name="split_vc" proved="true" >
+           <goal name="qft&#39;vc.21.0.0.0.0.1.0.0.0.0" expl="apply premises" proved="true">
+           <transf name="compute_specified" proved="true" >
+            <goal name="qft&#39;vc.21.0.0.0.0.1.0.0.0.0.0" expl="apply premises" proved="true">
+            <transf name="apply" proved="true" arg1="mult_eq">
+             <goal name="qft&#39;vc.21.0.0.0.0.1.0.0.0.0.0.0" expl="apply premises" proved="true">
+             <transf name="apply" proved="true" arg1="mult_eq">
+              <goal name="qft&#39;vc.21.0.0.0.0.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+              <proof prover="2"><result status="valid" time="4.33" steps="1223235"/></proof>
+              </goal>
+              <goal name="qft&#39;vc.21.0.0.0.0.1.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+              <proof prover="2"><result status="valid" time="4.69" steps="1219827"/></proof>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="qft&#39;vc.21.0.0.0.0.1.0.0.0.0.0.1" expl="apply premises" proved="true">
+             <proof prover="2"><result status="valid" time="1.98" steps="931508"/></proof>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="qft&#39;vc.21.0.0.0.0.1.0.0.1" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.85" steps="931457"/></proof>
+          </goal>
+          <goal name="qft&#39;vc.21.0.0.0.0.1.0.0.2" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.48" steps="931466"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="qft&#39;vc.21.0.0.0.0.1.0.1" expl="apply premises" proved="true">
+         <proof prover="2"><result status="valid" time="1.68" steps="931457"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="qft&#39;vc.21.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.50" steps="931466"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="qft&#39;vc.21.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="2"><result status="valid" time="1.69" steps="931483"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.22" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.83" steps="20681"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.23" expl="loop invariant preservation" proved="true">
+  <proof prover="1"><result status="valid" time="0.69" steps="21262"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.24" expl="loop invariant preservation" proved="true">
+  <proof prover="0"><result status="valid" time="1.43"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.25" expl="loop invariant preservation" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="qft&#39;vc.25.0" expl="loop invariant preservation" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures2">
+    <goal name="qft&#39;vc.25.0.0" expl="loop invariant preservation" proved="true">
+    <transf name="rewrite" proved="true" arg1="Assert1">
+     <goal name="qft&#39;vc.25.0.0.0" expl="loop invariant preservation" proved="true">
+     <transf name="eliminate_if" proved="true" >
+      <goal name="qft&#39;vc.25.0.0.0.0" expl="VC for qft" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="qft&#39;vc.25.0.0.0.0.0" expl="VC for qft" proved="true">
+       <proof prover="2"><result status="valid" time="3.20" steps="1246886"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="qft&#39;vc.25.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="2"><result status="valid" time="1.28" steps="932115"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.26" expl="loop invariant preservation" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="qft&#39;vc.26.0" expl="loop invariant preservation" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures1">
+    <goal name="qft&#39;vc.26.0.0" expl="loop invariant preservation" proved="true">
+    <transf name="rewrite" proved="true" arg1="ind_isum_re">
+     <goal name="qft&#39;vc.26.0.0.0" expl="loop invariant preservation" proved="true">
+     <transf name="rewrite" proved="true" arg1="int_to_ang_add_rev">
+      <goal name="qft&#39;vc.26.0.0.0.0" expl="loop invariant preservation" proved="true">
+      <transf name="apply" proved="true" arg1="ang_add_eq">
+       <goal name="qft&#39;vc.26.0.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="rewrite" proved="true" arg1="LoopInvariant7">
+        <goal name="qft&#39;vc.26.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="int_to_ang_eq">
+         <goal name="qft&#39;vc.26.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="apply" proved="true" arg1="ind_isum_eq_gen">
+          <goal name="qft&#39;vc.26.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <transf name="compute_specified" proved="true" >
+          </transf>
+          </goal>
+          <goal name="qft&#39;vc.26.0.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.42" steps="932244"/></proof>
+          </goal>
+          <goal name="qft&#39;vc.26.0.0.0.0.0.0.0.2" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.52" steps="932260"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="qft&#39;vc.26.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="qft&#39;vc.26.0.0.0.0.0.0.1.0" expl="apply premises" proved="true">
+          <proof prover="1"><result status="valid" time="0.71" steps="21316"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="qft&#39;vc.26.0.0.0.0.1" expl="apply premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="qft&#39;vc.26.0.0.0.0.1.0" expl="apply premises" proved="true">
+        <transf name="rewrite" proved="true" arg1="Assert">
+         <goal name="qft&#39;vc.26.0.0.0.0.1.0.0" expl="apply premises" proved="true">
+         <transf name="compute_specified" proved="true" >
+          <goal name="qft&#39;vc.26.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+          <transf name="apply" proved="true" arg1="int_to_ang_eq">
+           <goal name="qft&#39;vc.26.0.0.0.0.1.0.0.0.0" expl="apply premises" proved="true">
+           <transf name="apply" proved="true" arg1="ind_isum_eq_gen">
+            <goal name="qft&#39;vc.26.0.0.0.0.1.0.0.0.0.0" expl="apply premises" proved="true">
+            <transf name="split_vc" proved="true" >
+             <goal name="qft&#39;vc.26.0.0.0.0.1.0.0.0.0.0.0" expl="apply premises" proved="true">
+             <transf name="compute_specified" proved="true" >
+              <goal name="qft&#39;vc.26.0.0.0.0.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+              <transf name="rewrite" proved="true" arg1="LoopInvariant8">
+               <goal name="qft&#39;vc.26.0.0.0.0.1.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+               <proof prover="0"><result status="valid" time="1.60"/></proof>
+               </goal>
+               <goal name="qft&#39;vc.26.0.0.0.0.1.0.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+               <proof prover="0"><result status="valid" time="1.84"/></proof>
+               <proof prover="2"><result status="valid" time="2.85" steps="996777"/></proof>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="qft&#39;vc.26.0.0.0.0.1.0.0.0.0.1" expl="apply premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.74" steps="932260"/></proof>
+            </goal>
+            <goal name="qft&#39;vc.26.0.0.0.0.1.0.0.0.0.2" expl="apply premises" proved="true">
+            <proof prover="2"><result status="valid" time="1.51" steps="932244"/></proof>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="qft&#39;vc.26.0.0.0.0.1.0.0.0.1" expl="apply premises" proved="true">
+           <transf name="split_vc" proved="true" >
+            <goal name="qft&#39;vc.26.0.0.0.0.1.0.0.0.1.0" expl="apply premises" proved="true">
+            <proof prover="1"><result status="valid" time="0.68" steps="21316"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="qft&#39;vc.26.0.0.0.1" expl="rewrite premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="qft&#39;vc.26.0.0.0.1.0" expl="rewrite premises" proved="true">
+       <proof prover="1"><result status="valid" time="0.77" steps="21317"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="qft&#39;vc.26.0.0.1" expl="rewrite premises" proved="true">
+     <transf name="split_vc" proved="true" >
+      <goal name="qft&#39;vc.26.0.0.1.0" expl="rewrite premises" proved="true">
+      <proof prover="1"><result status="valid" time="0.79" steps="21317"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.27" expl="out of loop bounds" proved="true">
+  <proof prover="1"><result status="valid" time="0.74" steps="20046"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.28" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.76" steps="20044"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.29" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.67" steps="20044"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.30" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.81"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.31" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft&#39;vc.31.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="LoopInvariant">
+    <goal name="qft&#39;vc.31.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="int_to_ang_eq">
+     <goal name="qft&#39;vc.31.0.0.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="ind_isum_eq_gen">
+      <goal name="qft&#39;vc.31.0.0.0.0" expl="apply premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+      </transf>
+      </goal>
+      <goal name="qft&#39;vc.31.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.09" steps="849523"/></proof>
+      </goal>
+      <goal name="qft&#39;vc.31.0.0.0.2" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="0.95" steps="849532"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="qft&#39;vc.31.0.0.1" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="0.97" steps="849523"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.32" expl="out of loop bounds" proved="true">
+  <proof prover="1"><result status="valid" time="0.61" steps="19941"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="qft_d&#39;vc" expl="VC for qft_d">
+ <transf name="split_vc" >
+  <goal name="qft_d&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.65" steps="19686"/></proof>
+  </goal>
+  <goal name="qft_d&#39;vc.1" expl="loop invariant init" proved="true">
+  <proof prover="1"><result status="valid" time="0.66" steps="19940"/></proof>
+  </goal>
+  <goal name="qft_d&#39;vc.2" expl="loop invariant init" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.2.0" expl="loop invariant init" proved="true">
+   <proof prover="1"><result status="valid" time="0.73" steps="19940"/></proof>
+   </goal>
+   <goal name="qft_d&#39;vc.2.1" expl="loop invariant init" proved="true">
+   <proof prover="1"><result status="valid" time="0.72" steps="19941"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.3" expl="loop invariant init" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.3.0" expl="loop invariant init" proved="true">
+   <proof prover="1"><result status="valid" time="0.67" steps="19941"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.4" expl="loop invariant init" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.4.0" expl="loop invariant init" proved="true">
+   <proof prover="1"><result status="valid" time="4.05" steps="208727"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.5" expl="loop invariant init" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.5.0" expl="loop invariant init" proved="true">
+   <proof prover="0"><result status="valid" time="1.49"/></proof>
+   <proof prover="1" obsolete="true"><result status="timeout" time="5.00"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.80" steps="20046"/></proof>
+  </goal>
+  <goal name="qft_d&#39;vc.7" expl="loop invariant init" proved="true">
+  <proof prover="1"><result status="valid" time="0.78" steps="20046"/></proof>
+  </goal>
+  <goal name="qft_d&#39;vc.8" expl="loop invariant init" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.8.0" expl="loop invariant init" proved="true">
+   <proof prover="1"><result status="valid" time="0.82" steps="20046"/></proof>
+   </goal>
+   <goal name="qft_d&#39;vc.8.1" expl="loop invariant init" proved="true">
+   <proof prover="1"><result status="valid" time="0.81" steps="20046"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.9" expl="loop invariant init" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.9.0" expl="loop invariant init" proved="true">
+   <proof prover="1"><result status="valid" time="0.79" steps="20046"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.10" expl="loop invariant init" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.10.0" expl="loop invariant init" proved="true">
+   <proof prover="2"><result status="valid" time="2.24" steps="911797"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.11" expl="loop invariant init" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.11.0" expl="loop invariant init" proved="true">
+   <proof prover="0"><result status="valid" time="1.52"/></proof>
+   <proof prover="1" obsolete="true"><result status="timeout" time="5.00"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.12" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.12.0" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.65" steps="20153"/></proof>
+   </goal>
+   <goal name="qft_d&#39;vc.12.1" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.64" steps="20152"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.13" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.13.0" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.64" steps="20153"/></proof>
+   </goal>
+   <goal name="qft_d&#39;vc.13.1" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.65" steps="20153"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.14" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.14.0" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.67" steps="20186"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.15" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.67" steps="20361"/></proof>
+  </goal>
+  <goal name="qft_d&#39;vc.16" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.67" steps="20361"/></proof>
+  </goal>
+  <goal name="qft_d&#39;vc.17" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.66" steps="20361"/></proof>
+  </goal>
+  <goal name="qft_d&#39;vc.18" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.34" steps="1141350"/></proof>
+  </goal>
+  <goal name="qft_d&#39;vc.19" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.19.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="2.25" steps="914012"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.20" expl="loop variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.20.0" expl="loop variant decrease" proved="true">
+   <proof prover="1"><result status="valid" time="0.65" steps="20718"/></proof>
+   </goal>
+   <goal name="qft_d&#39;vc.20.1" expl="loop variant decrease" proved="true">
+   <proof prover="1"><result status="valid" time="0.68" steps="20718"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.21" expl="loop invariant preservation" proved="true">
+  <proof prover="1"><result status="valid" time="0.68" steps="20736"/></proof>
+  </goal>
+  <goal name="qft_d&#39;vc.22" expl="loop invariant preservation" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.22.0" expl="loop invariant preservation" proved="true">
+   <proof prover="1"><result status="valid" time="0.67" steps="20754"/></proof>
+   </goal>
+   <goal name="qft_d&#39;vc.22.1" expl="loop invariant preservation" proved="true">
+   <proof prover="1"><result status="valid" time="0.68" steps="20754"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.23" expl="loop invariant preservation" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.23.0" expl="loop invariant preservation" proved="true">
+   <proof prover="1"><result status="valid" time="0.86" steps="20773"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.24" expl="loop invariant preservation" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.24.0" expl="loop invariant preservation" proved="true">
+   <proof prover="0" obsolete="true"><result status="timeout" time="5.00"/></proof>
+   <proof prover="1" obsolete="true"><result status="timeout" time="5.00"/></proof>
+   <proof prover="2" obsolete="true"><result status="timeout" time="5.00" steps="1204299"/></proof>
+   <transf name="rewrite" proved="true" arg1="Ensures1">
+    <goal name="qft_d&#39;vc.24.0.0" expl="loop invariant preservation" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures5">
+     <goal name="qft_d&#39;vc.24.0.0.0" expl="loop invariant preservation" proved="true">
+     <proof prover="2"><result status="valid" time="0.99" steps="850980"/></proof>
+     </goal>
+     <goal name="qft_d&#39;vc.24.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="1"><result status="valid" time="0.62" steps="20858"/></proof>
+     <proof prover="2" obsolete="true"><result status="timeout" time="5.00" steps="1207713"/></proof>
+     </goal>
+     <goal name="qft_d&#39;vc.24.0.0.2" expl="rewrite premises" proved="true">
+     <proof prover="2"><result status="valid" time="2.03" steps="914342"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.25" expl="loop invariant preservation" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.25.0" expl="loop invariant preservation" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures1">
+    <goal name="qft_d&#39;vc.25.0.0" expl="loop invariant preservation" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures2">
+     <goal name="qft_d&#39;vc.25.0.0.0" expl="loop invariant preservation" proved="true">
+     <transf name="rewrite" proved="true" arg1="ind_isum_re">
+      <goal name="qft_d&#39;vc.25.0.0.0.0" expl="loop invariant preservation" proved="true">
+      <transf name="rewrite" proved="true" arg1="int_to_ang_add_rev">
+       <goal name="qft_d&#39;vc.25.0.0.0.0.0" expl="loop invariant preservation" proved="true">
+       <transf name="apply" proved="true" arg1="ang_add_eq">
+        <goal name="qft_d&#39;vc.25.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="rewrite" proved="true" arg1="LoopInvariant3">
+         <goal name="qft_d&#39;vc.25.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <proof prover="2"><result status="valid" time="2.86" steps="1147397"/></proof>
+         </goal>
+         <goal name="qft_d&#39;vc.25.0.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+         <proof prover="1"><result status="valid" time="0.68" steps="20840"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="qft_d&#39;vc.25.0.0.0.0.0.1" expl="apply premises" proved="true">
+        <transf name="compute_specified" proved="true" >
+         <goal name="qft_d&#39;vc.25.0.0.0.0.0.1.0" expl="apply premises" proved="true">
+         <proof prover="1"><result status="valid" time="4.58" steps="233000"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="qft_d&#39;vc.25.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="2"><result status="valid" time="1.81" steps="913677"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="qft_d&#39;vc.25.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.87" steps="913662"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="qft_d&#39;vc.25.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="0" obsolete="true"><result status="timeout" time="5.00"/></proof>
+     <proof prover="1"><result status="valid" time="0.70" steps="20856"/></proof>
+     <proof prover="2" obsolete="true"><result status="timeout" time="5.00" steps="1202860"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.26" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.26.0" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.64" steps="20189"/></proof>
+   </goal>
+   <goal name="qft_d&#39;vc.26.1" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.63" steps="20189"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.27" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.72" steps="20399"/></proof>
+  </goal>
+  <goal name="qft_d&#39;vc.28" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.62" steps="20399"/></proof>
+  </goal>
+  <goal name="qft_d&#39;vc.29" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.09" steps="1140294"/></proof>
+  </goal>
+  <goal name="qft_d&#39;vc.30" expl="assertion">
+  <proof prover="0" obsolete="true"><result status="timeout" time="5.00"/></proof>
+  <proof prover="1"><result status="timeout" time="5.00"/></proof>
+  <proof prover="2" obsolete="true"><result status="timeout" time="5.00" steps="1277967"/></proof>
+  <proof prover="3" obsolete="true"><result status="outofmemory" time="6.64"/></proof>
+  <transf name="rewrite" arg1="Ensures">
+   <goal name="qft_d&#39;vc.30.0" expl="assertion">
+   <transf name="rewrite" arg1="Ensures2">
+    <goal name="qft_d&#39;vc.30.0.0" expl="assertion" proved="true">
+    <proof prover="2"><result status="valid" time="3.00" steps="1220467"/></proof>
+    </goal>
+    <goal name="qft_d&#39;vc.30.0.1" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="2.07" steps="995752"/></proof>
+    </goal>
+    <goal name="qft_d&#39;vc.30.0.2" expl="rewrite premises">
+    <proof prover="0"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2"><result status="timeout" time="5.00" steps="1312221"/></proof>
+    </goal>
+    <goal name="qft_d&#39;vc.30.0.3" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="2.03" steps="995788"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.31" expl="assertion">
+  <transf name="rewrite" arg1="Ensures">
+   <goal name="qft_d&#39;vc.31.0" expl="assertion">
+   <transf name="rewrite" arg1="Ensures1">
+    <goal name="qft_d&#39;vc.31.0.0" expl="assertion">
+    <transf name="rewrite" arg1="ind_isum_plus_one">
+     <goal name="qft_d&#39;vc.31.0.0.0" expl="assertion">
+     <transf name="rewrite" arg1="int_to_ang_add_rev">
+      <goal name="qft_d&#39;vc.31.0.0.0.0" expl="assertion">
+      <transf name="apply" arg1="ang_add_eq">
+       <goal name="qft_d&#39;vc.31.0.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="qft_d&#39;vc.31.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <proof prover="1"><result status="valid" time="4.28" steps="231873"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="qft_d&#39;vc.31.0.0.0.0.1" expl="apply premises">
+       <transf name="rewrite" arg1="LoopInvariant">
+        <goal name="qft_d&#39;vc.31.0.0.0.0.1.0" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="int_to_ang_eq">
+         <goal name="qft_d&#39;vc.31.0.0.0.0.1.0.0" expl="apply premises" proved="true">
+         <transf name="apply" proved="true" arg1="ind_isum_eq_gen">
+          <goal name="qft_d&#39;vc.31.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+          <transf name="split_vc" proved="true" >
+           <goal name="qft_d&#39;vc.31.0.0.0.0.1.0.0.0.0" expl="apply premises" proved="true">
+           <transf name="compute_specified" proved="true" >
+            <goal name="qft_d&#39;vc.31.0.0.0.0.1.0.0.0.0.0" expl="apply premises" proved="true">
+            <proof prover="0"><result status="valid" time="2.30"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="qft_d&#39;vc.31.0.0.0.0.1.0.0.1" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="1.42" steps="931707"/></proof>
+          </goal>
+          <goal name="qft_d&#39;vc.31.0.0.0.0.1.0.0.2" expl="apply premises" proved="true">
+          <proof prover="2"><result status="valid" time="2.36" steps="995984"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="qft_d&#39;vc.31.0.0.0.0.1.0.1" expl="apply premises" proved="true">
+         <proof prover="2"><result status="valid" time="1.41" steps="931707"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="qft_d&#39;vc.31.0.0.0.0.1.1" expl="rewrite premises">
+        <proof prover="1"><result status="timeout" time="5.00"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="qft_d&#39;vc.31.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.25" steps="995178"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="qft_d&#39;vc.31.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="2"><result status="valid" time="1.28" steps="931711"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="qft_d&#39;vc.31.0.1" expl="rewrite premises" proved="true">
+    <proof prover="0" obsolete="true"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="valid" time="0.65" steps="20768"/></proof>
+    <proof prover="2" obsolete="true"><result status="timeout" time="5.00" steps="1276009"/></proof>
+    </goal>
+    <goal name="qft_d&#39;vc.31.0.2" expl="rewrite premises">
+    <proof prover="0" obsolete="true"><result status="timeout" time="5.00"/></proof>
+    <proof prover="1"><result status="timeout" time="5.00"/></proof>
+    <proof prover="2" obsolete="true"><result status="timeout" time="5.00" steps="1281229"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.32" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.65" steps="20720"/></proof>
+  </goal>
+  <goal name="qft_d&#39;vc.33" expl="loop variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.33.0" expl="loop variant decrease" proved="true">
+   <proof prover="1"><result status="valid" time="0.67" steps="21339"/></proof>
+   </goal>
+   <goal name="qft_d&#39;vc.33.1" expl="loop variant decrease" proved="true">
+   <proof prover="1"><result status="valid" time="0.67" steps="21339"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.34" expl="loop invariant preservation" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.34.0" expl="loop invariant preservation" proved="true">
+   <proof prover="1"><result status="valid" time="0.67" steps="21357"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.35" expl="loop invariant preservation" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.35.0" expl="loop invariant preservation" proved="true">
+   <proof prover="1"><result status="valid" time="0.68" steps="21374"/></proof>
+   </goal>
+   <goal name="qft_d&#39;vc.35.1" expl="loop invariant preservation" proved="true">
+   <proof prover="1"><result status="valid" time="0.69" steps="21374"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.36" expl="loop invariant preservation" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.36.0" expl="loop invariant preservation" proved="true">
+   <proof prover="1"><result status="valid" time="0.91" steps="21393"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.37" expl="loop invariant preservation">
+  <transf name="split_vc" >
+   <goal name="qft_d&#39;vc.37.0" expl="loop invariant preservation">
+   <transf name="rewrite" arg1="Ensures1">
+    <goal name="qft_d&#39;vc.37.0.0" expl="loop invariant preservation">
+    <transf name="rewrite" arg1="Ensures3">
+     <goal name="qft_d&#39;vc.37.0.0.0" expl="loop invariant preservation">
+     <transf name="rewrite" arg1="Assert1">
+      <goal name="qft_d&#39;vc.37.0.0.0.0" expl="loop invariant preservation" proved="true">
+      <transf name="eliminate_if" proved="true" >
+       <goal name="qft_d&#39;vc.37.0.0.0.0.0" expl="VC for qft_d" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="qft_d&#39;vc.37.0.0.0.0.0.0" expl="VC for qft_d" proved="true">
+        <proof prover="2"><result status="valid" time="3.51" steps="1247754"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="qft_d&#39;vc.37.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="1"><result status="valid" time="0.80" steps="21463"/></proof>
+      <proof prover="2"><result status="valid" time="1.54" steps="932424"/></proof>
+      </goal>
+      <goal name="qft_d&#39;vc.37.0.0.0.2" expl="rewrite premises">
+      <proof prover="1"><result status="timeout" time="5.00"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.38" expl="loop invariant preservation">
+  <transf name="split_vc" >
+   <goal name="qft_d&#39;vc.38.0" expl="loop invariant preservation">
+   <transf name="rewrite" arg1="Ensures1">
+    <goal name="qft_d&#39;vc.38.0.0" expl="loop invariant preservation">
+    <transf name="rewrite" arg1="Ensures2">
+     <goal name="qft_d&#39;vc.38.0.0.0" expl="loop invariant preservation">
+     <transf name="rewrite" arg1="ind_isum_re">
+      <goal name="qft_d&#39;vc.38.0.0.0.0" expl="loop invariant preservation">
+      <transf name="rewrite" arg1="int_to_ang_add_rev">
+       <goal name="qft_d&#39;vc.38.0.0.0.0.0" expl="loop invariant preservation">
+       <transf name="replace" arg1="(q-1)" arg2="q1">
+        <goal name="qft_d&#39;vc.38.0.0.0.0.0.0" expl="loop invariant preservation">
+        <transf name="apply" arg1="ang_add_eq">
+         <goal name="qft_d&#39;vc.38.0.0.0.0.0.0.0" expl="apply premises">
+         <transf name="apply" proved="true" arg1="LoopInvariant7">
+         </transf>
+         </goal>
+         <goal name="qft_d&#39;vc.38.0.0.0.0.0.0.1" expl="apply premises">
+         <transf name="compute_specified" >
+          <goal name="qft_d&#39;vc.38.0.0.0.0.0.0.1.0" expl="apply premises">
+          <transf name="rewrite" arg1="Assert">
+           <goal name="qft_d&#39;vc.38.0.0.0.0.0.0.1.0.0" expl="apply premises">
+           <transf name="compute_specified" >
+            <goal name="qft_d&#39;vc.38.0.0.0.0.0.0.1.0.0.0" expl="apply premises">
+            <transf name="apply" arg1="int_to_ang_eq">
+             <goal name="qft_d&#39;vc.38.0.0.0.0.0.0.1.0.0.0.0" expl="apply premises">
+             <transf name="apply" arg1="ind_isum_eq">
+              <goal name="qft_d&#39;vc.38.0.0.0.0.0.0.1.0.0.0.0.0" expl="apply premises">
+              <transf name="split_vc" >
+               <goal name="qft_d&#39;vc.38.0.0.0.0.0.0.1.0.0.0.0.0.0" expl="apply premises">
+               <transf name="compute_specified" >
+                <goal name="qft_d&#39;vc.38.0.0.0.0.0.0.1.0.0.0.0.0.0.0" expl="apply premises">
+                <transf name="rewrite" arg1="LoopInvariant8">
+                 <goal name="qft_d&#39;vc.38.0.0.0.0.0.0.1.0.0.0.0.0.0.0.0" expl="apply premises">
+                 <transf name="eliminate_if" >
+                  <goal name="qft_d&#39;vc.38.0.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0">
+                  <transf name="split_vc" >
+                   <goal name="qft_d&#39;vc.38.0.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.0" expl="apply premises">
+                   <proof prover="0"><result status="failure" time="0.00"/></proof>
+                   <proof prover="1"><undone/></proof>
+                   <proof prover="2"><result status="failure" time="0.00"/></proof>
+                   </goal>
+                   <goal name="qft_d&#39;vc.38.0.0.0.0.0.0.1.0.0.0.0.0.0.0.0.0.1" expl="apply premises">
+                   <proof prover="0"><result status="failure" time="0.00"/></proof>
+                   <proof prover="1"><undone/></proof>
+                   <proof prover="2"><result status="failure" time="0.00"/></proof>
+                   </goal>
+                  </transf>
+                  </goal>
+                 </transf>
+                 </goal>
+                 <goal name="qft_d&#39;vc.38.0.0.0.0.0.0.1.0.0.0.0.0.0.0.1" expl="rewrite premises">
+                 <proof prover="0"><result status="failure" time="0.00"/></proof>
+                 <proof prover="1"><undone/></proof>
+                 <proof prover="2"><result status="failure" time="0.00"/></proof>
+                 </goal>
+                </transf>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="qft_d&#39;vc.38.0.0.0.0.0.0.1.0.0.0.1" expl="apply premises">
+             <proof prover="0"><result status="failure" time="0.00"/></proof>
+             <proof prover="1"><undone/></proof>
+             <proof prover="2"><result status="failure" time="0.00"/></proof>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="qft_d&#39;vc.38.0.0.0.0.0.1" expl="equality hypothesis">
+        <proof prover="0"><result status="failure" time="0.00"/></proof>
+        <proof prover="1"><undone/></proof>
+        <proof prover="2"><result status="failure" time="0.00"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="qft_d&#39;vc.38.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="2"><result status="valid" time="2.31" steps="996343"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="qft_d&#39;vc.38.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="2"><result status="valid" time="2.30" steps="996336"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft_d&#39;vc.39" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.59" steps="20082"/></proof>
+  </goal>
+  <goal name="qft_d&#39;vc.40" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.65" steps="20082"/></proof>
+  </goal>
+  <goal name="qft_d&#39;vc.41" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.27"/></proof>
+  </goal>
+  <goal name="qft_d&#39;vc.42" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="qft_d&#39;vc.42.0" expl="postcondition" proved="true">
+   <transf name="replace" proved="true" arg1="q" arg2="n" arg3="in" arg4="LoopInvariant">
+    <goal name="qft_d&#39;vc.42.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="LoopInvariant">
+     <goal name="qft_d&#39;vc.42.0.0.0" expl="apply premises" proved="true">
+     <proof prover="1"><result status="valid" time="0.62" steps="20131"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="qft_d&#39;vc.42.0.1" expl="equality hypothesis" proved="true">
+    <proof prover="2"><result status="valid" time="1.71" steps="910447"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>

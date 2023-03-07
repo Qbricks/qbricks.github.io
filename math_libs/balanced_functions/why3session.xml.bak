@@ -1,0 +1,1261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="6">
+<prover id="0" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="8" name="Z3" version="4.8.6" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="9" name="CVC4" version="1.7" timelimit="5" steplimit="0" memlimit="1000"/>
+<file format="whyml" proved="true">
+<path name=".."/><path name="balanced_functions.mlw"/>
+<theory name="Balanced" proved="true">
+ <goal name="constant_bin_bound&#39;vc" expl="VC for constant_bin_bound" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="constant_bin_bound&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.40"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="constant_value_choose&#39;vc" expl="VC for constant_value_choose" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="constant_value_choose&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.04" steps="395935"/></proof>
+  </goal>
+  <goal name="constant_value_choose&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.59" steps="410400"/></proof>
+  </goal>
+  <goal name="constant_value_choose&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.49" steps="483898"/></proof>
+  </goal>
+  <goal name="constant_value_choose&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.56" steps="411798"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="get_balanced_bin_cardeq&#39;vc" expl="VC for get_balanced_bin_cardeq" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="get_balanced_bin_cardeq&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="get_balanced_bin_cardeq&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="balanced_bin&#39;def" arg2="in" arg3="Requires">
+    <goal name="get_balanced_bin_cardeq&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="split_all_full" proved="true" >
+     <goal name="get_balanced_bin_cardeq&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Requires">
+      <goal name="get_balanced_bin_cardeq&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="Requires1">
+       <goal name="get_balanced_bin_cardeq&#39;vc.0.0.0.0.0.0" expl="postcondition" proved="true">
+       <proof prover="9"><result status="valid" time="0.63" steps="459037"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="get_balanced_bin_zero&#39;vc" expl="VC for get_balanced_bin_zero" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="get_balanced_bin_zero&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="get_balanced_bin_zero&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="get_balanced_bin_zero&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="balanced_bin&#39;def" arg2="in" arg3="Requires">
+     <goal name="get_balanced_bin_zero&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="get_balanced_bin_zero&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="9"><result status="valid" time="1.18" steps="526770"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="get_balanced_bin_one&#39;vc" expl="VC for get_balanced_bin_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="get_balanced_bin_one&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="split_all_full" proved="true" >
+   <goal name="get_balanced_bin_one&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="eliminate_definition" proved="true" >
+    <goal name="get_balanced_bin_one&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="balanced_bin&#39;def" arg2="in" arg3="Requires">
+     <goal name="get_balanced_bin_one&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="get_balanced_bin_one&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="apply" proved="true" arg1="Requires">
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="get_balanced_bin&#39;vc" expl="VC for get_balanced_bin" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="get_balanced_bin&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="split_all_full" proved="true" >
+   <goal name="get_balanced_bin&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="eliminate_definition" proved="true" >
+    <goal name="get_balanced_bin&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="balanced_bin&#39;def" arg2="in" arg3="Requires">
+     <goal name="get_balanced_bin&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="get_balanced_bin&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="apply" proved="true" arg1="Requires1">
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="get_balanced_bin&#39;vc.1" expl="postcondition" proved="true">
+  <transf name="split_all_full" proved="true" >
+   <goal name="get_balanced_bin&#39;vc.1.0" expl="postcondition" proved="true">
+   <transf name="eliminate_definition" proved="true" >
+    <goal name="get_balanced_bin&#39;vc.1.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="balanced_bin&#39;def" arg2="in" arg3="Requires">
+     <goal name="get_balanced_bin&#39;vc.1.0.0.0" expl="postcondition" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="get_balanced_bin&#39;vc.1.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="apply" proved="true" arg1="Requires">
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="set_balanced_bin&#39;vc" expl="VC for set_balanced_bin" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="set_balanced_bin&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="set_balanced_bin&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="balanced_bin&#39;def">
+    <goal name="set_balanced_bin&#39;vc.0.0.0" expl="VC for set_balanced_bin" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="set_balanced_bin&#39;vc.0.0.0.0" expl="VC for set_balanced_bin" proved="true">
+     <proof prover="9"><result status="valid" time="0.55" steps="395464"/></proof>
+     </goal>
+     <goal name="set_balanced_bin&#39;vc.0.0.0.1" expl="VC for set_balanced_bin" proved="true">
+     <proof prover="9"><result status="valid" time="1.23" steps="461533"/></proof>
+     </goal>
+     <goal name="set_balanced_bin&#39;vc.0.0.0.2" expl="VC for set_balanced_bin" proved="true">
+     <proof prover="9"><result status="valid" time="1.22" steps="461532"/></proof>
+     </goal>
+     <goal name="set_balanced_bin&#39;vc.0.0.0.3" expl="VC for set_balanced_bin" proved="true">
+     <transf name="rewrite" proved="true" arg1="H1">
+      <goal name="set_balanced_bin&#39;vc.0.0.0.3.0" expl="VC for set_balanced_bin" proved="true">
+      <transf name="apply" proved="true" arg1="H">
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="set_balanced_bin&#39;vc.0.0.0.4" expl="VC for set_balanced_bin" proved="true">
+     <transf name="apply" proved="true" arg1="H">
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="get_constant_bin&#39;vc" expl="VC for get_constant_bin" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="get_constant_bin&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="get_constant_bin&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="eliminate_definition" proved="true" >
+    <goal name="get_constant_bin&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <proof prover="9"><result status="valid" time="1.25" steps="406444"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="set_constant_bin&#39;vc" expl="VC for set_constant_bin" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="set_constant_bin&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="set_constant_bin&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="constant_bin&#39;def">
+    <goal name="set_constant_bin&#39;vc.0.0.0" expl="VC for set_constant_bin" proved="true">
+    <proof prover="9"><result status="valid" time="0.75" steps="361557"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="exclu_constant_balanced&#39;vc" expl="VC for exclu_constant_balanced" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="exclu_constant_balanced&#39;vc.0" expl="assertion" proved="true">
+  <transf name="replace" proved="true" arg1="(my_filter (n_bvs n) (fun (x:bitvec) -&gt; (f @ x) = 0))" arg2="(n_bvs n)">
+   <goal name="exclu_constant_balanced&#39;vc.0.0" expl="assertion" proved="true">
+   <proof prover="9"><result status="valid" time="1.19" steps="437167"/></proof>
+   </goal>
+   <goal name="exclu_constant_balanced&#39;vc.0.1" expl="equality hypothesis" proved="true">
+   <transf name="apply" proved="true" arg1="set_equal">
+    <goal name="exclu_constant_balanced&#39;vc.0.1.0" expl="apply premises" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="exclu_constant_balanced&#39;vc.0.1.0.0" expl="apply premises" proved="true">
+     <proof prover="9"><result status="valid" time="1.02" steps="452444"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="exclu_constant_balanced&#39;vc.0.1.1" expl="apply premises" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="exclu_constant_balanced&#39;vc.0.1.1.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="in_my_filter">
+      <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.0" expl="apply premises" proved="true">
+      <proof prover="9"><result status="valid" time="0.54" steps="402705"/></proof>
+      </goal>
+      <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1" expl="apply premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0" expl="apply premises" proved="true">
+       <transf name="replace" proved="true" arg1="(f e)" arg2="(f @ choose (n_bvs n))">
+        <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0.0" expl="apply premises" proved="true">
+        <proof prover="9"><result status="valid" time="0.53" steps="402705"/></proof>
+        </goal>
+        <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0.1" expl="equality hypothesis" proved="true">
+        <transf name="instantiate" proved="true" arg1="get_constant_bin" arg2="f">
+         <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0.1.0" expl="equality hypothesis" proved="true">
+         <transf name="instantiate" proved="true" arg1="Hinst" arg2="n">
+          <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0.1.0.0" expl="equality hypothesis" proved="true">
+          <transf name="destruct" proved="true" arg1="Hinst">
+           <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0.1.0.0.0" expl="destruct premise" proved="true">
+           <proof prover="9"><result status="valid" time="0.54" steps="402914"/></proof>
+           </goal>
+           <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0.1.0.0.1" expl="equality hypothesis" proved="true">
+           <transf name="apply" proved="true" arg1="Hinst">
+            <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0.1.0.0.1.0" expl="apply premises" proved="true">
+            <transf name="split_vc" proved="true" >
+             <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0.1.0.0.1.0.0" proved="true">
+             <transf name="replace" proved="true" arg1="(length e)" arg2="n">
+              <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0.1.0.0.1.0.0.0" proved="true">
+              <transf name="assert" proved="true" arg1="(mem (choose (n_bvs n)) (n_bvs n))">
+               <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0.1.0.0.1.0.0.0.0" expl="asserted formula" proved="true">
+               <proof prover="9"><result status="valid" time="1.42" steps="475188"/></proof>
+               </goal>
+               <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0.1.0.0.1.0.0.0.1" proved="true">
+               <proof prover="9"><result status="valid" time="1.28" steps="470231"/></proof>
+               </goal>
+              </transf>
+              </goal>
+              <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0.1.0.0.1.0.0.1" expl="equality hypothesis" proved="true">
+              <proof prover="9"><result status="valid" time="1.24" steps="469924"/></proof>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0.1.0.0.1.0.1" proved="true">
+             <transf name="assert" proved="true" arg1="(mem (choose (n_bvs n)) (n_bvs n))">
+              <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0.1.0.0.1.0.1.0" expl="asserted formula" proved="true">
+              <proof prover="9"><result status="valid" time="1.42" steps="475188"/></proof>
+              </goal>
+              <goal name="exclu_constant_balanced&#39;vc.0.1.1.0.1.0.1.0.0.1.0.1.1" proved="true">
+              <proof prover="9"><result status="valid" time="1.01" steps="470234"/></proof>
+              </goal>
+             </transf>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="exclu_constant_balanced&#39;vc.1" expl="assertion" proved="true">
+  <transf name="replace" proved="true" arg1="(my_filter (n_bvs n) (fun (x:bitvec) -&gt; (f @ x) = 1))" arg2="(n_bvs n)">
+   <goal name="exclu_constant_balanced&#39;vc.1.0" expl="assertion" proved="true">
+   <proof prover="9"><result status="valid" time="1.13" steps="464447"/></proof>
+   </goal>
+   <goal name="exclu_constant_balanced&#39;vc.1.1" expl="equality hypothesis" proved="true">
+   <transf name="apply" proved="true" arg1="set_equal">
+    <goal name="exclu_constant_balanced&#39;vc.1.1.0" expl="apply premises" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="exclu_constant_balanced&#39;vc.1.1.0.0" expl="apply premises" proved="true">
+     <proof prover="9"><result status="valid" time="1.05" steps="461774"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="exclu_constant_balanced&#39;vc.1.1.1" expl="apply premises" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="exclu_constant_balanced&#39;vc.1.1.1.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="in_my_filter">
+      <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.0" expl="apply premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.0.0" expl="apply premises" proved="true">
+       <transf name="instantiate" proved="true" arg1="get_constant_bin" arg2="f">
+        <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="instantiate" proved="true" arg1="Hinst" arg2="n">
+         <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="destruct" proved="true" arg1="Hinst">
+          <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.0.0.0.0.0" expl="destruct premise" proved="true">
+          <transf name="replace" proved="true" arg1="1" arg2="(f @ choose (n_bvs n))">
+           <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.0.0.0.0.0.0" expl="destruct premise" proved="true">
+           <proof prover="9"><result status="valid" time="0.61" steps="435330"/></proof>
+           </goal>
+           <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+           <proof prover="9"><result status="valid" time="0.63" steps="435337"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.0.0.0.0.1" expl="apply premises" proved="true">
+          <proof prover="9"><result status="valid" time="0.60" steps="435424"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.1" expl="apply premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.1.0" expl="apply premises" proved="true">
+       <transf name="replace" proved="true" arg1="(f e)" arg2="(f (choose (n_bvs n)))">
+        <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.1.0.0" expl="apply premises" proved="true">
+        <proof prover="9"><result status="valid" time="0.62" steps="435121"/></proof>
+        </goal>
+        <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.1.0.1" expl="equality hypothesis" proved="true">
+        <transf name="instantiate" proved="true" arg1="get_constant_bin" arg2="f,n">
+         <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.1.0.1.0" expl="equality hypothesis" proved="true">
+         <transf name="apply" proved="true" arg1="Hinst">
+          <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.1.0.1.0.0" expl="apply premises" proved="true">
+          <proof prover="9"><result status="valid" time="0.61" steps="435222"/></proof>
+          </goal>
+          <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.1.0.1.0.1" expl="apply premises" proved="true">
+          <transf name="split_vc" proved="true" >
+           <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.1.0.1.0.1.0" proved="true">
+           <transf name="replace" proved="true" arg1="(length e)" arg2="n">
+            <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.1.0.1.0.1.0.0" proved="true">
+            <transf name="assert" proved="true" arg1="(mem (choose (n_bvs n)) (n_bvs n))">
+             <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.1.0.1.0.1.0.0.0" expl="asserted formula" proved="true">
+             <proof prover="9"><result status="valid" time="1.60" steps="509873"/></proof>
+             </goal>
+             <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.1.0.1.0.1.0.0.1" proved="true">
+             <proof prover="9"><result status="valid" time="1.39" steps="503797"/></proof>
+             </goal>
+            </transf>
+            </goal>
+            <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.1.0.1.0.1.0.1" expl="equality hypothesis" proved="true">
+            <proof prover="9"><result status="valid" time="1.35" steps="503497"/></proof>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.1.0.1.0.1.1" proved="true">
+           <transf name="assert" proved="true" arg1="(mem (choose (n_bvs n)) (n_bvs n))">
+            <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.1.0.1.0.1.1.0" expl="asserted formula" proved="true">
+            <proof prover="9"><result status="valid" time="1.57" steps="509873"/></proof>
+            </goal>
+            <goal name="exclu_constant_balanced&#39;vc.1.1.1.0.1.0.1.0.1.1.1" proved="true">
+            <proof prover="9"><result status="valid" time="1.34" steps="503805"/></proof>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="exclu_constant_balanced&#39;vc.2" expl="postcondition" proved="true">
+  <transf name="case" proved="true" arg1="(balanced_bin f n)">
+   <goal name="exclu_constant_balanced&#39;vc.2.0" expl="true case (postcondition)" proved="true">
+   <transf name="assert" proved="true" arg1="( (cardinal (my_filter (n_bvs n) (fun (x:bitvec) -&gt; (f @ x) = 0)) = power 2 (n-1)))">
+    <goal name="exclu_constant_balanced&#39;vc.2.0.0" expl="asserted formula" proved="true">
+    <transf name="split_all_full" proved="true" >
+     <goal name="exclu_constant_balanced&#39;vc.2.0.0.0" expl="asserted formula" proved="true">
+     <transf name="apply" proved="true" arg1="get_balanced_bin1">
+      <goal name="exclu_constant_balanced&#39;vc.2.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="9"><result status="valid" time="0.60" steps="448985"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="exclu_constant_balanced&#39;vc.2.0.1" expl="true case (postcondition)" proved="true">
+    <transf name="assert" proved="true" arg1="( (cardinal (my_filter (n_bvs n) (fun (x:bitvec) -&gt; (f @ x) = 1)) = power 2 (n-1)))">
+     <goal name="exclu_constant_balanced&#39;vc.2.0.1.0" expl="asserted formula" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="exclu_constant_balanced&#39;vc.2.0.1.0.0" expl="asserted formula" proved="true">
+      <transf name="apply" proved="true" arg1="get_balanced_bin">
+       <goal name="exclu_constant_balanced&#39;vc.2.0.1.0.0.0" expl="apply premises" proved="true">
+       <proof prover="9"><result status="valid" time="0.64" steps="449068"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="exclu_constant_balanced&#39;vc.2.0.1.1" expl="true case (postcondition)" proved="true">
+     <transf name="split_all_full" proved="true" >
+      <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0" expl="true case (postcondition)" proved="true">
+      <transf name="case" proved="true" arg1="((f @ choose (n_bvs n)) = 1 )">
+       <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.0" expl="true case (postcondition)" proved="true">
+       <transf name="assert" proved="true" arg1="(cardinal (my_filter (n_bvs n) (fun (x:bitvec) -&gt; (f @ x) = 1))
+  = power 2 n)">
+        <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.0.0" expl="asserted formula" proved="true">
+        <proof prover="9"><result status="valid" time="1.44" steps="521606"/></proof>
+        </goal>
+        <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.0.1" expl="true case (postcondition)" proved="true">
+        <transf name="assert" proved="true" arg1="(power 2 (n-1) = power 2 n)">
+         <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.0.1.0" expl="asserted formula" proved="true">
+         <transf name="rewrite" proved="true" arg1="h1" arg2="in" arg3="h3">
+          <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.0.1.0.0" expl="asserted formula" proved="true">
+          <proof prover="9"><result status="valid" time="0.66" steps="449158"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.0.1.1" expl="true case (postcondition)" proved="true">
+         <proof prover="9"><result status="valid" time="1.40" steps="520026"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.1" expl="false case (true case. postcondition)" proved="true">
+       <transf name="assert" proved="true" arg1="(cardinal (my_filter (n_bvs n) (fun (x:bitvec) -&gt; (f @ x) = 0))
+  = power 2 n)">
+        <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.1.0" expl="asserted formula" proved="true">
+        <transf name="assert" proved="true" arg1="(power 2 (n-1) = power 2 n)">
+         <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.1.0.0" expl="asserted formula" proved="true">
+         <transf name="assert" proved="true" arg1="(cardinal (my_filter (n_bvs n) (fun (x:bitvec) -&gt; (f @ x) = 0))
+  = power 2 n)">
+          <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.1.0.0.0" expl="asserted formula" proved="true">
+          <transf name="apply" proved="true" arg1="Assert1">
+           <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.1.0.0.0.0" expl="apply premises" proved="true">
+           <proof prover="9"><result status="valid" time="0.65" steps="449145"/></proof>
+           </goal>
+           <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.1.0.0.0.1" expl="apply premises" proved="true">
+           <proof prover="9"><result status="valid" time="1.38" steps="520325"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.1.0.0.1" expl="asserted formula" proved="true">
+          <proof prover="9"><result status="valid" time="1.39" steps="521769"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.1.0.1" expl="asserted formula" proved="true">
+         <proof prover="9"><result status="valid" time="1.45" steps="521020"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.1.1" expl="false case (true case. postcondition)" proved="true">
+        <transf name="assert" proved="true" arg1="(power 2 (n-1) = power 2 n)">
+         <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.1.1.0" expl="asserted formula" proved="true">
+         <transf name="assert" proved="true" arg1="(cardinal (my_filter (n_bvs n) (fun (x:bitvec) -&gt; (f @ x) = 0))
+  = power 2 n)">
+          <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.1.1.0.0" expl="asserted formula" proved="true">
+          <transf name="apply" proved="true" arg1="Assert1">
+           <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.1.1.0.0.0" expl="apply premises" proved="true">
+           <proof prover="9"><result status="valid" time="0.64" steps="449214"/></proof>
+           </goal>
+           <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.1.1.0.0.1" expl="apply premises" proved="true">
+           <proof prover="9"><result status="valid" time="1.44" steps="520439"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.1.1.0.1" expl="asserted formula" proved="true">
+          <proof prover="9"><result status="valid" time="1.46" steps="522362"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="exclu_constant_balanced&#39;vc.2.0.1.1.0.1.1.1" expl="false case (true case. postcondition)" proved="true">
+         <proof prover="9"><result status="valid" time="1.43" steps="520450"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="exclu_constant_balanced&#39;vc.2.1" expl="false case (postcondition)" proved="true">
+   <proof prover="9"><result status="valid" time="0.55" steps="396700"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="exclu_constant_balanced&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.57" steps="396709"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="balanced_sum&#39;vc" expl="VC for balanced_sum" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="balanced_sum&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.48" steps="364189"/></proof>
+  </goal>
+  <goal name="balanced_sum&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.38" steps="505199"/></proof>
+  </goal>
+  <goal name="balanced_sum&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.62" steps="437760"/></proof>
+  </goal>
+  <goal name="balanced_sum&#39;vc.3" expl="precondition" proved="true">
+  <transf name="compute_in_goal" proved="true" >
+   <goal name="balanced_sum&#39;vc.3.0" expl="precondition" proved="true">
+   <transf name="assert" proved="true" arg1="(0&lt;= (f @ e) &lt;2)">
+    <goal name="balanced_sum&#39;vc.3.0.0" expl="asserted formula" proved="true">
+    <transf name="eliminate_definition" proved="true" >
+     <goal name="balanced_sum&#39;vc.3.0.0.0" expl="asserted formula" proved="true">
+     <transf name="instantiate" proved="true" arg1="balanced_bin&#39;def" arg2="f,n">
+      <goal name="balanced_sum&#39;vc.3.0.0.0.0" expl="asserted formula" proved="true">
+      <transf name="split_all_full" proved="true" >
+       <goal name="balanced_sum&#39;vc.3.0.0.0.0.0" proved="true">
+       <transf name="destruct" proved="true" arg1="Hinst">
+        <goal name="balanced_sum&#39;vc.3.0.0.0.0.0.0" expl="destruct premise" proved="true">
+        <transf name="split_vc" proved="true" >
+         <goal name="balanced_sum&#39;vc.3.0.0.0.0.0.0.0" proved="true">
+         <proof prover="9"><result status="valid" time="0.75" steps="521157"/></proof>
+         </goal>
+         <goal name="balanced_sum&#39;vc.3.0.0.0.0.0.0.1" proved="true">
+         <proof prover="9"><result status="valid" time="1.61" steps="593238"/></proof>
+         </goal>
+         <goal name="balanced_sum&#39;vc.3.0.0.0.0.0.0.2" proved="true">
+         <proof prover="9"><result status="valid" time="1.60" steps="593227"/></proof>
+         </goal>
+         <goal name="balanced_sum&#39;vc.3.0.0.0.0.0.0.3" proved="true">
+         <transf name="apply" proved="true" arg1="Hinst1">
+          <goal name="balanced_sum&#39;vc.3.0.0.0.0.0.0.3.0" expl="apply premises" proved="true">
+          <proof prover="9"><result status="valid" time="0.70" steps="521157"/></proof>
+          </goal>
+         </transf>
+         </goal>
+         <goal name="balanced_sum&#39;vc.3.0.0.0.0.0.0.4" proved="true">
+         <transf name="apply" proved="true" arg1="Hinst">
+          <goal name="balanced_sum&#39;vc.3.0.0.0.0.0.0.4.0" expl="apply premises" proved="true">
+          <proof prover="9"><result status="valid" time="0.64" steps="521157"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="balanced_sum&#39;vc.3.0.0.0.0.0.1" proved="true">
+        <transf name="apply" proved="true" arg1="Hinst4">
+         <goal name="balanced_sum&#39;vc.3.0.0.0.0.0.1.0" expl="apply premises" proved="true">
+         <proof prover="9"><result status="valid" time="0.74" steps="521160"/></proof>
+         </goal>
+         <goal name="balanced_sum&#39;vc.3.0.0.0.0.0.1.1" expl="apply premises" proved="true">
+         <transf name="apply" proved="true" arg1="get_in_n_bvs">
+          <goal name="balanced_sum&#39;vc.3.0.0.0.0.0.1.1.0" expl="apply premises" proved="true">
+          <proof prover="9"><result status="valid" time="0.74" steps="521160"/></proof>
+          </goal>
+          <goal name="balanced_sum&#39;vc.3.0.0.0.0.0.1.1.1" expl="apply premises" proved="true">
+          <proof prover="9"><result status="valid" time="0.73" steps="521160"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="balanced_sum&#39;vc.3.0.0.0.0.1" proved="true">
+       <transf name="apply" proved="true" arg1="Hinst3">
+        <goal name="balanced_sum&#39;vc.3.0.0.0.0.1.0" expl="apply premises" proved="true">
+        <proof prover="9"><result status="valid" time="0.72" steps="521399"/></proof>
+        </goal>
+        <goal name="balanced_sum&#39;vc.3.0.0.0.0.1.1" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="get_in_n_bvs">
+         <goal name="balanced_sum&#39;vc.3.0.0.0.0.1.1.0" expl="apply premises" proved="true">
+         <proof prover="9"><result status="valid" time="0.73" steps="521399"/></proof>
+         </goal>
+         <goal name="balanced_sum&#39;vc.3.0.0.0.0.1.1.1" expl="apply premises" proved="true">
+         <proof prover="9"><result status="valid" time="0.70" steps="521399"/></proof>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="balanced_sum&#39;vc.3.0.1" expl="precondition" proved="true">
+    <proof prover="9"><result status="valid" time="1.08" steps="468212"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="balanced_sum&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.61" steps="464090"/></proof>
+  </goal>
+  <goal name="balanced_sum&#39;vc.5" expl="precondition" proved="true">
+  <transf name="compute_specified" proved="true" >
+   <goal name="balanced_sum&#39;vc.5.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.41"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="balanced_sum&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.66" steps="467684"/></proof>
+  </goal>
+  <goal name="balanced_sum&#39;vc.7" expl="precondition" proved="true">
+  <transf name="compute_specified" proved="true" >
+   <goal name="balanced_sum&#39;vc.7.0" expl="precondition" proved="true">
+   <transf name="replace" proved="true" arg1="(f e)" arg2="1">
+    <goal name="balanced_sum&#39;vc.7.0.0" expl="precondition" proved="true">
+    <proof prover="9"><result status="valid" time="1.14" steps="498241"/></proof>
+    </goal>
+    <goal name="balanced_sum&#39;vc.7.0.1" expl="equality hypothesis" proved="true">
+    <proof prover="0"><result status="valid" time="0.65"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="balanced_sum&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.65" steps="468593"/></proof>
+  </goal>
+  <goal name="balanced_sum&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.66" steps="469273"/></proof>
+  </goal>
+  <goal name="balanced_sum&#39;vc.10" expl="precondition" proved="true">
+  <transf name="apply" proved="true" arg1="my_filter_inter">
+   <goal name="balanced_sum&#39;vc.10.0" expl="apply premises" proved="true">
+   <proof prover="9"><result status="valid" time="1.53" steps="551217"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="balanced_sum&#39;vc.11" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="get_balanced_bin_cardeq">
+   <goal name="balanced_sum&#39;vc.11.0" expl="apply premises" proved="true">
+   <proof prover="9"><result status="valid" time="0.65" steps="470300"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="balanced_sum&#39;vc.12" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="(union (my_filter (n_bvs n) (fun (x:bitvec) -&gt; (f @ x) = 0))
+   (my_filter (n_bvs n) (fun (x:bitvec) -&gt; (f @ x) = 1)))" arg2="(n_bvs n)" arg3="in" arg4="Ensures1">
+   <goal name="balanced_sum&#39;vc.12.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures1">
+    <goal name="balanced_sum&#39;vc.12.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures14">
+     <goal name="balanced_sum&#39;vc.12.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures21">
+      <goal name="balanced_sum&#39;vc.12.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="get_balanced_bin_zero">
+       <goal name="balanced_sum&#39;vc.12.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="rewrite" proved="true" arg1="get_balanced_bin_one">
+        <goal name="balanced_sum&#39;vc.12.0.0.0.0.0.0" expl="postcondition" proved="true">
+        <transf name="rewrite" proved="true" arg1="mult_distr_add_r_rev">
+         <goal name="balanced_sum&#39;vc.12.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+         <proof prover="9"><result status="valid" time="1.15" steps="503533"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="balanced_sum&#39;vc.12.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="9"><result status="valid" time="0.66" steps="470312"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="balanced_sum&#39;vc.12.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="9"><result status="valid" time="0.66" steps="470312"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="balanced_sum&#39;vc.12.1" expl="equality hypothesis" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures28">
+    <goal name="balanced_sum&#39;vc.12.1.0" expl="equality hypothesis" proved="true">
+    <proof prover="9"><result status="valid" time="0.65" steps="470425"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="balanced_sum&#39;vc.13" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="balanced_sum&#39;vc.13.0" expl="postcondition" proved="true">
+   <proof prover="9"><result status="valid" time="1.53" steps="549506"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="balanced_sum&#39;vc.14" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="balanced_sum&#39;vc.14.0" expl="postcondition" proved="true">
+   <proof prover="9"><result status="valid" time="1.14" steps="500401"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="constant_sum&#39;vc" expl="VC for constant_sum" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="constant_sum&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.47" steps="337820"/></proof>
+  </goal>
+  <goal name="constant_sum&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.58" steps="438801"/></proof>
+  </goal>
+  <goal name="constant_sum&#39;vc.2" expl="precondition" proved="true">
+  <transf name="compute_specified" proved="true" >
+   <goal name="constant_sum&#39;vc.2.0" expl="precondition" proved="true">
+   <transf name="replace" proved="true" arg1="(f @ choose (n_bvs n))" arg2="(f e)">
+    <goal name="constant_sum&#39;vc.2.0.0" expl="precondition" proved="true">
+    <proof prover="9"><result status="valid" time="0.58" steps="439032"/></proof>
+    </goal>
+    <goal name="constant_sum&#39;vc.2.0.1" expl="equality hypothesis" proved="true">
+    <transf name="instantiate" proved="true" arg1="get_constant_bin" arg2="f">
+     <goal name="constant_sum&#39;vc.2.0.1.0" expl="equality hypothesis" proved="true">
+     <transf name="instantiate" proved="true" arg1="Hinst" arg2="n">
+      <goal name="constant_sum&#39;vc.2.0.1.0.0" expl="equality hypothesis" proved="true">
+      <transf name="apply" proved="true" arg1="Hinst">
+       <goal name="constant_sum&#39;vc.2.0.1.0.0.0" expl="apply premises" proved="true">
+       <proof prover="9"><result status="valid" time="0.59" steps="439344"/></proof>
+       </goal>
+       <goal name="constant_sum&#39;vc.2.0.1.0.0.1" expl="apply premises" proved="true">
+       <proof prover="9"><result status="valid" time="1.33" steps="511854"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="constant_sum&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.09" steps="470666"/></proof>
+  </goal>
+  <goal name="constant_sum&#39;vc.4" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="(cardinal (n_bvs n))" arg2="(power 2 n)" arg3="in" arg4="Ensures1">
+   <goal name="constant_sum&#39;vc.4.0" expl="postcondition" proved="true">
+   <proof prover="9"><result status="valid" time="1.43" steps="515348"/></proof>
+   </goal>
+   <goal name="constant_sum&#39;vc.4.1" expl="equality hypothesis" proved="true">
+   <proof prover="0"><result status="valid" time="0.55"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="constant_sum&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="constant_sum&#39;vc.5.0" expl="postcondition" proved="true">
+   <transf name="case" proved="true" arg1="((f @ choose (n_bvs n)) = 0)">
+    <goal name="constant_sum&#39;vc.5.0.0" expl="true case (postcondition)" proved="true">
+    <proof prover="0"><result status="valid" time="0.59"/></proof>
+    </goal>
+    <goal name="constant_sum&#39;vc.5.0.1" expl="false case (postcondition)" proved="true">
+    <transf name="case" proved="true" arg1="((f @ choose (n_bvs n)) = 0)">
+     <goal name="constant_sum&#39;vc.5.0.1.0" expl="false case (true case. postcondition)" proved="true">
+     <proof prover="9"><result status="valid" time="0.65" steps="443544"/></proof>
+     </goal>
+     <goal name="constant_sum&#39;vc.5.0.1.1" expl="false case (postcondition)" proved="true">
+     <transf name="rewrite" proved="true" arg1="cpower_one">
+      <goal name="constant_sum&#39;vc.5.0.1.1.0" expl="false case (postcondition)" proved="true">
+      <transf name="rewrite" proved="true" arg1="mult_modulus">
+       <goal name="constant_sum&#39;vc.5.0.1.1.0.0" expl="false case (postcondition)" proved="true">
+       <transf name="rewrite" proved="true" arg1="mult_one_t">
+        <goal name="constant_sum&#39;vc.5.0.1.1.0.0.0" expl="false case (postcondition)" proved="true">
+        <proof prover="8"><result status="valid" time="0.95" steps="4577905"/></proof>
+        </goal>
+        <goal name="constant_sum&#39;vc.5.0.1.1.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="9"><result status="valid" time="1.40" steps="515252"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="constant_sum&#39;vc.5.0.1.1.1" expl="rewrite premises" proved="true">
+      <transf name="assert" proved="true" arg1="(0&lt;= (f @ choose (n_bvs n))  &lt;2)">
+       <goal name="constant_sum&#39;vc.5.0.1.1.1.0" expl="asserted formula" proved="true">
+       <transf name="split_vc" proved="true" >
+        <goal name="constant_sum&#39;vc.5.0.1.1.1.0.0" proved="true">
+        <proof prover="9"><result status="valid" time="1.42" steps="514822"/></proof>
+        </goal>
+        <goal name="constant_sum&#39;vc.5.0.1.1.1.0.1" proved="true">
+        <proof prover="9"><result status="valid" time="1.39" steps="514913"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="constant_sum&#39;vc.5.0.1.1.1.1" expl="rewrite premises" proved="true">
+       <proof prover="9"><result status="valid" time="1.04" steps="470187"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="constant_sum&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="constant_sum&#39;vc.6.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="mult_modulus">
+    <goal name="constant_sum&#39;vc.6.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="cpower_mult_split">
+     <goal name="constant_sum&#39;vc.6.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures">
+      <goal name="constant_sum&#39;vc.6.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="modulus_real_pos">
+       <goal name="constant_sum&#39;vc.6.0.0.0.0.0" expl="postcondition" proved="true">
+       <proof prover="9"><result status="valid" time="1.42" steps="517893"/></proof>
+       </goal>
+       <goal name="constant_sum&#39;vc.6.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="9"><result status="valid" time="1.46" steps="515444"/></proof>
+       </goal>
+       <goal name="constant_sum&#39;vc.6.0.0.0.0.2" expl="rewrite premises" proved="true">
+       <proof prover="9"><result status="valid" time="1.41" steps="515580"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="constant_sum&#39;vc.6.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="9"><result status="valid" time="0.63" steps="443588"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ind_balanced_sum&#39;vc" expl="VC for ind_balanced_sum" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ind_balanced_sum&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.48" steps="338430"/></proof>
+  </goal>
+  <goal name="ind_balanced_sum&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.07" steps="440438"/></proof>
+  </goal>
+  <goal name="ind_balanced_sum&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.59" steps="416511"/></proof>
+  </goal>
+  <goal name="ind_balanced_sum&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.59" steps="416514"/></proof>
+  </goal>
+  <goal name="ind_balanced_sum&#39;vc.4" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures4">
+   <goal name="ind_balanced_sum&#39;vc.4.0" expl="postcondition" proved="true">
+   <transf name="compute_specified" proved="true" >
+    <goal name="ind_balanced_sum&#39;vc.4.0.0" expl="postcondition" proved="true">
+    <transf name="split_all_full" proved="true" >
+     <goal name="ind_balanced_sum&#39;vc.4.0.0.0" expl="postcondition" proved="true">
+     <transf name="assert" proved="true" arg1="(forall x. modulus x = c_zero -&gt; x = c_zero)">
+      <goal name="ind_balanced_sum&#39;vc.4.0.0.0.0" expl="asserted formula" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="ind_balanced_sum&#39;vc.4.0.0.0.0.0" expl="asserted formula" proved="true">
+       <proof prover="9"><result status="valid" time="1.35" steps="564145"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="ind_balanced_sum&#39;vc.4.0.0.0.1" expl="postcondition" proved="true">
+      <transf name="apply" proved="true" arg1="h">
+       <goal name="ind_balanced_sum&#39;vc.4.0.0.0.1.0" expl="apply premises" proved="true">
+       <transf name="assert" proved="true" arg1="(forall x. cpower x 2 = c_zero -&gt; x = c_zero)">
+        <goal name="ind_balanced_sum&#39;vc.4.0.0.0.1.0.0" expl="asserted formula" proved="true">
+        <proof prover="9"><result status="valid" time="1.32" steps="564348"/></proof>
+        </goal>
+        <goal name="ind_balanced_sum&#39;vc.4.0.0.0.1.0.1" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="h">
+         <goal name="ind_balanced_sum&#39;vc.4.0.0.0.1.0.1.0" expl="apply premises" proved="true">
+         <transf name="replace" proved="true" arg1="(sum (n_bvs n)
+    (fun (k:bitvec) -&gt; cpower (-. c_one) (f @ int_to_bv (bv_to_int k) n)))" arg2="(sum (n_bvs n)
+    (fun (k:bitvec) -&gt; cpower (-. c_one) (f @ k)))">
+          <goal name="ind_balanced_sum&#39;vc.4.0.0.0.1.0.1.0.0" expl="apply premises" proved="true">
+          <transf name="apply" proved="true" arg1="balanced_sum">
+           <goal name="ind_balanced_sum&#39;vc.4.0.0.0.1.0.1.0.0.0" expl="apply premises" proved="true">
+           <proof prover="9"><result status="valid" time="0.75" steps="533944"/></proof>
+           </goal>
+           <goal name="ind_balanced_sum&#39;vc.4.0.0.0.1.0.1.0.0.1" expl="apply premises" proved="true">
+           <proof prover="9"><result status="valid" time="0.73" steps="533944"/></proof>
+           </goal>
+          </transf>
+          </goal>
+          <goal name="ind_balanced_sum&#39;vc.4.0.0.0.1.0.1.0.1" expl="equality hypothesis" proved="true">
+          <transf name="apply" proved="true" arg1="sum_eq">
+           <goal name="ind_balanced_sum&#39;vc.4.0.0.0.1.0.1.0.1.0" expl="apply premises" proved="true">
+           <transf name="split_vc" proved="true" >
+            <goal name="ind_balanced_sum&#39;vc.4.0.0.0.1.0.1.0.1.0.0" expl="apply premises" proved="true">
+            <transf name="compute_specified" proved="true" >
+             <goal name="ind_balanced_sum&#39;vc.4.0.0.0.1.0.1.0.1.0.0.0" expl="apply premises" proved="true">
+             <proof prover="0"><result status="valid" time="0.65"/></proof>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ind_balanced_sum&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="ind_balanced_sum&#39;vc.5.0" expl="postcondition" proved="true">
+   <proof prover="9"><result status="valid" time="1.10" steps="501139"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ind_balanced_sum&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="ind_balanced_sum&#39;vc.6.0" expl="postcondition" proved="true">
+   <proof prover="9"><result status="valid" time="1.11" steps="499408"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ind_constant_sum&#39;vc" expl="VC for ind_constant_sum" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ind_constant_sum&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.47" steps="338866"/></proof>
+  </goal>
+  <goal name="ind_constant_sum&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.11" steps="440636"/></proof>
+  </goal>
+  <goal name="ind_constant_sum&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.61" steps="416893"/></proof>
+  </goal>
+  <goal name="ind_constant_sum&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="9"><result status="valid" time="0.68" steps="482889"/></proof>
+  </goal>
+  <goal name="ind_constant_sum&#39;vc.4" expl="precondition" proved="true">
+  <transf name="compute_specified" proved="true" >
+   <goal name="ind_constant_sum&#39;vc.4.0" expl="precondition" proved="true">
+   <transf name="replace" proved="true" arg1="(f @ choose (n_bvs n))" arg2="(f e)">
+    <goal name="ind_constant_sum&#39;vc.4.0.0" expl="precondition" proved="true">
+    <proof prover="9"><result status="valid" time="0.67" steps="483120"/></proof>
+    </goal>
+    <goal name="ind_constant_sum&#39;vc.4.0.1" expl="equality hypothesis" proved="true">
+    <transf name="instantiate" proved="true" arg1="get_constant_bin" arg2="f">
+     <goal name="ind_constant_sum&#39;vc.4.0.1.0" expl="equality hypothesis" proved="true">
+     <transf name="instantiate" proved="true" arg1="Hinst" arg2="n">
+      <goal name="ind_constant_sum&#39;vc.4.0.1.0.0" expl="equality hypothesis" proved="true">
+      <transf name="apply" proved="true" arg1="Hinst">
+       <goal name="ind_constant_sum&#39;vc.4.0.1.0.0.0" expl="apply premises" proved="true">
+       <proof prover="9"><result status="valid" time="0.67" steps="483432"/></proof>
+       </goal>
+       <goal name="ind_constant_sum&#39;vc.4.0.1.0.0.1" expl="apply premises" proved="true">
+       <proof prover="9"><result status="valid" time="1.57" steps="559735"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ind_constant_sum&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="9"><result status="valid" time="1.19" steps="513537"/></proof>
+  </goal>
+  <goal name="ind_constant_sum&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="( ind_sum (fun (x:int) -&gt; cpower (-. c_one) (f @ int_to_bv x n)) 0
+  (power 2 n))" arg2="(sum (n_bvs n) (fun (x:bitvec) -&gt; cpower (-. c_one) (f @ x)))">
+   <goal name="ind_constant_sum&#39;vc.6.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="n_bvs_card" arg2="in" arg3="Ensures1">
+    <goal name="ind_constant_sum&#39;vc.6.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures1">
+     <goal name="ind_constant_sum&#39;vc.6.0.0.0" expl="postcondition" proved="true">
+     <transf name="compute_specified" proved="true" >
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="ind_constant_sum&#39;vc.6.0.1" expl="rewrite premises" proved="true">
+    <proof prover="9"><result status="valid" time="0.71" steps="484597"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="ind_constant_sum&#39;vc.6.1" expl="equality hypothesis" proved="true">
+   <transf name="rewrite" proved="true" arg1="ind_sum_to_sum">
+    <goal name="ind_constant_sum&#39;vc.6.1.0" expl="equality hypothesis" proved="true">
+    <transf name="apply" proved="true" arg1="goal_comm">
+     <goal name="ind_constant_sum&#39;vc.6.1.0.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="bv_sum_to_int_sum">
+      <goal name="ind_constant_sum&#39;vc.6.1.0.0.0" expl="apply premises" proved="true">
+      <proof prover="9"><result status="valid" time="0.70" steps="484597"/></proof>
+      </goal>
+      <goal name="ind_constant_sum&#39;vc.6.1.0.0.1" expl="apply premises" proved="true">
+      <proof prover="9"><result status="valid" time="1.57" steps="560197"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ind_constant_sum&#39;vc.7" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="ind_constant_sum&#39;vc.7.0" expl="postcondition" proved="true">
+   <transf name="case" proved="true" arg1="((f @ choose (n_bvs n)) = 0)">
+    <goal name="ind_constant_sum&#39;vc.7.0.0" expl="true case (postcondition)" proved="true">
+    <proof prover="8"><result status="valid" time="2.26" steps="5069713"/></proof>
+    </goal>
+    <goal name="ind_constant_sum&#39;vc.7.0.1" expl="false case (postcondition)" proved="true">
+    <transf name="replace" proved="true" arg1="(i_to_c (power 2 n) *. cpower (-. c_one) (f @ choose (n_bvs n)))" arg2="(-. (i_to_c (power 2 n)))">
+     <goal name="ind_constant_sum&#39;vc.7.0.1.0" expl="false case (postcondition)" proved="true">
+     <proof prover="8"><result status="valid" time="0.94" steps="5003864"/></proof>
+     </goal>
+     <goal name="ind_constant_sum&#39;vc.7.0.1.1" expl="equality hypothesis" proved="true">
+     <transf name="replace" proved="true" arg1="(cpower (-. c_one) (f @ choose (n_bvs n)))" arg2="(-. c_one)">
+      <goal name="ind_constant_sum&#39;vc.7.0.1.1.0" expl="equality hypothesis" proved="true">
+      <transf name="replace" proved="true" arg1="(f @ choose (n_bvs n))" arg2="1">
+       <goal name="ind_constant_sum&#39;vc.7.0.1.1.0.0" expl="equality hypothesis" proved="true">
+       <transf name="assert" proved="true" arg1="(0&lt;=(f @ choose (n_bvs n)) &lt;2)">
+        <goal name="ind_constant_sum&#39;vc.7.0.1.1.0.0.0" expl="asserted formula" proved="true">
+        <proof prover="9"><result status="valid" time="1.56" steps="558199"/></proof>
+        </goal>
+        <goal name="ind_constant_sum&#39;vc.7.0.1.1.0.0.1" expl="equality hypothesis" proved="true">
+        <proof prover="9"><result status="valid" time="1.60" steps="559844"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="ind_constant_sum&#39;vc.7.0.1.1.0.1" expl="equality hypothesis" proved="true">
+       <proof prover="9"><result status="valid" time="1.56" steps="558580"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="ind_constant_sum&#39;vc.7.0.1.1.1" expl="equality hypothesis" proved="true">
+      <transf name="replace" proved="true" arg1="(f @ choose (n_bvs n))" arg2="1">
+       <goal name="ind_constant_sum&#39;vc.7.0.1.1.1.0" expl="equality hypothesis" proved="true">
+       <transf name="assert" proved="true" arg1="(0&lt;=(f @ choose (n_bvs n)) &lt;2)">
+        <goal name="ind_constant_sum&#39;vc.7.0.1.1.1.0.0" expl="asserted formula" proved="true">
+        <proof prover="9"><result status="valid" time="1.57" steps="558199"/></proof>
+        </goal>
+        <goal name="ind_constant_sum&#39;vc.7.0.1.1.1.0.1" expl="equality hypothesis" proved="true">
+        <proof prover="9"><result status="valid" time="0.80" steps="513368"/></proof>
+        </goal>
+       </transf>
+       </goal>
+       <goal name="ind_constant_sum&#39;vc.7.0.1.1.1.1" expl="equality hypothesis" proved="true">
+       <transf name="assert" proved="true" arg1="(0&lt;= f (choose (n_bvs n)) &lt;2)">
+        <goal name="ind_constant_sum&#39;vc.7.0.1.1.1.1.0" expl="asserted formula" proved="true">
+        <proof prover="9"><result status="valid" time="1.55" steps="558199"/></proof>
+        </goal>
+        <goal name="ind_constant_sum&#39;vc.7.0.1.1.1.1.1" expl="equality hypothesis" proved="true">
+        <proof prover="9"><result status="valid" time="1.15" steps="512980"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ind_constant_sum&#39;vc.8" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="mult_modulus">
+   <goal name="ind_constant_sum&#39;vc.8.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures">
+    <goal name="ind_constant_sum&#39;vc.8.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="modulus_real_pos">
+     <goal name="ind_constant_sum&#39;vc.8.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="pow_inv_sqrt_2_add">
+      <goal name="ind_constant_sum&#39;vc.8.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="assert" proved="true" arg1="(forall a b c. a*.b*.c = a*.c*.b)">
+       <goal name="ind_constant_sum&#39;vc.8.0.0.0.0.0" expl="asserted formula" proved="true">
+       <proof prover="9"><result status="valid" time="1.16" steps="512969"/></proof>
+       </goal>
+       <goal name="ind_constant_sum&#39;vc.8.0.0.0.0.1" expl="postcondition" proved="true">
+       <transf name="rewrite" proved="true" arg1="h">
+        <goal name="ind_constant_sum&#39;vc.8.0.0.0.0.1.0" expl="postcondition" proved="true">
+        <transf name="apply" proved="true" arg1="one_mult_t">
+         <goal name="ind_constant_sum&#39;vc.8.0.0.0.0.1.0.0" expl="apply premises" proved="true">
+         <transf name="replace" proved="true" arg1="(pow_inv_sqrt_2 (2 * n))" arg2="(pow_inv_2 n)">
+          <goal name="ind_constant_sum&#39;vc.8.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+          <proof prover="9"><result status="valid" time="1.56" steps="560120"/></proof>
+          </goal>
+          <goal name="ind_constant_sum&#39;vc.8.0.0.0.0.1.0.0.1" expl="equality hypothesis" proved="true">
+          <proof prover="9"><result status="valid" time="1.56" steps="559415"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="ind_constant_sum&#39;vc.8.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="9"><result status="valid" time="0.68" steps="484770"/></proof>
+      </goal>
+      <goal name="ind_constant_sum&#39;vc.8.0.0.0.2" expl="rewrite premises" proved="true">
+      <proof prover="9"><result status="valid" time="0.70" steps="484763"/></proof>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="ind_constant_sum&#39;vc.8.0.0.1" expl="rewrite premises" proved="true">
+     <proof prover="9"><result status="valid" time="1.60" steps="562043"/></proof>
+     </goal>
+     <goal name="ind_constant_sum&#39;vc.8.0.0.2" expl="rewrite premises" proved="true">
+     <proof prover="9"><result status="valid" time="1.56" steps="559363"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="bc_sum&#39;vc" expl="VC for bc_sum" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="bc_sum&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="bc_sum&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="bc_sum&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="mult_modulus">
+     <goal name="bc_sum&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="cpower_mult_split">
+      <goal name="bc_sum&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="constant_sum1">
+       <goal name="bc_sum&#39;vc.0.0.0.0.0.0" expl="postcondition" proved="true">
+       <proof prover="9"><result status="valid" time="3.94" steps="1200424"/></proof>
+       </goal>
+       <goal name="bc_sum&#39;vc.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="9"><result status="valid" time="0.89" steps="413893"/></proof>
+       </goal>
+       <goal name="bc_sum&#39;vc.0.0.0.0.0.2" expl="rewrite premises" proved="true">
+       <proof prover="9"><result status="valid" time="0.56" steps="388392"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="bc_sum&#39;vc.0.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="9"><result status="valid" time="0.55" steps="388404"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="bc_sum&#39;vc.1" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="bc_sum&#39;vc.1.0" expl="postcondition" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="bc_sum&#39;vc.1.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="mult_modulus">
+     <goal name="bc_sum&#39;vc.1.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="cpower_mult_split">
+      <goal name="bc_sum&#39;vc.1.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="rewrite" proved="true" arg1="balanced_sum">
+       <goal name="bc_sum&#39;vc.1.0.0.0.0.0" expl="postcondition" proved="true">
+       <proof prover="9"><result status="valid" time="1.01" steps="457885"/></proof>
+       </goal>
+       <goal name="bc_sum&#39;vc.1.0.0.0.0.1" expl="rewrite premises" proved="true">
+       <proof prover="9"><result status="valid" time="1.00" steps="457513"/></proof>
+       </goal>
+       <goal name="bc_sum&#39;vc.1.0.0.0.0.2" expl="rewrite premises" proved="true">
+       <proof prover="9"><result status="valid" time="0.61" steps="430606"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="bc_sum&#39;vc.1.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="9"><result status="valid" time="0.60" steps="430613"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>

@@ -641,7 +641,7 @@ let function apply_from_qft_zero_path (n k:int)(c:circuit):circuit
                                                         ensures{size result <= polysquare n   (cont_size*2)   0 0 + size c}
                                                         ensures{ancillas result = ancillas c}
                                                         ensures{width result = n+k}
-                                                        ensures{forall y z:matrix complex. forall i:int.  is_a_ket_l y k ->is_a_ket_l z k ->
+                                                        ensures{forall y z:matrix complex. forall i:int. 0<=i < power 2 n ->    is_a_ket_l y k ->is_a_ket_l z k ->
                                                                                                     path_sem c (kronecker (ket n (mod i (power 2 n))) y) = (kronecker (ket n (mod i (power 2 n))) z)
                                                                                                     -> path_sem result (kronecker (apply_qft n i) y) = (kronecker (apply_qft n i) z)}
   = apply_from_qft_zero n k c
@@ -656,7 +656,7 @@ let function apply_in_qft_zero_path (n k:int)(c:circuit):circuit
                                                       ensures{forall y z:matrix complex. forall i:int. 0<=i < power 2 n ->  is_a_ket_l y k ->is_a_ket_l z k ->
                                                                                                   path_sem c (kronecker (apply_qft n i) y) = (kronecker (apply_qft n i) z)
                                                                                                   -> path_sem result (kronecker (ket n i) y) = (kronecker (ket n i) z)}
-  = apply_from_qft_zero n k c
+  = apply_in_qft_zero n k c
   
 end
 
