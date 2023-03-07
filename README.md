@@ -113,11 +113,23 @@ computing](https://github.com/Qbricks/qbricks.github.io/files/6415909/Qbricks_Pl
 
 - CVC4: [licence](https://github.com/CVC4/CVC4-archived/blob/master/COPYING)
 
+- CVC5: [licence](https://github.com/cvc5/cvc5/blob/main/COPYING)
+
 - Z3: [licence](https://github.com/Z3Prover/z3/blob/master/LICENSE.txt)
 
 - Alt-Ergo: [licence](https://ocamlpro.github.io/alt-ergo/About/license.html)
 
 - Why3: [licence](https://gitlab.inria.fr/why3/why3/-/blob/master/LICENSE)
+
+- Conda: [licence](https://docs.conda.io/en/latest/license.html)
+
+- Qiskit: [licence](https://github.com/Qiskit/qiskit/blob/master/LICENSE.txt)
+
+- Matplotlib: [licence](https://matplotlib.org/stable/users/project/license.html)
+
+- Pylatexenc: [licence](https://github.com/phfaist/pylatexenc/blob/main/LICENSE.txt)
+
+- Vim: [licence](https://github.com/vim/vim/blob/master/LICENSE)
 
 ### Installation
 
@@ -127,9 +139,9 @@ computing](https://github.com/Qbricks/qbricks.github.io/files/6415909/Qbricks_Pl
 
 3. Build Docker image `make build`
 
-4. Build container `make container`
+4. Build container `make container1`
 
-5. Start container `make start`
+5. Start container `make start1`
 
 ### How to use it
 
