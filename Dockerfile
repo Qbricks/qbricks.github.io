@@ -52,8 +52,7 @@ USER opam
 
 RUN opam init -y --disable-sandboxing && opam update && \
   opam install -y depext.transition && opam depext conf-m4 && \
-  opam install -y alt-ergo.2.4.1 && \
-  opam pin -y https://gitlab.inria.fr/why3/why3.git && \
+  opam install -y alt-ergo.2.4.1 why3 why3-ide && \
   opam install -y lablgtk3 lablgtk3-sourceview3 ocamlbuild.0.14.1
 
 USER root
@@ -100,7 +99,7 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64
   apt-get -y install curl python3-tk && curl https://bootstrap.pypa.io/get-pip.py | python && \
   pip install qiskit -U matplotlib==3.6.0 pylatexenc==2.10
 
-RUN apt-get -y install vim=2:8.1.0875-5+deb10u2 bash-completion=1:2.8-6 dbus-x11
+RUN apt-get -y install bash-completion=1:2.8-6 
 
 USER opam
 

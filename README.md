@@ -113,8 +113,6 @@ computing](https://github.com/Qbricks/qbricks.github.io/files/6415909/Qbricks_Pl
 
 - CVC4: [licence](https://github.com/CVC4/CVC4-archived/blob/master/COPYING)
 
-- CVC5: [licence](https://github.com/cvc5/cvc5/blob/main/COPYING)
-
 - Z3: [licence](https://github.com/Z3Prover/z3/blob/master/LICENSE.txt)
 
 - Alt-Ergo: [licence](https://ocamlpro.github.io/alt-ergo/About/license.html)
@@ -123,13 +121,13 @@ computing](https://github.com/Qbricks/qbricks.github.io/files/6415909/Qbricks_Pl
 
 - Conda: [licence](https://docs.conda.io/en/latest/license.html)
 
+- Python3: [licence](https://docs.python.org/3/license.html)
+
 - Qiskit: [licence](https://github.com/Qiskit/qiskit/blob/master/LICENSE.txt)
 
 - Matplotlib: [licence](https://matplotlib.org/stable/users/project/license.html)
 
 - Pylatexenc: [licence](https://github.com/phfaist/pylatexenc/blob/main/LICENSE.txt)
-
-- Vim: [licence](https://github.com/vim/vim/blob/master/LICENSE)
 
 ### Installation
 
