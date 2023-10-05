@@ -31,6 +31,55 @@ For an introduction to Qbricks, please read our [article](https://github.com/Qbr
 ![open_positions](https://user-images.githubusercontent.com/83573296/116979069-d1e5d500-acc4-11eb-9381-61a52f3e26f6.png)
 
 
+### Research-oriented internships, 4-6 months, CEA Paris-Saclay, France
+Formal Verification for Quantum Programming
+
+Keywords : quantum programming, theory of programming langages, formal methods
+
+The CEA List, Software Security Lab (LSL), has several open internship positions in the area of formal verification
+for quantum programming , to begin as soon as possible at Paris-Saclay, France. The positions are 4-6 month long and can open the way to a doctoral work . They are articulated around the Qbricks tool, which aims at providing an automated solution for quantum programming formal verification. 
+
+Topic: Logic and Verification, Quantum Programming [also: Programming Languages, Compilation]
+
+Host : Commissariat à l'Énergie Atomique, Software Security Laboratory
+
+Place : Paris-Saclay, France
+
+Team: Qbricks
+
+Advisor(s): Christophe Chareton, Nicolas Blanco, Sébastien Bardin (first.name@cea.fr)
+
+Context. We are an emerging group in formal verification and static analysis of quantum programs, integrated in the Software Safety Laboratory of CEA List, Université Paris-Saclay.
+
+Quantum hardware has made tremendous progress, and useful NISQ quantum machines are expected to become available in a near future. Hence, the need to design and implement adequate software tooling for the quantum case, as available for the standard case. Our long term goal is to design and develop formal techniques and tools enabling productive and certified quantum programming. Especially, we develop Qbricks [1,2], a proof of concept environment for formally verified quantum programming language.
+
+Current topics. We consider the standard quantum hybrid model, where a classical program builds a quantum circuit and sends it to a quantum co-processor. We are interested in these internships in verification mechanisms aiming at ensuring that a quantum program implementation indeed satisfies its intended behaviour. We propose the following topics:
+• specification and verification of  noisy quantum model
+• high-level automatic verification of quantum programs for implicit program properties
+• high-level functional reasoning for quantum programs
+• circuit-level automatic verification of quantum programs,
+• ...
+
+More details on these topics will be happily provided! The list is not exhaustive, ask us if you have some project in mind.
+
+All positions include theoretical research as well as prototyping and experimental evaluation.The results will be implemented and evaluated on QBricks, our young development and verification environment for quantum programs.
+
+Host Institution. Within CEA List, LSL is a forty-person team dedicated to software verification, with a strong focus on real-world applicability, industrial collaboration and industrial transfer. The quantum verication group is a young and emerging team. CEA List is located in Campus Paris Saclay. 
+
+Requirements. We welcome curious and enthusiastic students with a solid background in Computer Science, both theoretical and practical, and a specialization in either formal methods or quantum computing (note that we do not require candidates to have both expertises. it is assumed that the intern will dedicate some of her time upgrading her skills -- included, if necessary, bases of quantum computing).
+
+Application. Applicants should send an e-mail to Christophe Chareton (christophe.chareton@cea.fr ), including CV and motivation letter. 
+
+Deadline: as soon as possible. Contact us for more information .
+
+References
+[1] Christophe Chareton and Sébastien Bardin and François Bobot and Valentin Perrelle and Benoît Valiron. An Automated Deductive Verication Framework for Circuit-building Quantum Programs Programming Languages and Systems - 30th European Symposium on Programming, ESOP 2021
+
+[2] Christophe Chareton, Dongho Lee, Benoît Valiron, Renaud Vilmart, Sébastien Bardin, Zhaowei Xu:
+Formal Methods for Quantum Algorithms. Handb. Formal Anal. Verification Cryptogr. 2023: 319-422
+
+[3] Matthew Amy: Towards Large-scale Functional Verification of Universal Quantum Circuits. QPL 2018: 1-21
+
 ### PostDoc open position (2 years) : verified compilation 
 
 The goal of this post-doctoral position is to extend  formal verification practice to quantum compilation.  Possibilities include, among others, error correction mechanisms in certified quantum code, together with specifications and reasoning technique for certifying its reliability, automatized certified optimizer for quantum circuits, hardware agnostic assembly language together with its compiler,
@@ -39,7 +88,7 @@ Keywords: quantum programming, compilation, optimization, formal verification
 
 ### How to apply
 
-Applications should be sent to christophe.chareton@cea.fr as soon as possible (first come, first served) and by early July 2021 at the latest. Candidates should send a CV, a cover letter, a transcript of all their university results, as well as contact information of two references. Each  position is expected to start in October 2021.
+Applications should be sent to christophe.chareton@cea.fr as soon as possible (first come, first served). Candidates should send a CV, a cover letter, a transcript of all their university results, as well as contact information of two references. 
 
 Advisors:  Christophe Chareton (CEA), Sébastien Bardin (CEA)
 Contact: christophe.chareton@cea.fr
@@ -48,7 +97,9 @@ Contact: christophe.chareton@cea.fr
 # News 
 
 
-- **Ongoing Postdoc** _June 2023_ Welcome, Mohamed Bassiouny, working on automated circuit equivalence verification.
+- **Ongoing Postdoc** _October 2023_ Welcome, Nicolas Nalpon, working on certified compilation.
+- **Ongoing PhD** _September 2023_ Welcome, Tomas Barros, working on formal verification and high-level programming.
+- **Ongoing Postdoc** _June 2023_ Welcome, Nicolas Blanco, working on parametrized path-sums rewriting.
 - **New relase** _March 2023_ Qbricks_1 is online! Available on main branch in [diffusion](https://github.com/Qbricks/qbricks.github.io), under License LGPL, 2.1. As main novelties the release provides:
   - LANGUAGE : new primitive constructs, containing (1) generic wiring and subcircuit control features (2) further gate constructors as primitives (Toffoli, Fredkin, X,Y,Z rotations, etc).
    - COMPILATION : a fully formally verified circuit transformation process, targetting Oqasm compatibile circuit, and an oqasm output generating function. Works for circuit without ancilla qbits. 
@@ -74,8 +125,7 @@ Contact: christophe.chareton@cea.fr
 | Benoît Valiron   |   Senior   |  [LMF](https://lmf-paris-saclay.fr/newsite/), [Université Paris-Saclay](https://www.universite-paris-saclay.fr/en) |[Benoît Valiron](https://www.monoidal.net/) |
 | Christophe Chareton        |     Junior      |  [CEA LIST](http://www-list.cea.fr/en/), [Université Paris-Saclay](https://www.universite-paris-saclay.fr/en) |[Christophe Chareton](https://sites.google.com/site/christophechareton/) |
 | Jérôme Ricciardi        |     PhD student      |  [CEA LIST](http://www-list.cea.fr/en/), [Université Paris-Saclay](https://www.universite-paris-saclay.fr/en) | [Jérôme Ricciardi](https://www.researchgate.net/profile/Jerome_Ricciardi)|
-| Tomas Barros Carneiro        |     Intern      |  [CEA LIST](http://www-list.cea.fr/en/), [Université Paris-Saclay](https://www.universite-paris-saclay.fr/en) |[Tomas Barros Carneiro](https://github.com/tbc23)|
-| Mohamed Bassiouny        |     Intern      |  [CEA LIST](http://www-list.cea.fr/en/), [Université Paris-Saclay](https://www.universite-paris-saclay.fr/en) |[Mohamed Bassiouny](http://mohamedh.me)|
+| Tomas Barros Carneiro        |     PhD student      |  [CEA LIST](http://www-list.cea.fr/en/), [Université Paris-Saclay](https://www.universite-paris-saclay.fr/en) |[Tomas Barros Carneiro](https://github.com/tbc23)|
 
 # Publications
 
@@ -83,8 +133,9 @@ Contact: christophe.chareton@cea.fr
 
 - [An Automated Deductive Verification Framework for Circuit-building Quantum Programs](https://github.com/Qbricks/qbricks.github.io/files/6414263/final--ESOP-2021.pdf), _March, 2021_ at ESOP’21.
 
-## Survey
-- [Formal Methods for Quantum Programs: A Survey](https://arxiv.org/abs/2109.06493), 09/2021. Due to the destructive aspect of quantum measurement, formal methods are prone to play a decisive role in the emerging field of quantum software. In this survey, we present the challenges adressed to formal verificatio at every stage of the quantum  development process: high-level program design, implementation, compilation, etc. and we introduce  the current  most promising research directions
+## Book chapter
+
+- [Formal Methods for Quantum Algorithsms](https://www.taylorfrancis.com/chapters/edit/10.1201/9781003090052-7/formal-methods-quantum-algorithms-christophe-chareton-dongho-lee-benoit-valiron-renault-vilmart-s%C3%A9bastien-bardin-zhaowei-xu), 09/2023. This chapter introduces both the requirements and challenges for an efficient use of formal methods in quantum computing and the current most promising research directions. While the recent progress in quantum hardware opens the door for significant speedup in cryptography as well as additional key areas (biology, chemistry, optimization, machine learning, etc), quantum algorithms are still hard to implement right, and the validation of quantum programs is a challenge. As an alternative strategy, formal methods are prone to play a decisive role in the emerging field of quantum software. The chapter also introduces several existing solutions for the formal verification of quantum compilation and the equivalence of quantum program runs. The vast majority of quantum algorithms are described within the context of the quantum co-processor model, i.e. an hybrid model where a classical computer controls a quantum co-processor holding a quantum memory.
 
 ## Preprint 
 
