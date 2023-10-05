@@ -73,6 +73,7 @@ All positions include theoretical research as well as prototyping and experiment
 **Deadline:** as soon as possible. Contact us for more information .
 
 **References**
+
 [1] Christophe Chareton and Sébastien Bardin and François Bobot and Valentin Perrelle and Benoît Valiron. An Automated Deductive Verification Framework for Circuit-building Quantum Programs Programming Languages and Systems - 30th European Symposium on Programming, ESOP 2021
 
 [2] Christophe Chareton, Dongho Lee, Benoît Valiron, Renaud Vilmart, Sébastien Bardin, Zhaowei Xu:
