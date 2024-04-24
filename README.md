@@ -145,7 +145,7 @@ computing](https://github.com/Qbricks/qbricks.github.io/files/6415909/Qbricks_Pl
 
 #### Example: open `shor.mlw` with Why3-ide
 
-1. `cd Case_studies`
+1. `cd qbricks.github.io/Case_studies/`
 
 2. `make ide_shor`
 
