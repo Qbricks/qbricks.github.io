@@ -31,15 +31,16 @@ For an introduction to Qbricks, please read our [article](https://github.com/Qbr
 ![open_positions](https://user-images.githubusercontent.com/83573296/116979069-d1e5d500-acc4-11eb-9381-61a52f3e26f6.png)
 
 
-### Research-oriented internships, 4-6 months, CEA Paris-Saclay, France
-Formal Verification for Quantum Programming
+
+### [3 years Postdoc position](https://github.com/Qbricks/qbricks.github.io/files/15310776/Fiche_de_poste_postdoc_qbricks.pdf)[](), CEA Paris-Saclay, France
+Formal verification for quantum programming
 
 **Keywords:** quantum programming, theory of programming langages, formal methods
 
 The CEA List, Software Security Lab (LSL), has several open internship positions in the area of formal verification
 for quantum programming , to begin as soon as possible at Paris-Saclay, France. The positions are 4-6 month long and can open the way to a doctoral work . They are articulated around the Qbricks tool, which aims at providing an automated solution for quantum programming formal verification. 
 
-**Topic:** Logic and Verification, Quantum Programming [also: Programming Languages, Compilation]
+**Topic:** Quantum Programming and formal verification 
 
 **Host:** Commissariat à l'Énergie Atomique, Software Security Laboratory
 
@@ -47,26 +48,39 @@ for quantum programming , to begin as soon as possible at Paris-Saclay, France. 
 
 **Team:** Qbricks
 
-**Advisor(s):** Christophe Chareton, Nicolas Blanco, Sébastien Bardin (first.name@cea.fr)
+**Advisor(s):** Christophe Chareton, Sébastien Bardin (first.name@cea.fr)
 
-**Context.** We are an emerging group in formal verification and static analysis of quantum programs, integrated in the Software Safety Laboratory of CEA List, Université Paris-Saclay.
+**Context.** 
+Quantum hardware has made tremendous progress, and useful quantum machines are expected to become available in
+a near future. Hence, the need to design and implement adequate software tooling for the quantum case, as available in
+the classical computing case. Our long term goal is to design and develop formal techniques and tools enabling productive
+and certified quantum programming. Especially, we develop Qbricks [1,2], a proof of concept environment for formally
+verified quantum programming language.
 
-Quantum hardware has made tremendous progress, and useful NISQ quantum machines are expected to become available in a near future. Hence, the need to design and implement adequate software tooling for the quantum case, as available for the standard case. Our long term goal is to design and develop formal techniques and tools enabling productive and certified quantum programming. Especially, we develop Qbricks [1,2], a proof of concept environment for formally verified quantum programming language.
+**Current topics.** 
+We consider the standard quantum hybrid model, where a classical program builds a quantum circuit
+and sends it to a quantum co-processor. In these positions, we are interested in verification mechanisms aiming at ensuring
+that a quantum program implementation indeed satisfies its intended behaviour. We propose the following topics:
+• high-level automatic verification of quantum programs for implicit program properties,
+• design of verification oriented hybrid quantum programming languages
+• high-level functional reasoning for quantum programs,
+• circuit-level automatic verification of quantum programs,
+• verification of circuit transformation and compilation
 
-**Current topics.** We consider the standard quantum hybrid model, where a classical program builds a quantum circuit and sends it to a quantum co-processor. We are interested in these internships in verification mechanisms aiming at ensuring that a quantum program implementation indeed satisfies its intended behaviour. We propose the following topics:
-- specification and verification of  noisy quantum model
-- high-level automatic verification of quantum programs for implicit program properties
-- high-level functional reasoning for quantum programs
-- circuit-level automatic verification of quantum programs,
-• ...
+More details on these possibilities topics will be happily provided! The list is not exhaustive, ask us if you have some
+project in mind.
 
-More details on these topics will be happily provided! The list is not exhaustive, ask us if you have some project in mind.
+These positions include theoretical research as well as prototyping and experimental evaluation.The results will be
+implemented and evaluated on QBricks, our young development and verification environment for quantum programs.
 
-All positions include theoretical research as well as prototyping and experimental evaluation.The results will be implemented and evaluated on QBricks, our young development and verification environment for quantum programs.
+**Host Institution.** CEA is a leading institute in research in France and Europe. We are part of List, its 700 persons
+institute dedicated to digital systems. Within List, the quantum verification group is a young and emerging six person
+team, developping quantum static analysis/verified programming and debugguing solutions. CEA List is located in
+Campus Paris Saclay.
 
-**Host Institution.** Within CEA List, LSL is a forty-person team dedicated to software verification, with a strong focus on real-world applicability, industrial collaboration and industrial transfer. The quantum verification group is a young and emerging team. CEA List is located in Campus Paris Saclay. 
-
-**Requirements:** We welcome curious and enthusiastic students with a solid background in Computer Science, both theoretical and practical, and a specialization in either formal methods or quantum computing (note that we do not require candidates to have both expertises. it is assumed that the intern will dedicate some of her time upgrading her skills -- included, if necessary, bases of quantum computing).
+**Requirements:** We welcome curious and enthusiastic candidates with a solid background in Computer Science,
+both theoretical and practical, and a specialization in either formal methods or quantum computing (it is
+assumed that candidates will dedicate some of their time upgrading their skills).
 
 **Application:** Applicants should send an e-mail to Christophe Chareton (christophe.chareton@cea.fr ), including CV and motivation letter. 
 
@@ -81,18 +95,7 @@ Formal Methods for Quantum Algorithms. Handb. Formal Anal. Verification Cryptogr
 
 [3] Matthew Amy: Towards Large-scale Functional Verification of Universal Quantum Circuits. QPL 2018: 1-21
 
-### PostDoc open position (2 years) : verified compilation 
-
-The goal of this post-doctoral position is to extend  formal verification practice to quantum compilation.  Possibilities include, among others, error correction mechanisms in certified quantum code, together with specifications and reasoning technique for certifying its reliability, automatized certified optimizer for quantum circuits, hardware agnostic assembly language together with its compiler,
-
-Keywords: quantum programming, compilation, optimization, formal verification
-
-### How to apply
-
-Applications should be sent to christophe.chareton@cea.fr as soon as possible (first come, first served). Candidates should send a CV, a cover letter, a transcript of all their university results, as well as contact information of two references. 
-
-Advisors:  Christophe Chareton (CEA), Sébastien Bardin (CEA)
-Contact: christophe.chareton@cea.fr
+[4] Li Zhou, Gilles Barthe, Pierre-Yves Strub, Junyi Liu, Mingsheng Ying CoqQ: Foundational Verification of Quantum Programs. POPL 2023
 
 
 # News 
