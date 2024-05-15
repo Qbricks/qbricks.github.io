@@ -61,10 +61,15 @@ verified quantum programming language.
 We consider the standard quantum hybrid model, where a classical program builds a quantum circuit
 and sends it to a quantum co-processor. In these positions, we are interested in verification mechanisms aiming at ensuring
 that a quantum program implementation indeed satisfies its intended behaviour. We propose the following topics:
+
 • high-level automatic verification of quantum programs for implicit program properties,
+
 • design of verification oriented hybrid quantum programming languages
+
 • high-level functional reasoning for quantum programs,
+
 • circuit-level automatic verification of quantum programs,
+
 • verification of circuit transformation and compilation
 
 More details on these possibilities topics will be happily provided! The list is not exhaustive, ask us if you have some
