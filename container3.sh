@@ -29,7 +29,7 @@ docker create -ti -e DISPLAY=$DISPLAY \
  -v ${_pwd}/../qbricks.github.io/Case_studies:/home/opam/qbricks.github.io/Case_studies \
  -v ${_pwd}/../qbricks.github.io/Qbricks:/home/opam/qbricks.github.io/Qbricks \
  -v ${_pwd}/../qbricks.github.io/math_libs:/home/opam/qbricks.github.io/math_libs \
- -v ${_pwd}/../qbricks.github.io/extracted:/home/opam/wqbqbricks.github.io/extracted \
+ -v ${_pwd}/../qbricks.github.io/extracted:/home/opam/qbricks.github.io/extracted \
  -v ${_pwd}/../qbricks.github.io/mb_extracted:/home/opam/qbricks.github.io/mb_extracted\
  -v ${_pwd}/../qbricks.github.io/Transpilation:/home/opam/qbricks.github.io/Transpilation \
  -v ${_pwd}/../qbricks.github.io:/home/opam/qbricks.github.io \

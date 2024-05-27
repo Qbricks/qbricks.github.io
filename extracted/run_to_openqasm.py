@@ -1,12 +1,14 @@
-from qiskit import *
+import matplotlib
+matplotlib.use('TkAgg')  
 
+import matplotlib.pyplot as plt
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
+from qiskit.visualization import circuit_drawer
 import sys
 
 qc = QuantumCircuit.from_qasm_file(str(sys.argv[1]) + ".qasm")
 
 print(qc)
 
-from qiskit.tools.visualization import circuit_drawer
-import matplotlib.pyplot as plt
 qc.draw(output='mpl')
 plt.show()
