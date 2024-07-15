@@ -82,7 +82,7 @@ RUN pip install z3_solver-4.11.0.0-py2.py3-none-manylinux1_x86_64.whl
 
 # Installation: Qiskit
 
-ENV PATH /opt/conda/bin:$PATH
+ENV PATH=/opt/conda/bin:$PATH
 
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh && \
   mkdir -p /opt && \
@@ -105,5 +105,5 @@ RUN rm -f z3-4.7.1-x64-ubuntu-16.04.zip z3-4.8.10-x64-ubuntu-18.04.zip cvc3-2.4.
 
 USER opam
 
-CMD eval $(opam env) && why3 config detect &&\
-  /bin/bash
+# Final CMD instruction using JSON format
+CMD ["bash", "-c", "eval $(opam env) && why3 config detect && /bin/bash"]
