@@ -79,26 +79,6 @@ RUN apt-get -y install python-pip=18.1-5
 RUN wget https://github.com/Z3Prover/z3/releases/download/z3-4.11.0/z3_solver-4.11.0.0-py2.py3-none-manylinux1_x86_64.whl 
 RUN pip install z3_solver-4.11.0.0-py2.py3-none-manylinux1_x86_64.whl
 
-
-# Installation: Qiskit
-
-ENV PATH=/opt/conda/bin:$PATH
-
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh && \
-  mkdir -p /opt && \
-  yes "yes" | bash Miniconda3-py39_4.12.0-Linux-x86_64.sh -b -p /opt/conda && \
-  rm Miniconda3-py39_4.12.0-Linux-x86_64.sh && \
-  ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-  echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-  echo "conda activate base" >> ~/.bashrc && \
-  find /opt/conda/ -follow -type f -name '*.a' -delete && \
-  find /opt/conda/ -follow -type f -name '*.js.map' -delete && \
-  /opt/conda/bin/conda clean -afy && \
-  conda update conda && conda create -n qiskit_env python=3 && \
-  activate qiskit_env && \
-  apt-get -y install curl python3-tk && curl https://bootstrap.pypa.io/get-pip.py | python && \
-  pip install qiskit -U matplotlib==3.6.0 pylatexenc==2.10
-
 RUN apt-get -y install bash-completion=1:2.8-6 
 
 RUN rm -f z3-4.7.1-x64-ubuntu-16.04.zip z3-4.8.10-x64-ubuntu-18.04.zip cvc3-2.4.1-optimized-static.tar.gz

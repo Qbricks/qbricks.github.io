@@ -119,16 +119,6 @@ computing](https://github.com/Qbricks/qbricks.github.io/files/6415909/Qbricks_Pl
 
 - Why3: [licence](https://gitlab.inria.fr/why3/why3/-/blob/master/LICENSE)
 
-- Conda: [licence](https://docs.conda.io/en/latest/license.html)
-
-- Python3: [licence](https://docs.python.org/3/license.html)
-
-- Qiskit: [licence](https://github.com/Qiskit/qiskit/blob/master/LICENSE.txt)
-
-- Matplotlib: [licence](https://matplotlib.org/stable/users/project/license.html)
-
-- Pylatexenc: [licence](https://github.com/phfaist/pylatexenc/blob/main/LICENSE.txt)
-
 ### Installation
 
 1. [Docker installation](https://docs.docker.com/engine/install/)
