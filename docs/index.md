@@ -106,6 +106,8 @@ Formal Methods for Quantum Algorithms. Handb. Formal Anal. Verification Cryptogr
 # News 
 
 
+- **Engineer position opening** _October 2024_ Welcome, Mathieu Nguyen, into the task of developping the hybrid classical/quantum Qbricks_2.
+- **Ongoing PhD** _October 2024_ Welcome, Jad Issa, working on formalization of quantum error correction.
 - **Ongoing Postdoc** _October 2023_ Welcome, Nicolas Nalpon, working on certified compilation.
 - **Ongoing PhD** _September 2023_ Welcome, Tomas Barros, working on formal verification and high-level programming.
 - **Ongoing Postdoc** _June 2023_ Welcome, Nicolas Blanco, working on parametrized path-sums rewriting.
@@ -134,7 +136,8 @@ Formal Methods for Quantum Algorithms. Handb. Formal Anal. Verification Cryptogr
 | Benoît Valiron   |   Senior   |  [LMF](https://lmf-paris-saclay.fr/newsite/), [Université Paris-Saclay](https://www.universite-paris-saclay.fr/en) |[Benoît Valiron](https://www.monoidal.net/) |
 | Christophe Chareton        |     Junior      |  [CEA LIST](http://www-list.cea.fr/en/), [Université Paris-Saclay](https://www.universite-paris-saclay.fr/en) |[Christophe Chareton](https://sites.google.com/site/christophechareton/) |
 | Nicolas Blanco        |     Postdoc      |  [CEA LIST](http://www-list.cea.fr/en/), [Université Paris-Saclay](https://www.universite-paris-saclay.fr/en) | [Nicolas Blanco](https://nicolas-blanco.github.io/fr/)|
-| Nicolas Nalpon        |     Postdoc      |  [CEA LIST](http://www-list.cea.fr/en/), [Université Paris-Saclay](https://www.universite-paris-saclay.fr/en) | |
+| Jad Issa | PhD student |  [CEA LIST](http://www-list.cea.fr/en/), [Université Paris-Saclay](https://www.universite-paris-saclay.fr/en), [Université de Lorraine](https://www.univ-lorraine.fr/)|[Jad Issa](https://jad-issa.com/pages/jad-issa.html)|
+| Mathieu Nguyen | Engineer |  [CEA LIST](http://www-list.cea.fr/en/)||
 | Jérôme Ricciardi        |     PhD student      |  [CEA LIST](http://www-list.cea.fr/en/), [Université Paris-Saclay](https://www.universite-paris-saclay.fr/en) | [Jérôme Ricciardi](https://www.researchgate.net/profile/Jerome_Ricciardi)|
 | Tomas Barros Carneiro        |     PhD student      |  [CEA LIST](http://www-list.cea.fr/en/), [Université Paris-Saclay](https://www.universite-paris-saclay.fr/en) |[Tomas Barros Carneiro](https://github.com/tbc23)|
 
