@@ -20,36 +20,16 @@
 # (*                                                                        *)
 # (**************************************************************************)
 
-.PHONY: run_to_openqasm run_to_openqasm_ne run_qiskit clean_run_to_openqasm
+#!/bin/bash
 
-DIRS?= -L ./Case_studies/ -L ./math_libs/ -L ./Qbricks/
+_pwd="$(pwd)"
 
-build:
-	docker build -t qbricks .
-
-container:
-	-docker container rm qbricks
-	bash container.sh
-
-start:
-	docker start -ai qbricks
-
-
-
-print:
-	bash ./run_test.sh
-
-# don't clean `run_test.ml`
-clean:
-	cd extracted; rm -f *.bak *.pdf *.byte *.txt exe.* *__*.ml *.qasm run_to_openqasm.ml
-
-run_to_openqasm:
-	./run_to_openqasm.sh To_openqasm_examples Test_oq2 extraction
-
-run_to_openqasm_ne:
-	./run_to_openqasm.sh To_openqasm_examples Test_oq2 no_extraction
-
-clean_run_to_openqasm: clean run_to_openqasm
-
-run_qiskit:
-	python3 extracted/run_to_openqasm.py extracted/To_openqasm_examples
+docker create --name="qbricks" -ti -e DISPLAY=$DISPLAY \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v ${_pwd}/Case_studies:/qbricks/Case_studies \
+  -v ${_pwd}/:/qbricks/ \
+  -v ${_pwd}/Qbricks:/qbricks/Qbricks \
+  -v ${_pwd}/math_libs:/qbricks/math_libs \
+  -v ${_pwd}/extracted:/qbricks/extracted \
+  -v ${_pwd}/mb_extracted:/qbricks/mb_extracted -v ${_pwd}/../wqbricks/Transpilation:/home/opam/wqbricks/Transpilation \
+  qbricks

@@ -113,6 +113,8 @@ computing](https://github.com/Qbricks/qbricks.github.io/files/6415909/Qbricks_Pl
 
 - CVC4: [licence](https://github.com/CVC4/CVC4-archived/blob/master/COPYING)
 
+- CVC5: [licence](https://github.com/cvc5/cvc5/tree/main/licenses)
+
 - Z3: [licence](https://github.com/Z3Prover/z3/blob/master/LICENSE.txt)
 
 - Alt-Ergo: [licence](https://ocamlpro.github.io/alt-ergo/About/license.html)
@@ -135,7 +137,7 @@ computing](https://github.com/Qbricks/qbricks.github.io/files/6415909/Qbricks_Pl
 
 #### Example: open `shor.mlw` with Why3-ide
 
-1. `cd qbricks.github.io/Case_studies/`
+1. `cd Case_studies/`
 
 2. `make ide_shor`
 

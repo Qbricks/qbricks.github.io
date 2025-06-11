@@ -27,38 +27,38 @@ DRV="-D to_string.drv -D ocaml64"
 
 # 1) from WhyML to OCaml
 
-why3_extract () {
-   why3 extract --modular $DIR -o extracted/ $DRV $1
+why3_extract() {
+  why3 extract --modular $DIR -o extracted/ $DRV $1
 }
 
-  why3_extract  math_libs/extr_int.mlw
-  why3_extract  math_libs/arit.mlw
-  why3_extract  math_libs/binary.mlw
-  why3_extract  math_libs/int_expo.mlw
-  why3_extract  Qbricks/qbricks_c.mlw
-  why3_extract  Qbricks/derived_circuits_c.mlw
-  why3_extract  Qbricks/cont_c.mlw
-  why3_extract  Qbricks/wired_pps_c.mlw
-  why3_extract  Qbricks/wired_circuits.mlw
-  why3_extract  Qbricks/qbricks.mlw
-  why3_extract  Qbricks/remarkable_fragments.mlw
-  why3_extract  Qbricks/draw_circuits.mlw
-  why3_extract  Qbricks/reversion.mlw
-  why3_extract  Qbricks/circuits_equiv_pre.mlw
-  why3_extract  Qbricks/circuits_equiv.mlw
+why3_extract math_libs/extr_int.mlw
+why3_extract math_libs/arit.mlw
+why3_extract math_libs/binary.mlw
+why3_extract math_libs/int_expo.mlw
+why3_extract Qbricks/qbricks_c.mlw
+why3_extract Qbricks/derived_circuits_c.mlw
+why3_extract Qbricks/cont_c.mlw
+why3_extract Qbricks/wired_pps_c.mlw
+why3_extract Qbricks/wired_circuits.mlw
+why3_extract Qbricks/qbricks.mlw
+why3_extract Qbricks/remarkable_fragments.mlw
+why3_extract Qbricks/draw_circuits.mlw
+why3_extract Qbricks/reversion.mlw
+why3_extract Qbricks/circuits_equiv_pre.mlw
+why3_extract Qbricks/circuits_equiv.mlw
 
-  why3_extract  Qbricks_to_oqasm/commuting_lemmas.mlw
-  why3_extract  Qbricks_to_oqasm/atomic_place.mlw
-  why3_extract  Qbricks_to_oqasm/parallel_delete.mlw
-  why3_extract  Qbricks_to_oqasm/subcircuit_control.mlw
-  why3_extract  Qbricks_to_oqasm/ternary_gates_delete.mlw
-  why3_extract  Qbricks_to_oqasm/transpilation.mlw
+why3_extract Qbricks_to_oqasm/commuting_lemmas.mlw
+why3_extract Qbricks_to_oqasm/atomic_place.mlw
+why3_extract Qbricks_to_oqasm/parallel_delete.mlw
+why3_extract Qbricks_to_oqasm/subcircuit_control.mlw
+why3_extract Qbricks_to_oqasm/ternary_gates_delete.mlw
+why3_extract Qbricks_to_oqasm/transpilation.mlw
 
-  why3_extract  Case_studies/qft.mlw
-  why3_extract  Case_studies/qft_test.mlw
-  why3_extract  Case_studies/Shor/shor_type.mlw
-  why3_extract  Case_studies/Shor/shor_inst.mlw
-  why3_extract "Qbricks_to_oqasm/Examples/$1.mlw"
+why3_extract Case_studies/qft.mlw
+why3_extract Case_studies/qft_test.mlw
+why3_extract Case_studies/Shor/shor_type.mlw
+why3_extract Case_studies/Shor/shor_inst.mlw
+why3_extract "Qbricks_to_oqasm/Examples/$1.mlw"
 
 cd extracted
 
@@ -66,14 +66,25 @@ echo "let () =
   let oq =
     open_out \"$1.qasm\" in 
       Printf.fprintf oq \"%s\" ($1__$2.run ());
-    close_out oq;" > run_to_openqasm.ml
+    close_out oq;" >run_to_openqasm.ml
 
 ocamlbuild -pkg zarith run_to_openqasm.byte
 
 # 2) write .qasm file
 
+start_time=$(date +%s%N)
+
 ./run_to_openqasm.byte
+
+end_time=$(date +%s%N)
+
+execution_time=$((end_time - start_time))
+
+# Convertit les nanosecondes en secondes pour une meilleure lisibilité
+execution_time_seconds=$(echo | awk -v time=$execution_time 'BEGIN { printf "%.3f\n", time / 1000000000 }')
+
+echo "QASM Generation : $execution_time_seconds secondes"
 
 # 3) send .qasm file to ibm
 
-python3 run_to_openqasm.py $1
+# python3 run_to_openqasm.py $1

@@ -1,89 +1,72 @@
-# (**************************************************************************)
-# (*  This file is part of QBRICKS.                                         *)
-# (*                                                                        *)
-# (*  Copyright (C) 2020-2022                                               *)
-# (*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
-# (*         alternatives)                                                  *)
-# (*    Université Paris-Saclay                                             *)
-# (*                                                                        *)
-# (*  you can redistribute it and/or modify it under the terms of the GNU   *)
-# (*  Lesser General Public License as published by the Free Software       *)
-# (*  Foundation, version 2.1.                                              *)
-# (*                                                                        *)
-# (*  It is distributed in the hope that it will be useful,                 *)
-# (*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
-# (*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
-# (*  GNU Lesser General Public License for more details.                   *)
-# (*                                                                        *)
-# (*  See the GNU Lesser General Public License version 2.1                 *)
-# (*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
-# (*                                                                        *)
-# (**************************************************************************)
+FROM ocaml/opam:ubuntu-24.04-ocaml-4.13
 
-FROM debian:buster-20220418-slim
+RUN sudo apt-get update && sudo apt install -y python3 
+RUN sudo apt-get update && sudo apt install -y python3-pip 
+RUN sudo apt-get update && sudo apt install -y python3-dev 
+RUN sudo apt install -y build-essential 
+RUN sudo apt install -y libffi-dev
+RUN sudo apt install -y libssl-dev
+RUN sudo apt install -y libblas-dev
+RUN sudo apt install -y liblapack-dev
+RUN sudo apt install -y libgmp-dev 
+RUN sudo apt -y install libgmp-dev
+RUN sudo apt -y install pkg-config adwaita-icon-theme
+RUN sudo apt-get update && sudo apt -y install libcairo2-dev 
+RUN sudo apt -y install libexpat1-dev
+RUN sudo apt -y install libgtk-3-dev libgtksourceview-3.0-dev
+RUN sudo apt -y install wget bash-completion
+RUN sudo apt -y install libcanberra-gtk-module libcanberra-gtk3-module
+RUN sudo apt -y install autoconf
 
-# Create users
+RUN sudo apt clean 
 
-USER root
+RUN opam init --disable-sandboxing -y 
+RUN opam depext conf-m4
+RUN opam install -y dune
+RUN opam install -y zarith
+RUN opam install -y conf-autoconf
+RUN opam install -y cmdliner
+RUN opam install -y alt-ergo.2.6.2
+RUN opam install -y why3.1.8.0
+RUN opam install -y lablgtk3       
+RUN opam install -y lablgtk3-sourceview3
+RUN opam install -y why3-ide.1.8.0
+RUN opam install -y ocamlbuild 
 
-RUN adduser --disabled-password --gecos '' opam
+RUN opam env >> ~/.bashrc
+ENV PATH="/home/opam/.opam/default/bin:$PATH"
 
-RUN usermod -aG sudo opam
-
-
-# Installation: prerequisites
-
-RUN apt-get update && apt-get -y install sudo
-
-RUN sudo apt-get -y install opam=2.0.3-1+deb10u1 
-RUN sudo apt-get -y install  libgmp-dev=2:6.1.2+dfsg-4+deb10u1 
-RUN sudo apt-get -y install  pkg-config=0.29-6 adwaita-icon-theme=3.30.1-1 
-RUN sudo apt-get -y install  libcairo2-dev=1.16.0-4+deb10u1 
-RUN sudo apt-get -y install libexpat1-dev=2.2.6-2+deb10u7
-RUN sudo apt-get -y install  libgtk-3-dev=3.24.5-1 libgtksourceview-3.0-dev=3.24.9-2 
-RUN sudo apt-get -y install  libgtk2.0-dev=2.24.32-3 libgtksourceview2.0-dev=2.10.5-3 
-RUN sudo apt-get -y install  wget=1.20.1-1.1 
-RUN sudo apt-get -y install  libcanberra-gtk-module libcanberra-gtk3-module
-
-
-# Installation: Why3 + Solvers
-
-USER opam
-
-RUN opam init -y --disable-sandboxing && opam update && \
-  opam install -y depext.transition && opam depext conf-m4 && \
-  opam install -y alt-ergo.2.4.1 why3 why3-ide && \
-  opam install -y lablgtk3 lablgtk3-sourceview3 ocamlbuild.0.14.1
-
-USER root
-
-WORKDIR /home/opam
-
-RUN apt-get update
 RUN wget https://cs.nyu.edu/acsys/cvc3/releases/2.4.1/linux64/cvc3-2.4.1-optimized-static.tar.gz
 RUN tar -xzf cvc3-2.4.1-optimized-static.tar.gz 
-RUN sudo cp -R /home/opam/cvc3-2.4.1-optimized-static/* /usr/local/ 
+RUN sudo mv cvc3-2.4.1-optimized-static/bin/cvc3 /usr/local/bin/cvc3 
+RUN sudo chmod a+x /usr/local/bin/cvc3
+
 RUN wget https://github.com/CVC4/CVC4-archived/releases/download/1.8/cvc4-1.8-x86_64-linux-opt 
 RUN sudo mv cvc4-1.8-x86_64-linux-opt /usr/local/bin/cvc4 
 RUN sudo chmod a+x /usr/local/bin/cvc4 
-RUN wget https://github.com/cvc5/cvc5/releases/download/cvc5-1.0.0/cvc5-Linux 
-RUN sudo mv cvc5-Linux /usr/local/bin/cvc5 
-RUN sudo chmod a+x /usr/local/bin/cvc5 
-RUN wget https://github.com/Z3Prover/z3/releases/download/z3-4.7.1/z3-4.7.1-x64-ubuntu-16.04.zip 
-RUN unzip z3-4.7.1-x64-ubuntu-16.04.zip 
-RUN sudo cp z3-4.7.1-x64-ubuntu-16.04/bin/z3 /usr/local/bin/z3-4.7.1 
-RUN wget https://github.com/Z3Prover/z3/releases/download/z3-4.8.10/z3-4.8.10-x64-ubuntu-18.04.zip 
-RUN unzip z3-4.8.10-x64-ubuntu-18.04.zip 
-RUN sudo cp z3-4.8.10-x64-ubuntu-18.04/bin/z3 /usr/local/bin/z3-4.8.10 
-RUN apt-get -y install python-pip=18.1-5  
-RUN wget https://github.com/Z3Prover/z3/releases/download/z3-4.11.0/z3_solver-4.11.0.0-py2.py3-none-manylinux1_x86_64.whl 
-RUN pip install z3_solver-4.11.0.0-py2.py3-none-manylinux1_x86_64.whl
 
-RUN apt-get -y install bash-completion=1:2.8-6 
+RUN wget https://github.com/cvc5/cvc5/releases/download/cvc5-1.2.1/cvc5-Linux-x86_64-static.zip
+RUN unzip cvc5-Linux-x86_64-static.zip 
+RUN sudo mv cvc5-Linux-x86_64-static/bin/cvc5 /usr/local/bin/cvc5
+RUN sudo chmod a+x /usr/local/bin/cvc5
 
-RUN rm -f z3-4.7.1-x64-ubuntu-16.04.zip z3-4.8.10-x64-ubuntu-18.04.zip cvc3-2.4.1-optimized-static.tar.gz
+RUN wget https://github.com/Z3Prover/z3/releases/download/z3-4.8.6/z3-4.8.6-x64-ubuntu-16.04.zip 
+RUN unzip z3-4.8.6-x64-ubuntu-16.04.zip 
+RUN sudo mv z3-4.8.6-x64-ubuntu-16.04/bin/z3 /usr/local/bin/z3-4.8.6 
+RUN sudo chmod a+x /usr/local/bin/z3-4.8.6
 
-USER opam
 
-# Final CMD instruction using JSON format
-CMD ["bash", "-c", "eval $(opam env) && why3 config detect && /bin/bash"]
+RUN wget https://github.com/Z3Prover/z3/releases/download/z3-4.13.4/z3-4.13.4-x64-glibc-2.35.zip
+RUN unzip z3-4.13.4-x64-glibc-2.35.zip 
+RUN sudo mv z3-4.13.4-x64-glibc-2.35/bin/z3 /usr/local/bin/z3-4.13.4 
+RUN sudo chmod a+x /usr/local/bin/z3-4.13.4
+
+WORKDIR /qbricks
+COPY . /qbricks
+RUN sudo chown -R opam:opam /qbricks
+RUN chmod +x /qbricks/run_to_openqasm.sh
+
+RUN eval $(opam env) && opam install . --deps-only -y
+ENV DISPLAY=:0
+
+CMD ["/bin/bash", "-c", "eval $(opam env) && why3 config detect && /bin/bash"]
