@@ -127,11 +127,11 @@ computing](https://github.com/Qbricks/qbricks.github.io/files/6415909/Qbricks_Pl
 
 2. [Post-installation steps for Linux](https://docs.docker.com/engine/install/linux-postinstall/)
 
-3. Build Docker image `make build`
+3. Build Docker image `make build` (alternative `make pull`)
 
-4. Build container `make container1`
+4. Build container `make container`
 
-5. Start container `make start1`
+5. Start container `make start`
 
 ### How to use it
 

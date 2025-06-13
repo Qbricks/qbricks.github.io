@@ -27,11 +27,15 @@ DIRS?= -L ./Case_studies/ -L ./math_libs/ -L ./Qbricks/
 build:
 	docker build -t qbricks .
 
+pull:
+	docker pull jricc/qbricks:latest
+
 container:
 	-docker container rm qbricks
 	bash container.sh
 
 start:
+	xhost +local:docker
 	docker start -ai qbricks
 
 
