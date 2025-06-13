@@ -1,0 +1,904 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"https://www.why3.org/why3session.dtd">
+<why3session shape_version="6">
+<prover id="0" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="1" name="CVC4" version="1.8" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="2" name="Alt-Ergo" version="2.6.2" timelimit="5" steplimit="0" memlimit="1000"/>
+<file format="whyml" proved="true">
+<path name=".."/><path name="tutorial_solution.mlw"/>
+<theory name="GHZ" proved="true">
+ <goal name="hadamard&#39;vc" expl="VC for hadamard" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="hadamard&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.011569" steps="5"/></proof>
+  </goal>
+  <goal name="hadamard&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.030264" steps="5"/></proof>
+  </goal>
+  <goal name="hadamard&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.015340" steps="8"/></proof>
+  </goal>
+  <goal name="hadamard&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.014942" steps="12"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="place_hadamard&#39;vc" expl="VC for place_hadamard" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="place_hadamard&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.013670" steps="12"/></proof>
+  </goal>
+  <goal name="place_hadamard&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.007245" steps="12"/></proof>
+  </goal>
+  <goal name="place_hadamard&#39;vc.2" expl="postcondition" proved="true">
+  <transf name="eliminate_if" proved="true" >
+   <goal name="place_hadamard&#39;vc.2.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="place_hadamard&#39;vc.2.0.0" expl="postcondition" proved="true">
+    <proof prover="2"><result status="valid" time="0.022570" steps="18"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="place_hadamard&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.022480" steps="19"/></proof>
+  </goal>
+  <goal name="place_hadamard&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.023416" steps="179"/></proof>
+  </goal>
+  <goal name="place_hadamard&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.016654" steps="136"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="place_hadamard_b&#39;vc" expl="VC for place_hadamard_b" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="place_hadamard_b&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.010421" steps="11"/></proof>
+  </goal>
+  <goal name="place_hadamard_b&#39;vc.1" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures3">
+   <goal name="place_hadamard_b&#39;vc.1.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.024394" steps="15"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="place_hadamard_b&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.008663" steps="15"/></proof>
+  </goal>
+  <goal name="place_hadamard_b&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.014995" steps="22"/></proof>
+  </goal>
+  <goal name="place_hadamard_b&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.015808" steps="24"/></proof>
+  </goal>
+  <goal name="place_hadamard_b&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.007999" steps="26"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="cnot_b&#39;vc" expl="VC for cnot_b" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="cnot_b&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.009989" steps="15"/></proof>
+  </goal>
+  <goal name="cnot_b&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.008948" steps="16"/></proof>
+  </goal>
+  <goal name="cnot_b&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.008524" steps="17"/></proof>
+  </goal>
+  <goal name="cnot_b&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.014873" steps="21"/></proof>
+  </goal>
+  <goal name="cnot_b&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.024915" steps="21"/></proof>
+  </goal>
+  <goal name="cnot_b&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.016759" steps="29"/></proof>
+  </goal>
+  <goal name="cnot_b&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.012495" steps="46"/></proof>
+  </goal>
+  <goal name="cnot_b&#39;vc.7" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.016409" steps="26"/></proof>
+  </goal>
+  <goal name="cnot_b&#39;vc.8" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.011973" steps="37"/></proof>
+  </goal>
+  <goal name="cnot_b&#39;vc.9" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.008754" steps="53"/></proof>
+  </goal>
+  <goal name="cnot_b&#39;vc.10" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.008427" steps="32"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="bell&#39;vc" expl="VC for bell" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="bell&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.013808" steps="21"/></proof>
+  </goal>
+  <goal name="bell&#39;vc.1" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="result" arg2="(place_hadamard_b -- cnot_b)">
+   <goal name="bell&#39;vc.1.0" expl="postcondition" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="bell&#39;vc.1.0.0" expl="postcondition" proved="true">
+    <proof prover="2"><result status="valid" time="0.021602" steps="25"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="bell&#39;vc.1.1" expl="equality hypothesis" proved="true">
+   <proof prover="2"><result status="valid" time="0.017844" steps="25"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="bell&#39;vc.2" expl="postcondition" proved="true">
+  <transf name="split_all_full" proved="true" >
+   <goal name="bell&#39;vc.2.0" expl="postcondition" proved="true">
+   <transf name="compute_hyp" proved="true" >
+    <goal name="bell&#39;vc.2.0.0" expl="postcondition" proved="true">
+    <proof prover="2"><result status="valid" time="0.018672" steps="25"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="bell&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.019413" steps="392"/></proof>
+  </goal>
+  <goal name="bell&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.024628" steps="889"/></proof>
+  </goal>
+  <goal name="bell&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="split_all_full" proved="true" >
+   <goal name="bell&#39;vc.5.0" expl="postcondition" proved="true">
+   <transf name="compute_hyp" proved="true" >
+    <goal name="bell&#39;vc.5.0.0" expl="postcondition" proved="true">
+    <proof prover="2"><result status="valid" time="0.047427" steps="208"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="bell_size_three&#39;vc" expl="VC for bell_size_three" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="bell_size_three&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.009636" steps="25"/></proof>
+  </goal>
+  <goal name="bell_size_three&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.007490" steps="26"/></proof>
+  </goal>
+  <goal name="bell_size_three&#39;vc.2" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures5">
+   <goal name="bell_size_three&#39;vc.2.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.026049" steps="31"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="bell_size_three&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.019591" steps="31"/></proof>
+  </goal>
+  <goal name="bell_size_three&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.038793" steps="17134"/></proof>
+  </goal>
+  <goal name="bell_size_three&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.034771" steps="15811"/></proof>
+  </goal>
+  <goal name="bell_size_three&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures5">
+   <goal name="bell_size_three&#39;vc.6.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.007851" steps="34"/></proof>
+   </goal>
+   <goal name="bell_size_three&#39;vc.6.1" expl="rewrite premises" proved="true">
+   <proof prover="2"><result status="valid" time="0.012093" steps="34"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="bell_size_three&#39;vc.7" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.077142" steps="495"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ghz3&#39;vc" expl="VC for ghz3" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ghz3&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.007670" steps="31"/></proof>
+  </goal>
+  <goal name="ghz3&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.007646" steps="32"/></proof>
+  </goal>
+  <goal name="ghz3&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.011804" steps="33"/></proof>
+  </goal>
+  <goal name="ghz3&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.007936" steps="36"/></proof>
+  </goal>
+  <goal name="ghz3&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.032518" steps="42"/></proof>
+  </goal>
+  <goal name="ghz3&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.039552" steps="42"/></proof>
+  </goal>
+  <goal name="ghz3&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.038269" steps="655"/></proof>
+  </goal>
+  <goal name="ghz3&#39;vc.7" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.796858" steps="12560"/></proof>
+  </goal>
+  <goal name="ghz3&#39;vc.8" expl="postcondition" proved="true">
+  <transf name="compute_hyp" proved="true" >
+   <goal name="ghz3&#39;vc.8.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures8">
+    <goal name="ghz3&#39;vc.8.0.0" expl="postcondition" proved="true">
+    <proof prover="2"><result status="valid" time="0.046193" steps="68"/></proof>
+    </goal>
+    <goal name="ghz3&#39;vc.8.0.1" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="0.037478" steps="42"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ghz_rec&#39;vc" expl="VC for ghz_rec" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ghz_rec&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.011316" steps="40"/></proof>
+  </goal>
+  <goal name="ghz_rec&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.015734" steps="41"/></proof>
+  </goal>
+  <goal name="ghz_rec&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.008335" steps="43"/></proof>
+  </goal>
+  <goal name="ghz_rec&#39;vc.3" expl="variant decrease" proved="true">
+  <proof prover="2"><result status="valid" time="0.016914" steps="47"/></proof>
+  </goal>
+  <goal name="ghz_rec&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.012083" steps="47"/></proof>
+  </goal>
+  <goal name="ghz_rec&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.012346" steps="54"/></proof>
+  </goal>
+  <goal name="ghz_rec&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.009857" steps="55"/></proof>
+  </goal>
+  <goal name="ghz_rec&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.010334" steps="61"/></proof>
+  </goal>
+  <goal name="ghz_rec&#39;vc.8" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.038872" steps="55"/></proof>
+  </goal>
+  <goal name="ghz_rec&#39;vc.9" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.042660" steps="59"/></proof>
+  </goal>
+  <goal name="ghz_rec&#39;vc.10" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ghz_rec&#39;vc.10.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.014200" steps="73"/></proof>
+   </goal>
+   <goal name="ghz_rec&#39;vc.10.1" expl="postcondition" proved="true">
+   <proof prover="1"><result status="valid" time="2.027039" steps="471103"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ghz_rec&#39;vc.11" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ghz_rec&#39;vc.11.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.018266" steps="104"/></proof>
+   </goal>
+   <goal name="ghz_rec&#39;vc.11.1" expl="postcondition" proved="true">
+   <proof prover="1"><result status="valid" time="1.352123" steps="344131"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ghz_rec&#39;vc.12" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ghz_rec&#39;vc.12.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.029407" steps="67"/></proof>
+   </goal>
+   <goal name="ghz_rec&#39;vc.12.1" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.266680" steps="2180"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ghz&#39;vc" expl="VC for ghz" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ghz&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.007481" steps="37"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.1" expl="loop invariant init" proved="true">
+  <proof prover="2"><result status="valid" time="0.016836" steps="44"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.2" expl="loop invariant init" proved="true">
+  <proof prover="2"><result status="valid" time="0.005219" steps="44"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.3" expl="loop invariant init" proved="true">
+  <proof prover="2"><result status="valid" time="0.011096" steps="53"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.4" expl="loop invariant init" proved="true">
+  <proof prover="2"><result status="valid" time="0.011136" steps="56"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.5" expl="loop invariant init" proved="true">
+  <proof prover="2"><result status="valid" time="0.016585" steps="46"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.6" expl="loop invariant init" proved="true">
+  <proof prover="2"><result status="valid" time="0.023967" steps="59"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.012734" steps="55"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.012113" steps="55"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.012931" steps="58"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.011552" steps="62"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.11" expl="loop invariant preservation" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ghz&#39;vc.11.0" expl="loop invariant preservation" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures">
+    <goal name="ghz&#39;vc.11.0.0" expl="loop invariant preservation" proved="true">
+    <proof prover="2"><result status="valid" time="0.046759" steps="71"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ghz&#39;vc.12" expl="loop invariant preservation" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="ghz&#39;vc.12.0" expl="loop invariant preservation" proved="true">
+   <proof prover="2"><result status="valid" time="0.045478" steps="75"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ghz&#39;vc.13" expl="loop invariant preservation" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="ghz&#39;vc.13.0" expl="loop invariant preservation" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures7">
+    <goal name="ghz&#39;vc.13.0.0" expl="loop invariant preservation" proved="true">
+    <proof prover="2"><result status="valid" time="0.060421" steps="248"/></proof>
+    </goal>
+    <goal name="ghz&#39;vc.13.0.1" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="0.042347" steps="80"/></proof>
+    </goal>
+    <goal name="ghz&#39;vc.13.0.2" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="0.042802" steps="82"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ghz&#39;vc.14" expl="loop invariant preservation" proved="true">
+  <proof prover="2"><result status="valid" time="0.243095" steps="1978"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.15" expl="loop invariant preservation" proved="true">
+  <proof prover="2"><result status="valid" time="1.997216" steps="22045"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.16" expl="loop invariant preservation" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ghz&#39;vc.16.0" expl="loop invariant preservation" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures">
+    <goal name="ghz&#39;vc.16.0.0" expl="loop invariant preservation" proved="true">
+    <proof prover="2"><result status="valid" time="0.050726" steps="140"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ghz&#39;vc.17" expl="assertion" proved="true">
+  <proof prover="2"><result status="valid" time="0.012726" steps="51"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.18" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ghz&#39;vc.18.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.013262" steps="51"/></proof>
+   </goal>
+   <goal name="ghz&#39;vc.18.1" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.012893" steps="51"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="ghz&#39;vc.19" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.007358" steps="58"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.20" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.034530" steps="65"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.21" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.036414" steps="66"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.22" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="3.437919" steps="29999"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.23" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="0.081993" steps="24190"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.24" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.180754" steps="14707"/></proof>
+  </goal>
+  <goal name="ghz&#39;vc.25" expl="out of loop bounds" proved="true">
+  <proof prover="2"><result status="valid" time="0.008615" steps="44"/></proof>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+<theory name="Qft" proved="true">
+ <goal name="qft&#39;vc" expl="VC for qft" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="qft&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="1.373704" steps="2853"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.888291" steps="668"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.2" expl="loop invariant init" proved="true">
+  <proof prover="2"><result status="valid" time="0.823903" steps="673"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.3" expl="loop invariant init" proved="true">
+  <proof prover="2"><result status="valid" time="0.433330" steps="673"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.4" expl="loop invariant init" proved="true">
+  <proof prover="2"><result status="valid" time="0.893205" steps="2659"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.5" expl="loop invariant init" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures1">
+   <goal name="qft&#39;vc.5.0" expl="loop invariant init" proved="true">
+   <transf name="rewrite" proved="true" arg1="ang_sum_empty">
+    <goal name="qft&#39;vc.5.0.0" expl="loop invariant init" proved="true">
+    <proof prover="2"><result status="valid" time="0.950308" steps="2552"/></proof>
+    </goal>
+    <goal name="qft&#39;vc.5.0.1" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="0.700406" steps="673"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.497922" steps="681"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.7" expl="loop invariant init" proved="true">
+  <proof prover="2"><result status="valid" time="0.590481" steps="688"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.8" expl="loop invariant init" proved="true">
+  <proof prover="2"><result status="valid" time="0.440255" steps="688"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.9" expl="loop invariant init" proved="true">
+  <proof prover="0"><result status="valid" time="2.244745"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.880863" steps="696"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.11" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.860889" steps="697"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.12" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.506421" steps="697"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.13" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures1" arg2="with" arg3="n">
+   <goal name="qft&#39;vc.13.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="1.100440" steps="3017"/></proof>
+   </goal>
+   <goal name="qft&#39;vc.13.1" expl="rewrite premises" proved="true">
+   <proof prover="2"><result status="valid" time="0.767882" steps="702"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.14" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.592403" steps="702"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.15" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.501191" steps="702"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.16" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.520472" steps="703"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.17" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.520473" steps="703"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.18" expl="precondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="LoopInvariant">
+   <goal name="qft&#39;vc.18.0" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="3.428735" steps="1243978"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.19" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="2.010404"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.20" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.888574" steps="702"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.21" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.832775" steps="703"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.22" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.869884" steps="703"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.23" expl="loop invariant preservation" proved="true">
+  <proof prover="2"><result status="valid" time="0.880641" steps="712"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.24" expl="loop invariant preservation" proved="true">
+  <proof prover="2"><result status="valid" time="0.836198" steps="713"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.25" expl="loop invariant preservation" proved="true">
+  <transf name="rewrite" proved="true" arg1="ang_sum_re">
+   <goal name="qft&#39;vc.25.0" expl="loop invariant preservation" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures">
+    <goal name="qft&#39;vc.25.0.0" expl="loop invariant preservation" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures2">
+     <goal name="qft&#39;vc.25.0.0.0" expl="loop invariant preservation" proved="true">
+     <transf name="apply" proved="true" arg1="ang_add_eq">
+      <goal name="qft&#39;vc.25.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.133276" steps="2742"/></proof>
+      </goal>
+      <goal name="qft&#39;vc.25.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="1.005166" steps="2750"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="qft&#39;vc.25.1" expl="rewrite premises" proved="true">
+   <proof prover="2"><result status="valid" time="0.539273" steps="714"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.26" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.475097" steps="692"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.27" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures" arg2="with" arg3="n">
+   <goal name="qft&#39;vc.27.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="H5">
+    <goal name="qft&#39;vc.27.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="qft&#39;vc.27.0.0.0" expl="postcondition" proved="true">
+     <proof prover="2"><result status="valid" time="0.521960" steps="696"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="qft&#39;vc.27.1" expl="rewrite premises" proved="true">
+   <proof prover="2"><result status="valid" time="0.500379" steps="696"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.28" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.567571" steps="696"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.29" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.482736" steps="696"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.30" expl="precondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="qft&#39;vc.30.0" expl="precondition" proved="true">
+   <transf name="compute_specified" proved="true" >
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.31" expl="precondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="LoopInvariant">
+   <goal name="qft&#39;vc.31.0" expl="precondition" proved="true">
+   <transf name="split_all_full" proved="true" >
+    <goal name="qft&#39;vc.31.0.0" expl="precondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="qft&#39;vc.31.0.0.0" expl="precondition" proved="true">
+     <transf name="apply" proved="true" arg1="ang_sum_eq">
+      <goal name="qft&#39;vc.31.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="0.516882" steps="697"/></proof>
+      </goal>
+      <goal name="qft&#39;vc.31.0.0.0.1" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="0.512821" steps="697"/></proof>
+      </goal>
+      <goal name="qft&#39;vc.31.0.0.0.2" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="0.536455" steps="697"/></proof>
+      </goal>
+      <goal name="qft&#39;vc.31.0.0.0.3" expl="apply premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="qft&#39;vc.31.0.0.0.3.0" expl="apply premises" proved="true">
+       <transf name="rewrite" proved="true" arg1="H6">
+        <goal name="qft&#39;vc.31.0.0.0.3.0.0" expl="apply premises" proved="true">
+        <transf name="rewrite" proved="true" arg1="H8">
+         <goal name="qft&#39;vc.31.0.0.0.3.0.0.0" expl="apply premises" proved="true">
+         <transf name="rewrite" proved="true" arg1="H8">
+          <goal name="qft&#39;vc.31.0.0.0.3.0.0.0.0" expl="apply premises" proved="true">
+          <transf name="compute_specified" proved="true" >
+           <goal name="qft&#39;vc.31.0.0.0.3.0.0.0.0.0" expl="apply premises" proved="true">
+           <proof prover="0"><result status="valid" time="2.226205"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.32" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.575745" steps="696"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.33" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.572173" steps="697"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.34" expl="assertion" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="qft&#39;vc.34.0" expl="assertion" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures3">
+    <goal name="qft&#39;vc.34.0.0" expl="assertion" proved="true">
+    <proof prover="0"><result status="valid" time="2.015799"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.35" expl="assertion" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="qft&#39;vc.35.0" expl="assertion" proved="true">
+   <transf name="replace" proved="true" arg1="(seq_diag_right place_had cl1)" arg2="(place_had -- cl1)">
+    <goal name="qft&#39;vc.35.0.0" expl="assertion" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures6">
+     <goal name="qft&#39;vc.35.0.0.0" expl="assertion" proved="true">
+     <transf name="compute_specified" proved="true" >
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="qft&#39;vc.35.0.1" expl="equality hypothesis" proved="true">
+    <proof prover="2"><result status="valid" time="0.867909" steps="704"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.36" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.794310" steps="704"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.37" expl="loop invariant preservation" proved="true">
+  <proof prover="2"><result status="valid" time="0.909356" steps="710"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.38" expl="loop invariant preservation" proved="true">
+  <proof prover="2"><result status="valid" time="0.695501" steps="711"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.39" expl="loop invariant preservation" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="qft&#39;vc.39.0" expl="loop invariant preservation" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures2">
+    <goal name="qft&#39;vc.39.0.0" expl="loop invariant preservation" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="qft&#39;vc.39.0.0.0" expl="loop invariant preservation" proved="true">
+     <transf name="rewrite" proved="true" arg1="Assert1">
+      <goal name="qft&#39;vc.39.0.0.0.0" expl="loop invariant preservation" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="qft&#39;vc.39.0.0.0.0.0" expl="loop invariant preservation" proved="true">
+       <transf name="eliminate_if" proved="true" >
+        <goal name="qft&#39;vc.39.0.0.0.0.0.0" expl="VC for qft" proved="true">
+        <transf name="compute_specified" proved="true" >
+         <goal name="qft&#39;vc.39.0.0.0.0.0.0.0" expl="VC for qft" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="qft&#39;vc.39.0.0.0.0.0.0.0.0" expl="loop invariant preservation" proved="true">
+          <proof prover="2"><result status="valid" time="0.550724" steps="723"/></proof>
+          </goal>
+          <goal name="qft&#39;vc.39.0.0.0.0.0.0.0.1" expl="loop invariant preservation" proved="true">
+          <proof prover="2"><result status="valid" time="0.526091" steps="722"/></proof>
+          </goal>
+          <goal name="qft&#39;vc.39.0.0.0.0.0.0.0.2" expl="loop invariant preservation" proved="true">
+          <proof prover="2"><result status="valid" time="0.942722" steps="2893"/></proof>
+          </goal>
+          <goal name="qft&#39;vc.39.0.0.0.0.0.0.0.3" expl="loop invariant preservation" proved="true">
+          <proof prover="2"><result status="valid" time="0.966917" steps="2891"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="qft&#39;vc.39.0.0.0.1" expl="rewrite premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="qft&#39;vc.39.0.0.0.1.0" expl="rewrite premises" proved="true">
+       <proof prover="2"><result status="valid" time="0.533849" steps="716"/></proof>
+       </goal>
+       <goal name="qft&#39;vc.39.0.0.0.1.1" expl="rewrite premises" proved="true">
+       <proof prover="2"><result status="valid" time="0.530166" steps="716"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.40" expl="loop invariant preservation" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="qft&#39;vc.40.0" expl="loop invariant preservation" proved="true">
+   <transf name="rewrite" proved="true" arg1="ang_sum_re">
+    <goal name="qft&#39;vc.40.0.0" expl="loop invariant preservation" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures1">
+     <goal name="qft&#39;vc.40.0.0.0" expl="loop invariant preservation" proved="true">
+     <transf name="apply" proved="true" arg1="ang_add_eq">
+      <goal name="qft&#39;vc.40.0.0.0.0" expl="apply premises" proved="true">
+      <transf name="rewrite" proved="true" arg1="LoopInvariant6">
+       <goal name="qft&#39;vc.40.0.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="replace" proved="true" arg1="((q +&#39; 1) -&#39;&#39; 1)" arg2="q">
+        <goal name="qft&#39;vc.40.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="0.530461" steps="712"/></proof>
+        </goal>
+        <goal name="qft&#39;vc.40.0.0.0.0.0.1" expl="equality hypothesis" proved="true">
+        <proof prover="2"><result status="valid" time="0.516916" steps="712"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="qft&#39;vc.40.0.0.0.1" expl="apply premises" proved="true">
+      <transf name="rewrite" proved="true" arg1="Assert">
+       <goal name="qft&#39;vc.40.0.0.0.1.0" expl="apply premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="qft&#39;vc.40.0.0.0.1.0.0" expl="apply premises" proved="true">
+        <transf name="apply" proved="true" arg1="ang_sum_eq">
+         <goal name="qft&#39;vc.40.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+         <proof prover="2"><result status="valid" time="0.496127" steps="712"/></proof>
+         </goal>
+         <goal name="qft&#39;vc.40.0.0.0.1.0.0.1" expl="apply premises" proved="true">
+         <proof prover="2"><result status="valid" time="0.529161" steps="712"/></proof>
+         </goal>
+         <goal name="qft&#39;vc.40.0.0.0.1.0.0.2" expl="apply premises" proved="true">
+         <proof prover="2"><result status="valid" time="0.511191" steps="712"/></proof>
+         </goal>
+         <goal name="qft&#39;vc.40.0.0.0.1.0.0.3" expl="apply premises" proved="true">
+         <transf name="split_vc" proved="true" >
+          <goal name="qft&#39;vc.40.0.0.0.1.0.0.3.0" expl="apply premises" proved="true">
+          <transf name="compute_specified" proved="true" >
+           <goal name="qft&#39;vc.40.0.0.0.1.0.0.3.0.0" expl="apply premises" proved="true">
+           <transf name="rewrite" proved="true" arg1="H7">
+            <goal name="qft&#39;vc.40.0.0.0.1.0.0.3.0.0.0" expl="apply premises" proved="true">
+            <transf name="rewrite" proved="true" arg1="H7">
+             <goal name="qft&#39;vc.40.0.0.0.1.0.0.3.0.0.0.0" expl="apply premises" proved="true">
+             <proof prover="0"><result status="valid" time="2.369793"/></proof>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="qft&#39;vc.40.0.1" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="0.555854" steps="712"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.41" expl="out of loop bounds" proved="true">
+  <proof prover="2"><result status="valid" time="0.533179" steps="687"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.42" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.528264" steps="677"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.43" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.533109" steps="677"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.44" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.512886" steps="677"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.45" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.886337" steps="3552"/></proof>
+  </goal>
+  <goal name="qft&#39;vc.46" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="((n -&#39;&#39; 1) +&#39; 1)" arg2="n" arg3="in" arg4="LoopInvariant">
+   <goal name="qft&#39;vc.46.0" expl="postcondition" proved="true">
+   <transf name="apply" proved="true" arg1="LoopInvariant">
+   </transf>
+   </goal>
+   <goal name="qft&#39;vc.46.1" expl="equality hypothesis" proved="true">
+   <proof prover="2"><result status="valid" time="0.705828" steps="678"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.47" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="qft&#39;vc.47.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="H2">
+    <goal name="qft&#39;vc.47.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="ang_sum_to_ind_isum">
+     <goal name="qft&#39;vc.47.0.0.0" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="0.581921" steps="678"/></proof>
+     </goal>
+     <goal name="qft&#39;vc.47.0.0.1" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="0.493118" steps="678"/></proof>
+     </goal>
+     <goal name="qft&#39;vc.47.0.0.2" expl="apply premises" proved="true">
+     <transf name="split_vc" proved="true" >
+      <goal name="qft&#39;vc.47.0.0.2.0" expl="apply premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="qft&#39;vc.47.0.0.2.0.0" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="ang_sum_to_ind_isum">
+        <goal name="qft&#39;vc.47.0.0.2.0.0.0" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="0.476230" steps="682"/></proof>
+        </goal>
+        <goal name="qft&#39;vc.47.0.0.2.0.0.1" expl="apply premises" proved="true">
+        <proof prover="2"><result status="valid" time="0.492414" steps="682"/></proof>
+        </goal>
+        <goal name="qft&#39;vc.47.0.0.2.0.0.2" expl="apply premises" proved="true">
+        <proof prover="0"><result status="valid" time="2.136822"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.48" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="qft&#39;vc.48.0" expl="postcondition" proved="true">
+   <transf name="apply" proved="true" arg1="Ensures5">
+    <goal name="qft&#39;vc.48.0.0" expl="apply premises" proved="true">
+    <proof prover="2"><result status="valid" time="0.533720" steps="682"/></proof>
+    </goal>
+    <goal name="qft&#39;vc.48.0.1" expl="apply premises" proved="true">
+    <proof prover="2"><result status="valid" time="0.528804" steps="682"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="qft&#39;vc.49" expl="out of loop bounds" proved="true">
+  <proof prover="2"><result status="valid" time="0.446859" steps="672"/></proof>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>
