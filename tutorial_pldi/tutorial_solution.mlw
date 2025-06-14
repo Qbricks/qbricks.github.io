@@ -156,9 +156,6 @@ let qft ( n:int) :circuit
       requires{0<n}  =
       let function qft_inner_phase   (x y :int -> int)  (q l  :int)
       =  x l * y q  * power 2 (n- l  -1 +q) /./n
-      	    in  let function phase_sum_cont    (x :int -> int) (q l:int)
-     	     ensures{result =  qft_inner_phase x x  q l}  
-	     = x l * x q * power 2 (n-l-1+q) /./n
       in
       begin
       let c = ref (m_skip n)
@@ -175,11 +172,11 @@ let qft ( n:int) :circuit
                   invariant{width !cl = n}
              	  invariant{diag_circ  !cl}
              	  invariant{forall x y. ang_ind !cl x y
-                          = ang_sum (phase_sum_cont x q) (q+1) i}
+                          = ang_sum (qft_inner_phase x x  q ) (q+1) i}
 		  let  new_rot = (crz i (q) (i - q+1) n )
-		      ensures{forall x y. ang_ind result x y = phase_sum_cont  x q i}
+		      ensures{forall x y. ang_ind result x y = qft_inner_phase x x  q i}
 		  in		  
-		  ang_sum_comp_re_diag (phase_sum_cont) !cl new_rot q (q+1) i;
+		  ang_sum_comp_re_diag (fun x -> qft_inner_phase x x  ) !cl new_rot q (q+1) i;
                   cl := seq_diag !cl  new_rot;   
 		  done;
 	let place_had = place_hadamard (q) n
@@ -207,111 +204,6 @@ let qft ( n:int) :circuit
        ensures{forall x y. binary_l x n -> binary_l y n -> ang_ind result x y  =  
              (bv_to_int (make_bv x n) * bv_to_int (bv_inversion (make_bv y n))) /./n}
   end
-
-let qft_sol ( n:int) :circuit
-      requires{0<n}  =
-      let function qft_inner_phase   (x y :int -> int)  (q l  :int)
-      =  x l * y q  * power 2 (n- l  -1 +q) /./n
-      	    in  let function phase_sum_cont    (x :int -> int) (q l:int)
-     	     ensures{result =  qft_inner_phase x x  q l}  
-	     = x l * x q * power 2 (n-l-1+q) /./n
-      in
-      begin
-      let c = ref (m_skip n)
-      in for q = 0 to n-1 do
-            invariant{width !c = n}
-      	    invariant{range !c = q}
-      	    invariant{forall x y i. 0<= i < n ->
-                   basis_ket !c x y i = if 0<= i < q then y i else x i}
-      	    invariant{forall x y. ang_ind !c x y
-                   = ang_sum(fun k -> ang_sum (fun l -> qft_inner_phase x y k l ) k n)0 q}
-         begin
-           let cl = ref (rm_skip n)
-           in for i = q+1 to n-1 do
-                  invariant{width !cl = n}
-             	  invariant{diag_circ  !cl}
-             	  invariant{forall x y. ang_ind !cl x y
-                          = ang_sum (phase_sum_cont x q) (q+1) i}
-		  let  new_rot = (crz i (q) (i - q+1) n )
-		      ensures{forall x y. ang_ind result x y = phase_sum_cont  x q i}
-		  in		  
-		  ang_sum_comp_re_diag (phase_sum_cont) !cl new_rot q (q+1) i;
-                  cl := seq_diag !cl  new_rot;   
-		  done;
-	let place_had = place_hadamard (q) n
-	    ensures{forall x y. ang_ind result x y = qft_inner_phase x (fun j -> y (j-q)) q q }
-	in
-	 ang_sum_comp_plus_one (fun  x y k-> qft_inner_phase x (fun j -> y (j-q)) k)  place_had !cl q q n; 
-           cl:=  seq_diag_right place_had  !cl;
-	   assert{forall x y i. 0<= i < n ->
-                     basis_ket !cl x y i = if i = q then y 0 else x i};
-             assert{forall x y. ang_ind !cl x y =
-                       ang_sum (qft_inner_phase x (fun j -> y (j-q)) q  )
-		       q n};
-              c:= !c -- !cl;
-     end
-    done;  
-    phase_binary_prod_decomp n;
-    return (!c)
-     ensures{width result = n}
-     ensures{range result = n}
-     ensures{forall x y i. 0<= i < n -> basis_ket result x y i = y i}
-     ensures{forall x y. ang_ind result x y  = ang_sum(fun k ->
-             ang_sum (fun l -> qft_inner_phase x y k l ) k n) 0 n}          
-   ensures{forall x y. ang_ind result x y  = (ind_isum(fun k -> 
-             (ind_isum (fun l -> x l * y k * power 2 (n-l - 1+k)) k n))0 n) /./ n}
-       ensures{forall x y. binary_l x n -> binary_l y n -> ang_ind result x y  =  
-             (bv_to_int (make_bv x n) * bv_to_int (bv_inversion (make_bv y n))) /./n}
-  end
-
-
-(* let qft ( n:int) :circuit *)
-(*       requires{0<n}  = *)
-(*   begin *)
-(*     let c = ref (m_skip n) *)
-(*     in for q = 0 to n-1 do *)
-(*             invariant{width !c = n} *)
-(*       	    invariant{range !c = q} *)
-(*       	    invariant{forall x y i. 0<= i < n -> *)
-(*                    basis_ket !c x y i = if 0<= i < q then y i else x i} *)
-(*       	    invariant{forall x y. ang_ind !c x y *)
-(*                    = (ind_isum(fun k -> (ind_isum (fun l -> x l * y k * power 2 (n-l - 1+k)) k n))0 q) /./ n} *)
-(*             invariant{size !c <=q*( cont_size *  n +1)} *)
-(*          begin *)
-(*            let cl = ref (m_skip n) *)
-(*            in for i = q+1 to n-1 do *)
-(*                   invariant{width !cl = n} *)
-(*              	  invariant{range !cl = 0} *)
-(*              	  invariant{forall x y i. 0<= i < n -> *)
-(*                           basis_ket !cl x y i = x i} *)
-(*              	  invariant{forall x y. ang_ind !cl x y *)
-(*                           =(ind_isum (fun l -> x l * x q * power 2 (n- l -1+ q)) (q+1) i) /./n} *)
-(*              	  invariant{size !cl <= cont_size *  (i-q-1) } *)
-(*                 cl := !cl -- (crz i (q) (i - q+1) n );    *)
-(*           done; *)
-(*            cl:=  place_hadamard (q) n -- !cl; *)
-(*              assert{forall x y i. 0<= i < n -> *)
-(*                      basis_ket !cl x y i = if i = q then y 0 else x i}; *)
-(*              assert{forall x y. ang_ind !cl x y = *)
-(*                        (ind_isum (fun l -> x l * y 0 * power 2 (n-l - 1+ q)) q n) /./ n}; *)
-(*              assert{size !cl <= cont_size *  (n-q-1) +1}; *)
-(*               c:= !c -- !cl; *)
-(*      end *)
-(*     done;   *)
-(*     phase_binary_prod_decomp n; *)
-(*     return (!c) *)
-(*      ensures{width result = n} *)
-(*      ensures{range result = n} *)
-(*      ensures{forall x y i. 0<= i < n -> basis_ket result x y i = y i} *)
-(*      ensures{forall x y. ang_ind result x y  = (ind_isum(fun k -> *)
-(*              (ind_isum (fun l -> x l * y k * power 2 (n-l - 1+k)) k n))0 n) /./ n}           *)
-(*      ensures{forall x y. binary_l x n -> binary_l y n -> ang_ind result x y  =   *)
-(*              (bv_to_int (make_bv x n) * bv_to_int (bv_inversion (make_bv y n))) /./n} *)
-(*      ensures{size !c <=n* (n* cont_size  +1)} *)
-(*   end *)
-
-
-
 
 end
 

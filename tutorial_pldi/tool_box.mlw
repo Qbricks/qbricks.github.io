@@ -30,10 +30,8 @@ module Tool_box_Intf
 use int.Int
 
 type circuit
-type angle
 val  function power (e i:int)  : int
    
-(* mult_eq *)
 (** "ind_isum" is a big integer addition operator, summing integers (f k) for k varying from i to j.*)
 val   function ind_isum  (f :int -> int) (i:int) (j:int):int
 
@@ -87,17 +85,12 @@ val lemma binary_init (x: int-> int)( n :int)
 val function make_bv (f:int->int) (s:int): (bitvec)
        requires{binary_l f s}
        requires{s>=0}
-       (* ensures{length result = s} *)
-       (* ensures{forall i:int.  0<=i < s ->  getbv result i =  f i} *)
-       (* ensures{forall i:int. not ( 0<=i < s) ->  getbv result i = 0} *)
 
 (** "bv_inversion" reverses a bit vector*)
 val  function bv_inversion (bv:bitvec):bitvec
-       (* ensures{length result = length bv} *)
 
 (** Casting function from bit vector to integer.*)
 val  function bv_to_int (_: bitvec): int
-       (* ensures{result = ind_isum (fun k -> (getbv bv k) * (power 2 ((length bv -1) -k))) 0 (length bv) } *)
        ensures{0<= result}                 
 
 (** boolean style naming for modulo 2 addition*)
@@ -114,7 +107,7 @@ val lemma xor_eq (a b a' b':int)
 (** In Qbricks, phase parameters are described in a dedicated 'angle' type, described in math_lib/unit_circle/Angle. *)
 
 
- (* type angle = Angle.angle *)
+type angle
 
 (** the angle of measure 0 is named "ang_zero"*)
 val constant  ang_zero: angle
@@ -187,7 +180,7 @@ val lemma ang_sum_to_ind_isum (f: int-> angle) ( g: int-> int) (n i j:int)
 (** {2 Quantum circuits constructors} *)
 (** Here we provide some basic circuit constructors, sufficient for approximating any unitary operation with arbitrary precision (approximately universal set of gates). Each circuit is specified with parameters sufficient for building a path sum (its "width" -- the number of qubits it adresses; its "range" -- the base 2 logarithm of the number of path, its "basis_ket" function -- the standard basis vector handling each path; its "ang_ind" term -- the phase polynomial, of type angle). Note that, in addition, the specifications below hold a 'size' parameter -- specifying a 'weighted' gate count  enabling parametrized resource estimation. The implementation reffered to here holds a case study weight function: any elementary gate has weight 1 and a controlled Z rotation has weight 'cont_size', a non-instanciated integer parameter.  *)
 
-(** Path-sum component declaration.*)
+(** Path-sum components declaration.*)
  function range : circuit ->int
  function basis_ket : circuit -> (int->int) -> (int->int) -> int->int
  function ang_ind : circuit -> (int->int) -> (int->int) -> angle
