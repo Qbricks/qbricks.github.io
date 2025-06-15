@@ -235,9 +235,15 @@ val function cnot (co t n:int) : circuit
          ensures{width result = n}
          ensures{forall x y : int->int. forall i: int.
 	 	i <> t ->basis_ket result x y i =  x i}
+         ensures{forall x y : int->int. forall i: int.
+	 	i = t  -> binary_l x n -> basis_ket result x y i = if  (x co) = 0 then (x t) else (1- x t) }
          ensures{forall  x y. ang_ind result x y  = ang_zero}
          ensures{forall d: circuit. forall  x y i.
 	 	width d = n -> i <> t -> basis_ket (d -- result) x y i =  basis_ket d x y i}
+         ensures{forall d: circuit. forall  x y i.
+	 	binary_l x n ->binary_l y (range d) ->  width d = n ->   i = t  ->
+			 basis_ket (d --result) x y i = if  ( basis_ket d x y co) = 0 then ( basis_ket d x y t) else (1- ( basis_ket d x y t))}
+
          ensures{forall d: circuit. forall x y:int->int. 
 	 	width d = n ->  ang_ind (d--result)  x y = ang_ind d x y }
 
