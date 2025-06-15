@@ -1,0 +1,2625 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"https://www.why3.org/why3session.dtd">
+<why3session shape_version="6">
+<prover id="0" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="1" name="CVC4" version="1.8" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="2" name="Alt-Ergo" version="2.6.2" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="3" name="Z3" version="4.8.6" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="4" name="CVC5" version="1.0.2" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="5" name="CVC4" version="1.8" alternative="strings" timelimit="5" steplimit="0" memlimit="1000"/>
+<file format="whyml" proved="true">
+<path name=".."/><path name="tool_box.mlw"/>
+<theory name="Tool_box_Real&#39;impl" proved="true">
+ <goal name="ind_isum&#39;vc" expl="VC for ind_isum" proved="true">
+ <transf name="split_vc" proved="true" >
+ </transf>
+ </goal>
+ <goal name="ind_isum_eq&#39;vc" expl="VC for ind_isum_eq" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ind_isum_eq&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.658289" steps="3063"/></proof>
+  </goal>
+  <goal name="ind_isum_eq&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.351855" steps="832"/></proof>
+  </goal>
+  <goal name="ind_isum_eq&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.362271" steps="832"/></proof>
+  </goal>
+  <goal name="ind_isum_eq&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.359293" steps="834"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ind_isum_empty&#39;vc" expl="VC for ind_isum_empty" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ind_isum_empty&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.332516" steps="830"/></proof>
+  </goal>
+  <goal name="ind_isum_empty&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.349503" steps="832"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ind_isum_re&#39;vc" expl="VC for ind_isum_re" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ind_isum_re&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.356949" steps="830"/></proof>
+  </goal>
+  <goal name="ind_isum_re&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.366617" steps="832"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ind_isum_plus_one&#39;vc" expl="VC for ind_isum_plus_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ind_isum_plus_one&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.352771" steps="830"/></proof>
+  </goal>
+  <goal name="ind_isum_plus_one&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.345291" steps="832"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="set_binary_l&#39;vc" expl="VC for set_binary_l" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="set_binary_l&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="3.321782" steps="1149798"/></proof>
+  </goal>
+  <goal name="set_binary_l&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="3.400427" steps="1150394"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="get_binary_l&#39;vc" expl="VC for get_binary_l" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="get_binary_l&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="3.226825" steps="1150167"/></proof>
+  </goal>
+  <goal name="get_binary_l&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="3.225470" steps="1150250"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="binary_prefix&#39;vc" expl="VC for binary_prefix" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="binary_prefix&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.718264" steps="966564"/></proof>
+  </goal>
+  <goal name="binary_prefix&#39;vc.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="binary_prefix&#39;vc.1.0" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="3.780392" steps="1152197"/></proof>
+   </goal>
+   <goal name="binary_prefix&#39;vc.1.1" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="3.761496" steps="1152187"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="binary_prefix&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.954299" steps="966704"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="binary_init&#39;vc" expl="VC for binary_init" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="binary_init&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="binary_init&#39;vc.0.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.763756"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="make_bv&#39;vc" expl="VC for make_bv" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="make_bv&#39;vc.0" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="make_bv&#39;vc.0.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.931746"/></proof>
+   </goal>
+   <goal name="make_bv&#39;vc.0.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.892240"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="make_bv&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.436948" steps="832"/></proof>
+  </goal>
+  <goal name="make_bv&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.443245" steps="834"/></proof>
+  </goal>
+  <goal name="make_bv&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.828811" steps="3300"/></proof>
+  </goal>
+  <goal name="make_bv&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.842259" steps="3266"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="bv_inversion&#39;vc" expl="VC for bv_inversion" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="bv_inversion&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.472572" steps="830"/></proof>
+  </goal>
+  <goal name="bv_inversion&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.778700" steps="3411"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="bv_to_int&#39;vc" expl="VC for bv_to_int" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="bv_to_int&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="3.635927" steps="1158138"/></proof>
+  </goal>
+  <goal name="bv_to_int&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.428973" steps="834"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="xor&#39;vc" expl="VC for xor" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="xor&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.433581" steps="828"/></proof>
+  </goal>
+  <goal name="xor&#39;vc.1" expl="postcondition" proved="true">
+  <transf name="case" proved="true" arg1="(a =0)">
+   <goal name="xor&#39;vc.1.0" expl="true case (postcondition)" proved="true">
+   <proof prover="0"><result status="valid" time="1.287042"/></proof>
+   <proof prover="1"><result status="valid" time="2.814574" steps="996357"/></proof>
+   <proof prover="2"><result status="valid" time="0.822871" steps="3312"/></proof>
+   <proof prover="4"><result status="valid" time="2.771609" steps="619581"/></proof>
+   </goal>
+   <goal name="xor&#39;vc.1.1" expl="false case (postcondition)" proved="true">
+   <proof prover="0"><result status="valid" time="1.586206"/></proof>
+   <proof prover="1"><result status="valid" time="3.026641" steps="1000914"/></proof>
+   <proof prover="4"><result status="valid" time="2.664747" steps="626877"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="xor_eq&#39;vc" expl="VC for xor_eq" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="xor_eq&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.470357" steps="832"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ang_zero&#39;vc" expl="VC for ang_zero" proved="true">
+ <proof prover="2"><result status="valid" time="0.469934" steps="828"/></proof>
+ </goal>
+ <goal name="infix /./&#39;vc" expl="VC for infix /./" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="infix /./&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.459955" steps="832"/></proof>
+  </goal>
+  <goal name="infix /./&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.457657" steps="838"/></proof>
+  </goal>
+  <goal name="infix /./&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.477562" steps="832"/></proof>
+  </goal>
+  <goal name="infix /./&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.479044" steps="838"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ang_add_eq&#39;vc" expl="VC for ang_add_eq" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_add_eq&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.895219" steps="953995"/></proof>
+  </goal>
+  <goal name="ang_add_eq&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.930731" steps="953998"/></proof>
+  </goal>
+  <goal name="ang_add_eq&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="2.033947" steps="968086"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_to_ang_add_rev&#39;vc" expl="VC for int_to_ang_add_rev" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_to_ang_add_rev&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="3.555636" steps="18249912"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_to_ang_eq&#39;vc" expl="VC for int_to_ang_eq" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_to_ang_eq&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.449755" steps="832"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ang_add_zero&#39;vc" expl="VC for ang_add_zero" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_add_zero&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="3.553842" steps="18242722"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ang_sum_plus_one&#39;vc" expl="VC for ang_sum_plus_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_sum_plus_one&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.466591" steps="832"/></proof>
+  </goal>
+  <goal name="ang_sum_plus_one&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="2.277291" steps="996717"/></proof>
+  </goal>
+  <goal name="ang_sum_plus_one&#39;vc.2" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="ang_sum_plus_one&#39;vc.2.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.404048"/></proof>
+   </goal>
+   <goal name="ang_sum_plus_one&#39;vc.2.1" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.805255" steps="3019"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ang_sum_eq&#39;vc" expl="VC for ang_sum_eq" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_sum_eq&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.455916" steps="834"/></proof>
+  </goal>
+  <goal name="ang_sum_eq&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.831373" steps="3028"/></proof>
+  </goal>
+  <goal name="ang_sum_eq&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.490872" steps="836"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ang_sum_empty&#39;vc" expl="VC for ang_sum_empty" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_sum_empty&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.431289" steps="830"/></proof>
+  </goal>
+  <goal name="ang_sum_empty&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.428696" steps="833"/></proof>
+  </goal>
+  <goal name="ang_sum_empty&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.414369" steps="832"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ang_sum_to_ind_isum&#39;vc" expl="VC for ang_sum_to_ind_isum" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_sum_to_ind_isum&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.991593" steps="1003688"/></proof>
+  </goal>
+  <goal name="ang_sum_to_ind_isum&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="2.103860" steps="1003691"/></proof>
+  </goal>
+  <goal name="ang_sum_to_ind_isum&#39;vc.2" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="(ang_sum f i j)" arg2="(ang_sum1 (fun (k:int) -&gt; (g @ k) /./&#39; n) i j)">
+   <goal name="ang_sum_to_ind_isum&#39;vc.2.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures">
+    <goal name="ang_sum_to_ind_isum&#39;vc.2.0.0" expl="postcondition" proved="true">
+    <transf name="eliminate_definition" proved="true" >
+     <goal name="ang_sum_to_ind_isum&#39;vc.2.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="ind_isum&#39;def">
+      <goal name="ang_sum_to_ind_isum&#39;vc.2.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="1"><result status="valid" time="3.170497" steps="1063294"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="ang_sum_to_ind_isum&#39;vc.2.1" expl="equality hypothesis" proved="true">
+   <transf name="eliminate_definition" proved="true" >
+    <goal name="ang_sum_to_ind_isum&#39;vc.2.1.0" expl="equality hypothesis" proved="true">
+    <transf name="rewrite" proved="true" arg1="ang_sum&#39;def">
+     <goal name="ang_sum_to_ind_isum&#39;vc.2.1.0.0" expl="equality hypothesis" proved="true">
+     <transf name="apply" proved="true" arg1="ang_sum_eq1">
+      <goal name="ang_sum_to_ind_isum&#39;vc.2.1.0.0.0" expl="apply premises" proved="true">
+      <proof prover="1"><result status="valid" time="3.152836" steps="1061826"/></proof>
+      </goal>
+      <goal name="ang_sum_to_ind_isum&#39;vc.2.1.0.0.1" expl="apply premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="ang_sum_to_ind_isum&#39;vc.2.1.0.0.1.0" expl="apply premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="ang_sum_to_ind_isum&#39;vc.2.1.0.0.1.0.0" expl="apply premises" proved="true">
+        <proof prover="1"><result status="valid" time="4.241536" steps="1208099"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ang_sum_re&#39;vc" expl="VC for ang_sum_re" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_sum_re&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.431592" steps="830"/></proof>
+  </goal>
+  <goal name="ang_sum_re&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.781769" steps="3018"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="binary_basis_ket&#39;vc" expl="VC for binary_basis_ket" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="binary_basis_ket&#39;vc.0" expl="precondition" proved="true">
+  <transf name="apply" proved="true" arg1="H2">
+   <goal name="binary_basis_ket&#39;vc.0.0" expl="apply premises" proved="true">
+   <proof prover="1"><result status="valid" time="3.881742" steps="1274170"/></proof>
+   </goal>
+   <goal name="binary_basis_ket&#39;vc.0.1" expl="apply premises" proved="true">
+   <proof prover="1"><result status="valid" time="3.886000" steps="1274403"/></proof>
+   </goal>
+   <goal name="binary_basis_ket&#39;vc.0.2" expl="apply premises" proved="true">
+   <proof prover="1"><result status="valid" time="3.155606" steps="1132796"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="binary_basis_ket&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="3.282361" steps="1127421"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="hadamard&#39;vc" expl="VC for hadamard" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="hadamard&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.923543" steps="956392"/></proof>
+  </goal>
+  <goal name="hadamard&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="3.155476" steps="1032016"/></proof>
+  </goal>
+  <goal name="hadamard&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="3.165753" steps="1032169"/></proof>
+  </goal>
+  <goal name="hadamard&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="3.809474" steps="18724872"/></proof>
+  </goal>
+  <goal name="hadamard&#39;vc.4" expl="postcondition" proved="true">
+  <transf name="compute_hyp" proved="true" >
+   <goal name="hadamard&#39;vc.4.0" expl="postcondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="hadamard&#39;vc.4.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="H">
+     <goal name="hadamard&#39;vc.4.0.0.0" expl="postcondition" proved="true">
+     <transf name="compute_specified" proved="true" >
+      <goal name="hadamard&#39;vc.4.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="1"><result status="valid" time="4.333361" steps="1272609"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="m_skip&#39;vc" expl="VC for m_skip" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="m_skip&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.480954" steps="834"/></proof>
+  </goal>
+  <goal name="m_skip&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.827558" steps="3129"/></proof>
+  </goal>
+  <goal name="m_skip&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.812991" steps="3116"/></proof>
+  </goal>
+  <goal name="m_skip&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="4.005916" steps="18654570"/></proof>
+  </goal>
+  <goal name="m_skip&#39;vc.4" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="m_skip&#39;vc.4.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="ang_ind&#39;def">
+    <goal name="m_skip&#39;vc.4.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="m_skip&#39;vc.4.0.0.0" expl="postcondition" proved="true">
+     <proof prover="4"><result status="valid" time="3.017321" steps="725902"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="m_skip&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="2.072937"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="place&#39;vc" expl="VC for place" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="place&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.499019" steps="836"/></proof>
+  </goal>
+  <goal name="place&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.586020"/></proof>
+  </goal>
+  <goal name="place&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.436638" steps="846"/></proof>
+  </goal>
+  <goal name="place&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.851351" steps="3170"/></proof>
+  </goal>
+  <goal name="place&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.945555"/></proof>
+  </goal>
+  <goal name="place&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="place&#39;vc.5.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="basis_ket&#39;def">
+    <goal name="place&#39;vc.5.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="place&#39;vc.5.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures4">
+      <goal name="place&#39;vc.5.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="1"><result status="valid" time="3.469313" steps="1206398"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="place&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="place&#39;vc.6.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="basis_ket&#39;def">
+    <goal name="place&#39;vc.6.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="place&#39;vc.6.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures5">
+      <goal name="place&#39;vc.6.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="2"><result status="valid" time="0.440377" steps="935"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="place&#39;vc.7" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="place&#39;vc.7.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="basis_ket&#39;def">
+    <goal name="place&#39;vc.7.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="place&#39;vc.7.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures6">
+      <goal name="place&#39;vc.7.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="4"><result status="valid" time="3.037416" steps="726722"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="place&#39;vc.8" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="place&#39;vc.8.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="ang_ind&#39;def">
+    <goal name="place&#39;vc.8.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="place&#39;vc.8.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures6">
+      <goal name="place&#39;vc.8.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="2"><result status="valid" time="0.431041" steps="933"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="infix --&#39;vc" expl="VC for infix --" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="infix --&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.524600"/></proof>
+  <proof prover="4"><result status="valid" time="2.877484" steps="649954"/></proof>
+  </goal>
+  <goal name="infix --&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.729282"/></proof>
+  </goal>
+  <goal name="infix --&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="2.069519"/></proof>
+  </goal>
+  <goal name="infix --&#39;vc.3" expl="postcondition" proved="true">
+  <transf name="compute_in_goal" proved="true" >
+   <goal name="infix --&#39;vc.3.0" expl="postcondition" proved="true">
+   <transf name="replace" proved="true" arg1="(d -- e)" arg2="result">
+    <goal name="infix --&#39;vc.3.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures3">
+     <goal name="infix --&#39;vc.3.0.0.0" expl="postcondition" proved="true">
+     <transf name="compute_specified" proved="true" >
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="infix --&#39;vc.3.0.1" expl="equality hypothesis" proved="true">
+    <proof prover="1"><result status="valid" time="2.362517" steps="1084833"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="infix --&#39;vc.4" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="ang_ind" arg2="ang_ind1">
+   <goal name="infix --&#39;vc.4.0" expl="postcondition" proved="true">
+   <transf name="compute_specified" proved="true" >
+    <goal name="infix --&#39;vc.4.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures3">
+     <goal name="infix --&#39;vc.4.0.0.0" expl="postcondition" proved="true">
+     <transf name="compute_specified" proved="true" >
+      <goal name="infix --&#39;vc.4.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="eliminate_definition" proved="true" >
+       <goal name="infix --&#39;vc.4.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="rewrite" proved="true" arg1="range&#39;def">
+        <goal name="infix --&#39;vc.4.0.0.0.0.0.0" expl="postcondition" proved="true">
+        <transf name="rewrite" proved="true" arg1="basis_ket&#39;def">
+         <goal name="infix --&#39;vc.4.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+         <transf name="compute_specified" proved="true" >
+          <goal name="infix --&#39;vc.4.0.0.0.0.0.0.0.0" expl="postcondition" proved="true">
+          <proof prover="1"><result status="valid" time="3.807920" steps="1295748"/></proof>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="infix --&#39;vc.4.1" expl="equality hypothesis" proved="true">
+   <proof prover="0"><result status="valid" time="1.994592"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="cnot&#39;vc" expl="VC for cnot" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="cnot&#39;vc.0" expl="precondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="cnot&#39;vc.0.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.782794" steps="574020"/></proof>
+   </goal>
+  </transf>
+  <transf name="split_vc" proved="true" >
+   <goal name="cnot&#39;vc.0.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.543884" steps="842"/></proof>
+   <proof prover="4"><result status="valid" time="1.793565" steps="566345"/></proof>
+   </goal>
+   <goal name="cnot&#39;vc.0.1" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.481719" steps="842"/></proof>
+   <proof prover="4"><result status="valid" time="1.842475" steps="566345"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cnot&#39;vc.1" expl="precondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="cnot&#39;vc.1.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.555759" steps="574033"/></proof>
+   </goal>
+  </transf>
+  <transf name="split_vc" proved="true" >
+   <goal name="cnot&#39;vc.1.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.372138" steps="842"/></proof>
+   <proof prover="4"><result status="valid" time="1.507531" steps="566350"/></proof>
+   </goal>
+   <goal name="cnot&#39;vc.1.1" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.494912" steps="842"/></proof>
+   <proof prover="4"><result status="valid" time="1.501367" steps="566350"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cnot&#39;vc.2" expl="precondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="cnot&#39;vc.2.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.513114" steps="574031"/></proof>
+   </goal>
+  </transf>
+  <transf name="split_vc" proved="true" >
+   <goal name="cnot&#39;vc.2.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.514527" steps="842"/></proof>
+   <proof prover="4"><result status="valid" time="1.509715" steps="566350"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cnot&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.800264"/></proof>
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="cnot&#39;vc.3.0" expl="postcondition" proved="true">
+   <proof prover="4"><result status="valid" time="2.702242" steps="666584"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cnot&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.678452" steps="3169"/></proof>
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="cnot&#39;vc.4.0" expl="postcondition" proved="true">
+   <proof prover="4"><result status="valid" time="2.808618" steps="666645"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cnot&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="3"><result status="valid" time="3.125197" steps="18821989"/></proof>
+  </goal>
+  <goal name="cnot&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="cnot&#39;vc.6.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="basis_ket&#39;def">
+    <goal name="cnot&#39;vc.6.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="cnot&#39;vc.6.0.0.0" expl="postcondition" proved="true">
+     <proof prover="0"><result status="valid" time="5.810111"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cnot&#39;vc.7" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="cnot&#39;vc.7.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="ang_ind&#39;def">
+    <goal name="cnot&#39;vc.7.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="cnot&#39;vc.7.0.0.0" expl="postcondition" proved="true">
+     <proof prover="2"><result status="valid" time="1.236362" steps="58596"/></proof>
+     <proof prover="4"><result status="valid" time="2.936865" steps="726381"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cnot&#39;vc.8" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="(--)&#39;spec&#39;0">
+   <goal name="cnot&#39;vc.8.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.698409" steps="3307"/></proof>
+   </goal>
+   <goal name="cnot&#39;vc.8.1" expl="rewrite premises" proved="true">
+   <proof prover="2"><result status="valid" time="0.381729" steps="860"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cnot&#39;vc.9" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="cnot&#39;vc.9.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="(--)&#39;spec&#39;0">
+    <goal name="cnot&#39;vc.9.0.0" expl="postcondition" proved="true">
+    <proof prover="2"><result status="valid" time="4.139801" steps="341202"/></proof>
+    </goal>
+    <goal name="cnot&#39;vc.9.0.1" expl="rewrite premises" proved="true">
+    <proof prover="2"><result status="valid" time="0.433867" steps="947"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cnot&#39;vc.10" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="cnot&#39;vc.10.0" expl="postcondition" proved="true">
+   <transf name="apply" proved="true" arg1="set_equal_func">
+    <goal name="cnot&#39;vc.10.0.0" expl="apply premises" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="cnot&#39;vc.10.0.0.0" expl="apply premises" proved="true">
+     <transf name="apply" proved="true" arg1="set_equal_func">
+      <goal name="cnot&#39;vc.10.0.0.0.0" expl="apply premises" proved="true">
+      <transf name="split_vc" proved="true" >
+       <goal name="cnot&#39;vc.10.0.0.0.0.0" expl="apply premises" proved="true">
+       <transf name="rewrite" proved="true" arg1="(--)&#39;spec">
+        <goal name="cnot&#39;vc.10.0.0.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="compute_specified" proved="true" >
+         <goal name="cnot&#39;vc.10.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+         <proof prover="1"><result status="valid" time="3.275928" steps="1236282"/></proof>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="cnot&#39;vc.10.0.0.0.0.0.1" expl="rewrite premises" proved="true">
+        <proof prover="4"><result status="valid" time="2.674471" steps="769599"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="get_diag&#39;vc" expl="VC for get_diag" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="get_diag&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="split_all_full" proved="true" >
+   <goal name="get_diag&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="eliminate_definition" proved="true" >
+    <goal name="get_diag&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="split_all_full" proved="true" >
+     <goal name="get_diag&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <proof prover="0"><result status="valid" time="4.428821"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="get_diag&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="3.397347" steps="1133981"/></proof>
+  <proof prover="4"><result status="valid" time="2.785439" steps="722068"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="set_diag&#39;vc" expl="VC for set_diag" proved="true">
+ <proof prover="1"><result status="valid" time="4.233450" steps="1271394"/></proof>
+ </goal>
+ <goal name="diag_circ_basis_ket&#39;vc" expl="VC for diag_circ_basis_ket" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="diag_circ_basis_ket&#39;vc.0" expl="VC for diag_circ_basis_ket" proved="true">
+  <proof prover="1"><result status="valid" time="3.049286" steps="1119547"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="diag_circ_basis_ket&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="2.886083" steps="1103832"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="seq_diag&#39;vc" expl="VC for seq_diag" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="seq_diag&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.406371" steps="838"/></proof>
+  <proof prover="4"><result status="valid" time="1.665041" steps="584590"/></proof>
+  </goal>
+  <goal name="seq_diag&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.417319" steps="840"/></proof>
+  <proof prover="4"><result status="valid" time="1.698039" steps="648597"/></proof>
+  </goal>
+  <goal name="seq_diag&#39;vc.2" expl="precondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="seq_diag&#39;vc.2.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.367181" steps="923"/></proof>
+   <proof prover="4"><result status="valid" time="1.746145" steps="657271"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="seq_diag&#39;vc.3" expl="precondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures1">
+   <goal name="seq_diag&#39;vc.3.0" expl="precondition" proved="true">
+   <transf name="compute_specified" proved="true" >
+    <goal name="seq_diag&#39;vc.3.0.0" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="3.014786" steps="1215165"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="seq_diag&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.099033" steps="715096"/></proof>
+  </goal>
+  <goal name="seq_diag&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="2.369233" steps="1165213"/></proof>
+  <proof prover="4"><result status="valid" time="2.106145" steps="700137"/></proof>
+  </goal>
+  <goal name="seq_diag&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="2.394395" steps="1165503"/></proof>
+  </goal>
+  <goal name="seq_diag&#39;vc.7" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.045795" steps="700300"/></proof>
+  </goal>
+  <goal name="seq_diag&#39;vc.8" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.435792" steps="848"/></proof>
+  </goal>
+  <goal name="seq_diag&#39;vc.9" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures3">
+   <goal name="seq_diag&#39;vc.9.0" expl="postcondition" proved="true">
+   <transf name="compute_specified" proved="true" >
+    <goal name="seq_diag&#39;vc.9.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="ang_add_eq">
+     <goal name="seq_diag&#39;vc.9.0.0.0" expl="apply premises" proved="true">
+     <proof prover="4"><result status="valid" time="1.813499" steps="700302"/></proof>
+     </goal>
+     <goal name="seq_diag&#39;vc.9.0.0.1" expl="apply premises" proved="true">
+     <transf name="replace" proved="true" arg1="(((basis_ket @ d) @ x) @ y)" arg2="x">
+      <goal name="seq_diag&#39;vc.9.0.0.1.0" expl="apply premises" proved="true">
+      <transf name="rewrite" proved="true" arg1="Ensures14">
+       <goal name="seq_diag&#39;vc.9.0.0.1.0.0" expl="apply premises" proved="true">
+       <transf name="compute_specified" proved="true" >
+        <goal name="seq_diag&#39;vc.9.0.0.1.0.0.0" expl="apply premises" proved="true">
+        <proof prover="1"><result status="valid" time="2.327289" steps="1165520"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="seq_diag&#39;vc.9.0.0.1.1" expl="equality hypothesis" proved="true">
+      <proof prover="5"><result status="valid" time="2.973614" steps="1174546"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="seq_diag&#39;vc.10" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.343034" steps="849"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="seq_diag_right&#39;vc" expl="VC for seq_diag_right" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="seq_diag_right&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.414244" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.740051" steps="584586"/></proof>
+  </goal>
+  <goal name="seq_diag_right&#39;vc.1" expl="precondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="seq_diag_right&#39;vc.1.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.802836" steps="657221"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="seq_diag_right&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.356752" steps="842"/></proof>
+  </goal>
+  <goal name="seq_diag_right&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.941331" steps="700094"/></proof>
+  </goal>
+  <goal name="seq_diag_right&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.833191" steps="758556"/></proof>
+  </goal>
+  <goal name="seq_diag_right&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures4">
+   <goal name="seq_diag_right&#39;vc.5.0" expl="postcondition" proved="true">
+   <transf name="compute_specified" proved="true" >
+    <goal name="seq_diag_right&#39;vc.5.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures8">
+     <goal name="seq_diag_right&#39;vc.5.0.0.0" expl="postcondition" proved="true">
+     <proof prover="2"><result status="valid" time="0.453564" steps="843"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="seq_diag_right&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="Ensures4">
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="seq_diag_left&#39;vc" expl="VC for seq_diag_left" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="seq_diag_left&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.420425" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.848616" steps="584586"/></proof>
+  </goal>
+  <goal name="seq_diag_left&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.416632" steps="838"/></proof>
+  <proof prover="4"><result status="valid" time="2.017596" steps="648593"/></proof>
+  </goal>
+  <goal name="seq_diag_left&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.412669" steps="842"/></proof>
+  <proof prover="4"><result status="valid" time="2.014134" steps="700089"/></proof>
+  </goal>
+  <goal name="seq_diag_left&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.748712" steps="700094"/></proof>
+  </goal>
+  <goal name="seq_diag_left&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.516455" steps="758616"/></proof>
+  </goal>
+  <goal name="seq_diag_left&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures4">
+   <goal name="seq_diag_left&#39;vc.5.0" expl="postcondition" proved="true">
+   <transf name="compute_specified" proved="true" >
+    <goal name="seq_diag_left&#39;vc.5.0.0" expl="postcondition" proved="true">
+    <transf name="replace" proved="true" arg1="(((basis_ket @ d) @ x) @ y)" arg2="x">
+     <goal name="seq_diag_left&#39;vc.5.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures7">
+      <goal name="seq_diag_left&#39;vc.5.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="seq_diag_left&#39;vc.5.0.0.0.0.0" expl="postcondition" proved="true">
+       <proof prover="2"><result status="valid" time="0.463834" steps="843"/></proof>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="seq_diag_left&#39;vc.5.0.0.1" expl="equality hypothesis" proved="true">
+     <proof prover="0"><result status="valid" time="1.515622"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="seq_diag_left&#39;vc.6" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures4">
+   <goal name="seq_diag_left&#39;vc.6.0" expl="postcondition" proved="true">
+   <transf name="compute_specified" proved="true" >
+    <goal name="seq_diag_left&#39;vc.6.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures8">
+     <goal name="seq_diag_left&#39;vc.6.0.0.0" expl="postcondition" proved="true">
+     <transf name="replace" proved="true" arg1="(((basis_ket @ d) @ x) @ y)" arg2="x">
+      <goal name="seq_diag_left&#39;vc.6.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="replace" proved="true" arg1="(fun (k:int) -&gt; y @ (k +&#39; 0))" arg2="y">
+       <goal name="seq_diag_left&#39;vc.6.0.0.0.0.0" expl="postcondition" proved="true">
+       <transf name="compute_specified" proved="true" >
+       </transf>
+       </goal>
+       <goal name="seq_diag_left&#39;vc.6.0.0.0.0.1" expl="equality hypothesis" proved="true">
+       <proof prover="1"><result status="valid" time="1.951596" steps="1165260"/></proof>
+       </goal>
+      </transf>
+      </goal>
+      <goal name="seq_diag_left&#39;vc.6.0.0.0.1" expl="equality hypothesis" proved="true">
+      <proof prover="2"><result status="valid" time="0.690064" steps="3167"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="crz&#39;vc" expl="VC for crz" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="crz&#39;vc.0" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="crz&#39;vc.0.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.552270" steps="842"/></proof>
+   <proof prover="4"><result status="valid" time="1.689757" steps="566883"/></proof>
+   </goal>
+   <goal name="crz&#39;vc.0.1" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.507953" steps="842"/></proof>
+   <proof prover="4"><result status="valid" time="1.732187" steps="566883"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="crz&#39;vc.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="crz&#39;vc.1.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.541878" steps="842"/></proof>
+   <proof prover="4"><result status="valid" time="1.699342" steps="566888"/></proof>
+   </goal>
+   <goal name="crz&#39;vc.1.1" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.529458" steps="842"/></proof>
+   <proof prover="4"><result status="valid" time="1.691791" steps="566888"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="crz&#39;vc.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="crz&#39;vc.2.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.354979" steps="842"/></proof>
+   <proof prover="4"><result status="valid" time="1.687467" steps="566888"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="crz&#39;vc.3" expl="precondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="crz&#39;vc.3.0" expl="precondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="basis_ket&#39;def">
+    <goal name="crz&#39;vc.3.0.0" expl="precondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="crz&#39;vc.3.0.0.0" expl="precondition" proved="true">
+     <transf name="apply" proved="true" arg1="Ensures2">
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="crz&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.814918" steps="3170"/></proof>
+  <proof prover="4"><result status="valid" time="2.425326" steps="714916"/></proof>
+  </goal>
+  <goal name="crz&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.444034" steps="852"/></proof>
+  <proof prover="4"><result status="valid" time="1.703176" steps="577282"/></proof>
+  </goal>
+  <goal name="crz&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.468933" steps="852"/></proof>
+  <proof prover="4"><result status="valid" time="1.712193" steps="577295"/></proof>
+  </goal>
+  <goal name="crz&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.457894" steps="852"/></proof>
+  <proof prover="4"><result status="valid" time="1.460770" steps="577293"/></proof>
+  </goal>
+  <goal name="crz&#39;vc.8" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.828457" steps="3149"/></proof>
+  <proof prover="4"><result status="valid" time="2.658179" steps="659484"/></proof>
+  </goal>
+  <goal name="crz&#39;vc.9" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.718379" steps="3183"/></proof>
+  <proof prover="4"><result status="valid" time="2.512026" steps="659483"/></proof>
+  </goal>
+  <goal name="crz&#39;vc.10" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="crz&#39;vc.10.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="ang_ind&#39;def">
+    <goal name="crz&#39;vc.10.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="crz&#39;vc.10.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures2" arg2="with" arg3="k&#39;">
+      <goal name="crz&#39;vc.10.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="0"><result status="valid" time="4.875705"/></proof>
+      </goal>
+      <goal name="crz&#39;vc.10.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="2"><result status="valid" time="0.481737" steps="947"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="crz&#39;vc.11" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.476030" steps="856"/></proof>
+  <proof prover="3"><result status="valid" time="0.120460" steps="401258"/></proof>
+  <proof prover="4"><result status="valid" time="1.641678" steps="646046"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="flat_mute_circ_ang_ind&#39;vc" expl="VC for flat_mute_circ_ang_ind" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="flat_mute_circ_ang_ind&#39;vc.0" expl="VC for flat_mute_circ_ang_ind" proved="true">
+  <proof prover="0"><result status="valid" time="4.852866"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="flat_mute_circ_ang_ind&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.451519"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="get_flat_mute&#39;vc" expl="VC for get_flat_mute" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="get_flat_mute&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="get_flat_mute&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="instantiate" proved="true" arg1="flat_mute_circ&#39;def" arg2="d">
+    <goal name="get_flat_mute&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="split_all_full" proved="true" >
+     <goal name="get_flat_mute&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <proof prover="1"><result status="valid" time="3.790578" steps="1248397"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="get_flat_mute&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="3.235771" steps="1127313"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="set_flat_mute&#39;vc" expl="VC for set_flat_mute" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="set_flat_mute&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="4.342751" steps="1264750"/></proof>
+  <proof prover="3"><result status="valid" time="3.786531" steps="18626166"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="seq_flat_mute&#39;vc" expl="VC for seq_flat_mute" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="seq_flat_mute&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.495744"/></proof>
+  <proof prover="2"><result status="valid" time="0.427540" steps="838"/></proof>
+  <proof prover="4"><result status="valid" time="1.723240" steps="585021"/></proof>
+  </goal>
+  <goal name="seq_flat_mute&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="2.048499" steps="1077628"/></proof>
+  <proof prover="2"><result status="valid" time="0.450991" steps="840"/></proof>
+  <proof prover="4"><result status="valid" time="1.629888" steps="644321"/></proof>
+  </goal>
+  <goal name="seq_flat_mute&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="2.072100" steps="1077701"/></proof>
+  </goal>
+  <goal name="seq_flat_mute&#39;vc.3" expl="precondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures">
+   <goal name="seq_flat_mute&#39;vc.3.0" expl="precondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures6">
+    <goal name="seq_flat_mute&#39;vc.3.0.0" expl="precondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures5">
+     <goal name="seq_flat_mute&#39;vc.3.0.0.0" expl="precondition" proved="true">
+     <proof prover="0"><result status="valid" time="2.105528"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="seq_flat_mute&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="2.423986" steps="1180577"/></proof>
+  </goal>
+  <goal name="seq_flat_mute&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.448764" steps="848"/></proof>
+  <proof prover="4"><result status="valid" time="1.873023" steps="700458"/></proof>
+  </goal>
+  <goal name="seq_flat_mute&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="2.270769" steps="1165973"/></proof>
+  </goal>
+  <goal name="seq_flat_mute&#39;vc.7" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures2">
+   <goal name="seq_flat_mute&#39;vc.7.0" expl="postcondition" proved="true">
+   <transf name="compute_specified" proved="true" >
+    <goal name="seq_flat_mute&#39;vc.7.0.0" expl="postcondition" proved="true">
+    <transf name="replace" proved="true" arg1="(fun (k:int) -&gt; y @ (k +&#39; (range @ d)))" arg2="y">
+     <goal name="seq_flat_mute&#39;vc.7.0.0.0" expl="postcondition" proved="true">
+     <proof prover="1"><result status="valid" time="2.331569" steps="1166024"/></proof>
+     </goal>
+     <goal name="seq_flat_mute&#39;vc.7.0.0.1" expl="equality hypothesis" proved="true">
+     <proof prover="1"><result status="valid" time="2.573290" steps="1181061"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="seq_flat_mute&#39;vc.8" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="2.403557" steps="1166142"/></proof>
+  </goal>
+  <goal name="seq_flat_mute&#39;vc.9" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="set_flat_mute">
+   <goal name="seq_flat_mute&#39;vc.9.0" expl="apply premises" proved="true">
+   <proof prover="1"><result status="valid" time="3.956235" steps="1212323"/></proof>
+   </goal>
+   <goal name="seq_flat_mute&#39;vc.9.1" expl="apply premises" proved="true">
+   <proof prover="1"><result status="valid" time="2.634762" steps="1181131"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="seq_flat_mute_right&#39;vc" expl="VC for seq_flat_mute_right" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="seq_flat_mute_right&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.532611"/></proof>
+  <proof prover="2"><result status="valid" time="0.425119" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.706372" steps="585017"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_right&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.433294" steps="838"/></proof>
+  <proof prover="4"><result status="valid" time="1.876391" steps="644317"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_right&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.058141" steps="700416"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_right&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.972523" steps="759058"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_right&#39;vc.4" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures3">
+   <goal name="seq_flat_mute_right&#39;vc.4.0" expl="postcondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.457845" steps="851"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="seq_flat_mute_right&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures3">
+   <goal name="seq_flat_mute_right&#39;vc.5.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures8">
+    <goal name="seq_flat_mute_right&#39;vc.5.0.0" expl="postcondition" proved="true">
+    <proof prover="2"><result status="valid" time="0.815999" steps="3122"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="seq_flat_mute_left&#39;vc" expl="VC for seq_flat_mute_left" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="seq_flat_mute_left&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.492882"/></proof>
+  <proof prover="2"><result status="valid" time="0.458334" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.752357" steps="585017"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_left&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.447117" steps="838"/></proof>
+  <proof prover="4"><result status="valid" time="1.830024" steps="644317"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_left&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.797384" steps="700416"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_left&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.541492" steps="759118"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_left&#39;vc.4" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures3">
+   <goal name="seq_flat_mute_left&#39;vc.4.0" expl="postcondition" proved="true">
+   <transf name="replace" proved="true" arg1="(fun (k:int) -&gt; y @ (k +&#39; (range @ d)))" arg2="y">
+    <goal name="seq_flat_mute_left&#39;vc.4.0.0" expl="postcondition" proved="true">
+    <proof prover="4"><result status="valid" time="1.773702" steps="700464"/></proof>
+    </goal>
+    <goal name="seq_flat_mute_left&#39;vc.4.0.1" expl="equality hypothesis" proved="true">
+    <proof prover="4"><result status="valid" time="1.899186" steps="715643"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="seq_flat_mute_left&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="Ensures3">
+   <goal name="seq_flat_mute_left&#39;vc.5.0" expl="postcondition" proved="true">
+   <transf name="replace" proved="true" arg1="(fun (k:int) -&gt; y @ (k +&#39; (range @ d)))" arg2="y">
+    <goal name="seq_flat_mute_left&#39;vc.5.0.0" expl="postcondition" proved="true">
+    <transf name="rewrite" proved="true" arg1="Ensures8">
+     <goal name="seq_flat_mute_left&#39;vc.5.0.0.0" expl="postcondition" proved="true">
+     <proof prover="3"><result status="valid" time="3.391901" steps="19580610"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="seq_flat_mute_left&#39;vc.5.0.1" expl="equality hypothesis" proved="true">
+    <proof prover="4"><result status="valid" time="1.751196" steps="715752"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="rm_skip&#39;vc" expl="VC for rm_skip" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="rm_skip&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.527395" steps="834"/></proof>
+  <proof prover="4"><result status="valid" time="1.699698" steps="567276"/></proof>
+  </goal>
+  <goal name="rm_skip&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="9.361931" steps="1403713"/></proof>
+  </goal>
+  <goal name="rm_skip&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.441660" steps="838"/></proof>
+  <proof prover="4"><result status="valid" time="2.190228" steps="700165"/></proof>
+  </goal>
+  <goal name="rm_skip&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="4.458726" steps="1353807"/></proof>
+  </goal>
+  <goal name="rm_skip&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.465407" steps="838"/></proof>
+  <proof prover="4"><result status="valid" time="2.109874" steps="700291"/></proof>
+  </goal>
+  <goal name="rm_skip&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="4.230406" steps="1354131"/></proof>
+  </goal>
+  <goal name="rm_skip&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="4.420791" steps="1354080"/></proof>
+  </goal>
+  <goal name="rm_skip&#39;vc.7" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.505356" steps="842"/></proof>
+  <proof prover="4"><result status="valid" time="2.106861" steps="700393"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="place_hadamard&#39;vc" expl="VC for place_hadamard" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="place_hadamard&#39;vc.0" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="place_hadamard&#39;vc.0.0" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.488164" steps="836"/></proof>
+   <proof prover="4"><result status="valid" time="1.775249" steps="567296"/></proof>
+   </goal>
+   <goal name="place_hadamard&#39;vc.0.1" expl="precondition" proved="true">
+   <proof prover="2"><result status="valid" time="0.489600" steps="836"/></proof>
+   <proof prover="4"><result status="valid" time="1.802988" steps="567296"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="place_hadamard&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.818117" steps="3129"/></proof>
+  <proof prover="4"><result status="valid" time="2.790628" steps="659454"/></proof>
+  </goal>
+  <goal name="place_hadamard&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.857616" steps="3113"/></proof>
+  <proof prover="4"><result status="valid" time="2.796496" steps="659551"/></proof>
+  </goal>
+  <goal name="place_hadamard&#39;vc.3" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="place_hadamard&#39;vc.3.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="basis_ket&#39;def">
+    <goal name="place_hadamard&#39;vc.3.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="place_hadamard&#39;vc.3.0.0.0" expl="postcondition" proved="true">
+     <transf name="apply" proved="true" arg1="Ensures5">
+      <goal name="place_hadamard&#39;vc.3.0.0.0.0" expl="apply premises" proved="true">
+      <proof prover="2"><result status="valid" time="0.496412" steps="935"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="place_hadamard&#39;vc.4" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="place_hadamard&#39;vc.4.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="ang_ind&#39;def">
+    <goal name="place_hadamard&#39;vc.4.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="place_hadamard&#39;vc.4.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures5">
+      <goal name="place_hadamard&#39;vc.4.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="2"><result status="valid" time="0.859169" steps="2706"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="place_hadamard&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="eliminate_definition" proved="true" >
+   <goal name="place_hadamard&#39;vc.5.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="ang_ind&#39;def">
+    <goal name="place_hadamard&#39;vc.5.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="place_hadamard&#39;vc.5.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Ensures5" arg2="with" arg3="m">
+      <goal name="place_hadamard&#39;vc.5.0.0.0.0" expl="postcondition" proved="true">
+      <proof prover="0"><result status="valid" time="4.854220"/></proof>
+      </goal>
+      <goal name="place_hadamard&#39;vc.5.0.0.0.1" expl="rewrite premises" proved="true">
+      <proof prover="2"><result status="valid" time="0.499120" steps="933"/></proof>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ang_sum_comp_re_diag&#39;vc" expl="VC for ang_sum_comp_re_diag" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_sum_comp_re_diag&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="seq_diag&#39;spec&#39;0">
+   <goal name="ang_sum_comp_re_diag&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="ang_sum_re">
+    <goal name="ang_sum_comp_re_diag&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="ang_add_eq">
+     <goal name="ang_sum_comp_re_diag&#39;vc.0.0.0.0" expl="apply premises" proved="true">
+     <proof prover="1"><result status="valid" time="3.784434" steps="1234265"/></proof>
+     </goal>
+     <goal name="ang_sum_comp_re_diag&#39;vc.0.0.0.1" expl="apply premises" proved="true">
+     <proof prover="1"><result status="valid" time="3.734937" steps="1234260"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="ang_sum_comp_re_diag&#39;vc.0.0.1" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="2.091004" steps="712467"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="ang_sum_comp_re_diag&#39;vc.0.1" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="2.181762" steps="712455"/></proof>
+   </goal>
+   <goal name="ang_sum_comp_re_diag&#39;vc.0.2" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="2.206055" steps="712455"/></proof>
+   </goal>
+   <goal name="ang_sum_comp_re_diag&#39;vc.0.3" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="2.163871" steps="712455"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ang_sum_comp_plus_one&#39;vc" expl="VC for ang_sum_comp_plus_one" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_sum_comp_plus_one&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="(--)&#39;spec">
+   <goal name="ang_sum_comp_plus_one&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="ang_sum_plus_one">
+    <goal name="ang_sum_comp_plus_one&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="ang_sum_comp_plus_one&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Requires1">
+      <goal name="ang_sum_comp_plus_one&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="apply" proved="true" arg1="ang_add_eq">
+       <goal name="ang_sum_comp_plus_one&#39;vc.0.0.0.0.0.0" expl="apply premises" proved="true">
+       <proof prover="1"><result status="valid" time="2.230959" steps="1305924"/></proof>
+       </goal>
+       <goal name="ang_sum_comp_plus_one&#39;vc.0.0.0.0.0.1" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="Requires">
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="ang_sum_comp_plus_one&#39;vc.0.0.1" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="2.216786" steps="789976"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="ang_sum_comp_plus_one&#39;vc.0.1" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="2.224837" steps="789973"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="ang_sum_comp_re&#39;vc" expl="VC for ang_sum_comp_re" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_sum_comp_re&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="(--)&#39;spec">
+   <goal name="ang_sum_comp_re&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="ang_sum_re">
+    <goal name="ang_sum_comp_re&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="compute_specified" proved="true" >
+     <goal name="ang_sum_comp_re&#39;vc.0.0.0.0" expl="postcondition" proved="true">
+     <transf name="rewrite" proved="true" arg1="Requires1">
+      <goal name="ang_sum_comp_re&#39;vc.0.0.0.0.0" expl="postcondition" proved="true">
+      <transf name="apply" proved="true" arg1="ang_add_eq">
+       <goal name="ang_sum_comp_re&#39;vc.0.0.0.0.0.0" expl="apply premises" proved="true">
+       <proof prover="1"><result status="valid" time="2.817252" steps="1306464"/></proof>
+       </goal>
+       <goal name="ang_sum_comp_re&#39;vc.0.0.0.0.0.1" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="Requires">
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="ang_sum_comp_re&#39;vc.0.0.1" expl="rewrite premises" proved="true">
+    <proof prover="1"><result status="valid" time="2.171138" steps="1306480"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="ang_sum_comp_re&#39;vc.0.1" expl="rewrite premises" proved="true">
+   <proof prover="1"><result status="valid" time="2.007612" steps="1306466"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="int_to_ang_by_sum_mult_break&#39;vc" expl="VC for int_to_ang_by_sum_mult_break" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="int_to_ang_by_sum_mult_break&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.462035" steps="838"/></proof>
+  <proof prover="4"><result status="valid" time="1.718643" steps="570685"/></proof>
+  </goal>
+  <goal name="int_to_ang_by_sum_mult_break&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.448457" steps="838"/></proof>
+  <proof prover="4"><result status="valid" time="1.672470" steps="570690"/></proof>
+  </goal>
+  <goal name="int_to_ang_by_sum_mult_break&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.458668" steps="838"/></proof>
+  <proof prover="4"><result status="valid" time="1.420548" steps="570691"/></proof>
+  </goal>
+  <goal name="int_to_ang_by_sum_mult_break&#39;vc.3" expl="postcondition" proved="true">
+  <transf name="replace" proved="true" arg1="(ind_isum (fun (j:int) -&gt; ind_isum (fun (i:int) -&gt; ((getbv x @ i) *&#39; (getbv y @ j)) *&#39; power 2 (((n -&#39;&#39; i) -&#39;&#39; 1) +&#39; j)) j n) 0 n /./ n)" arg2="(ind_isum1 (fun (j:int) -&gt; ind_isum1 (fun (i:int) -&gt; ((getbv x @ i) *&#39; (getbv y @ j)) *&#39; power1 2 (((n -&#39;&#39; i) -&#39;&#39; 1) +&#39; j)) j n) 0 n /./&#39; n)">
+   <goal name="int_to_ang_by_sum_mult_break&#39;vc.3.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures">
+    <goal name="int_to_ang_by_sum_mult_break&#39;vc.3.0.0" expl="postcondition" proved="true">
+    <proof prover="1"><result status="valid" time="1.520427" steps="976568"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="int_to_ang_by_sum_mult_break&#39;vc.3.1" expl="equality hypothesis" proved="true">
+   <transf name="compute_hyp" proved="true" >
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="phase_binary_prod_decomp&#39;vc" expl="VC for phase_binary_prod_decomp" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="phase_binary_prod_decomp&#39;vc.0" expl="postcondition" proved="true">
+  <transf name="instantiate" proved="true" arg1="int_to_ang_by_sum_mult_break" arg2="n, (make_bv x n), (make_bv y n)">
+   <goal name="phase_binary_prod_decomp&#39;vc.0.0" expl="postcondition" proved="true">
+   <transf name="replace" proved="true" arg1="(ind_isum (fun (j:int) -&gt; ind_isum (fun (i:int) -&gt; ((x @ i) *&#39; (y @ j)) *&#39; power 2 (((n -&#39;&#39; i) -&#39;&#39; 1) +&#39; j)) j n) 0 n)" arg2="(ind_isum (fun (j:int) -&gt; ind_isum (fun (i:int) -&gt; ((getbv (make_bv x n) @ i) *&#39; (getbv (make_bv y n) @ j)) *&#39; power 2 (((n -&#39;&#39; i) -&#39;&#39; 1) +&#39; j)) j n) 0 n)">
+    <goal name="phase_binary_prod_decomp&#39;vc.0.0.0" expl="postcondition" proved="true">
+    <transf name="apply" proved="true" arg1="Hinst">
+     <goal name="phase_binary_prod_decomp&#39;vc.0.0.0.0" expl="apply premises" proved="true">
+     <proof prover="4"><result status="valid" time="1.724870" steps="580288"/></proof>
+     </goal>
+     <goal name="phase_binary_prod_decomp&#39;vc.0.0.0.1" expl="apply premises" proved="true">
+     <proof prover="4"><result status="valid" time="4.286476" steps="797584"/></proof>
+     </goal>
+     <goal name="phase_binary_prod_decomp&#39;vc.0.0.0.2" expl="apply premises" proved="true">
+     <proof prover="2"><result status="valid" time="0.650860" steps="3077"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="phase_binary_prod_decomp&#39;vc.0.0.1" expl="equality hypothesis" proved="true">
+    <transf name="apply" proved="true" arg1="ind_isum_eq">
+     <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0" expl="apply premises" proved="true">
+     <transf name="split_vc" proved="true" >
+      <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0" expl="apply premises" proved="true">
+      <transf name="compute_specified" proved="true" >
+       <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0" expl="apply premises" proved="true">
+       <transf name="apply" proved="true" arg1="ind_isum_eq">
+        <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0" expl="apply premises" proved="true">
+        <transf name="split_vc" proved="true" >
+         <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0.0" expl="apply premises" proved="true">
+         <transf name="compute_specified" proved="true" >
+          <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0.0.0" expl="apply premises" proved="true">
+          <transf name="apply" proved="true" arg1="mult_eq">
+           <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+           <transf name="apply" proved="true" arg1="mult_eq">
+            <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0.0.0.0.0" expl="apply premises" proved="true">
+            <proof prover="1"><result status="valid" time="3.602236" steps="1182252"/></proof>
+            </goal>
+            <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+            <transf name="replace" proved="true" arg1="(make_bv y n)" arg2="(make_bv1 y n)">
+             <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0.0.0.0.1.0" expl="apply premises" proved="true">
+             <transf name="instantiate" proved="true" arg1="assert_make_bv_b" arg2="y,n,k1">
+              <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0.0.0.0.1.0.0" expl="apply premises" proved="true">
+              <transf name="rewrite" proved="true" arg1="Hinst">
+               <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0.0.0.0.1.0.0.0" expl="apply premises" proved="true">
+               <proof prover="4"><result status="valid" time="1.349097" steps="580489"/></proof>
+               </goal>
+               <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0.0.0.0.1.0.0.1" expl="rewrite premises" proved="true">
+               <transf name="split_vc" proved="true" >
+                <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0.0.0.0.1.0.0.1.0" expl="rewrite premises" proved="true">
+                <proof prover="0"><result status="valid" time="1.567007"/></proof>
+                </goal>
+                <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0.0.0.0.1.0.0.1.1" expl="rewrite premises" proved="true">
+                <proof prover="0"><result status="valid" time="1.577785"/></proof>
+                </goal>
+               </transf>
+               </goal>
+               <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0.0.0.0.1.0.0.2" expl="rewrite premises" proved="true">
+               <transf name="split_vc" proved="true" >
+                <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0.0.0.0.1.0.0.2.0" proved="true">
+                <proof prover="2"><result status="valid" time="0.460794" steps="846"/></proof>
+                </goal>
+                <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0.0.0.0.1.0.0.2.1" proved="true">
+                <proof prover="2"><result status="valid" time="0.471904" steps="846"/></proof>
+                </goal>
+               </transf>
+               </goal>
+              </transf>
+              </goal>
+             </transf>
+             </goal>
+             <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0.0.0.0.1.1" expl="equality hypothesis" proved="true">
+             <proof prover="2"><result status="valid" time="0.865036" steps="3125"/></proof>
+             </goal>
+            </transf>
+            </goal>
+           </transf>
+           </goal>
+           <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.0.0.0.1" expl="apply premises" proved="true">
+           <proof prover="4"><result status="valid" time="1.642347" steps="580358"/></proof>
+           </goal>
+          </transf>
+          </goal>
+         </transf>
+         </goal>
+        </transf>
+        </goal>
+        <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.1" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="1.827913" steps="580318"/></proof>
+        </goal>
+        <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.0.0.0.2" expl="apply premises" proved="true">
+        <proof prover="4"><result status="valid" time="1.901298" steps="580318"/></proof>
+        </goal>
+       </transf>
+       </goal>
+      </transf>
+      </goal>
+     </transf>
+     </goal>
+     <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.1" expl="apply premises" proved="true">
+     <proof prover="4"><result status="valid" time="1.870042" steps="580284"/></proof>
+     </goal>
+     <goal name="phase_binary_prod_decomp&#39;vc.0.0.1.2" expl="apply premises" proved="true">
+     <proof prover="4"><result status="valid" time="1.698297" steps="580284"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.ind_isum_eq&#39;refn&#39;vc" expl="VC for ind_isum_eq&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="ind_isum_eq&#39;refn&#39;vc.0" expl="VC for ind_isum_eq&#39;refn" proved="true">
+  <proof prover="2"><result status="valid" time="0.469113" steps="913"/></proof>
+  <proof prover="4"><result status="valid" time="1.704978" steps="579546"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="ind_isum_eq&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.794406" steps="3104"/></proof>
+  <proof prover="4"><result status="valid" time="3.849360" steps="787445"/></proof>
+  </goal>
+  <goal name="ind_isum_eq&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.461457" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.698946" steps="580555"/></proof>
+  </goal>
+  <goal name="ind_isum_eq&#39;refn&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.492886" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.717767" steps="580556"/></proof>
+  </goal>
+  <goal name="ind_isum_eq&#39;refn&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.486761" steps="838"/></proof>
+  <proof prover="4"><result status="valid" time="1.714086" steps="580498"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.ind_isum_empty&#39;refn&#39;vc" expl="VC for ind_isum_empty&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="ind_isum_empty&#39;refn&#39;vc.0" expl="VC for ind_isum_empty&#39;refn" proved="true">
+  <proof prover="2"><result status="valid" time="0.501845" steps="913"/></proof>
+  <proof prover="4"><result status="valid" time="1.659860" steps="579546"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="ind_isum_empty&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.365378" steps="834"/></proof>
+  <proof prover="4"><result status="valid" time="1.704292" steps="571921"/></proof>
+  </goal>
+  <goal name="ind_isum_empty&#39;refn&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.350328" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.748689" steps="580424"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.ind_isum_re&#39;refn&#39;vc" expl="VC for ind_isum_re&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="ind_isum_re&#39;refn&#39;vc.0" expl="VC for ind_isum_re&#39;refn" proved="true">
+  <proof prover="2"><result status="valid" time="0.456389" steps="913"/></proof>
+  <proof prover="4"><result status="valid" time="1.666498" steps="579546"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="ind_isum_re&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.469277" steps="834"/></proof>
+  <proof prover="4"><result status="valid" time="1.656476" steps="571925"/></proof>
+  </goal>
+  <goal name="ind_isum_re&#39;refn&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.425588" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.702241" steps="580472"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.ind_isum_plus_one&#39;refn&#39;vc" expl="VC for ind_isum_plus_one&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="ind_isum_plus_one&#39;refn&#39;vc.0" expl="VC for ind_isum_plus_one&#39;refn" proved="true">
+  <proof prover="2"><result status="valid" time="0.370460" steps="913"/></proof>
+  <proof prover="4"><result status="valid" time="1.651348" steps="579546"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="ind_isum_plus_one&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.465005" steps="834"/></proof>
+  <proof prover="4"><result status="valid" time="1.666402" steps="571925"/></proof>
+  </goal>
+  <goal name="ind_isum_plus_one&#39;refn&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.477507" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.663475" steps="580468"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.binary_def" proved="true">
+ <proof prover="1"><result status="valid" time="3.025005" steps="1024406"/></proof>
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="binary_def.0" proved="true">
+  <proof prover="0"><result status="valid" time="4.672039"/></proof>
+  <proof prover="4"><result status="valid" time="2.730414" steps="647191"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="binary_def.0" proved="true">
+  <proof prover="0"><result status="valid" time="1.555034"/></proof>
+  <proof prover="4"><result status="valid" time="3.837906" steps="787196"/></proof>
+  </goal>
+  <goal name="binary_def.1" proved="true">
+  <proof prover="0"><result status="valid" time="1.463562"/></proof>
+  <proof prover="4"><result status="valid" time="4.289833" steps="787190"/></proof>
+  </goal>
+  <goal name="binary_def.2" proved="true">
+  <proof prover="0"><result status="valid" time="1.476704"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.binary_prefix&#39;refn&#39;vc" expl="VC for binary_prefix&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="binary_prefix&#39;refn&#39;vc.0" expl="VC for binary_prefix&#39;refn" proved="true">
+  <proof prover="2"><result status="valid" time="0.463746" steps="913"/></proof>
+  <proof prover="4"><result status="valid" time="1.671309" steps="579667"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="binary_prefix&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="binary_prefix&#39;refn&#39;vc.0.0" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="2.080767" steps="978086"/></proof>
+   <proof prover="2"><result status="valid" time="0.444645" steps="838"/></proof>
+   <proof prover="4"><result status="valid" time="1.733579" steps="580543"/></proof>
+   </goal>
+   <goal name="binary_prefix&#39;refn&#39;vc.0.1" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="1.935137" steps="978086"/></proof>
+   <proof prover="2"><result status="valid" time="0.454269" steps="838"/></proof>
+   <proof prover="4"><result status="valid" time="1.725845" steps="580543"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="binary_prefix&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="binary_prefix&#39;refn&#39;vc.1.0" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="1.755497" steps="978089"/></proof>
+   <proof prover="2"><result status="valid" time="0.466060" steps="838"/></proof>
+   <proof prover="4"><result status="valid" time="1.707957" steps="580542"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="binary_prefix&#39;refn&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.731633" steps="978094"/></proof>
+  <proof prover="2"><result status="valid" time="0.464390" steps="840"/></proof>
+  <proof prover="4"><result status="valid" time="1.690025" steps="580546"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.binary_init&#39;refn&#39;vc" expl="VC for binary_init&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="binary_init&#39;refn&#39;vc.0" expl="VC for binary_init&#39;refn" proved="true">
+  <proof prover="2"><result status="valid" time="0.473950" steps="913"/></proof>
+  <proof prover="4"><result status="valid" time="1.668266" steps="579667"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="binary_init&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.716731" steps="965475"/></proof>
+  <proof prover="2"><result status="valid" time="0.468909" steps="834"/></proof>
+  <proof prover="4"><result status="valid" time="1.664178" steps="572026"/></proof>
+  </goal>
+  <goal name="binary_init&#39;refn&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.667624" steps="978053"/></proof>
+  <proof prover="2"><result status="valid" time="0.478634" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.685345" steps="580516"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.make_bv&#39;refn&#39;vc" expl="VC for make_bv&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="make_bv&#39;refn&#39;vc.0" expl="VC for make_bv&#39;refn" proved="true">
+  <proof prover="2"><result status="valid" time="0.399438" steps="913"/></proof>
+  <proof prover="4"><result status="valid" time="1.652439" steps="579667"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="make_bv&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.594888" steps="978058"/></proof>
+  <proof prover="2"><result status="valid" time="0.459415" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.645678" steps="580521"/></proof>
+  </goal>
+  <goal name="make_bv&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.650098" steps="978064"/></proof>
+  <proof prover="2"><result status="valid" time="0.460831" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.688551" steps="580525"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.bv_inversion&#39;refn&#39;vc" expl="VC for bv_inversion&#39;refn" proved="true">
+ <transf name="split_vc" proved="true" >
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.bv_to_int&#39;refn&#39;vc" expl="VC for bv_to_int&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="bv_to_int&#39;refn&#39;vc.0" expl="VC for bv_to_int&#39;refn" proved="true">
+  <proof prover="2"><result status="valid" time="0.372037" steps="915"/></proof>
+  <proof prover="4"><result status="valid" time="1.690346" steps="588276"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="bv_to_int&#39;refn&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.714203" steps="978174"/></proof>
+  <proof prover="2"><result status="valid" time="0.370838" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.681811" steps="580599"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.xor&#39;refn&#39;vc" expl="VC for xor&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="xor&#39;refn&#39;vc.0" expl="VC for xor&#39;refn" proved="true">
+  <proof prover="2"><result status="valid" time="0.381801" steps="913"/></proof>
+  <proof prover="4"><result status="valid" time="1.699199" steps="579667"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="xor&#39;refn&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.688107" steps="965653"/></proof>
+  <proof prover="2"><result status="valid" time="0.366756" steps="857"/></proof>
+  <proof prover="4"><result status="valid" time="1.656022" steps="572154"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.xor_eq&#39;refn&#39;vc" expl="VC for xor_eq&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="xor_eq&#39;refn&#39;vc.0" expl="VC for xor_eq&#39;refn" proved="true">
+  <proof prover="2"><result status="valid" time="0.382112" steps="913"/></proof>
+  <proof prover="4"><result status="valid" time="1.664411" steps="579667"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="xor_eq&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.660114" steps="965488"/></proof>
+  <proof prover="2"><result status="valid" time="0.382927" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.716893" steps="572032"/></proof>
+  </goal>
+  <goal name="xor_eq&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.679605" steps="965491"/></proof>
+  <proof prover="2"><result status="valid" time="0.372882" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.666979" steps="572033"/></proof>
+  </goal>
+  <goal name="xor_eq&#39;refn&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.657060" steps="965513"/></proof>
+  <proof prover="2"><result status="valid" time="0.370358" steps="837"/></proof>
+  <proof prover="4"><result status="valid" time="1.685862" steps="572046"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.infix /./&#39;refn&#39;vc" expl="VC for infix /./&#39;refn" proved="true">
+ <proof prover="1"><result status="valid" time="1.738871" steps="965460"/></proof>
+ <transf name="split_vc" proved="true" >
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.infix +.+&#39;refn&#39;vc" expl="VC for infix +.+&#39;refn" proved="true">
+ <proof prover="1"><result status="valid" time="1.717816" steps="965460"/></proof>
+ <transf name="split_vc" proved="true" >
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.ang_null" proved="true">
+ <proof prover="1"><result status="valid" time="2.680196" steps="1009211"/></proof>
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_null.0" proved="true">
+  <proof prover="2"><result status="valid" time="0.665299" steps="3038"/></proof>
+  <proof prover="4"><result status="valid" time="2.463830" steps="636651"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.ang_add_eq&#39;refn&#39;vc" expl="VC for ang_add_eq&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="ang_add_eq&#39;refn&#39;vc.0" expl="VC for ang_add_eq&#39;refn" proved="true">
+  <proof prover="2"><result status="valid" time="0.376791" steps="913"/></proof>
+  <proof prover="4"><result status="valid" time="1.762467" steps="579692"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_add_eq&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.705447" steps="965526"/></proof>
+  <proof prover="2"><result status="valid" time="0.415050" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.645781" steps="572057"/></proof>
+  </goal>
+  <goal name="ang_add_eq&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.793415" steps="965529"/></proof>
+  <proof prover="2"><result status="valid" time="0.382120" steps="836"/></proof>
+  <proof prover="4"><result status="valid" time="1.633011" steps="572058"/></proof>
+  </goal>
+  <goal name="ang_add_eq&#39;refn&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.664090" steps="965551"/></proof>
+  <proof prover="2"><result status="valid" time="0.368738" steps="837"/></proof>
+  <proof prover="4"><result status="valid" time="1.636885" steps="572071"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.int_to_ang_add_rev&#39;refn&#39;vc" expl="VC for int_to_ang_add_rev&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="int_to_ang_add_rev&#39;refn&#39;vc.0" expl="VC for int_to_ang_add_rev&#39;refn" proved="true">
+  <proof prover="4"><result status="valid" time="1.774247" steps="579692"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="int_to_ang_add_rev&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="1"><result status="valid" time="1.738308" steps="965522"/></proof>
+  <proof prover="2"><result status="valid" time="0.374709" steps="834"/></proof>
+  <proof prover="4"><result status="valid" time="1.729583" steps="572059"/></proof>
+  </goal>
+  <goal name="int_to_ang_add_rev&#39;refn&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.775752" steps="572082"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.int_to_ang_eq&#39;refn&#39;vc" expl="VC for int_to_ang_eq&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="int_to_ang_eq&#39;refn&#39;vc.0" expl="VC for int_to_ang_eq&#39;refn" proved="true">
+  <proof prover="4"><result status="valid" time="1.401895" steps="579692"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="int_to_ang_eq&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.746543" steps="572057"/></proof>
+  </goal>
+  <goal name="int_to_ang_eq&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.803034" steps="572058"/></proof>
+  </goal>
+  <goal name="int_to_ang_eq&#39;refn&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.759893" steps="572071"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.ang_add_zero&#39;refn&#39;vc" expl="VC for ang_add_zero&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="ang_add_zero&#39;refn&#39;vc.0" expl="VC for ang_add_zero&#39;refn" proved="true">
+  <proof prover="4"><result status="valid" time="1.680168" steps="579692"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_add_zero&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.686951" steps="572059"/></proof>
+  </goal>
+  <goal name="ang_add_zero&#39;refn&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.684515" steps="572074"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.ang_sum_re&#39;refn&#39;vc" expl="VC for ang_sum_re&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="ang_sum_re&#39;refn&#39;vc.0" expl="VC for ang_sum_re&#39;refn" proved="true">
+  <proof prover="4"><result status="valid" time="1.710069" steps="579692"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_sum_re&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.670394" steps="572070"/></proof>
+  </goal>
+  <goal name="ang_sum_re&#39;refn&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.743452" steps="593900"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.ang_sum_plus_one&#39;refn&#39;vc" expl="VC for ang_sum_plus_one&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="ang_sum_plus_one&#39;refn&#39;vc.0" expl="VC for ang_sum_plus_one&#39;refn" proved="true">
+  <proof prover="4"><result status="valid" time="1.683727" steps="579692"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_sum_plus_one&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.685723" steps="572071"/></proof>
+  </goal>
+  <goal name="ang_sum_plus_one&#39;refn&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.747138" steps="593894"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.ang_sum_eq&#39;refn&#39;vc" expl="VC for ang_sum_eq&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="ang_sum_eq&#39;refn&#39;vc.0" expl="VC for ang_sum_eq&#39;refn" proved="true">
+  <proof prover="4"><result status="valid" time="3.931736" steps="806761"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_sum_eq&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.720106" steps="593927"/></proof>
+  </goal>
+  <goal name="ang_sum_eq&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.718746" steps="593928"/></proof>
+  </goal>
+  <goal name="ang_sum_eq&#39;refn&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.734856" steps="593929"/></proof>
+  </goal>
+  <goal name="ang_sum_eq&#39;refn&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.904911" steps="799136"/></proof>
+  </goal>
+  <goal name="ang_sum_eq&#39;refn&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.349580" steps="652013"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.ang_sum_empty&#39;refn&#39;vc" expl="VC for ang_sum_empty&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="ang_sum_empty&#39;refn&#39;vc.0" expl="VC for ang_sum_empty&#39;refn" proved="true">
+  <proof prover="4"><result status="valid" time="1.663141" steps="579692"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_sum_empty&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.644198" steps="572059"/></proof>
+  </goal>
+  <goal name="ang_sum_empty&#39;refn&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.730920" steps="593850"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.ang_sum_to_ind_isum&#39;refn&#39;vc" expl="VC for ang_sum_to_ind_isum&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="ang_sum_to_ind_isum&#39;refn&#39;vc.0" expl="VC for ang_sum_to_ind_isum&#39;refn" proved="true">
+  <proof prover="4"><result status="valid" time="1.636949" steps="579692"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="ang_sum_to_ind_isum&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.728919" steps="603160"/></proof>
+  </goal>
+  <goal name="ang_sum_to_ind_isum&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.692867" steps="603161"/></proof>
+  </goal>
+  <goal name="ang_sum_to_ind_isum&#39;refn&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="4.032629" steps="810988"/></proof>
+  </goal>
+  <goal name="ang_sum_to_ind_isum&#39;refn&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.707252" steps="603179"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.binary_basis_ket&#39;refn&#39;vc" expl="VC for binary_basis_ket&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="binary_basis_ket&#39;refn&#39;vc.0" expl="VC for binary_basis_ket&#39;refn" proved="true">
+  <proof prover="4"><result status="valid" time="1.555779" steps="579692"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="binary_basis_ket&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.761880" steps="598323"/></proof>
+  </goal>
+  <goal name="binary_basis_ket&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.754620" steps="598321"/></proof>
+  </goal>
+  <goal name="binary_basis_ket&#39;refn&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.743574" steps="598322"/></proof>
+  </goal>
+  <goal name="binary_basis_ket&#39;refn&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.742918" steps="653161"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.range_had" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="range_had.0" proved="true">
+  <proof prover="4"><result status="valid" time="1.626614" steps="597383"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.width_had" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="width_had.0" proved="true">
+  <proof prover="4"><result status="valid" time="1.604628" steps="597384"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.basis_ket_had" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="basis_ket_had.0" proved="true">
+  <proof prover="4"><result status="valid" time="2.414363" steps="704172"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.ang_ind_had" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="ang_ind_had.0" proved="true">
+  <proof prover="4"><result status="valid" time="2.417421" steps="699060"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.m_skip&#39;refn&#39;vc" expl="VC for m_skip&#39;refn" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="m_skip&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.572583" steps="572203"/></proof>
+  </goal>
+  <goal name="m_skip&#39;refn&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.879062" steps="704002"/></proof>
+  </goal>
+  <goal name="m_skip&#39;refn&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.969307" steps="704006"/></proof>
+  </goal>
+  <goal name="m_skip&#39;refn&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.848533" steps="3176"/></proof>
+  </goal>
+  <goal name="m_skip&#39;refn&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.853989" steps="3110"/></proof>
+  </goal>
+  <goal name="m_skip&#39;refn&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.832591" steps="3120"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.place&#39;refn&#39;vc" expl="VC for place&#39;refn" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="place&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.603665" steps="589695"/></proof>
+  </goal>
+  <goal name="place&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.629937" steps="589693"/></proof>
+  </goal>
+  <goal name="place&#39;refn&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.938428" steps="705245"/></proof>
+  </goal>
+  <goal name="place&#39;refn&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.929794" steps="705243"/></proof>
+  </goal>
+  <goal name="place&#39;refn&#39;vc.4" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="Ensures5">
+   <goal name="place&#39;refn&#39;vc.4.0" expl="apply premises" proved="true">
+   <proof prover="1"><result status="valid" time="2.220459" steps="1172966"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="place&#39;refn&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.867545" steps="3292"/></proof>
+  </goal>
+  <goal name="place&#39;refn&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.858275" steps="3300"/></proof>
+  </goal>
+  <goal name="place&#39;refn&#39;vc.7" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="Ensures5">
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.infix --&#39;refn&#39;vc" expl="VC for infix --&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="infix --&#39;refn&#39;vc.0" expl="VC for infix --&#39;refn" proved="true">
+  <proof prover="2"><result status="valid" time="0.457434" steps="913"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.cnot&#39;refn&#39;vc" expl="VC for cnot&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="cnot&#39;refn&#39;vc.0" expl="VC for cnot&#39;refn" proved="true">
+  <proof prover="0"><result status="valid" time="5.583732"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="cnot&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="cnot&#39;refn&#39;vc.0.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.653535" steps="572268"/></proof>
+   </goal>
+   <goal name="cnot&#39;refn&#39;vc.0.1" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.650836" steps="572268"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cnot&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="cnot&#39;refn&#39;vc.1.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.673256" steps="572273"/></proof>
+   </goal>
+   <goal name="cnot&#39;refn&#39;vc.1.1" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.647284" steps="572273"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cnot&#39;refn&#39;vc.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="cnot&#39;refn&#39;vc.2.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.684276" steps="572273"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="cnot&#39;refn&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.001150" steps="706402"/></proof>
+  </goal>
+  <goal name="cnot&#39;refn&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.030859" steps="706406"/></proof>
+  </goal>
+  <goal name="cnot&#39;refn&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.852994" steps="3231"/></proof>
+  </goal>
+  <goal name="cnot&#39;refn&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.880439" steps="3278"/></proof>
+  </goal>
+  <goal name="cnot&#39;refn&#39;vc.7" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.883863" steps="3160"/></proof>
+  </goal>
+  <goal name="cnot&#39;refn&#39;vc.8" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.895281" steps="3277"/></proof>
+  </goal>
+  <goal name="cnot&#39;refn&#39;vc.9" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.713456" steps="3341"/></proof>
+  </goal>
+  <goal name="cnot&#39;refn&#39;vc.10" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.958010"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.diag_circ_basis_ket&#39;refn&#39;vc" expl="VC for diag_circ_basis_ket&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="diag_circ_basis_ket&#39;refn&#39;vc.0" expl="VC for diag_circ_basis_ket&#39;refn" proved="true">
+  <proof prover="4"><result status="valid" time="1.672045" steps="579833"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="diag_circ_basis_ket&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.697338" steps="572190"/></proof>
+  </goal>
+  <goal name="diag_circ_basis_ket&#39;refn&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.803618" steps="635881"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.seq_diag&#39;refn&#39;vc" expl="VC for seq_diag&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="seq_diag&#39;refn&#39;vc.0" expl="VC for seq_diag&#39;refn" proved="true">
+  <proof prover="2"><result status="valid" time="0.885304" steps="2647"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="seq_diag&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.685916" steps="589672"/></proof>
+  </goal>
+  <goal name="seq_diag&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.692722" steps="589673"/></proof>
+  </goal>
+  <goal name="seq_diag&#39;refn&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.667894" steps="589674"/></proof>
+  </goal>
+  <goal name="seq_diag&#39;refn&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.808441" steps="648410"/></proof>
+  </goal>
+  <goal name="seq_diag&#39;refn&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.761428" steps="648414"/></proof>
+  </goal>
+  <goal name="seq_diag&#39;refn&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.029221" steps="648412"/></proof>
+  </goal>
+  <goal name="seq_diag&#39;refn&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.862941" steps="3167"/></proof>
+  </goal>
+  <goal name="seq_diag&#39;refn&#39;vc.7" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.036377" steps="648455"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.seq_diag_right&#39;refn&#39;vc" expl="VC for seq_diag_right&#39;refn" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="seq_diag_right&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.672402" steps="589668"/></proof>
+  </goal>
+  <goal name="seq_diag_right&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.666903" steps="589669"/></proof>
+  </goal>
+  <goal name="seq_diag_right&#39;refn&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.932639" steps="704238"/></proof>
+  </goal>
+  <goal name="seq_diag_right&#39;refn&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.225516" steps="704236"/></proof>
+  </goal>
+  <goal name="seq_diag_right&#39;refn&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.896266" steps="3232"/></proof>
+  </goal>
+  <goal name="seq_diag_right&#39;refn&#39;vc.5" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="Ensures3">
+  </transf>
+  </goal>
+  <goal name="seq_diag_right&#39;refn&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.227206" steps="704357"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.seq_diag_left&#39;refn&#39;vc" expl="VC for seq_diag_left&#39;refn" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="seq_diag_left&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.786951" steps="589668"/></proof>
+  </goal>
+  <goal name="seq_diag_left&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.770530" steps="589669"/></proof>
+  </goal>
+  <goal name="seq_diag_left&#39;refn&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.017633" steps="704136"/></proof>
+  </goal>
+  <goal name="seq_diag_left&#39;refn&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.016667" steps="704134"/></proof>
+  </goal>
+  <goal name="seq_diag_left&#39;refn&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.857034" steps="3225"/></proof>
+  </goal>
+  <goal name="seq_diag_left&#39;refn&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.875088" steps="3170"/></proof>
+  </goal>
+  <goal name="seq_diag_left&#39;refn&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.058366" steps="704217"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.crz&#39;refn&#39;vc" expl="VC for crz&#39;refn" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="crz&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="crz&#39;refn&#39;vc.0.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.739222" steps="572261"/></proof>
+   </goal>
+   <goal name="crz&#39;refn&#39;vc.0.1" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.740716" steps="572261"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="crz&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="crz&#39;refn&#39;vc.1.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.757564" steps="572266"/></proof>
+   </goal>
+   <goal name="crz&#39;refn&#39;vc.1.1" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.754462" steps="572266"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="crz&#39;refn&#39;vc.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="crz&#39;refn&#39;vc.2.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.736167" steps="572266"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="crz&#39;refn&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.744884" steps="650801"/></proof>
+  </goal>
+  <goal name="crz&#39;refn&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.063102" steps="650799"/></proof>
+  </goal>
+  <goal name="crz&#39;refn&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.069602" steps="650800"/></proof>
+  </goal>
+  <goal name="crz&#39;refn&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.896676" steps="3571"/></proof>
+  </goal>
+  <goal name="crz&#39;refn&#39;vc.7" expl="postcondition" proved="true">
+  <transf name="rewrite" proved="true" arg1="(--)&#39;spec">
+   <goal name="crz&#39;refn&#39;vc.7.0" expl="postcondition" proved="true">
+   <transf name="rewrite" proved="true" arg1="Ensures" arg2="with" arg3="k&#39;">
+    <goal name="crz&#39;refn&#39;vc.7.0.0" expl="postcondition" proved="true">
+    <proof prover="4"><result status="valid" time="1.932094" steps="650967"/></proof>
+    </goal>
+    <goal name="crz&#39;refn&#39;vc.7.0.1" expl="rewrite premises" proved="true">
+    <proof prover="4"><result status="valid" time="1.998945" steps="650980"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="crz&#39;refn&#39;vc.7.1" expl="rewrite premises" proved="true">
+   <proof prover="4"><result status="valid" time="2.633968" steps="709991"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.flat_mute_circ_ang_ind&#39;refn&#39;vc" expl="VC for flat_mute_circ_ang_ind&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="flat_mute_circ_ang_ind&#39;refn&#39;vc.0" expl="VC for flat_mute_circ_ang_ind&#39;refn" proved="true">
+  <proof prover="4"><result status="valid" time="1.797823" steps="579833"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="flat_mute_circ_ang_ind&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.731623" steps="572190"/></proof>
+  </goal>
+  <goal name="flat_mute_circ_ang_ind&#39;refn&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.868170" steps="630965"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.seq_flat_mute&#39;refn&#39;vc" expl="VC for seq_flat_mute&#39;refn" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="seq_flat_mute&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.853529" steps="589672"/></proof>
+  </goal>
+  <goal name="seq_flat_mute&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.833324" steps="589673"/></proof>
+  </goal>
+  <goal name="seq_flat_mute&#39;refn&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.805604" steps="589674"/></proof>
+  </goal>
+  <goal name="seq_flat_mute&#39;refn&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.042200" steps="653929"/></proof>
+  </goal>
+  <goal name="seq_flat_mute&#39;refn&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.883429" steps="3252"/></proof>
+  </goal>
+  <goal name="seq_flat_mute&#39;refn&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.932158" steps="654033"/></proof>
+  </goal>
+  <goal name="seq_flat_mute&#39;refn&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.937872" steps="654031"/></proof>
+  </goal>
+  <goal name="seq_flat_mute&#39;refn&#39;vc.7" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.951307" steps="720224"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.seq_flat_mute_right&#39;refn&#39;vc" expl="VC for seq_flat_mute_right&#39;refn" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="seq_flat_mute_right&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.790348" steps="589668"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_right&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.795694" steps="589669"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_right&#39;refn&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.036849" steps="704401"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_right&#39;refn&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.015543" steps="704399"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_right&#39;refn&#39;vc.4" expl="postcondition" proved="true">
+  <transf name="apply" proved="true" arg1="Ensures3">
+   <goal name="seq_flat_mute_right&#39;refn&#39;vc.4.0" expl="apply premises" proved="true">
+   <proof prover="4"><result status="valid" time="2.055567" steps="704442"/></proof>
+   </goal>
+   <goal name="seq_flat_mute_right&#39;refn&#39;vc.4.1" expl="apply premises" proved="true">
+   <proof prover="4"><result status="valid" time="2.085090" steps="704442"/></proof>
+   </goal>
+   <goal name="seq_flat_mute_right&#39;refn&#39;vc.4.2" expl="apply premises" proved="true">
+   <proof prover="4"><result status="valid" time="1.974842" steps="704455"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="seq_flat_mute_right&#39;refn&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.869503" steps="3134"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_right&#39;refn&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.192167" steps="771592"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.seq_flat_mute_left&#39;refn&#39;vc" expl="VC for seq_flat_mute_left&#39;refn" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="seq_flat_mute_left&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.830128" steps="589668"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_left&#39;refn&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.832883" steps="589669"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_left&#39;refn&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.087296" steps="704355"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_left&#39;refn&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.109766" steps="704353"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_left&#39;refn&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.876122" steps="3272"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_left&#39;refn&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.800610" steps="3161"/></proof>
+  </goal>
+  <goal name="seq_flat_mute_left&#39;refn&#39;vc.6" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="3.379858" steps="771473"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.rm_skip&#39;refn&#39;vc" expl="VC for rm_skip&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="rm_skip&#39;refn&#39;vc.0" expl="VC for rm_skip&#39;refn" proved="true">
+  <proof prover="4"><result status="valid" time="1.721885" steps="580593"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="rm_skip&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.835773" steps="572203"/></proof>
+  </goal>
+  <goal name="rm_skip&#39;refn&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.979804" steps="590417"/></proof>
+  </goal>
+  <goal name="rm_skip&#39;refn&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.796276" steps="590418"/></proof>
+  </goal>
+  <goal name="rm_skip&#39;refn&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.755746" steps="590422"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.place_hadamard&#39;refn&#39;vc" expl="VC for place_hadamard&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="place_hadamard&#39;refn&#39;vc.0" expl="VC for place_hadamard&#39;refn" proved="true">
+  <proof prover="0"><result status="valid" time="4.792936"/></proof>
+  </goal>
+ </transf>
+ <transf name="split_vc" proved="true" >
+  <goal name="place_hadamard&#39;refn&#39;vc.0" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="place_hadamard&#39;refn&#39;vc.0.0" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.719709" steps="572223"/></proof>
+   </goal>
+   <goal name="place_hadamard&#39;refn&#39;vc.0.1" expl="precondition" proved="true">
+   <proof prover="4"><result status="valid" time="1.722657" steps="572223"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="place_hadamard&#39;refn&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="2.012338" steps="705827"/></proof>
+  </goal>
+  <goal name="place_hadamard&#39;refn&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="4"><result status="valid" time="1.996038" steps="705831"/></proof>
+  </goal>
+  <goal name="place_hadamard&#39;refn&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="1.921421"/></proof>
+  </goal>
+  <goal name="place_hadamard&#39;refn&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.821038" steps="3301"/></proof>
+  </goal>
+  <goal name="place_hadamard&#39;refn&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="2"><result status="valid" time="0.833223" steps="3528"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.ang_sum_comp_re&#39;refn&#39;vc" expl="VC for ang_sum_comp_re&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="ang_sum_comp_re&#39;refn&#39;vc.0" expl="VC for ang_sum_comp_re&#39;refn" proved="true">
+  <proof prover="4"><result status="valid" time="1.814689" steps="579833"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.ang_sum_comp_plus_one&#39;refn&#39;vc" expl="VC for ang_sum_comp_plus_one&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="ang_sum_comp_plus_one&#39;refn&#39;vc.0" expl="VC for ang_sum_comp_plus_one&#39;refn" proved="true">
+  <proof prover="4"><result status="valid" time="1.704883" steps="579833"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.ang_sum_comp_re_diag&#39;refn&#39;vc" expl="VC for ang_sum_comp_re_diag&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="ang_sum_comp_re_diag&#39;refn&#39;vc.0" expl="VC for ang_sum_comp_re_diag&#39;refn" proved="true">
+  <proof prover="4"><result status="valid" time="1.656261" steps="579833"/></proof>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="Tool_box_Intf&#39;impl_of.phase_binary_prod_decomp&#39;refn&#39;vc" expl="VC for phase_binary_prod_decomp&#39;refn" proved="true">
+ <transf name="eliminate_definition" proved="true" >
+  <goal name="phase_binary_prod_decomp&#39;refn&#39;vc.0" expl="VC for phase_binary_prod_decomp&#39;refn" proved="true">
+  <proof prover="4"><result status="valid" time="1.773083" steps="579833"/></proof>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>
