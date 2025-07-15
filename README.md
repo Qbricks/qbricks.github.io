@@ -121,6 +121,14 @@ computing](https://github.com/Qbricks/qbricks.github.io/files/6415909/Qbricks_Pl
 
 - Why3: [licence](https://gitlab.inria.fr/why3/why3/-/blob/master/LICENSE)
 
+- OCaml: [licence](https://github.com/ocaml/ocaml/blob/trunk/LICENSE)
+
+- Qiskit: [licence](https://github.com/Qiskit/qiskit/blob/main/LICENSE.txt)
+
+- OpenQASM: [licence](https://github.com/openqasm/openqasm/blob/main/LICENSE)
+
+- Matplotlib: [licence](https://github.com/matplotlib/matplotlib/blob/main/LICENSE/LICENSE)
+
 ### Installation
 
 1. [Docker installation](https://docs.docker.com/engine/install/)
@@ -133,13 +141,42 @@ computing](https://github.com/Qbricks/qbricks.github.io/files/6415909/Qbricks_Pl
 
 5. Start container `make start`
 
-### How to use it
+## Proof
 
-#### Example: open `shor.mlw` with Why3-ide
+### Example: open `shor.mlw` with Why3-ide
 
 1. `cd Case_studies/`
 
 2. `make ide_shor`
+
+## Qbricks to OpenQASM 2
+
+1. Write the circuit using the Qbricks language in the file `Qbricks_to_oqasm/Examples/To_openqasm_examples.mlw`.
+   Example: `toffoli 0 1 2 3`
+
+2. Translate Qbricks to OpenQASM using one of these commands:
+   - `make run_to_openqasm` (includes extraction from WhyML to OCaml and OCaml compilation)
+   - `make run_to_openqasm_ne`
+
+3. Retrieve the OpenQASM file: `extracted/To_openqasm_examples.qasm`
+
+## OpenQASM to Qiskit
+
+- Simulate an OpenQASM circuit on Qiskit Aer Simulator:
+  Example: `python3 run_to_qiskit.py ccx.qasm`
+
+Verbose mode (displays circuits and results):
+  Example: `python3 run_to_qiskit.py ccx.qasm true`
+
+- Verify equivalence between two OpenQASM circuits:
+  Example: `python3 run_to_qiskit_equiv.py ccx.qasm ccx-qb.qasm`
+  
+This verifies equivalence by simulating all possible input states through a sequence of the first circuit and the inverse of the second, checking if the output matches the input (identity operation).
+
+Files:
+  - `ccx.qasm`: Standard Toffoli gate
+  - `ccx-qb.qasm`: Decomposed Toffoli gate (primitive OpenQASM gates from Qbricks translation)
+
 
 
 
