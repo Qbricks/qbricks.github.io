@@ -25,7 +25,7 @@
 DIRS?= -L ./Case_studies/ -L ./math_libs/ -L ./Qbricks/
 
 build:
-	docker build -t qbricks .
+	docker build --no-cache -t qbricks .
 
 pull:
 	docker pull jricc/qbricks:latest
@@ -38,10 +38,6 @@ start:
 	xhost +local:docker
 	docker start -ai qbricks
 
-
-
-print:
-	bash ./run_test.sh
 
 # don't clean `run_test.ml`
 clean:
