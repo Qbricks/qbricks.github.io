@@ -1,3 +1,25 @@
+# (**************************************************************************)
+# (*  This file is part of QBRICKS.                                         *)
+# (*                                                                        *)
+# (*  Copyright (C) 2020-2022                                               *)
+# (*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+# (*         alternatives)                                                  *)
+# (*    Université Paris-Saclay                                             *)
+# (*                                                                        *)
+# (*  you can redistribute it and/or modify it under the terms of the GNU   *)
+# (*  Lesser General Public License as published by the Free Software       *)
+# (*  Foundation, version 2.1.                                              *)
+# (*                                                                        *)
+# (*  It is distributed in the hope that it will be useful,                 *)
+# (*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+# (*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+# (*  GNU Lesser General Public License for more details.                   *)
+# (*                                                                        *)
+# (*  See the GNU Lesser General Public License version 2.1                 *)
+# (*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+# (*                                                                        *)
+# (**************************************************************************)
+
 FROM ocaml/opam:ubuntu-24.04-ocaml-4.13
 
 RUN sudo apt-get update && sudo apt install -y python3 
@@ -61,6 +83,11 @@ RUN unzip z3-4.13.4-x64-glibc-2.35.zip
 RUN sudo mv z3-4.13.4-x64-glibc-2.35/bin/z3 /usr/local/bin/z3-4.13.4 
 RUN sudo chmod a+x /usr/local/bin/z3-4.13.4
 
+RUN sudo apt-get install -y python3.12-venv python3-tk
+
+RUN python3 -m venv py-env-qiskit &&\
+  py-env-qiskit/bin/pip install qiskit==2.1.1 matplotlib==3.10.3 pylatexenc==2.10 qiskit-aer==0.17.1
+
 WORKDIR /qbricks
 COPY . /qbricks
 RUN sudo chown -R opam:opam /qbricks
@@ -69,4 +96,4 @@ RUN chmod +x /qbricks/run_to_openqasm.sh
 RUN eval $(opam env) && opam install . --deps-only -y
 ENV DISPLAY=:0
 
-CMD ["/bin/bash", "-c", "eval $(opam env) && why3 config detect && /bin/bash"]
+CMD ["/bin/bash", "-c", "eval $(opam env) && why3 config detect && exec /bin/bash"]

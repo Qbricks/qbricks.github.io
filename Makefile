@@ -53,7 +53,3 @@ run_to_openqasm:
 run_to_openqasm_ne:
 	./run_to_openqasm.sh To_openqasm_examples Test_oq2 no_extraction
 
-clean_run_to_openqasm: clean run_to_openqasm
-
-run_qiskit:
-	python3 extracted/run_to_openqasm.py extracted/To_openqasm_examples
