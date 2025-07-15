@@ -1,30 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
-"http://why3.lri.fr/why3session.dtd">
+"https://www.why3.org/why3session.dtd">
 <why3session shape_version="6">
-<prover id="8" name="CVC4" version="1.7" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="0" name="CVC5" version="1.2.1" timelimit="5" steplimit="0" memlimit="1000"/>
 <file format="whyml" proved="true">
 <path name=".."/><path name="transpilation.mlw"/>
 <theory name="To_OqenQASM_2" proved="true">
  <goal name="print_oq&#39;vc" expl="VC for print_oq" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="print_oq&#39;vc.0" expl="precondition" proved="true">
-  <proof prover="8"><result status="valid" time="2.30" steps="1057549"/></proof>
-  </goal>
- </transf>
+ <proof prover="0"><result status="valid" time="0.728871" steps="383647"/></proof>
  </goal>
  <goal name="string_oq&#39;vc" expl="VC for string_oq" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="string_oq&#39;vc.0" expl="precondition" proved="true">
-  <proof prover="8"><result status="valid" time="2.23" steps="1057633"/></proof>
-  </goal>
-  <goal name="string_oq&#39;vc.1" expl="precondition" proved="true">
-  <proof prover="8"><result status="valid" time="2.78" steps="1357888"/></proof>
-  </goal>
-  <goal name="string_oq&#39;vc.2" expl="precondition" proved="true">
-  <proof prover="8"><result status="valid" time="1.28" steps="986829"/></proof>
-  </goal>
- </transf>
+ <proof prover="0"><result status="valid" time="2.491250" steps="583895"/></proof>
  </goal>
 </theory>
 </file>

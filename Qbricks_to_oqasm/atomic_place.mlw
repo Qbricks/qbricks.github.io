@@ -35,8 +35,8 @@ module Atomic_place
   use ternary_gates_delete.Ternary_gates_del
 
   let rec predicate atomic_place (c: wired_circuit)
-    requires{correct c}
-        ensures{skip_atomic c -> result}
+      requires{correct c}
+      ensures{skip_atomic c -> result}
     =
     match  c with
     | Parallel c d -> atomic_place c && atomic_place d
@@ -45,23 +45,23 @@ module Atomic_place
     | Cont c _ _ _ -> atomic_place c 
     | Ancillas _ _ -> false
     |  Skip |  Phase _ | Rx _ | Ry _ | Rz _ | Rzp _ | Hadamard  |  S | T | X | Y | Z 
-       | Bricks_Cnot | Bricks_Toffoli | Bricks_Fredkin| Bricks_Swap
-       | Swap _ _ _ | Cnot _ _ _ | Toffoli _ _ _ _ | Fredkin _ _ _ _
-       -> true
-end
+    | Bricks_Cnot | Bricks_Toffoli | Bricks_Fredkin| Bricks_Swap
+    | Swap _ _ _ | Cnot _ _ _ | Toffoli _ _ _ _ | Fredkin _ _ _ _
+    -> true
+    end
      
   let rec function placed_atomic (c: wired_circuit) (k n:int)
-                     requires{0<= k }
-                     requires{k  + width_pre c <= n}
-                     requires{correct c}
-                     ensures{correct result}
-                     ensures{result <=> Place c k n}
-                     ensures{atomic_place result}
-                     ensures{ternary_gates_free c -> ternary_gates_free result}
-                     requires{parallel_free c}
-                     requires{ancilla_free c}
-                     ensures{ancilla_free result}
-                     ensures{parallel_free result}
+      requires{0 <= k }
+      requires{k + width_pre c <= n}
+      requires{correct c}
+      ensures{correct result}
+      ensures{result <=> Place c k n}
+      ensures{atomic_place result}
+      ensures{ternary_gates_free c -> ternary_gates_free result}
+      requires{parallel_free c}
+      requires{ancilla_free c}
+      ensures{ancilla_free result}
+      ensures{parallel_free result}
     =
     match  c with
     | Sequence c1 c2 -> Sequence (placed_atomic c1 k n) (placed_atomic c2 k n) 
@@ -71,15 +71,15 @@ end
     end
 
   let rec function place_atomic (c: wired_circuit)
-    requires{correct c}
-    requires{parallel_free c}
-    requires{ancilla_free c}
-    ensures{correct result}
-    ensures{result <=> c}
-    ensures{atomic_place result}
-    ensures{ternary_gates_free c -> ternary_gates_free result}
-    ensures{parallel_free result}
-    ensures{ancilla_free result}
+      requires{correct c}
+      requires{parallel_free c}
+      requires{ancilla_free c}
+      ensures{correct result}
+      ensures{result <=> c}
+      ensures{atomic_place result}
+      ensures{ternary_gates_free c -> ternary_gates_free result}
+      ensures{parallel_free result}
+      ensures{ancilla_free result}
     =
     match  c with
     | Sequence c1 c2 -> Sequence (place_atomic c1) (place_atomic c2) 
@@ -90,54 +90,37 @@ end
     end
 
   let lemma atomic_place_cont (c: wired_circuit) (co ta n: int)
-    requires{correct c}
-    requires{0 <= co /\ co < n}
-    requires{0 <= ta /\ ta <= (n - width_pre c)}
-    requires{ta <= co -> (ta + width_pre c) <= co}
-    requires{atomic_place c}
+      requires{correct c}
+      requires{0 <= co /\ co < n}
+      requires{0 <= ta /\ ta <= (n - width_pre c)}
+      requires{ta <= co -> (ta + width_pre c) <= co}
+      requires{atomic_place c}
       ensures{atomic_place (Cont c co ta n)}
-  = ()
+    = ()
 
   let lemma atomic_place_seq (c1 c2: wired_circuit)
-    requires{correct c1}
-    requires{correct c2}
-    requires{width_pre c1 = width_pre c2}
-    requires{atomic_place c1}
-    requires{atomic_place c2}
-    ensures{atomic_place (Sequence c1 c2)}
-  = ()
+      requires{correct c1}
+      requires{correct c2}
+      requires{width_pre c1 = width_pre c2}
+      requires{atomic_place c1}
+      requires{atomic_place c2}
+      ensures{atomic_place (Sequence c1 c2)}
+    = ()
 
   let lemma atomic_place_par (c1 c2: wired_circuit)
-    requires{correct c1}
-    requires{correct c2}
-    requires{atomic_place c1}
-    requires{atomic_place c2}
-    ensures{atomic_place (Parallel c1 c2)}
-  = ()
+      requires{correct c1}
+      requires{correct c2}
+      requires{atomic_place c1}
+      requires{atomic_place c2}
+      ensures{atomic_place (Parallel c1 c2)}
+    = ()
 
   let lemma atomic_place_place (c: wired_circuit) (ta n: int)
-    requires{correct c}
-    requires{0 <= ta <= n - 1}
-    requires{width_pre c + ta <= n}
-    requires{skip_atomic c}
-    ensures{atomic_place (Place c ta n)}
-  = ()
+      requires{correct c}
+      requires{0 <= ta <= n - 1}
+      requires{width_pre c + ta <= n}
+      requires{skip_atomic c}
+      ensures{atomic_place (Place c ta n)}
+    = ()
      
-  use commuting_lemmas.Cont_depth_pre
-
-  let rec predicate atomic_control (ci: wired_circuit)
-    requires{correct ci}
-    ensures{skip_atomic ci -> result}
-    ensures{result -> atomic_place ci}
-    ensures{result -> cont_depth ci <=1}
-  =
-    match  ci with
-    | Parallel c d -> atomic_control c && atomic_control d
-    | Sequence c d -> atomic_control c && atomic_control d
-    | Place c _ _ -> skip_atomic c
-    | Cont c _ _ _ -> skip_atomic c 
-    | Ancillas _ _ -> false
-    |  _ -> true
-    end
-
 end

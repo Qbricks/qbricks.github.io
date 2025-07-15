@@ -32,9 +32,11 @@ module To_OqenQASM_2
 
   type openqasm = 
   | RX string | RY string | RZ string | U1 string
-  | CRX string string string | CRY string string string | CRZ string string string | CU1 string string string 
+  | CRX string string string | CRY string string string 
+  | CRZ string string string | CU1 string string string 
   | H | SS | TT | XX | YY | ZZ | ID
-  | CH string string | CS string string | CT string string | CY string string  | CZ string string
+  | CH string string | CS string string | CT string string 
+  | CY string string  | CZ string string
   | CX string string | CCX string string string | SWAP string string
   | SEQUENCE openqasm openqasm | PLACE openqasm string
   
@@ -49,10 +51,14 @@ module To_OqenQASM_2
     match c with
     | Phase _ -> ID
     | Skip -> ID
-    | Rx k -> RX (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
-    | Ry k -> RY (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
-    | Rz k -> RZ (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
-    | Rzp k -> U1 (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
+    | Rx k -> 
+      RX (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
+    | Ry k -> 
+      RY (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
+    | Rz k -> 
+      RZ (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
+    | Rzp k -> 
+      U1 (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
     | Hadamard -> H
     | S -> SS
     | T -> TT
@@ -63,23 +69,35 @@ module To_OqenQASM_2
     | Bricks_Cnot -> CX (i_to_s 0) (i_to_s 1)
     | Swap t1 t2 _ -> SWAP (i_to_s t1) (i_to_s t2)
     | Bricks_Swap -> SWAP (i_to_s 0) (i_to_s 1)
-    | Sequence d e -> SEQUENCE (qbricks_to_openqasm d) (qbricks_to_openqasm e)
+    | Sequence d e -> 
+      SEQUENCE (qbricks_to_openqasm d) (qbricks_to_openqasm e)
     | Place c1 p _ ->
        match c1 with
-       |  Cnot co1 ta1 _ -> CX (i_to_s (co1 + p)) (i_to_s (ta1 + p)) 
-       |  Bricks_Cnot  -> CX (i_to_s p) (i_to_s (1 + p))
-       |  Swap ta1 ta2 _ -> SWAP (i_to_s (ta1 + p)) (i_to_s (ta2 + p)) 
-       |  Bricks_Swap -> SWAP (i_to_s p) (i_to_s (1 + p)) 
-       | _ ->   PLACE (qbricks_to_openqasm c1) (i_to_s p)
-end
+       |  Cnot co1 ta1 _ -> 
+          CX (i_to_s (co1 + p)) (i_to_s (ta1 + p)) 
+       |  Bricks_Cnot  -> 
+          CX (i_to_s p) (i_to_s (1 + p))
+       |  Swap ta1 ta2 _ -> 
+          SWAP (i_to_s (ta1 + p)) (i_to_s (ta2 + p)) 
+       |  Bricks_Swap -> 
+          SWAP (i_to_s p) (i_to_s (1 + p)) 
+       | _ ->   
+          PLACE (qbricks_to_openqasm c1) (i_to_s p)
+      end
      | Cont c1 co t _ ->
         match c1 with
-        | Phase k -> CRZ (i_to_s co) (i_to_s t) (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
+        | Phase k -> 
+          CRZ (i_to_s co) (i_to_s t) 
+            (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
         | Skip -> PLACE ID (i_to_s t)
-        | Rx k -> CRX (i_to_s co) (i_to_s t) (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)      
-        | Ry k -> CRY (i_to_s co) (i_to_s t) (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)  
-        | Rz k -> CRZ (i_to_s co) (i_to_s t) (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
-        | Rzp k -> CU1 (i_to_s co) (i_to_s t) (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
+        | Rx k -> CRX (i_to_s co) (i_to_s t) 
+            (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)      
+        | Ry k -> CRY (i_to_s co) (i_to_s t) 
+            (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)  
+        | Rz k -> CRZ (i_to_s co) (i_to_s t) 
+            (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
+        | Rzp k -> CU1 (i_to_s co) (i_to_s t) 
+            (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
         | Hadamard -> CH (i_to_s co) (i_to_s t)
         | S -> CRZ (i_to_s co) (i_to_s t) "pi/2)"
         | T -> CRZ (i_to_s co) (i_to_s t) "pi/4)"
@@ -88,12 +106,20 @@ end
         | Z -> CZ (i_to_s co) (i_to_s t)
         | Bricks_Cnot -> CCX (i_to_s 0) (i_to_s (1 + t)) (i_to_s (2 + t))
         | Cnot co1 ta1 _ -> CCX (i_to_s co) (i_to_s (co1 + t)) (i_to_s (t + ta1))
-        | Swap ta1 ta2 _ -> SEQUENCE (SEQUENCE (CCX (i_to_s co) (i_to_s (ta1 + t)) (i_to_s(ta2 + t))) (CCX (i_to_s co) (i_to_s(ta2 + t))  (i_to_s (ta1 + t)))) (CCX (i_to_s co) (i_to_s (ta1 + t)) (i_to_s(ta2 + t)))   
-        |  Bricks_Swap ->  SEQUENCE (SEQUENCE (CCX (i_to_s co) (i_to_s t) (i_to_s(t+1))) (CCX (i_to_s co) (i_to_s(t+1))  (i_to_s t))) (CCX (i_to_s co) (i_to_s t) (i_to_s(t+1)))   
+        | Swap ta1 ta2 _ -> SEQUENCE 
+            (SEQUENCE 
+              (CCX (i_to_s co) (i_to_s (ta1 + t)) (i_to_s(ta2 + t))) 
+              (CCX (i_to_s co) (i_to_s(ta2 + t))  (i_to_s (ta1 + t)))) 
+            (CCX (i_to_s co) (i_to_s (ta1 + t)) (i_to_s(ta2 + t)))   
+        | Bricks_Swap ->  SEQUENCE 
+          (SEQUENCE 
+            (CCX (i_to_s co) (i_to_s t) (i_to_s(t+1))) 
+            (CCX (i_to_s co) (i_to_s(t+1))  (i_to_s t))) 
+          (CCX (i_to_s co) (i_to_s t) (i_to_s(t+1)))   
         | _ -> ID
-end
-     | _ -> ID
-end
+        end
+    | _ -> ID
+    end
 
   let rec function string_oq_rec (c : openqasm) : string
   = 
@@ -106,7 +132,8 @@ end
     | CRY co t k -> "cry("^k^") q["^co^"], q["^t^"];\n"
     | CRZ co t k -> "crz("^k^") q["^co^"], q["^t^"];\n"
     | CU1 co t k -> "cu1("^k^") q["^co^"], q["^t^"];\n"
-    | H -> "h" | SS -> "s" | TT -> "t" | XX -> "x" | YY -> "y" | ZZ -> "z" | ID -> "id" 
+    | H -> "h" | SS -> "s" | TT -> "t" 
+    | XX -> "x" | YY -> "y" | ZZ -> "z" | ID -> "id" 
     | CH co t -> "ch q["^co^"], q["^t^"];\n"
     | CS co t -> "cs q["^co^"], q["^t^"];\n"
     | CT co t -> "ct q["^co^"], q["^t^"];\n"
@@ -117,17 +144,16 @@ end
     | SWAP t1 t2 -> "swap q["^t1^"], q["^t2^"];\n"
     | SEQUENCE d e -> (string_oq_rec d)^(string_oq_rec e)
     | PLACE c1 p ->
-       match c1 with ID -> ""
-                   | _ ->(string_oq_rec c1)^" q["^p^"];\n"
-end
+       match c1 with ID -> "" | _ ->(string_oq_rec c1)^" q["^p^"];\n"
+    end
 end
 
   let function print_oq (c : wired_circuit) : string
-requires{correct c}
+    requires{correct c}
   = "OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q["^(i_to_s (width_pre c))^"];\n"^(string_oq_rec (qbricks_to_openqasm c))
 
   let function string_oq (c : circuit) : string
-requires{ancilla_free c}
+    requires{ancilla_free c}
   = print_oq (to_oqasm (pre c))
 
 end

@@ -1,350 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
-"http://why3.lri.fr/why3session.dtd">
+"https://www.why3.org/why3session.dtd">
 <why3session shape_version="6">
 <prover id="0" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
-<prover id="2" name="CVC4" version="1.7" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="1" name="CVC4" version="1.8" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="3" name="Alt-Ergo" version="2.6.2" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="4" name="CVC5" version="1.2.1" timelimit="5" steplimit="0" memlimit="1000"/>
 <file format="whyml" proved="true">
 <path name=".."/><path name="atomic_place.mlw"/>
 <theory name="Atomic_place" proved="true">
  <goal name="atomic_place&#39;vc" expl="VC for atomic_place" proved="true">
- <transf name="split_goal_right" proved="true" >
-  <goal name="atomic_place&#39;vc.0" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.13" steps="996687"/></proof>
-  </goal>
-  <goal name="atomic_place&#39;vc.1" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.14" steps="996717"/></proof>
-  </goal>
-  <goal name="atomic_place&#39;vc.2" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.05" steps="996697"/></proof>
-  </goal>
-  <goal name="atomic_place&#39;vc.3" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.04" steps="996727"/></proof>
-  </goal>
-  <goal name="atomic_place&#39;vc.4" expl="precondition" proved="true">
-  <transf name="split_vc" proved="true" >
-   <goal name="atomic_place&#39;vc.4.0" expl="precondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.52"/></proof>
-   </goal>
-  </transf>
-  </goal>
-  <goal name="atomic_place&#39;vc.5" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.08" steps="1287561"/></proof>
-  </goal>
-  <goal name="atomic_place&#39;vc.6" expl="postcondition" proved="true">
-  <transf name="split_vc" proved="true" >
-   <goal name="atomic_place&#39;vc.6.0" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.09" steps="997107"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.1" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.06" steps="997107"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.2" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.06" steps="997050"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.3" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.13" steps="997039"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.4" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.15" steps="997015"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.5" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.22" steps="932682"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.6" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.22" steps="932687"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.7" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.23" steps="932687"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.8" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.24" steps="932687"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.9" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.18" steps="932687"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.10" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.21" steps="932687"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.11" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.33" steps="932682"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.12" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.36" steps="932682"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.13" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.21" steps="932682"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.14" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.25" steps="932682"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.15" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.25" steps="932682"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.16" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.23" steps="932682"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.17" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.24" steps="932682"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.18" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.27" steps="932682"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.19" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.27" steps="932682"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.20" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.28" steps="932682"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.21" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.53" steps="932695"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.22" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.30" steps="932695"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.23" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.43" steps="932699"/></proof>
-   </goal>
-   <goal name="atomic_place&#39;vc.6.24" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.51" steps="932699"/></proof>
-   </goal>
-  </transf>
-  </goal>
- </transf>
+ <proof prover="4"><result status="valid" time="3.220518" steps="679162"/></proof>
  </goal>
  <goal name="placed_atomic&#39;vc" expl="VC for placed_atomic" proved="true">
  <transf name="split_goal_right" proved="true" >
   <goal name="placed_atomic&#39;vc.0" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="1.45" steps="934537"/></proof>
+  <proof prover="1"><result status="valid" time="2.764072" steps="1056500"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.1" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.27" steps="1293231"/></proof>
+  <proof prover="1"><result status="valid" time="5.707967" steps="1265498"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.2" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.19" steps="998686"/></proof>
+  <proof prover="1"><result status="valid" time="4.341829" steps="1101301"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.3" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.18" steps="999124"/></proof>
+  <proof prover="1"><result status="valid" time="4.382846" steps="1101750"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.4" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.62" steps="1294365"/></proof>
+  <proof prover="1"><result status="valid" time="6.408750" steps="1263319"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.5" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="1.45" steps="934747"/></proof>
+  <proof prover="1"><result status="valid" time="3.016061" steps="1060161"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.6" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.55" steps="1297667"/></proof>
+  <proof prover="1"><result status="valid" time="6.050564" steps="1271126"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.7" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.37" steps="999069"/></proof>
+  <proof prover="1"><result status="valid" time="4.633798" steps="1105606"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.8" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.30" steps="999517"/></proof>
+  <proof prover="4"><result status="valid" time="2.968468" steps="589131"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.9" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.45" steps="1301083"/></proof>
+  <proof prover="1"><result status="valid" time="6.037203" steps="1269410"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.10" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.18" steps="1291163"/></proof>
+  <proof prover="4"><result status="valid" time="3.049166" steps="581802"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.11" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.46" steps="1291530"/></proof>
+  <proof prover="1"><result status="valid" time="6.194829" steps="1265526"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.12" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.52" steps="1288678"/></proof>
+  <proof prover="4"><result status="valid" time="3.103720" steps="580959"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.13" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.34" steps="999179"/></proof>
+  <proof prover="1"><result status="valid" time="4.826047" steps="1101801"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.14" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.14" steps="1293184"/></proof>
+  <proof prover="1"><result status="valid" time="6.103348" steps="1263436"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.15" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.13" steps="1289431"/></proof>
+  <proof prover="1"><result status="valid" time="6.266844" steps="1263433"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.16" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="1.22" steps="934563"/></proof>
+  <proof prover="1"><result status="valid" time="3.235967" steps="1056526"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.17" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="1.45" steps="934584"/></proof>
+  <proof prover="1"><result status="valid" time="3.161525" steps="1056547"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.18" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.14" steps="1289519"/></proof>
+  <proof prover="1"><result status="valid" time="4.681332" steps="1101359"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.19" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.51" steps="999199"/></proof>
+  <proof prover="1"><result status="valid" time="5.668857" steps="1101822"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.20" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.20" steps="1294421"/></proof>
+  <proof prover="1"><result status="valid" time="6.202744" steps="1263962"/></proof>
   </goal>
   <goal name="placed_atomic&#39;vc.21" expl="postcondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="placed_atomic&#39;vc.21.0" expl="postcondition" proved="true">
-   <transf name="rewrite" proved="true" arg1="H">
+   <transf name="rewrite" proved="true" arg1="H1">
     <goal name="placed_atomic&#39;vc.21.0.0" expl="postcondition" proved="true">
-    <transf name="apply" proved="true" arg1="correct_seq">
-     <goal name="placed_atomic&#39;vc.21.0.0.0" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="1.44" steps="934635"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.0.0.1" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="1.43" steps="934635"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.0.0.2" expl="apply premises" proved="true">
-     <transf name="replace" proved="true" arg1="(width_pre placed_atomic&#39;result&#39;unused&#39;unused1)" arg2="(width_pre (Place x k n))">
-      <goal name="placed_atomic&#39;vc.21.0.0.2.0" expl="apply premises" proved="true">
-      <transf name="replace" proved="true" arg1="(width_pre placed_atomic&#39;result&#39;unused&#39;unused)" arg2="(width_pre (Place x1 k n))">
-       <goal name="placed_atomic&#39;vc.21.0.0.2.0.0" expl="apply premises" proved="true">
-       <proof prover="2"><result status="valid" time="3.16" steps="1303682"/></proof>
-       </goal>
-       <goal name="placed_atomic&#39;vc.21.0.0.2.0.1" expl="equality hypothesis" proved="true">
-       <proof prover="2"><result status="valid" time="2.46" steps="998765"/></proof>
-       </goal>
-      </transf>
-      </goal>
-      <goal name="placed_atomic&#39;vc.21.0.0.2.1" expl="equality hypothesis" proved="true">
-      <proof prover="2"><result status="valid" time="2.11" steps="998765"/></proof>
-      </goal>
-     </transf>
-     </goal>
-    </transf>
+    <proof prover="4" memlimit="2000"><result status="valid" time="3.085257" steps="592025"/></proof>
     </goal>
    </transf>
    </goal>
    <goal name="placed_atomic&#39;vc.21.1" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.47" steps="934566"/></proof>
+   <proof prover="1"><result status="valid" time="3.204817" steps="1059975"/></proof>
    </goal>
    <goal name="placed_atomic&#39;vc.21.2" expl="postcondition" proved="true">
-   <transf name="rewrite" proved="true" arg1="H">
+   <transf name="rewrite" proved="true" arg1="H1">
     <goal name="placed_atomic&#39;vc.21.2.0" expl="postcondition" proved="true">
-    <transf name="apply" proved="true" arg1="correct_cont">
-     <goal name="placed_atomic&#39;vc.21.2.0.0" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="1.42" steps="934620"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.2.0.1" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="3.62" steps="1298221"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.2.0.2" expl="apply premises" proved="true">
-     <transf name="split_vc" proved="true" >
-      <goal name="placed_atomic&#39;vc.21.2.0.2.0" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="3.12" steps="1296879"/></proof>
-      </goal>
-      <goal name="placed_atomic&#39;vc.21.2.0.2.1" expl="apply premises" proved="true">
-      <transf name="replace" proved="true" arg1="(width_pre placed_atomic&#39;result&#39;unused&#39;unused)" arg2="(width_pre x3)
-">
-       <goal name="placed_atomic&#39;vc.21.2.0.2.1.0" expl="apply premises" proved="true">
-       <proof prover="2"><result status="valid" time="3.13" steps="1296774"/></proof>
-       </goal>
-       <goal name="placed_atomic&#39;vc.21.2.0.2.1.1" expl="equality hypothesis" proved="true">
-       <transf name="replace" proved="true" arg1="(width_pre x3)" arg2="(width_pre (Place x3 0 (width_pre x3)))">
-        <goal name="placed_atomic&#39;vc.21.2.0.2.1.1.0" expl="equality hypothesis" proved="true">
-        <proof prover="2"><result status="valid" time="2.10" steps="998712"/></proof>
-        </goal>
-        <goal name="placed_atomic&#39;vc.21.2.0.2.1.1.1" expl="equality hypothesis" proved="true">
-        <proof prover="2"><result status="valid" time="3.08" steps="1294605"/></proof>
-        </goal>
-       </transf>
-       </goal>
-      </transf>
-      </goal>
-     </transf>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.2.0.3" expl="apply premises" proved="true">
-     <transf name="split_vc" proved="true" >
-      <goal name="placed_atomic&#39;vc.21.2.0.3.0" expl="apply premises" proved="true">
-      <transf name="replace" proved="true" arg1="(width_pre placed_atomic&#39;result&#39;unused&#39;unused)" arg2="(width_pre x3)
-">
-       <goal name="placed_atomic&#39;vc.21.2.0.3.0.0" expl="apply premises" proved="true">
-       <proof prover="2"><result status="valid" time="3.11" steps="1294660"/></proof>
-       </goal>
-       <goal name="placed_atomic&#39;vc.21.2.0.3.0.1" expl="equality hypothesis" proved="true">
-       <transf name="replace" proved="true" arg1="(width_pre x3)" arg2="(width_pre (Place x3 0 (width_pre x3)))">
-        <goal name="placed_atomic&#39;vc.21.2.0.3.0.1.0" expl="equality hypothesis" proved="true">
-        <proof prover="2"><result status="valid" time="2.09" steps="998713"/></proof>
-        </goal>
-        <goal name="placed_atomic&#39;vc.21.2.0.3.0.1.1" expl="equality hypothesis" proved="true">
-        <proof prover="2"><result status="valid" time="3.11" steps="1294710"/></proof>
-        </goal>
-       </transf>
-       </goal>
-      </transf>
-      </goal>
-     </transf>
-     </goal>
-    </transf>
+    <proof prover="4" memlimit="2000"><result status="valid" time="3.752021" steps="616613"/></proof>
     </goal>
    </transf>
    </goal>
    <goal name="placed_atomic&#39;vc.21.3" expl="postcondition" proved="true">
-   <transf name="rewrite" proved="true" arg1="H">
+   <transf name="rewrite" proved="true" arg1="H1">
     <goal name="placed_atomic&#39;vc.21.3.0" expl="postcondition" proved="true">
-    <transf name="destruct_rec" proved="true" arg1="H1">
-     <goal name="placed_atomic&#39;vc.21.3.0.0" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.19" steps="1285412"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.1" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.80" steps="1288935"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.2" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.63" steps="1289326"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.3" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.63" steps="1289107"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.4" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.63" steps="1289190"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.5" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.59" steps="1289186"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.6" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.50" steps="1285228"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.7" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.70" steps="1285210"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.8" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.71" steps="1285619"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.9" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.37" steps="1285336"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.10" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.32" steps="1285542"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.11" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.41" steps="1285687"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.12" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.48" steps="1284694"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.13" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.48" steps="1284750"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.14" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.13" steps="1284581"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.15" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.10" steps="1284556"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.16" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.06" steps="1289300"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.17" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.08" steps="1289539"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.18" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.10" steps="1289684"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.19" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.17" steps="1289540"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.20" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.22" steps="998954"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.21.3.0.21" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.71" steps="998527"/></proof>
-     </goal>
-    </transf>
+    <proof prover="4" memlimit="2000"><result status="valid" time="2.807424" steps="587342"/></proof>
     </goal>
    </transf>
    </goal>
@@ -355,25 +110,21 @@
    <goal name="placed_atomic&#39;vc.22.0" expl="postcondition" proved="true">
    <transf name="rewrite" proved="true" arg1="H1">
     <goal name="placed_atomic&#39;vc.22.0.0" expl="postcondition" proved="true">
-    <transf name="rewrite" proved="true" arg1="H">
-     <goal name="placed_atomic&#39;vc.22.0.0.0" expl="postcondition" proved="true">
-     <transf name="apply" proved="true" arg1="transitive_circuit_equiv" arg2="with" arg3="(Sequence (Place x1 k n) (Place x k n))">
-      <goal name="placed_atomic&#39;vc.22.0.0.0.0" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="2.60" steps="997467"/></proof>
-      </goal>
-      <goal name="placed_atomic&#39;vc.22.0.0.0.1" expl="apply premises" proved="true">
-      <proof prover="0"><result status="valid" time="2.04"/></proof>
-      </goal>
-      <goal name="placed_atomic&#39;vc.22.0.0.0.2" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="4.02" steps="1308816"/></proof>
-      </goal>
-      <goal name="placed_atomic&#39;vc.22.0.0.0.3" expl="apply premises" proved="true">
-      <proof prover="0"><result status="valid" time="1.96"/></proof>
-      </goal>
-      <goal name="placed_atomic&#39;vc.22.0.0.0.4" expl="apply premises" proved="true">
-      <proof prover="0"><result status="valid" time="1.90"/></proof>
-      </goal>
-     </transf>
+    <transf name="apply" proved="true" arg1="transitive_circuit_equiv" arg2="with" arg3="(Sequence (Place x1 k n) (Place x k n))">
+     <goal name="placed_atomic&#39;vc.22.0.0.0" expl="apply premises" proved="true">
+     <proof prover="4"><result status="valid" time="1.115454" steps="426329"/></proof>
+     </goal>
+     <goal name="placed_atomic&#39;vc.22.0.0.1" expl="apply premises" proved="true">
+     <proof prover="4"><result status="valid" time="2.828783" steps="593498"/></proof>
+     </goal>
+     <goal name="placed_atomic&#39;vc.22.0.0.2" expl="apply premises" proved="true">
+     <proof prover="4"><result status="valid" time="2.788405" steps="592211"/></proof>
+     </goal>
+     <goal name="placed_atomic&#39;vc.22.0.0.3" expl="apply premises" proved="true">
+     <proof prover="4"><result status="valid" time="2.811825" steps="591543"/></proof>
+     </goal>
+     <goal name="placed_atomic&#39;vc.22.0.0.4" expl="apply premises" proved="true">
+     <proof prover="4"><result status="valid" time="2.759838" steps="593277"/></proof>
      </goal>
     </transf>
     </goal>
@@ -382,144 +133,77 @@
    <goal name="placed_atomic&#39;vc.22.1" expl="postcondition" proved="true">
    <transf name="apply" proved="true" arg1="transitive_circuit_equiv" arg2="with" arg3="(Place x2 (k +&#39; x1) n)">
     <goal name="placed_atomic&#39;vc.22.1.0" expl="apply premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.55" steps="934569"/></proof>
+    <proof prover="1"><result status="valid" time="3.434310" steps="1059978"/></proof>
     </goal>
     <goal name="placed_atomic&#39;vc.22.1.1" expl="apply premises" proved="true">
-    <proof prover="2"><result status="valid" time="2.57" steps="998652"/></proof>
+    <proof prover="1"><result status="valid" time="4.750668" steps="1104913"/></proof>
     </goal>
     <goal name="placed_atomic&#39;vc.22.1.2" expl="apply premises" proved="true">
-    <proof prover="2"><result status="valid" time="3.64" steps="1295320"/></proof>
+    <proof prover="4"><result status="valid" time="3.161743" steps="586442"/></proof>
     </goal>
     <goal name="placed_atomic&#39;vc.22.1.3" expl="apply premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.65" steps="934569"/></proof>
+    <proof prover="1"><result status="valid" time="5.110596" steps="1059978"/></proof>
     </goal>
     <goal name="placed_atomic&#39;vc.22.1.4" expl="apply premises" proved="true">
-    <proof prover="2"><result status="valid" time="4.23" steps="1297377"/></proof>
+    <proof prover="1"><result status="valid" time="6.252020" steps="1272115"/></proof>
     </goal>
    </transf>
    </goal>
    <goal name="placed_atomic&#39;vc.22.2" expl="postcondition" proved="true">
    <transf name="apply" proved="true" arg1="transitive_circuit_equiv" arg2="with" arg3="(Cont x3 (x2 +&#39; k) (x1 +&#39; k) n)">
     <goal name="placed_atomic&#39;vc.22.2.0" expl="apply premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.68" steps="934628"/></proof>
+    <proof prover="1"><result status="valid" time="3.229189" steps="1060078"/></proof>
     </goal>
     <goal name="placed_atomic&#39;vc.22.2.1" expl="apply premises" proved="true">
-    <proof prover="2"><result status="valid" time="4.06" steps="1303959"/></proof>
+    <proof prover="1"><result status="valid" time="6.480983" steps="1274855"/></proof>
     </goal>
     <goal name="placed_atomic&#39;vc.22.2.2" expl="apply premises" proved="true">
-    <proof prover="2"><result status="valid" time="4.09" steps="1301272"/></proof>
+    <proof prover="1"><result status="valid" time="6.388062" steps="1272232"/></proof>
     </goal>
     <goal name="placed_atomic&#39;vc.22.2.3" expl="apply premises" proved="true">
     <transf name="apply" proved="true" arg1="transitive_circuit_equiv" arg2="with" arg3="(Cont ( Place x3 0 (width_pre x3)) (x2 +&#39; k) (x1 +&#39; k) n)">
      <goal name="placed_atomic&#39;vc.22.2.3.0" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="1.63" steps="934628"/></proof>
+     <proof prover="1"><result status="valid" time="3.260656" steps="1060078"/></proof>
      </goal>
      <goal name="placed_atomic&#39;vc.22.2.3.1" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="4.26" steps="1318450"/></proof>
+     <proof prover="1"><result status="valid" time="6.399142" steps="1282966"/></proof>
      </goal>
      <goal name="placed_atomic&#39;vc.22.2.3.2" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="4.05" steps="1303847"/></proof>
+     <proof prover="4"><result status="valid" time="3.203522" steps="592303"/></proof>
      </goal>
      <goal name="placed_atomic&#39;vc.22.2.3.3" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="3.71" steps="1302142"/></proof>
+     <proof prover="4"><result status="valid" time="3.120074" steps="590583"/></proof>
      </goal>
      <goal name="placed_atomic&#39;vc.22.2.3.4" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="3.87" steps="1319475"/></proof>
+     <proof prover="1"><result status="valid" time="6.671665" steps="1285167"/></proof>
      </goal>
     </transf>
     </goal>
     <goal name="placed_atomic&#39;vc.22.2.4" expl="apply premises" proved="true">
-    <proof prover="2"><result status="valid" time="4.40" steps="1320860"/></proof>
+    <proof prover="1"><result status="valid" time="6.586984" steps="1287134"/></proof>
     </goal>
    </transf>
    </goal>
    <goal name="placed_atomic&#39;vc.22.3" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.62" steps="999177"/></proof>
+   <proof prover="1"><result status="valid" time="4.882026" steps="1101813"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="placed_atomic&#39;vc.23" expl="postcondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="placed_atomic&#39;vc.23.0" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.64" steps="999167"/></proof>
+   <proof prover="1"><result status="valid" time="4.950681" steps="1105450"/></proof>
    </goal>
    <goal name="placed_atomic&#39;vc.23.1" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.49" steps="934590"/></proof>
+   <proof prover="1"><result status="valid" time="3.303113" steps="1059999"/></proof>
    </goal>
    <goal name="placed_atomic&#39;vc.23.2" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.79" steps="999121"/></proof>
+   <proof prover="1"><result status="valid" time="4.911945" steps="1105446"/></proof>
    </goal>
    <goal name="placed_atomic&#39;vc.23.3" expl="postcondition" proved="true">
-   <transf name="rewrite" proved="true" arg1="H">
+   <transf name="rewrite" proved="true" arg1="H1">
     <goal name="placed_atomic&#39;vc.23.3.0" expl="postcondition" proved="true">
-    <transf name="destruct_rec" proved="true" arg1="H1">
-     <goal name="placed_atomic&#39;vc.23.3.0.0" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="2.07"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.1" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="1.83"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.2" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="1.85"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.3" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="1.98"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.4" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="2.00"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.5" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="1.86"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.6" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="2.06"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.7" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="2.08"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.8" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="2.10"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.9" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="2.10"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.10" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="2.08"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.11" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="1.81"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.12" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="2.09"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.13" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="2.06"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.14" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="2.04"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.15" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="2.06"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.16" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="1.97"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.17" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="1.99"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.18" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="2.00"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.19" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="1.79"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.20" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.80" steps="998965"/></proof>
-     </goal>
-     <goal name="placed_atomic&#39;vc.23.3.0.21" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.78" steps="998538"/></proof>
-     </goal>
-    </transf>
+    <proof prover="0"><result status="valid" time="2.240999"/></proof>
     </goal>
    </transf>
    </goal>
@@ -528,48 +212,48 @@
   <goal name="placed_atomic&#39;vc.24" expl="postcondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="placed_atomic&#39;vc.24.0" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.43" steps="999667"/></proof>
+   <proof prover="4"><result status="valid" time="3.158818" steps="591547"/></proof>
    </goal>
    <goal name="placed_atomic&#39;vc.24.1" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.80" steps="999078"/></proof>
+   <proof prover="1"><result status="valid" time="5.006050" steps="1105337"/></proof>
    </goal>
    <goal name="placed_atomic&#39;vc.24.2" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.49" steps="999641"/></proof>
+   <proof prover="1"><result status="valid" time="5.078740" steps="1105971"/></proof>
    </goal>
    <goal name="placed_atomic&#39;vc.24.3" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.88" steps="1000732"/></proof>
+   <proof prover="4"><result status="valid" time="3.160792" steps="590534"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="placed_atomic&#39;vc.25" expl="postcondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="placed_atomic&#39;vc.25.0" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="4.11" steps="1309610"/></proof>
+   <proof prover="1"><result status="valid" time="6.552359" steps="1271825"/></proof>
    </goal>
    <goal name="placed_atomic&#39;vc.25.1" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.40" steps="934608"/></proof>
+   <proof prover="1"><result status="valid" time="3.416933" steps="1060017"/></proof>
    </goal>
    <goal name="placed_atomic&#39;vc.25.2" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="4.07" steps="1301637"/></proof>
+   <proof prover="1"><result status="valid" time="6.739590" steps="1272444"/></proof>
    </goal>
    <goal name="placed_atomic&#39;vc.25.3" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="4.14" steps="1306831"/></proof>
+   <proof prover="1"><result status="valid" time="7.193774" steps="1280759"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="placed_atomic&#39;vc.26" expl="postcondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="placed_atomic&#39;vc.26.0" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.47" steps="999200"/></proof>
+   <proof prover="1"><result status="valid" time="5.107238" steps="1105497"/></proof>
    </goal>
    <goal name="placed_atomic&#39;vc.26.1" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.45" steps="934611"/></proof>
+   <proof prover="1"><result status="valid" time="3.536773" steps="1060020"/></proof>
    </goal>
    <goal name="placed_atomic&#39;vc.26.2" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.58" steps="999169"/></proof>
+   <proof prover="1"><result status="valid" time="5.220776" steps="1105505"/></proof>
    </goal>
    <goal name="placed_atomic&#39;vc.26.3" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.70" steps="1000244"/></proof>
+   <proof prover="1"><result status="valid" time="5.811893" steps="1106633"/></proof>
    </goal>
   </transf>
   </goal>
@@ -578,391 +262,153 @@
  <goal name="place_atomic&#39;vc" expl="VC for place_atomic" proved="true">
  <transf name="split_goal_right" proved="true" >
   <goal name="place_atomic&#39;vc.0" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.67" steps="1000740"/></proof>
+  <proof prover="4"><result status="valid" time="2.708418" steps="580787"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.1" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.64" steps="1001177"/></proof>
+  <proof prover="4"><result status="valid" time="3.063077" steps="582406"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.2" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="4.03" steps="1297091"/></proof>
+  <proof prover="4"><result status="valid" time="2.732552" steps="582666"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.3" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.86" steps="1001038"/></proof>
+  <proof prover="1"><result status="valid" time="5.107486" steps="1105148"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.4" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.64" steps="1001487"/></proof>
+  <proof prover="1"><result status="valid" time="5.383959" steps="1105597"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.5" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.78" steps="1302857"/></proof>
+  <proof prover="4"><result status="valid" time="2.601352" steps="587975"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.6" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.45" steps="1000722"/></proof>
+  <proof prover="3"><result status="valid" time="1.242345" steps="3624"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.7" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.57" steps="1000748"/></proof>
+  <proof prover="1"><result status="valid" time="5.146564" steps="1101090"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.8" expl="precondition" proved="true">
-  <transf name="split_vc" proved="true" >
-   <goal name="place_atomic&#39;vc.8.0" expl="precondition" proved="true">
-   <transf name="instantiate" proved="true" arg1="ancilla_free&#39;def" arg2="c">
-    <goal name="place_atomic&#39;vc.8.0.0" expl="precondition" proved="true">
-    <transf name="destruct_rec" proved="true" arg1="Hinst">
-     <goal name="place_atomic&#39;vc.8.0.0.0" expl="destruct premise" proved="true">
-     <proof prover="2"><result status="valid" time="2.78" steps="1000627"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.1" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.79" steps="1001164"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.2" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.62" steps="1000649"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.3" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.61" steps="1000649"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.4" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.64" steps="1000649"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.5" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.62" steps="1000649"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.6" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.65" steps="1000649"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.7" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.31" steps="1000646"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.8" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.24" steps="1000646"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.9" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.33" steps="1000646"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.10" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.30" steps="1000646"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.11" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.35" steps="1000646"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.12" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.31" steps="1000646"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.13" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.67" steps="1001097"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.14" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.69" steps="1001086"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.15" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.56" steps="1001075"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.16" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.59" steps="1001064"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.17" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.38" steps="1000656"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.18" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.62" steps="1000656"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.19" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.29" steps="1000661"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.20" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.32" steps="1000661"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.21" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.86" steps="1000678"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.22" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.77" steps="1000681"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.23" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.01" steps="1000688"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.24" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.00" steps="1000688"/></proof>
-     </goal>
-     <goal name="place_atomic&#39;vc.8.0.0.25" expl="precondition" proved="true">
-     <proof prover="2"><result status="valid" time="1.46" steps="936647"/></proof>
-     </goal>
-    </transf>
-    </goal>
-   </transf>
-   </goal>
-  </transf>
+  <proof prover="1"><result status="valid" time="5.194089" steps="1101117"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.9" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.79" steps="1290829"/></proof>
+  <proof prover="1"><result status="valid" time="6.608518" steps="1262861"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.10" expl="precondition" proved="true">
-  <transf name="split_vc" proved="true" >
-   <goal name="place_atomic&#39;vc.10.0" expl="precondition" proved="true">
-   <transf name="eliminate_definition" proved="true" >
-    <goal name="place_atomic&#39;vc.10.0.0" expl="precondition" proved="true">
-    <proof prover="2"><result status="valid" time="3.43" steps="1172961"/></proof>
-    </goal>
-   </transf>
-   </goal>
-  </transf>
+  <proof prover="3"><result status="valid" time="1.046774" steps="3662"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.11" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="4.34" steps="1291193"/></proof>
+  <proof prover="3"><result status="valid" time="1.263908" steps="3681"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.12" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.02" steps="1001335"/></proof>
+  <proof prover="1"><result status="valid" time="5.360980" steps="1101701"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.13" expl="precondition" proved="true">
-  <transf name="split_vc" proved="true" >
-   <goal name="place_atomic&#39;vc.13.0" expl="precondition" proved="true">
-   <proof prover="2"><result status="valid" time="3.81" steps="1295249"/></proof>
-   </goal>
-  </transf>
+  <proof prover="1"><result status="valid" time="7.044900" steps="1263487"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.14" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.80" steps="1291625"/></proof>
+  <proof prover="1"><result status="valid" time="5.157573" steps="1101086"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.15" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.86" steps="1001203"/></proof>
+  <proof prover="1"><result status="valid" time="5.585703" steps="1101545"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.16" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="4.18" steps="1295762"/></proof>
+  <proof prover="1"><result status="valid" time="7.626701" steps="1263592"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.17" expl="postcondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="place_atomic&#39;vc.17.0" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="4.29" steps="1305006"/></proof>
+   <proof prover="1"><result status="valid" time="6.931663" steps="1269786"/></proof>
    </goal>
    <goal name="place_atomic&#39;vc.17.1" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.58" steps="1000707"/></proof>
+   <proof prover="0"><result status="valid" time="2.905979"/></proof>
+   <proof prover="3"><result status="valid" time="1.378829" steps="3741"/></proof>
+   <proof prover="4"><result status="valid" time="1.534026" steps="433826"/></proof>
    </goal>
    <goal name="place_atomic&#39;vc.17.2" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.67" steps="936687"/></proof>
+   <proof prover="1"><result status="valid" time="5.552951" steps="1062901"/></proof>
    </goal>
    <goal name="place_atomic&#39;vc.17.3" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="4.50" steps="1312710"/></proof>
+   <proof prover="1"><result status="valid" time="7.198963" steps="1277876"/></proof>
    </goal>
    <goal name="place_atomic&#39;vc.17.4" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.84" steps="1000149"/></proof>
+   <proof prover="1"><result status="valid" time="5.199198" steps="1100383"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="place_atomic&#39;vc.18" expl="postcondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="place_atomic&#39;vc.18.0" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="4.17" steps="1310952"/></proof>
+   <proof prover="1"><result status="valid" time="6.762265" steps="1268721"/></proof>
    </goal>
    <goal name="place_atomic&#39;vc.18.1" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.82" steps="1000724"/></proof>
+   <proof prover="1"><result status="valid" time="5.376163" steps="1104821"/></proof>
    </goal>
    <goal name="place_atomic&#39;vc.18.2" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.43" steps="999533"/></proof>
+   <proof prover="1"><result status="valid" time="4.971687" steps="1110043"/></proof>
    </goal>
    <goal name="place_atomic&#39;vc.18.3" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="4.34" steps="1302094"/></proof>
+   <proof prover="1"><result status="valid" time="6.953876" steps="1269349"/></proof>
    </goal>
    <goal name="place_atomic&#39;vc.18.4" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.93" steps="1001393"/></proof>
+   <proof prover="1"><result status="valid" time="5.048611" steps="1101824"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="place_atomic&#39;vc.19" expl="postcondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="place_atomic&#39;vc.19.0" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.48" steps="1001253"/></proof>
+   <proof prover="1"><result status="valid" time="5.169301" steps="1105350"/></proof>
    </goal>
    <goal name="place_atomic&#39;vc.19.1" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.90" steps="1000737"/></proof>
+   <proof prover="1"><result status="valid" time="5.539127" steps="1104833"/></proof>
    </goal>
    <goal name="place_atomic&#39;vc.19.2" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.56" steps="936701"/></proof>
+   <proof prover="1"><result status="valid" time="3.719908" steps="1062915"/></proof>
    </goal>
    <goal name="place_atomic&#39;vc.19.3" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.67" steps="1001178"/></proof>
+   <proof prover="1"><result status="valid" time="5.916449" steps="1105274"/></proof>
    </goal>
    <goal name="place_atomic&#39;vc.19.4" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.64" steps="1003437"/></proof>
+   <proof prover="1"><result status="valid" time="5.172875" steps="1107701"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="place_atomic&#39;vc.20" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.05" steps="1007300"/></proof>
+  <proof prover="1"><result status="valid" time="5.476645" steps="1117889"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.21" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.59" steps="1005965"/></proof>
+  <proof prover="1"><result status="valid" time="5.206640" steps="1116721"/></proof>
   </goal>
   <goal name="place_atomic&#39;vc.22" expl="postcondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="place_atomic&#39;vc.22.0" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="3.83" steps="1311644"/></proof>
+   <proof prover="1"><result status="valid" time="6.553186" steps="1268781"/></proof>
    </goal>
    <goal name="place_atomic&#39;vc.22.1" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.90" steps="1000797"/></proof>
+   <proof prover="1"><result status="valid" time="5.110075" steps="1104894"/></proof>
    </goal>
    <goal name="place_atomic&#39;vc.22.2" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.46" steps="936722"/></proof>
+   <proof prover="1"><result status="valid" time="3.576925" steps="1062936"/></proof>
    </goal>
    <goal name="place_atomic&#39;vc.22.3" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="4.28" steps="1302368"/></proof>
+   <proof prover="1"><result status="valid" time="6.667429" steps="1269377"/></proof>
    </goal>
    <goal name="place_atomic&#39;vc.22.4" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.50" steps="1000212"/></proof>
+   <proof prover="1"><result status="valid" time="4.726899" steps="1104205"/></proof>
    </goal>
   </transf>
   </goal>
  </transf>
  </goal>
  <goal name="atomic_place_cont&#39;vc" expl="VC for atomic_place_cont" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="atomic_place_cont&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="2.26"/></proof>
-  </goal>
- </transf>
+ <proof prover="4"><result status="valid" time="2.540792" steps="582976"/></proof>
  </goal>
  <goal name="atomic_place_seq&#39;vc" expl="VC for atomic_place_seq" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="atomic_place_seq&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="2.22"/></proof>
-  </goal>
- </transf>
+ <proof prover="4"><result status="valid" time="2.765982" steps="585189"/></proof>
  </goal>
  <goal name="atomic_place_par&#39;vc" expl="VC for atomic_place_par" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="atomic_place_par&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="2.22"/></proof>
-  </goal>
- </transf>
+ <proof prover="4"><result status="valid" time="2.728427" steps="584039"/></proof>
  </goal>
  <goal name="atomic_place_place&#39;vc" expl="VC for atomic_place_place" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="atomic_place_place&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="2.23"/></proof>
-  </goal>
- </transf>
- </goal>
- <goal name="atomic_control&#39;vc" expl="VC for atomic_control" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="atomic_control&#39;vc.0" expl="precondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.78"/></proof>
-  </goal>
-  <goal name="atomic_control&#39;vc.1" expl="precondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.82"/></proof>
-  </goal>
-  <goal name="atomic_control&#39;vc.2" expl="precondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.81"/></proof>
-  </goal>
-  <goal name="atomic_control&#39;vc.3" expl="precondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.84"/></proof>
-  </goal>
-  <goal name="atomic_control&#39;vc.4" expl="precondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.77"/></proof>
-  </goal>
-  <goal name="atomic_control&#39;vc.5" expl="precondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.80"/></proof>
-  </goal>
-  <goal name="atomic_control&#39;vc.6" expl="postcondition" proved="true">
-  <transf name="destruct_rec" proved="true" arg1="H1">
-   <goal name="atomic_control&#39;vc.6.0" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.41" steps="1003747"/></proof>
-   </goal>
-   <goal name="atomic_control&#39;vc.6.1" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.39" steps="1003685"/></proof>
-   </goal>
-   <goal name="atomic_control&#39;vc.6.2" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.63" steps="1003747"/></proof>
-   </goal>
-   <goal name="atomic_control&#39;vc.6.3" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.60" steps="1003685"/></proof>
-   </goal>
-   <goal name="atomic_control&#39;vc.6.4" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.61" steps="1003648"/></proof>
-   </goal>
-   <goal name="atomic_control&#39;vc.6.5" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.57" steps="1003650"/></proof>
-   </goal>
-   <goal name="atomic_control&#39;vc.6.6" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.48" steps="1003591"/></proof>
-   </goal>
-   <goal name="atomic_control&#39;vc.6.7" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.44" steps="939190"/></proof>
-   </goal>
-  </transf>
-  </goal>
-  <goal name="atomic_control&#39;vc.7" expl="postcondition" proved="true">
-  <transf name="split_vc" proved="true" >
-   <goal name="atomic_control&#39;vc.7.0" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.38" steps="1003835"/></proof>
-   </goal>
-   <goal name="atomic_control&#39;vc.7.1" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.33" steps="1003835"/></proof>
-   </goal>
-   <goal name="atomic_control&#39;vc.7.2" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.52" steps="1003693"/></proof>
-   </goal>
-   <goal name="atomic_control&#39;vc.7.3" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="3.74" steps="1294478"/></proof>
-   </goal>
-   <goal name="atomic_control&#39;vc.7.4" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.51" steps="939218"/></proof>
-   </goal>
-   <goal name="atomic_control&#39;vc.7.5" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.63" steps="1005467"/></proof>
-   </goal>
-  </transf>
-  </goal>
-  <goal name="atomic_control&#39;vc.8" expl="postcondition" proved="true">
-  <transf name="split_vc" proved="true" >
-   <goal name="atomic_control&#39;vc.8.0" expl="postcondition" proved="true">
-   <transf name="rewrite" proved="true" arg1="H2">
-    <goal name="atomic_control&#39;vc.8.0.0" expl="postcondition" proved="true">
-    <transf name="rewrite" proved="true" arg1="cont_depth_par">
-     <goal name="atomic_control&#39;vc.8.0.0.0" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="4.32" steps="1309789"/></proof>
-     </goal>
-     <goal name="atomic_control&#39;vc.8.0.0.1" expl="rewrite premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.78" steps="1003410"/></proof>
-     </goal>
-     <goal name="atomic_control&#39;vc.8.0.0.2" expl="rewrite premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.72" steps="1003410"/></proof>
-     </goal>
-    </transf>
-    </goal>
-   </transf>
-   </goal>
-   <goal name="atomic_control&#39;vc.8.1" expl="postcondition" proved="true">
-   <transf name="rewrite" proved="true" arg1="H2">
-    <goal name="atomic_control&#39;vc.8.1.0" expl="postcondition" proved="true">
-    <transf name="rewrite" proved="true" arg1="cont_depth_seq">
-     <goal name="atomic_control&#39;vc.8.1.0.0" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="4.19" steps="1310241"/></proof>
-     </goal>
-     <goal name="atomic_control&#39;vc.8.1.0.1" expl="rewrite premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.67" steps="1003420"/></proof>
-     </goal>
-     <goal name="atomic_control&#39;vc.8.1.0.2" expl="rewrite premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.71" steps="1003420"/></proof>
-     </goal>
-     <goal name="atomic_control&#39;vc.8.1.0.3" expl="rewrite premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.69" steps="1003462"/></proof>
-     </goal>
-    </transf>
-    </goal>
-   </transf>
-   </goal>
-   <goal name="atomic_control&#39;vc.8.2" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="3.88" steps="1295697"/></proof>
-   </goal>
-   <goal name="atomic_control&#39;vc.8.3" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="4.22" steps="1310441"/></proof>
-   </goal>
-   <goal name="atomic_control&#39;vc.8.4" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.63" steps="939247"/></proof>
-   </goal>
-   <goal name="atomic_control&#39;vc.8.5" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="2.11"/></proof>
-   </goal>
-  </transf>
-  </goal>
- </transf>
+ <proof prover="4"><result status="valid" time="2.607295" steps="582404"/></proof>
  </goal>
 </theory>
 </file>

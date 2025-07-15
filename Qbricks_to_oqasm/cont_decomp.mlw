@@ -1,3 +1,26 @@
+(**************************************************************************)
+(*  This file is part of QBRICKS.                                         *)
+(*                                                                        *)
+(*  Copyright (C) 2020-2022                                               *)
+(*    CEA (Commissariat à l'énergie atomique et aux énergies              *)
+(*         alternatives)                                                  *)
+(*    Université Paris-Saclay                                             *)
+(*                                                                        *)
+(*  you can redistribute it and/or modify it under the terms of the GNU   *)
+(*  Lesser General Public License as published by the Free Software       *)
+(*  Foundation, version 2.1.                                              *)
+(*                                                                        *)
+(*  It is distributed in the hope that it will be useful,                 *)
+(*  but WITHOUT ANY WARRANTY; without even the implied warranty of        *)
+(*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *)
+(*  GNU Lesser General Public License for more details.                   *)
+(*                                                                        *)
+(*  See the GNU Lesser General Public License version 2.1                 *)
+(*  for more details (enclosed in the file licenses/LGPLv2.1).            *)
+(*                                                                        *)
+(**************************************************************************)
+
+
 module Cont_del_implem
 
   use int.Int
@@ -94,7 +117,23 @@ module Cont_del_implem
     ensures{parallel_free result}
     ensures{width_pre result = n1}
     ensures{result <=> Cont (Rx k) co1 ta1 n1}
-     
+
+  val function ccz (co1 co2 ta1 n1: int) : wired_circuit
+    requires{0 <= co1 < n1}
+    requires{0 <= co2 < n1}
+    requires{0 <= ta1 < n1}
+    requires{co1 <> co2}
+    requires{co1 <> ta1}
+    requires{ta1 <> co2}
+    ensures{atomic_place result}
+    ensures{correct result }
+    ensures{ternary_gates_free result}
+    ensures{ancilla_free result}
+    ensures{cont_depth result = 0}
+    ensures{parallel_free result}
+    ensures{width_pre result = n1}
+    ensures{result <=> ccz co1 co2 ta1 n1}
+
   val function toffoli_decomp (co1 co2 ta1 n1: int) : wired_circuit
     requires{0 <= co1 < n1}
     requires{0 <= co2 < n1}
@@ -195,8 +234,8 @@ module Cont_del_implem
     ensures{result <=> Cont Y co1 ta1 n1}
 
   let lemma width_cont (c1: wired_circuit) (co1 ta1 n1: int)
-        requires{correct c1}
-        requires{0 <= co1 < n1}
+    requires{correct c1}
+    requires{0 <= co1 < n1}
     requires{0 <= ta1 <= n1 - (width_pre c1)}
     requires{ta1 <= co1 -> ta1 + width_pre c1 <= co1}
     ensures{width_pre (Cont c1 co1 ta1 n1) = n1}

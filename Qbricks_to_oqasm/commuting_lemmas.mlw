@@ -32,222 +32,222 @@
   use circuits_equiv_pre.Circuit_equivalence_impl
   use circuits_equiv_pre.Wiring_equiv
   use circuits_equiv_pre.Gate_decomp 
-use circuits_equiv_pre.Correct_width_sub
+  use circuits_equiv_pre.Correct_width_sub
   use remarkable_fragments.Flat_circuits
   use remarkable_fragments.Diag_circuits
   use  matrices.Matrix
   use qdata.Qreg
 
   let rec predicate ancilla_free (c:wired_circuit)
-            requires{build_correct c}
-            ensures{result <-> (ancillas_pre c = 0)}
-    variant{c}
-  = match c with
-  | Skip -> true
-  | Phase _ -> true
-  | Rx _ -> true
-  | Ry _ -> true
-  | Rz _ -> true
-  | Rzp _ -> true
-  | Hadamard -> true
-  | S -> true
-  | T -> true
-  | X -> true
-  | Y ->  true
-  | Z -> true
-  | Bricks_Cnot -> true
-  | Bricks_Toffoli  -> true
-  | Bricks_Fredkin   -> true
-  | Bricks_Swap   -> true
-  | Cnot _ _ _ ->  true
-  | Swap _ _ _ ->  true
-  | Toffoli _ _ _ _ -> true
-  | Fredkin _ _ _ _ ->  true 
-  | Place  c _ _ -> ancilla_free c
-  | Cont c _ _ _  -> ancilla_free c
-  | Sequence d e ->   ancilla_free d && ancilla_free e
-  | Parallel d e ->  ancilla_free d && ancilla_free e 
-  | Ancillas _ _ -> false
-  end
+      requires{build_correct c}
+      ensures{result <-> (ancillas_pre c = 0)}
+      variant{c}
+    = match c with
+    | Skip -> true
+    | Phase _ -> true
+    | Rx _ -> true
+    | Ry _ -> true
+    | Rz _ -> true
+    | Rzp _ -> true
+    | Hadamard -> true
+    | S -> true
+    | T -> true
+    | X -> true
+    | Y ->  true
+    | Z -> true
+    | Bricks_Cnot -> true
+    | Bricks_Toffoli -> true
+    | Bricks_Fredkin -> true
+    | Bricks_Swap -> true
+    | Cnot _ _ _ -> true
+    | Swap _ _ _ -> true
+    | Toffoli _ _ _ _ -> true
+    | Fredkin _ _ _ _ -> true 
+    | Place  c _ _ -> ancilla_free c
+    | Cont c _ _ _  -> ancilla_free c
+    | Sequence d e -> ancilla_free d && ancilla_free e
+    | Parallel d e -> ancilla_free d && ancilla_free e 
+    | Ancillas _ _ -> false
+    end
 
-let lemma set_ancilla_free (c:wired_circuit)
+  let lemma set_ancilla_free (c:wired_circuit)
       requires{build_correct c}
       requires{ancillas_pre c = 0}
       ensures{ancilla_free c}
-  =()
+    = ()
 
-let lemma correct_ancilla_free (c:wired_circuit)
+  let lemma correct_ancilla_free (c:wired_circuit)
       requires{correct c}
       requires{ancillas_pre c = 0}
       ensures{ancilla_free c}
-  =()
+    = ()
 
- let lemma ancilla_free_place (c: wired_circuit) (ta n: int)
-    requires{correct c}
-    requires{0 <= ta <= n - 1}
-    requires{width_pre c + ta <= n}
-    ensures{ancilla_free (Place c ta n) -> ancilla_free c}
-  = ()
+  let lemma ancilla_free_place (c: wired_circuit) (ta n: int)
+      requires{correct c}
+      requires{0 <= ta <= n - 1}
+      requires{width_pre c + ta <= n}
+      ensures{ancilla_free (Place c ta n) -> ancilla_free c}
+    = ()
 
   let lemma ancilla_free_place_rev (c: wired_circuit) (ta n: int)
-    requires{correct c}
-    requires{0 <= ta <= n - 1}
-    requires{width_pre c + ta <= n}
-    ensures{ancilla_free c -> ancilla_free (Place c ta n)}
-  = ()
+      requires{correct c}
+      requires{0 <= ta <= n - 1}
+      requires{width_pre c + ta <= n}
+      ensures{ancilla_free c -> ancilla_free (Place c ta n)}
+    = ()
 
   let lemma ancilla_free_cont (c: wired_circuit) (co ta n: int)
-    requires{correct c}
-    requires{0 <= co < n}
-    requires{0 <= ta <= n - (width_pre c)}
-    requires{ta <= co -> ta + width_pre c <= co}
-    ensures{ancilla_free (Cont c co ta n) -> ancilla_free c}
-  = ()
+      requires{correct c}
+      requires{0 <= co < n}
+      requires{0 <= ta <= n - (width_pre c)}
+      requires{ta <= co -> ta + width_pre c <= co}
+      ensures{ancilla_free (Cont c co ta n) -> ancilla_free c}
+    = ()
 
   let lemma ancilla_free_cont_rev (c: wired_circuit) (co ta n: int)
-    requires{correct c}
-    requires{0 <= co < n}
-    requires{0 <= ta <= n - (width_pre c)}
-    requires{ta <= co -> ta + width_pre c <= co}
-    ensures{ancilla_free c -> ancilla_free (Cont c co ta n)}
-  = ()
+      requires{correct c}
+      requires{0 <= co < n}
+      requires{0 <= ta <= n - (width_pre c)}
+      requires{ta <= co -> ta + width_pre c <= co}
+      ensures{ancilla_free c -> ancilla_free (Cont c co ta n)}
+    = ()
 
   let lemma ancilla_free_seq (c1 c2: wired_circuit)
-    requires{correct c1}
-    requires{correct c2}
-    requires{width_pre c1 = width_pre c2}
-    ensures{ancilla_free (Sequence c1 c2) -> ancilla_free c1 /\ ancilla_free c2}
-  = ()
+      requires{correct c1}
+      requires{correct c2}
+      requires{width_pre c1 = width_pre c2}
+      ensures{ancilla_free (Sequence c1 c2) -> ancilla_free c1 /\ ancilla_free c2}
+    = ()
 
-let lemma not_ancilla_free_anc (c:wired_circuit) (i:int)
+  let lemma not_ancilla_free_anc (c:wired_circuit) (i:int)
       requires{correct (Ancillas c i)}
       ensures{not (ancilla_free (Ancillas c i))}
-  =()
+    = ()
   
   let lemma ancilla_free_seq_rev (c1 c2: wired_circuit)
-    requires{correct c1}
-    requires{correct c2}
-    requires{width_pre c1 = width_pre c2}
-    ensures{ancilla_free c1 /\ ancilla_free c2 -> ancilla_free (Sequence c1 c2)}
-  = ()
+      requires{correct c1}
+      requires{correct c2}
+      requires{width_pre c1 = width_pre c2}
+      ensures{ancilla_free c1 /\ ancilla_free c2 -> ancilla_free (Sequence c1 c2)}
+    = ()
 
   let lemma ancilla_free_par (c1 c2: wired_circuit)
-    requires{correct c1}
-    requires{correct c2}
-    ensures{ancilla_free (Parallel c1 c2) -> ancilla_free c1 /\ ancilla_free c2}
-  = ()
+      requires{correct c1}
+      requires{correct c2}
+      ensures{ancilla_free (Parallel c1 c2) -> ancilla_free c1 /\ ancilla_free c2}
+    = ()
 
   let lemma ancilla_free_par_rev (c1 c2: wired_circuit)
-    requires{correct c1}
-    requires{correct c2}
-    ensures{ancilla_free c1 /\ ancilla_free c2 -> ancilla_free (Parallel c1 c2)}
-  = ()
+      requires{correct c1}
+      requires{correct c2}
+      ensures{ancilla_free c1 /\ ancilla_free c2 -> ancilla_free (Parallel c1 c2)}
+    = ()
 
   let lemma ancilla_free_cont_seq (c1 c2: wired_circuit) (co ta n: int)
-    requires{correct c1}
-    requires{correct c2}
-    requires{width_pre c1 = width_pre c2}
-    requires{0 <= co < n}
-    requires{0 <= ta <= n - (width_pre c1)}
-    requires{ta <= co -> ta + width_pre c1 <= co}
-    ensures{ancilla_free (Cont (Sequence c1 c2) co ta n) -> ancilla_free (Cont c1 co ta n) /\ ancilla_free (Cont c2 co ta n)}
-  = ()
+      requires{correct c1}
+      requires{correct c2}
+      requires{width_pre c1 = width_pre c2}
+      requires{0 <= co < n}
+      requires{0 <= ta <= n - (width_pre c1)}
+      requires{ta <= co -> ta + width_pre c1 <= co}
+      ensures{ancilla_free (Cont (Sequence c1 c2) co ta n) -> ancilla_free (Cont c1 co ta n) /\ ancilla_free (Cont c2 co ta n)}
+    = ()
 
   let lemma ancilla_free_cont_hadamard (co1 ta1 n1: int)
-    requires{0 <= co1 /\ co1 < n1}
-    requires{0 <= ta1 /\ ta1 <= (n1 - 1)}
-    requires{ta1 <= co1 -> ta1 + 1 <= co1}
-    ensures{ancilla_free (cont_hadamard co1 ta1 n1)}
-  = ()
+      requires{0 <= co1 /\ co1 < n1}
+      requires{0 <= ta1 /\ ta1 <= (n1 - 1)}
+      requires{ta1 <= co1 -> ta1 + 1 <= co1}
+      ensures{ancilla_free (cont_hadamard co1 ta1 n1)}
+    = ()
 
   let lemma ancilla_free_cont_rz (k co1 ta1 n1: int)
-    requires{0 <= co1 < n1}
-    requires{0 <= ta1 <= n1 - 1}
-    requires{ta1 <= co1 -> ta1 + 1 <= co1}
-    requires{co1 <> ta1}
-    ensures{ancilla_free (cont_rz k co1 ta1 n1)}
-  = ()
+      requires{0 <= co1 < n1}
+      requires{0 <= ta1 <= n1 - 1}
+      requires{ta1 <= co1 -> ta1 + 1 <= co1}
+      requires{co1 <> ta1}
+      ensures{ancilla_free (cont_rz k co1 ta1 n1)}
+    = ()
 
   let lemma ancilla_free_cont_rx (k co1 ta1 n1: int)
-    requires{0 <= co1 < n1}
-    requires{0 <= ta1 <= n1 - 1}
-    requires{ta1 <= co1 -> ta1 + 1 <= co1}
-    requires{co1 <> ta1}
-    ensures{ancilla_free (cont_rx k co1 ta1 n1)}
-  = ()
+      requires{0 <= co1 < n1}
+      requires{0 <= ta1 <= n1 - 1}
+      requires{ta1 <= co1 -> ta1 + 1 <= co1}
+      requires{co1 <> ta1}
+      ensures{ancilla_free (cont_rx k co1 ta1 n1)}
+    = ()
 
   let lemma ancilla_free_cont_ry (k co1 ta1 n1: int)
-    requires{0 <= co1 < n1}
-    requires{0 <= ta1 <= n1 - 1}
-    requires{ta1 <= co1 -> ta1 + 1 <= co1}
-    requires{co1 <> ta1}
-    ensures{ancilla_free (cont_ry k co1 ta1 n1)}
-  = ()
+      requires{0 <= co1 < n1}
+      requires{0 <= ta1 <= n1 - 1}
+      requires{ta1 <= co1 -> ta1 + 1 <= co1}
+      requires{co1 <> ta1}
+      ensures{ancilla_free (cont_ry k co1 ta1 n1)}
+    = ()
 
   let lemma ancilla_free_toffoli_decomp (co1 co2 ta n: int)
-    requires{0 <= co1 /\ co1 < n}
-    requires{0 <= co2 /\ co2 < n}
-    requires{0 <= ta /\ ta < n}
-    requires{not co1 = co2}
-    requires{not co1 = ta}
-    requires{not ta = co2}
-    ensures{ancilla_free (toffoli_decomp co1 co2 ta n)}
-  = ()
+      requires{0 <= co1 /\ co1 < n}
+      requires{0 <= co2 /\ co2 < n}
+      requires{0 <= ta /\ ta < n}
+      requires{not co1 = co2}
+      requires{not co1 = ta}
+      requires{not ta = co2}
+      ensures{ancilla_free (toffoli_decomp co1 co2 ta n)}
+    = ()
 
   let lemma ancilla_free_fredkin_decomp (co1 ta1 ta2 n1: int)
-    requires{0 <= ta1 /\ ta1 < n1}
-    requires{0 <= ta2 /\ ta2 < n1}
-    requires{0 <= co1 /\ co1 < n1}
-    requires{not ta1 = ta2}
-    requires{not ta1 = co1}
-    requires{not co1 = ta2}
-    ensures{ancilla_free (fredkin_decomp co1 ta1 ta2 n1)}
-  = ()
+      requires{0 <= ta1 /\ ta1 < n1}
+      requires{0 <= ta2 /\ ta2 < n1}
+      requires{0 <= co1 /\ co1 < n1}
+      requires{not ta1 = ta2}
+      requires{not ta1 = co1}
+      requires{not co1 = ta2}
+      ensures{ancilla_free (fredkin_decomp co1 ta1 ta2 n1)}
+    = ()
 
   let lemma ancilla_free_swap_decomp (ta1 ta2 n1: int)
-    requires{0 <= ta1 /\ ta1 < n1}
-    requires{0 <= ta2 /\ ta2 < n1}
-    requires{not ta1 = ta2}
-    ensures{ancilla_free (swap_decomp ta1 ta2 n1)}
-  = ()
+      requires{0 <= ta1 /\ ta1 < n1}
+      requires{0 <= ta2 /\ ta2 < n1}
+      requires{not ta1 = ta2}
+      ensures{ancilla_free (swap_decomp ta1 ta2 n1)}
+    = ()
 
   let lemma ancilla_free_cont_ (c1: wired_circuit) (co1 ta1 n1: int)
-    requires{correct c1}
-    requires{0 <= co1 < n1}
-    requires{0 <= ta1 <= n1 - (width_pre c1)}
-    requires{ta1 <= co1 -> ta1 + (width_pre c1) <= co1}
-    requires{co1 <> ta1}
-    ensures{ancilla_free (Cont c1 co1 ta1 n1) -> ancilla_free c1}
-  = ()
+      requires{correct c1}
+      requires{0 <= co1 < n1}
+      requires{0 <= ta1 <= n1 - (width_pre c1)}
+      requires{ta1 <= co1 -> ta1 + (width_pre c1) <= co1}
+      requires{co1 <> ta1}
+      ensures{ancilla_free (Cont c1 co1 ta1 n1) -> ancilla_free c1}
+    = ()
 
   let lemma ancilla_free_cont_phase (k co t n:int)
-    requires{0 <= t < n}
-    requires{0 <= co < n}
-    requires{t <> co}
-    ensures{ancilla_free (cont_phase k co t n)}
-  = ()
+      requires{0 <= t < n}
+      requires{0 <= co < n}
+      requires{t <> co}
+      ensures{ancilla_free (cont_phase k co t n)}
+    = ()
 
   let lemma ancilla_free_cnot (co1 ta1 n1: int)
-    requires{0 <= co1 < n1}
-    requires{0<= ta1 < n1}
-    requires{ta1 <> co1}
-    ensures{ancilla_free (Cnot co1 ta1 n1)}
-  = ()
+      requires{0 <= co1 < n1}
+      requires{0<= ta1 < n1}
+      requires{ta1 <> co1}
+      ensures{ancilla_free (Cnot co1 ta1 n1)}
+    = ()
 
   let lemma ancilla_free_cont_rzp (k co1 ta1 n1: int)
-    requires{0 <= co1 < n1}
-    requires{0 <= ta1 <= n1 - 1}
-    requires{ta1 <= co1 -> ta1 + 1 <= co1}
-    requires{co1 <> ta1}
-    ensures{ancilla_free (cont_rzp k co1 ta1 n1)}
-  = ()
+      requires{0 <= co1 < n1}
+      requires{0 <= ta1 <= n1 - 1}
+      requires{ta1 <= co1 -> ta1 + 1 <= co1}
+      requires{co1 <> ta1}
+      ensures{ancilla_free (cont_rzp k co1 ta1 n1)}
+    = ()
 
   predicate preserve_ancilla_free (c r: wired_circuit) =
     ancilla_free c ->  ancilla_free r
 
 end
 
-     module Cont_depth_pre
+  module Cont_depth_pre
 
   use int.Int
   use int.MinMax
@@ -265,152 +265,152 @@ end
   use Ancilla_pre
 
   let rec function cont_depth (c : wired_circuit) : int
-    requires{correct c}
-    variant{c}
-    ensures{0 <= result}
-  = match c with
-    | Cont c1 _ _ _ -> 
-        (cont_depth c1) + 1
-    | Sequence d e -> 
-        max (cont_depth d) (cont_depth e)
-    | Parallel d e -> 
-        max (cont_depth d) (cont_depth e)
-    | Place c1 _ _ -> 
-        cont_depth c1
-    | Ancillas c1 _ -> cont_depth c1
-    | _ -> 0
+      requires{correct c}
+      variant{c}
+      ensures{0 <= result}
+    = match c with
+      | Cont c1 _ _ _ -> 
+          (cont_depth c1) + 1
+      | Sequence d e -> 
+          max (cont_depth d) (cont_depth e)
+      | Parallel d e -> 
+          max (cont_depth d) (cont_depth e)
+      | Place c1 _ _ -> 
+          cont_depth c1
+      | Ancillas c1 _ -> cont_depth c1
+      | _ -> 0
     end
 
   let lemma cont_depth_cont (c: wired_circuit) (co ta n: int)
-    requires{correct c}
-    requires{0 <= co /\ co < n}
-    requires{0 <= ta /\ ta <= (n - width_pre c)}
-    requires{ta <= co -> (ta + width_pre c) <= co}
-    ensures{cont_depth (Cont c co ta n) = (cont_depth c) + 1}
-  = ()
+      requires{correct c}
+      requires{0 <= co /\ co < n}
+      requires{0 <= ta /\ ta <= (n - width_pre c)}
+      requires{ta <= co -> (ta + width_pre c) <= co}
+      ensures{cont_depth (Cont c co ta n) = (cont_depth c) + 1}
+    = ()
 
   let lemma cont_depth_seq (c1 c2: wired_circuit)
-    requires{correct c1}
-    requires{correct c2}
-    requires{width_pre c1 = width_pre c2}
-    ensures{cont_depth (Sequence c1 c2) = max (cont_depth c1) (cont_depth c2)}
-  = ()
+      requires{correct c1}
+      requires{correct c2}
+      requires{width_pre c1 = width_pre c2}
+      ensures{cont_depth (Sequence c1 c2) = max (cont_depth c1) (cont_depth c2)}
+    = ()
 
   let lemma cont_depth_par (c1 c2: wired_circuit)
-    requires{correct c1}
-    requires{correct c2}
-    ensures{cont_depth (Parallel c1 c2) = max (cont_depth c1) (cont_depth c2)}
-  = ()
+      requires{correct c1}
+      requires{correct c2}
+      ensures{cont_depth (Parallel c1 c2) = max (cont_depth c1) (cont_depth c2)}
+    = ()
 
   let lemma cont_depth_place (c: wired_circuit) (ta n: int)
-    requires{correct c}
-    requires{0 <= ta <= n - 1}
-    requires{width_pre c + ta <= n}
-    ensures{cont_depth (Place c ta n) = cont_depth c}
-  = ()
+      requires{correct c}
+      requires{0 <= ta <= n - 1}
+      requires{width_pre c + ta <= n}
+      ensures{cont_depth (Place c ta n) = cont_depth c}
+    = ()
 
   let lemma cont_depth_ancilla (c: wired_circuit) (n: int)
-    requires{correct (Ancillas c n)}
-    requires{ 1 <= n}
-    requires{n < width_pre c}
-    ensures{cont_depth (Ancillas c n) = cont_depth c}
-  = ()
+      requires{correct (Ancillas c n)}
+      requires{ 1 <= n}
+      requires{n < width_pre c}
+      ensures{cont_depth (Ancillas c n) = cont_depth c}
+    = ()
 
   let lemma cont_depth_cont_place (c1: wired_circuit) (co1 ta1 n1 ta2 n2: int)
-    requires{correct c1}
-    requires{0 <= ta2}
-    requires{width_pre c1 + ta2 <= n2}
-    requires{0 <= co1 < n2}
-    requires{0 <= ta1}
-    requires{n2 + ta1 <= n1}
-    requires{ta1 <= co1 -> ta1 + n2 <= co1}
-    ensures{cont_depth (Cont (Place c1 ta2 n2) co1 ta1 n1) = cont_depth (Cont c1 co1 (ta1+ta2) n1)}
-  = ()
+      requires{correct c1}
+      requires{0 <= ta2}
+      requires{width_pre c1 + ta2 <= n2}
+      requires{0 <= co1 < n2}
+      requires{0 <= ta1}
+      requires{n2 + ta1 <= n1}
+      requires{ta1 <= co1 -> ta1 + n2 <= co1}
+      ensures{cont_depth (Cont (Place c1 ta2 n2) co1 ta1 n1) = cont_depth (Cont c1 co1 (ta1+ta2) n1)}
+    = ()
 
   let lemma cont_depth_cont_place1 (c1: wired_circuit) (co1 ta1 n1 ta2 n2: int)
-    requires{correct c1}
-    requires{0 <= ta2 <= (n2 - 1)}
-    requires{width_pre c1 + ta2 <= n2}
-    requires{0 <= co1 < n1}
-    requires{0 <= (ta1 + ta2) <= (n1 - width_pre c1)}
-    requires{0 <= ta1 <= (n1 - width_pre (Place c1 ta2 n2))}
-    requires{ta1 <= co1 -> (ta1 + n2) <= co1}
-    ensures{cont_depth (Cont (Place c1 ta2 n2) co1 ta1 n1) = (cont_depth c1) + 1}
-  = ()
+      requires{correct c1}
+      requires{0 <= ta2 <= (n2 - 1)}
+      requires{width_pre c1 + ta2 <= n2}
+      requires{0 <= co1 < n1}
+      requires{0 <= (ta1 + ta2) <= (n1 - width_pre c1)}
+      requires{0 <= ta1 <= (n1 - width_pre (Place c1 ta2 n2))}
+      requires{ta1 <= co1 -> (ta1 + n2) <= co1}
+      ensures{cont_depth (Cont (Place c1 ta2 n2) co1 ta1 n1) = (cont_depth c1) + 1}
+    = ()
 
   let lemma cont_depth_cont_place2 (c1: wired_circuit) (co1 ta1 n1 ta2 n2: int)
-    requires{correct c1}
-    requires{0 <= ta2 <= (n2 - 1)}
-    requires{width_pre c1 + ta2 <= n2}
-    requires{0 <= co1 < n1}
-    requires{0 <= (ta1 + ta2) <= (n1 - width_pre c1)}
-    requires{0 <= ta1 <= (n1 - width_pre (Place c1 ta2 n2))}
-    requires{ta1 <= co1 -> (ta1 + n2) <= co1}
-    ensures{(cont_depth (Cont (Place c1 ta2 n2) co1 ta1 n1) <= 1) -> (cont_depth (Cont c1 co1 (ta1+ta2) n1) <= 1)}
-  = ()
+      requires{correct c1}
+      requires{0 <= ta2 <= (n2 - 1)}
+      requires{width_pre c1 + ta2 <= n2}
+      requires{0 <= co1 < n1}
+      requires{0 <= (ta1 + ta2) <= (n1 - width_pre c1)}
+      requires{0 <= ta1 <= (n1 - width_pre (Place c1 ta2 n2))}
+      requires{ta1 <= co1 -> (ta1 + n2) <= co1}
+      ensures{(cont_depth (Cont (Place c1 ta2 n2) co1 ta1 n1) <= 1) -> (cont_depth (Cont c1 co1 (ta1+ta2) n1) <= 1)}
+    = ()
 
   let lemma cont_depth_cont_seq (c1 c2: wired_circuit) (co1 ta1 n1: int)
-    requires{correct c1}
-    requires{correct c2}
-    requires{width_pre c1 = width_pre c2}
-    requires{0 <= co1 < n1}
-    requires{0 <= ta1 <= (n1 - width_pre (Sequence c1 c2))}
-    requires{ta1 <= co1 -> ta1 + (width_pre (Sequence c1 c2)) <= co1}
-    ensures{cont_depth (Cont (Sequence c1 c2) co1 ta1 n1) = (max (cont_depth c1) (cont_depth c2)) + 1}
-  = ()
+      requires{correct c1}
+      requires{correct c2}
+      requires{width_pre c1 = width_pre c2}
+      requires{0 <= co1 < n1}
+      requires{0 <= ta1 <= (n1 - width_pre (Sequence c1 c2))}
+      requires{ta1 <= co1 -> ta1 + (width_pre (Sequence c1 c2)) <= co1}
+      ensures{cont_depth (Cont (Sequence c1 c2) co1 ta1 n1) = (max (cont_depth c1) (cont_depth c2)) + 1}
+    = ()
 
   let lemma cont_depth_cont_seq1 (c1 c2: wired_circuit) (co1 ta1 n1: int)
-    requires{correct c1}
-    requires{correct c2}
-    requires{width_pre c1 = width_pre c2}
-    requires{0 <= co1 < n1}
-    requires{0 <= ta1 <= (n1 - width_pre (Sequence c1 c2))}
-    requires{ta1 <= co1 -> ta1 + (width_pre (Sequence c1 c2)) <= co1}
-    ensures{cont_depth (Cont (Sequence c1 c2) co1 ta1 n1) <= 1 -> ((cont_depth c1) = 0) /\ ((cont_depth c2) = 0)}
-  = ()
+      requires{correct c1}
+      requires{correct c2}
+      requires{width_pre c1 = width_pre c2}
+      requires{0 <= co1 < n1}
+      requires{0 <= ta1 <= (n1 - width_pre (Sequence c1 c2))}
+      requires{ta1 <= co1 -> ta1 + (width_pre (Sequence c1 c2)) <= co1}
+      ensures{cont_depth (Cont (Sequence c1 c2) co1 ta1 n1) <= 1 -> ((cont_depth c1) = 0) /\ ((cont_depth c2) = 0)}
+    = ()
 
   let lemma cont_depth_cont_seq2 (c1 c2: wired_circuit) (co1 ta1 n1: int)
-    requires{correct c1}
-    requires{correct c2}
-    requires{width_pre c1 = width_pre c2}
-    requires{0 <= co1 < n1}
-    requires{0 <= ta1 <= (n1 - width_pre (Sequence c1 c2))}
-    requires{ta1 <= co1 -> ta1 + (width_pre (Sequence c1 c2)) <= co1}
-    ensures{cont_depth (Cont (Sequence c1 c2) co1 ta1 n1) <= 1 -> ((cont_depth (Cont c1 co1 ta1 n1)) <= 1) /\ ((cont_depth (Cont c2 co1 ta1 n1)) <= 1)}
-  = ()
+      requires{correct c1}
+      requires{correct c2}
+      requires{width_pre c1 = width_pre c2}
+      requires{0 <= co1 < n1}
+      requires{0 <= ta1 <= (n1 - width_pre (Sequence c1 c2))}
+      requires{ta1 <= co1 -> ta1 + (width_pre (Sequence c1 c2)) <= co1}
+      ensures{cont_depth (Cont (Sequence c1 c2) co1 ta1 n1) <= 1 -> ((cont_depth (Cont c1 co1 ta1 n1)) <= 1) /\ ((cont_depth (Cont c2 co1 ta1 n1)) <= 1)}
+    = ()
 
   let lemma cont_depth_con1 (c1: wired_circuit) (co1 ta1 n1: int)
-    requires{correct c1}
-    requires{0 <= co1 < n1}
-    requires{0 <= ta1 <= n1 - (width_pre c1)}
-    requires{ta1 <= co1 -> ta1 + (width_pre c1) <= co1}
-    requires{co1 <> ta1}
-    ensures{cont_depth (Cont c1 co1 ta1 n1) <= 1 -> cont_depth c1 + 1 <= 1}
-    ensures{cont_depth (Cont c1 co1 ta1 n1) <= 1 -> cont_depth c1 = 0}
-  = ()
+      requires{correct c1}
+      requires{0 <= co1 < n1}
+      requires{0 <= ta1 <= n1 - (width_pre c1)}
+      requires{ta1 <= co1 -> ta1 + (width_pre c1) <= co1}
+      requires{co1 <> ta1}
+      ensures{cont_depth (Cont c1 co1 ta1 n1) <= 1 -> cont_depth c1 + 1 <= 1}
+      ensures{cont_depth (Cont c1 co1 ta1 n1) <= 1 -> cont_depth c1 = 0}
+    = ()
 
   let lemma cont_depth_zero (c1: wired_circuit) (co1 ta1 n1: int)
-    requires{correct c1}
-    requires{0 <= co1 < n1}
-    requires{0 <= ta1 <= n1 - (width_pre c1)}
-    requires{ta1 <= co1 -> ta1 + width_pre c1 <= co1}
-    ensures{cont_depth (Cont c1 co1 ta1 n1) = 1 -> cont_depth c1 = 0}
-  = ()
+      requires{correct c1}
+      requires{0 <= co1 < n1}
+      requires{0 <= ta1 <= n1 - (width_pre c1)}
+      requires{ta1 <= co1 -> ta1 + width_pre c1 <= co1}
+      ensures{cont_depth (Cont c1 co1 ta1 n1) = 1 -> cont_depth c1 = 0}
+    = ()
 
   let lemma cont_depth_cnot (co1 ta1 n1: int)
-    requires{0 <= co1 < n1}
-    requires{0 <= ta1 < n1}
-    requires{ta1 <> co1}
-    ensures{cont_depth (Cnot co1 ta1 n1) = 0}
-  = ()
+      requires{0 <= co1 < n1}
+      requires{0 <= ta1 < n1}
+      requires{ta1 <> co1}
+      ensures{cont_depth (Cnot co1 ta1 n1) = 0}
+    = ()
 
-  let lemma cont_depth_ry (k: int)
-    ensures{cont_depth (Ry k) = 0}
-  = ()
+  let lemma cont_depth_ry (k: int) 
+      ensures{cont_depth (Ry k) = 0} 
+    = ()
 
 end
 
-     module Lemmas_correct_circuit_pre
+  module Lemmas_correct_circuit_pre
 
   use int.Int
   use int.MinMax
@@ -428,127 +428,127 @@ end
   use Ancilla_pre
 
   let lemma correct_cont (c: wired_circuit) (co ta n: int)
-    requires{correct c}
-    requires{0 <= co /\ co < n}
-    requires{0 <= ta /\ ta <= (n - width_pre c)}
-    requires{ta <= co -> ta + (width_pre c) <= co}
-    ensures{correct (Cont c co ta n)}
-  = ()
+      requires{correct c}
+      requires{0 <= co /\ co < n}
+      requires{0 <= ta /\ ta <= (n - width_pre c)}
+      requires{ta <= co -> ta + (width_pre c) <= co}
+      ensures{correct (Cont c co ta n)}
+    = ()
 
   let lemma correct_seq (c1 c2: wired_circuit)
-    requires{correct c1}
-    requires{correct c2}
-    requires{width_pre c1 = width_pre c2}
-    ensures{correct (Sequence c1 c2)}
-  = ()
+      requires{correct c1}
+      requires{correct c2}
+      requires{width_pre c1 = width_pre c2}
+      ensures{correct (Sequence c1 c2)}
+    = ()
 
   let lemma correct_par (c1 c2: wired_circuit)
-    requires{correct c1}
-    requires{correct c2}
-    ensures{correct (Parallel c1 c2)}
-  = ()
+      requires{correct c1}
+      requires{correct c2}
+      ensures{correct (Parallel c1 c2)}
+    = ()
 
   let lemma correct_place (c: wired_circuit) (ta n: int)
-    requires{correct c}
-    requires{0 <= ta <= n - 1}
-    requires{width_pre c + ta <= n}
-    ensures{correct (Place c ta n)}
-  = ()
+      requires{correct c}
+      requires{0 <= ta <= n - 1}
+      requires{width_pre c + ta <= n}
+      ensures{correct (Place c ta n)}
+    = ()
 
   let lemma correct_cont_rev (c: wired_circuit) (co ta n: int)
-    requires{correct (Cont c co ta n)}
-    ensures{correct c}
-    ensures{0 <= co /\ co < n}
-    ensures{0 <= ta /\ ta <= (n - width_pre c)}
-  = ()
+      requires{correct (Cont c co ta n)}
+      ensures{correct c}
+      ensures{0 <= co /\ co < n}
+      ensures{0 <= ta /\ ta <= (n - width_pre c)}
+    = ()
 
   let lemma correct_seq_rev (c1 c2: wired_circuit)
-    requires{correct c1}
-    requires{correct c2}
-    requires{width_pre c1 = width_pre c2}
-    requires{correct (Sequence c1 c2)}
-  = ()
+      requires{correct c1}
+      requires{correct c2}
+      requires{width_pre c1 = width_pre c2}
+      requires{correct (Sequence c1 c2)}
+    = ()
 
   let lemma correct_par_rev (c1 c2: wired_circuit)
-    requires{correct c1}
-    requires{correct c2}
-    requires{correct (Parallel c1 c2)}
-  = ()
+      requires{correct c1}
+      requires{correct c2}
+      requires{correct (Parallel c1 c2)}
+    = ()
 
   let lemma correct_place_rev (c: wired_circuit) (ta n: int)
-    requires{correct c}
-    requires{0 <= ta <= n - 1}
-    requires{width_pre c + ta <= n}
-    requires{correct (Place c ta n)}
-  = ()
+      requires{correct c}
+      requires{0 <= ta <= n - 1}
+      requires{width_pre c + ta <= n}
+      requires{correct (Place c ta n)}
+    = ()
 
-let lemma correct_toffoli (c1 c2 t n:int)
-  requires{0<= c1 < n}
-  requires{0<= c2 < n}
-  requires{0<= t < n}
-  requires{c1 <> c2}
-  requires{c1 <> t}
-  requires{c2 <> t}
-  ensures{correct (Toffoli c1 c2 t n)}
-  =()
+  let lemma correct_toffoli (c1 c2 t n:int)
+      requires{0<= c1 < n}
+      requires{0<= c2 < n}
+      requires{0<= t < n}
+      requires{c1 <> c2}
+      requires{c1 <> t}
+      requires{c2 <> t}
+      ensures{correct (Toffoli c1 c2 t n)}
+    = ()
   
-let lemma correct_fredkin (c t1 t2  n:int)
-  requires{0<= t1 < n}
-  requires{0<= t2 < n}
-  requires{0<= c < n}
-  requires{t1 <> t2}
-  requires{t1 <> c}
-  requires{t2 <> c}
-  ensures{correct (Fredkin c t1 t2 n)}
-  =()
+  let lemma correct_fredkin (c t1 t2  n:int)
+      requires{0<= t1 < n}
+      requires{0<= t2 < n}
+      requires{0<= c < n}
+      requires{t1 <> t2}
+      requires{t1 <> c}
+      requires{t2 <> c}
+      ensures{correct (Fredkin c t1 t2 n)}
+    = ()
 
-let lemma correct_cnot (c  t n:int)
-  requires{0<= c < n}
-  requires{0<= t < n}
-  requires{c <> t}
-  ensures{correct (Cnot c t n)}
-  =()
+  let lemma correct_cnot (c  t n:int)
+      requires{0<= c < n}
+      requires{0<= t < n}
+      requires{c <> t}
+      ensures{correct (Cnot c t n)}
+    = ()
 
-let lemma correct_swap (t1 t2  n:int)
-  requires{0<= t1 < n}
-  requires{0<= t2 < n}
-  requires{t1 <> t2}
-  ensures{correct (Swap t1 t2 n)}
-  =()
+  let lemma correct_swap (t1 t2  n:int)
+      requires{0<= t1 < n}
+      requires{0<= t2 < n}
+      requires{t1 <> t2}
+      ensures{correct (Swap t1 t2 n)}
+    = ()
 
-let lemma correct_toffoli_rev (c1 c2 t n:int)
-  requires{correct (Toffoli c1 c2 t n)}
-  ensures{0<= c1 < n}
-  ensures{0<= c2 < n}
-  ensures{0<= t < n}
-  ensures{c1 <> c2}
-  ensures{c1 <> t}
-  ensures{c2 <> t}
-  =()
+  let lemma correct_toffoli_rev (c1 c2 t n:int)
+      requires{correct (Toffoli c1 c2 t n)}
+      ensures{0<= c1 < n}
+      ensures{0<= c2 < n}
+      ensures{0<= t < n}
+      ensures{c1 <> c2}
+      ensures{c1 <> t}
+      ensures{c2 <> t}
+    = ()
   
-let lemma correct_fredkin_rev (c t1 t2  n:int)
-  requires{correct (Fredkin c t1 t2 n)}
-  ensures{0<= t1 < n}
-  ensures{0<= t2 < n}
-  ensures{0<= c < n}
-  ensures{t1 <> t2}
-  ensures{t1 <> c}
-  ensures{t2 <> c}
-  =()
+  let lemma correct_fredkin_rev (c t1 t2  n:int)
+      requires{correct (Fredkin c t1 t2 n)}
+      ensures{0<= t1 < n}
+      ensures{0<= t2 < n}
+      ensures{0<= c < n}
+      ensures{t1 <> t2}
+      ensures{t1 <> c}
+      ensures{t2 <> c}
+    = ()
 
-let lemma correct_cnot_rev (c  t n:int)
-  requires{correct (Cnot c t n)}
-  ensures{0<= c < n}
-  ensures{0<= t < n}
-  ensures{c <> t}
-  =()
+  let lemma correct_cnot_rev (c  t n:int)
+      requires{correct (Cnot c t n)}
+      ensures{0<= c < n}
+      ensures{0<= t < n}
+      ensures{c <> t}
+    = ()
 
-let lemma correct_swap_rev (t1 t2  n:int)
-  requires{correct (Swap t1 t2 n)}
-  ensures{0<= t1 < n}
-  ensures{0<= t2 < n}
-  ensures{t1 <> t2}
-  =()
+  let lemma correct_swap_rev (t1 t2  n:int)
+      requires{correct (Swap t1 t2 n)}
+      ensures{0<= t1 < n}
+      ensures{0<= t2 < n}
+      ensures{t1 <> t2}
+    = ()
 
 end
 
@@ -564,29 +564,33 @@ module Place_atomic_def
   use Cont_depth_pre
      
   let rec predicate skip_atomic (c: wired_circuit)
-    requires{correct c}
-        ensures{result -> ancilla_free c}
-        ensures{result -> cont_depth c = 0}
+      requires{correct c}
+      ensures{result -> ancilla_free c}
+      ensures{result -> cont_depth c = 0}
     =
     match  c with
-    | Parallel _ _ | Sequence _ _ | Place _ _ _ | Cont _ _ _ _ | Ancillas _ _ -> false
-    |  Skip |  Phase _ | Rx _ | Ry _ | Rz _ | Rzp _ | Hadamard  |  S | T | X | Y | Z 
-       | Bricks_Cnot | Bricks_Toffoli | Bricks_Fredkin| Bricks_Swap
-       | Swap _ _ _ | Cnot _ _ _ | Toffoli _ _ _ _ | Fredkin _ _ _ _
-       -> true
+      | Parallel _ _ | Sequence _ _ 
+      | Place _ _ _ | Cont _ _ _ _ | Ancillas _ _ -> false
+      | Skip | Phase _ | Rx _ | Ry _ | Rz _ | Rzp _ 
+      | Hadamard | S | T | X | Y | Z 
+      | Bricks_Cnot | Bricks_Toffoli 
+      | Bricks_Fredkin| Bricks_Swap
+      | Swap _ _ _ | Cnot _ _ _ 
+      | Toffoli _ _ _ _ | Fredkin _ _ _ _ -> true
     end
 
   let rec predicate place_free (c: wired_circuit)
-    requires{correct c}
-     =
-     match  c with
-       Place _ _ _ -> false
-     | Parallel c d -> place_free c && place_free d
-     | Sequence c d -> place_free c && place_free d
-     | Cont c _  _ _ -> place_free c
-     | Ancillas c _ -> place_free c
-     | _ -> true
-end
+      requires{correct c}
+    =
+    match  c with
+      | Place _ _ _ -> false
+      | Parallel c d -> place_free c && place_free d
+      | Sequence c d -> place_free c && place_free d
+      | Cont c _  _ _ -> place_free c
+      | Ancillas c _ -> place_free c
+      | _ -> true
+    end
+    
 end
 
       

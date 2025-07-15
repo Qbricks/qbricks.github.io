@@ -1,90 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
-"http://why3.lri.fr/why3session.dtd">
+"https://www.why3.org/why3session.dtd">
 <why3session shape_version="6">
 <prover id="0" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
-<prover id="1" name="CVC4" version="1.7" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="2" name="CVC4" version="1.8" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="3" name="Alt-Ergo" version="2.6.2" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="4" name="CVC5" version="1.2.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="5" name="Z3" version="4.13.4" timelimit="1" steplimit="0" memlimit="1000"/>
 <file format="whyml" proved="true">
 <path name=".."/><path name="parallel_delete.mlw"/>
 <theory name="Parallel_del" proved="true">
  <goal name="parallel_free&#39;vc" expl="VC for parallel_free" proved="true">
- <transf name="split_goal_right" proved="true" >
-  <goal name="parallel_free&#39;vc.0" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="2.95" steps="1255927"/></proof>
-  </goal>
-  <goal name="parallel_free&#39;vc.1" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="2.03" steps="971181"/></proof>
-  </goal>
-  <goal name="parallel_free&#39;vc.2" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="2.27" steps="971223"/></proof>
-  </goal>
-  <goal name="parallel_free&#39;vc.3" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="3.33" steps="1255719"/></proof>
-  </goal>
-  <goal name="parallel_free&#39;vc.4" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="2.92" steps="1256666"/></proof>
-  </goal>
- </transf>
+ <proof prover="4"><result status="valid" time="3.864554" steps="674816"/></proof>
  </goal>
  <goal name="parallel_free_cont_rev&#39;vc" expl="VC for parallel_free_cont_rev" proved="true">
- <transf name="split_goal_right" proved="true" >
-  <goal name="parallel_free_cont_rev&#39;vc.0" expl="postcondition" proved="true">
-  <transf name="split_vc" proved="true" >
-   <goal name="parallel_free_cont_rev&#39;vc.0.0" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.66"/></proof>
-   </goal>
-  </transf>
-  </goal>
- </transf>
+ <proof prover="4"><result status="valid" time="2.846803" steps="574985"/></proof>
  </goal>
  <goal name="parallel_free_cont&#39;vc" expl="VC for parallel_free_cont" proved="true">
- <transf name="split_goal_right" proved="true" >
-  <goal name="parallel_free_cont&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.73"/></proof>
-  </goal>
- </transf>
+ <proof prover="4"><result status="valid" time="2.868665" steps="575026"/></proof>
  </goal>
  <goal name="parallel_free_seq&#39;vc" expl="VC for parallel_free_seq" proved="true">
- <transf name="split_goal_right" proved="true" >
-  <goal name="parallel_free_seq&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.66"/></proof>
-  </goal>
- </transf>
+ <proof prover="4"><result status="valid" time="2.776705" steps="577286"/></proof>
  </goal>
  <goal name="parallel_free_seq_rev&#39;vc" expl="VC for parallel_free_seq_rev" proved="true">
- <transf name="split_goal_right" proved="true" >
-  <goal name="parallel_free_seq_rev&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.70"/></proof>
-  </goal>
- </transf>
+ <proof prover="4"><result status="valid" time="3.118019" steps="577295"/></proof>
  </goal>
  <goal name="parallel_free_place&#39;vc" expl="VC for parallel_free_place" proved="true">
- <transf name="split_goal_right" proved="true" >
-  <goal name="parallel_free_place&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.71"/></proof>
-  </goal>
- </transf>
+ <proof prover="4"><result status="valid" time="3.037121" steps="574931"/></proof>
  </goal>
  <goal name="parallel_free_place_rev&#39;vc" expl="VC for parallel_free_place_rev" proved="true">
- <transf name="split_goal_right" proved="true" >
-  <goal name="parallel_free_place_rev&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.70"/></proof>
-  </goal>
- </transf>
+ <proof prover="4"><result status="valid" time="3.058666" steps="574969"/></proof>
  </goal>
  <goal name="parallel_free_cnot&#39;vc" expl="VC for parallel_free_cnot" proved="true">
- <transf name="split_goal_right" proved="true" >
-  <goal name="parallel_free_cnot&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.69"/></proof>
-  </goal>
- </transf>
+ <proof prover="0"><result status="valid" time="1.885611"/></proof>
  </goal>
  <goal name="parallel_free_ry&#39;vc" expl="VC for parallel_free_ry" proved="true">
- <transf name="split_goal_right" proved="true" >
-  <goal name="parallel_free_ry&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.64"/></proof>
-  </goal>
- </transf>
+ <proof prover="0"><result status="valid" time="1.883878"/></proof>
  </goal>
  <goal name="remove_parallel_free&#39;vc" expl="VC for remove_parallel_free" proved="true">
  <transf name="split_goal_right" proved="true" >
@@ -97,24 +48,24 @@
      <goal name="remove_parallel_free&#39;vc.0.0.0.0" expl="postcondition" proved="true">
      <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
       <goal name="remove_parallel_free&#39;vc.0.0.0.0.0" expl="apply premises" proved="true">
-      <proof prover="1"><result status="valid" time="3.06" steps="1146481"/></proof>
+      <proof prover="2"><result status="valid" time="5.673179" steps="1263569"/></proof>
       </goal>
       <goal name="remove_parallel_free&#39;vc.0.0.0.0.1" expl="apply premises" proved="true">
-      <proof prover="1"><result status="valid" time="3.01" steps="1146461"/></proof>
+      <proof prover="2"><result status="valid" time="5.837871" steps="1263549"/></proof>
       </goal>
       <goal name="remove_parallel_free&#39;vc.0.0.0.0.2" expl="apply premises" proved="true">
-      <proof prover="1"><result status="valid" time="3.15" steps="1148269"/></proof>
+      <proof prover="2"><result status="valid" time="5.882095" steps="1266168"/></proof>
       </goal>
       <goal name="remove_parallel_free&#39;vc.0.0.0.0.3" expl="apply premises" proved="true">
-      <proof prover="1"><result status="valid" time="2.80" steps="1147758"/></proof>
+      <proof prover="2"><result status="valid" time="5.692018" steps="1265687"/></proof>
       </goal>
      </transf>
      </goal>
      <goal name="remove_parallel_free&#39;vc.0.0.0.1" expl="rewrite premises" proved="true">
-     <proof prover="1"><result status="valid" time="1.30" steps="912100"/></proof>
+     <proof prover="2"><result status="valid" time="3.035680" steps="1054082"/></proof>
      </goal>
      <goal name="remove_parallel_free&#39;vc.0.0.0.2" expl="rewrite premises" proved="true">
-     <proof prover="1"><result status="valid" time="1.15" steps="912100"/></proof>
+     <proof prover="2"><result status="valid" time="3.008311" steps="1054082"/></proof>
      </goal>
     </transf>
     </goal>
@@ -133,57 +84,57 @@
     <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0" expl="postcondition" proved="true">
     <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.0" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="4.04" steps="1541380"/></proof>
+     <proof prover="2"><result status="valid" time="6.845381" steps="1364311"/></proof>
      </goal>
      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.1" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="3.91" steps="1521609"/></proof>
+     <proof prover="2"><result status="valid" time="7.868508" steps="1354020"/></proof>
      </goal>
      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.2" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="4.14" steps="1541910"/></proof>
+     <proof prover="2"><result status="valid" time="6.961596" steps="1364585"/></proof>
      </goal>
      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3" expl="apply premises" proved="true">
      <transf name="split_vc" proved="true" >
       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0" expl="apply premises" proved="true">
       <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
        <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.0" expl="apply premises" proved="true">
-       <proof prover="1"><result status="valid" time="3.93" steps="1521609"/></proof>
+       <proof prover="2"><result status="valid" time="6.851788" steps="1354020"/></proof>
        </goal>
        <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.1" expl="apply premises" proved="true">
-       <proof prover="1"><result status="valid" time="3.99" steps="1518397"/></proof>
+       <proof prover="2"><result status="valid" time="6.975873" steps="1351667"/></proof>
        </goal>
        <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.2" expl="apply premises" proved="true">
-       <proof prover="1"><result status="valid" time="4.06" steps="1523388"/></proof>
+       <proof prover="2"><result status="valid" time="7.070098" steps="1355318"/></proof>
        </goal>
        <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3" expl="apply premises" proved="true">
        <transf name="split_vc" proved="true" >
         <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.0" expl="apply premises" proved="true">
-        <proof prover="1"><result status="valid" time="3.99" steps="1521637"/></proof>
+        <proof prover="2"><result status="valid" time="7.254522" steps="1354111"/></proof>
         </goal>
         <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1" expl="apply premises" proved="true">
         <transf name="rewrite" proved="true" arg1="ccz&#39;spec">
          <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0" expl="apply premises" proved="true">
          <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
           <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0" expl="apply premises" proved="true">
-          <proof prover="1"><result status="valid" time="4.53" steps="1524757"/></proof>
+          <proof prover="2"><result status="valid" time="8.685639" steps="1356773"/></proof>
           </goal>
           <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.1" expl="apply premises" proved="true">
-          <proof prover="1"><result status="valid" time="3.91" steps="1519153"/></proof>
+          <proof prover="2"><result status="valid" time="8.296118" steps="1352342"/></proof>
           </goal>
           <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.2" expl="apply premises" proved="true">
-          <proof prover="1"><result status="valid" time="4.39" steps="1525097"/></proof>
+          <proof prover="2"><result status="valid" time="7.517740" steps="1357333"/></proof>
           </goal>
           <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3" expl="apply premises" proved="true">
           <transf name="split_vc" proved="true" >
            <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0" expl="apply premises" proved="true">
            <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
             <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.0" expl="apply premises" proved="true">
-            <proof prover="1"><result status="valid" time="4.11" steps="1521687"/></proof>
+            <proof prover="0"><result status="valid" time="2.160978"/></proof>
             </goal>
             <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.1" expl="apply premises" proved="true">
-            <proof prover="1"><result status="valid" time="4.20" steps="1521833"/></proof>
+            <proof prover="0"><result status="valid" time="2.239836"/></proof>
             </goal>
             <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.2" expl="apply premises" proved="true">
-            <proof prover="1"><result status="valid" time="3.93" steps="1524122"/></proof>
+            <proof prover="2"><result status="valid" time="7.697955" steps="1356020"/></proof>
             </goal>
             <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3" expl="apply premises" proved="true">
             <transf name="replace" proved="true" arg1="((cont_rzp 2 co1 ta n))" arg2="((Sequence (cont_phase (incr_abs 2) co1 ta n) (cont_rz 2 co1 ta n)))">
@@ -194,13 +145,13 @@
                <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0" expl="apply premises" proved="true">
                <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
                 <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.0" expl="apply premises" proved="true">
-                <proof prover="1"><result status="valid" time="3.85" steps="1519704"/></proof>
+                <proof prover="2"><result status="valid" time="7.640083" steps="1353003"/></proof>
                 </goal>
                 <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.1" expl="apply premises" proved="true">
-                <proof prover="1"><result status="valid" time="3.98" steps="1519066"/></proof>
+                <proof prover="2"><result status="valid" time="7.401690" steps="1352431"/></proof>
                 </goal>
                 <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.2" expl="apply premises" proved="true">
-                <proof prover="1"><result status="valid" time="3.95" steps="1521803"/></proof>
+                <proof prover="2"><result status="valid" time="7.373535" steps="1354819"/></proof>
                 </goal>
                 <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3" expl="apply premises" proved="true">
                 <transf name="split_vc" proved="true" >
@@ -209,27 +160,27 @@
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3.0.0" expl="apply premises" proved="true">
                   <transf name="apply" proved="true" arg1="parallel_free_place_rev">
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3.0.0.0" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="3.22" steps="1298135"/></proof>
+                   <proof prover="2"><result status="valid" time="5.566984" steps="1188548"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3.0.0.1" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="1.96" steps="1226998"/></proof>
+                   <proof prover="2"><result status="valid" time="3.751438" steps="1138575"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3.0.0.2" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="3.74" steps="1523322"/></proof>
+                   <proof prover="0"><result status="valid" time="2.682394"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3.0.0.3" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="3.78" steps="1519945"/></proof>
+                   <proof prover="0"><result status="valid" time="2.318058"/></proof>
                    </goal>
                   </transf>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3.0.1" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="1.74" steps="1227007"/></proof>
+                  <proof prover="2"><result status="valid" time="3.734623" steps="1138588"/></proof>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3.0.2" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="1.79" steps="1227007"/></proof>
+                  <proof prover="2"><result status="valid" time="3.834474" steps="1138588"/></proof>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3.0.3" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="1.76" steps="1227005"/></proof>
+                  <proof prover="2"><result status="valid" time="3.733657" steps="1138579"/></proof>
                   </goal>
                  </transf>
                  </goal>
@@ -238,27 +189,27 @@
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3.1.0" expl="apply premises" proved="true">
                   <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3.1.0.0" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="4.03" steps="1528727"/></proof>
+                   <proof prover="2"><result status="valid" time="7.386290" steps="1360340"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3.1.0.1" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="3.97" steps="1520314"/></proof>
+                   <proof prover="2"><result status="valid" time="7.502338" steps="1353554"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3.1.0.2" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="3.91" steps="1528723"/></proof>
+                   <proof prover="2"><result status="valid" time="7.465461" steps="1360533"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3.1.0.3" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="4.05" steps="1528558"/></proof>
+                   <proof prover="2" timelimit="1"><result status="valid" time="4.589385" steps="1360344"/></proof>
                    </goal>
                   </transf>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3.1.1" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="1.84" steps="1227032"/></proof>
+                  <proof prover="2"><result status="valid" time="3.993871" steps="1138613"/></proof>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3.1.2" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="1.82" steps="1227032"/></proof>
+                  <proof prover="2"><result status="valid" time="3.886918" steps="1138613"/></proof>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.0.3.1.3" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="1.84" steps="1227030"/></proof>
+                  <proof prover="2"><result status="valid" time="5.769143" steps="1138604"/></proof>
                   </goal>
                  </transf>
                  </goal>
@@ -269,13 +220,13 @@
                <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1" expl="apply premises" proved="true">
                <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
                 <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.0" expl="apply premises" proved="true">
-                <proof prover="1"><result status="valid" time="3.63" steps="1521156"/></proof>
+                <proof prover="2"><result status="valid" time="7.695374" steps="1354618"/></proof>
                 </goal>
                 <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.1" expl="apply premises" proved="true">
-                <proof prover="1"><result status="valid" time="3.62" steps="1521449"/></proof>
+                <proof prover="2"><result status="valid" time="7.722828" steps="1354708"/></proof>
                 </goal>
                 <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.2" expl="apply premises" proved="true">
-                <proof prover="1"><result status="valid" time="3.85" steps="1523361"/></proof>
+                <proof prover="2"><result status="valid" time="7.537389" steps="1356380"/></proof>
                 </goal>
                 <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3" expl="apply premises" proved="true">
                 <transf name="split_vc" proved="true" >
@@ -284,27 +235,27 @@
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.0.0" expl="apply premises" proved="true">
                   <transf name="apply" proved="true" arg1="parallel_free_place_rev">
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.0.0.0" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="2.84" steps="1298184"/></proof>
+                   <proof prover="2"><result status="valid" time="5.921989" steps="1188597"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.0.0.1" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="1.85" steps="1227043"/></proof>
+                   <proof prover="2"><result status="valid" time="3.923682" steps="1138620"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.0.0.2" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="4.19" steps="1524936"/></proof>
+                   <proof prover="2"><result status="valid" time="7.514732" steps="1356809"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.0.0.3" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="4.29" steps="1521514"/></proof>
+                   <proof prover="4" timelimit="30" memlimit="4000"><result status="valid" time="6.963310" steps="741475"/></proof>
                    </goal>
                   </transf>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.0.1" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="1.88" steps="1227052"/></proof>
+                  <proof prover="2"><result status="valid" time="3.769440" steps="1138633"/></proof>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.0.2" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="1.94" steps="1227052"/></proof>
+                  <proof prover="2"><result status="valid" time="3.767966" steps="1138633"/></proof>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.0.3" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="1.93" steps="1227041"/></proof>
+                  <proof prover="2"><result status="valid" time="3.845676" steps="1138615"/></proof>
                   </goal>
                  </transf>
                  </goal>
@@ -313,27 +264,44 @@
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.1.0" expl="apply premises" proved="true">
                   <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.1.0.0" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="4.45" steps="1529965"/></proof>
+                   <transf name="apply" proved="true" arg1="correct_seq_pre">
+                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.1.0.0.0" expl="apply premises" proved="true">
+                    <proof prover="4" timelimit="30" memlimit="4000"><result status="valid" time="9.078305" steps="754329"/></proof>
+                    </goal>
+                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.1.0.0.1" expl="apply premises" proved="true">
+                    <proof prover="2" timelimit="30" memlimit="4000"><result status="valid" time="8.285174" steps="1357603"/></proof>
+                    </goal>
+                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.1.0.0.2" expl="apply premises" proved="true">
+                    <proof prover="2" timelimit="30" memlimit="4000"><result status="valid" time="6.337733" steps="1360878"/></proof>
+                    </goal>
+                   </transf>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.1.0.1" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="4.45" steps="1521892"/></proof>
+                   <proof prover="0"><result status="valid" time="2.443836"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.1.0.2" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="4.53" steps="1530003"/></proof>
+                   <proof prover="2" timelimit="1"><result status="valid" time="4.719927" steps="1361730"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.1.0.3" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="4.60" steps="1530003"/></proof>
+                   <transf name="split_vc" proved="true" >
+                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.1.0.3.0" expl="apply premises" proved="true">
+                    <proof prover="2" timelimit="1"><result status="valid" time="4.857656" steps="1361572"/></proof>
+                    </goal>
+                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.1.0.3.1" expl="apply premises" proved="true">
+                    <proof prover="2" timelimit="1"><result status="valid" time="4.769286" steps="1358539"/></proof>
+                    </goal>
+                   </transf>
                    </goal>
                   </transf>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.1.1" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="2.30" steps="1227073"/></proof>
+                  <proof prover="2"><result status="valid" time="6.968302" steps="1138654"/></proof>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.1.2" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="2.24" steps="1227073"/></proof>
+                  <proof prover="2"><result status="valid" time="6.530031" steps="1138654"/></proof>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0.1.3.1.3" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="1.92" steps="1227062"/></proof>
+                  <proof prover="2"><result status="valid" time="7.601549" steps="1138636"/></proof>
                   </goal>
                  </transf>
                  </goal>
@@ -344,13 +312,12 @@
               </transf>
               </goal>
               <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.1" expl="equality hypothesis" proved="true">
-              <proof prover="1"><result status="valid" time="4.90" steps="1523666"/></proof>
+              <proof prover="0"><result status="valid" time="2.470749"/></proof>
               </goal>
              </transf>
              </goal>
              <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.1" expl="equality hypothesis" proved="true">
-             <proof prover="0"><result status="valid" time="1.79"/></proof>
-             <proof prover="1"><result status="valid" time="4.96" steps="1523899"/></proof>
+             <proof prover="0"><result status="valid" time="4.316507"/></proof>
              </goal>
             </transf>
             </goal>
@@ -361,31 +328,31 @@
             <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0" expl="apply premises" proved="true">
             <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
              <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.0" expl="apply premises" proved="true">
-             <proof prover="1"><result status="valid" time="5.02" steps="1526542"/></proof>
+             <proof prover="4" timelimit="30" memlimit="4000"><result status="valid" time="6.724945" steps="743873"/></proof>
              </goal>
              <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.1" expl="apply premises" proved="true">
-             <proof prover="1"><result status="valid" time="4.87" steps="1521019"/></proof>
+             <proof prover="0"><result status="valid" time="2.510884"/></proof>
              </goal>
              <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.2" expl="apply premises" proved="true">
-             <proof prover="1"><result status="valid" time="4.93" steps="1527124"/></proof>
+             <proof prover="0"><result status="valid" time="2.925595"/></proof>
              </goal>
              <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3" expl="apply premises" proved="true">
              <transf name="split_vc" proved="true" >
               <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0" expl="apply premises" proved="true">
               <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
                <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.0" expl="apply premises" proved="true">
-               <proof prover="1"><result status="valid" time="4.77" steps="1521019"/></proof>
+               <proof prover="2"><result status="valid" time="9.328337" steps="1354332"/></proof>
                </goal>
                <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.1" expl="apply premises" proved="true">
-               <proof prover="1"><result status="valid" time="4.81" steps="1523364"/></proof>
+               <proof prover="2"><result status="valid" time="8.418452" steps="1355999"/></proof>
                </goal>
                <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.2" expl="apply premises" proved="true">
-               <proof prover="1"><result status="valid" time="4.94" steps="1525641"/></proof>
+               <proof prover="2"><result status="valid" time="8.326722" steps="1357622"/></proof>
                </goal>
                <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3" expl="apply premises" proved="true">
                <transf name="split_vc" proved="true" >
                 <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.0" expl="apply premises" proved="true">
-                <proof prover="1"><result status="valid" time="4.94" steps="1520912"/></proof>
+                <proof prover="2"><result status="valid" time="8.413229" steps="1354377"/></proof>
                 </goal>
                 <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1" expl="apply premises" proved="true">
                 <transf name="case" proved="true" arg1="((ta +&#39; 1) &lt;=&#39; co2)">
@@ -394,13 +361,13 @@
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0" expl="true case (apply premises)" proved="true">
                   <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.0" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="4.75" steps="1522343"/></proof>
+                   <proof prover="2"><result status="valid" time="8.514667" steps="1355345"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.1" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="4.80" steps="1521895"/></proof>
+                   <proof prover="0"><result status="valid" time="2.551467"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.2" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="4.79" steps="1524577"/></proof>
+                   <proof prover="0"><result status="valid" time="2.681770"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3" expl="apply premises" proved="true">
                    <transf name="split_vc" proved="true" >
@@ -409,27 +376,27 @@
                      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3.0.0" proved="true">
                      <transf name="apply" proved="true" arg1="parallel_free_place_rev">
                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3.0.0.0" expl="apply premises" proved="true">
-                      <proof prover="1"><result status="valid" time="3.50" steps="1298569"/></proof>
+                      <proof prover="0"><result status="valid" time="2.547027"/></proof>
                       </goal>
                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3.0.0.1" expl="apply premises" proved="true">
-                      <proof prover="1"><result status="valid" time="2.19" steps="1227075"/></proof>
+                      <proof prover="2"><result status="valid" time="5.335057" steps="1138665"/></proof>
                       </goal>
                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3.0.0.2" expl="apply premises" proved="true">
-                      <proof prover="1"><result status="valid" time="4.83" steps="1525469"/></proof>
+                      <proof prover="0"><result status="valid" time="2.521815"/></proof>
                       </goal>
                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3.0.0.3" expl="apply premises" proved="true">
-                      <proof prover="1"><result status="valid" time="4.72" steps="1522555"/></proof>
+                      <proof prover="0"><result status="valid" time="2.530787"/></proof>
                       </goal>
                      </transf>
                      </goal>
                      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3.0.1" expl="rewrite premises" proved="true">
-                     <proof prover="1"><result status="valid" time="2.11" steps="1227084"/></proof>
+                     <proof prover="2"><result status="valid" time="7.046434" steps="1138678"/></proof>
                      </goal>
                      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3.0.2" expl="rewrite premises" proved="true">
-                     <proof prover="1"><result status="valid" time="2.17" steps="1227084"/></proof>
+                     <proof prover="2"><result status="valid" time="8.107629" steps="1138678"/></proof>
                      </goal>
                      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3.0.3" expl="rewrite premises" proved="true">
-                     <proof prover="1"><result status="valid" time="2.16" steps="1227073"/></proof>
+                     <proof prover="2"><result status="valid" time="7.074707" steps="1138660"/></proof>
                      </goal>
                     </transf>
                     </goal>
@@ -438,27 +405,27 @@
                      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3.1.0" proved="true">
                      <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3.1.0.0" expl="apply premises" proved="true">
-                      <proof prover="1"><result status="valid" time="5.15" steps="1531046"/></proof>
+                      <proof prover="2" timelimit="30" memlimit="4000"><result status="valid" time="5.651275" steps="1362378"/></proof>
                       </goal>
                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3.1.0.1" expl="apply premises" proved="true">
-                      <proof prover="1"><result status="valid" time="5.10" steps="1523039"/></proof>
+                      <proof prover="0"><result status="valid" time="2.552534"/></proof>
                       </goal>
                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3.1.0.2" expl="apply premises" proved="true">
-                      <proof prover="1"><result status="valid" time="4.57" steps="1531506"/></proof>
+                      <proof prover="2"><result status="valid" time="8.654446" steps="1362561"/></proof>
                       </goal>
                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3.1.0.3" expl="apply premises" proved="true">
-                      <proof prover="1"><result status="valid" time="5.17" steps="1531090"/></proof>
+                      <proof prover="2"><result status="valid" time="9.126763" steps="1362392"/></proof>
                       </goal>
                      </transf>
                      </goal>
                      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3.1.1" expl="rewrite premises" proved="true">
-                     <proof prover="1"><result status="valid" time="2.21" steps="1227109"/></proof>
+                     <proof prover="2"><result status="valid" time="4.279090" steps="1138716"/></proof>
                      </goal>
                      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3.1.2" expl="rewrite premises" proved="true">
-                     <proof prover="1"><result status="valid" time="2.23" steps="1227109"/></proof>
+                     <proof prover="2"><result status="valid" time="4.955732" steps="1138716"/></proof>
                      </goal>
                      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.0.3.1.3" expl="rewrite premises" proved="true">
-                     <proof prover="1"><result status="valid" time="2.16" steps="1227098"/></proof>
+                     <proof prover="2"><result status="valid" time="5.187010" steps="1138698"/></proof>
                      </goal>
                     </transf>
                     </goal>
@@ -467,29 +434,32 @@
                   </transf>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.1" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="2.21" steps="1227084"/></proof>
+                  <proof prover="2"><result status="valid" time="5.099891" steps="1138678"/></proof>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.2" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="2.17" steps="1227084"/></proof>
+                  <proof prover="2"><result status="valid" time="4.278554" steps="1138678"/></proof>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.0.3" expl="rewrite premises" proved="true">
-                  <proof prover="0"><result status="valid" time="1.84"/></proof>
-                  <proof prover="1"><result status="valid" time="2.16" steps="1227075"/></proof>
+                  <proof prover="0"><result status="valid" time="3.157062"/></proof>
+                  <proof prover="2"><result status="valid" time="4.343877" steps="1138665"/></proof>
                   </goal>
                  </transf>
                  </goal>
                  <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1" expl="false case (apply premises)" proved="true">
-                 <transf name="rewrite" proved="true" arg1="cont_rzp&#39;spec5">
+                 <transf name="rewrite" proved="true" arg1="cont_rzp&#39;spec1">
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0" expl="false case (apply premises)" proved="true">
                   <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.0" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="4.39" steps="1523121"/></proof>
+                   <proof prover="0"><result status="valid" time="2.074376"/></proof>
+                   <proof prover="3"><result status="valid" time="1.150896" steps="3742"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.1" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="4.35" steps="1521609"/></proof>
+                   <proof prover="0"><result status="valid" time="2.094932"/></proof>
+                   <proof prover="3"><result status="valid" time="1.184464" steps="3740"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.2" expl="apply premises" proved="true">
-                   <proof prover="1"><result status="valid" time="4.89" steps="1524485"/></proof>
+                   <proof prover="0"><result status="valid" time="2.172827"/></proof>
+                   <proof prover="3"><result status="valid" time="1.370492" steps="20328"/></proof>
                    </goal>
                    <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3" expl="apply premises" proved="true">
                    <transf name="split_vc" proved="true" >
@@ -498,27 +468,36 @@
                      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.0.0" proved="true">
                      <transf name="apply" proved="true" arg1="parallel_free_place_rev">
                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.0.0.0" expl="apply premises" proved="true">
-                      <proof prover="1"><result status="valid" time="3.54" steps="1298586"/></proof>
+                      <proof prover="0"><result status="valid" time="2.387793"/></proof>
+                      <proof prover="3"><result status="valid" time="1.300150" steps="3744"/></proof>
                       </goal>
                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.0.0.1" expl="apply premises" proved="true">
-                      <proof prover="1"><result status="valid" time="1.93" steps="1227079"/></proof>
+                      <proof prover="0"><result status="valid" time="2.219511"/></proof>
+                      <proof prover="3"><result status="valid" time="0.685669" steps="978"/></proof>
+                      <proof prover="4"><result status="valid" time="0.909330" steps="409113"/></proof>
                       </goal>
                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.0.0.2" expl="apply premises" proved="true">
-                      <proof prover="1"><result status="valid" time="4.85" steps="1525517"/></proof>
+                      <proof prover="0"><result status="valid" time="2.192262"/></proof>
                       </goal>
                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.0.0.3" expl="apply premises" proved="true">
-                      <proof prover="1"><result status="valid" time="4.82" steps="1522915"/></proof>
+                      <proof prover="0"><result status="valid" time="2.337285"/></proof>
                       </goal>
                      </transf>
                      </goal>
                      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.0.1" expl="rewrite premises" proved="true">
-                     <proof prover="1"><result status="valid" time="1.97" steps="1227088"/></proof>
+                     <proof prover="0"><result status="valid" time="2.148168"/></proof>
+                     <proof prover="3"><result status="valid" time="0.666623" steps="978"/></proof>
+                     <proof prover="4"><result status="valid" time="0.851127" steps="409123"/></proof>
                      </goal>
                      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.0.2" expl="rewrite premises" proved="true">
-                     <proof prover="1"><result status="valid" time="1.88" steps="1227088"/></proof>
+                     <proof prover="0"><result status="valid" time="2.129252"/></proof>
+                     <proof prover="3"><result status="valid" time="0.628448" steps="978"/></proof>
+                     <proof prover="4"><result status="valid" time="0.820854" steps="409123"/></proof>
                      </goal>
                      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.0.3" expl="rewrite premises" proved="true">
-                     <proof prover="1"><result status="valid" time="1.91" steps="1227077"/></proof>
+                     <proof prover="0"><result status="valid" time="2.181506"/></proof>
+                     <proof prover="3"><result status="valid" time="0.653461" steps="978"/></proof>
+                     <proof prover="4"><result status="valid" time="0.799079" steps="409108"/></proof>
                      </goal>
                     </transf>
                     </goal>
@@ -527,27 +506,41 @@
                      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.1.0" proved="true">
                      <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.1.0.0" expl="apply premises" proved="true">
-                      <proof prover="1"><result status="valid" time="4.87" steps="1531099"/></proof>
+                      <proof prover="2" timelimit="30" memlimit="4000"><result status="valid" time="6.457221" steps="1362362"/></proof>
                       </goal>
                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.1.0.1" expl="apply premises" proved="true">
-                      <proof prover="1"><result status="valid" time="4.26" steps="1522966"/></proof>
+                      <proof prover="0"><result status="valid" time="2.283828"/></proof>
+                      <proof prover="3"><result status="valid" time="1.252988" steps="3750"/></proof>
                       </goal>
                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.1.0.2" expl="apply premises" proved="true">
-                      <proof prover="1"><result status="valid" time="4.60" steps="1531116"/></proof>
+                      <proof prover="2" timelimit="1"><result status="valid" time="4.851997" steps="1362525"/></proof>
                       </goal>
                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.1.0.3" expl="apply premises" proved="true">
-                      <proof prover="1"><result status="valid" time="4.67" steps="1531288"/></proof>
+                      <transf name="split_vc" proved="true" >
+                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.1.0.3.0" expl="apply premises" proved="true">
+                       <proof prover="2" timelimit="30" memlimit="4000"><result status="valid" time="6.712162" steps="1362347"/></proof>
+                       </goal>
+                       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.1.0.3.1" expl="apply premises" proved="true">
+                       <proof prover="3" memlimit="2000"><result status="valid" time="1.257888" steps="3868"/></proof>
+                       </goal>
+                      </transf>
                       </goal>
                      </transf>
                      </goal>
                      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.1.1" expl="rewrite premises" proved="true">
-                     <proof prover="1"><result status="valid" time="1.91" steps="1227113"/></proof>
+                     <proof prover="0"><result status="valid" time="2.115294"/></proof>
+                     <proof prover="3"><result status="valid" time="0.704240" steps="980"/></proof>
+                     <proof prover="4"><result status="valid" time="0.817735" steps="409150"/></proof>
                      </goal>
                      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.1.2" expl="rewrite premises" proved="true">
-                     <proof prover="1"><result status="valid" time="2.18" steps="1227113"/></proof>
+                     <proof prover="0"><result status="valid" time="2.209182"/></proof>
+                     <proof prover="3"><result status="valid" time="0.666733" steps="980"/></proof>
+                     <proof prover="4"><result status="valid" time="0.780250" steps="409150"/></proof>
                      </goal>
                      <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.0.3.1.3" expl="rewrite premises" proved="true">
-                     <proof prover="1"><result status="valid" time="2.12" steps="1227102"/></proof>
+                     <proof prover="0"><result status="valid" time="2.167102"/></proof>
+                     <proof prover="3"><result status="valid" time="0.694150" steps="980"/></proof>
+                     <proof prover="4"><result status="valid" time="0.848010" steps="409135"/></proof>
                      </goal>
                     </transf>
                     </goal>
@@ -556,13 +549,13 @@
                   </transf>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.1" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="1.86" steps="1227088"/></proof>
+                  <proof prover="4"><result status="valid" time="0.762502" steps="409123"/></proof>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.2" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="2.10" steps="1227088"/></proof>
+                  <proof prover="4"><result status="valid" time="0.781064" steps="409123"/></proof>
                   </goal>
                   <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.0.3.1.1.3" expl="rewrite premises" proved="true">
-                  <proof prover="1"><result status="valid" time="2.98" steps="1297819"/></proof>
+                  <proof prover="4"><result status="valid" time="1.309774" steps="463532"/></proof>
                   </goal>
                  </transf>
                  </goal>
@@ -573,29 +566,29 @@
               </transf>
               </goal>
               <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0.3.1" expl="apply premises" proved="true">
-              <proof prover="1"><result status="valid" time="4.75" steps="1522043"/></proof>
+              <proof prover="0"><result status="valid" time="2.692464"/></proof>
               </goal>
              </transf>
              </goal>
             </transf>
             </goal>
             <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.1" expl="rewrite premises" proved="true">
-            <proof prover="1"><result status="valid" time="2.09" steps="1227048"/></proof>
+            <proof prover="2"><result status="valid" time="4.004084" steps="1138629"/></proof>
             </goal>
             <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.2" expl="rewrite premises" proved="true">
-            <proof prover="1"><result status="valid" time="2.00" steps="1227048"/></proof>
+            <proof prover="2"><result status="valid" time="4.684948" steps="1138629"/></proof>
             </goal>
             <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.3" expl="rewrite premises" proved="true">
-            <proof prover="1"><result status="valid" time="2.16" steps="1227048"/></proof>
+            <proof prover="2"><result status="valid" time="5.472454" steps="1138629"/></proof>
             </goal>
             <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.4" expl="rewrite premises" proved="true">
-            <proof prover="1"><result status="valid" time="2.12" steps="1227037"/></proof>
+            <proof prover="2"><result status="valid" time="6.314833" steps="1138611"/></proof>
             </goal>
             <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.5" expl="rewrite premises" proved="true">
-            <proof prover="1"><result status="valid" time="2.11" steps="1227037"/></proof>
+            <proof prover="2"><result status="valid" time="6.929127" steps="1138611"/></proof>
             </goal>
             <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.6" expl="rewrite premises" proved="true">
-            <proof prover="1"><result status="valid" time="2.11" steps="1227037"/></proof>
+            <proof prover="2"><result status="valid" time="7.075208" steps="1138611"/></proof>
             </goal>
            </transf>
            </goal>
@@ -604,22 +597,22 @@
          </transf>
          </goal>
          <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.1" expl="rewrite premises" proved="true">
-         <proof prover="1"><result status="valid" time="1.89" steps="1227007"/></proof>
+         <proof prover="2"><result status="valid" time="5.921924" steps="1138588"/></proof>
          </goal>
          <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.2" expl="rewrite premises" proved="true">
-         <proof prover="1"><result status="valid" time="2.18" steps="1227007"/></proof>
+         <proof prover="2"><result status="valid" time="5.048596" steps="1138588"/></proof>
          </goal>
          <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.3" expl="rewrite premises" proved="true">
-         <proof prover="1"><result status="valid" time="2.11" steps="1227007"/></proof>
+         <proof prover="2"><result status="valid" time="4.352930" steps="1138588"/></proof>
          </goal>
          <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.4" expl="rewrite premises" proved="true">
-         <proof prover="1"><result status="valid" time="2.16" steps="1226996"/></proof>
+         <proof prover="2"><result status="valid" time="4.121469" steps="1138570"/></proof>
          </goal>
          <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.5" expl="rewrite premises" proved="true">
-         <proof prover="1"><result status="valid" time="2.16" steps="1226996"/></proof>
+         <proof prover="2"><result status="valid" time="3.858750" steps="1138570"/></proof>
          </goal>
          <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.6" expl="rewrite premises" proved="true">
-         <proof prover="1"><result status="valid" time="2.12" steps="1226996"/></proof>
+         <proof prover="2"><result status="valid" time="3.913667" steps="1138570"/></proof>
          </goal>
         </transf>
         </goal>
@@ -628,29 +621,29 @@
       </transf>
       </goal>
       <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.0.3.1" expl="apply premises" proved="true">
-      <proof prover="1"><result status="valid" time="4.80" steps="1523030"/></proof>
+      <proof prover="0"><result status="valid" time="2.559180"/></proof>
       </goal>
      </transf>
      </goal>
     </transf>
     </goal>
     <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.1" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="1.83" steps="1226989"/></proof>
+    <proof prover="2"><result status="valid" time="5.261373" steps="1138570"/></proof>
     </goal>
     <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.2" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="1.88" steps="1226989"/></proof>
+    <proof prover="2"><result status="valid" time="5.757460" steps="1138570"/></proof>
     </goal>
     <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.3" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="2.07" steps="1226989"/></proof>
+    <proof prover="2"><result status="valid" time="6.272426" steps="1138570"/></proof>
     </goal>
     <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.4" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="2.12" steps="1226978"/></proof>
+    <proof prover="2"><result status="valid" time="6.506417" steps="1138552"/></proof>
     </goal>
     <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.5" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="2.06" steps="1226978"/></proof>
+    <proof prover="2"><result status="valid" time="6.386395" steps="1138552"/></proof>
     </goal>
     <goal name="parallel_free_toffoli_decomp&#39;vc.0.0.6" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="2.08" steps="1226978"/></proof>
+    <proof prover="2"><result status="valid" time="5.236569" steps="1138552"/></proof>
     </goal>
    </transf>
    </goal>
@@ -665,38 +658,25 @@
    <goal name="parallel_free_fredkin_decomp&#39;vc.0.0" expl="postcondition" proved="true">
    <transf name="rewrite" proved="true" arg1="fredkin_decomp&#39;spec">
     <goal name="parallel_free_fredkin_decomp&#39;vc.0.0.0" expl="postcondition" proved="true">
-    <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
-     <goal name="parallel_free_fredkin_decomp&#39;vc.0.0.0.0" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="4.63" steps="1523086"/></proof>
-     </goal>
-     <goal name="parallel_free_fredkin_decomp&#39;vc.0.0.0.1" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="4.67" steps="1519436"/></proof>
-     </goal>
-     <goal name="parallel_free_fredkin_decomp&#39;vc.0.0.0.2" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="4.47" steps="1522138"/></proof>
-     </goal>
-     <goal name="parallel_free_fredkin_decomp&#39;vc.0.0.0.3" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="4.49" steps="1522875"/></proof>
-     </goal>
-    </transf>
+    <proof prover="2"><result status="valid" time="4.432074" steps="1357245"/></proof>
     </goal>
     <goal name="parallel_free_fredkin_decomp&#39;vc.0.0.1" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="2.04" steps="1227257"/></proof>
+    <proof prover="2"><result status="valid" time="3.990367" steps="1138838"/></proof>
     </goal>
     <goal name="parallel_free_fredkin_decomp&#39;vc.0.0.2" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="1.99" steps="1227257"/></proof>
+    <proof prover="2"><result status="valid" time="4.860263" steps="1138838"/></proof>
     </goal>
     <goal name="parallel_free_fredkin_decomp&#39;vc.0.0.3" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="2.36" steps="1227257"/></proof>
+    <proof prover="2"><result status="valid" time="5.266917" steps="1138838"/></proof>
     </goal>
     <goal name="parallel_free_fredkin_decomp&#39;vc.0.0.4" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="2.37" steps="1227246"/></proof>
+    <proof prover="2"><result status="valid" time="5.681791" steps="1138820"/></proof>
     </goal>
     <goal name="parallel_free_fredkin_decomp&#39;vc.0.0.5" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="2.02" steps="1227246"/></proof>
+    <proof prover="2"><result status="valid" time="4.671625" steps="1138820"/></proof>
     </goal>
     <goal name="parallel_free_fredkin_decomp&#39;vc.0.0.6" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="2.06" steps="1227246"/></proof>
+    <proof prover="2"><result status="valid" time="4.879115" steps="1138820"/></proof>
     </goal>
    </transf>
    </goal>
@@ -713,27 +693,27 @@
     <goal name="parallel_free_swap_decomp&#39;vc.0.0.0" expl="postcondition" proved="true">
     <transf name="apply" proved="true" arg1="parallel_free_seq_rev">
      <goal name="parallel_free_swap_decomp&#39;vc.0.0.0.0" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="4.48" steps="1525611"/></proof>
+     <proof prover="2" timelimit="1"><result status="valid" time="4.619592" steps="1355028"/></proof>
      </goal>
      <goal name="parallel_free_swap_decomp&#39;vc.0.0.0.1" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="4.55" steps="1521949"/></proof>
+     <proof prover="0"><result status="valid" time="2.231549"/></proof>
      </goal>
      <goal name="parallel_free_swap_decomp&#39;vc.0.0.0.2" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="5.02" steps="1525520"/></proof>
+     <proof prover="0"><result status="valid" time="2.533282"/></proof>
      </goal>
      <goal name="parallel_free_swap_decomp&#39;vc.0.0.0.3" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="5.06" steps="1525871"/></proof>
+     <proof prover="2"><result status="valid" time="9.209229" steps="1355043"/></proof>
      </goal>
     </transf>
     </goal>
     <goal name="parallel_free_swap_decomp&#39;vc.0.0.1" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="2.30" steps="1227470"/></proof>
+    <proof prover="2"><result status="valid" time="5.007273" steps="1139028"/></proof>
     </goal>
     <goal name="parallel_free_swap_decomp&#39;vc.0.0.2" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="2.22" steps="1227470"/></proof>
+    <proof prover="2"><result status="valid" time="4.782715" steps="1139028"/></proof>
     </goal>
     <goal name="parallel_free_swap_decomp&#39;vc.0.0.3" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="1.99" steps="1227459"/></proof>
+    <proof prover="2"><result status="valid" time="4.853845" steps="1139010"/></proof>
     </goal>
    </transf>
    </goal>
@@ -750,24 +730,24 @@
     <goal name="remove_parallel_ancilla_free&#39;vc.0.0.0" expl="postcondition" proved="true">
     <transf name="apply" proved="true" arg1="ancilla_free_seq_rev">
      <goal name="remove_parallel_ancilla_free&#39;vc.0.0.0.0" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="3.85" steps="1146942"/></proof>
+     <proof prover="2"><result status="valid" time="7.327283" steps="1264548"/></proof>
      </goal>
      <goal name="remove_parallel_ancilla_free&#39;vc.0.0.0.1" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="3.75" steps="1146922"/></proof>
+     <proof prover="2"><result status="valid" time="7.620759" steps="1264523"/></proof>
      </goal>
      <goal name="remove_parallel_ancilla_free&#39;vc.0.0.0.2" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="3.77" steps="1148733"/></proof>
+     <proof prover="2"><result status="valid" time="7.693943" steps="1267132"/></proof>
      </goal>
      <goal name="remove_parallel_ancilla_free&#39;vc.0.0.0.3" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="3.86" steps="1148315"/></proof>
+     <proof prover="2"><result status="valid" time="7.601978" steps="1266778"/></proof>
      </goal>
     </transf>
     </goal>
     <goal name="remove_parallel_ancilla_free&#39;vc.0.0.1" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="1.48" steps="912901"/></proof>
+    <proof prover="2"><result status="valid" time="4.136937" steps="1055230"/></proof>
     </goal>
     <goal name="remove_parallel_ancilla_free&#39;vc.0.0.2" expl="rewrite premises" proved="true">
-    <proof prover="1"><result status="valid" time="1.45" steps="912901"/></proof>
+    <proof prover="2"><result status="valid" time="4.063099" steps="1055230"/></proof>
     </goal>
    </transf>
    </goal>
@@ -778,147 +758,84 @@
  <goal name="parallel_del&#39;vc" expl="VC for parallel_del" proved="true">
  <transf name="split_goal_right" proved="true" >
   <goal name="parallel_del&#39;vc.0" expl="variant decrease" proved="true">
-  <proof prover="1"><result status="valid" time="4.05" steps="1277121"/></proof>
+  <proof prover="4"><result status="valid" time="0.806358" steps="350621"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.1" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="3.90" steps="1258457"/></proof>
+  <proof prover="4"><result status="valid" time="3.579265" steps="577011"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.2" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="3.88" steps="1264676"/></proof>
+  <proof prover="2"><result status="valid" time="8.070091" steps="1245378"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.3" expl="variant decrease" proved="true">
-  <proof prover="1"><result status="valid" time="3.98" steps="1277651"/></proof>
+  <proof prover="4"><result status="valid" time="0.822888" steps="350631"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.4" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="3.87" steps="1259420"/></proof>
+  <proof prover="4"><result status="valid" time="3.642588" steps="577069"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.5" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="3.77" steps="1265332"/></proof>
+  <proof prover="4"><result status="valid" time="3.532553" steps="578773"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.6" expl="variant decrease" proved="true">
-  <proof prover="1"><result status="valid" time="3.98" steps="1277110"/></proof>
+  <proof prover="4"><result status="valid" time="0.812674" steps="350611"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.7" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="2.40" steps="975274"/></proof>
+  <proof prover="4"><result status="valid" time="3.407122" steps="576965"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.8" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="3.73" steps="1266278"/></proof>
+  <proof prover="4"><result status="valid" time="3.479501" steps="578531"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.9" expl="variant decrease" proved="true">
-  <proof prover="1"><result status="valid" time="4.05" steps="1282098"/></proof>
+  <proof prover="4"><result status="valid" time="0.783893" steps="350764"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.10" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="2.56" steps="975491"/></proof>
+  <proof prover="4"><result status="valid" time="3.352007" steps="579416"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.11" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="3.68" steps="1271646"/></proof>
+  <proof prover="4"><result status="valid" time="3.377928" steps="580971"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.12" expl="variant decrease" proved="true">
-  <proof prover="1"><result status="valid" time="3.84" steps="1277233"/></proof>
+  <proof prover="4"><result status="valid" time="0.809662" steps="350606"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.13" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="2.66" steps="975264"/></proof>
+  <proof prover="4"><result status="valid" time="3.262716" steps="576937"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.14" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="3.77" steps="1265435"/></proof>
+  <proof prover="4"><result status="valid" time="3.328997" steps="578509"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.15" expl="variant decrease" proved="true">
-  <proof prover="1"><result status="valid" time="3.99" steps="1281902"/></proof>
+  <proof prover="4"><result status="valid" time="0.759474" steps="350759"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.16" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="2.62" steps="975481"/></proof>
+  <proof prover="4"><result status="valid" time="3.368115" steps="579367"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.17" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="3.74" steps="1270482"/></proof>
+  <proof prover="4"><result status="valid" time="3.484720" steps="580929"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.18" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="1.45" steps="912891"/></proof>
+  <proof prover="2"><result status="valid" time="7.670244" steps="1040356"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.19" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="1.46" steps="912938"/></proof>
+  <proof prover="2"><result status="valid" time="7.531195" steps="1040403"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.20" expl="postcondition" proved="true">
   <transf name="split_goal_right" proved="true" >
    <goal name="parallel_del&#39;vc.20.0" expl="postcondition" proved="true">
-   <proof prover="1"><result status="valid" time="3.82" steps="1268506"/></proof>
+   <proof prover="4"><result status="valid" time="3.605677" steps="580692"/></proof>
    </goal>
    <goal name="parallel_del&#39;vc.20.1" expl="postcondition" proved="true">
-   <proof prover="1"><result status="valid" time="4.07" steps="1282571"/></proof>
+   <proof prover="4"><result status="valid" time="4.069143" steps="606156"/></proof>
    </goal>
    <goal name="parallel_del&#39;vc.20.2" expl="postcondition" proved="true">
-   <proof prover="1"><result status="valid" time="3.89" steps="1274678"/></proof>
+   <proof prover="4"><result status="valid" time="3.720833" steps="582922"/></proof>
    </goal>
    <goal name="parallel_del&#39;vc.20.3" expl="postcondition" proved="true">
-   <proof prover="1"><result status="valid" time="2.63" steps="976298"/></proof>
+   <proof prover="2"><result status="valid" time="7.936672" steps="1086017"/></proof>
    </goal>
    <goal name="parallel_del&#39;vc.20.4" expl="postcondition" proved="true">
    <transf name="split_vc" proved="true" >
     <goal name="parallel_del&#39;vc.20.4.0" expl="postcondition" proved="true">
-    <transf name="destruct_rec" proved="true" arg1="H1">
-     <goal name="parallel_del&#39;vc.20.4.0.0" expl="postcondition" proved="true">
-     <proof prover="0"><result status="valid" time="1.59"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.1" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.68" steps="975791"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.2" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.35" steps="975791"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.3" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.63" steps="975791"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.4" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.68" steps="975791"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.5" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.63" steps="975791"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.6" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.57" steps="975885"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.7" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.50" steps="975874"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.8" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.53" steps="975863"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.9" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.51" steps="975852"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.10" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.55" steps="975841"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.11" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.52" steps="975830"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.12" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.52" steps="975819"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.13" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.30" steps="975808"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.14" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.41" steps="975797"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.15" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.38" steps="975786"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.16" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.57" steps="975795"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.17" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.53" steps="975795"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.18" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.58" steps="975797"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.19" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.30" steps="975797"/></proof>
-     </goal>
-     <goal name="parallel_del&#39;vc.20.4.0.20" expl="postcondition" proved="true">
-     <proof prover="1"><result status="valid" time="2.32" steps="975368"/></proof>
-     </goal>
-    </transf>
+    <proof prover="0"><result status="valid" time="1.836263"/></proof>
+    <proof prover="2"><result status="valid" time="3.618598" steps="1087722"/></proof>
     </goal>
    </transf>
    </goal>
@@ -927,64 +844,51 @@
   <goal name="parallel_del&#39;vc.21" expl="postcondition" proved="true">
   <transf name="split_goal_right" proved="true" >
    <goal name="parallel_del&#39;vc.21.0" expl="postcondition" proved="true">
-   <proof prover="1"><result status="valid" time="3.30" steps="1268582"/></proof>
+   <proof prover="4"><result status="valid" time="3.700832" steps="580819"/></proof>
    </goal>
    <goal name="parallel_del&#39;vc.21.1" expl="postcondition" proved="true">
-   <proof prover="1"><result status="valid" time="3.46" steps="1282414"/></proof>
+   <transf name="split_vc" proved="true" >
+    <goal name="parallel_del&#39;vc.21.1.0" expl="postcondition" proved="true">
+    <proof prover="4" memlimit="2000"><result status="valid" time="3.343203" steps="605911"/></proof>
+    </goal>
+   </transf>
    </goal>
    <goal name="parallel_del&#39;vc.21.2" expl="postcondition" proved="true">
-   <proof prover="1"><result status="valid" time="3.46" steps="1274623"/></proof>
+   <proof prover="4"><result status="valid" time="3.669397" steps="583065"/></proof>
    </goal>
    <goal name="parallel_del&#39;vc.21.3" expl="postcondition" proved="true">
    <transf name="split_vc" proved="true" >
     <goal name="parallel_del&#39;vc.21.3.0" expl="postcondition" proved="true">
-    <transf name="apply" proved="true" arg1="transitive_circuit_equiv" arg2="with" arg3="(Parallel parallel_del&#39;result&#39;unused&#39;unused
-      parallel_del&#39;result&#39;unused&#39;unused1)">
+    <transf name="apply" proved="true" arg1="transitive_circuit_equiv" arg2="with" arg3="(Parallel o o1)">
      <goal name="parallel_del&#39;vc.21.3.0.0" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="1.22" steps="912902"/></proof>
+     <proof prover="5"><result status="valid" time="0.174501" steps="438551"/></proof>
      </goal>
      <goal name="parallel_del&#39;vc.21.3.0.1" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="2.35" steps="975533"/></proof>
+     <proof prover="2" timelimit="1"><result status="valid" time="3.510369" steps="1085157"/></proof>
      </goal>
      <goal name="parallel_del&#39;vc.21.3.0.2" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="1.33" steps="912902"/></proof>
+     <proof prover="5"><result status="valid" time="0.176046" steps="438551"/></proof>
      </goal>
      <goal name="parallel_del&#39;vc.21.3.0.3" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="1.35" steps="912902"/></proof>
+     <proof prover="5"><result status="valid" time="0.156923" steps="438555"/></proof>
      </goal>
      <goal name="parallel_del&#39;vc.21.3.0.4" expl="apply premises" proved="true">
-     <proof prover="1"><result status="valid" time="3.48" steps="1277676"/></proof>
+     <proof prover="2" timelimit="1"><result status="valid" time="4.519176" steps="1248457"/></proof>
      </goal>
     </transf>
     </goal>
    </transf>
    </goal>
    <goal name="parallel_del&#39;vc.21.4" expl="postcondition" proved="true">
-   <proof prover="1"><result status="valid" time="2.34" steps="976496"/></proof>
+   <proof prover="4"><result status="valid" time="1.721518" steps="429705"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="parallel_del&#39;vc.22" expl="postcondition" proved="true">
-  <proof prover="1"><result status="valid" time="2.31" steps="979773"/></proof>
+  <proof prover="4"><result status="valid" time="1.735403" steps="430820"/></proof>
   </goal>
   <goal name="parallel_del&#39;vc.23" expl="postcondition" proved="true">
-  <transf name="split_goal_right" proved="true" >
-   <goal name="parallel_del&#39;vc.23.0" expl="postcondition" proved="true">
-   <proof prover="1"><result status="valid" time="3.35" steps="1271014"/></proof>
-   </goal>
-   <goal name="parallel_del&#39;vc.23.1" expl="postcondition" proved="true">
-   <proof prover="1"><result status="valid" time="3.23" steps="1271953"/></proof>
-   </goal>
-   <goal name="parallel_del&#39;vc.23.2" expl="postcondition" proved="true">
-   <proof prover="1"><result status="valid" time="3.25" steps="1279352"/></proof>
-   </goal>
-   <goal name="parallel_del&#39;vc.23.3" expl="postcondition" proved="true">
-   <proof prover="1"><result status="valid" time="2.15" steps="976404"/></proof>
-   </goal>
-   <goal name="parallel_del&#39;vc.23.4" expl="postcondition" proved="true">
-   <proof prover="1"><result status="valid" time="1.23" steps="913565"/></proof>
-   </goal>
-  </transf>
+  <proof prover="2"><result status="valid" time="4.494294" steps="1274302"/></proof>
   </goal>
  </transf>
  </goal>

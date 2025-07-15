@@ -136,9 +136,9 @@ let lemma remove_parallel_free (a b: wired_circuit)
 let lemma remove_parallel_ancilla_free (a b: wired_circuit)
     requires{correct a}
     requires{correct b}
-      requires{ancilla_free a}
-      requires{ancilla_free b}
-      ensures{ancilla_free (remove_parallel a b)}
+    requires{ancilla_free a}
+    requires{ancilla_free b}
+    ensures{ancilla_free (remove_parallel a b)}
   =()
      
   let rec function parallel_del (c : wired_circuit) : wired_circuit

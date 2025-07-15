@@ -1,344 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
-"http://why3.lri.fr/why3session.dtd">
+"https://www.why3.org/why3session.dtd">
 <why3session shape_version="6">
 <prover id="0" name="CVC3" version="2.4.1" timelimit="5" steplimit="0" memlimit="1000"/>
-<prover id="1" name="Alt-Ergo" version="2.4.0" timelimit="5" steplimit="0" memlimit="1000"/>
-<prover id="2" name="CVC4" version="1.7" timelimit="5" steplimit="0" memlimit="1000"/>
-<prover id="4" name="CVC4" version="1.7" alternative="counterexamples" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="3" name="CVC4" version="1.8" timelimit="30" steplimit="0" memlimit="4000"/>
+<prover id="6" name="CVC5" version="1.2.1" timelimit="5" steplimit="0" memlimit="1000"/>
 <file format="whyml" proved="true">
 <path name=".."/><path name="commuting_lemmas.mlw"/>
 <theory name="Ancilla_pre" proved="true">
  <goal name="ancilla_free&#39;vc" expl="VC for ancilla_free" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="ancilla_free&#39;vc.0" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="2.82"/></proof>
+  <proof prover="0"><result status="valid" time="2.820000"/></proof>
   </goal>
   <goal name="ancilla_free&#39;vc.1" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.61" steps="1244704"/></proof>
+  <proof prover="6"><result status="valid" time="3.137808" steps="565970"/></proof>
   </goal>
   <goal name="ancilla_free&#39;vc.2" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="3.09"/></proof>
+  <proof prover="0"><result status="valid" time="3.090000"/></proof>
   </goal>
   <goal name="ancilla_free&#39;vc.3" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.65" steps="1244873"/></proof>
+  <proof prover="6"><result status="valid" time="3.272156" steps="566055"/></proof>
   </goal>
   <goal name="ancilla_free&#39;vc.4" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="2.95"/></proof>
+  <proof prover="0"><result status="valid" time="2.950000"/></proof>
   </goal>
   <goal name="ancilla_free&#39;vc.5" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.44" steps="964389"/></proof>
+  <proof prover="6"><result status="valid" time="3.463430" steps="565937"/></proof>
   </goal>
   <goal name="ancilla_free&#39;vc.6" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="3.07"/></proof>
+  <proof prover="0"><result status="valid" time="2.609946"/></proof>
   </goal>
   <goal name="ancilla_free&#39;vc.7" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.41" steps="964440"/></proof>
+  <proof prover="6"><result status="valid" time="3.550747" steps="566828"/></proof>
   </goal>
   <goal name="ancilla_free&#39;vc.8" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="2.89"/></proof>
+  <proof prover="0"><result status="valid" time="2.890000"/></proof>
   </goal>
   <goal name="ancilla_free&#39;vc.9" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.48" steps="964379"/></proof>
+  <proof prover="6"><result status="valid" time="3.472186" steps="565943"/></proof>
   </goal>
   <goal name="ancilla_free&#39;vc.10" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="3.05"/></proof>
+  <proof prover="0"><result status="valid" time="3.050000"/></proof>
   </goal>
   <goal name="ancilla_free&#39;vc.11" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.63" steps="964430"/></proof>
+  <proof prover="6"><result status="valid" time="3.210193" steps="566828"/></proof>
   </goal>
   <goal name="ancilla_free&#39;vc.12" expl="postcondition" proved="true">
   <transf name="destruct" proved="true" arg1="H">
    <goal name="ancilla_free&#39;vc.12.0" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.56" steps="964447"/></proof>
+   <proof prover="6"><result status="valid" time="1.497497" steps="419669"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.1" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.75"/></proof>
+   <proof prover="0"><result status="valid" time="1.750000"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.2" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.87"/></proof>
+   <proof prover="0"><result status="valid" time="1.870000"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.3" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.87"/></proof>
+   <proof prover="0"><result status="valid" time="1.870000"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.4" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.87"/></proof>
+   <proof prover="0"><result status="valid" time="1.870000"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.5" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.84"/></proof>
+   <proof prover="0"><result status="valid" time="1.840000"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.6" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.50" steps="964447"/></proof>
+   <proof prover="6"><result status="valid" time="1.469311" steps="419669"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.7" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.70" steps="964447"/></proof>
+   <proof prover="6"><result status="valid" time="1.467784" steps="419669"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.8" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.44" steps="964447"/></proof>
+   <proof prover="6"><result status="valid" time="1.407618" steps="419669"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.9" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.87" steps="964447"/></proof>
+   <proof prover="6"><result status="valid" time="1.384332" steps="419669"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.10" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.62" steps="964447"/></proof>
+   <proof prover="6"><result status="valid" time="1.397327" steps="419669"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.11" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.63" steps="964447"/></proof>
+   <proof prover="6"><result status="valid" time="1.402117" steps="419669"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.12" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.48" steps="964447"/></proof>
+   <proof prover="6"><result status="valid" time="1.467738" steps="419669"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.13" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.49" steps="964447"/></proof>
+   <proof prover="6"><result status="valid" time="1.529121" steps="419669"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.14" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.50" steps="964447"/></proof>
+   <proof prover="6"><result status="valid" time="1.511948" steps="419669"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.15" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.54" steps="964447"/></proof>
+   <proof prover="6"><result status="valid" time="1.388652" steps="419669"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.16" expl="postcondition" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="ancilla_free&#39;vc.12.16.0" expl="postcondition" proved="true">
-    <transf name="instantiate" proved="true" arg1="ancillas_pre&#39;def" arg2="c">
-     <goal name="ancilla_free&#39;vc.12.16.0.0" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="2.45" steps="966236"/></proof>
-     </goal>
-    </transf>
-    </goal>
-    <goal name="ancilla_free&#39;vc.12.16.1" expl="postcondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.79" steps="23305"/></proof>
-    </goal>
-   </transf>
+   <proof prover="6" timelimit="10" memlimit="4000"><result status="valid" time="2.598419" steps="565441"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.17" expl="postcondition" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="ancilla_free&#39;vc.12.17.0" expl="postcondition" proved="true">
-    <transf name="eliminate_definition" proved="true" >
-     <goal name="ancilla_free&#39;vc.12.17.0.0" expl="postcondition" proved="true">
-     <transf name="instantiate" proved="true" arg1="ancillas_pre&#39;def" arg2="c">
-      <goal name="ancilla_free&#39;vc.12.17.0.0.0" expl="postcondition" proved="true">
-      <proof prover="2"><result status="valid" time="2.50" steps="965874"/></proof>
-      </goal>
-     </transf>
-     </goal>
-    </transf>
-    </goal>
-    <goal name="ancilla_free&#39;vc.12.17.1" expl="postcondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.81" steps="23305"/></proof>
-    </goal>
-   </transf>
+   <proof prover="6" timelimit="10" memlimit="4000"><result status="valid" time="2.681602" steps="565456"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.18" expl="postcondition" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="ancilla_free&#39;vc.12.18.0" expl="postcondition" proved="true">
-    <transf name="eliminate_definition" proved="true" >
-     <goal name="ancilla_free&#39;vc.12.18.0.0" expl="postcondition" proved="true">
-     <transf name="instantiate" proved="true" arg1="ancillas_pre&#39;def" arg2="c">
-      <goal name="ancilla_free&#39;vc.12.18.0.0.0" expl="postcondition" proved="true">
-      <proof prover="2"><result status="valid" time="2.51" steps="965878"/></proof>
-      </goal>
-     </transf>
-     </goal>
-    </transf>
-    </goal>
-    <goal name="ancilla_free&#39;vc.12.18.1" expl="postcondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.83" steps="23305"/></proof>
-    </goal>
-   </transf>
+   <proof prover="6" timelimit="10" memlimit="4000"><result status="valid" time="2.567499" steps="565537"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.19" expl="postcondition" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="ancilla_free&#39;vc.12.19.0" expl="postcondition" proved="true">
-    <transf name="eliminate_definition" proved="true" >
-     <goal name="ancilla_free&#39;vc.12.19.0.0" expl="postcondition" proved="true">
-     <transf name="instantiate" proved="true" arg1="ancillas_pre&#39;def" arg2="c">
-      <goal name="ancilla_free&#39;vc.12.19.0.0.0" expl="postcondition" proved="true">
-      <proof prover="2"><result status="valid" time="2.69" steps="965878"/></proof>
-      </goal>
-     </transf>
-     </goal>
-    </transf>
-    </goal>
-    <goal name="ancilla_free&#39;vc.12.19.1" expl="postcondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.84" steps="23305"/></proof>
-    </goal>
-   </transf>
+   <proof prover="6" timelimit="10" memlimit="4000"><result status="valid" time="2.563091" steps="565538"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.20" expl="postcondition" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="ancilla_free&#39;vc.12.20.0" expl="postcondition" proved="true">
-    <transf name="eliminate_definition" proved="true" >
-     <goal name="ancilla_free&#39;vc.12.20.0.0" expl="postcondition" proved="true">
-     <transf name="instantiate" proved="true" arg1="ancillas_pre&#39;def" arg2="c">
-      <goal name="ancilla_free&#39;vc.12.20.0.0.0" expl="postcondition" proved="true">
-      <proof prover="2"><result status="valid" time="2.40" steps="965969"/></proof>
-      </goal>
-     </transf>
-     </goal>
-    </transf>
-    </goal>
-    <goal name="ancilla_free&#39;vc.12.20.1" expl="postcondition" proved="true">
-    <transf name="eliminate_definition" proved="true" >
-     <goal name="ancilla_free&#39;vc.12.20.1.0" expl="postcondition" proved="true">
-     <transf name="instantiate" proved="true" arg1="ancillas_pre&#39;def" arg2="c">
-      <goal name="ancilla_free&#39;vc.12.20.1.0.0" expl="postcondition" proved="true">
-      <proof prover="2"><result status="valid" time="2.44" steps="965970"/></proof>
-      </goal>
-     </transf>
-     </goal>
-    </transf>
-    </goal>
-   </transf>
+   <proof prover="6" timelimit="10" memlimit="4000"><result status="valid" time="2.602995" steps="569408"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.21" expl="postcondition" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="ancilla_free&#39;vc.12.21.0" expl="postcondition" proved="true">
-    <transf name="eliminate_definition" proved="true" >
-     <goal name="ancilla_free&#39;vc.12.21.0.0" expl="postcondition" proved="true">
-     <transf name="instantiate" proved="true" arg1="ancillas_pre&#39;def" arg2="c">
-      <goal name="ancilla_free&#39;vc.12.21.0.0.0" expl="postcondition" proved="true">
-      <proof prover="2"><result status="valid" time="2.68" steps="965973"/></proof>
-      </goal>
-     </transf>
-     </goal>
-    </transf>
-    </goal>
-    <goal name="ancilla_free&#39;vc.12.21.1" expl="postcondition" proved="true">
-    <transf name="eliminate_definition" proved="true" >
-     <goal name="ancilla_free&#39;vc.12.21.1.0" expl="postcondition" proved="true">
-     <transf name="instantiate" proved="true" arg1="ancillas_pre&#39;def" arg2="c">
-      <goal name="ancilla_free&#39;vc.12.21.1.0.0" expl="postcondition" proved="true">
-      <proof prover="2"><result status="valid" time="2.52" steps="965974"/></proof>
-      </goal>
-     </transf>
-     </goal>
-    </transf>
-    </goal>
-   </transf>
+   <proof prover="6" timelimit="10" memlimit="4000"><result status="valid" time="2.626435" steps="569488"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.22" expl="postcondition" proved="true">
-   <transf name="eliminate_definition" proved="true" >
-    <goal name="ancilla_free&#39;vc.12.22.0" expl="postcondition" proved="true">
-    <transf name="instantiate" proved="true" arg1="ancillas_pre&#39;def" arg2="c">
-     <goal name="ancilla_free&#39;vc.12.22.0.0" expl="postcondition" proved="true">
-     <transf name="destruct" proved="true" arg1="Hinst">
-      <goal name="ancilla_free&#39;vc.12.22.0.0.0" expl="destruct premise" proved="true">
-      <proof prover="2"><result status="valid" time="1.44" steps="902931"/></proof>
-      </goal>
-      <goal name="ancilla_free&#39;vc.12.22.0.0.1" expl="postcondition" proved="true">
-      <transf name="destruct" proved="true" arg1="Hinst">
-       <goal name="ancilla_free&#39;vc.12.22.0.0.1.0" expl="postcondition" proved="true">
-       <proof prover="2"><result status="valid" time="3.33" steps="1133132"/></proof>
-       </goal>
-       <goal name="ancilla_free&#39;vc.12.22.0.0.1.1" expl="postcondition" proved="true">
-       <proof prover="2"><result status="valid" time="3.28" steps="1133726"/></proof>
-       </goal>
-       <goal name="ancilla_free&#39;vc.12.22.0.0.1.2" expl="postcondition" proved="true">
-       <proof prover="2"><result status="valid" time="3.50" steps="1135863"/></proof>
-       </goal>
-       <goal name="ancilla_free&#39;vc.12.22.0.0.1.3" expl="postcondition" proved="true">
-       <proof prover="2"><result status="valid" time="3.31" steps="1133688"/></proof>
-       </goal>
-       <goal name="ancilla_free&#39;vc.12.22.0.0.1.4" expl="postcondition" proved="true">
-       <proof prover="2"><result status="valid" time="2.93" steps="1133279"/></proof>
-       </goal>
-       <goal name="ancilla_free&#39;vc.12.22.0.0.1.5" expl="postcondition" proved="true">
-       <transf name="split_vc" proved="true" >
-        <goal name="ancilla_free&#39;vc.12.22.0.0.1.5.0" expl="VC for ancilla_free" proved="true">
-        <proof prover="2"><result status="valid" time="1.23" steps="902965"/></proof>
-        </goal>
-        <goal name="ancilla_free&#39;vc.12.22.0.0.1.5.1" expl="VC for ancilla_free" proved="true">
-        <transf name="case" proved="true" arg1="(ancillas_pre x1 = 0 &amp;&amp; ancillas_pre x = 0)">
-         <goal name="ancilla_free&#39;vc.12.22.0.0.1.5.1.0" expl="true case" proved="true">
-         <proof prover="2"><result status="valid" time="1.24" steps="902979"/></proof>
-         </goal>
-         <goal name="ancilla_free&#39;vc.12.22.0.0.1.5.1.1" expl="false case" proved="true">
-         <transf name="replace" proved="true" arg1="(ancillas_pre c)" arg2="(max (ancillas_pre x1) (ancillas_pre x))" arg3="in" arg4="Hinst">
-          <goal name="ancilla_free&#39;vc.12.22.0.0.1.5.1.1.0" expl="false case" proved="true">
-          <proof prover="2"><result status="valid" time="3.41" steps="1135276"/></proof>
-          </goal>
-          <goal name="ancilla_free&#39;vc.12.22.0.0.1.5.1.1.1" expl="equality hypothesis" proved="true">
-          <proof prover="0"><result status="valid" time="3.91"/></proof>
-          </goal>
-         </transf>
-         </goal>
-        </transf>
-        </goal>
-       </transf>
-       </goal>
-      </transf>
-      </goal>
-     </transf>
-     </goal>
-    </transf>
-    </goal>
-   </transf>
+   <proof prover="6" timelimit="10" memlimit="4000"><result status="valid" time="2.743873" steps="570310"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.23" expl="postcondition" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="ancilla_free&#39;vc.12.23.0" expl="postcondition" proved="true">
-    <transf name="eliminate_definition" proved="true" >
-     <goal name="ancilla_free&#39;vc.12.23.0.0" expl="postcondition" proved="true">
-     <transf name="instantiate" proved="true" arg1="ancillas_pre&#39;def" arg2="c">
-      <goal name="ancilla_free&#39;vc.12.23.0.0.0" expl="postcondition" proved="true">
-      <proof prover="2"><result status="valid" time="3.32" steps="1135725"/></proof>
-      </goal>
-     </transf>
-     </goal>
-    </transf>
-    </goal>
-    <goal name="ancilla_free&#39;vc.12.23.1" expl="postcondition" proved="true">
-    <transf name="eliminate_definition" proved="true" >
-     <goal name="ancilla_free&#39;vc.12.23.1.0" expl="postcondition" proved="true">
-     <transf name="instantiate" proved="true" arg1="ancillas_pre&#39;def" arg2="c">
-      <goal name="ancilla_free&#39;vc.12.23.1.0.0" expl="postcondition" proved="true">
-      <proof prover="2"><result status="valid" time="3.37" steps="1136802"/></proof>
-      </goal>
-     </transf>
-     </goal>
-    </transf>
-    </goal>
-   </transf>
+   <proof prover="6" timelimit="10" memlimit="4000"><result status="valid" time="2.708611" steps="570316"/></proof>
    </goal>
    <goal name="ancilla_free&#39;vc.12.24" expl="postcondition" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="ancilla_free&#39;vc.12.24.0" expl="postcondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.91" steps="23253"/></proof>
-    </goal>
-    <goal name="ancilla_free&#39;vc.12.24.1" expl="postcondition" proved="true">
-    <transf name="eliminate_definition" proved="true" >
-     <goal name="ancilla_free&#39;vc.12.24.1.0" expl="postcondition" proved="true">
-     <transf name="instantiate" proved="true" arg1="ancillas_pre&#39;def" arg2="c">
-      <goal name="ancilla_free&#39;vc.12.24.1.0.0" expl="postcondition" proved="true">
-      <proof prover="0"><result status="valid" time="4.11"/></proof>
-      </goal>
-     </transf>
-     </goal>
-    </transf>
-    </goal>
-   </transf>
+   <proof prover="6" timelimit="10" memlimit="4000"><result status="valid" time="2.507544" steps="565804"/></proof>
    </goal>
   </transf>
   </goal>
  </transf>
  </goal>
  <goal name="set_ancilla_free&#39;vc" expl="VC for set_ancilla_free" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="set_ancilla_free&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.54" steps="966279"/></proof>
-  </goal>
- </transf>
+ <proof prover="6" timelimit="10" memlimit="4000"><result status="valid" time="1.204600" steps="420278"/></proof>
  </goal>
  <goal name="correct_ancilla_free&#39;vc" expl="VC for correct_ancilla_free" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="correct_ancilla_free&#39;vc.0" expl="postcondition" proved="true">
   <transf name="apply" proved="true" arg1="set_ancilla_free">
    <goal name="correct_ancilla_free&#39;vc.0.0" expl="apply premises" proved="true">
-   <proof prover="2"><result status="valid" time="3.26" steps="1250857"/></proof>
+   <proof prover="6"><result status="valid" time="2.880062" steps="566517"/></proof>
    </goal>
    <goal name="correct_ancilla_free&#39;vc.0.1" expl="apply premises" proved="true">
-   <proof prover="2"><result status="valid" time="1.25" steps="904366"/></proof>
+   <proof prover="6"><result status="valid" time="0.702887" steps="363283"/></proof>
    </goal>
   </transf>
   </goal>
@@ -353,10 +153,10 @@
     <goal name="ancilla_free_place&#39;vc.0.0.0" expl="postcondition" proved="true">
     <transf name="destruct" proved="true" arg1="Hinst">
      <goal name="ancilla_free_place&#39;vc.0.0.0.0" expl="destruct premise" proved="true">
-     <proof prover="2"><result status="valid" time="4.45" steps="1509146"/></proof>
+     <proof prover="3" timelimit="1" memlimit="1000"><result status="valid" time="4.825530" steps="1312287"/></proof>
      </goal>
      <goal name="ancilla_free_place&#39;vc.0.0.0.1" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.22" steps="1285490"/></proof>
+     <proof prover="6"><result status="valid" time="1.406288" steps="451491"/></proof>
      </goal>
     </transf>
     </goal>
@@ -369,21 +169,21 @@
  <goal name="ancilla_free_place_rev&#39;vc" expl="VC for ancilla_free_place_rev" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="ancilla_free_place_rev&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="4"><result status="valid" time="6.30" steps="1334315"/></proof>
+  <proof prover="3"><result status="valid" time="14.609851" steps="1268507"/></proof>
   </goal>
  </transf>
  </goal>
  <goal name="ancilla_free_cont&#39;vc" expl="VC for ancilla_free_cont" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="ancilla_free_cont&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="4"><result status="valid" time="6.26" steps="1334653"/></proof>
+  <proof prover="3"><result status="valid" time="16.598627" steps="1268059"/></proof>
   </goal>
  </transf>
  </goal>
  <goal name="ancilla_free_cont_rev&#39;vc" expl="VC for ancilla_free_cont_rev" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="ancilla_free_cont_rev&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="4"><result status="valid" time="5.94" steps="1335455"/></proof>
+  <proof prover="3"><result status="valid" time="14.163220" steps="1268470"/></proof>
   </goal>
  </transf>
  </goal>
@@ -398,10 +198,10 @@
      <goal name="ancilla_free_seq&#39;vc.0.0.0.0" expl="postcondition" proved="true">
      <transf name="destruct" proved="true" arg1="Hinst">
       <goal name="ancilla_free_seq&#39;vc.0.0.0.0.0" expl="destruct premise" proved="true">
-      <proof prover="2"><result status="valid" time="4.42" steps="1509796"/></proof>
+      <proof prover="3"><result status="valid" time="6.687809" steps="1313912"/></proof>
       </goal>
       <goal name="ancilla_free_seq&#39;vc.0.0.0.0.1" expl="postcondition" proved="true">
-      <proof prover="2"><result status="valid" time="3.24" steps="1286317"/></proof>
+      <proof prover="6"><result status="valid" time="1.656342" steps="451816"/></proof>
       </goal>
      </transf>
      </goal>
@@ -416,10 +216,10 @@
      <goal name="ancilla_free_seq&#39;vc.0.1.0.0" expl="postcondition" proved="true">
      <transf name="destruct" proved="true" arg1="Hinst">
       <goal name="ancilla_free_seq&#39;vc.0.1.0.0.0" expl="destruct premise" proved="true">
-      <proof prover="2"><result status="valid" time="4.45" steps="1509796"/></proof>
+      <proof prover="3" timelimit="1" memlimit="1000"><result status="valid" time="4.739452" steps="1313912"/></proof>
       </goal>
       <goal name="ancilla_free_seq&#39;vc.0.1.0.0.1" expl="postcondition" proved="true">
-      <proof prover="2"><result status="valid" time="3.27" steps="1286317"/></proof>
+      <proof prover="6"><result status="valid" time="1.469178" steps="451816"/></proof>
       </goal>
      </transf>
      </goal>
@@ -438,7 +238,7 @@
    <goal name="not_ancilla_free_anc&#39;vc.0.0" expl="postcondition" proved="true">
    <transf name="instantiate" proved="true" arg1="ancilla_free&#39;def" arg2="(Ancillas c i)">
     <goal name="not_ancilla_free_anc&#39;vc.0.0.0" expl="postcondition" proved="true">
-    <proof prover="0"><result status="valid" time="1.66"/></proof>
+    <proof prover="6"><result status="valid" time="4.515707" steps="682962"/></proof>
     </goal>
    </transf>
    </goal>
@@ -455,10 +255,10 @@
     <goal name="ancilla_free_seq_rev&#39;vc.0.0.0" expl="postcondition" proved="true">
     <transf name="destruct_rec" proved="true" arg1="Hinst">
      <goal name="ancilla_free_seq_rev&#39;vc.0.0.0.0" expl="destruct premise" proved="true">
-     <proof prover="2"><result status="valid" time="4.13" steps="1510112"/></proof>
+     <proof prover="3" timelimit="1" memlimit="1000"><result status="valid" time="4.793879" steps="1314277"/></proof>
      </goal>
      <goal name="ancilla_free_seq_rev&#39;vc.0.0.0.1" expl="postcondition" proved="true">
-     <proof prover="2"><result status="valid" time="3.04" steps="1286614"/></proof>
+     <proof prover="6"><result status="valid" time="1.544986" steps="451962"/></proof>
      </goal>
     </transf>
     </goal>
@@ -475,14 +275,14 @@
    <goal name="ancilla_free_par&#39;vc.0.0" expl="VC for ancilla_free_par" proved="true">
    <transf name="instantiate" proved="true" arg1="ancilla_free&#39;def3" arg2="(Parallel c1 c2)">
     <goal name="ancilla_free_par&#39;vc.0.0.0" expl="VC for ancilla_free_par" proved="true">
-    <proof prover="0"><result status="valid" time="1.47"/></proof>
+    <proof prover="0"><result status="valid" time="2.151583"/></proof>
     </goal>
    </transf>
    </goal>
    <goal name="ancilla_free_par&#39;vc.0.1" expl="VC for ancilla_free_par" proved="true">
    <transf name="instantiate" proved="true" arg1="ancilla_free&#39;def2" arg2="(Parallel c1 c2)">
     <goal name="ancilla_free_par&#39;vc.0.1.0" expl="VC for ancilla_free_par" proved="true">
-    <proof prover="0"><result status="valid" time="1.50"/></proof>
+    <proof prover="0"><result status="valid" time="2.146835"/></proof>
     </goal>
    </transf>
    </goal>
@@ -497,7 +297,7 @@
    <goal name="ancilla_free_par_rev&#39;vc.0.0" expl="postcondition" proved="true">
    <transf name="instantiate" proved="true" arg1="ancilla_free&#39;def1" arg2="(Parallel c1 c2)">
     <goal name="ancilla_free_par_rev&#39;vc.0.0.0" expl="postcondition" proved="true">
-    <proof prover="0"><result status="valid" time="1.47"/></proof>
+    <proof prover="0"><result status="valid" time="2.062510"/></proof>
     </goal>
    </transf>
    </goal>
@@ -510,657 +310,165 @@
   <goal name="ancilla_free_cont_seq&#39;vc.0" expl="postcondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="ancilla_free_cont_seq&#39;vc.0.0" expl="postcondition" proved="true">
-   <transf name="assert" proved="true" arg1="(ancilla_free c1)">
-    <goal name="ancilla_free_cont_seq&#39;vc.0.0.0" expl="asserted formula" proved="true">
-    <transf name="assert" proved="true" arg1="(ancilla_free (Sequence c1 c2))">
-     <goal name="ancilla_free_cont_seq&#39;vc.0.0.0.0" expl="asserted formula" proved="true">
-     <transf name="apply" proved="true" arg1="ancilla_free_cont" arg2="with" arg3="co,ta,n">
-      <goal name="ancilla_free_cont_seq&#39;vc.0.0.0.0.0" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="2.49" steps="968156"/></proof>
-      </goal>
-      <goal name="ancilla_free_cont_seq&#39;vc.0.0.0.0.1" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="1.44" steps="906039"/></proof>
-      </goal>
-      <goal name="ancilla_free_cont_seq&#39;vc.0.0.0.0.2" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="2.62" steps="1015249"/></proof>
-      </goal>
-      <goal name="ancilla_free_cont_seq&#39;vc.0.0.0.0.3" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="2.70" steps="1015234"/></proof>
-      </goal>
-      <goal name="ancilla_free_cont_seq&#39;vc.0.0.0.0.4" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="1.50" steps="906030"/></proof>
-      </goal>
-     </transf>
-     </goal>
-     <goal name="ancilla_free_cont_seq&#39;vc.0.0.0.1" expl="asserted formula" proved="true">
-     <proof prover="0"><result status="valid" time="1.82"/></proof>
-     </goal>
-    </transf>
-    </goal>
-    <goal name="ancilla_free_cont_seq&#39;vc.0.0.1" expl="postcondition" proved="true">
-    <proof prover="2"><result status="valid" time="3.98" steps="1261768"/></proof>
-    </goal>
-   </transf>
+   <proof prover="6"><result status="valid" time="2.583938" steps="574315"/></proof>
    </goal>
    <goal name="ancilla_free_cont_seq&#39;vc.0.1" expl="postcondition" proved="true">
-   <transf name="assert" proved="true" arg1="(ancilla_free c2)">
-    <goal name="ancilla_free_cont_seq&#39;vc.0.1.0" expl="asserted formula" proved="true">
-    <transf name="assert" proved="true" arg1="(ancilla_free (Sequence c1 c2))">
-     <goal name="ancilla_free_cont_seq&#39;vc.0.1.0.0" expl="asserted formula" proved="true">
-     <transf name="apply" proved="true" arg1="ancilla_free_cont" arg2="with" arg3="co,ta,n">
-      <goal name="ancilla_free_cont_seq&#39;vc.0.1.0.0.0" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="2.65" steps="968156"/></proof>
-      </goal>
-      <goal name="ancilla_free_cont_seq&#39;vc.0.1.0.0.1" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="1.36" steps="906039"/></proof>
-      </goal>
-      <goal name="ancilla_free_cont_seq&#39;vc.0.1.0.0.2" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="2.76" steps="1015249"/></proof>
-      </goal>
-      <goal name="ancilla_free_cont_seq&#39;vc.0.1.0.0.3" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="2.75" steps="1015234"/></proof>
-      </goal>
-      <goal name="ancilla_free_cont_seq&#39;vc.0.1.0.0.4" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="1.53" steps="906030"/></proof>
-      </goal>
-     </transf>
-     </goal>
-     <goal name="ancilla_free_cont_seq&#39;vc.0.1.0.1" expl="asserted formula" proved="true">
-     <proof prover="0"><result status="valid" time="1.54"/></proof>
-     </goal>
-    </transf>
-    </goal>
-    <goal name="ancilla_free_cont_seq&#39;vc.0.1.1" expl="postcondition" proved="true">
-    <proof prover="2"><result status="valid" time="3.75" steps="1265334"/></proof>
-    </goal>
-   </transf>
+   <proof prover="6"><result status="valid" time="2.604878" steps="574469"/></proof>
    </goal>
   </transf>
   </goal>
  </transf>
  </goal>
  <goal name="ancilla_free_cont_hadamard&#39;vc" expl="VC for ancilla_free_cont_hadamard" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="ancilla_free_cont_hadamard&#39;vc.0" expl="postcondition" proved="true">
-  <transf name="split_all_full" proved="true" >
-   <goal name="ancilla_free_cont_hadamard&#39;vc.0.0" expl="postcondition" proved="true">
-   <transf name="rewrite" proved="true" arg1="cont_hadamard&#39;spec1">
-    <goal name="ancilla_free_cont_hadamard&#39;vc.0.0.0" expl="postcondition" proved="true">
-    <proof prover="2"><result status="valid" time="4.19" steps="1516635"/></proof>
-    </goal>
-    <goal name="ancilla_free_cont_hadamard&#39;vc.0.0.1" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.98" steps="1216996"/></proof>
-    </goal>
-    <goal name="ancilla_free_cont_hadamard&#39;vc.0.0.2" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="2.00" steps="1217003"/></proof>
-    </goal>
-    <goal name="ancilla_free_cont_hadamard&#39;vc.0.0.3" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="2.86" steps="1285709"/></proof>
-    </goal>
-   </transf>
-   </goal>
-  </transf>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="2.850226" steps="569596"/></proof>
  </goal>
  <goal name="ancilla_free_cont_rz&#39;vc" expl="VC for ancilla_free_cont_rz" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="ancilla_free_cont_rz&#39;vc.0" expl="postcondition" proved="true">
-  <transf name="split_all_full" proved="true" >
-   <goal name="ancilla_free_cont_rz&#39;vc.0.0" expl="postcondition" proved="true">
-   <transf name="rewrite" proved="true" arg1="cont_rz&#39;spec">
-    <goal name="ancilla_free_cont_rz&#39;vc.0.0.0" expl="postcondition" proved="true">
-    <proof prover="2"><result status="valid" time="4.16" steps="1518747"/></proof>
-    </goal>
-    <goal name="ancilla_free_cont_rz&#39;vc.0.0.1" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="2.10" steps="1217422"/></proof>
-    </goal>
-    <goal name="ancilla_free_cont_rz&#39;vc.0.0.2" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="2.02" steps="1217415"/></proof>
-    </goal>
-    <goal name="ancilla_free_cont_rz&#39;vc.0.0.3" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="2.01" steps="1217413"/></proof>
-    </goal>
-   </transf>
-   </goal>
-  </transf>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="2.864012" steps="566945"/></proof>
  </goal>
  <goal name="ancilla_free_cont_rx&#39;vc" expl="VC for ancilla_free_cont_rx" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="ancilla_free_cont_rx&#39;vc.0" expl="postcondition" proved="true">
-  <transf name="split_all_full" proved="true" >
-   <goal name="ancilla_free_cont_rx&#39;vc.0.0" expl="postcondition" proved="true">
-   <transf name="case" proved="true" arg1="((ta1 +&#39; 1) &lt;=&#39; co1)">
-    <goal name="ancilla_free_cont_rx&#39;vc.0.0.0" expl="true case (postcondition)" proved="true">
-    <transf name="rewrite" proved="true" arg1="cont_rx&#39;spec">
-     <goal name="ancilla_free_cont_rx&#39;vc.0.0.0.0" expl="true case (postcondition)" proved="true">
-     <transf name="apply" proved="true" arg1="ancilla_free_seq_rev">
-      <goal name="ancilla_free_cont_rx&#39;vc.0.0.0.0.0" expl="apply premises" proved="true">
-      <proof prover="0"><result status="valid" time="1.66"/></proof>
-      </goal>
-      <goal name="ancilla_free_cont_rx&#39;vc.0.0.0.0.1" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="4.79" steps="1508278"/></proof>
-      </goal>
-      <goal name="ancilla_free_cont_rx&#39;vc.0.0.0.0.2" expl="apply premises" proved="true">
-      <proof prover="0"><result status="valid" time="1.71"/></proof>
-      </goal>
-      <goal name="ancilla_free_cont_rx&#39;vc.0.0.0.0.3" expl="apply premises" proved="true">
-      <proof prover="0"><result status="valid" time="1.90"/></proof>
-      </goal>
-     </transf>
-     </goal>
-     <goal name="ancilla_free_cont_rx&#39;vc.0.0.0.1" expl="rewrite premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.13" steps="1217873"/></proof>
-     </goal>
-     <goal name="ancilla_free_cont_rx&#39;vc.0.0.0.2" expl="rewrite premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.12" steps="1217871"/></proof>
-     </goal>
-     <goal name="ancilla_free_cont_rx&#39;vc.0.0.0.3" expl="rewrite premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.07" steps="1217864"/></proof>
-     </goal>
-    </transf>
-    </goal>
-    <goal name="ancilla_free_cont_rx&#39;vc.0.0.1" expl="false case (postcondition)" proved="true">
-    <transf name="rewrite" proved="true" arg1="cont_rx&#39;spec5">
-     <goal name="ancilla_free_cont_rx&#39;vc.0.0.1.0" expl="false case (postcondition)" proved="true">
-     <proof prover="2"><result status="valid" time="4.45" steps="1514229"/></proof>
-     </goal>
-     <goal name="ancilla_free_cont_rx&#39;vc.0.0.1.1" expl="rewrite premises" proved="true">
-     <proof prover="2"><result status="valid" time="1.99" steps="1217878"/></proof>
-     </goal>
-     <goal name="ancilla_free_cont_rx&#39;vc.0.0.1.2" expl="rewrite premises" proved="true">
-     <proof prover="2"><result status="valid" time="1.92" steps="1217876"/></proof>
-     </goal>
-     <goal name="ancilla_free_cont_rx&#39;vc.0.0.1.3" expl="rewrite premises" proved="true">
-     <proof prover="2"><result status="valid" time="1.91" steps="1217869"/></proof>
-     </goal>
-    </transf>
-    </goal>
-   </transf>
-   </goal>
-  </transf>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="2.790687" steps="567402"/></proof>
  </goal>
  <goal name="ancilla_free_cont_ry&#39;vc" expl="VC for ancilla_free_cont_ry" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="ancilla_free_cont_ry&#39;vc.0" expl="postcondition" proved="true">
-  <transf name="split_all_full" proved="true" >
-   <goal name="ancilla_free_cont_ry&#39;vc.0.0" expl="postcondition" proved="true">
-   <transf name="rewrite" proved="true" arg1="cont_ry&#39;spec1">
-    <goal name="ancilla_free_cont_ry&#39;vc.0.0.0" expl="postcondition" proved="true">
-    <proof prover="2"><result status="valid" time="4.88" steps="1518797"/></proof>
-    </goal>
-    <goal name="ancilla_free_cont_ry&#39;vc.0.0.1" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="2.06" steps="1218325"/></proof>
-    </goal>
-    <goal name="ancilla_free_cont_ry&#39;vc.0.0.2" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="2.04" steps="1218332"/></proof>
-    </goal>
-    <goal name="ancilla_free_cont_ry&#39;vc.0.0.3" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="2.01" steps="1218314"/></proof>
-    </goal>
-   </transf>
-   </goal>
-  </transf>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="2.699601" steps="567724"/></proof>
  </goal>
  <goal name="ancilla_free_toffoli_decomp&#39;vc" expl="VC for ancilla_free_toffoli_decomp" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="ancilla_free_toffoli_decomp&#39;vc.0" expl="postcondition" proved="true">
-  <transf name="split_all_full" proved="true" >
-   <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0" expl="postcondition" proved="true">
-   <transf name="rewrite" proved="true" arg1="toffoli_decomp&#39;spec">
-    <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0" expl="postcondition" proved="true">
-    <transf name="apply" proved="true" arg1="ancilla_free_seq_rev">
-     <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.0" expl="apply premises" proved="true">
-     <transf name="apply" proved="true" arg1="correct_seq_pre">
-      <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.0.0" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="4.46" steps="1512643"/></proof>
-      </goal>
-      <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.0.1" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="4.51" steps="1509018"/></proof>
-      </goal>
-      <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.0.2" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="4.50" steps="1514278"/></proof>
-      </goal>
-     </transf>
-     </goal>
-     <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.1" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="4.48" steps="1512643"/></proof>
-     </goal>
-     <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.2" expl="apply premises" proved="true">
-     <proof prover="0"><result status="valid" time="1.85"/></proof>
-     </goal>
-     <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3" expl="apply premises" proved="true">
-     <transf name="split_vc" proved="true" >
-      <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0" expl="apply premises" proved="true">
-      <transf name="apply" proved="true" arg1="ancilla_free_seq_rev">
-       <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.0" expl="apply premises" proved="true">
-       <proof prover="2"><result status="valid" time="4.55" steps="1512643"/></proof>
-       </goal>
-       <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.1" expl="apply premises" proved="true">
-       <proof prover="2"><result status="valid" time="4.42" steps="1509018"/></proof>
-       </goal>
-       <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.2" expl="apply premises" proved="true">
-       <proof prover="2"><result status="valid" time="4.19" steps="1514278"/></proof>
-       </goal>
-       <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3" expl="apply premises" proved="true">
-       <transf name="split_vc" proved="true" >
-        <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.0" expl="apply premises" proved="true">
-        <proof prover="2"><result status="valid" time="4.45" steps="1512431"/></proof>
-        </goal>
-        <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1" expl="apply premises" proved="true">
-        <transf name="eliminate_definition" proved="true" >
-         <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0" expl="apply premises" proved="true">
-         <proof prover="2"><result status="valid" time="3.57" steps="1466701"/></proof>
-         </goal>
-        </transf>
-        <transf name="rewrite" proved="true" arg1="ccz&#39;spec">
-         <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0" expl="apply premises" proved="true">
-         <transf name="apply" proved="true" arg1="ancilla_free_seq_rev">
-          <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.0" expl="apply premises" proved="true">
-          <proof prover="2"><result status="valid" time="4.44" steps="1514774"/></proof>
-          </goal>
-          <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.1" expl="apply premises" proved="true">
-          <proof prover="2"><result status="valid" time="4.13" steps="1509034"/></proof>
-          </goal>
-          <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.2" expl="apply premises" proved="true">
-          <proof prover="2"><result status="valid" time="4.60" steps="1514981"/></proof>
-          </goal>
-          <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3" expl="apply premises" proved="true">
-          <transf name="split_vc" proved="true" >
-           <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0" expl="apply premises" proved="true">
-           <transf name="apply" proved="true" arg1="ancilla_free_seq_rev">
-            <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.0" expl="apply premises" proved="true">
-            <proof prover="2"><result status="valid" time="4.56" steps="1511639"/></proof>
-            </goal>
-            <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.1" expl="apply premises" proved="true">
-            <proof prover="2"><result status="valid" time="4.51" steps="1511639"/></proof>
-            </goal>
-            <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.2" expl="apply premises" proved="true">
-            <proof prover="2"><result status="valid" time="4.55" steps="1514174"/></proof>
-            </goal>
-            <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3" expl="apply premises" proved="true">
-            <transf name="split_vc" proved="true" >
-             <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0" expl="apply premises" proved="true">
-             <transf name="assert" proved="true" arg1="(correct (cont_rzp 2 co1 ta n))">
-              <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.0" expl="asserted formula" proved="true">
-              <proof prover="2"><result status="valid" time="4.60" steps="1511743"/></proof>
-              </goal>
-              <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.0.1" expl="apply premises" proved="true">
-              <proof prover="2"><result status="valid" time="4.55" steps="1512161"/></proof>
-              </goal>
-             </transf>
-             </goal>
-             <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.1" expl="apply premises" proved="true">
-             <transf name="assert" proved="true" arg1="(correct (cont_rzp 2 co2 ta n))">
-              <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.1.0" expl="asserted formula" proved="true">
-              <proof prover="0"><result status="valid" time="1.68"/></proof>
-              </goal>
-              <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.0.3.1.1" expl="apply premises" proved="true">
-              <proof prover="0"><result status="valid" time="1.71"/></proof>
-              </goal>
-             </transf>
-             </goal>
-            </transf>
-            </goal>
-           </transf>
-           </goal>
-           <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1" expl="apply premises" proved="true">
-           <transf name="assert" proved="true" arg1="(correct (cont_xor_rz (- 2) co1 co2 ta n))">
-            <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.0" expl="asserted formula" proved="true">
-            <proof prover="0"><result status="valid" time="1.65"/></proof>
-            </goal>
-            <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.0.3.1.1" expl="apply premises" proved="true">
-            <proof prover="0"><result status="valid" time="1.40"/></proof>
-            </goal>
-           </transf>
-           </goal>
-          </transf>
-          </goal>
-         </transf>
-         </goal>
-         <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.1" expl="rewrite premises" proved="true">
-         <proof prover="2"><result status="valid" time="1.77" steps="1218782"/></proof>
-         </goal>
-         <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.2" expl="rewrite premises" proved="true">
-         <proof prover="2"><result status="valid" time="1.91" steps="1218782"/></proof>
-         </goal>
-         <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.3" expl="rewrite premises" proved="true">
-         <proof prover="2"><result status="valid" time="1.66" steps="1218782"/></proof>
-         </goal>
-         <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.4" expl="rewrite premises" proved="true">
-         <proof prover="2"><result status="valid" time="1.94" steps="1218771"/></proof>
-         </goal>
-         <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.5" expl="rewrite premises" proved="true">
-         <proof prover="2"><result status="valid" time="1.89" steps="1218771"/></proof>
-         </goal>
-         <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.0.3.1.6" expl="rewrite premises" proved="true">
-         <proof prover="2"><result status="valid" time="1.94" steps="1218771"/></proof>
-         </goal>
-        </transf>
-        </goal>
-       </transf>
-       </goal>
-      </transf>
-      </goal>
-      <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.0.3.1" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="3.62" steps="1512431"/></proof>
-      </goal>
-     </transf>
-     </goal>
-    </transf>
-    </goal>
-    <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.1" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.61" steps="1218782"/></proof>
-    </goal>
-    <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.2" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.94" steps="1218782"/></proof>
-    </goal>
-    <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.3" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.96" steps="1218782"/></proof>
-    </goal>
-    <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.4" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.66" steps="1218771"/></proof>
-    </goal>
-    <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.5" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.61" steps="1218771"/></proof>
-    </goal>
-    <goal name="ancilla_free_toffoli_decomp&#39;vc.0.0.6" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.59" steps="1218771"/></proof>
-    </goal>
-   </transf>
-   </goal>
-  </transf>
-  </goal>
- </transf>
+ <proof prover="6" timelimit="10" memlimit="4000"><result status="valid" time="2.640406" steps="570491"/></proof>
  </goal>
  <goal name="ancilla_free_fredkin_decomp&#39;vc" expl="VC for ancilla_free_fredkin_decomp" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="ancilla_free_fredkin_decomp&#39;vc.0" expl="postcondition" proved="true">
-  <transf name="split_all_full" proved="true" >
-   <goal name="ancilla_free_fredkin_decomp&#39;vc.0.0" expl="postcondition" proved="true">
-   <transf name="rewrite" proved="true" arg1="fredkin_decomp&#39;spec">
-    <goal name="ancilla_free_fredkin_decomp&#39;vc.0.0.0" expl="postcondition" proved="true">
-    <proof prover="2"><result status="valid" time="4.11" steps="1516232"/></proof>
-    </goal>
-    <goal name="ancilla_free_fredkin_decomp&#39;vc.0.0.1" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.86" steps="1219050"/></proof>
-    </goal>
-    <goal name="ancilla_free_fredkin_decomp&#39;vc.0.0.2" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.75" steps="1219050"/></proof>
-    </goal>
-    <goal name="ancilla_free_fredkin_decomp&#39;vc.0.0.3" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.79" steps="1219050"/></proof>
-    </goal>
-    <goal name="ancilla_free_fredkin_decomp&#39;vc.0.0.4" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.78" steps="1219039"/></proof>
-    </goal>
-    <goal name="ancilla_free_fredkin_decomp&#39;vc.0.0.5" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.61" steps="1219039"/></proof>
-    </goal>
-    <goal name="ancilla_free_fredkin_decomp&#39;vc.0.0.6" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.59" steps="1219039"/></proof>
-    </goal>
-   </transf>
-   </goal>
-  </transf>
-  </goal>
- </transf>
+ <proof prover="6" timelimit="10" memlimit="4000"><result status="valid" time="2.713041" steps="571464"/></proof>
  </goal>
  <goal name="ancilla_free_swap_decomp&#39;vc" expl="VC for ancilla_free_swap_decomp" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="ancilla_free_swap_decomp&#39;vc.0" expl="postcondition" proved="true">
-  <transf name="split_all_full" proved="true" >
-   <goal name="ancilla_free_swap_decomp&#39;vc.0.0" expl="postcondition" proved="true">
-   <transf name="rewrite" proved="true" arg1="swap_decomp&#39;spec">
-    <goal name="ancilla_free_swap_decomp&#39;vc.0.0.0" expl="postcondition" proved="true">
-    <proof prover="2"><result status="valid" time="3.75" steps="1516364"/></proof>
-    </goal>
-    <goal name="ancilla_free_swap_decomp&#39;vc.0.0.1" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.68" steps="1219268"/></proof>
-    </goal>
-    <goal name="ancilla_free_swap_decomp&#39;vc.0.0.2" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.88" steps="1219268"/></proof>
-    </goal>
-    <goal name="ancilla_free_swap_decomp&#39;vc.0.0.3" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.87" steps="1219257"/></proof>
-    </goal>
-   </transf>
-   </goal>
-  </transf>
-  </goal>
- </transf>
+ <proof prover="6" timelimit="10" memlimit="4000"><result status="valid" time="2.660778" steps="572262"/></proof>
  </goal>
  <goal name="ancilla_free_cont_&#39;vc" expl="VC for ancilla_free_cont_" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="ancilla_free_cont_&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.99" steps="1256506"/></proof>
-  </goal>
- </transf>
+ <proof prover="6" timelimit="10" memlimit="4000"><result status="valid" time="2.783549" steps="574821"/></proof>
  </goal>
  <goal name="ancilla_free_cont_phase&#39;vc" expl="VC for ancilla_free_cont_phase" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="ancilla_free_cont_phase&#39;vc.0" expl="postcondition" proved="true">
-  <transf name="split_all_full" proved="true" >
-   <goal name="ancilla_free_cont_phase&#39;vc.0.0" expl="postcondition" proved="true">
-   <transf name="rewrite" proved="true" arg1="cont_phase&#39;spec">
-    <goal name="ancilla_free_cont_phase&#39;vc.0.0.0" expl="postcondition" proved="true">
-    <proof prover="2"><result status="valid" time="3.74" steps="1513819"/></proof>
-    </goal>
-    <goal name="ancilla_free_cont_phase&#39;vc.0.0.1" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="2.01" steps="1220012"/></proof>
-    </goal>
-    <goal name="ancilla_free_cont_phase&#39;vc.0.0.2" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.61" steps="1220012"/></proof>
-    </goal>
-    <goal name="ancilla_free_cont_phase&#39;vc.0.0.3" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.60" steps="1220001"/></proof>
-    </goal>
-   </transf>
-   </goal>
-  </transf>
-  </goal>
- </transf>
+ <proof prover="6" timelimit="10" memlimit="4000"><result status="valid" time="2.748188" steps="572319"/></proof>
  </goal>
  <goal name="ancilla_free_cnot&#39;vc" expl="VC for ancilla_free_cnot" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="ancilla_free_cnot&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.50"/></proof>
-  </goal>
- </transf>
+ <proof prover="0"><result status="valid" time="2.009498"/></proof>
  </goal>
  <goal name="ancilla_free_cont_rzp&#39;vc" expl="VC for ancilla_free_cont_rzp" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="ancilla_free_cont_rzp&#39;vc.0" expl="postcondition" proved="true">
-  <transf name="split_all_full" proved="true" >
-   <goal name="ancilla_free_cont_rzp&#39;vc.0.0" expl="postcondition" proved="true">
-   <transf name="case" proved="true" arg1="((ta1 +&#39; 1) &lt;=&#39; co1)">
-    <goal name="ancilla_free_cont_rzp&#39;vc.0.0.0" expl="true case (postcondition)" proved="true">
-    <proof prover="2"><result status="valid" time="3.89" steps="1510940"/></proof>
-    </goal>
-    <goal name="ancilla_free_cont_rzp&#39;vc.0.0.1" expl="false case (postcondition)" proved="true">
-    <proof prover="2"><result status="valid" time="4.00" steps="1510852"/></proof>
-    </goal>
-   </transf>
-   </goal>
-  </transf>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="2.802884" steps="572435"/></proof>
  </goal>
 </theory>
 <theory name="Cont_depth_pre" proved="true">
  <goal name="cont_depth&#39;vc" expl="VC for cont_depth" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="cont_depth&#39;vc.0" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="2.89"/></proof>
+  <proof prover="0"><result status="valid" time="3.678931"/></proof>
   </goal>
   <goal name="cont_depth&#39;vc.1" expl="precondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.51"/></proof>
+  <proof prover="0"><result status="valid" time="2.620836"/></proof>
   </goal>
   <goal name="cont_depth&#39;vc.2" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="2.77"/></proof>
+  <proof prover="0"><result status="valid" time="3.646846"/></proof>
   </goal>
   <goal name="cont_depth&#39;vc.3" expl="precondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.54"/></proof>
+  <proof prover="0"><result status="valid" time="3.579827"/></proof>
   </goal>
   <goal name="cont_depth&#39;vc.4" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="2.82"/></proof>
+  <proof prover="0"><result status="valid" time="3.834226"/></proof>
   </goal>
   <goal name="cont_depth&#39;vc.5" expl="precondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.45"/></proof>
+  <proof prover="0"><result status="valid" time="2.721707"/></proof>
   </goal>
   <goal name="cont_depth&#39;vc.6" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="2.89"/></proof>
+  <proof prover="0"><result status="valid" time="4.777012"/></proof>
   </goal>
   <goal name="cont_depth&#39;vc.7" expl="precondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.56"/></proof>
+  <proof prover="0"><result status="valid" time="2.900463"/></proof>
   </goal>
   <goal name="cont_depth&#39;vc.8" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="2.70"/></proof>
+  <proof prover="0"><result status="valid" time="4.572157"/></proof>
   </goal>
   <goal name="cont_depth&#39;vc.9" expl="precondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.50"/></proof>
+  <proof prover="0"><result status="valid" time="3.072645"/></proof>
   </goal>
   <goal name="cont_depth&#39;vc.10" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="2.52"/></proof>
+  <proof prover="0"><result status="valid" time="4.189663"/></proof>
   </goal>
   <goal name="cont_depth&#39;vc.11" expl="precondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.56"/></proof>
+  <proof prover="0"><result status="valid" time="3.081828"/></proof>
   </goal>
   <goal name="cont_depth&#39;vc.12" expl="variant decrease" proved="true">
-  <proof prover="4"><result status="valid" time="3.43" steps="1298186"/></proof>
+  <proof prover="6"><result status="valid" time="1.003208" steps="387117"/></proof>
   </goal>
   <goal name="cont_depth&#39;vc.13" expl="precondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.51"/></proof>
+  <proof prover="0"><result status="valid" time="2.939927"/></proof>
   </goal>
   <goal name="cont_depth&#39;vc.14" expl="postcondition" proved="true">
   <transf name="destruct_rec" proved="true" arg1="H">
    <goal name="cont_depth&#39;vc.14.0" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.92" steps="969950"/></proof>
+   <proof prover="6"><result status="valid" time="1.485253" steps="420292"/></proof>
    </goal>
    <goal name="cont_depth&#39;vc.14.1" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="3.10" steps="1262679"/></proof>
+   <proof prover="6"><result status="valid" time="3.740146" steps="578711"/></proof>
    </goal>
    <goal name="cont_depth&#39;vc.14.2" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="3.17" steps="1260773"/></proof>
+   <proof prover="6"><result status="valid" time="3.663682" steps="578698"/></proof>
    </goal>
    <goal name="cont_depth&#39;vc.14.3" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.26" steps="908908"/></proof>
+   <proof prover="6"><result status="valid" time="0.879192" steps="370733"/></proof>
    </goal>
    <goal name="cont_depth&#39;vc.14.4" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.13" steps="908904"/></proof>
+   <proof prover="6"><result status="valid" time="0.901899" steps="370731"/></proof>
    </goal>
    <goal name="cont_depth&#39;vc.14.5" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.44" steps="924049"/></proof>
+   <proof prover="6"><result status="valid" time="0.988503" steps="382623"/></proof>
    </goal>
   </transf>
   </goal>
  </transf>
  </goal>
  <goal name="cont_depth_cont&#39;vc" expl="VC for cont_depth_cont" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="cont_depth_cont&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.49"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="2.995760" steps="575139"/></proof>
  </goal>
  <goal name="cont_depth_seq&#39;vc" expl="VC for cont_depth_seq" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="cont_depth_seq&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="2.05"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="2.981296" steps="579073"/></proof>
  </goal>
  <goal name="cont_depth_par&#39;vc" expl="VC for cont_depth_par" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="cont_depth_par&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.79"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="2.927484" steps="576531"/></proof>
  </goal>
  <goal name="cont_depth_place&#39;vc" expl="VC for cont_depth_place" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="cont_depth_place&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.73"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="2.959724" steps="575164"/></proof>
  </goal>
  <goal name="cont_depth_ancilla&#39;vc" expl="VC for cont_depth_ancilla" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="cont_depth_ancilla&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.61"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="2.627195" steps="576095"/></proof>
  </goal>
  <goal name="cont_depth_cont_place&#39;vc" expl="VC for cont_depth_cont_place" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="cont_depth_cont_place&#39;vc.0" expl="postcondition" proved="true">
-  <transf name="rewrite" proved="true" arg1="cont_depth_cont">
-   <goal name="cont_depth_cont_place&#39;vc.0.0" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="3.75" steps="1304980"/></proof>
-   </goal>
-   <goal name="cont_depth_cont_place&#39;vc.0.1" expl="rewrite premises" proved="true">
-   <proof prover="2"><result status="valid" time="3.33" steps="1259578"/></proof>
-   </goal>
-   <goal name="cont_depth_cont_place&#39;vc.0.2" expl="rewrite premises" proved="true">
-   <proof prover="2"><result status="valid" time="2.08" steps="973615"/></proof>
-   </goal>
-   <goal name="cont_depth_cont_place&#39;vc.0.3" expl="rewrite premises" proved="true">
-   <proof prover="2"><result status="valid" time="3.30" steps="1261986"/></proof>
-   </goal>
-   <goal name="cont_depth_cont_place&#39;vc.0.4" expl="rewrite premises" proved="true">
-   <proof prover="2"><result status="valid" time="1.94" steps="973641"/></proof>
-   </goal>
-  </transf>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="3.539889" steps="685263"/></proof>
  </goal>
  <goal name="cont_depth_cont_place1&#39;vc" expl="VC for cont_depth_cont_place1" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="cont_depth_cont_place1&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.39" steps="1299761"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="4.365135" steps="686209"/></proof>
  </goal>
  <goal name="cont_depth_cont_place2&#39;vc" expl="VC for cont_depth_cont_place2" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="cont_depth_cont_place2&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.02" steps="1264861"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="2.960816" steps="582106"/></proof>
  </goal>
  <goal name="cont_depth_cont_seq&#39;vc" expl="VC for cont_depth_cont_seq" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="cont_depth_cont_seq&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.56"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="4.675196" steps="702257"/></proof>
  </goal>
  <goal name="cont_depth_cont_seq1&#39;vc" expl="VC for cont_depth_cont_seq1" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="cont_depth_cont_seq1&#39;vc.0" expl="postcondition" proved="true">
   <transf name="assert" proved="true" arg1="(cont_depth  (Sequence c1 c2) &lt;=&#39; 0)">
    <goal name="cont_depth_cont_seq1&#39;vc.0.0" expl="asserted formula" proved="true">
-   <proof prover="2"><result status="valid" time="3.14" steps="1272079"/></proof>
+   <proof prover="6"><result status="valid" time="3.889399" steps="583750"/></proof>
    </goal>
    <goal name="cont_depth_cont_seq1&#39;vc.0.1" expl="postcondition" proved="true">
    <transf name="rewrite" proved="true" arg1="cont_depth_seq" arg2="in" arg3="h">
     <goal name="cont_depth_cont_seq1&#39;vc.0.1.0" expl="postcondition" proved="true">
-    <proof prover="2"><result status="valid" time="3.14" steps="1272914"/></proof>
+    <proof prover="6"><result status="valid" time="3.805095" steps="586137"/></proof>
     </goal>
     <goal name="cont_depth_cont_seq1&#39;vc.0.1.1" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.21" steps="913530"/></proof>
+    <proof prover="6"><result status="valid" time="0.918041" steps="372011"/></proof>
     </goal>
     <goal name="cont_depth_cont_seq1&#39;vc.0.1.2" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.40" steps="913530"/></proof>
+    <proof prover="6"><result status="valid" time="0.942195" steps="372011"/></proof>
     </goal>
     <goal name="cont_depth_cont_seq1&#39;vc.0.1.3" expl="rewrite premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.28" steps="913530"/></proof>
+    <proof prover="6"><result status="valid" time="0.926257" steps="372011"/></proof>
     </goal>
    </transf>
    </goal>
@@ -1171,179 +479,125 @@
  <goal name="cont_depth_cont_seq2&#39;vc" expl="VC for cont_depth_cont_seq2" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="cont_depth_cont_seq2&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.45" steps="1287938"/></proof>
+  <transf name="split_vc" proved="true" >
+   <goal name="cont_depth_cont_seq2&#39;vc.0.0" expl="postcondition" proved="true">
+   <proof prover="6"><result status="valid" time="3.570138" steps="685364"/></proof>
+   </goal>
+   <goal name="cont_depth_cont_seq2&#39;vc.0.1" expl="postcondition" proved="true">
+   <proof prover="6" memlimit="2000"><result status="valid" time="4.372045" steps="608412"/></proof>
+   </goal>
+  </transf>
   </goal>
  </transf>
  </goal>
  <goal name="cont_depth_con1&#39;vc" expl="VC for cont_depth_con1" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="cont_depth_con1&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.78"/></proof>
-  </goal>
-  <goal name="cont_depth_con1&#39;vc.1" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.73"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="2.797589" steps="580805"/></proof>
  </goal>
  <goal name="cont_depth_zero&#39;vc" expl="VC for cont_depth_zero" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="cont_depth_zero&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.77"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="2.861196" steps="579182"/></proof>
  </goal>
  <goal name="cont_depth_cnot&#39;vc" expl="VC for cont_depth_cnot" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="cont_depth_cnot&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="2.08"/></proof>
-  </goal>
- </transf>
+ <proof prover="0"><result status="valid" time="1.953989"/></proof>
  </goal>
  <goal name="cont_depth_ry&#39;vc" expl="VC for cont_depth_ry" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="cont_depth_ry&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="2.03"/></proof>
-  </goal>
- </transf>
+ <proof prover="0"><result status="valid" time="2.014027"/></proof>
  </goal>
 </theory>
 <theory name="Lemmas_correct_circuit_pre" proved="true">
  <goal name="correct_cont&#39;vc" expl="VC for correct_cont" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="correct_cont&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.09" steps="1257417"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="2.788852" steps="575210"/></proof>
  </goal>
  <goal name="correct_seq&#39;vc" expl="VC for correct_seq" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="correct_seq&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.08" steps="971339"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="1.176164" steps="420276"/></proof>
  </goal>
  <goal name="correct_par&#39;vc" expl="VC for correct_par" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="correct_par&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.04" steps="971415"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="1.191150" steps="420313"/></proof>
  </goal>
  <goal name="correct_place&#39;vc" expl="VC for correct_place" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="correct_place&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.36" steps="1256848"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="2.727030" steps="575081"/></proof>
  </goal>
  <goal name="correct_cont_rev&#39;vc" expl="VC for correct_cont_rev" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="correct_cont_rev&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.23" steps="1257311"/></proof>
-  </goal>
-  <goal name="correct_cont_rev&#39;vc.1" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.98" steps="1262373"/></proof>
-  </goal>
-  <goal name="correct_cont_rev&#39;vc.2" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.06" steps="1262524"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="2.874704" steps="575837"/></proof>
  </goal>
  <goal name="correct_toffoli&#39;vc" expl="VC for correct_toffoli" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="correct_toffoli&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.75"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="3.011130" steps="581071"/></proof>
  </goal>
  <goal name="correct_fredkin&#39;vc" expl="VC for correct_fredkin" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="correct_fredkin&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.58"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="3.028506" steps="580955"/></proof>
  </goal>
  <goal name="correct_cnot&#39;vc" expl="VC for correct_cnot" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="correct_cnot&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.68"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="3.013427" steps="580876"/></proof>
  </goal>
  <goal name="correct_swap&#39;vc" expl="VC for correct_swap" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="correct_swap&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="0"><result status="valid" time="1.76"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="3.091945" steps="580761"/></proof>
  </goal>
  <goal name="correct_toffoli_rev&#39;vc" expl="VC for correct_toffoli_rev" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="correct_toffoli_rev&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.05" steps="1257071"/></proof>
+  <proof prover="6"><result status="valid" time="3.890935" steps="575666"/></proof>
   </goal>
   <goal name="correct_toffoli_rev&#39;vc.1" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.04" steps="1257507"/></proof>
+  <proof prover="6"><result status="valid" time="3.966150" steps="575775"/></proof>
   </goal>
   <goal name="correct_toffoli_rev&#39;vc.2" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.23" steps="1257427"/></proof>
+  <proof prover="6"><result status="valid" time="3.787110" steps="575813"/></proof>
   </goal>
   <goal name="correct_toffoli_rev&#39;vc.3" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.18" steps="1258171"/></proof>
+  <proof prover="6"><result status="valid" time="3.766267" steps="575372"/></proof>
   </goal>
   <goal name="correct_toffoli_rev&#39;vc.4" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.23" steps="1258317"/></proof>
+  <proof prover="6"><result status="valid" time="3.749103" steps="575489"/></proof>
   </goal>
   <goal name="correct_toffoli_rev&#39;vc.5" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.60" steps="1258063"/></proof>
+  <proof prover="6"><result status="valid" time="3.851347" steps="575510"/></proof>
   </goal>
  </transf>
  </goal>
  <goal name="correct_fredkin_rev&#39;vc" expl="VC for correct_fredkin_rev" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="correct_fredkin_rev&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.10" steps="1258888"/></proof>
+  <proof prover="6"><result status="valid" time="3.749129" steps="575770"/></proof>
   </goal>
   <goal name="correct_fredkin_rev&#39;vc.1" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.56" steps="1258597"/></proof>
+  <proof prover="6"><result status="valid" time="3.814554" steps="575880"/></proof>
   </goal>
   <goal name="correct_fredkin_rev&#39;vc.2" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.59" steps="1258697"/></proof>
+  <proof prover="6"><result status="valid" time="3.792600" steps="575906"/></proof>
   </goal>
   <goal name="correct_fredkin_rev&#39;vc.3" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.52" steps="1258587"/></proof>
+  <proof prover="6"><result status="valid" time="3.914384" steps="575570"/></proof>
   </goal>
   <goal name="correct_fredkin_rev&#39;vc.4" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.06" steps="1258344"/></proof>
+  <proof prover="6"><result status="valid" time="3.844541" steps="575646"/></proof>
   </goal>
   <goal name="correct_fredkin_rev&#39;vc.5" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.03" steps="1258307"/></proof>
+  <proof prover="6"><result status="valid" time="3.837531" steps="575654"/></proof>
   </goal>
  </transf>
  </goal>
  <goal name="correct_cnot_rev&#39;vc" expl="VC for correct_cnot_rev" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="correct_cnot_rev&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.03" steps="1258742"/></proof>
+  <proof prover="6"><result status="valid" time="3.815803" steps="575999"/></proof>
   </goal>
   <goal name="correct_cnot_rev&#39;vc.1" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.13" steps="1259218"/></proof>
+  <proof prover="6"><result status="valid" time="3.786636" steps="576059"/></proof>
   </goal>
   <goal name="correct_cnot_rev&#39;vc.2" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.45" steps="1257818"/></proof>
+  <proof prover="6"><result status="valid" time="3.842052" steps="575643"/></proof>
   </goal>
  </transf>
  </goal>
  <goal name="correct_swap_rev&#39;vc" expl="VC for correct_swap_rev" proved="true">
  <transf name="split_vc" proved="true" >
   <goal name="correct_swap_rev&#39;vc.0" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.40" steps="1258783"/></proof>
+  <proof prover="6"><result status="valid" time="3.785941" steps="575836"/></proof>
   </goal>
   <goal name="correct_swap_rev&#39;vc.1" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.34" steps="1258886"/></proof>
+  <proof prover="6"><result status="valid" time="3.733508" steps="575899"/></proof>
   </goal>
   <goal name="correct_swap_rev&#39;vc.2" expl="postcondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.32" steps="1258289"/></proof>
+  <proof prover="6"><result status="valid" time="3.608721" steps="575612"/></proof>
   </goal>
  </transf>
  </goal>
@@ -1354,119 +608,119 @@
   <goal name="skip_atomic&#39;vc.0" expl="postcondition" proved="true">
   <transf name="assert" proved="true" arg1="(build_correct c)">
    <goal name="skip_atomic&#39;vc.0.0" expl="asserted formula" proved="true">
-   <proof prover="2"><result status="valid" time="3.14" steps="1268999"/></proof>
+   <proof prover="6"><result status="valid" time="3.448898" steps="577884"/></proof>
    </goal>
    <goal name="skip_atomic&#39;vc.0.1" expl="postcondition" proved="true">
    <transf name="apply" proved="true" arg1="set_ancilla_free">
     <goal name="skip_atomic&#39;vc.0.1.0" expl="apply premises" proved="true">
-    <proof prover="2"><result status="valid" time="1.20" steps="916092"/></proof>
+    <proof prover="6"><result status="valid" time="0.865782" steps="372227"/></proof>
     </goal>
     <goal name="skip_atomic&#39;vc.0.1.1" expl="apply premises" proved="true">
     <transf name="destruct_rec" proved="true" arg1="H1">
      <goal name="skip_atomic&#39;vc.0.1.1.0" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="1.35" steps="915053"/></proof>
+     <proof prover="6"><result status="valid" time="0.813912" steps="371666"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.1" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="1.31" steps="915053"/></proof>
+     <proof prover="6"><result status="valid" time="0.812385" steps="371666"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.2" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="1.29" steps="915057"/></proof>
+     <proof prover="6"><result status="valid" time="0.768173" steps="371668"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.3" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="1.30" steps="915061"/></proof>
+     <proof prover="6"><result status="valid" time="0.792680" steps="371670"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.4" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="1.31" steps="915053"/></proof>
+     <proof prover="6"><result status="valid" time="0.812542" steps="371666"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.5" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.28" steps="980773"/></proof>
+     <proof prover="6"><result status="valid" time="1.430378" steps="428847"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.6" expl="apply premises" proved="true">
      <transf name="split_all_full" proved="true" >
       <goal name="skip_atomic&#39;vc.0.1.1.6.0" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="3.08" steps="1306971"/></proof>
+      <proof prover="6"><result status="valid" time="2.217026" steps="479595"/></proof>
       </goal>
      </transf>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.7" expl="apply premises" proved="true">
      <transf name="split_all_full" proved="true" >
       <goal name="skip_atomic&#39;vc.0.1.1.7.0" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="3.04" steps="1306971"/></proof>
+      <proof prover="6"><result status="valid" time="2.233895" steps="479595"/></proof>
       </goal>
      </transf>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.8" expl="apply premises" proved="true">
      <transf name="split_all_full" proved="true" >
       <goal name="skip_atomic&#39;vc.0.1.1.8.0" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="3.46" steps="1306971"/></proof>
+      <proof prover="6"><result status="valid" time="2.224666" steps="479595"/></proof>
       </goal>
      </transf>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.9" expl="apply premises" proved="true">
      <transf name="split_all_full" proved="true" >
       <goal name="skip_atomic&#39;vc.0.1.1.9.0" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="3.09" steps="1306971"/></proof>
+      <proof prover="6"><result status="valid" time="2.220467" steps="479595"/></proof>
       </goal>
      </transf>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.10" expl="apply premises" proved="true">
      <transf name="split_all_full" proved="true" >
       <goal name="skip_atomic&#39;vc.0.1.1.10.0" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="2.95" steps="1306971"/></proof>
+      <proof prover="6"><result status="valid" time="2.328571" steps="479595"/></proof>
       </goal>
      </transf>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.11" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.43" steps="980773"/></proof>
+     <proof prover="6"><result status="valid" time="1.467376" steps="428851"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.12" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.30" steps="980773"/></proof>
+     <proof prover="6"><result status="valid" time="1.560445" steps="428851"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.13" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.32" steps="980773"/></proof>
+     <proof prover="6"><result status="valid" time="1.620754" steps="428851"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.14" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.32" steps="980773"/></proof>
+     <proof prover="6"><result status="valid" time="1.546094" steps="428851"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.15" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.08" steps="980773"/></proof>
+     <proof prover="6"><result status="valid" time="1.492750" steps="428851"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.16" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.15" steps="980773"/></proof>
+     <proof prover="6"><result status="valid" time="1.475920" steps="428851"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.17" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.18" steps="980773"/></proof>
+     <proof prover="6"><result status="valid" time="1.483048" steps="428851"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.18" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.25" steps="980773"/></proof>
+     <proof prover="6"><result status="valid" time="1.573732" steps="428851"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.19" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.30" steps="980773"/></proof>
+     <proof prover="6"><result status="valid" time="1.544640" steps="428851"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.20" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="2.34" steps="980773"/></proof>
+     <proof prover="6"><result status="valid" time="1.573655" steps="428851"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.21" expl="apply premises" proved="true">
      <transf name="split_all_full" proved="true" >
       <goal name="skip_atomic&#39;vc.0.1.1.21.0" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="2.83" steps="1307007"/></proof>
+      <proof prover="6"><result status="valid" time="2.219419" steps="479599"/></proof>
       </goal>
      </transf>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.22" expl="apply premises" proved="true">
-     <proof prover="2"><result status="valid" time="3.05" steps="1268622"/></proof>
+     <proof prover="6"><result status="valid" time="3.066711" steps="576707"/></proof>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.23" expl="apply premises" proved="true">
      <transf name="split_all_full" proved="true" >
       <goal name="skip_atomic&#39;vc.0.1.1.23.0" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="2.88" steps="1307023"/></proof>
+      <proof prover="6"><result status="valid" time="2.234966" steps="479601"/></proof>
       </goal>
      </transf>
      </goal>
      <goal name="skip_atomic&#39;vc.0.1.1.24" expl="apply premises" proved="true">
      <transf name="split_all_full" proved="true" >
       <goal name="skip_atomic&#39;vc.0.1.1.24.0" expl="apply premises" proved="true">
-      <proof prover="2"><result status="valid" time="2.80" steps="1307023"/></proof>
+      <proof prover="6"><result status="valid" time="2.328446" steps="479601"/></proof>
       </goal>
      </transf>
      </goal>
@@ -1477,123 +731,12 @@
   </transf>
   </goal>
   <goal name="skip_atomic&#39;vc.1" expl="postcondition" proved="true">
-  <transf name="destruct_rec" proved="true" arg1="H1">
-   <goal name="skip_atomic&#39;vc.1.0" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.22" steps="915060"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.1" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.24" steps="915060"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.2" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.36" steps="915064"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.3" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.26" steps="915068"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.4" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="1.23" steps="915060"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.5" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.73"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.6" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.74"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.7" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.74"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.8" expl="postcondition" proved="true">
-   <proof prover="2"><result status="valid" time="2.05" steps="980818"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.9" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.64"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.10" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.60"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.11" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.59"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.12" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.55"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.13" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.64"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.14" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.72"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.15" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.56"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.16" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.61"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.17" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.59"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.18" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.66"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.19" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.61"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.20" expl="postcondition" proved="true">
-   <proof prover="0"><result status="valid" time="1.48"/></proof>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.21" expl="postcondition" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="skip_atomic&#39;vc.1.21.0" expl="postcondition" proved="true">
-    <proof prover="0"><result status="valid" time="1.62"/></proof>
-    </goal>
-   </transf>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.22" expl="postcondition" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="skip_atomic&#39;vc.1.22.0" expl="postcondition" proved="true">
-    <proof prover="0"><result status="valid" time="1.44"/></proof>
-    </goal>
-   </transf>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.23" expl="postcondition" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="skip_atomic&#39;vc.1.23.0" expl="postcondition" proved="true">
-    <proof prover="0"><result status="valid" time="1.48"/></proof>
-    </goal>
-   </transf>
-   </goal>
-   <goal name="skip_atomic&#39;vc.1.24" expl="postcondition" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="skip_atomic&#39;vc.1.24.0" expl="postcondition" proved="true">
-    <proof prover="0"><result status="valid" time="1.52"/></proof>
-    </goal>
-   </transf>
-   </goal>
-  </transf>
+  <proof prover="6"><result status="valid" time="2.563504" steps="579204"/></proof>
   </goal>
  </transf>
  </goal>
  <goal name="place_free&#39;vc" expl="VC for place_free" proved="true">
- <transf name="split_vc" proved="true" >
-  <goal name="place_free&#39;vc.0" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.24" steps="982505"/></proof>
-  </goal>
-  <goal name="place_free&#39;vc.1" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.17" steps="982505"/></proof>
-  </goal>
-  <goal name="place_free&#39;vc.2" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.11" steps="982515"/></proof>
-  </goal>
-  <goal name="place_free&#39;vc.3" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="2.08" steps="982515"/></proof>
-  </goal>
-  <goal name="place_free&#39;vc.4" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.16" steps="1272042"/></proof>
-  </goal>
-  <goal name="place_free&#39;vc.5" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="3.07" steps="1271074"/></proof>
-  </goal>
- </transf>
+ <proof prover="6"><result status="valid" time="3.406404" steps="675569"/></proof>
  </goal>
 </theory>
 </file>
