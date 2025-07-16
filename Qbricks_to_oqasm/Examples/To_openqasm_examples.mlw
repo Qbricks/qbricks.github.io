@@ -33,8 +33,8 @@ module Test_oq2
 
   let run() : string =
   
-  string_oq (place hadamard 0 1)
-  (* string_oq (toffoli 0 1 2 3) *)
+  (* string_oq (place hadamard 0 1) *)
+  string_oq (toffoli 0 1 2 3)
   (* string_oq (fredkin 0 1 2 3) *)
   (* string_oq (place ((rzp 1) -- (rzp 2)) 0 1) *)
   (* string_oq ((place hadamard 1 3) // (cnot 2 3 4)) *)

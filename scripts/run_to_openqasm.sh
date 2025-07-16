@@ -135,7 +135,7 @@ echo "* build done"
 
 start_time=$(date +%s%N)
 
-./run_to_openqasm.byte
+/qbricks/extracted/run_to_openqasm.byte
 
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
