@@ -163,13 +163,13 @@ computing](https://github.com/Qbricks/qbricks.github.io/files/6415909/Qbricks_Pl
 ## OpenQASM to Qiskit
 
 - Simulate an OpenQASM circuit on Qiskit Aer Simulator:
-  Example: `python3 run_to_qiskit.py ccx.qasm`
+  Example: `python3 run_to_qiskit.py Qbricks_to_oqasm/Examples/ccx.qasm`
 
 Verbose mode (displays circuits and results):
-  Example: `python3 run_to_qiskit.py ccx.qasm true`
+  Example: `python3 run_to_qiskit.py Qbricks_to_oqasm/Examples/ccx.qasm true`
 
 - Verify equivalence between two OpenQASM circuits:
-  Example: `python3 run_to_qiskit_equiv.py ccx.qasm ccx-qb.qasm`
+  Example: `python3 run_to_qiskit_equiv.py Qbricks_to_oqasm/Examples/ccx.qasm Qbricks_to_oqasm/Examples/ccx-qb.qasm`
   
 This verifies equivalence by simulating all possible input states through a sequence of the first circuit and the inverse of the second, checking if the output matches the input (identity operation).
 
