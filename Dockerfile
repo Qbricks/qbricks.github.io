@@ -90,5 +90,6 @@ RUN sudo chown -R opam:opam /qbricks
 RUN chmod +x /qbricks/scripts/run_to_openqasm.sh
 
 ENV DISPLAY=:0
+ENV NO_AT_BRIDGE=1
 
 CMD ["/bin/bash", "-c", "eval $(opam env) && why3 config detect && exec /bin/bash"]

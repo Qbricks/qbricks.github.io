@@ -31,8 +31,8 @@ pull:
 	docker pull jricc/qbricks:latest
 
 container:
-	-docker container rm qbricks
-	bash container.sh
+	@docker rm -f qbricks 2>/dev/null >/dev/null || true
+	bash container.sh 
 
 start:
 	xhost +local:docker

@@ -117,7 +117,7 @@ computing](https://github.com/Qbricks/qbricks.github.io/files/6415909/Qbricks_Pl
 
 - Z3: [licence](https://github.com/Z3Prover/z3/blob/master/LICENSE.txt)
 
-- Alt-Ergo: [licence](https://ocamlpro.github.io/alt-ergo/About/license.html)
+- Alt-Ergo: [licence](https://github.com/OCamlPro/alt-ergo/blob/next/LICENSE.md)
 
 - Why3: [licence](https://gitlab.inria.fr/why3/why3/-/blob/master/LICENSE)
 
