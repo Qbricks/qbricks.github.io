@@ -143,6 +143,8 @@ computing](https://github.com/Qbricks/qbricks.github.io/files/6415909/Qbricks_Pl
 
 # Quick Start - Examples
 
+Files can be edited outside of the Docker container using your preferred text editor.
+
 ## Proof
 
 Open [`shor.mlw`](https://github.com/Qbricks/qbricks.github.io/blob/main/Case_studies/shor.mlw) with [`why3-ide`](https://www.why3.org/doc/manpages.html#the-ide-command):
@@ -155,22 +157,30 @@ Open [`shor.mlw`](https://github.com/Qbricks/qbricks.github.io/blob/main/Case_st
 
 ## Qbricks to OpenQASM
 
-Example: [Toffoli](https://fr.wikipedia.org/wiki/Porte_de_Toffoli) 
+Example: [Toffoli](https://fr.wikipedia.org/wiki/Porte_de_Toffoli)
+
 <div style="text-align: center;">
   <img src="./pictures/ccx.png" alt="toffoli 0 1 2 3" style="width: 70px; height: auto;"/>
 </div>
 
-1. Write
-`let run() : string = string_oq (toffoli 0 1 2 3)`
-in [`Qbricks_to_oqasm/Examples/To_openqasm_examples.mlw`](https://github.com/Qbricks/qbricks.github.io/blob/main/Qbricks_to_oqasm/Examples/To_openqasm_examples.mlw)
+1. To define a quantum circuit, modify the file [`Qbricks_to_oqasm/Examples/To_openqasm_examples.mlw`](https://github.com/Qbricks/qbricks.github.io/blob/main/Qbricks_to_oqasm/Examples/To_openqasm_examples.mlw) by adding your circuit description in the Qbricks language. For example, you can write the following line to define a Toffoli gate on qubits 0, 1, 2, and 3:
 
-2. Translate
-   - `make run_to_openqasm` (includes extraction from WhyML to OCaml and OCaml compilation)
-   - `make run_to_openqasm_ne`
-
-3. Retrieve the OpenQASM file: `extracted/To_openqasm_examples.qasm`
-
+```ocaml
+let run() : string = string_oq (toffoli 0 1 2 3)
 ```
+
+2. Translate to OpenQASM
+
+Use `make run_to_openqasm` to perform a full translation process. This includes both the extraction from WhyML to OCaml and the OCaml compilation. This command is suitable when you need to translate and compile your quantum circuit descriptions in one go.
+
+Once the full translation process has been executed with `make run_to_openqasm` and all OCaml code has been extracted, you can use `make run_to_openqasm_ne`. This command extracts only the example file and compiles it. It is useful for subsequent compilations when you only need to update and compile the example file without repeating the full extraction process.
+
+
+3. Retrieve the OpenQASM file
+
+After translation, you can find the OpenQASM file at [`extracted/To_openqasm_examples.qasm`](https://github.com/Qbricks/qbricks.github.io/blob/main/extracted/To_openqasm_examples.qasm). The file will contain the quantum circuit description in OpenQASM format, similar to the example below:
+
+```qasm
 OPENQASM 2.0;
 include "qelib1.inc";
 qreg q[3];
@@ -178,16 +188,16 @@ h q[2];
 u1 (2 * pi / 2^(3)) q[0];
 rz (2 * pi / 2^(3)) q[2];
 cx q[0], q[2];
-rz (- 2 * pi / 2^(3)) q[2];
+rz (-2 * pi / 2^(3)) q[2];
 cx q[0], q[2];
 u1 (2 * pi / 2^(3)) q[1];
 rz (2 * pi / 2^(3)) q[2];
 cx q[1], q[2];
-rz (- 2 * pi / 2^(3)) q[2];
+rz (-2 * pi / 2^(3)) q[2];
 cx q[1], q[2];
 cx q[0], q[1];
-u1 (- 2 * pi / 2^(3)) q[1];
-rz (- 2 * pi / 2^(3)) q[2];
+u1 (-2 * pi / 2^(3)) q[1];
+rz (-2 * pi / 2^(3)) q[2];
 cx q[1], q[2];
 rz (2 * pi / 2^(3)) q[2];
 cx q[1], q[2];
@@ -199,17 +209,23 @@ h q[2];
 
 ### Simulation
 
-To simulate `toffoli 0 1 2 3` on [Qiskit Aer Simulator](https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html):
+To simulate the `toffoli 0 1 2 3` circuit extracted using the [Qiskit Aer Simulator](https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html), use the following command:
 
-```
+```bash
 python3 scripts/run_to_qiskit.py extracted/To_openqasm_examples.qasm
+```
+This will output:
+```
 Testing all possible input states for the given quantum circuit:
 Verification completed in 0.01 seconds.
 ```
 
-To simulate `toffoli 0 1 2 3` on [Qiskit Aer Simulator](https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html) with verbose mode (displays circuits and results):
-```
+For a more detailed simulation that displays the circuits and results, use the verbose mode by adding `true` as an additional argument:
+
+```bash
 python3 scripts/run_to_qiskit.py extracted/To_openqasm_examples.qasm true
+```
+```
 Testing all possible input states for the given quantum circuit:
 Circuit for input state 000:
      ┌─────────┐                                                                                                                    ┌─┐   »
@@ -250,17 +266,24 @@ Verification completed in 0.06 seconds.
 
 ### Equivalence Check
 
-To check equivalence of `toffoli 0 1 2 3` compiled with Qbricks to OpenQASM with [Qiskit Aer Simulator](https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html):
+To check the equivalence of the `toffoli 0 1 2 3` circuit extracted with Qbricks to OpenQASM with the [Qiskit Aer Simulator](https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html), use the following command:
 
-```
+```bash
 python3 scripts/run_to_qiskit_equiv.py extracted/To_openqasm_examples.qasm Qbricks_to_oqasm/Examples/toffoli.qasm 
+```
+This will output:
+```
 All input states result in identity. The two circuits are equivalent.
 Verification time: 0.01 seconds
 ```
 
-To check equivalence of `toffoli 0 1 2 3` compiled with Qbricks to OpenQASM with [Qiskit Aer Simulator](https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html) with verbose mode (displays circuits and results):
-```
+For a detailed equivalence check that displays the circuits and results, use the verbose mode by adding `true` as an additional argument:
+
+```bash
 python3 scripts/run_to_qiskit_equiv.py extracted/To_openqasm_examples.qasm Qbricks_to_oqasm/Examples/toffoli.qasm true 
+```
+This will output detailed information including:
+```
 Testing equivalence by checking if the combined circuit results in identity for all input states:
 Circuit for input state 000:
      ┌─────────┐                                                                                                                         ┌─┐»
