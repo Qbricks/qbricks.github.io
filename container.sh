@@ -28,6 +28,7 @@ docker create --name="qbricks" -ti -e DISPLAY=$DISPLAY \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v ${_pwd}/Case_studies:/qbricks/Case_studies \
   -v ${_pwd}/:/qbricks/ \
+  -v ${_pwd}/scripts:/qbricks/scripts \
   -v ${_pwd}/Qbricks:/qbricks/Qbricks \
   -v ${_pwd}/Qbricks_to_oqasm:/qbricks/Qbricks_to_oqasm \
   -v ${_pwd}/Qbricks_to_oqasm/Examples:/qbricks/Qbricks_to_oqasm/Examples \

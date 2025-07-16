@@ -87,7 +87,7 @@ RUN opam clean
 WORKDIR /qbricks
 COPY . /qbricks
 RUN sudo chown -R opam:opam /qbricks
-RUN chmod +x /qbricks/run_to_openqasm.sh
+RUN chmod +x /qbricks/scripts/run_to_openqasm.sh
 
 ENV DISPLAY=:0
 

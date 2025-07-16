@@ -20,12 +20,12 @@
 # (*                                                                        *)
 # (**************************************************************************)
 
-.PHONY: run_to_openqasm run_to_openqasm_ne run_qiskit clean_run_to_openqasm
+.PHONY: run_to_openqasm run_to_openqasm_ne
 
 DIRS?= -L ./Case_studies/ -L ./math_libs/ -L ./Qbricks/
 
 build:
-	docker build --no-cache -t qbricks .
+	docker build -t qbricks .
 
 pull:
 	docker pull jricc/qbricks:latest
@@ -38,14 +38,12 @@ start:
 	xhost +local:docker
 	docker start -ai qbricks
 
-
-# don't clean `run_test.ml`
 clean:
 	cd extracted; rm -f *.bak *.pdf *.byte *.txt exe.* *__*.ml *.qasm run_to_openqasm.ml
 
 run_to_openqasm:
-	./run_to_openqasm.sh To_openqasm_examples Test_oq2 extraction
+	./scripts/run_to_openqasm.sh To_openqasm_examples Test_oq2 extraction
 
 run_to_openqasm_ne:
-	./run_to_openqasm.sh To_openqasm_examples Test_oq2 no_extraction
+	./scripts/run_to_openqasm.sh To_openqasm_examples Test_oq2 no_extraction
 

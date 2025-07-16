@@ -141,41 +141,184 @@ computing](https://github.com/Qbricks/qbricks.github.io/files/6415909/Qbricks_Pl
 
 5. Start container `make start`
 
+# Quick Start - Examples
+
 ## Proof
 
-### Example: open `shor.mlw` with Why3-ide
+Open [`shor.mlw`](https://github.com/Qbricks/qbricks.github.io/blob/main/Case_studies/shor.mlw) with [`why3-ide`](https://www.why3.org/doc/manpages.html#the-ide-command):
 
 1. `cd Case_studies/`
 
 2. `make ide_shor`
 
-## Qbricks to OpenQASM 2
+![`shor.mlw` in `why3-ide`](/pictures/why3-ide.png)
 
-1. Write the circuit using the Qbricks language in the file `Qbricks_to_oqasm/Examples/To_openqasm_examples.mlw`.
-   Example: `toffoli 0 1 2 3`
+## Qbricks to OpenQASM
 
-2. Translate Qbricks to OpenQASM using one of these commands:
+Example: [Toffoli](https://fr.wikipedia.org/wiki/Porte_de_Toffoli) 
+<div style="text-align: center;">
+  <img src="./pictures/ccx.png" alt="toffoli 0 1 2 3" style="width: 70px; height: auto;"/>
+</div>
+
+1. Write
+`let run() : string = string_oq (toffoli 0 1 2 3)`
+in [`Qbricks_to_oqasm/Examples/To_openqasm_examples.mlw`](https://github.com/Qbricks/qbricks.github.io/blob/main/Qbricks_to_oqasm/Examples/To_openqasm_examples.mlw)
+
+2. Translate
    - `make run_to_openqasm` (includes extraction from WhyML to OCaml and OCaml compilation)
    - `make run_to_openqasm_ne`
 
 3. Retrieve the OpenQASM file: `extracted/To_openqasm_examples.qasm`
 
-## OpenQASM to Qiskit
+```
+OPENQASM 2.0;
+include "qelib1.inc";
+qreg q[3];
+h q[2];
+u1 (2 * pi / 2^(3)) q[0];
+rz (2 * pi / 2^(3)) q[2];
+cx q[0], q[2];
+rz (- 2 * pi / 2^(3)) q[2];
+cx q[0], q[2];
+u1 (2 * pi / 2^(3)) q[1];
+rz (2 * pi / 2^(3)) q[2];
+cx q[1], q[2];
+rz (- 2 * pi / 2^(3)) q[2];
+cx q[1], q[2];
+cx q[0], q[1];
+u1 (- 2 * pi / 2^(3)) q[1];
+rz (- 2 * pi / 2^(3)) q[2];
+cx q[1], q[2];
+rz (2 * pi / 2^(3)) q[2];
+cx q[1], q[2];
+cx q[0], q[1];
+h q[2];
+```
 
-- Simulate an OpenQASM circuit on Qiskit Aer Simulator:
-  Example: `python3 run_to_qiskit.py Qbricks_to_oqasm/Examples/ccx.qasm`
+## Qiskit simulation
 
-Verbose mode (displays circuits and results):
-  Example: `python3 run_to_qiskit.py Qbricks_to_oqasm/Examples/ccx.qasm true`
+### Simulation
 
-- Verify equivalence between two OpenQASM circuits:
-  Example: `python3 run_to_qiskit_equiv.py Qbricks_to_oqasm/Examples/ccx.qasm Qbricks_to_oqasm/Examples/ccx-qb.qasm`
-  
-This verifies equivalence by simulating all possible input states through a sequence of the first circuit and the inverse of the second, checking if the output matches the input (identity operation).
+To simulate `toffoli 0 1 2 3` on [Qiskit Aer Simulator](https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html):
 
-Files:
-  - `ccx.qasm`: Standard Toffoli gate
-  - `ccx-qb.qasm`: Decomposed Toffoli gate (primitive OpenQASM gates from Qbricks translation)
+```
+python3 scripts/run_to_qiskit.py extracted/To_openqasm_examples.qasm
+Testing all possible input states for the given quantum circuit:
+Verification completed in 0.01 seconds.
+```
+
+To simulate `toffoli 0 1 2 3` on [Qiskit Aer Simulator](https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html) with verbose mode (displays circuits and results):
+```
+python3 scripts/run_to_qiskit.py extracted/To_openqasm_examples.qasm true
+Testing all possible input states for the given quantum circuit:
+Circuit for input state 000:
+     ┌─────────┐                                                                                                                    ┌─┐   »
+q_0: ┤ U1(π/4) ├─────────────■────────────────■────────────────────────────────────────■─────────────────────────────────────────■──┤M├───»
+     ├─────────┤             │                │                                      ┌─┴─┐    ┌──────────┐                     ┌─┴─┐└╥┘┌─┐»
+q_1: ┤ U1(π/4) ├─────────────┼────────────────┼───────────────■────────────────■─────┤ X ├────┤ U1(-π/4) ├──■───────────────■──┤ X ├─╫─┤M├»
+     └──┬───┬──┘┌─────────┐┌─┴─┐┌──────────┐┌─┴─┐┌─────────┐┌─┴─┐┌──────────┐┌─┴─┐┌──┴───┴───┐└──────────┘┌─┴─┐┌─────────┐┌─┴─┐├───┤ ║ └╥┘»
+q_2: ───┤ H ├───┤ Rz(π/4) ├┤ X ├┤ Rz(-π/4) ├┤ X ├┤ Rz(π/4) ├┤ X ├┤ Rz(-π/4) ├┤ X ├┤ Rz(-π/4) ├────────────┤ X ├┤ Rz(π/4) ├┤ X ├┤ H ├─╫──╫─»
+        └───┘   └─────────┘└───┘└──────────┘└───┘└─────────┘└───┘└──────────┘└───┘└──────────┘            └───┘└─────────┘└───┘└───┘ ║  ║ »
+c: 3/════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╩══╩═»
+
+Input: 000 (q2, q1, q0)
+Output: 000 (q2, q1, q0)
+...
+     ┌───┐┌─────────┐                                                                                                                    ┌─┐»
+q_0: ┤ X ├┤ U1(π/4) ├─────────────■────────────────■────────────────────────────────────────■─────────────────────────────────────────■──┤M├»
+     ├───┤├─────────┤             │                │                                      ┌─┴─┐    ┌──────────┐                     ┌─┴─┐└╥┘»
+q_1: ┤ X ├┤ U1(π/4) ├─────────────┼────────────────┼───────────────■────────────────■─────┤ X ├────┤ U1(-π/4) ├──■───────────────■──┤ X ├─╫─»
+     ├───┤└──┬───┬──┘┌─────────┐┌─┴─┐┌──────────┐┌─┴─┐┌─────────┐┌─┴─┐┌──────────┐┌─┴─┐┌──┴───┴───┐└──────────┘┌─┴─┐┌─────────┐┌─┴─┐├───┤ ║ »
+q_2: ┤ X ├───┤ H ├───┤ Rz(π/4) ├┤ X ├┤ Rz(-π/4) ├┤ X ├┤ Rz(π/4) ├┤ X ├┤ Rz(-π/4) ├┤ X ├┤ Rz(-π/4) ├────────────┤ X ├┤ Rz(π/4) ├┤ X ├┤ H ├─╫─»
+     └───┘   └───┘   └─────────┘└───┘└──────────┘└───┘└─────────┘└───┘└──────────┘└───┘└──────────┘            └───┘└─────────┘└───┘└───┘ ║ »
+c: 3/═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╩═»
+                                                                                                                                          0 »
+«           
+«q_0: ──────
+«     ┌─┐   
+«q_1: ┤M├───
+«     └╥┘┌─┐
+«q_2: ─╫─┤M├
+«      ║ └╥┘
+«c: 3/═╩══╩═
+«      1  2 
+Input: 111 (q2, q1, q0)
+Output: 011 (q2, q1, q0)
+----------------------------------------
+Verification completed in 0.06 seconds.          
+```
+
+### Equivalence Check
+
+To check equivalence of `toffoli 0 1 2 3` compiled with Qbricks to OpenQASM with [Qiskit Aer Simulator](https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html):
+
+```
+python3 scripts/run_to_qiskit_equiv.py extracted/To_openqasm_examples.qasm Qbricks_to_oqasm/Examples/toffoli.qasm 
+All input states result in identity. The two circuits are equivalent.
+Verification time: 0.01 seconds
+```
+
+To check equivalence of `toffoli 0 1 2 3` compiled with Qbricks to OpenQASM with [Qiskit Aer Simulator](https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html) with verbose mode (displays circuits and results):
+```
+python3 scripts/run_to_qiskit_equiv.py extracted/To_openqasm_examples.qasm Qbricks_to_oqasm/Examples/toffoli.qasm true 
+Testing equivalence by checking if the combined circuit results in identity for all input states:
+Circuit for input state 000:
+     ┌─────────┐                                                                                                                         ┌─┐»
+q_0: ┤ U1(π/4) ├─────────────■────────────────■────────────────────────────────────────■─────────────────────────────────────────■────■──┤M├»
+     ├─────────┤             │                │                                      ┌─┴─┐    ┌──────────┐                     ┌─┴─┐  │  └╥┘»
+q_1: ┤ U1(π/4) ├─────────────┼────────────────┼───────────────■────────────────■─────┤ X ├────┤ U1(-π/4) ├──■───────────────■──┤ X ├──■───╫─»
+     └──┬───┬──┘┌─────────┐┌─┴─┐┌──────────┐┌─┴─┐┌─────────┐┌─┴─┐┌──────────┐┌─┴─┐┌──┴───┴───┐└──────────┘┌─┴─┐┌─────────┐┌─┴─┐├───┤┌─┴─┐ ║ »
+q_2: ───┤ H ├───┤ Rz(π/4) ├┤ X ├┤ Rz(-π/4) ├┤ X ├┤ Rz(π/4) ├┤ X ├┤ Rz(-π/4) ├┤ X ├┤ Rz(-π/4) ├────────────┤ X ├┤ Rz(π/4) ├┤ X ├┤ H ├┤ X ├─╫─»
+        └───┘   └─────────┘└───┘└──────────┘└───┘└─────────┘└───┘└──────────┘└───┘└──────────┘            └───┘└─────────┘└───┘└───┘└───┘ ║ »
+c: 3/═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╩═»
+                                                                                                                                          0 »
+«           
+«q_0: ──────
+«     ┌─┐   
+«q_1: ┤M├───
+«     └╥┘┌─┐
+«q_2: ─╫─┤M├
+«      ║ └╥┘
+«c: 3/═╩══╩═
+«      1  2 
+Input: 000, Output: 000 - PASS
+----------------------------------------
+Circuit for input state 001:
+        ┌───┐   ┌─────────┐                                                                                                              ┌─┐»
+q_0: ───┤ X ├───┤ U1(π/4) ├──■────────────────■────────────────────────────────────────■─────────────────────────────────────────■────■──┤M├»
+     ┌──┴───┴──┐└─────────┘  │   
+
+...
+
+«c: 3/═══════════╩══╩══╩═
+«                0  1  2 
+Input: 110, Output: 110 - PASS
+----------------------------------------
+Circuit for input state 111:
+     ┌───┐┌─────────┐                                                                                                                    »
+q_0: ┤ X ├┤ U1(π/4) ├─────────────■────────────────■────────────────────────────────────────■─────────────────────────────────────────■──»
+     ├───┤├─────────┤             │                │                                      ┌─┴─┐    ┌──────────┐                     ┌─┴─┐»
+q_1: ┤ X ├┤ U1(π/4) ├─────────────┼────────────────┼───────────────■────────────────■─────┤ X ├────┤ U1(-π/4) ├──■───────────────■──┤ X ├»
+     ├───┤└──┬───┬──┘┌─────────┐┌─┴─┐┌──────────┐┌─┴─┐┌─────────┐┌─┴─┐┌──────────┐┌─┴─┐┌──┴───┴───┐└──────────┘┌─┴─┐┌─────────┐┌─┴─┐├───┤»
+q_2: ┤ X ├───┤ H ├───┤ Rz(π/4) ├┤ X ├┤ Rz(-π/4) ├┤ X ├┤ Rz(π/4) ├┤ X ├┤ Rz(-π/4) ├┤ X ├┤ Rz(-π/4) ├────────────┤ X ├┤ Rz(π/4) ├┤ X ├┤ H ├»
+     └───┘   └───┘   └─────────┘└───┘└──────────┘└───┘└─────────┘└───┘└──────────┘└───┘└──────────┘            └───┘└─────────┘└───┘└───┘»
+c: 3/════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════»
+                                                                                                                                         »
+«          ┌─┐      
+«q_0: ──■──┤M├──────
+«       │  └╥┘┌─┐   
+«q_1: ──■───╫─┤M├───
+«     ┌─┴─┐ ║ └╥┘┌─┐
+«q_2: ┤ X ├─╫──╫─┤M├
+«     └───┘ ║  ║ └╥┘
+«c: 3/══════╩══╩══╩═
+«           0  1  2 
+Input: 111, Output: 111 - PASS
+----------------------------------------
+All input states result in identity. The two circuits are equivalent.
+Verification time: 0.05 seconds
+```
+
 
 
 
