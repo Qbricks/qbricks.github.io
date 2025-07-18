@@ -163,7 +163,7 @@ Example: [Toffoli](https://fr.wikipedia.org/wiki/Porte_de_Toffoli)
   <img src="./pictures/ccx.png" alt="toffoli 0 1 2 3" style="width: 70px; height: auto;"/>
 </div>
 
-1. To define a quantum circuit, modify the file [`Qbricks_to_oqasm/Examples/To_openqasm_examples.mlw`](https://github.com/Qbricks/qbricks.github.io/blob/main/Qbricks_to_oqasm/Examples/To_openqasm_examples.mlw) by adding your circuit description in the Qbricks language. For example, you can write the following line to define a Toffoli gate on qubits 0, 1, 2, and 3:
+1. To define a quantum circuit, modify the file [`Qbricks_to_oqasm/Examples/To_openqasm_examples.mlw`](https://github.com/Qbricks/qbricks.github.io/blob/main/Qbricks_to_oqasm/Examples/To_openqasm_examples.mlw) by adding your circuit description in the Qbricks language. For example, you can replace the existing `run` function by the following line to define a Toffoli gate on qubits 0, 1, 2, and 3:
 
 ```ocaml
 let run() : string = string_oq (toffoli 0 1 2 3)
