@@ -40,30 +40,22 @@ module Cont_del
   use commuting_lemmas.Cont_depth_pre
   use parallel_delete.Parallel_del
 
+  predicate control_requires (co ta n: int) = 0 <= ta < n && 0 <= co < n && ta <> co
+  
+  predicate general_specifications (c: wired_circuit) = 
+    correct c && ancilla_free c && parallel_free c && atomic_place c && 
+    ternary_gates_free c && cont_depth c = 0
+
   let function cont_hadamard (co1 ta1 n1: int) : wired_circuit
-    requires{0 <= ta1 < n1}
-    requires{0 <= co1 < n1}
-    requires{ta1 <> co1}
-    ensures{correct result }
-    ensures{ancilla_free result}
-    ensures{atomic_place result}
-    ensures{ternary_gates_free result}
-    ensures{cont_depth result = 0}
-    ensures{parallel_free result}
+    requires{control_requires co1 ta1 n1}
+    ensures{general_specifications result}
     ensures{width_pre result = n1}
     ensures{result <=> Cont Hadamard co1 ta1 n1}
     = GD.cont_hadamard co1 ta1 n1
     
   let function cont_ry (k co1 ta1 n1: int) : wired_circuit
-    requires{0 <= ta1 < n1}
-    requires{0 <= co1 < n1}
-    requires{ta1 <> co1}
-    ensures{correct result }
-    ensures{atomic_place result}
-    ensures{ternary_gates_free result}
-    ensures{ancilla_free result}
-    ensures{cont_depth result = 0}
-    ensures{parallel_free result}
+    requires{control_requires co1 ta1 n1}
+    ensures{general_specifications result}
     ensures{width_pre result = n1}
     ensures{result <=> Cont (Ry k) co1 ta1 n1}
     = GD.cont_ry k co1 ta1 n1
@@ -73,148 +65,114 @@ module Cont_del
   use unit_circle.Angle
   
   let function cont_rz (k co1 ta1 n1: int) : wired_circuit
-    requires{0 <= ta1 < n1}
-    requires{0 <= co1 < n1}
-    requires{ta1 <> co1}
-    ensures{correct result }
-    ensures{ternary_gates_free result}
-    ensures{atomic_place result}
-    ensures{ancilla_free result}
-    ensures{cont_depth result = 0}
-    ensures{parallel_free result}
+    requires{control_requires co1 ta1 n1}
+    ensures{general_specifications result}
     ensures{width_pre result = n1}
     ensures{result <=> Cont (Rz k) co1 ta1 n1}
     = GD.cont_rz k co1 ta1 n1
     
   let function cont_phase (k co1 ta1 n1: int) : wired_circuit
-    requires{0 <= ta1 < n1}
-    requires{0 <= co1 < n1}
-    requires{ta1 <> co1}
-    ensures{correct result }
-    ensures{atomic_place result}
-    ensures{ancilla_free result}
-    ensures{cont_depth result = 0}
-    ensures{ternary_gates_free result}
-    ensures{parallel_free result}
+    requires{control_requires co1 ta1 n1}
+    ensures{general_specifications result}
     ensures{width_pre result = n1}
     ensures{result <=> Cont (Phase k) co1 ta1 n1}
     = GD.cont_phase k co1 ta1 n1
     
   let function cont_rzp (k co1 ta1 n1: int) : wired_circuit
-    requires{0 <= ta1 < n1}
-    requires{0 <= co1 < n1}
-    requires{ta1 <> co1}
-    ensures{correct result }
-    ensures{atomic_place result}
-    ensures{ternary_gates_free result}
-    ensures{ancilla_free result}
-    ensures{cont_depth result = 0}
-    ensures{parallel_free result}
+    requires{control_requires co1 ta1 n1}
+    ensures{general_specifications (cont_rz k co1 ta1 n1)}
+    ensures{general_specifications (cont_phase (incr_abs k) co1 ta1 n1)}
+    ensures{general_specifications result}
     ensures{width_pre result = n1}
     ensures{result <=> Cont (Rzp k) co1 ta1 n1}
     = GD.cont_rzp k co1 ta1 n1
     
   let function cont_rx (k co1 ta1 n1: int) : wired_circuit
-    requires{0 <= co1 < n1}
-    requires{0 <= ta1 /\ ta1 <= n1 - 1}
-    requires{ta1 <= co1 -> ta1 + 1 <= co1}
-    ensures{correct result }
-    ensures{atomic_place result}
-    ensures{ternary_gates_free result}
-    ensures{ancilla_free result}
-    ensures{cont_depth result = 0}
-    ensures{parallel_free result}
+    requires{control_requires co1 ta1 n1}
+    ensures{general_specifications (cont_hadamard co1 ta1 n1)}
+    ensures{general_specifications (cont_rz k co1 ta1 n1)}
+    ensures{general_specifications result}
     ensures{width_pre result = n1}
     ensures{result <=> Cont (Rx k) co1 ta1 n1}
     = GD. cont_rx k co1 ta1 n1
-    
+
+  predicate ternary_requires (i j k n: int) = 
+    0 <= i < n && 0 <= j < n && 0 <= k < n && 
+    i <> j && i <> k && j <> k
+
+
+  let function ccz (co1 co2 ta1 n1: int) : wired_circuit
+    requires{ternary_requires co1 co2 ta1 n1}
+    ensures{general_specifications result}
+    ensures{width_pre result = n1}
+    = 
+    assert{GD.cont_xor_rz (-2) co1 co2 ta1 n1 = Sequence 
+      (Sequence (Cnot co1 co2 n1) (GD.cont_rzp (-2) co2 ta1 n1)) (Cnot co1 co2 n1)};
+
+    assert{control_requires co1 ta1 n1};
+    assert{general_specifications (cont_rz 2 co1 ta1 n1)};
+    assert{general_specifications (cont_phase 3 co1 ta1 n1)};
+    assert{general_specifications (cont_rzp 2 co1 ta1 n1)};
+
+    assert{control_requires co2 ta1 n1};
+    assert{general_specifications (cont_rz 2 co2 ta1 n1)};
+    assert{general_specifications (cont_phase 3 co2 ta1 n1)};
+    assert{general_specifications (cont_rzp 2 co2 ta1 n1)};
+
+    assert{control_requires co1 co2 n1};
+    assert{general_specifications (Cnot co1 co2 n1)};
+
+    assert{general_specifications (cont_rz (- 2) co2 ta1 n1)};
+    assert{general_specifications (cont_phase (-3) co2 ta1 n1)};
+    assert{general_specifications (cont_rzp (- 2) co2 ta1 n1)};
+
+    assert{general_specifications (GD.cont_xor_rz (-2) co1 co2 ta1 n1)};
+
+    GD.ccz co1 co2 ta1 n1
+
   let function toffoli_decomp (co1 co2 ta1 n1: int) : wired_circuit
-    requires{0 <= co1 < n1}
-    requires{0 <= co2 < n1}
-    requires{0 <= ta1 < n1}
-    requires{co1 <> co2}
-    requires{co1 <> ta1}
-    requires{ta1 <> co2}
-    ensures{atomic_place result}
-    ensures{correct result }
-    ensures{ternary_gates_free result}
-    ensures{ancilla_free result}
-    ensures{cont_depth result = 0}
-    ensures{parallel_free result}
+    requires{ternary_requires co1 co2 ta1 n1}
+    ensures{general_specifications (Place Hadamard ta1 n1)}
+    ensures{general_specifications (ccz co1 co2 ta1 n1)}
+    ensures{general_specifications result}
     ensures{width_pre result = n1}
     ensures{result <=> Toffoli co1 co2 ta1 n1}
     = GD.toffoli_decomp co1 co2 ta1 n1
     
  let function fredkin_decomp (co1 ta1 ta2 n1: int) : wired_circuit
-    requires{0 <= ta1 < n1}
-    requires{0 <= ta2 < n1}
-    requires{0 <= co1 < n1}
-    requires{ta1 <> ta2}
-    requires{ta1 <> co1}
-    requires{co1 <> ta2}
-    ensures{atomic_place result}
-    ensures{ternary_gates_free result}
-    ensures{correct result }
-    ensures{ancilla_free result}
-    ensures{cont_depth result = 0}
-    ensures{parallel_free result}
+    requires{ternary_requires co1 ta1 ta2 n1}
+    ensures{general_specifications (Cnot ta2 ta1 n1)}
+    ensures{general_specifications (toffoli_decomp co1 ta1 ta2 n1)}
+    ensures{general_specifications result}
     ensures{width_pre result = n1}
     ensures{result <=> Fredkin co1 ta1 ta2 n1}
  = GD.fredkin_decomp_toffoli co1 ta1 ta2 n1
      
   let function cont_s (co1 ta1 n1: int) : wired_circuit
-    requires{0 <= ta1 < n1}
-    requires{0 <= co1 < n1}
-    requires{ta1 <> co1}
-    ensures{correct result }
-    ensures{atomic_place result}
-    ensures{ancilla_free result}
-    ensures{cont_depth result = 0}
-    ensures{ternary_gates_free result}
-    ensures{parallel_free result}
+    requires{control_requires co1 ta1 n1}
+    ensures{general_specifications result}
     ensures{width_pre result = n1}
     ensures{result <=> Cont S co1 ta1 n1}
   = cont_rzp 2 co1 ta1 n1
   
   let function cont_t (co1 ta1 n1: int) : wired_circuit
-    requires{0 <= ta1 < n1}
-    requires{0 <= co1 < n1}
-    requires{ta1 <> co1}
-    ensures{correct result }
-    ensures{atomic_place result}
-    ensures{ancilla_free result}
-    ensures{ternary_gates_free result}
-    ensures{cont_depth result = 0}
-    ensures{parallel_free result}
+    requires{control_requires co1 ta1 n1}
+    ensures{general_specifications result}
     ensures{width_pre result = n1}
     ensures{result <=> Cont T co1 ta1 n1}
   = cont_rzp 3 co1 ta1 n1
   
   let function cont_zz (co1 ta1 n1: int) : wired_circuit
-    requires{0 <= ta1 < n1}
-    requires{0 <= co1 < n1}
-    requires{ta1 <> co1}
-    ensures{correct result }
-    ensures{atomic_place result}
-    ensures{ancilla_free result}
-    ensures{cont_depth result = 0}
-    ensures{ternary_gates_free result}
-    ensures{parallel_free result}
+    requires{control_requires co1 ta1 n1}
+    ensures{general_specifications result}
     ensures{width_pre result = n1}
     ensures{result <=> Cont Z co1 ta1 n1}
   = cont_rzp 1 co1 ta1 n1
   
   let function cont_xx (co1 ta1 n1: int) : wired_circuit
-    requires{0 <= ta1 < n1}
-    requires{0 <= co1 < n1}
-    requires{ta1 <> co1}
+    requires{control_requires co1 ta1 n1}
     requires{ta1 <= co1 -> (ta1 + 1) <= co1}
-    ensures{atomic_place result}
-    ensures{correct result }
-    ensures{ancilla_free result}
-    ensures{ternary_gates_free result}
-    ensures{cont_depth result = 0}
-    ensures{parallel_free result}
+    ensures{general_specifications result}
     ensures{width_pre result = n1}
     ensures{result <=> Cont X co1 ta1 n1}
   = 
@@ -223,81 +181,12 @@ module Cont_del
       (cont_hadamard co1 ta1 n1)
   
   let function cont_yy (co1 ta1 n1: int) : wired_circuit
-    requires{0 <= ta1 < n1}
-    requires{0 <= co1 < n1}
-    requires{ta1 <> co1}
+    requires{control_requires co1 ta1 n1}
     requires{ta1 <= co1 -> (ta1 + 1) <= co1}
-    ensures{correct result }
-    ensures{atomic_place result}
-    ensures{ancilla_free result}
-    ensures{cont_depth result = 0}
-    ensures{ternary_gates_free result}
-    ensures{parallel_free result}
+    ensures{general_specifications result}
     ensures{width_pre result = n1}
     ensures{result <=> Cont Y co1 ta1 n1}
   = Sequence (cont_phase 2 co1 ta1 n1) (cont_ry 1 co1 ta1 n1)
-
-  let function ccz (co1 co2 ta1 n1: int) : wired_circuit
-    requires{0 <= co1 < n1}
-    requires{0 <= co2 < n1}
-    requires{0 <= ta1 < n1}
-    requires{co1 <> co2}
-    requires{co1 <> ta1}
-    requires{ta1 <> co2}
-    ensures{ancilla_free result}
-    ensures{correct result }
-    ensures{parallel_free result}
-    ensures{ternary_gates_free result}
-    ensures{atomic_place result}
-    ensures{cont_depth result = 0}
-    ensures{width_pre result = n1}
-    = 
-    assert{GD.cont_xor_rz (-2) co1 co2 ta1 n1 = Sequence 
-      (Sequence (Cnot co1 co2 n1) (GD.cont_rzp (-2) co2 ta1 n1)) (Cnot co1 co2 n1)};
-
-    assert{ancilla_free (cont_rzp 2 co1 ta1 n1)};
-    assert{ancilla_free (cont_rzp 2 co2 ta1 n1)};
-    assert{ancilla_free (Cnot co1 co2 n1)};
-    assert{ancilla_free (cont_rzp (- 2) co2 ta1 n1)};
-    assert{ancilla_free (GD.cont_xor_rz (-2) co1 co2 ta1 n1)};
-
-    assert{correct (cont_rzp 2 co1 ta1 n1)};
-    assert{correct (cont_rzp 2 co2 ta1 n1)};
-    assert{correct (Cnot co1 co2 n1)};
-    assert{correct (cont_rzp (- 2) co2 ta1 n1)};
-    assert{correct (GD.cont_xor_rz (-2) co1 co2  ta1 n1)};
-
-    assert{parallel_free (cont_rzp 2 co1 ta1 n1)};
-    assert{parallel_free (cont_rzp 2 co2 ta1 n1)};
-    assert{parallel_free (Cnot co1 co2 n1)};
-    assert{parallel_free (cont_rzp (- 2) co2 ta1 n1)};
-    assert{parallel_free (GD.cont_xor_rz (-2) co1 co2  ta1 n1)};
-
-    assert{ternary_gates_free (cont_rzp 2 co1 ta1 n1)};
-    assert{ternary_gates_free (cont_rzp 2 co2 ta1 n1)};
-    assert{ternary_gates_free (Cnot co1 co2 n1)};
-    assert{ternary_gates_free (cont_rzp (- 2) co2 ta1 n1)};
-    assert{ternary_gates_free (GD.cont_xor_rz (-2) co1 co2  ta1 n1)};
-
-    assert{atomic_place (cont_rzp 2 co1 ta1 n1)};
-    assert{atomic_place (cont_rzp 2 co2 ta1 n1)};
-    assert{atomic_place (Cnot co1 co2 n1)};
-    assert{atomic_place (cont_rzp (- 2) co2 ta1 n1)};
-    assert{atomic_place (GD.cont_xor_rz (-2) co1 co2  ta1 n1)};
-
-    assert{cont_depth (cont_rzp 2 co1 ta1 n1) = 0};
-    assert{cont_depth (cont_rzp 2 co2 ta1 n1) = 0};
-    assert{cont_depth (Cnot co1 co2 n1) = 0};
-    assert{cont_depth (cont_rzp (- 2) co2 ta1 n1) = 0};
-    assert{cont_depth (GD.cont_xor_rz (-2) co1 co2 ta1 n1) = 0};
-
-    assert{ancilla_free (cont_rzp 2 co1 ta1 n1)};
-    assert{ancilla_free (cont_rzp 2 co2 ta1 n1)};
-    assert{ancilla_free (Cnot co1 co2 n1)};
-    assert{ancilla_free (cont_rzp (- 2) co2 ta1 n1)};
-    assert{ancilla_free (GD.cont_xor_rz (-2) co1 co2  ta1 n1)};
-
-    GD.ccz co1 co2 ta1 n1
 
   clone export cont_decomp.Cont_del_implem with
     val cont_rx = cont_rx,
@@ -314,8 +203,7 @@ module Cont_del
     val cont_xx = cont_xx,
     val cont_yy = cont_yy,
     val ccz = ccz
-
-                       
+                     
 end 
 
 module Subcircuit_control
@@ -337,52 +225,39 @@ module Subcircuit_control
   use qbricks.Circuit_macros
   use circuits_equiv_pre.Neutral_circuit 
 
+  let lemma cont_depth_cont_neq (co ta n: int) (c: wired_circuit)
+    requires{correct c}
+    requires{0 <= co /\ co < n}
+    requires{0 <= ta /\ ta <= (n - width_pre c)}
+    requires{ta <= co -> (ta + width_pre c) <= co}
+    ensures{(cont_depth (Cont c co ta n) <> 0)}
+    = 
+      cont_depth_cont c co ta n;
+      ()
+
   let rec function control_delete_step (c: wired_circuit) (co t n: int)
-    requires{0 <= co < n}
-    requires{0 <= t < n}
-    requires{t <= co -> t + width_pre c <= co}
-    requires{ancilla_free c}
+    requires{correct c}
+    requires{0 <= co /\ co < n}
+    requires{0 <= t /\ t <= (n - width_pre c)}
+    requires{t <= co -> (t + width_pre c) <= co}
+    requires{general_specifications c}
     requires{correct (Cont c co t n)}
-    requires{parallel_free c}
-    requires{ternary_gates_free c}
-    requires{atomic_place c}
-    requires{cont_depth c = 0}
-    ensures{ancilla_free result}
-    ensures{correct result}
-    ensures{parallel_free result}
-    ensures{ternary_gates_free result}
-    ensures{atomic_place result}
-    ensures{cont_depth result = 0}
+    ensures{general_specifications result}
     ensures {result <=> (Cont c co t n)}
   = match c with
     | Sequence c1 c2 -> 
         let c1' = control_delete_step c1 co t n in
-        assert{ancilla_free c1'};
-        assert{correct c1'};
-        assert{parallel_free c1'};
-        assert{ternary_gates_free c1'};
-        assert{atomic_place c1'};
-        assert{cont_depth c1' = 0};
+        assert{general_specifications c1'};
         assert{Cont c1 co t n <=> c1'};
         let c2' = control_delete_step c2 co t n in
-        assert{ancilla_free c2'};
-        assert{correct c2'};
-        assert{parallel_free c2'};
-        assert{ternary_gates_free c2'};
-        assert{atomic_place c2'};
-        assert{cont_depth c2' = 0};
+        assert{general_specifications c2'};
         assert{Cont c2 co t n <=> c2'};
         assert{Cont (Sequence c1 c2) co t n <=> Sequence (Cont c1 co t n) (Cont c2 co t n)}; 
         assert{Sequence (Cont c1 co t n) (Cont c2 co t n) <=> Sequence c1' c2'};
         Sequence c1' c2'
     | Place c1 ta1 n1 -> 
         let c1' = control_delete_step c1 co (ta1 + t) n in
-        assert{ancilla_free c1'};
-        assert{correct c1'};
-        assert{parallel_free c1'};
-        assert{ternary_gates_free c1'};
-        assert{atomic_place c1'};
-        assert{cont_depth c1' = 0};
+        assert{general_specifications c1'};
         assert{Cont c1 co (ta1 + t) n <=> c1'};
         assert{Cont (Place c1 ta1 n1) co t n <=> Cont c1 co (ta1 + t) n};
         assert{Cont c1 co (ta1 + t) n <=> c1'};
@@ -400,12 +275,7 @@ module Subcircuit_control
     | Z -> cont_zz co t n
     | Cnot co1 t1 n1 ->
         let c' = toffoli_decomp co (t + co1) (t + t1) n in
-        assert{ancilla_free c'};
-        assert{correct c'};
-        assert{parallel_free c'};
-        assert{ternary_gates_free c'};
-        assert{atomic_place c'};
-        assert{cont_depth c' = 0};
+        assert{general_specifications c'};
         assert {Cont (Cnot co1 t1 n1) co t n <=> toffoli_as_cont_cnot co (t + co1) (t + t1) t n1 n};
         assert {toffoli_as_cont_cnot co (t + co1) (t + t1) t n1 n <=> Toffoli co (t + co1) (t + t1) n};
         assert {Toffoli co (t + co1) (t + t1) n <=> c'};
@@ -413,12 +283,7 @@ module Subcircuit_control
         c'
     | Swap t1 t2 n2 ->
         let c' = fredkin_decomp co (t + t1) (t + t2) n in
-        assert{ancilla_free c'};
-        assert{correct c'};
-        assert{parallel_free c'};
-        assert{ternary_gates_free c'};
-        assert{atomic_place c'};
-        assert{cont_depth c' = 0};
+        assert{general_specifications c'};
         assert {Cont (Swap t1 t2 n2) co t n <=> fredkin_as_cont_swap co (t + t1) (t + t2) t n2 n};
         assert {fredkin_as_cont_swap co (t + t1) (t + t2) t n2 n <=> Fredkin co (t + t1) (t + t2) n};
         assert {Fredkin co (t + t1) (t + t2) n <=> c'};
@@ -426,52 +291,46 @@ module Subcircuit_control
         c'
     | Bricks_Cnot ->
         let c' = toffoli_decomp co t (t + 1) n in
-        assert{ancilla_free c'};
-        assert{correct c'};
-        assert{parallel_free c'};
-        assert{ternary_gates_free c'};
-        assert{atomic_place c'};
-        assert{cont_depth c' = 0};
+        assert{general_specifications c'};
         assert {Cont Bricks_Cnot co t n <=> Cont (Cnot 0 1 2) co t n};
         assert {Cont (Cnot 0 1 2) co t n <=> toffoli_as_cont_cnot co t (t + 1) t 2 n};
         assert {toffoli_as_cont_cnot co t (t + 1) t 2 n <=> Toffoli co t (t + 1) n};
         assert {Toffoli co t (t + 1) n <=> c'};
+        transitive_circuit_equiv (Cont Bricks_Cnot co t n) (Cont (Cnot 0 1 2) co t n) (toffoli_as_cont_cnot co t (t + 1) t 2 n);
+        transitive_circuit_equiv (toffoli_as_cont_cnot co t (t + 1) t 2 n) (Toffoli co t (t + 1) n) c';
         assert {Cont Bricks_Cnot co t n <=> c'};
         c'
     | Bricks_Swap ->
         let c' = fredkin_decomp co t (t + 1) n in
-        assert{ancilla_free c'};
-        assert{correct c'};
-        assert{parallel_free c'};
-        assert{ternary_gates_free c'};
-        assert{atomic_place c'};
-        assert{cont_depth c' = 0};
+        assert{general_specifications c'};
         assert {Cont Bricks_Swap co t n <=> Cont (Swap 0 1 2) co t n};
         assert {Cont (Swap 0 1 2) co t n <=> fredkin_as_cont_swap co t (t + 1) t 2 n};
         assert {fredkin_as_cont_swap co t (t + 1) t 2 n <=> Fredkin co t (t + 1) n};
         assert {Fredkin co t (t + 1) n <=> c'};
+        transitive_circuit_equiv (Cont Bricks_Swap co t n) (Cont (Swap 0 1 2) co t n) (fredkin_as_cont_swap co t (t + 1) t 2 n);
+        transitive_circuit_equiv (fredkin_as_cont_swap co t (t + 1) t 2 n) (Fredkin co t (t + 1) n) c';
         assert {Cont Bricks_Swap co t n <=> c'};
         c'
     | Skip ->
         let c' = cont_skip_to_place co t n in
-        assert{ancilla_free c'};
-        assert{correct c'};
-        assert{parallel_free c'};
-        assert{ternary_gates_free c'};
-        assert{atomic_place c'};
-        assert{cont_depth c' = 0};
+        assert{general_specifications c'};
         assert {Cont c co t n <=> c'};
         c'
-    | _ -> 
-        assert{ancilla_free c};
-        assert{correct c};
+    | Parallel _ _ -> 
         assert{parallel_free c};
-        assert{ternary_gates_free c};
-        assert{atomic_place c};
+        c
+    | Ancillas _ _ -> 
+      assert{ancilla_free c};
+      c
+    | Cont _ _ _ _ -> 
         assert{cont_depth c = 0};
-        (* Unreachable case *)
+        c
+    | _ -> 
+        assert{general_specifications c};
         c
   end
+
+  use commuting_lemmas.Lemmas_correct_circuit_pre
 
   let rec function control_delete (c: wired_circuit)
     requires{ancilla_free c}
@@ -479,81 +338,42 @@ module Subcircuit_control
     requires{parallel_free c}
     requires{ternary_gates_free c}
     requires{atomic_place c}
-    ensures{ancilla_free result}
-    ensures{correct result}
-    ensures{parallel_free result}
-    ensures{ternary_gates_free result}
-    ensures{atomic_place result}
-    ensures{cont_depth result = 0}
+    ensures{general_specifications result}
     ensures {c <=> result}
   = match c with
     | Sequence c1 c2 ->
         let c1' = control_delete c1 in
-        assert{ancilla_free c1'};
-        assert{correct c1'};
-        assert{parallel_free c1'};
-        assert{ternary_gates_free c1'};
-        assert{atomic_place c1'};
-        assert{cont_depth c1' = 0};
+        assert{general_specifications c1'};
         assert {c1 <=> c1'};
         let c2' = control_delete c2 in
-        assert{ancilla_free c2'};
-        assert{correct c2'};
-        assert{parallel_free c2'};
-        assert{ternary_gates_free c2'};
-        assert{atomic_place c2'};
-        assert{cont_depth c2' = 0};
+        assert{general_specifications c2'};
         assert {c2 <=> c2'};
         let c' = Sequence c1' c2' in
-        assert{ancilla_free c'};
-        assert{correct c'};
-        assert{parallel_free c'};
-        assert{ternary_gates_free c'};
-        assert{atomic_place c'};
-        assert{cont_depth c' = 0};
+        assert{general_specifications c'};
         assert {Sequence c1 c2 <=> c'};
         c'
     | Cont c1 co k n ->
       assert{correct (Cont c1 co k n)};
+      correct_cont_rev c1 co k n;
       assert{k < n};
       if cont_depth c1 = 0 then (
         assert{cont_depth c1 = 0};
         let c' = control_delete_step c1 co k n in 
-        assert{ancilla_free c'};
-        assert{correct c'};
-        assert{parallel_free c'};
-        assert{ternary_gates_free c'};
-        assert{atomic_place c'};
-        assert{cont_depth c' = 0};
+        assert{general_specifications c'};
         assert {Cont c1 co k n <=> c'};
         c')
       else (
         let c1' = control_delete c1 in
-        assert{ancilla_free c1'};
-        assert{correct c1'};
-        assert{parallel_free c1'};
-        assert{ternary_gates_free c1'};
-        assert{atomic_place c1'};
-        assert{cont_depth c1' = 0};
+        assert{general_specifications c1'};
         assert {c1 <=> c1'};
         let c' = control_delete_step c1' co k n in
-        assert{ancilla_free c'};
-        assert{correct c'};
-        assert{parallel_free c'};
-        assert{ternary_gates_free c'};
-        assert{atomic_place c'};
-        assert{cont_depth c' = 0};
+        assert{general_specifications c'};
         assert {Cont c1 co k n <=> Cont c1' co k n};
         assert {Cont c1' co k n <=> c'};
         c')
     | Place c1 ta n1 -> 
         assert{cont_depth c1 = 0};
-        assert{ancilla_free c};
-        assert{correct c};
-        assert{parallel_free c};
-        assert{ternary_gates_free c};
-        assert{atomic_place c};
-        assert{cont_depth c = 0};
+        assert{general_specifications c};
         assert {c <=> Place c1 ta n1};
         Place c1 ta n1
     | _ -> c
@@ -564,12 +384,7 @@ module Subcircuit_control
   let function to_oqasm (c : wired_circuit) : wired_circuit
     requires{ancilla_free c}
     requires{correct c}
-    ensures{ancilla_free result}
-    ensures{correct result}
-    ensures{parallel_free result}
-    ensures{ternary_gates_free result}
-    ensures{atomic_place result}
-    ensures{cont_depth result = 0}
+    ensures{general_specifications result}
    = 
     let ref c  = parallel_del c in 
       c := ternary_gates_del c;
@@ -577,5 +392,6 @@ module Subcircuit_control
       c := control_delete c;
       return c 
 
-
 end
+
+

@@ -2,15 +2,88 @@
 <!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
 "https://www.why3.org/why3session.dtd">
 <why3session shape_version="6">
-<prover id="0" name="CVC5" version="1.2.1" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="0" name="CVC5" version="1.2.1" timelimit="30" steplimit="0" memlimit="5000"/>
 <file format="whyml" proved="true">
 <path name=".."/><path name="transpilation.mlw"/>
 <theory name="To_OqenQASM_2" proved="true">
+ <goal name="qbricks_to_openqasm&#39;vc" expl="VC for qbricks_to_openqasm" proved="true">
+ <transf name="split_all_full" proved="true" >
+  <goal name="qbricks_to_openqasm&#39;vc.0" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.737712" steps="398656"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.1" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.753406" steps="398710"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.2" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.825280" steps="398710"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.3" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.837838" steps="398710"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.4" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.807749" steps="398710"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.5" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.833525" steps="398710"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.6" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.862156" steps="398656"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.7" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.864527" steps="398656"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.8" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.698037" steps="398656"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.9" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.701811" steps="398656"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.10" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.882042" steps="398656"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.11" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.863528" steps="398656"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.12" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.820046" steps="398656"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.13" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.668201" steps="398656"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.14" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.669202" steps="398728"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.15" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.661435" steps="398728"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.16" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.694366" steps="398724"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.17" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.700897" steps="398734"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.18" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.772831" steps="398714"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.19" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.734144" steps="398714"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.20" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.745251" steps="398714"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.21" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.732344" steps="398603"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.22" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.781876" steps="398603"/></proof>
+  </goal>
+ </transf>
+ </goal>
  <goal name="print_oq&#39;vc" expl="VC for print_oq" proved="true">
- <proof prover="0"><result status="valid" time="0.728871" steps="383647"/></proof>
+ <proof prover="0"><result status="valid" time="0.728871" steps="380847"/></proof>
  </goal>
  <goal name="string_oq&#39;vc" expl="VC for string_oq" proved="true">
- <proof prover="0"><result status="valid" time="2.491250" steps="583895"/></proof>
+ <proof prover="0"><result status="valid" time="1.241097" steps="436833"/></proof>
  </goal>
 </theory>
 </file>

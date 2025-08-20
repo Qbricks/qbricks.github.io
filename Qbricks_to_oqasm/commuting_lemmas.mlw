@@ -462,6 +462,7 @@ end
       ensures{0 <= ta /\ ta <= (n - width_pre c)}
     = ()
 
+  (* TODO: specifications to be corrected *)
   let lemma correct_seq_rev (c1 c2: wired_circuit)
       requires{correct c1}
       requires{correct c2}
@@ -469,12 +470,14 @@ end
       requires{correct (Sequence c1 c2)}
     = ()
 
+  (* TODO: specifications to be corrected *)
   let lemma correct_par_rev (c1 c2: wired_circuit)
       requires{correct c1}
       requires{correct c2}
       requires{correct (Parallel c1 c2)}
     = ()
 
+  (* TODO: specifications to be corrected *)
   let lemma correct_place_rev (c: wired_circuit) (ta n: int)
       requires{correct c}
       requires{0 <= ta <= n - 1}

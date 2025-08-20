@@ -34,6 +34,8 @@ module Atomic_place
   use commuting_lemmas.Place_atomic_def
   use ternary_gates_delete.Ternary_gates_del
 
+  (* TODO: factorizes specifications with predicates *)
+
   let rec predicate atomic_place (c: wired_circuit)
       requires{correct c}
       ensures{skip_atomic c -> result}

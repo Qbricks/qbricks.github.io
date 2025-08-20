@@ -32,6 +32,9 @@ ide_atomic_place:
 ide_commuting_lemmas:
 	why3 ide $(DIRS) commuting_lemmas.mlw
 
+ide_cont_decomp:
+	why3 ide $(DIRS) cont_decomp.mlw
+
 ide_subcircuit_control:
 	why3 ide $(DIRS) subcircuit_control.mlw
 

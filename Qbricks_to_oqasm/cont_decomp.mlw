@@ -34,7 +34,9 @@ module Cont_del_implem
   use commuting_lemmas.Cont_depth_pre
   use parallel_delete.Parallel_del
   use atomic_place.Atomic_place
-  use ternary_gates_delete.Ternary_gates_del     
+  use ternary_gates_delete.Ternary_gates_del    
+
+  (* TODO: factorizes specifications with predicates *)
 
   val function cont_hadamard (co1 ta1 n1: int) : wired_circuit
     requires{0 <= ta1 < n1}

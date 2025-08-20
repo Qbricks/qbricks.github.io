@@ -31,6 +31,8 @@ module Ternary_gates_del
   use commuting_lemmas.Ancilla_pre
   use parallel_delete.Parallel_del
 
+  (* TODO: factorizes specifications with predicates *)
+
   let rec predicate ternary_gates_free (c: wired_circuit)
     requires{correct c}
      =

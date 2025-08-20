@@ -30,6 +30,7 @@ module Parallel_del
   use circuits_equiv_pre.Gate_decomp
   use circuits_equiv_pre.Circuit_equivalence_impl
      
+  (* TODO: factorizes specifications with predicates *)
   
   let rec predicate parallel_free (c: wired_circuit)
     requires{correct c}
@@ -101,9 +102,9 @@ module Parallel_del
 let lemma remove_parallel_free (a b: wired_circuit)
     requires{correct a}
     requires{correct b}
-      requires{parallel_free a}
-      requires{parallel_free b}
-      ensures{parallel_free (remove_parallel a b)}
+    requires{parallel_free a}
+    requires{parallel_free b}
+    ensures{parallel_free (remove_parallel a b)}
   =()
 
   let lemma parallel_free_toffoli_decomp (co1 co2 ta n: int)

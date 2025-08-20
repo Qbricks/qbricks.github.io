@@ -91,13 +91,13 @@ if [ "$3" = "extraction" ]; then
   why3_extract Case_studies/qft.mlw
   why3_extract Case_studies/qft_test.mlw
   why3_extract Case_studies/Shor/shor_type.mlw
-  why3_extract Case_studies/Shor/shor_inst.mlw
   why3_extract Case_studies/qpe.mlw
   # why3_extract Case_studies/Shor/shor_circ.mlw
 
   echo "** 'Case_studies': extracted"
 fi
 
+why3_extract Case_studies/Shor/shor_inst.mlw
 why3_extract "Qbricks_to_oqasm/Examples/$1.mlw"
 
 echo "** Qbricks_to_oqasm/Examples/$1.mlw: extracted"
@@ -123,7 +123,7 @@ echo "let () =
 echo "* 'run_to_openqasm.ml': generated"
 
 start_time=$(date +%s%N)
-ocamlbuild -pkg zarith run_to_openqasm.byte
+ocamlbuild -pkg zarith -cflags -w,-26 run_to_openqasm.byte
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
 execution_time_seconds=$(echo | awk -v time=$execution_time 'BEGIN { printf "%.3f\n", time / 1000000000 }')
