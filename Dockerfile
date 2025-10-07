@@ -24,7 +24,7 @@ FROM ocaml/opam:ubuntu-24.04-ocaml-4.13
 
 USER root
 
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get install -y --no-install-recommends --fix-missing \
       python3 \
       python3-venv \
       python3-tk \
