@@ -2,88 +2,352 @@
 <!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
 "https://www.why3.org/why3session.dtd">
 <why3session shape_version="6">
-<prover id="0" name="CVC5" version="1.2.1" timelimit="30" steplimit="0" memlimit="5000"/>
+<prover id="0" name="CVC5" version="1.2.1" timelimit="10" steplimit="0" memlimit="1000"/>
 <file format="whyml" proved="true">
 <path name=".."/><path name="transpilation.mlw"/>
 <theory name="To_OqenQASM_2" proved="true">
  <goal name="qbricks_to_openqasm&#39;vc" expl="VC for qbricks_to_openqasm" proved="true">
  <transf name="split_all_full" proved="true" >
-  <goal name="qbricks_to_openqasm&#39;vc.0" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.737712" steps="398656"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.0" expl="assertion" proved="true">
+  <proof prover="0"><result status="valid" time="5.269304" steps="715799"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.1" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.753406" steps="398710"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.1" expl="assertion" proved="true">
+  <proof prover="0"><result status="valid" time="5.420204" steps="716259"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.2" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.825280" steps="398710"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.2" expl="assertion" proved="true">
+  <proof prover="0"><result status="valid" time="5.386367" steps="716839"/></proof>
   </goal>
   <goal name="qbricks_to_openqasm&#39;vc.3" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.837838" steps="398710"/></proof>
+  <proof prover="0"><result status="valid" time="0.737712" steps="398963"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.4" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.807749" steps="398710"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.722398" steps="397878"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.5" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.833525" steps="398710"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.743852" steps="397882"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.6" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.862156" steps="398656"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.733948" steps="397886"/></proof>
   </goal>
   <goal name="qbricks_to_openqasm&#39;vc.7" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.864527" steps="398656"/></proof>
+  <proof prover="0"><result status="valid" time="0.753406" steps="399228"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.8" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.698037" steps="398656"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.726124" steps="397895"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.9" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.701811" steps="398656"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.709791" steps="397899"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.10" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.882042" steps="398656"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.777441" steps="397903"/></proof>
   </goal>
   <goal name="qbricks_to_openqasm&#39;vc.11" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.863528" steps="398656"/></proof>
+  <proof prover="0"><result status="valid" time="0.825280" steps="399228"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.12" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.820046" steps="398656"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.12" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.708132" steps="397895"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.13" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.856666" steps="398656"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.13" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.689931" steps="397899"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.14" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.901705" steps="398728"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.14" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.699259" steps="397903"/></proof>
   </goal>
   <goal name="qbricks_to_openqasm&#39;vc.15" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.880656" steps="398728"/></proof>
+  <proof prover="0"><result status="valid" time="0.837838" steps="399228"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.16" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.694366" steps="398724"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.16" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.708830" steps="397895"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.17" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.700897" steps="398734"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.17" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.724324" steps="397899"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.18" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.772831" steps="398714"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.18" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.708761" steps="397903"/></proof>
   </goal>
   <goal name="qbricks_to_openqasm&#39;vc.19" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.734144" steps="398714"/></proof>
+  <proof prover="0"><result status="valid" time="0.807749" steps="399228"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.20" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.745251" steps="398714"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.20" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.715481" steps="397895"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.21" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.732344" steps="398603"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.21" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.710766" steps="397899"/></proof>
   </goal>
-  <goal name="qbricks_to_openqasm&#39;vc.22" expl="variant decrease" proved="true">
-  <proof prover="0"><result status="valid" time="0.781876" steps="398603"/></proof>
+  <goal name="qbricks_to_openqasm&#39;vc.22" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.716452" steps="397903"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.23" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.833525" steps="399228"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.24" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.723414" steps="397895"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.25" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.723109" steps="397899"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.26" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.700234" steps="397903"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.27" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.862156" steps="398963"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.28" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.734521" steps="397878"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.29" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.762730" steps="397882"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.30" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.729460" steps="397886"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.31" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.864527" steps="398963"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.32" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.704644" steps="397878"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.33" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.711654" steps="397882"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.34" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.720171" steps="397886"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.35" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.698037" steps="398963"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.36" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.724133" steps="397878"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.37" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.693252" steps="397882"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.38" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.722167" steps="397886"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.39" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.701811" steps="398963"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.40" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.713581" steps="397878"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.41" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.721172" steps="397882"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.42" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.728267" steps="397886"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.43" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.688483" steps="398963"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.44" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.876384" steps="397878"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.45" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.855290" steps="397882"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.46" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.836068" steps="397886"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.47" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.863528" steps="398963"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.48" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.861948" steps="397878"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.49" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.876664" steps="397882"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.50" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.810426" steps="397886"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.51" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.820046" steps="398963"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.52" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.737939" steps="397878"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.53" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.747503" steps="397882"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.54" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.740024" steps="397886"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.55" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.837195" steps="398963"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.56" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.668640" steps="397878"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.57" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.680736" steps="397882"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.58" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.711623" steps="397886"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.59" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.669202" steps="399264"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.60" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.713787" steps="397895"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.61" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.707441" steps="397899"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.62" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.692706" steps="397903"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.63" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.859520" steps="399264"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.64" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.768047" steps="397895"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.65" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.770764" steps="397899"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.66" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.768930" steps="397903"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.67" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.748532" steps="399260"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.68" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.717445" steps="397903"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.69" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.730817" steps="397907"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.70" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.737095" steps="397911"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.71" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.730572" steps="399276"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.72" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.723556" steps="397907"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.73" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.725273" steps="397911"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.74" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.725008" steps="397915"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.75" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.707999" steps="399244"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.76" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.764686" steps="397899"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.77" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.792166" steps="397903"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.78" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.787712" steps="397907"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.79" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.772331" steps="399244"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.80" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.794831" steps="397899"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.81" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.754633" steps="397903"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.82" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.719813" steps="397907"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.83" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.748452" steps="399244"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.84" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.689048" steps="397899"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.85" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.710376" steps="397903"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.86" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.932541" steps="397907"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.87" expl="assertion" proved="true">
+  <proof prover="0"><result status="valid" time="6.187648" steps="715917"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.88" expl="assertion" proved="true">
+  <proof prover="0"><result status="valid" time="6.347006" steps="715964"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.89" expl="assertion" proved="true">
+  <proof prover="0"><result status="valid" time="6.421911" steps="716430"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.90" expl="assertion" proved="true">
+  <proof prover="0"><result status="valid" time="6.544844" steps="717559"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.91" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.675683" steps="397841"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.92" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.684866" steps="397845"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.93" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="4.825698" steps="718368"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.94" expl="assertion" proved="true">
+  <proof prover="0"><result status="valid" time="4.880350" steps="720785"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.95" expl="assertion" proved="true">
+  <proof prover="0"><result status="valid" time="5.038345" steps="720805"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.96" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.704198" steps="398944"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.97" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.735115" steps="397863"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.98" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.718784" steps="397867"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.99" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.740187" steps="397871"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.100" expl="variant decrease" proved="true">
+  <proof prover="0"><result status="valid" time="0.714761" steps="398944"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.101" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.887929" steps="397863"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.102" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.884534" steps="397867"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.103" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.686044" steps="397871"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.104" expl="unreachable point" proved="true">
+  <proof prover="0"><result status="valid" time="4.534086" steps="549719"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.105" expl="unreachable point" proved="true">
+  <proof prover="0"><result status="valid" time="4.733259" steps="549719"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.106" expl="unreachable point" proved="true">
+  <proof prover="0"><result status="valid" time="6.793602" steps="715634"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.107" expl="unreachable point" proved="true">
+  <proof prover="0"><result status="valid" time="6.690014" steps="715603"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.108" expl="unreachable point" proved="true">
+  <proof prover="0"><result status="valid" time="6.693132" steps="716959"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.109" expl="unreachable point" proved="true">
+  <proof prover="0"><result status="valid" time="6.803014" steps="715701"/></proof>
+  </goal>
+  <goal name="qbricks_to_openqasm&#39;vc.110" expl="unreachable point" proved="true">
+  <proof prover="0"><result status="valid" time="4.421358" steps="551640"/></proof>
   </goal>
  </transf>
  </goal>
  <goal name="print_oq&#39;vc" expl="VC for print_oq" proved="true">
- <proof prover="0"><result status="valid" time="0.728871" steps="380809"/></proof>
+ <proof prover="0"><result status="valid" time="1.199245" steps="437545"/></proof>
  </goal>
  <goal name="string_oq&#39;vc" expl="VC for string_oq" proved="true">
- <proof prover="0"><result status="valid" time="1.241097" steps="436833"/></proof>
+ <proof prover="0"><result status="valid" time="1.350784" steps="435149"/></proof>
  </goal>
 </theory>
 </file>

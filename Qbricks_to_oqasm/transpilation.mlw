@@ -31,15 +31,12 @@ module To_OqenQASM_2
   use subcircuit_control.Subcircuit_control
   use subcircuit_control.Cont_del
 
-  (* TODO: Redo the proof by removing ERROR. *)
-
   type openqasm = 
   | RX string | RY string | RZ string | U1 string
   | H | SS | TT | XX | YY | ZZ | ID
   | CX string string 
   | SWAP string string
   | SEQUENCE openqasm openqasm | PLACE openqasm string
-  | ERROR
   
   let function string_rotation_oq_pos (k : int) : string
   = "(2 * pi / 2^("^(i_to_s k)^"))"
@@ -52,11 +49,13 @@ module To_OqenQASM_2
   use commuting_lemmas.Lemmas_correct_circuit_pre
 
   let rec function qbricks_to_openqasm (c : wired_circuit) : openqasm
+    requires{ancilla_free c}
+    requires{correct c}
+    requires{general_specifications c}
     variant{c} 
     = 
     match c with 
-    | Phase _ -> ERROR
-    | Skip -> ID
+    | Skip | Phase _ -> ID
     | Rx k -> 
       RX (if k < 0 then string_rotation_oq_neg k else string_rotation_oq_pos k)
     | Ry k -> 
@@ -76,6 +75,9 @@ module To_OqenQASM_2
     | Swap t1 t2 _ -> SWAP (i_to_s t1) (i_to_s t2)
     | Bricks_Swap -> SWAP (i_to_s 0) (i_to_s 1)
     | Place c1 p _ ->
+      assert{ancilla_free c1};
+      assert{correct c1};
+      assert{general_specifications c1};
       match c1 with
       | Cnot co1 ta1 _ -> CX (i_to_s (co1 + p)) (i_to_s (ta1 + p)) 
       | Bricks_Cnot  -> CX (i_to_s p) (i_to_s (1 + p))
@@ -83,10 +85,15 @@ module To_OqenQASM_2
       | Bricks_Swap -> SWAP (i_to_s p) (i_to_s (1 + p)) 
       | _ -> PLACE (qbricks_to_openqasm c1) (i_to_s p)
       end
-    | Sequence d e -> SEQUENCE (qbricks_to_openqasm d) (qbricks_to_openqasm e)
-    | _ -> 
-      (* TODO: Redo the proof without using this branch *)
-      ERROR
+    | Sequence d e -> 
+      assert{ancilla_free d};
+      assert{ancilla_free e};
+      assert{correct d};
+      assert{correct e};
+      cont_depth_seq d e;
+      assert{general_specifications d};
+      assert{general_specifications e};
+      SEQUENCE (qbricks_to_openqasm d) (qbricks_to_openqasm e)
     end
 
   let rec function string_oq_rec (c : openqasm) : string
@@ -102,25 +109,26 @@ module To_OqenQASM_2
     | CX co t -> "cx q["^co^"], q["^t^"];\n"
     | SWAP t1 t2 -> "swap q["^t1^"], q["^t2^"];\n"
     | SEQUENCE d e -> string_oq_rec d ^ string_oq_rec e
-    | PLACE (SEQUENCE _ _) _ 
-    | PLACE (SWAP _ _) _ 
-    | PLACE (CX _ _) _ -> 
-      (* TODO: Redo the proof without using this branch *)
-      "Error"
     | PLACE ID _ -> ""
     | PLACE c1 p -> string_oq_rec c1 ^ " q[" ^ p ^ "];\n"
-    | _ -> 
-      (* TODO: Redo the proof without using this branch *)
-      "Error"
     end
 
 
   let function print_oq (c : wired_circuit) : string
+    requires{ancilla_free c}
     requires{correct c}
-  = "OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q["^(i_to_s (width_pre c))^"];\n"^(string_oq_rec (qbricks_to_openqasm c))
+    requires{general_specifications c}
+  = 
+  "OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q["^(i_to_s (width_pre c))^"];\n"^(string_oq_rec (qbricks_to_openqasm c))
 
   let function string_oq (c : circuit) : string
     requires{ancilla_free (pre c)}
-  = print_oq (to_oqasm (pre c))
+    requires{correct (pre c)}
+  = 
+    let openqasm_ready = to_oqasm (pre c) in
+    assert{ancilla_free openqasm_ready};
+    assert{correct openqasm_ready};
+    assert{general_specifications openqasm_ready};
+    print_oq openqasm_ready
 
 end
