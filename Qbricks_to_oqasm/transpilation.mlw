@@ -94,6 +94,7 @@ module To_OqenQASM_2
       assert{general_specifications d};
       assert{general_specifications e};
       SEQUENCE (qbricks_to_openqasm d) (qbricks_to_openqasm e)
+    | _ -> absurd
     end
 
   let rec function string_oq_rec (c : openqasm) : string
