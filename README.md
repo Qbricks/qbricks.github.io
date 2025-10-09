@@ -216,15 +216,14 @@ python3 scripts/run_to_qiskit.py extracted/To_openqasm_examples.qasm
 ```
 This will output:
 ```
-Testing all possible input states for the given quantum circuit:
-Verification completed in 0.01 seconds.
+Aer Qiskit simulation in 0.00 seconds, for 1 shot(s).
 ```
 
 For a more detailed simulation that displays the quantum circuits and their results, use the verbose mode with the `-v` option.
 To test the circuit on all possible input states, use the `-a` option:
 
 ```bash
-python3 scripts/run_to_qiskit.py -v -a extracted/To_openqasm_examples.qasm true
+python3 scripts/run_to_qiskit.py -v -a extracted/To_openqasm_examples.qasm
 ```
 ```
 Testing all possible input states for the given quantum circuit:
@@ -238,8 +237,8 @@ q_2: ───┤ H ├───┤ Rz(π/4) ├┤ X ├┤ Rz(-π/4) ├┤ X 
         └───┘   └─────────┘└───┘└──────────┘└───┘└─────────┘└───┘└──────────┘└───┘└──────────┘            └───┘└─────────┘└───┘└───┘ ║  ║ »
 c: 3/════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╩══╩═»
 
-Input: 000 (q2, q1, q0)
-Output: 000 (q2, q1, q0)
+Input:                        000 (q2, q1, q0)
+Output for the last shot:     000 (q2, q1, q0)
 ...
      ┌───┐┌─────────┐                                                                                                                    ┌─┐»
 q_0: ┤ X ├┤ U1(π/4) ├─────────────■────────────────■────────────────────────────────────────■─────────────────────────────────────────■──┤M├»
@@ -259,10 +258,10 @@ c: 3/═════════════════════════
 «      ║ └╥┘
 «c: 3/═╩══╩═
 «      1  2 
-Input: 111 (q2, q1, q0)
-Output: 011 (q2, q1, q0)
+Input:                        111 (q2, q1, q0)
+Output for the last shot:     011 (q2, q1, q0)
 ----------------------------------------
-Verification completed in 0.06 seconds.          
+Aer Qiskit simulation in 0.03 seconds, for 1 shot(s).        
 ```
 
 ### Equivalence Check
