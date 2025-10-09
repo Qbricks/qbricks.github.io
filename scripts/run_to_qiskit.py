@@ -33,13 +33,12 @@ import sys
 
 verbose = "-v" in sys.argv
 all = "-a" in sys.argv
+shots = 1
 
-i = len(sys.argv)
+i = 1
 
 if verbose or all:
     i = len(sys.argv) - 1
-else:
-    i = 1
 
 
 def run_simulation(
@@ -47,11 +46,13 @@ def run_simulation(
 ):
     if all:
         for input_state in range(2**num_qubits):
-            _run_single_simulation(
+            return _run_single_simulation(
                 num_qubits, qc_original, simulator, input_state, verbose
             )
     else:
-        _run_single_simulation(num_qubits, qc_original, simulator, input_state, verbose)
+        return _run_single_simulation(
+            num_qubits, qc_original, simulator, input_state, verbose
+        )
 
 
 def _run_single_simulation(num_qubits, qc_original, simulator, input_state, verbose):
@@ -74,22 +75,23 @@ def _run_single_simulation(num_qubits, qc_original, simulator, input_state, verb
         print(f"Circuit for input state {input_bits}:")
         print(qc)
 
-    job = simulator.run(qc, shots=1)
+    job = simulator.run(qc, shots=shots)
     result = job.result()
     counts = result.get_counts(qc)
 
     # Process and print results
     input_bits = bin(input_state)[2:].zfill(num_qubits)
     output_bits = next(iter(counts))
+    nb_shots = sum(counts.values())
 
     if verbose:
         input_qubits = ", ".join([f"q{i}" for i in reversed(range(len(input_bits)))])
         output_qubits = ", ".join([f"q{i}" for i in reversed(range(len(output_bits)))])
-        print(f"Input: {input_bits} ({input_qubits or 'none'})")
-        print(f"Output: {output_bits} ({output_qubits or 'none'})")
+        print(f"Input:                      {input_bits} ({input_qubits or 'none'})")
+        print(f"Output for the last shot:   {output_bits} ({output_qubits or 'none'})")
         print("-" * 40)
 
-    return input_bits, output_bits
+    return nb_shots
 
 
 if all:
@@ -101,11 +103,13 @@ simulator = AerSimulator()
 
 start_time = time.time()
 
-run_simulation(num_qubits, qc_original, simulator, all, verbose)
+nb_shots = run_simulation(num_qubits, qc_original, simulator, all, verbose)
 
 
 verification_time = time.time() - start_time
-print(f"Execution completed in {verification_time:.2f} seconds.")
+print(
+    f"Aer Qiskit simulation in {verification_time:.2f} seconds, for {nb_shots:d} shot(s)."
+)
 
 if verbose:
     qc_original.draw(output="mpl")

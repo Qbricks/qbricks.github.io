@@ -220,10 +220,11 @@ Testing all possible input states for the given quantum circuit:
 Verification completed in 0.01 seconds.
 ```
 
-For a more detailed simulation that displays the circuits and results, use the verbose mode by adding `true` as an additional argument:
+For a more detailed simulation that displays the quantum circuits and their results, use the verbose mode with the `-v` option.
+To test the circuit on all possible input states, use the `a` option:
 
 ```bash
-python3 scripts/run_to_qiskit.py extracted/To_openqasm_examples.qasm true
+python3 scripts/run_to_qiskit.py -v -a extracted/To_openqasm_examples.qasm true
 ```
 ```
 Testing all possible input states for the given quantum circuit:
