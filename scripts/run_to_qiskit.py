@@ -23,54 +23,90 @@
 import sys
 import time
 import matplotlib
-matplotlib.use('TkAgg')
+
+matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 from qiskit import QuantumCircuit
 from qiskit_aer import AerSimulator
 
-# Check if verbose option is provided
-verbose = len(sys.argv) > 2 and sys.argv[2].lower() == 'true'
+import sys
 
-print("Testing all possible input states for the given quantum circuit:")
+verbose = "-v" in sys.argv
+all = "-a" in sys.argv
 
-qc_original = QuantumCircuit.from_qasm_file(str(sys.argv[1]))
-num_qubits = qc_original.num_qubits
-simulator = AerSimulator()
+i = len(sys.argv)
 
-start_time = time.time()
+if verbose or all:
+    i = len(sys.argv) - 1
+else:
+    i = 1
 
-for input_state in range(2**num_qubits):
+
+def run_simulation(
+    num_qubits, qc_original, simulator, all=False, verbose=False, input_state=0
+):
+    if all:
+        for input_state in range(2**num_qubits):
+            _run_single_simulation(
+                num_qubits, qc_original, simulator, input_state, verbose
+            )
+    else:
+        _run_single_simulation(num_qubits, qc_original, simulator, input_state, verbose)
+
+
+def _run_single_simulation(num_qubits, qc_original, simulator, input_state, verbose):
+    # Prepare the quantum circuit
     qc = QuantumCircuit(num_qubits, num_qubits)
+
+    # Set the initial state based on input_state
     for qubit in range(num_qubits):
         if input_state & (1 << qubit):
             qc.x(qubit)
 
+    # Compose with the original circuit and add measurements if needed
     qc.compose(qc_original, inplace=True)
-
-    if not qc.count_ops().get('measure', 0):
+    if not qc.count_ops().get("measure", 0):
         qc.measure(range(num_qubits), range(num_qubits))
 
+    # Run the simulation
     if verbose:
-        print(f"Circuit for input state {bin(input_state)[2:].zfill(num_qubits)}:")
+        input_bits = bin(input_state)[2:].zfill(num_qubits)
+        print(f"Circuit for input state {input_bits}:")
         print(qc)
 
     job = simulator.run(qc, shots=1)
     result = job.result()
     counts = result.get_counts(qc)
 
+    # Process and print results
     input_bits = bin(input_state)[2:].zfill(num_qubits)
-    input_qubits = ', '.join([f"q{i}" for i in reversed(range(len(input_bits)))])
     output_bits = next(iter(counts))
-    output_qubits = ', '.join([f"q{i}" for i in reversed(range(len(output_bits)))])
 
     if verbose:
+        input_qubits = ", ".join([f"q{i}" for i in reversed(range(len(input_bits)))])
+        output_qubits = ", ".join([f"q{i}" for i in reversed(range(len(output_bits)))])
         print(f"Input: {input_bits} ({input_qubits or 'none'})")
         print(f"Output: {output_bits} ({output_qubits or 'none'})")
         print("-" * 40)
 
+    return input_bits, output_bits
+
+
+if all:
+    print("Testing all possible input states for the given quantum circuit:")
+
+qc_original = QuantumCircuit.from_qasm_file(str(sys.argv[i]))
+num_qubits = qc_original.num_qubits
+simulator = AerSimulator()
+
+start_time = time.time()
+
+run_simulation(num_qubits, qc_original, simulator, all, verbose)
+
+
 verification_time = time.time() - start_time
-print(f"Verification completed in {verification_time:.2f} seconds.")
+print(f"Execution completed in {verification_time:.2f} seconds.")
 
 if verbose:
-    qc_original.draw(output='mpl')
+    qc_original.draw(output="mpl")
     plt.show()

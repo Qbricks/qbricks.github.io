@@ -25,7 +25,11 @@ module Inst
          use shor_type.Shor_type
          use ref.Ref
      
-         let constant shor_instance() = ref {composite=5; compos_log=3; picked=3}
+         (* let constant shor_instance() = ref {composite=8; compos_log=4; picked=7} *)
+         (* let constant shor_instance() = ref {composite=6; compos_log=3; picked=5} *)
+         (* let constant shor_instance() = ref {composite=4; compos_log=3; picked=3} *)
+         let constant shor_instance() = ref {composite=3; compos_log=2; picked=2}
+         (* let constant shor_instance() = ref {composite=5; compos_log=3; picked=3} *)
 
 clone export no_anc_shor_circ.Circuit with val s = shor_instance
 
