@@ -158,7 +158,7 @@ Two verification algorithms are available:
 
 ### Source code
 
-The SQbricks source code will be available as an open source archive in this repository once authorization is obtained: 
+The SQbricks source code will be available as an open source archive in this repository once authorization has been obtained: 
 [SQbricks](https://github.com/Qbricks/qbricks.github.io/tree/main/Artifacts/SQbricks).
 
 
