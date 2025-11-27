@@ -1,4 +1,4 @@
-## **SQbricks** is a verification tool for hybrid circuits.
+# **SQbricks** is a verification tool for hybrid circuits.
 
 In SQbricks, a *hybrid circuit* refers to a quantum circuit that includes both quantum operations (unitaries), measurements, and classical control.
 
