@@ -1,0 +1,31 @@
+(executables
+ (names qiskit mbqc unitary primitives verif)
+ (modes exe)
+ (libraries alcotest sQbricks)
+ ;  (flags :standard -w -a)
+ )
+
+(rule
+ (alias qiskit)
+ (action
+  (run ./qiskit.exe --bail)))
+
+(rule
+ (alias mbqc)
+ (action
+  (run ./mbqc.exe --bail)))
+
+(rule
+ (alias unitary)
+ (action
+  (run ./unitary.exe --bail)))
+
+(rule
+ (alias primitives)
+ (action
+  (run ./primitives.exe --bail)))
+
+(rule
+ (alias verif)
+ (action
+  (run ./verif.exe --bail)))
