@@ -1,0 +1,13 @@
+(ocamllex Lexer_Path_sum Lexer_OpenQASM)
+
+(menhir
+ (modules Parser_OpenQASM Parser_Path_sum))
+
+(library
+ (name sQbricks)
+ (public_name sQbricks)
+ (libraries zarith landmarks benchmark lwt lwt.unix batteries logs)
+ ;  Profiler:
+ ;  (preprocess
+ ;   (pps landmarks-ppx --auto))
+ )
