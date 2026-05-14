@@ -50,7 +50,3 @@ Two verification algorithms are available:
 
 - Supports input in **OpenQASM 2.0** format.
 - Packaged as a **Docker container** with all necessary dependencies.
-
-## Source code
-
-The SQbricks source code will be available as an open source archive in this repository once authorization has been obtained.

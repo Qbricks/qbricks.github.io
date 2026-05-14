@@ -1,0 +1,122 @@
+name: SQbricks CI
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "**"
+  pull_request:
+  workflow_dispatch:
+
+env:
+  OPAMYES: "1"
+  OPAMVERBOSE: "1"
+
+jobs:
+  lint:
+    name: Lint opam package
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up OCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: 5.1
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y libgmp-dev pkg-config
+
+      - name: Install OCaml dependencies
+        run: opam install dune zarith landmarks benchmark lwt batteries logs menhir landmarks-ppx alcotest odoc
+
+      - name: Run opam lint
+        run: opam lint
+
+  build:
+    name: Build
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up OCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: 5.1
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y libgmp-dev pkg-config
+
+      - name: Install OCaml dependencies
+        run: opam install dune zarith landmarks benchmark lwt batteries logs menhir landmarks-ppx alcotest odoc
+
+      - name: Build project
+        run: opam exec -- dune build
+
+  test:
+    name: Test
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up OCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: 5.1
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y libgmp-dev pkg-config
+
+      - name: Install OCaml dependencies
+        run: opam install dune zarith landmarks benchmark lwt batteries logs menhir landmarks-ppx alcotest odoc
+
+      - name: Run primitive tests
+        run: opam exec -- dune build @primitives
+
+      - name: Run verification tests
+        run: opam exec -- dune build @verif
+
+      - name: Run unitary tests
+        run: opam exec -- dune build @unitary
+
+      - name: Run qiskit tests
+        run: opam exec -- dune build @qiskit
+
+      - name: Run MBQC tests
+        run: opam exec -- dune build @mbqc
+
+  doc:
+    name: Documentation
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up OCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: 5.1
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y libgmp-dev pkg-config
+
+      - name: Install OCaml dependencies
+        run: opam install dune zarith landmarks benchmark lwt batteries logs menhir landmarks-ppx alcotest odoc
+
+      - name: Build documentation
+        run: opam exec -- dune build @doc
+
+      - name: Prepare documentation artifact
+        run: |
+          mkdir -p public
+          cp -r _build/default/_doc/_html/. public/
+
+      - name: Upload documentation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sqbricks-doc
+          path: public

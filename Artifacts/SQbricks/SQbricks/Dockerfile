@@ -1,6 +1,6 @@
 # This file is part of SQbricks.
 #
-# Copyright (C) 2022-2025
+# Copyright (C) 2022-2026
 # CEA (Commissariat à l'énergie atomique et aux énergies alternatives)
 # Université Paris-Saclay
 #
